@@ -15,4 +15,6 @@ func _ready() -> void:
 	dialogue.npc_id = "npc_elder"
 
 func _on_interacted(_interactor: Node) -> void:
+	print("interacted fired")
+	print("dialogue lines: ", dialogue.dialogue_lines)
 	dialogue.start_dialogue()

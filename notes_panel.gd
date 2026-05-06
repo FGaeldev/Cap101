@@ -13,11 +13,11 @@ func open() -> void:
 	visible = true
 
 func _rebuild() -> void:
-	# Clear old entries
+	# queue_free is deferred — remove immediately instead
 	for child in notes_list.get_children():
-		child.queue_free()
+		notes_list.remove_child(child)
+		child.free()
 
-	# One entry per exposed word
 	for word_id in GameState.word_exposures:
 		var word_data = WordBank.get_word(word_id)
 		if word_data.is_empty():

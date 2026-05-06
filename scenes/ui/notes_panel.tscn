@@ -3,8 +3,14 @@
 [ext_resource type="Script" uid="uid://88j5das6llor" path="res://notes_panel.gd" id="1_w8vtf"]
 
 [node name="NotesPanel" type="PanelContainer" unique_id=306459368]
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -444.0
+offset_bottom = -253.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
 script = ExtResource("1_w8vtf")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1072330539]
@@ -23,6 +29,7 @@ text = "X"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=1087034637]
 layout_mode = 2
+size_flags_vertical = 3
 
 [node name="NotesList" type="VBoxContainer" parent="VBoxContainer/ScrollContainer" unique_id=391152247]
 layout_mode = 2

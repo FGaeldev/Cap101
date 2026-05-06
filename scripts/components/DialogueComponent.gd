@@ -10,9 +10,10 @@ extends Node
 var _current_line: int = 0
 
 func start_dialogue() -> void:
+	print("start_dialogue called, lines count: ", dialogue_lines.size())
 	_current_line = 0
 	_show_line()
-
+	
 func advance() -> void:
 	_current_line += 1
 	if _current_line >= dialogue_lines.size():
@@ -21,14 +22,13 @@ func advance() -> void:
 	_show_line()
 
 func _show_line() -> void:
+	print("_show_line called, index: ", _current_line)
 	var line: Dictionary = dialogue_lines[_current_line]
-	# Expose word if line has one
 	if line.has("word_id") and not line["word_id"].is_empty():
 		GameState.expose_word(line["word_id"])
-		# Auto-add to notes if first encounter
-		if GameState.get_exposure(line["word_id"]) == 1:
-			GameState.save_note(line["word_id"], "") # blank — player fills
-	# Send to DialogueUI singleton/signal
+		# FIX: always ensure note entry exists, not just on first encounter
+		if not GameState.player_notes.has(line["word_id"]):
+			GameState.save_note(line["word_id"], "")
 	DialogueUI.show_line(line.get("speaker",""), line.get("text",""), self)
 
 func _end() -> void:
