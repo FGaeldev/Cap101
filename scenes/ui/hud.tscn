@@ -9,7 +9,10 @@ script = ExtResource("1_0mwgc")
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="QuestLabel" type="Label" parent="VBoxContainer" unique_id=208462667]
+[node name="QuestBG" type="PanelContainer" parent="VBoxContainer" unique_id=1669288569]
+layout_mode = 2
+
+[node name="QuestLabel" type="Label" parent="VBoxContainer/QuestBG" unique_id=208462667]
 layout_mode = 2
 text = "Quest: -"
 

@@ -20,6 +20,7 @@ GameState="*uid://elp1bqoneod3"
 WordBank="*uid://pi03gcvsdywa"
 QuestManager="*uid://bulhpuxmn22qt"
 DialogueUI="*uid://cvp482djqe47l"
+UiThemeApplier="*uid://cxheoq158l7gi"
 
 [display]
 
