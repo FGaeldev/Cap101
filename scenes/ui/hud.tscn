@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://bj4xslm7prfgo"]
+
+[ext_resource type="Script" uid="uid://cfikhvx2gwd74" path="res://hud.gd" id="1_0mwgc"]
+
+[node name="HUD" type="CanvasLayer" unique_id=488423917]
+script = ExtResource("1_0mwgc")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=377005514]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="QuestLabel" type="Label" parent="VBoxContainer" unique_id=208462667]
+layout_mode = 2
+text = "Quest: -"
+
+[node name="NotesBtn" type="Button" parent="VBoxContainer" unique_id=1898013046]
+layout_mode = 2
+text = "Notes"

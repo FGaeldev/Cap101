@@ -1,0 +1,13 @@
+{
+  "quests": [
+	{
+	  "id": "q001",
+	  "title": "The Elder Speaks",
+	  "area": "village",
+	  "required_exposures": 0,
+	  "npc_id": "npc_elder",
+	  "target_words": ["w001", "w002"],
+	  "completion_flag": "quest_001_done"
+	}
+  ]
+}

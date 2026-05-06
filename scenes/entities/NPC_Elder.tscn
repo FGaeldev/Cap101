@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://bi7ubv102jcmx"]
+
+[ext_resource type="Script" uid="uid://cjlxqtgpm256j" path="res://scenes/entities/npc_elder.gd" id="1_a4sf3"]
+[ext_resource type="Script" uid="uid://b4kdc1v80hll3" path="res://scripts/components/InteractableComponent.gd" id="1_h14we"]
+[ext_resource type="Texture2D" uid="uid://bj08bn1npub4l" path="res://assets/sprites/sv_npc_Professor_Snail-export.png" id="2_7kb6q"]
+[ext_resource type="Script" uid="uid://rdfwcbfe3lh3" path="res://scripts/components/DialogueComponent.gd" id="4_x8r32"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bxmox"]
+radius = 6.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fbmhk"]
+radius = 24.0
+
+[node name="NpcElder" type="CharacterBody2D" unique_id=12182856 groups=["npc"]]
+script = ExtResource("1_a4sf3")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1762132111]
+position = Vector2(0, -16)
+texture = ExtResource("2_7kb6q")
+hframes = 4
+vframes = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=80002803]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_bxmox")
+debug_color = Color(0.7230673, 0.2464309, 1, 0.41960785)
+
+[node name="InteractArea" type="Area2D" parent="." unique_id=25137121]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea" unique_id=764084262]
+position = Vector2(0, -14)
+shape = SubResource("CircleShape2D_fbmhk")
+debug_color = Color(0, 0.6309958, 0.4700889, 0.41960785)
+
+[node name="InteractableComponent" type="Node" parent="." unique_id=1839481093]
+script = ExtResource("1_h14we")
+metadata/_custom_type_script = "uid://b4kdc1v80hll3"
+
+[node name="DialogueComponent" type="Node" parent="." unique_id=336416574]
+script = ExtResource("4_x8r32")
+metadata/_custom_type_script = "uid://rdfwcbfe3lh3"

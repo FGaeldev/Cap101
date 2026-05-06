@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://brd713x4jvfe8"]
+
+[ext_resource type="Texture2D" uid="uid://dp71pkevxb1p7" path="res://assets/sprites/sv_npc_Alex-export.png" id="1_g13of"]
+[ext_resource type="Script" uid="uid://bnix7fmrftixb" path="res://scenes/entities/player.gd" id="1_o7et6"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_24gqh"]
+radius = 6.0
+
+[node name="Player" type="CharacterBody2D" unique_id=410096860 groups=["player"]]
+script = ExtResource("1_o7et6")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2081202023]
+position = Vector2(0, -16)
+texture = ExtResource("1_g13of")
+hframes = 4
+vframes = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1762865277]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_24gqh")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1806770490]
+position_smoothing_enabled = true
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
