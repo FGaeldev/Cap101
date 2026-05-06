@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://c6gceufnjpplb"]
+
+[ext_resource type="Script" uid="uid://dhq2s7pvv184" path="res://scenes/ui/word_reveal.gd" id="1_tf80k"]
+
+[node name="RevealPanel" type="PanelContainer" unique_id=1509130754]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_tf80k")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1213240826]
+layout_mode = 2
+
+[node name="NewWordLabel" type="Label" parent="VBoxContainer" unique_id=1608462511]
+layout_mode = 2
+text = "New Word"
+
+[node name="WordLabel" type="Label" parent="VBoxContainer" unique_id=1641538229]
+layout_mode = 2
+text = "New Word"

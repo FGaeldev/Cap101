@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bueryt32lappp"]
+
+[ext_resource type="Script" uid="uid://dahoh6c1ev7b5" path="res://choice_box.gd" id="1_cebh5"]
+
+[node name="ChoiceBox" type="PanelContainer" unique_id=1198935162]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_cebh5")
+
+[node name="ChoiceList" type="VBoxContainer" parent="." unique_id=730188518]
+layout_mode = 2

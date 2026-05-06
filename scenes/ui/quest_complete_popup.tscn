@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://iuwdr5jcimkk"]
+
+[ext_resource type="Script" uid="uid://cgki0phfh711h" path="res://quest_complete_popup.gd" id="1_ggfr6"]
+
+[node name="QuestCompletePopup" type="CanvasLayer" unique_id=913054677]
+script = ExtResource("1_ggfr6")
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=130331457]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -65.0
+offset_top = -42.5
+offset_right = 65.0
+offset_bottom = 42.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=421620614]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="Panel/VBoxContainer" unique_id=1783867383]
+layout_mode = 2
+text = "Quest Complete!"
+
+[node name="QuestNameLabel" type="Label" parent="Panel/VBoxContainer" unique_id=1584642553]
+layout_mode = 2
+text = "Quest Complete!"
+
+[node name="OkBtn" type="Button" parent="Panel/VBoxContainer" unique_id=1319786475]
+layout_mode = 2
+text = "OK"

@@ -9,8 +9,16 @@ func _ready() -> void:
 	
 	# Set dialogue here, skip inspector
 	dialogue.dialogue_lines = [
-		{ "speaker": "Lolo Berto", "text": "Maayong aga! Kumusta ka?", "word_id": "w001" },
-		{ "speaker": "Lolo Berto", "text": "Salamat sa pag-bisita.", "word_id": "w003" }
+		{
+  "speaker": "Lolo Berto",
+  "text": "Ano ang buot mo?",
+  "word_id": "",
+  "choices": [
+	{ "label": "Gusto ko makahibalo.", "next": 2 },
+	{ "label": "Wala lang.", "next": 3 },
+	{ "label": "Salamat, adto na ako.", "next": -1 }
+  ]
+}
 	]
 	dialogue.npc_id = "npc_elder"
 

@@ -8,6 +8,10 @@
 [ext_resource type="PackedScene" uid="uid://bj4xslm7prfgo" path="res://scenes/ui/hud.tscn" id="4_i8yk4"]
 [ext_resource type="PackedScene" uid="uid://db8tn1k81m76m" path="res://scenes/ui/DialogueBox.tscn" id="5_i8yk4"]
 [ext_resource type="PackedScene" uid="uid://bhaeuqkyurkwa" path="res://scenes/ui/notes_panel.tscn" id="5_ic0qm"]
+[ext_resource type="PackedScene" uid="uid://bueryt32lappp" path="res://scenes/ui/choice_box.tscn" id="9_ufl2i"]
+[ext_resource type="PackedScene" uid="uid://iuwdr5jcimkk" path="res://scenes/ui/quest_complete_popup.tscn" id="10_udt3m"]
+[ext_resource type="PackedScene" uid="uid://cioerwq3c8ipk" path="res://scenes/ui/pause_menu.tscn" id="11_jng7m"]
+[ext_resource type="PackedScene" uid="uid://c6gceufnjpplb" path="res://scenes/ui/word_reveal.tscn" id="12_e8o2m"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lxgt2"]
 texture = ExtResource("2_ic0qm")
@@ -336,8 +340,33 @@ position = Vector2(269, 251)
 [node name="HUD" parent="." unique_id=488423917 instance=ExtResource("4_i8yk4")]
 notes_panel = NodePath("NotesPanel")
 
-[node name="DialogueBox" parent="HUD" unique_id=1631502302 instance=ExtResource("5_i8yk4")]
-
 [node name="NotesPanel" parent="HUD" unique_id=306459368 instance=ExtResource("5_ic0qm")]
-offset_right = 0.0
-offset_bottom = 0.0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 512.0
+offset_bottom = 288.0
+
+[node name="ChoiceBox" parent="HUD" unique_id=1198935162 instance=ExtResource("9_ufl2i")]
+offset_top = 234.0
+offset_right = 512.0
+offset_bottom = 234.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 8
+
+[node name="DialogueBox" parent="HUD" unique_id=1631502302 instance=ExtResource("5_i8yk4")]
+anchors_preset = 0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 238.0
+offset_right = 512.0
+offset_bottom = 288.0
+
+[node name="QuestCompletePopup" parent="." unique_id=913054677 instance=ExtResource("10_udt3m")]
+
+[node name="PauseMenu" parent="." unique_id=1826697838 instance=ExtResource("11_jng7m")]
+process_mode = 3
+
+[node name="WordReveal" parent="." unique_id=1878935158 instance=ExtResource("12_e8o2m")]
