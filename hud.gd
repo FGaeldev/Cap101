@@ -28,25 +28,15 @@ func _apply_style() -> void:
 	_style_btn(notes_btn)
 
 func _style_btn(btn: Button) -> void:
-	var normal = StyleBoxFlat.new()
-	normal.bg_color     = Color("4a7c59")
-	normal.border_color = Color("2d5e3a")
-	normal.set_border_width_all(2)
-	normal.set_corner_radius_all(3)
-	normal.set_content_margin(SIDE_LEFT, 12)
-	normal.set_content_margin(SIDE_RIGHT, 12)
-	normal.set_content_margin(SIDE_TOP, 5)
-	normal.set_content_margin(SIDE_BOTTOM, 5)
-	var hover = normal.duplicate()
-	hover.bg_color = Color("6aad7a")
-	var pressed = normal.duplicate()
-	pressed.bg_color = Color("2d5e3a")
+	var normal = preload("res://assets/ui/button_normal.tres")
+	var hover = preload("uid://blqrnxcnsd4b2")
 	btn.add_theme_stylebox_override("normal", normal)
 	btn.add_theme_stylebox_override("hover", hover)
-	btn.add_theme_stylebox_override("pressed", pressed)
+	btn.add_theme_stylebox_override("pressed", normal)
 	btn.add_theme_color_override("font_color", Color("fdf6e3"))
+	btn.add_theme_color_override("font_hover_color", Color("e8b84b"))
 	btn.add_theme_font_size_override("font_size", 11)
-	btn.text = "Notes"
+	btn.text = "Taeandaan"
 
 func _refresh_quest_label() -> void:
 	var qid = QuestManager.active_quest

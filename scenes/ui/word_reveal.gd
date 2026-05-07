@@ -25,15 +25,6 @@ func _process(delta: float) -> void:
 		modulate.a = 1.0
 
 func _apply_style() -> void:
-	var s = StyleBoxFlat.new()
-	s.bg_color     = Color("0d1f12", 0.9)
-	s.border_color = Color("e8b84b")
-	s.set_border_width_all(3)
-	s.set_corner_radius_all(6)
-	s.set_content_margin_all(14)
-	add_theme_stylebox_override("panel", s)
-	set_anchors_preset(Control.PRESET_CENTER)
-
 	new_label.add_theme_color_override("font_color", Color("e8b84b"))
 	new_label.add_theme_font_size_override("font_size", 10)
 	new_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER

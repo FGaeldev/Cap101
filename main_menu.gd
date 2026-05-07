@@ -56,40 +56,24 @@ func _apply_style() -> void:
 	sub_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
 	# Buttons
-	_style_btn(start_btn,    Color("3d6b47"), Color("e8b84b"), false)
-	_style_btn(continue_btn, Color("3d6b47"), Color("e8b84b"), false)
-	_style_btn(quit_btn,     Color("1a0a0a"), Color("c8a96e"), false)
+	_style_btn(start_btn,    Color("3d6b47"), false)
+	_style_btn(continue_btn, Color("3d6b47"), false)
+	_style_btn(quit_btn,     Color("3d6b47"), false)
 
-func _style_btn(btn: Button, bg: Color, text_col: Color, _unused: bool) -> void:
+func _style_btn(btn: Button, text_hover_col: Color, _unused: bool) -> void:
 	# Normal
-	var normal = StyleBoxFlat.new()
-	normal.bg_color     = bg
-	normal.border_color = Color("c8a96e")
-	normal.set_border_width_all(3)
-	normal.set_corner_radius_all(4)
-	normal.set_content_margin(SIDE_LEFT, 0)
-	normal.set_content_margin(SIDE_RIGHT, 0)
-	normal.set_content_margin(SIDE_TOP, 10)
-	normal.set_content_margin(SIDE_BOTTOM, 10)
-	# Shadow offset feel — slightly darker bottom border
-	normal.border_color = Color("8a6a3a")
-	normal.set_border_width(SIDE_BOTTOM, 5)
-
+	var normal = preload("res://assets/ui/button_normal.tres")
 	# Hover — brighter
-	var hover = normal.duplicate()
-	hover.bg_color = bg.lightened(0.12)
-	hover.border_color = Color("e8b84b")
-
-	# Pressed — sink effect
-	var pressed = normal.duplicate()
-	pressed.bg_color = bg.darkened(0.15)
-	pressed.set_border_width(SIDE_BOTTOM, 2)
-	pressed.set_border_width(SIDE_TOP, 3)
+	var hover = preload("res://assets/ui/button_hover.tres")
+	# Disabled - darkest
+	var disabled = preload("res://assets/ui/button_disabled.tres")
 
 	btn.add_theme_stylebox_override("normal", normal)
 	btn.add_theme_stylebox_override("hover", hover)
-	btn.add_theme_stylebox_override("pressed", pressed)
-	btn.add_theme_color_override("font_color", text_col)
-	btn.add_theme_color_override("font_color_hover", Color("fffbe8"))
-	btn.add_theme_font_size_override("font_size", 16)
+	btn.add_theme_stylebox_override("pressed", normal)
+	btn.add_theme_stylebox_override("disabled", disabled)
+	btn.add_theme_color_override("font_color", Color("fdf6e3"))
+	btn.add_theme_color_override("font_disabled_color", Color("000000ff"))
+	btn.add_theme_color_override("font_hover_color", text_hover_col)
+	btn.add_theme_font_size_override("font_size", 18)
 	btn.custom_minimum_size = Vector2(220, 44)

@@ -21,7 +21,7 @@ text = "Quest: -"
 
 [node name="NotesBtn" type="Button" parent="VBoxContainer" unique_id=1898013046]
 layout_mode = 2
-text = "Notes"
+text = "Taeandaan"
 
 [node name="NotesPanel" parent="." unique_id=306459368 instance=ExtResource("4_oj5la")]
 offset_right = 0.0

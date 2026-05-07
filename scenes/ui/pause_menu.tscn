@@ -27,12 +27,15 @@ text = "Pause"
 
 [node name="ResumeBtn" type="Button" parent="Panel/VBoxContainer" unique_id=275775012]
 layout_mode = 2
-text = "Resume"
+text = "Padayon
+(Resume)"
 
 [node name="NotesBtn2" type="Button" parent="Panel/VBoxContainer" unique_id=160619748]
 layout_mode = 2
-text = "Notes"
+text = "Taeandaan
+(Notes)"
 
 [node name="QuitBtn" type="Button" parent="Panel/VBoxContainer" unique_id=1900760188]
 layout_mode = 2
-text = "Quit"
+text = "Mag Guwa
+(Quit)"

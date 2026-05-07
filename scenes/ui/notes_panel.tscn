@@ -21,7 +21,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1735355513]
 layout_mode = 2
-text = "Notes"
+text = "Taeandaan"
 
 [node name="CloseBtn" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=2108629278]
 layout_mode = 2

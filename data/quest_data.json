@@ -2,7 +2,7 @@
   "quests": [
 	{
 	  "id": "q001",
-	  "title": "The Elder Speaks",
+	  "title": "Istorya it Katigueangan",
 	  "area": "village",
 	  "required_exposures": 0,
 	  "npc_id": "npc_elder",

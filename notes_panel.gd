@@ -22,7 +22,7 @@ func _apply_style() -> void:
 	add_theme_stylebox_override("panel", panel)
 
 	# Title
-	title_label.text = "Mga Pulong Ko"
+	title_label.text = "Mga Haeambaeon"
 	title_label.add_theme_color_override("font_color", Color("5c3a1e"))
 	title_label.add_theme_font_size_override("font_size", 12)
 
@@ -97,7 +97,7 @@ func _add_entry(word_id: String, word_data: Dictionary) -> void:
 
 	# Player meaning input
 	var input = LineEdit.new()
-	input.placeholder_text = "Isulat ang buot silingon..."
+	input.placeholder_text = "Isueat ro bueot singhanon"
 	input.text = GameState.get_note(word_id)
 	var input_style = StyleBoxFlat.new()
 	input_style.bg_color     = Color("f5efe0")
@@ -113,7 +113,7 @@ func _add_entry(word_id: String, word_data: Dictionary) -> void:
 
 	# Encounters
 	var enc = Label.new()
-	enc.text = "Nasugat: %d beses" % GameState.get_exposure(word_id)
+	enc.text = "Nasubeang: %d beses" % GameState.get_exposure(word_id)
 	enc.add_theme_color_override("font_color", Color("4a7c59"))
 	enc.add_theme_font_size_override("font_size", 9)
 	vbox.add_child(enc)
