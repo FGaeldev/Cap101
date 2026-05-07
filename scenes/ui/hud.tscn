@@ -1,6 +1,9 @@
 [gd_scene format=3 uid="uid://bj4xslm7prfgo"]
 
 [ext_resource type="Script" uid="uid://cfikhvx2gwd74" path="res://hud.gd" id="1_0mwgc"]
+[ext_resource type="PackedScene" uid="uid://db8tn1k81m76m" path="res://scenes/ui/DialogueBox.tscn" id="2_8qguk"]
+[ext_resource type="PackedScene" uid="uid://bueryt32lappp" path="res://scenes/ui/choice_box.tscn" id="3_136eg"]
+[ext_resource type="PackedScene" uid="uid://bhaeuqkyurkwa" path="res://scenes/ui/notes_panel.tscn" id="4_oj5la"]
 
 [node name="HUD" type="CanvasLayer" unique_id=488423917]
 script = ExtResource("1_0mwgc")
@@ -19,3 +22,21 @@ text = "Quest: -"
 [node name="NotesBtn" type="Button" parent="VBoxContainer" unique_id=1898013046]
 layout_mode = 2
 text = "Notes"
+
+[node name="NotesPanel" parent="." unique_id=306459368 instance=ExtResource("4_oj5la")]
+offset_right = 0.0
+offset_bottom = 0.0
+
+[node name="DialogueBox" parent="." unique_id=1631502302 instance=ExtResource("2_8qguk")]
+anchors_preset = 12
+
+[node name="ChoiceBox" parent="." unique_id=1198935162 instance=ExtResource("3_136eg")]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -79.0
+offset_right = 0.0
+offset_bottom = -79.0
+grow_horizontal = 2
+grow_vertical = 0

@@ -6,6 +6,7 @@ extends PanelContainer
 @onready var title_label: Label        = $VBoxContainer/HBoxContainer/Label
 
 func _ready() -> void:
+	add_to_group("notes_panel")
 	close_btn.pressed.connect(func(): visible = false)
 	visible = false
 	_apply_style()

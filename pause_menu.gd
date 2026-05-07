@@ -9,14 +9,17 @@ extends CanvasLayer
 @export var notes_panel: NodePath = ""
 var _notes_ref: Control = null
 
+# Remove @export var notes_panel and _notes_ref
+# Instead get it from village scene via group
+
 func _ready() -> void:
 	visible = false
-	if notes_panel:
-		_notes_ref = get_node(notes_panel)
 	resume_btn.pressed.connect(func(): _toggle())
 	notes_btn.pressed.connect(func():
 		_toggle()
-		if _notes_ref: _notes_ref.open()
+		# Find NotesPanel via group
+		var np = get_tree().get_first_node_in_group("notes_panel")
+		if np: np.open()
 	)
 	quit_btn.pressed.connect(func():
 		get_tree().paused = false

@@ -6,21 +6,22 @@ extends CharacterBody2D
 
 func _ready() -> void:
 	interactable.interacted.connect(_on_interacted)
-	
-	# Set dialogue here, skip inspector
-	dialogue.dialogue_lines = [
-		{
-  "speaker": "Lolo Berto",
-  "text": "Ano ang buot mo?",
-  "word_id": "",
-  "choices": [
-	{ "label": "Gusto ko makahibalo.", "next": 2 },
-	{ "label": "Wala lang.", "next": 3 },
-	{ "label": "Salamat, adto na ako.", "next": -1 }
-  ]
-}
-	]
 	dialogue.npc_id = "npc_elder"
+	dialogue.dialogue_lines = [
+		{ "speaker": "Lolo Berto", "text": "Maayong aga! Kamusta ka?", "word_id": "w001" },
+		{
+			"speaker": "Lolo Berto",
+			"text": "Ano ang buot mo himuon subong?",
+			"word_id": "",
+			"choices": [
+				{ "label": "Gusto ko makahibalo sang Akeanon.", "next": 2 },
+				{ "label": "Wala lang, salamat.", "next": -1 },
+				{ "label": "May pamangkot ako.", "next": 3 }
+			]
+		},
+		{ "speaker": "Lolo Berto", "text": "Maayo gid ina! Tun-i ang Akeanon.", "word_id": "w012" },
+		{ "speaker": "Lolo Berto", "text": "Ano ang imo pamangkot, anak?", "word_id": "" }
+	]
 
 func _on_interacted(_interactor: Node) -> void:
 	print("interacted fired")

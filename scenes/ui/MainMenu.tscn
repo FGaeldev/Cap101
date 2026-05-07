@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://b8oa217q8gyrx"]
+
+[ext_resource type="Script" uid="uid://41pph3hwmahb" path="res://main_menu.gd" id="1_vjtqc"]
+
+[node name="MainMenu" type="Control" unique_id=771412066]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vjtqc")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1639532225]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=523191591]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1792947717]
+layout_mode = 2
+text = "Aklan Quest"
+horizontal_alignment = 1
+
+[node name="SubLabel" type="Label" parent="CenterContainer/VBoxContainer" unique_id=930162953]
+layout_mode = 2
+text = "Tun-i ro Akeanon"
+
+[node name="Control" type="Control" parent="CenterContainer/VBoxContainer" unique_id=1103709362]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+
+[node name="Buttons" type="VBoxContainer" parent="CenterContainer/VBoxContainer" unique_id=1047640733]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="StartBtn" type="Button" parent="CenterContainer/VBoxContainer/Buttons" unique_id=1959417960]
+layout_mode = 2
+text = "Start
+"
+
+[node name="ContinueBtn" type="Button" parent="CenterContainer/VBoxContainer/Buttons" unique_id=1288475377]
+layout_mode = 2
+text = "Continue"
+
+[node name="QuitBtn" type="Button" parent="CenterContainer/VBoxContainer/Buttons" unique_id=1078297704]
+layout_mode = 2
+text = "Quit
+"
