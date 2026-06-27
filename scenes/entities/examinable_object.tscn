@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://5vbndqd5rkqe"]
+
+[ext_resource type="Script" uid="uid://det0owsjowou0" path="res://examinable_object.gd" id="1_7akkn"]
+[ext_resource type="Texture2D" uid="uid://obneo8yg0ffi" path="res://assets/sprites/sv_object.png" id="2_lx7m8"]
+[ext_resource type="Script" uid="uid://b4kdc1v80hll3" path="res://scripts/components/InteractableComponent.gd" id="3_fbsxe"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0u8f5"]
+size = Vector2(20, 6)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1ttrk"]
+radius = 16.0
+height = 34.0
+
+[node name="ExaminableObject" type="StaticBody2D" unique_id=1264876013]
+script = ExtResource("1_7akkn")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2064870899]
+position = Vector2(0, -8)
+texture = ExtResource("2_lx7m8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=738299431]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_0u8f5")
+
+[node name="InteractArea" type="Area2D" parent="." unique_id=1426117006]
+position = Vector2(0, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea" unique_id=1741762718]
+position = Vector2(0, -2)
+shape = SubResource("CapsuleShape2D_1ttrk")
+
+[node name="InteractableComponent" type="Node" parent="." unique_id=2147133292]
+script = ExtResource("3_fbsxe")
+metadata/_custom_type_script = "uid://b4kdc1v80hll3"

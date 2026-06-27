@@ -6,7 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://d2wqq5djner5f" path="res://assets/tilesets/sv_Overworld.png" id="2_ic0qm"]
 [ext_resource type="Texture2D" uid="uid://ck5wdqn45ae3b" path="res://assets/tilesets/sv_Walls.png" id="3_lxgt2"]
 [ext_resource type="PackedScene" uid="uid://bj4xslm7prfgo" path="res://scenes/ui/hud.tscn" id="4_i8yk4"]
+[ext_resource type="PackedScene" uid="uid://5vbndqd5rkqe" path="res://scenes/entities/examinable_object.tscn" id="10_jng7m"]
 [ext_resource type="PackedScene" uid="uid://iuwdr5jcimkk" path="res://scenes/ui/quest_complete_popup.tscn" id="10_udt3m"]
+[ext_resource type="PackedScene" uid="uid://dfqsw38bvduk2" path="res://scenes/ui/puzzle_panel.tscn" id="11_e8o2m"]
 [ext_resource type="PackedScene" uid="uid://cioerwq3c8ipk" path="res://scenes/ui/pause_menu.tscn" id="11_jng7m"]
 [ext_resource type="PackedScene" uid="uid://c6gceufnjpplb" path="res://scenes/ui/word_reveal.tscn" id="12_e8o2m"]
 
@@ -342,3 +344,10 @@ position = Vector2(269, 251)
 process_mode = 3
 
 [node name="WordReveal" parent="." unique_id=1878935158 instance=ExtResource("12_e8o2m")]
+
+[node name="ExaminableObject" parent="." unique_id=1264876013 instance=ExtResource("10_jng7m")]
+position = Vector2(560, 372)
+quest_flag = "puzzle_001_done"
+sentence_template = "Kung ma _ mo ra. Mayad!"
+
+[node name="PuzzlePanel" parent="." unique_id=415094778 instance=ExtResource("11_e8o2m")]

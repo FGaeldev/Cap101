@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://dfqsw38bvduk2"]
+
+[ext_resource type="Script" uid="uid://dav44wmomoamj" path="res://puzzle_panel.gd" id="1_7i6ra"]
+
+[node name="PuzzlePanel" type="CanvasLayer" unique_id=415094778]
+script = ExtResource("1_7i6ra")
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=771069120]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Panel" unique_id=794220589]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="HintLabel" type="Label" parent="Panel/VBox" unique_id=1044247681]
+layout_mode = 2
+text = "\"Pilia ro kueang!\""
+
+[node name="SentenceBox" type="PanelContainer" parent="Panel/VBox" unique_id=1336947630]
+layout_mode = 2
+
+[node name="SentenceLabel" type="Label" parent="Panel/VBox/SentenceBox" unique_id=1671353861]
+layout_mode = 2
+
+[node name="ChoicesBox" type="HBoxContainer" parent="Panel/VBox" unique_id=1084478884]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Choice1" type="Button" parent="Panel/VBox/ChoicesBox" unique_id=1822962454]
+layout_mode = 2
+
+[node name="Choice2" type="Button" parent="Panel/VBox/ChoicesBox" unique_id=572455714]
+layout_mode = 2
+
+[node name="Choice3" type="Button" parent="Panel/VBox/ChoicesBox" unique_id=1811776698]
+layout_mode = 2
+
+[node name="FeedbackLabel" type="Label" parent="Panel/VBox" unique_id=1169477604]
+layout_mode = 2
