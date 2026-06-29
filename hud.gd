@@ -3,11 +3,11 @@ extends CanvasLayer
 
 @onready var quest_label: Label = $VBoxContainer/QuestBG/QuestLabel
 @onready var quest_bg: PanelContainer = $VBoxContainer/QuestBG
-@onready var notes_btn:   Button = $VBoxContainer/NotesBtn
-@onready var notes_panel: Control = $NotesPanel  # direct child path
+@onready var dict_btn:   Button = $VBoxContainer/NotesBtn
+@onready var dictionary_panel: Control = $DictionaryPanel  # direct child path
 
 func _ready() -> void:
-	notes_btn.pressed.connect(_open_notes)
+	dict_btn.pressed.connect(_open_dictionary)
 	QuestManager.quest_completed.connect(_on_quest_completed)
 	_refresh_quest_label()
 	_apply_style()
@@ -25,7 +25,7 @@ func _apply_style() -> void:
 	quest_bg.add_theme_stylebox_override("panel", bg)
 	quest_label.add_theme_color_override("font_color", Color("e8b84b"))
 	quest_label.add_theme_font_size_override("font_size", 11)
-	_style_btn(notes_btn)
+	_style_btn(dict_btn)
 
 func _style_btn(btn: Button) -> void:
 	var normal = preload("res://assets/ui/button_normal.tres")
@@ -36,7 +36,7 @@ func _style_btn(btn: Button) -> void:
 	btn.add_theme_color_override("font_color", Color("fdf6e3"))
 	btn.add_theme_color_override("font_hover_color", Color("e8b84b"))
 	btn.add_theme_font_size_override("font_size", 11)
-	btn.text = "Taeandaan"
+	btn.text = "Diksyunaryo"
 
 func _refresh_quest_label() -> void:
 	var qid = QuestManager.active_quest
@@ -46,8 +46,8 @@ func _refresh_quest_label() -> void:
 	var q = QuestManager.quests.get(qid, {})
 	quest_label.text = "Quest: " + q.get("title", qid)
 
-func _open_notes() -> void:
-	notes_panel.open()
+func _open_dictionary() -> void:
+	dictionary_panel.open()
 
 func _on_quest_completed(_qid: String) -> void:
 	_refresh_quest_label()

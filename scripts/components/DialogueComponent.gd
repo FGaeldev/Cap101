@@ -35,13 +35,11 @@ func choose(next_index: int) -> void:
 func _show_line() -> void:
 	var line: Dictionary = dialogue_lines[_current_line]
 
-	# Word exposure
+	# Word exposure (Dictionary unlock)
 	if line.has("word_id") and not line["word_id"].is_empty():
 		var wid = line["word_id"]
-		var is_new = not GameState.player_notes.has(wid)
+		var is_new = not GameState.is_in_dictionary(wid)
 		GameState.expose_word(wid)
-		if not GameState.player_notes.has(wid):
-			GameState.save_note(wid, "")
 		if is_new:
 			var word_data = WordBank.get_word(wid)
 			word_revealed.emit(wid, word_data.get("akeanon", ""))

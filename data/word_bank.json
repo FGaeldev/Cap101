@@ -1,135 +1,1084 @@
 {
   "words": [
-	{"id": "w001", "akeanon": "Mayad", "category": "adjective", "area": "all"},
-	{"id": "w002", "akeanon": "Maayo", "category": "adjective", "area": "all"},
-	{"id": "w003", "akeanon": "Buot", "category": "noun", "area": "all"},
-	{"id": "w004", "akeanon": "Tawo", "category": "noun", "area": "all"},
-	{"id": "w005", "akeanon": "Balay", "category": "noun", "area": "all"},
-	{"id": "w006", "akeanon": "Pagkaon", "category": "noun", "area": "all"},
-	{"id": "w007", "akeanon": "Basa", "category": "verb", "area": "all"},
-	{"id": "w008", "akeanon": "Bata", "category": "noun", "area": "all"},
-	{"id": "w009", "akeanon": "Amay", "category": "noun", "area": "all"},
-	{"id": "w010", "akeanon": "Nanay", "category": "noun", "area": "all"},
-
-	{"id": "w011", "akeanon": "Kamusta", "category": "expression", "area": "all"},
-	{"id": "w012", "akeanon": "Saeamat", "category": "expression", "area": "all"},
-	{"id": "w013", "akeanon": "Oo", "category": "expression", "area": "all"},
-	{"id": "w014", "akeanon": "Indi", "category": "expression", "area": "all"},
-	{"id": "w015", "akeanon": "Sige", "category": "expression", "area": "all"},
-	{"id": "w016", "akeanon": "Dayon", "category": "verb", "area": "all"},
-	{"id": "w017", "akeanon": "Kadto", "category": "verb", "area": "all"},
-	{"id": "w018", "akeanon": "Kari", "category": "verb", "area": "all"},
-	{"id": "w019", "akeanon": "Kaon", "category": "verb", "area": "all"},
-	{"id": "w020", "akeanon": "Inom", "category": "verb", "area": "all"},
-
-	{"id": "w021", "akeanon": "Tulug", "category": "verb", "area": "all"},
-	{"id": "w022", "akeanon": "Bangon", "category": "verb", "area": "all"},
-	{"id": "w023", "akeanon": "Lakát", "category": "verb", "area": "all"},
-	{"id": "w024", "akeanon": "Dalagan", "category": "verb", "area": "all"},
-	{"id": "w025", "akeanon": "Tan-aw", "category": "verb", "area": "all"},
-	{"id": "w026", "akeanon": "Pamati", "category": "verb", "area": "all"},
-	{"id": "w027", "akeanon": "Hambal", "category": "verb", "area": "all"},
-	{"id": "w028", "akeanon": "Sabát", "category": "verb", "area": "all"},
-	{"id": "w029", "akeanon": "Bakal", "category": "verb", "area": "all"},
-	{"id": "w030", "akeanon": "Baligya", "category": "verb", "area": "all"},
-
-	{"id": "w031", "akeanon": "Dako", "category": "adjective", "area": "all"},
-	{"id": "w032", "akeanon": "Gamay", "category": "adjective", "area": "all"},
-	{"id": "w033", "akeanon": "Taas", "category": "adjective", "area": "all"},
-	{"id": "w034", "akeanon": "Naba", "category": "adjective", "area": "all"},
-	{"id": "w035", "akeanon": "Gwapa", "category": "adjective", "area": "all"},
-	{"id": "w036", "akeanon": "Gwapo", "category": "adjective", "area": "all"},
-	{"id": "w037", "akeanon": "Puti", "category": "adjective", "area": "all"},
-	{"id": "w038", "akeanon": "Itom", "category": "adjective", "area": "all"},
-	{"id": "w039", "akeanon": "Pula", "category": "adjective", "area": "all"},
-	{"id": "w040", "akeanon": "Asul", "category": "adjective", "area": "all"},
-
-	{"id": "w041", "akeanon": "Dilaw", "category": "adjective", "area": "all"},
-	{"id": "w042", "akeanon": "Berdi", "category": "adjective", "area": "all"},
-	{"id": "w043", "akeanon": "Mainit", "category": "adjective", "area": "all"},
-	{"id": "w044", "akeanon": "Malamig", "category": "adjective", "area": "all"},
-	{"id": "w045", "akeanon": "Bag-o", "category": "adjective", "area": "all"},
-	{"id": "w046", "akeanon": "Daán", "category": "adjective", "area": "all"},
-	{"id": "w047", "akeanon": "Paspas", "category": "adjective", "area": "all"},
-	{"id": "w048", "akeanon": "Hinay", "category": "adjective", "area": "all"},
-	{"id": "w049", "akeanon": "Bug-at", "category": "adjective", "area": "all"},
-	{"id": "w050", "akeanon": "Magaan", "category": "adjective", "area": "all"},
-
-	{"id": "w051", "akeanon": "Isa", "category": "number", "area": "all"},
-	{"id": "w052", "akeanon": "Duha", "category": "number", "area": "all"},
-	{"id": "w053", "akeanon": "Tatlo", "category": "number", "area": "all"},
-	{"id": "w054", "akeanon": "Apat", "category": "number", "area": "all"},
-	{"id": "w055", "akeanon": "Lima", "category": "number", "area": "all"},
-	{"id": "w056", "akeanon": "Anom", "category": "number", "area": "all"},
-	{"id": "w057", "akeanon": "Pito", "category": "number", "area": "all"},
-	{"id": "w058", "akeanon": "Walo", "category": "number", "area": "all"},
-	{"id": "w059", "akeanon": "Siyam", "category": "number", "area": "all"},
-	{"id": "w060", "akeanon": "Napulo", "category": "number", "area": "all"},
-
-	{"id": "w061", "akeanon": "Ako", "category": "pronoun", "area": "all"},
-	{"id": "w062", "akeanon": "Ikaw", "category": "pronoun", "area": "all"},
-	{"id": "w063", "akeanon": "Siya", "category": "pronoun", "area": "all"},
-	{"id": "w064", "akeanon": "Kami", "category": "pronoun", "area": "all"},
-	{"id": "w065", "akeanon": "Kita", "category": "pronoun", "area": "all"},
-	{"id": "w066", "akeanon": "Kamo", "category": "pronoun", "area": "all"},
-	{"id": "w067", "akeanon": "Sanda", "category": "pronoun", "area": "all"},
-	{"id": "w068", "akeanon": "Ini", "category": "pronoun", "area": "all"},
-	{"id": "w069", "akeanon": "Ina", "category": "pronoun", "area": "all"},
-	{"id": "w070", "akeanon": "Ito", "category": "pronoun", "area": "all"},
-
-	{"id": "w071", "akeanon": "Sa", "category": "preposition", "area": "all"},
-	{"id": "w072", "akeanon": "Halin", "category": "preposition", "area": "all"},
-	{"id": "w073", "akeanon": "Para", "category": "preposition", "area": "all"},
-	{"id": "w074", "akeanon": "Uban", "category": "preposition", "area": "all"},
-	{"id": "w075", "akeanon": "Batok", "category": "preposition", "area": "all"},
-	{"id": "w076", "akeanon": "Kag", "category": "conjunction", "area": "all"},
-	{"id": "w077", "akeanon": "O", "category": "conjunction", "area": "all"},
-	{"id": "w078", "akeanon": "Pero", "category": "conjunction", "area": "all"},
-	{"id": "w079", "akeanon": "Kay", "category": "conjunction", "area": "all"},
-	{"id": "w080", "akeanon": "Bisan", "category": "conjunction", "area": "all"},
-
-	{"id": "w081", "akeanon": "Adlaw", "category": "noun", "area": "all"},
-	{"id": "w082", "akeanon": "Gabi-i", "category": "noun", "area": "all"},
-	{"id": "w083", "akeanon": "Oras", "category": "noun", "area": "all"},
-	{"id": "w084", "akeanon": "Semana", "category": "noun", "area": "all"},
-	{"id": "w085", "akeanon": "Tuig", "category": "noun", "area": "all"},
-	{"id": "w086", "akeanon": "Amigo", "category": "noun", "area": "all"},
-	{"id": "w087", "akeanon": "Amiga", "category": "noun", "area": "all"},
-	{"id": "w088", "akeanon": "Eskwela", "category": "noun", "area": "all"},
-	{"id": "w089", "akeanon": "Trabaho", "category": "noun", "area": "all"},
-	{"id": "w090", "akeanon": "Kwarto", "category": "noun", "area": "all"},
-
-	{"id": "w091", "akeanon": "Lamesa", "category": "noun", "area": "all"},
-	{"id": "w092", "akeanon": "Lingkuranan", "category": "noun", "area": "all"},
-	{"id": "w093", "akeanon": "Sapatos", "category": "noun", "area": "all"},
-	{"id": "w094", "akeanon": "Bayo", "category": "noun", "area": "all"},
-	{"id": "w095", "akeanon": "Pantalon", "category": "noun", "area": "all"},
-	{"id": "w096", "akeanon": "Pag-ibig", "category": "noun", "area": "all"},
-	{"id": "w097", "akeanon": "Kasubo", "category": "noun", "area": "all"},
-	{"id": "w098", "akeanon": "Kalipay", "category": "noun", "area": "all"},
-	{"id": "w099", "akeanon": "Kahadlok", "category": "noun", "area": "all"},
-	{"id": "w100", "akeanon": "Gutom", "category": "noun", "area": "all"},
-
-	{"id": "w101", "akeanon": "Uhaw", "category": "noun", "area": "all"},
-	{"id": "w102", "akeanon": "Init", "category": "noun", "area": "all"},
-	{"id": "w103", "akeanon": "Bugnaw", "category": "noun", "area": "all"},
-	{"id": "w104", "akeanon": "Ulan", "category": "noun", "area": "all"},
-	{"id": "w105", "akeanon": "Hangin", "category": "noun", "area": "all"},
-	{"id": "w106", "akeanon": "Langit", "category": "noun", "area": "all"},
-	{"id": "w107", "akeanon": "Duta", "category": "noun", "area": "all"},
-	{"id": "w108", "akeanon": "Dagat", "category": "noun", "area": "all"},
-	{"id": "w109", "akeanon": "Suba", "category": "noun", "area": "all"},
-	{"id": "w110", "akeanon": "Bukid", "category": "noun", "area": "all"},
-
-	{"id": "w111", "akeanon": "Isda", "category": "noun", "area": "all"},
-	{"id": "w112", "akeanon": "Manok", "category": "noun", "area": "all"},
-	{"id": "w113", "akeanon": "Baboy", "category": "noun", "area": "all"},
-	{"id": "w114", "akeanon": "Karne", "category": "noun", "area": "all"},
-	{"id": "w115", "akeanon": "Itlog", "category": "noun", "area": "all"},
-	{"id": "w116", "akeanon": "Kan-on", "category": "noun", "area": "all"},
-	{"id": "w117", "akeanon": "Tinapay", "category": "noun", "area": "all"},
-	{"id": "w118", "akeanon": "Asukar", "category": "noun", "area": "all"},
-	{"id": "w119", "akeanon": "Kape", "category": "noun", "area": "all"},
-	{"id": "w120", "akeanon": "Tsaa", "category": "noun", "area": "all"}
+	{
+	  "id": "w001",
+	  "akeanon": "Mayad",
+	  "category": "adjective",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w002",
+	  "akeanon": "Maayo",
+	  "category": "adjective",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w003",
+	  "akeanon": "Buot",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w004",
+	  "akeanon": "Tawo",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w005",
+	  "akeanon": "Balay",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w006",
+	  "akeanon": "Pagkaon",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w007",
+	  "akeanon": "Basa",
+	  "category": "verb",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w008",
+	  "akeanon": "Bata",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w009",
+	  "akeanon": "Amay",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w010",
+	  "akeanon": "Nanay",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w011",
+	  "akeanon": "Kamusta",
+	  "category": "expression",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w012",
+	  "akeanon": "Saeamat",
+	  "category": "expression",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w013",
+	  "akeanon": "Oo",
+	  "category": "expression",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w014",
+	  "akeanon": "Indi",
+	  "category": "expression",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w015",
+	  "akeanon": "Sige",
+	  "category": "expression",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w016",
+	  "akeanon": "Dayon",
+	  "category": "verb",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w017",
+	  "akeanon": "Kadto",
+	  "category": "verb",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w018",
+	  "akeanon": "Kari",
+	  "category": "verb",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w019",
+	  "akeanon": "Kaon",
+	  "category": "verb",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w020",
+	  "akeanon": "Inom",
+	  "category": "verb",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w021",
+	  "akeanon": "Tulug",
+	  "category": "verb",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w022",
+	  "akeanon": "Bangon",
+	  "category": "verb",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w023",
+	  "akeanon": "Lakát",
+	  "category": "verb",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w024",
+	  "akeanon": "Dalagan",
+	  "category": "verb",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w025",
+	  "akeanon": "Tan-aw",
+	  "category": "verb",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w026",
+	  "akeanon": "Pamati",
+	  "category": "verb",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w027",
+	  "akeanon": "Hambal",
+	  "category": "verb",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w028",
+	  "akeanon": "Sabát",
+	  "category": "verb",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w029",
+	  "akeanon": "Bakal",
+	  "category": "verb",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w030",
+	  "akeanon": "Baligya",
+	  "category": "verb",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w031",
+	  "akeanon": "Dako",
+	  "category": "adjective",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w032",
+	  "akeanon": "Gamay",
+	  "category": "adjective",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w033",
+	  "akeanon": "Taas",
+	  "category": "adjective",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w034",
+	  "akeanon": "Naba",
+	  "category": "adjective",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w035",
+	  "akeanon": "Gwapa",
+	  "category": "adjective",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w036",
+	  "akeanon": "Gwapo",
+	  "category": "adjective",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w037",
+	  "akeanon": "Puti",
+	  "category": "adjective",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w038",
+	  "akeanon": "Itom",
+	  "category": "adjective",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w039",
+	  "akeanon": "Pula",
+	  "category": "adjective",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w040",
+	  "akeanon": "Asul",
+	  "category": "adjective",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w041",
+	  "akeanon": "Dilaw",
+	  "category": "adjective",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w042",
+	  "akeanon": "Berdi",
+	  "category": "adjective",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w043",
+	  "akeanon": "Mainit",
+	  "category": "adjective",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w044",
+	  "akeanon": "Malamig",
+	  "category": "adjective",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w045",
+	  "akeanon": "Bag-o",
+	  "category": "adjective",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w046",
+	  "akeanon": "Daán",
+	  "category": "adjective",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w047",
+	  "akeanon": "Paspas",
+	  "category": "adjective",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w048",
+	  "akeanon": "Hinay",
+	  "category": "adjective",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w049",
+	  "akeanon": "Bug-at",
+	  "category": "adjective",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w050",
+	  "akeanon": "Magaan",
+	  "category": "adjective",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w051",
+	  "akeanon": "Isa",
+	  "category": "number",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w052",
+	  "akeanon": "Duha",
+	  "category": "number",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w053",
+	  "akeanon": "Tatlo",
+	  "category": "number",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w054",
+	  "akeanon": "Apat",
+	  "category": "number",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w055",
+	  "akeanon": "Lima",
+	  "category": "number",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w056",
+	  "akeanon": "Anom",
+	  "category": "number",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w057",
+	  "akeanon": "Pito",
+	  "category": "number",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w058",
+	  "akeanon": "Walo",
+	  "category": "number",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w059",
+	  "akeanon": "Siyam",
+	  "category": "number",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w060",
+	  "akeanon": "Napulo",
+	  "category": "number",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w061",
+	  "akeanon": "Ako",
+	  "category": "pronoun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w062",
+	  "akeanon": "Ikaw",
+	  "category": "pronoun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w063",
+	  "akeanon": "Siya",
+	  "category": "pronoun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w064",
+	  "akeanon": "Kami",
+	  "category": "pronoun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w065",
+	  "akeanon": "Kita",
+	  "category": "pronoun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w066",
+	  "akeanon": "Kamo",
+	  "category": "pronoun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w067",
+	  "akeanon": "Sanda",
+	  "category": "pronoun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w068",
+	  "akeanon": "Ini",
+	  "category": "pronoun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w069",
+	  "akeanon": "Ina",
+	  "category": "pronoun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w070",
+	  "akeanon": "Ito",
+	  "category": "pronoun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w071",
+	  "akeanon": "Sa",
+	  "category": "preposition",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w072",
+	  "akeanon": "Halin",
+	  "category": "preposition",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w073",
+	  "akeanon": "Para",
+	  "category": "preposition",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w074",
+	  "akeanon": "Uban",
+	  "category": "preposition",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w075",
+	  "akeanon": "Batok",
+	  "category": "preposition",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w076",
+	  "akeanon": "Kag",
+	  "category": "conjunction",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w077",
+	  "akeanon": "O",
+	  "category": "conjunction",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w078",
+	  "akeanon": "Pero",
+	  "category": "conjunction",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w079",
+	  "akeanon": "Kay",
+	  "category": "conjunction",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w080",
+	  "akeanon": "Bisan",
+	  "category": "conjunction",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w081",
+	  "akeanon": "Adlaw",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w082",
+	  "akeanon": "Gabi-i",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w083",
+	  "akeanon": "Oras",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w084",
+	  "akeanon": "Semana",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w085",
+	  "akeanon": "Tuig",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w086",
+	  "akeanon": "Amigo",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w087",
+	  "akeanon": "Amiga",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w088",
+	  "akeanon": "Eskwela",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w089",
+	  "akeanon": "Trabaho",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w090",
+	  "akeanon": "Kwarto",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w091",
+	  "akeanon": "Lamesa",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w092",
+	  "akeanon": "Lingkuranan",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w093",
+	  "akeanon": "Sapatos",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w094",
+	  "akeanon": "Bayo",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w095",
+	  "akeanon": "Pantalon",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w096",
+	  "akeanon": "Pag-ibig",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w097",
+	  "akeanon": "Kasubo",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w098",
+	  "akeanon": "Kalipay",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w099",
+	  "akeanon": "Kahadlok",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w100",
+	  "akeanon": "Gutom",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w101",
+	  "akeanon": "Uhaw",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w102",
+	  "akeanon": "Init",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w103",
+	  "akeanon": "Bugnaw",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w104",
+	  "akeanon": "Ulan",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w105",
+	  "akeanon": "Hangin",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w106",
+	  "akeanon": "Langit",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w107",
+	  "akeanon": "Duta",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w108",
+	  "akeanon": "Dagat",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w109",
+	  "akeanon": "Suba",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w110",
+	  "akeanon": "Bukid",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w111",
+	  "akeanon": "Isda",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w112",
+	  "akeanon": "Manok",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w113",
+	  "akeanon": "Baboy",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w114",
+	  "akeanon": "Karne",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w115",
+	  "akeanon": "Itlog",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w116",
+	  "akeanon": "Kan-on",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w117",
+	  "akeanon": "Tinapay",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w118",
+	  "akeanon": "Asukar",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w119",
+	  "akeanon": "Kape",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	},
+	{
+	  "id": "w120",
+	  "akeanon": "Tsaa",
+	  "category": "noun",
+	  "area": "all",
+	  "gloss": "",
+	  "verified": false,
+	  "source": ""
+	}
   ]
 }

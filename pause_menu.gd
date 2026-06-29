@@ -2,24 +2,18 @@
 extends CanvasLayer
 
 @onready var resume_btn: Button = $Panel/VBoxContainer/ResumeBtn
-@onready var notes_btn:  Button = $Panel/VBoxContainer/NotesBtn2
+@onready var dict_btn:   Button = $Panel/VBoxContainer/NotesBtn2
 @onready var quit_btn:   Button = $Panel/VBoxContainer/QuitBtn
 @onready var panel:      PanelContainer = $Panel
-
-@export var notes_panel: NodePath = ""
-var _notes_ref: Control = null
-
-# Remove @export var notes_panel and _notes_ref
-# Instead get it from village scene via group
 
 func _ready() -> void:
 	visible = false
 	resume_btn.pressed.connect(func(): _toggle())
-	notes_btn.pressed.connect(func():
+	dict_btn.pressed.connect(func():
 		_toggle()
-		# Find NotesPanel via group
-		var np = get_tree().get_first_node_in_group("notes_panel")
-		if np: np.open()
+		# Find DictionaryPanel via group
+		var dp = get_tree().get_first_node_in_group("dictionary_panel")
+		if dp: dp.open()
 	)
 	quit_btn.pressed.connect(func():
 		get_tree().paused = false
@@ -46,7 +40,7 @@ func _apply_style() -> void:
 	paused_label.add_theme_font_size_override("font_size", 16)
 	paused_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
-	for btn in [resume_btn, notes_btn]:
+	for btn in [resume_btn, dict_btn]:
 		_style_btn(btn, Color("fdf6e3"), Color("4a7c59"))
 	_style_btn(quit_btn, Color("fdf6e3"), Color("4a7c59"))
 

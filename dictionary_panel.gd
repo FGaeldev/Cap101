@@ -1,33 +1,42 @@
-# NotesPanel.gd — Stardew-tropical style
+# DictionaryPanel.gd — Stardew-tropical style
+# [CLAUDE NOTE] Renamed from NotesPanel per panel feedback: free-text
+# player-authored meanings removed. Dictionary auto-shows the verified
+# gloss for any word once first encountered (see GameState.is_in_dictionary).
 extends PanelContainer
+
+const  TEXTURE: String = "res://assets/ui/sv_48.png"
 
 @onready var notes_list: VBoxContainer = $VBoxContainer/ScrollContainer/NotesList
 @onready var close_btn:  Button        = $VBoxContainer/HBoxContainer/CloseBtn
 @onready var title_label: Label        = $VBoxContainer/HBoxContainer/Label
 
 func _ready() -> void:
-	add_to_group("notes_panel")
+	add_to_group("dictionary_panel")
 	close_btn.pressed.connect(func(): visible = false)
 	visible = false
 	_apply_style()
 
 func _apply_style() -> void:
-	# Outer panel
-	var panel = StyleBoxFlat.new()
-	panel.bg_color     = Color("fdf6e3")
-	panel.border_color = Color("5c3a1e")
-	panel.set_border_width_all(4)
-	panel.set_corner_radius_all(4)
-	panel.set_content_margin_all(10)
+	# Outer panel — nine-patch
+	var panel := StyleBoxTexture.new()
+	panel.texture = preload(TEXTURE)
+	panel.texture_margin_left   = 8  # match exact Aseprite export margin
+	panel.texture_margin_right  = 8
+	panel.texture_margin_top    = 8
+	panel.texture_margin_bottom = 8
+	panel.content_margin_left   = 10
+	panel.content_margin_right  = 10
+	panel.content_margin_top    = 10
+	panel.content_margin_bottom = 10
 	add_theme_stylebox_override("panel", panel)
 
-	# Title
-	title_label.text = "Mga Haeambaeon"
-	title_label.add_theme_color_override("font_color", Color("5c3a1e"))
+	# Title — tropical palette, not brown/cream
+	title_label.text = "Diksyunaryo"
+	title_label.add_theme_color_override("font_color", Color("f0faf0"))  # mint cream
 	title_label.add_theme_font_size_override("font_size", 12)
 
 	# Close button
-	_style_button(close_btn, Color("8b2e2e"), Color("fdf6e3"))
+	_style_button(close_btn, Color("e8b84b"), Color("1a4a2e"))  # gold / jungle green
 
 func _style_button(btn: Button, bg: Color, text_col: Color) -> void:
 	var normal = StyleBoxFlat.new()
@@ -95,21 +104,17 @@ func _add_entry(word_id: String, word_data: Dictionary) -> void:
 	word_label.add_theme_font_size_override("font_size", 14)
 	vbox.add_child(word_label)
 
-	# Player meaning input
-	var input = LineEdit.new()
-	input.placeholder_text = "Isueat ro bueot singhanon"
-	input.text = GameState.get_note(word_id)
-	var input_style = StyleBoxFlat.new()
-	input_style.bg_color     = Color("f5efe0")
-	input_style.border_color = Color("c8a96e")
-	input_style.set_border_width_all(1)
-	input_style.set_content_margin_all(6)
-	input.add_theme_stylebox_override("normal", input_style)
-	input.add_theme_color_override("font_color", Color("2c1810"))
-	input.add_theme_font_size_override("font_size", 10)
-	input.text_submitted.connect(func(t): GameState.save_note(word_id, t))
-	input.focus_exited.connect(func(): GameState.save_note(word_id, input.text))
-	vbox.add_child(input)
+	# Meaning — read-only, shown once unlocked
+	# [CLAUDE NOTE] gloss field currently blank/unverified for all words
+	# in word_bank.json (see Tier 1 word-bank-enrichment task). Falls
+	# back to a placeholder string until verified glosses are filled in.
+	var meaning_label = Label.new()
+	var gloss: String = word_data.get("gloss", "")
+	meaning_label.text = gloss if not gloss.is_empty() else "(meaning pending verification)"
+	meaning_label.add_theme_color_override("font_color", Color("5c3a1e"))
+	meaning_label.add_theme_font_size_override("font_size", 10)
+	meaning_label.autowrap_mode = TextServer.AUTOWRAP_WORD
+	vbox.add_child(meaning_label)
 
 	# Encounters
 	var enc = Label.new()

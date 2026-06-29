@@ -1,15 +1,10 @@
-[gd_scene format=3 uid="uid://bhaeuqkyurkwa"]
+[gd_scene format=3 uid="uid://p6m2ypmf0rri"]
 
-[ext_resource type="Script" uid="uid://88j5das6llor" path="res://notes_panel.gd" id="1_w8vtf"]
+[ext_resource type="Script" uid="uid://dvon5iuhlw5os" path="res://dictionary_panel.gd" id="1_w8vtf"]
 
-[node name="NotesPanel" type="PanelContainer" unique_id=306459368]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -444.0
-offset_bottom = -253.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="DictionaryPanel" type="PanelContainer" unique_id=306459368]
+offset_right = 114.0
+offset_bottom = 27.0
 size_flags_vertical = 3
 script = ExtResource("1_w8vtf")
 
@@ -21,7 +16,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1735355513]
 layout_mode = 2
-text = "Taeandaan"
+text = "Diksyunaryo"
 
 [node name="CloseBtn" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=2108629278]
 layout_mode = 2
