@@ -41,17 +41,10 @@ func _apply_style() -> void:
 	paused_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
 	for btn in [resume_btn, dict_btn]:
-		_style_btn(btn, Color("fdf6e3"), Color("4a7c59"))
-	_style_btn(quit_btn, Color("fdf6e3"), Color("4a7c59"))
+		_style_btn(btn,"primary")
+	_style_btn(quit_btn,"danger")
 
-func _style_btn(btn: Button, text_col: Color, hover_text_col: Color) -> void:
-	var normal = preload("res://assets/ui/button_normal.tres")
-	var hover = preload("res://assets/ui/button_hover.tres")
-	btn.add_theme_stylebox_override("normal", normal)
-	btn.add_theme_stylebox_override("hover", hover)
-	btn.add_theme_stylebox_override("pressed", normal)
-	btn.add_theme_color_override("font_color", text_col)
-	btn.add_theme_color_override("font_hover_color", hover_text_col)
-	btn.add_theme_color_override("font_pressed_color", text_col)
+func _style_btn(btn: Button, variant: String) -> void:
+	UIThemeApplier.apply_button_theme(btn, variant)
 	btn.add_theme_font_size_override("font_size", 12)
 	btn.custom_minimum_size = Vector2(180, 0)

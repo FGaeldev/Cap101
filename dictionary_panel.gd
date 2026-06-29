@@ -36,7 +36,7 @@ func _apply_style() -> void:
 	title_label.add_theme_font_size_override("font_size", 12)
 
 	# Close button
-	_style_button(close_btn, Color("e8b84b"), Color("1a4a2e"))  # gold / jungle green
+	UIThemeApplier.apply_icon_button_theme(close_btn, "close")
 
 func _style_button(btn: Button, bg: Color, text_col: Color) -> void:
 	var normal = StyleBoxFlat.new()

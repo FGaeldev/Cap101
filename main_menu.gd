@@ -56,24 +56,9 @@ func _apply_style() -> void:
 	sub_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
 	# Buttons
-	_style_btn(start_btn,    Color("3d6b47"), false)
-	_style_btn(continue_btn, Color("3d6b47"), false)
-	_style_btn(quit_btn,     Color("3d6b47"), false)
+	_style_btn(start_btn, "primary")
+	_style_btn(continue_btn, "primary")
+	_style_btn(quit_btn,     "danger")
 
-func _style_btn(btn: Button, text_hover_col: Color, _unused: bool) -> void:
-	# Normal
-	var normal = preload("res://assets/ui/button_normal.tres")
-	# Hover — brighter
-	var hover = preload("res://assets/ui/button_hover.tres")
-	# Disabled - darkest
-	var disabled = preload("res://assets/ui/button_disabled.tres")
-
-	btn.add_theme_stylebox_override("normal", normal)
-	btn.add_theme_stylebox_override("hover", hover)
-	btn.add_theme_stylebox_override("pressed", normal)
-	btn.add_theme_stylebox_override("disabled", disabled)
-	btn.add_theme_color_override("font_color", Color("fdf6e3"))
-	btn.add_theme_color_override("font_disabled_color", Color("000000ff"))
-	btn.add_theme_color_override("font_hover_color", text_hover_col)
-	btn.add_theme_font_size_override("font_size", 18)
-	btn.custom_minimum_size = Vector2(220, 44)
+func _style_btn(btn: Button, variant: String) -> void:
+	UIThemeApplier.apply_button_theme(btn, variant)

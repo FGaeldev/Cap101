@@ -3,24 +3,28 @@
 [ext_resource type="Script" uid="uid://dvon5iuhlw5os" path="res://dictionary_panel.gd" id="1_w8vtf"]
 
 [node name="DictionaryPanel" type="PanelContainer" unique_id=306459368]
-offset_right = 114.0
-offset_bottom = 27.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_vertical = 3
 script = ExtResource("1_w8vtf")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1072330539]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=755440508]
+[node name="HBoxContainer" type="PanelContainer" parent="VBoxContainer" unique_id=1207882788]
 layout_mode = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1735355513]
 layout_mode = 2
+size_flags_horizontal = 0
 text = "Diksyunaryo"
 
 [node name="CloseBtn" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=2108629278]
 layout_mode = 2
-text = "X"
+size_flags_horizontal = 8
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=1087034637]
 layout_mode = 2

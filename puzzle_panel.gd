@@ -99,22 +99,7 @@ func _flash_btn(btn: Button, color: Color) -> void:
 	btn.add_theme_color_override("font_color_disabled", Color("fdf6e3"))
 
 func _reset_btn(btn: Button) -> void:
-	var path = "res://assets/ui/button_normal.tres"
-	if ResourceLoader.exists(path):
-		btn.add_theme_stylebox_override("normal",  load(path))
-		btn.add_theme_stylebox_override("hover",   load("res://assets/ui/button_hover.tres"))
-		btn.add_theme_stylebox_override("disabled",load(path))
-	else:
-		var s = StyleBoxFlat.new()
-		s.bg_color     = Color("1a6b3a")
-		s.border_color = Color("1a4a2e")
-		s.set_border_width_all(3)
-		s.set_corner_radius_all(3)
-		s.set_content_margin_all(8)
-		btn.add_theme_stylebox_override("normal", s)
-	btn.add_theme_color_override("font_color",         Color("f0faf0"))
-	btn.add_theme_color_override("font_hover_color",   Color("1a2e0a"))
-	btn.add_theme_color_override("font_pressed_color", Color("f0faf0"))
+	UIThemeApplier.apply_button_theme(btn, "primary")
 
 func _apply_style() -> void:
 	panel.custom_minimum_size = Vector2(340, 0)

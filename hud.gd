@@ -25,18 +25,10 @@ func _apply_style() -> void:
 	quest_bg.add_theme_stylebox_override("panel", bg)
 	quest_label.add_theme_color_override("font_color", Color("e8b84b"))
 	quest_label.add_theme_font_size_override("font_size", 11)
-	_style_btn(dict_btn)
+	UIThemeApplier.apply_icon_button_theme(dict_btn, "dictionary")
 
 func _style_btn(btn: Button) -> void:
-	var normal = preload("res://assets/ui/button_normal.tres")
-	var hover = preload("uid://blqrnxcnsd4b2")
-	btn.add_theme_stylebox_override("normal", normal)
-	btn.add_theme_stylebox_override("hover", hover)
-	btn.add_theme_stylebox_override("pressed", normal)
-	btn.add_theme_color_override("font_color", Color("fdf6e3"))
-	btn.add_theme_color_override("font_hover_color", Color("e8b84b"))
-	btn.add_theme_font_size_override("font_size", 11)
-	btn.text = "Diksyunaryo"
+	UIThemeApplier.apply_button_theme(btn, "primary")
 
 func _refresh_quest_label() -> void:
 	var qid = QuestManager.active_quest

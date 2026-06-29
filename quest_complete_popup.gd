@@ -31,13 +31,5 @@ func _apply_style() -> void:
 	quest_name_label.add_theme_font_size_override("font_size", 11)
 	quest_name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
-	var btn_normal = preload("res://assets/ui/button_normal.tres")
-	var btn_hover = preload("res://assets/ui/button_hover.tres")
-	var btn_pressed = preload("res://assets/ui/button_normal.tres")
-	ok_btn.add_theme_color_override("font_color",          Color("f0faf0"))
-	ok_btn.add_theme_color_override("font_hover_color",    Color("1a2e0a"))
-	ok_btn.add_theme_color_override("font_color_pressed",  Color("f0faf0"))
-	ok_btn.add_theme_stylebox_override("normal", btn_normal)
-	ok_btn.add_theme_stylebox_override("hover", btn_hover)
-	ok_btn.add_theme_stylebox_override("pressed", btn_pressed)
+	UIThemeApplier.apply_button_theme(ok_btn, "confirm")
 	ok_btn.add_theme_font_size_override("font_size", 12)
