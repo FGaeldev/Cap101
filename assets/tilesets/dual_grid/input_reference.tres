@@ -1,0 +1,15 @@
+[gd_resource type="TileSet" format=3 uid="uid://b0urwj2yfpgxn"]
+
+[ext_resource type="Texture2D" uid="uid://c617h0ffj1lg8" path="res://assets/tilesets/dual_grid/terrains.png" id="1_b7elj"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_55a7g"]
+texture = ExtResource("1_b7elj")
+0:0/0 = 0
+0:0/0/custom_data_0 = "path"
+1:0/0 = 0
+1:0/0/custom_data_0 = "grass"
+
+[resource]
+custom_data_layer_0/name = "terrain_id"
+custom_data_layer_0/type = 4
+sources/0 = SubResource("TileSetAtlasSource_55a7g")

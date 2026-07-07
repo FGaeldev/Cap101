@@ -5,6 +5,10 @@
 extends Node
 class_name DualGridSystem
 
+## Reference to editor-painted layer. Not rendered — read once, converted to
+## logic_grid, then hidden. Artist paints terrain here by hand.
+@export var input_layer: TileMapLayer
+
 ## Reference to the visual TileMapLayer that renders the dual (offset) grid.
 @export var render_layer: TileMapLayer
 
@@ -21,10 +25,9 @@ var _terrain_lookup: Dictionary = {}
 
 func _ready() -> void:
 	_build_terrain_lookup()
-	# temp test, remove after verify
-	set_cell(Vector2i(0,0), &"grass")
-	set_cell(Vector2i(1,0), &"grass")
-	set_cell(Vector2i(0,1), &"grass")
+	_load_from_input_layer()
+	if input_layer:
+		input_layer.visible = false  # hide reference layer at runtime
 
 ## Builds StringName -> TerrainConfig lookup from the exported array.
 ## Called once at startup; call again manually if terrain_configs changes at runtime.
@@ -89,7 +92,7 @@ func _repaint_dual(dual_pos: Vector2i) -> void:
 		push_warning("DualGridSystem: missing bitmask %d in TerrainConfig '%s'" % [mask, dominant_terrain])
 		return
 	
-	print(dual_pos, config.atlas_source_id, atlas_coord)
+	#print(dual_pos, config.atlas_source_id, atlas_coord)
 	render_layer.set_cell(dual_pos, config.atlas_source_id, atlas_coord)
 
 ## Picks which terrain "owns" a dual cell when its 4 logic corners may contain
@@ -102,3 +105,19 @@ func _get_dominant_terrain(dual_pos: Vector2i) -> StringName:
 		if t != StringName():
 			return t
 	return StringName()
+
+## Reads every painted cell in input_layer, pulls terrain_id from custom data,
+## writes into logic_grid via set_cell (triggers normal repaint pipeline).
+func _load_from_input_layer() -> void:
+	if input_layer == null:
+		push_warning("DualGridSystem: no input_layer assigned, logic_grid empty")
+		return
+	for cell in input_layer.get_used_cells():
+		var tile_data: TileData = input_layer.get_cell_tile_data(cell)
+		if tile_data == null:
+			continue
+		var terrain_id: String = tile_data.get_custom_data("terrain_id")
+		if terrain_id == "":
+			push_warning("DualGridSystem: cell %s missing terrain_id custom data" % cell)
+			continue
+		set_cell(cell, StringName(terrain_id))

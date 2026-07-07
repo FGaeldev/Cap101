@@ -1,17 +1,26 @@
-[gd_scene format=3 uid="uid://jeco3wvjirnh"]
+[gd_scene format=4 uid="uid://jeco3wvjirnh"]
 
 [ext_resource type="Script" uid="uid://dq4uakjcjwsrt" path="res://scripts/dual_grid/DualGridSystem.gd" id="1_dr2ri"]
-[ext_resource type="TileSet" uid="uid://yisqb86orwim" path="res://assets/tilesets/dual_grid/grass_on_dirt.tres" id="1_reada"]
+[ext_resource type="TileSet" uid="uid://yisqb86orwim" path="res://assets/tilesets/dual_grid/path.tres" id="1_reada"]
 [ext_resource type="Script" uid="uid://dapiapp57qkeo" path="res://scripts/dual_grid/terrain_config.gd" id="2_hmg62"]
-[ext_resource type="Resource" uid="uid://bu45j85s8fepr" path="res://scripts/dual_grid/grass_terrain.tres" id="3_wka4t"]
+[ext_resource type="Resource" uid="uid://bu45j85s8fepr" path="res://scripts/dual_grid/path_terrain.tres" id="3_wka4t"]
+[ext_resource type="TileSet" uid="uid://b0urwj2yfpgxn" path="res://assets/tilesets/dual_grid/input_reference.tres" id="4_wka4t"]
+[ext_resource type="PackedScene" uid="uid://brd713x4jvfe8" path="res://scenes/entities/Player.tscn" id="6_8oavk"]
 
 [node name="NewMap" type="Node2D" unique_id=1625697170]
 
-[node name="DualGridSystem" type="Node" parent="." unique_id=226784996 node_paths=PackedStringArray("render_layer")]
+[node name="DualGridSystem" type="Node" parent="." unique_id=226784996 node_paths=PackedStringArray("input_layer", "render_layer")]
 script = ExtResource("1_dr2ri")
+input_layer = NodePath("../InputLayer")
 render_layer = NodePath("../RenderLayer")
 terrain_configs = Array[ExtResource("2_hmg62")]([ExtResource("3_wka4t")])
+
+[node name="InputLayer" type="TileMapLayer" parent="." unique_id=696790745]
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAABAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAACAAAAAAAAAAAAAAACAAEAAAAAAAAAAAADAAAAAAAAAAAAAAADAAEAAAAAAAAAAAAEAAAAAAAAAAAAAAAEAAEAAAAAAAAAAAAEAAIAAAAAAAAAAAAEAAMAAAAAAAAAAAAEAAQAAAAAAAAAAAAEAAUAAAAAAAAAAAAEAAYAAAAAAAAAAAAFAAMAAAAAAAAAAAAGAAMAAAAAAAAAAAAHAAMAAAAAAAAAAAAIAAMAAAAAAAAAAAAJAAMAAAAAAAAAAAAKAAMAAAAAAAAAAAAJAAQAAAAAAAAAAAAJAAUAAAAAAAAAAAAJAAYAAAAAAAAAAAAJAAcAAAAAAAAAAAAKAAQAAAAAAAAAAAAIAAQAAAAAAAAAAAALAAMAAAAAAAAAAAAMAAMAAAAAAAAAAAANAAMAAAAAAAAAAAAOAAMAAAAAAAAAAAAJAAIAAAAAAAAAAAAKAAIAAAAAAAAAAAALAAIAAAAAAAAAAAAMAAIAAAAAAAAAAAANAAIAAAAAAAAAAAAOAAQAAAAAAAAAAAAPAAQAAAAAAAAAAAAPAAUAAAAAAAAAAAAQAAUAAAAAAAAAAAAQAAYAAAAAAAAAAAARAAYAAAAAAAAAAAARAAcAAAAAAAAAAAARAAgAAAAAAAAAAAASAAgAAAAAAAAAAAAQAAQAAAAAAAAAAAA=")
+tile_set = ExtResource("4_wka4t")
 
 [node name="RenderLayer" type="TileMapLayer" parent="." unique_id=1653023888]
 position = Vector2(16, 16)
 tile_set = ExtResource("1_reada")
+
+[node name="Player" parent="." unique_id=410096860 instance=ExtResource("6_8oavk")]

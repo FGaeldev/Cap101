@@ -8,6 +8,16 @@
 [node name="HUD" type="CanvasLayer" unique_id=488423917]
 script = ExtResource("1_0mwgc")
 
+[node name="VirtualJoystick" type="VirtualJoystick" parent="." unique_id=1250613267]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 34.0
+offset_top = -75.0
+offset_right = 74.0
+offset_bottom = -35.0
+grow_vertical = 0
+
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=377005514]
 offset_left = 6.0
 offset_top = 6.0
@@ -26,7 +36,6 @@ layout_mode = 2
 size_flags_horizontal = 0
 
 [node name="DialogueBox" parent="." unique_id=1631502302 instance=ExtResource("2_8qguk")]
-anchors_preset = 12
 
 [node name="ChoiceBox" parent="." unique_id=1198935162 instance=ExtResource("3_136eg")]
 anchors_preset = 12
