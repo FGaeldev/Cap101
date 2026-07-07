@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://brd713x4jvfe8"]
 
-[ext_resource type="Texture2D" uid="uid://dp71pkevxb1p7" path="res://assets/sprites/sv_npc_Alex-export.png" id="1_g13of"]
 [ext_resource type="Script" uid="uid://bnix7fmrftixb" path="res://scenes/entities/player.gd" id="1_o7et6"]
+[ext_resource type="Texture2D" uid="uid://c8pvhojmj6tbn" path="res://assets/sprites/Idle.png" id="2_o7et6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_24gqh"]
 radius = 6.0
@@ -10,10 +10,10 @@ radius = 6.0
 script = ExtResource("1_o7et6")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2081202023]
-position = Vector2(0, -16)
-texture = ExtResource("1_g13of")
+position = Vector2(0, -10)
+texture = ExtResource("2_o7et6")
 hframes = 4
-vframes = 4
+vframes = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1762865277]
 position = Vector2(0, -6)

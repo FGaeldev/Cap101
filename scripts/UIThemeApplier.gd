@@ -6,7 +6,10 @@
 extends Node
 
 const SHEET := preload("res://assets/ui/buttons_sheet.png")
+const ICON_SHEET := preload("res://assets/ui/icon_buttons_sheet.png")
+const DIALOGUE_BOX := preload("res://assets/ui/dialogue_box.png")
 
+# Button Sprite Size
 const CELL_W := 64
 const CELL_H := 24
 
@@ -24,15 +27,14 @@ const COL_DISABLED := 3
 const COL_FOCUSED  := 4
 
 # Nine-slice margin (matches 6px corner spec)
-const SLICE_MARGIN := 6
+const SLICE_MARGIN := 10
 
 # Text colors (only 3 in the whole system)
 const TEXT_DEFAULT  := Color("f0faf0")
 const TEXT_EMPHASIS := Color("e8b84b")
 const TEXT_DISABLED := Color("8a8f8a")
 
-const ICON_SHEET := preload("res://assets/ui/icon_buttons_sheet.png")
-
+# Icon Button Sprite Size
 const ICON_CELL_W := 24
 const ICON_CELL_H := 24
 const ICON_SLICE_MARGIN := 4
@@ -122,3 +124,15 @@ func apply_icon_button_theme(btn: Button, variant: String) -> void:
 
 	btn.custom_minimum_size = Vector2(ICON_CELL_W*0.8, ICON_CELL_H*0.8)
 	btn.text = ""  # icon-only, no label
+
+# Nine-slice margin
+const DIALOGUE_SLICE_MARGIN := 8
+
+func make_dialogue_style() -> StyleBoxTexture:
+	var sb := StyleBoxTexture.new()
+	sb.texture = DIALOGUE_BOX
+	sb.texture_margin_left   = DIALOGUE_SLICE_MARGIN
+	sb.texture_margin_top    = DIALOGUE_SLICE_MARGIN
+	sb.texture_margin_right  = DIALOGUE_SLICE_MARGIN
+	sb.texture_margin_bottom = DIALOGUE_SLICE_MARGIN
+	return sb

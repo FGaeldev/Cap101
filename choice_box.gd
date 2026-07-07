@@ -2,8 +2,8 @@
 extends PanelContainer
 
 @onready var choice_list: VBoxContainer = $ChoiceList
-
 func _ready() -> void:
+	$".".add_theme_stylebox_override("panel", UIThemeApplier.make_dialogue_style())
 	DialogueUI.register_choice_box(self)
 	visible = false
 
@@ -31,24 +31,5 @@ func hide_choices() -> void:
 	visible = false
 
 func _style_choice_btn(btn: Button) -> void:
-	var normal = make_panel_style(false)
-	var hover = make_panel_style(true)
-	var pressed = normal.duplicate()
-
-	btn.add_theme_stylebox_override("normal", normal)
-	btn.add_theme_stylebox_override("hover", hover)
-	btn.add_theme_stylebox_override("pressed", pressed)
-	btn.add_theme_color_override("font_color", Color("2c1810"))
-	btn.add_theme_color_override("font_color_hover", Color("fdf6e3"))
+	UIThemeApplier.apply_button_theme(btn, "secondary")
 	btn.add_theme_font_size_override("font_size", 10)
-	btn.custom_minimum_size = Vector2(200, 0)
-
-func make_panel_style(is_hover:bool) -> StyleBoxTexture:
-	var style = StyleBoxTexture.new()
-	if is_hover: style.texture = preload("res://assets/ui/sv_48x18xhover.png")
-	else: style.texture = preload("res://assets/ui/sv_48x18.png")
-	style.texture_margin_left   = 10
-	style.texture_margin_right  = 2
-	style.texture_margin_top    = 2
-	style.texture_margin_bottom = 2
-	return style

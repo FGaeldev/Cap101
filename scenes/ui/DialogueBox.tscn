@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cqgj7bn542ysb" path="res://scenes/ui/DialogueBox.gd" id="1_2c88n"]
 
 [node name="DialogueBox" type="PanelContainer" unique_id=1631502302]
-anchors_preset = -1
+anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0

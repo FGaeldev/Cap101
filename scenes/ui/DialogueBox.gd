@@ -17,23 +17,9 @@ func _ready() -> void:
 	_apply_style()
 
 func _apply_style() -> void:
-	var panel = StyleBoxFlat.new()
-	panel.bg_color     = Color("fdf6e3")
-	panel.border_color = Color("5c3a1e")
-	panel.set_border_width_all(4)
-	panel.set_corner_radius_all(4)
-	panel.set_content_margin(SIDE_LEFT, 14)
-	panel.set_content_margin(SIDE_RIGHT, 14)
-	panel.set_content_margin(SIDE_TOP, 10)
-	panel.set_content_margin(SIDE_BOTTOM, 10)
-	add_theme_stylebox_override("panel", panel)
-
-	speaker_label.add_theme_color_override("font_color", Color("5c3a1e"))
-	speaker_label.add_theme_font_size_override("font_size", 11)
-
-	text_label.add_theme_color_override("font_color", Color("2c1810"))
-	text_label.add_theme_font_size_override("font_size", 10)
-	text_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	$".".add_theme_stylebox_override("panel", UIThemeApplier.make_dialogue_style())
+	speaker_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_EMPHASIS)
+	text_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 
 func display(speaker: String, text: String) -> void:
 	speaker_label.text = "[ %s ]" % speaker
