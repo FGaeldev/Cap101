@@ -1,7 +1,10 @@
 [gd_scene format=3 uid="uid://brd713x4jvfe8"]
 
 [ext_resource type="Script" uid="uid://bnix7fmrftixb" path="res://scenes/entities/player.gd" id="1_o7et6"]
-[ext_resource type="Texture2D" uid="uid://c0uwpywo4q1s5" path="res://assets/sprites/player_sprite.png" id="2_o7et6"]
+[ext_resource type="SpriteFrames" uid="uid://dvdvmtt5rwmfj" path="res://assets/sprites/player_frames.tres" id="2_j1g85"]
+[ext_resource type="Script" uid="uid://8dat4icl8ygi" path="res://scripts/state_machine/state_machine.gd" id="3_7jddb"]
+[ext_resource type="Script" uid="uid://c5b565ews2m48" path="res://scripts/state_machine/idle_state.gd" id="4_lfoco"]
+[ext_resource type="Script" uid="uid://bm4tghb1wk2rs" path="res://scripts/state_machine/walk_state.gd" id="5_h683u"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_24gqh"]
 radius = 6.0
@@ -9,11 +12,10 @@ radius = 6.0
 [node name="Player" type="CharacterBody2D" unique_id=410096860 groups=["player"]]
 script = ExtResource("1_o7et6")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2081202023]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=332485445]
 position = Vector2(0, -10)
-texture = ExtResource("2_o7et6")
-hframes = 6
-vframes = 5
+sprite_frames = ExtResource("2_j1g85")
+animation = &"idle_down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1762865277]
 position = Vector2(0, -6)
@@ -23,3 +25,14 @@ shape = SubResource("CircleShape2D_24gqh")
 position_smoothing_enabled = true
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
+
+[node name="StateMachine" type="Node" parent="." unique_id=1622289715 node_paths=PackedStringArray("actor")]
+script = ExtResource("3_7jddb")
+initial_state = NodePath("Idle")
+actor = NodePath("..")
+
+[node name="Idle" type="Node" parent="StateMachine" unique_id=389061176]
+script = ExtResource("4_lfoco")
+
+[node name="Walk" type="Node" parent="StateMachine" unique_id=1311549891]
+script = ExtResource("5_h683u")
