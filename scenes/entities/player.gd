@@ -7,7 +7,7 @@ const SPEED = 120.0
 ## If you only have a placeholder square, ignore @onready sprite lines for now
 @onready var sprite: Sprite2D = $Sprite2D
 
-var _facing: String = "down"
+var facing: String = "down"
 
 func _ready() -> void:
 	add_to_group("player")
