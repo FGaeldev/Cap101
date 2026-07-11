@@ -126,7 +126,7 @@ func apply_icon_button_theme(btn: Button, variant: String) -> void:
 	btn.text = ""  # icon-only, no label
 
 # Nine-slice margin
-const DIALOGUE_SLICE_MARGIN := 8
+const DIALOGUE_SLICE_MARGIN := 12
 
 func make_dialogue_style() -> StyleBoxTexture:
 	var sb := StyleBoxTexture.new()

@@ -1,7 +1,7 @@
 # Player.gd
 extends CharacterBody2D
 
-const SPEED = 120.0
+const SPEED = 80.0
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var state_machine: StateMachine = $StateMachine
 

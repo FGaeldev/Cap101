@@ -95,16 +95,33 @@ func _repaint_dual(dual_pos: Vector2i) -> void:
 	#print(dual_pos, config.atlas_source_id, atlas_coord)
 	render_layer.set_cell(dual_pos, config.atlas_source_id, atlas_coord)
 
-## Picks which terrain "owns" a dual cell when its 4 logic corners may contain
-## mixed terrains. Current rule: first non-empty terrain found (NW->NE->SW->SE
-## priority). Sufficient for single/non-overlapping terrains; revisit if
-## multi-terrain blending (mask-per-pair) gets added later.
+
+## Picks which terrain "owns" a dual cell when its 4 logic corners span
+## multiple terrains. Rule: highest TerrainConfig.priority among present
+## corners wins. Tie -> first found (NW->NE->SW->SE), warns once.
 func _get_dominant_terrain(dual_pos: Vector2i) -> StringName:
+	var best_terrain: StringName = StringName()
+	var best_priority: int = -1
+	var tie: bool = false
+
 	for offset in [Vector2i(0, 0), Vector2i(1, 0), Vector2i(0, 1), Vector2i(1, 1)]:
 		var t: StringName = logic_grid.get(dual_pos + offset, StringName())
-		if t != StringName():
-			return t
-	return StringName()
+		if t == StringName():
+			continue
+		var config: TerrainConfig = _terrain_lookup.get(t)
+		if config == null:
+			continue
+		if config.priority > best_priority:
+			best_priority = config.priority
+			best_terrain = t
+			tie = false
+		elif config.priority == best_priority and t != best_terrain:
+			tie = true
+
+	if tie:
+		push_warning("DualGridSystem: priority tie at %s, defaulted to '%s'" % [dual_pos, best_terrain])
+
+	return best_terrain
 
 ## Reads every painted cell in input_layer, pulls terrain_id from custom data,
 ## writes into logic_grid via set_cell (triggers normal repaint pipeline).

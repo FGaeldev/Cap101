@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="TerrainConfig" format=3 uid="uid://chy1vfdo0cim7"]
+
+[ext_resource type="Script" uid="uid://dapiapp57qkeo" path="res://scripts/dual_grid/terrain_config.gd" id="1_f33e2"]
+
+[resource]
+script = ExtResource("1_f33e2")
+terrain_id = &"grass"
+atlas_source_id = 1
+priority = 1
+metadata/_custom_type_script = "uid://dapiapp57qkeo"

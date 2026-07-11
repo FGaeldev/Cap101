@@ -9,6 +9,11 @@ class_name TerrainConfig
 ## Texture atlas source ID in the shared TileSet resource (set in TileSet editor).
 @export var atlas_source_id: int = 0
 
+## Higher number = paints on top when dual cell corners span multiple
+## terrains. Base terrains (dirt, water) low value; overlay terrains
+## (grass, path) high value. Tie = warn, first registered wins.
+@export var priority: int = 0
+
 ## Maps 4-bit corner bitmask (0-15) -> atlas coordinate in the tileset.
 ## Bit order (fixed convention, do not change without updating _dual_bitmask()):
 ##   bit 0 (1)  = NW corner filled

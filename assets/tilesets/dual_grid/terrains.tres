@@ -1,0 +1,65 @@
+[gd_resource type="TileSet" format=3 uid="uid://yisqb86orwim"]
+
+[ext_resource type="Texture2D" uid="uid://bv2h1roiehwqi" path="res://assets/tilesets/dual_grid/path.png" id="1_mwxbn"]
+[ext_resource type="Texture2D" uid="uid://ibu7pxei4h5o" path="res://assets/tilesets/dual_grid/grass.png" id="2_p767s"]
+[ext_resource type="Texture2D" uid="uid://c8vfjcemcmph5" path="res://assets/tilesets/dual_grid/road.png" id="3_x083b"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o5m6t"]
+texture = ExtResource("1_mwxbn")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wy4lj"]
+texture = ExtResource("2_p767s")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ekmsi"]
+texture = ExtResource("3_x083b")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+
+[resource]
+sources/0 = SubResource("TileSetAtlasSource_o5m6t")
+sources/1 = SubResource("TileSetAtlasSource_wy4lj")
+sources/2 = SubResource("TileSetAtlasSource_ekmsi")

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bj08bn1npub4l"
-path="res://.godot/imported/sv_npc_Professor_Snail-export.png-913a71653148420dfc36d1796f94a025.ctex"
+uid="uid://1ekru1pneeau"
+path="res://.godot/imported/grandma_sprite.png-3b0b88e0d7dc2ee1e29771d7c92a0187.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/sv_npc_Professor_Snail-export.png"
-dest_files=["res://.godot/imported/sv_npc_Professor_Snail-export.png-913a71653148420dfc36d1796f94a025.ctex"]
+source_file="res://assets/sprites/grandma_sprite.png"
+dest_files=["res://.godot/imported/grandma_sprite.png-3b0b88e0d7dc2ee1e29771d7c92a0187.ctex"]
 
 [params]
 

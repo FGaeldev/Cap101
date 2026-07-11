@@ -8,6 +8,8 @@ texture = ExtResource("1_b7elj")
 0:0/0/custom_data_0 = "path"
 1:0/0 = 0
 1:0/0/custom_data_0 = "grass"
+2:0/0 = 0
+2:0/0/custom_data_0 = "road"
 
 [resource]
 custom_data_layer_0/name = "terrain_id"

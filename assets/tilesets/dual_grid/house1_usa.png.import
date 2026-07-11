@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dp71pkevxb1p7"
-path="res://.godot/imported/sv_npc_Alex-export.png-33e6e042367007ce6cdb2b9dbce185e1.ctex"
+uid="uid://dxyclut21vscv"
+path="res://.godot/imported/house1_usa.png-de5fa2cc7ecac0e0f19a4cd95185123f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/sv_npc_Alex-export.png"
-dest_files=["res://.godot/imported/sv_npc_Alex-export.png-33e6e042367007ce6cdb2b9dbce185e1.ctex"]
+source_file="res://assets/tilesets/dual_grid/house1_usa.png"
+dest_files=["res://.godot/imported/house1_usa.png-de5fa2cc7ecac0e0f19a4cd95185123f.ctex"]
 
 [params]
 
