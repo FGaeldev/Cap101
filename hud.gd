@@ -36,7 +36,7 @@ func _refresh_quest_label() -> void:
 		quest_label.text = "Quest: —"
 		return
 	var q = QuestManager.quests.get(qid, {})
-	quest_label.text = "Quest: " + q.get("title", qid)
+	quest_label.text =q.get("title", qid)
 
 func _open_dictionary() -> void:
 	dictionary_panel.open()

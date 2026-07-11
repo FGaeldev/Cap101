@@ -22,7 +22,7 @@ script = ExtResource("1_chj3l")
 position = Vector2(452, 318)
 
 [node name="NpcElder" parent="." unique_id=12182856 instance=ExtResource("2_06k86")]
-position = Vector2(573, 72)
+position = Vector2(574, 72)
 
 [node name="Blanket" type="Sprite2D" parent="NpcElder" unique_id=1920727634]
 position = Vector2(0, -9)
