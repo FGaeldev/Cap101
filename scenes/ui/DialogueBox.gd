@@ -13,13 +13,15 @@ var _type_timer: float    = 0.0
 
 func _ready() -> void:
 	DialogueUI.register_box(self)
-	visible = false
 	_apply_style()
 
 func _apply_style() -> void:
-	$".".add_theme_stylebox_override("panel", UIThemeApplier.make_dialogue_style())
+	# Background now painted once by DialogueRoot (parent). Stay transparent here
+	# so we don't double-draw a panel behind text + portrait.
+	$".".add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 	speaker_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_EMPHASIS)
 	text_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
+	text_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 
 func display(speaker: String, text: String) -> void:
 	speaker_label.text = "[ %s ]" % speaker
@@ -29,7 +31,6 @@ func display(speaker: String, text: String) -> void:
 	_typing       = true
 	_type_timer   = 0.0
 	text_label.text = ""
-	visible = true
 
 func _process(delta: float) -> void:
 	if not _typing: return
@@ -42,7 +43,7 @@ func _process(delta: float) -> void:
 			_typing = false
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not visible: return
+	if not is_visible_in_tree(): return
 	if not event.is_action_pressed("interact"): return
 
 	if _typing:

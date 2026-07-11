@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bi7ubv102jcmx" path="res://scenes/entities/NPC_Elder.tscn" id="2_06k86"]
 [ext_resource type="PackedScene" uid="uid://gughijvh4geh" path="res://scenes/world/map.tscn" id="2_udt3m"]
 [ext_resource type="PackedScene" uid="uid://bj4xslm7prfgo" path="res://scenes/ui/hud.tscn" id="4_i8yk4"]
+[ext_resource type="Texture2D" uid="uid://d28q1je5ux8jj" path="res://assets/sprites/chair01.png" id="5_jng7m"]
 [ext_resource type="PackedScene" uid="uid://5vbndqd5rkqe" path="res://scenes/entities/examinable_object.tscn" id="10_jng7m"]
 [ext_resource type="PackedScene" uid="uid://iuwdr5jcimkk" path="res://scenes/ui/quest_complete_popup.tscn" id="10_udt3m"]
 [ext_resource type="PackedScene" uid="uid://dfqsw38bvduk2" path="res://scenes/ui/puzzle_panel.tscn" id="11_e8o2m"]
@@ -17,11 +18,16 @@ script = ExtResource("1_chj3l")
 
 [node name="Map" parent="." unique_id=2131529723 instance=ExtResource("2_udt3m")]
 
-[node name="CharacterBody2D" parent="." unique_id=410096860 instance=ExtResource("1_n0xxy")]
-position = Vector2(473, 318)
+[node name="Player" parent="." unique_id=410096860 instance=ExtResource("1_n0xxy")]
+position = Vector2(452, 318)
 
 [node name="NpcElder" parent="." unique_id=12182856 instance=ExtResource("2_06k86")]
-position = Vector2(575, 74)
+position = Vector2(573, 72)
+
+[node name="Blanket" type="Sprite2D" parent="NpcElder" unique_id=1920727634]
+position = Vector2(0, -9)
+texture = ExtResource("5_jng7m")
+hframes = 2
 
 [node name="HUD" parent="." unique_id=488423917 instance=ExtResource("4_i8yk4")]
 

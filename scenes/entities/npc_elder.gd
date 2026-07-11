@@ -24,6 +24,6 @@ func _ready() -> void:
 	]
 
 func _on_interacted(_interactor: Node) -> void:
-	print("interacted fired")
-	print("dialogue lines: ", dialogue.dialogue_lines)
+	##print("interacted fired")
+	##print("dialogue lines: ", dialogue.dialogue_lines)
 	dialogue.start_dialogue()

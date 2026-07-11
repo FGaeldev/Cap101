@@ -6,6 +6,7 @@ signal word_revealed(word_id: String, akeanon: String)
 
 @export var dialogue_lines: Array = []
 @export var npc_id: String = ""
+@export var portrait: Texture2D = null  # shown in DialogueRoot's right-side slot
 
 var _current_line: int = 0
 

@@ -191,6 +191,9 @@ radius = 4.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_fbmhk"]
 radius = 19.026299
 
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_7kb6q"]
+size = Vector2(100, 100)
+
 [node name="NpcElder" type="CharacterBody2D" unique_id=12182856 groups=["npc"]]
 script = ExtResource("1_a4sf3")
 
@@ -217,4 +220,5 @@ metadata/_custom_type_script = "uid://b4kdc1v80hll3"
 
 [node name="DialogueComponent" type="Node" parent="." unique_id=336416574]
 script = ExtResource("4_x8r32")
+portrait = SubResource("PlaceholderTexture2D_7kb6q")
 metadata/_custom_type_script = "uid://rdfwcbfe3lh3"

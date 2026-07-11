@@ -8,8 +8,9 @@
 [ext_resource type="Resource" uid="uid://drxggweh71op1" path="res://scripts/dual_grid/road_terrain.tres" id="5_o4nha"]
 [ext_resource type="TileSet" uid="uid://yisqb86orwim" path="res://assets/tilesets/dual_grid/terrains.tres" id="6_5y7t6"]
 [ext_resource type="Texture2D" uid="uid://dxyclut21vscv" path="res://assets/tilesets/dual_grid/house1_usa.png" id="8_jukbv"]
+[ext_resource type="Texture2D" uid="uid://d28q1je5ux8jj" path="res://assets/sprites/chair01.png" id="9_3apbj"]
 
-[node name="Map" type="Node2D" unique_id=2131529723]
+[node name="Map01" type="Node2D" unique_id=2131529723]
 
 [node name="DualGridSystem" type="Node" parent="." unique_id=590002322 node_paths=PackedStringArray("input_layer", "render_layer")]
 script = ExtResource("1_fk7cy")
@@ -28,5 +29,10 @@ tile_set = ExtResource("6_5y7t6")
 
 [node name="House1Usa" type="Sprite2D" parent="." unique_id=297684000]
 position = Vector2(582, 41)
-scale = Vector2(1, 1.5)
 texture = ExtResource("8_jukbv")
+
+[node name="Chair" type="Sprite2D" parent="." unique_id=515013791]
+position = Vector2(574, 63)
+texture = ExtResource("9_3apbj")
+hframes = 2
+frame = 1

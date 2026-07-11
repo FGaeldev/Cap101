@@ -1,0 +1,53 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/DialogueRoot.gd" id="1_root"]
+[ext_resource type="PackedScene" uid="uid://db8tn1k81m76m" path="res://scenes/ui/DialogueBox.tscn" id="2_box"]
+[ext_resource type="PackedScene" uid="uid://bueryt32lappp" path="res://scenes/ui/choice_box.tscn" id="3_choice"]
+
+[node name="DialogueRoot" type="PanelContainer"]
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.55
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 0
+clip_contents = true
+script = ExtResource("1_root")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="Layout" type="HBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="TextColumn" type="VBoxContainer" parent="Margin/Layout"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 2
+
+[node name="DialogueBox" parent="Margin/Layout/TextColumn" instance=ExtResource("2_box")]
+layout_mode = 2
+
+[node name="ChoiceBox" parent="Margin/Layout/TextColumn" instance=ExtResource("3_choice")]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Portrait" type="TextureRect" parent="Margin/Layout"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+custom_minimum_size = Vector2(40, 0)
+expand_mode = 1
+stretch_mode = 5
+texture_filter = 1

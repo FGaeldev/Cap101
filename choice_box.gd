@@ -3,7 +3,7 @@ extends PanelContainer
 
 @onready var choice_list: VBoxContainer = $ChoiceList
 func _ready() -> void:
-	$".".add_theme_stylebox_override("panel", UIThemeApplier.make_dialogue_style())
+	$".".add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 	DialogueUI.register_choice_box(self)
 	visible = false
 

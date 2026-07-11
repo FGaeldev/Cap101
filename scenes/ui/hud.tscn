@@ -1,8 +1,7 @@
 [gd_scene format=3 uid="uid://bj4xslm7prfgo"]
 
 [ext_resource type="Script" uid="uid://cfikhvx2gwd74" path="res://hud.gd" id="1_0mwgc"]
-[ext_resource type="PackedScene" uid="uid://db8tn1k81m76m" path="res://scenes/ui/DialogueBox.tscn" id="2_8qguk"]
-[ext_resource type="PackedScene" uid="uid://bueryt32lappp" path="res://scenes/ui/choice_box.tscn" id="3_136eg"]
+[ext_resource type="PackedScene" path="res://scenes/ui/DialogueRoot.tscn" id="2_dlgroot"]
 [ext_resource type="PackedScene" uid="uid://p6m2ypmf0rri" path="res://scenes/ui/dictionary_panel.tscn" id="5_136eg"]
 
 [node name="HUD" type="CanvasLayer" unique_id=488423917]
@@ -35,18 +34,7 @@ text = "Quest: -"
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="DialogueBox" parent="." unique_id=1631502302 instance=ExtResource("2_8qguk")]
-
-[node name="ChoiceBox" parent="." unique_id=1198935162 instance=ExtResource("3_136eg")]
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -79.0
-offset_right = 0.0
-offset_bottom = -79.0
-grow_horizontal = 2
-grow_vertical = 0
+[node name="DialogueRoot" parent="." instance=ExtResource("2_dlgroot")]
 
 [node name="DictionaryPanel" parent="." unique_id=522513179 instance=ExtResource("5_136eg")]
 visible = false

@@ -30,9 +30,9 @@ const COL_FOCUSED  := 4
 const SLICE_MARGIN := 10
 
 # Text colors (only 3 in the whole system)
-const TEXT_DEFAULT  := Color("f0faf0")
-const TEXT_EMPHASIS := Color("e8b84b")
-const TEXT_DISABLED := Color("8a8f8a")
+const TEXT_DEFAULT  := Color("45292a")  # dark leather, default label color
+const TEXT_EMPHASIS := Color("b8842f")  # book-cover red, pops against tan buttons
+const TEXT_DISABLED := Color("a89484")  # muted tan-gray, low contrast on purpose
 
 # Icon Button Sprite Size
 const ICON_CELL_W := 24
