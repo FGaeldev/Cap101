@@ -15,10 +15,19 @@ func _ready() -> void:
 	if area:
 		area.body_entered.connect(_on_body_entered)
 		area.body_exited.connect(_on_body_exited)
+		area.input_event.connect(_on_input_event)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if _in_range and event.is_action_pressed("interact"):
 		interacted.emit(_player_ref)
+		
+func _on_input_event(_viewport, event, _shape_idx):
+	if _in_range:
+		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			interacted.emit(_player_ref)
+
+		if event is InputEventScreenTouch and event.pressed:
+			interacted.emit(_player_ref)
 
 func _on_body_entered(body: Node) -> void:
 	if body.is_in_group("player"):

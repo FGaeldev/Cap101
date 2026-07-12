@@ -12,6 +12,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
+mouse_filter = 2
 script = ExtResource("1_root")
 
 [node name="Margin" type="MarginContainer" parent="." unique_id=2020181102]
@@ -34,6 +35,7 @@ theme_override_constants/separation = 2
 [node name="DialogueBox" parent="Margin/Layout/TextColumn" unique_id=2017173659 instance=ExtResource("2_box")]
 
 [node name="ChoiceBox" parent="Margin/Layout/TextColumn" unique_id=1542754520 instance=ExtResource("3_choice")]
+layout_mode = 2
 size_flags_vertical = 0
 
 [node name="Portrait" type="TextureRect" parent="Margin/Layout" unique_id=74251943]

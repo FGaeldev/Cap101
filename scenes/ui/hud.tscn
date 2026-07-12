@@ -34,7 +34,7 @@ layout_mode = 2
 size_flags_horizontal = 0
 
 [node name="DialogueRoot" parent="." unique_id=1763357941 instance=ExtResource("2_dlgroot")]
-anchors_preset = -1
 
 [node name="DictionaryPanel" parent="." unique_id=522513179 instance=ExtResource("5_136eg")]
 visible = false
+anchors_preset = 15

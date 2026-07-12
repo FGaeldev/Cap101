@@ -45,7 +45,10 @@ func _process(delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_visible_in_tree(): return
 	if not event.is_action_pressed("interact"): return
+	
+	_dialogue_input()
 
+func _dialogue_input() -> void:
 	if _typing:
 		# First press = skip typewriter, show full text
 		_typing = false
@@ -54,3 +57,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		# Second press = advance
 		DialogueUI.player_pressed_advance()
 	get_viewport().set_input_as_handled()
+
+func _on_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		_dialogue_input()
+	if event is InputEventScreenTouch and event.pressed:
+		_dialogue_input()

@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://cqgj7bn542ysb" path="res://scenes/ui/DialogueBox.gd" id="1_2c88n"]
 
 [node name="DialogueBox" type="PanelContainer" unique_id=1631502302]
-layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_2c88n")
@@ -19,3 +18,5 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 autowrap_mode = 3
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
