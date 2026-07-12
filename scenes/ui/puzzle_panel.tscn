@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dfqsw38bvduk2"]
 
-[ext_resource type="Script" uid="uid://dav44wmomoamj" path="res://puzzle_panel.gd" id="1_7i6ra"]
+[ext_resource type="Script" uid="uid://dav44wmomoamj" path="res://scripts/ui/puzzle_panel.gd" id="1_7i6ra"]
 
 [node name="PuzzlePanel" type="CanvasLayer" unique_id=415094778]
 script = ExtResource("1_7i6ra")

@@ -91,7 +91,7 @@ func apply_button_theme(btn: Button, variant: String) -> void:
 	# Text colors: default everywhere, gold on press (per spec), gray disabled
 	btn.add_theme_color_override("font_color", TEXT_DEFAULT)
 	btn.add_theme_color_override("font_hover_color", TEXT_DEFAULT)
-	btn.add_theme_color_override("font_pressed_color", TEXT_EMPHASIS)
+	btn.add_theme_color_override("font_pressed_color", TEXT_DISABLED)
 	btn.add_theme_color_override("font_disabled_color", TEXT_DISABLED)
 	btn.add_theme_color_override("font_focus_color", TEXT_DEFAULT)
 

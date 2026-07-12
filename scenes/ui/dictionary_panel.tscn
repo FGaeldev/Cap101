@@ -1,9 +1,8 @@
 [gd_scene format=3 uid="uid://p6m2ypmf0rri"]
 
-[ext_resource type="Script" uid="uid://dvon5iuhlw5os" path="res://dictionary_panel.gd" id="1_w8vtf"]
+[ext_resource type="Script" uid="uid://dvon5iuhlw5os" path="res://scripts/ui/dictionary_panel.gd" id="1_w8vtf"]
 
 [node name="DictionaryPanel" type="PanelContainer" unique_id=306459368]
-anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2

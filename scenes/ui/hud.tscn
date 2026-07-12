@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bj4xslm7prfgo"]
 
-[ext_resource type="Script" uid="uid://cfikhvx2gwd74" path="res://hud.gd" id="1_0mwgc"]
-[ext_resource type="PackedScene" path="res://scenes/ui/DialogueRoot.tscn" id="2_dlgroot"]
+[ext_resource type="Script" uid="uid://cfikhvx2gwd74" path="res://scripts/ui/hud.gd" id="1_0mwgc"]
+[ext_resource type="PackedScene" uid="uid://c2srln36wq55q" path="res://scenes/ui/DialogueRoot.tscn" id="2_dlgroot"]
 [ext_resource type="PackedScene" uid="uid://p6m2ypmf0rri" path="res://scenes/ui/dictionary_panel.tscn" id="5_136eg"]
 
 [node name="HUD" type="CanvasLayer" unique_id=488423917]
