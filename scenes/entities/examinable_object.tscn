@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://det0owsjowou0" path="res://scripts/entities/examinable_object.gd" id="1_7akkn"]
 [ext_resource type="Texture2D" uid="uid://obneo8yg0ffi" path="res://assets/sprites/sv_object.png" id="2_lx7m8"]
-[ext_resource type="Script" uid="uid://b4kdc1v80hll3" path="res://scripts/components/InteractableComponent.gd" id="3_fbsxe"]
+[ext_resource type="Script" uid="uid://b4kdc1v80hll3" path="res://scripts/components/Comp_Interactable.gd" id="3_fbsxe"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0u8f5"]
 size = Vector2(20, 6)

@@ -22,6 +22,8 @@ WordBank="*uid://pi03gcvsdywa"
 QuestManager="*uid://bulhpuxmn22qt"
 DialogueUI="*uid://cvp482djqe47l"
 UIThemeApplier="*uid://cxheoq158l7gi"
+ChapterLoader="*uid://cp4qc4ks8etnm"
+CutsceneManager="*uid://c51u6k5l1af2f"
 
 [display]
 

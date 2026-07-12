@@ -1,6 +1,8 @@
 # DialogueUI.gd
 extends Node
 
+signal dialogue_finished
+
 var _current_component = null
 var _dialogue_box      = null
 var _choice_box        = null
@@ -35,6 +37,7 @@ func hide() -> void:
 		_choice_box.hide_choices()
 	if _root:
 		_root.hide_box()
+	dialogue_finished.emit()
 
 func player_pressed_advance() -> void:
 	if _current_component:

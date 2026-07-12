@@ -15,8 +15,13 @@ func start_dialogue() -> void:
 	_show_line()
 
 func advance() -> void:
-	# Only called for non-choice lines
-	_current_line += 1
+	# Only called for non-choice lines.
+	var line: Dictionary = dialogue_lines[_current_line]
+	var nxt = line.get("next", _current_line + 1)  # explicit next, else fall through sequentially
+	if nxt == null:
+		_end()
+		return
+	_current_line = nxt
 	if _current_line >= dialogue_lines.size():
 		_end()
 		return

@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://bi7ubv102jcmx"]
 
 [ext_resource type="Script" uid="uid://cjlxqtgpm256j" path="res://scenes/entities/npc_elder.gd" id="1_a4sf3"]
-[ext_resource type="Script" uid="uid://b4kdc1v80hll3" path="res://scripts/components/InteractableComponent.gd" id="1_h14we"]
+[ext_resource type="Script" uid="uid://b4kdc1v80hll3" path="res://scripts/components/Comp_Interactable.gd" id="1_h14we"]
 [ext_resource type="Texture2D" uid="uid://1ekru1pneeau" path="res://assets/sprites/grandma_sprite.png" id="2_a4sf3"]
-[ext_resource type="Script" uid="uid://rdfwcbfe3lh3" path="res://scripts/components/DialogueComponent.gd" id="4_x8r32"]
+[ext_resource type="Script" uid="uid://rdfwcbfe3lh3" path="res://scripts/components/Comp_Dialogue.gd" id="4_x8r32"]
 [ext_resource type="Texture2D" uid="uid://j2s5irk85ik4" path="res://assets/sprites/npc_portrait_lola_jonabel.png" id="5_7kb6q"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a4sf3"]
@@ -194,6 +194,7 @@ radius = 19.026299
 
 [node name="NpcElder" type="CharacterBody2D" unique_id=12182856 groups=["npc"]]
 script = ExtResource("1_a4sf3")
+actor_id = "Lola Jonabel"
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=2126335115]
 position = Vector2(0, -10)

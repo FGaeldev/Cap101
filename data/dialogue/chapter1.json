@@ -1,0 +1,910 @@
+{
+  "scene_1_grandma_s_terrace": [
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "Apo.",
+	  "next": 1
+	},
+	{
+	  "speaker": "Player",
+	  "text": "Yes, Lola?",
+	  "next": 2
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "I have lived many years here in America. But my heart still misses my home. I miss Aklan. I miss the rice fields. I miss the sound of people speaking Aklanon.",
+	  "next": 3
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "When I was young, my sister and I ran in the fields. We laughed. We fought. Then we forgave each other. Life was simple, but it was happy.",
+	  "next": 4
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "Nahidlaw gid ako sa Aklan.",
+	  "next": 5,
+	  "translation": "I really miss Aklan."
+	},
+	{
+	  "speaker": "",
+	  "text": "Choose how to answer Grandma.",
+	  "choices": [
+		{
+		  "label": "That sounds beautiful, Lola. I want to know more about your home.",
+		  "next": 6
+		},
+		{
+		  "label": "I do not understand Aklanon yet, but I want to listen.",
+		  "next": 7
+		},
+		{
+		  "label": "I do not think I can learn that language, Lola.",
+		  "next": 8
+		}
+	  ],
+	  "next": null
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "That makes me happy, Apo. A language is not only words. It is also memory.",
+	  "next": 9
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "That is okay. Listening is the first step.",
+	  "next": 9
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "Do not say that too soon. You can learn slowly. One word at a time.",
+	  "next": 9
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "Tanan kita makatuon.",
+	  "next": 10,
+	  "translation": "We can all learn."
+	},
+	{
+	  "speaker": "Player",
+	  "text": "Lola, can I really learn Aklanon?",
+	  "next": 11
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "Yes. If your heart is open, your mind will follow.",
+	  "next": 12
+	},
+	{
+	  "speaker": "Father",
+	  "text": "Mom, I heard you talking. I have an idea.",
+	  "next": 13
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "What is it, son?",
+	  "next": 14
+	},
+	{
+	  "speaker": "Father",
+	  "text": "What if we visit Aklan this summer?",
+	  "next": 15
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "Aklan?",
+	  "next": 16
+	},
+	{
+	  "speaker": "Father",
+	  "text": "Yes. Your hometown.",
+	  "next": 17
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "I would love that. With the time I have left, I want to see my home again.",
+	  "next": 18
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "Gusto ko magbalik sa Aklan.",
+	  "next": 19,
+	  "translation": "I want to return to Aklan."
+	},
+	{
+	  "speaker": "",
+	  "text": "Choose how to answer the plan.",
+	  "choices": [
+		{
+		  "label": "Then let us go, Lola. I will go with you.",
+		  "next": 20
+		},
+		{
+		  "label": "It sounds far, but I will try.",
+		  "next": 21
+		},
+		{
+		  "label": "Do we really have to go?",
+		  "next": 22
+		}
+	  ],
+	  "next": null
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "Thank you, Apo. This means so much to me.",
+	  "next": null
+	},
+	{
+	  "speaker": "Father",
+	  "text": "It is far, but we will go together.",
+	  "next": null
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "You do not understand yet. But maybe when we get there, you will.",
+	  "next": null
+	}
+  ],
+  "scene_2_kalibo_international_airport_arrival_area": [
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "We are here.",
+	  "next": 1
+	},
+	{
+	  "speaker": "Father",
+	  "text": "Welcome back to Aklan, Mom.",
+	  "next": 2
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "Kauli man.",
+	  "next": 3,
+	  "translation": "I am home."
+	},
+	{
+	  "speaker": "Player",
+	  "text": "It is warm here.",
+	  "next": 4
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "Yes. That is Aklan saying hello.",
+	  "next": 5
+	},
+	{
+	  "speaker": "",
+	  "text": "You hear a new word from Grandma.",
+	  "choices": [],
+	  "next": null,
+	  "word_id": "w121"
+	},
+	{
+	  "speaker": "",
+	  "text": "Choose how to practice the word.",
+	  "choices": [
+		{
+		  "label": "Kauli. Did I say it right, Lola?",
+		  "next": 7
+		},
+		{
+		  "label": "What does kauli mean again?",
+		  "next": 8
+		},
+		{
+		  "label": "That word is hard.",
+		  "next": 9
+		}
+	  ],
+	  "next": null
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "Very good! Yes, kauli.",
+	  "next": null
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "It means to come home.",
+	  "next": null
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "It may sound hard now, but your tongue will learn.",
+	  "next": null
+	}
+  ],
+  "scene_3_airport_parking_area": [
+	{
+	  "speaker": "Player",
+	  "text": "Hey! Watch out!",
+	  "next": 1
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Ay! Haman kamo nag-agi sa likod it van?",
+	  "next": 2,
+	  "translation": "Hey! Why did you walk behind the van?"
+	},
+	{
+	  "speaker": "Player",
+	  "text": "I do not understand what you said, but you almost hit us!",
+	  "next": 3
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "I said, be careful!",
+	  "next": 4
+	},
+	{
+	  "speaker": "Player",
+	  "text": "You should be careful too!",
+	  "next": 5
+	},
+	{
+	  "speaker": "",
+	  "text": "Choose how to answer Rose.",
+	  "choices": [
+		{
+		  "label": "Sorry. We did not see the van moving.",
+		  "next": 6
+		},
+		{
+		  "label": "Let us just be careful next time.",
+		  "next": 7
+		},
+		{
+		  "label": "You were the one driving badly!",
+		  "next": 8
+		}
+	  ],
+	  "next": null
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Hm. Fine. Sorry too. The parking area is crowded.",
+	  "next": 9
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Good. Just watch where you walk.",
+	  "next": 9
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Wow. You just arrived and already want to fight?",
+	  "next": 9
+	},
+	{
+	  "speaker": "Lola Susan",
+	  "text": "Jonabel? Is that you?",
+	  "next": 10
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "Susan?",
+	  "next": 11
+	},
+	{
+	  "speaker": "Lola Susan",
+	  "text": "My sister! You came home!",
+	  "next": 12
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "I missed you so much.",
+	  "next": 13
+	},
+	{
+	  "speaker": "Lola Susan",
+	  "text": "Come, come. You must be tired and hungry.",
+	  "next": 14
+	},
+	{
+	  "speaker": "Father",
+	  "text": "Hello, Auntie Susan. Long time no see.",
+	  "next": 15
+	},
+	{
+	  "speaker": "Lola Susan",
+	  "text": "You grew old!",
+	  "next": 16
+	},
+	{
+	  "speaker": "Father",
+	  "text": "I guess I did.",
+	  "next": 17
+	},
+	{
+	  "speaker": "Lola Susan",
+	  "text": "And this is your son?",
+	  "next": 18
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "Yes. This is my apo.",
+	  "next": 19
+	},
+	{
+	  "speaker": "Player",
+	  "text": "Hello po, Lola Susan.",
+	  "next": 20
+	},
+	{
+	  "speaker": "Lola Susan",
+	  "text": "Ay, very polite. Good, good.",
+	  "next": 21
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "So you are from America?",
+	  "next": 22
+	},
+	{
+	  "speaker": "Player",
+	  "text": "Yes.",
+	  "next": 23
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Can you speak Aklanon?",
+	  "next": 24
+	},
+	{
+	  "speaker": "Player",
+	  "text": "Not yet.",
+	  "next": 25
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Not yet? So there is still hope.",
+	  "next": 26
+	},
+	{
+	  "speaker": "",
+	  "text": "Choose how to answer Rose.",
+	  "choices": [
+		{
+		  "label": "Maybe you can teach me.",
+		  "next": 27
+		},
+		{
+		  "label": "I only know a few words.",
+		  "next": 28
+		},
+		{
+		  "label": "I do not need your help.",
+		  "next": 29
+		}
+	  ],
+	  "next": null
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Hm. Good answer. Maybe I will teach you.",
+	  "next": 30
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Then we start with easy words.",
+	  "next": 30
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Fine. Then ask the road signs to teach you.",
+	  "next": 30
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "Be kind, Apo. You are a guest here.",
+	  "next": null
+	}
+  ],
+  "scene_4_inside_the_van": [
+	{
+	  "speaker": "Lola Susan",
+	  "text": "We will eat first. You all look hungry.",
+	  "next": 1
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "That is a good idea.",
+	  "next": 2
+	},
+	{
+	  "speaker": "Player",
+	  "text": "Lola, what did Auntie Susan say earlier?",
+	  "next": 3
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "She asked if you were hungry.",
+	  "next": 4
+	},
+	{
+	  "speaker": "Lola Susan",
+	  "text": "In Aklanon, we say: Gutom ka?",
+	  "next": 5,
+	  "translation": "Are you hungry?"
+	},
+	{
+	  "speaker": "",
+	  "text": "Choose your answer.",
+	  "choices": [
+		{
+		  "label": "Huo, gutom ako. = Yes, I am hungry.",
+		  "next": 6
+		},
+		{
+		  "label": "Medyo gutom ako. = I am a little hungry.",
+		  "next": 7
+		},
+		{
+		  "label": "Uwa ako gutom. = I am not hungry.",
+		  "next": 8
+		}
+	  ],
+	  "next": null
+	},
+	{
+	  "speaker": "Lola Susan",
+	  "text": "Good! We will feed you well.",
+	  "next": 9
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "A little hungry? After that long trip? Impossible.",
+	  "next": 9
+	},
+	{
+	  "speaker": "Father",
+	  "text": "You are not hungry? I am starving.",
+	  "next": 9
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Repeat after me. Huo.",
+	  "next": 10
+	},
+	{
+	  "speaker": "Player",
+	  "text": "Huo.",
+	  "next": 11
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "That means yes.",
+	  "next": 12
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Uwa means no.",
+	  "next": 13
+	},
+	{
+	  "speaker": "Player",
+	  "text": "Uwa means no.",
+	  "next": 14
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Good. You are learning.",
+	  "next": 15
+	},
+	{
+	  "speaker": "",
+	  "text": "Choose how to answer Rose.",
+	  "choices": [
+		{
+		  "label": "Thanks, Rose. That was easy to understand.",
+		  "next": 16
+		},
+		{
+		  "label": "Okay. Huo means yes. Uwa means no.",
+		  "next": 17
+		},
+		{
+		  "label": "I already knew that.",
+		  "next": 18
+		}
+	  ],
+	  "next": null
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "You are welcome. See? I can be nice.",
+	  "next": 19
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Correct. Not bad.",
+	  "next": 19
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Then genius, say \"I am hungry\" in Aklanon.",
+	  "next": 19
+	},
+	{
+	  "speaker": "Player",
+	  "text": "...",
+	  "next": 20
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "That is what I thought.",
+	  "next": null
+	}
+  ],
+  "scene_5_small_restaurant_near_kalibo": [
+	{
+	  "speaker": "Restaurant Worker",
+	  "text": "Maayad nga adlaw.",
+	  "next": 1,
+	  "translation": "Good day."
+	},
+	{
+	  "speaker": "Lola Susan",
+	  "text": "Maayad nga adlaw man.",
+	  "next": 2
+	},
+	{
+	  "speaker": "Player",
+	  "text": "What did they say?",
+	  "next": 3
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Maayad nga adlaw means good day.",
+	  "next": 4,
+	  "word_id": "w122"
+	},
+	{
+	  "speaker": "Restaurant Worker",
+	  "text": "Ano gusto ninyo kaonon?",
+	  "next": 5,
+	  "translation": "What do you want to eat?"
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "She is asking what you want to eat.",
+	  "next": 6
+	},
+	{
+	  "speaker": "",
+	  "text": "Choose how to order.",
+	  "choices": [
+		{
+		  "label": "Can you help me order in Aklanon?",
+		  "next": 7
+		},
+		{
+		  "label": "I will just have what Lola is having.",
+		  "next": 8
+		},
+		{
+		  "label": "I cannot read this. This is too hard.",
+		  "next": 9
+		}
+	  ],
+	  "next": null
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Sure. Say, \"Gusto ko it kan-on.\" It means, \"I want rice.\"",
+	  "next": 10
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "Good choice. I know what is delicious.",
+	  "next": 10
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "It is only hard because it is new. Calm down.",
+	  "next": 10
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "We start small. One word at a time.",
+	  "next": 11
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Kan-on means rice.",
+	  "next": 12
+	},
+	{
+	  "speaker": "Player",
+	  "text": "Kan-on.",
+	  "next": 13
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Tubig means water.",
+	  "next": 14
+	},
+	{
+	  "speaker": "Player",
+	  "text": "Tubig.",
+	  "next": 15
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Kaon means eat.",
+	  "next": 16
+	},
+	{
+	  "speaker": "Player",
+	  "text": "Kaon.",
+	  "next": 17
+	},
+	{
+	  "speaker": "Lola Susan",
+	  "text": "Very good! Soon you will speak like us.",
+	  "next": 18
+	},
+	{
+	  "speaker": "Father",
+	  "text": "I should learn too.",
+	  "next": 19
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Then all of you repeat.",
+	  "next": 20
+	},
+	{
+	  "speaker": "Everyone",
+	  "text": "Kan-on. Tubig. Kaon.",
+	  "next": null
+	}
+  ],
+  "scene_6_restaurant_table_conversation": [
+	{
+	  "speaker": "Lola Susan",
+	  "text": "Sister, why did you come home now?",
+	  "next": 1
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "I missed home. I also want my family to know where I came from.",
+	  "next": 2
+	},
+	{
+	  "speaker": "Lola Susan",
+	  "text": "You should have come sooner.",
+	  "next": 3
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "I know.",
+	  "next": 4
+	},
+	{
+	  "speaker": "Lola Susan",
+	  "text": "But you are here now.",
+	  "next": 5
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "I made a wish list.",
+	  "next": 6
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "A wish list?",
+	  "next": 7
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "Yes. I want to visit places from my childhood. I want my apo to learn Aklanon. I want him to understand our people, even just a little.",
+	  "next": 8
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "So you are the student.",
+	  "next": 9
+	},
+	{
+	  "speaker": "Player",
+	  "text": "I guess so.",
+	  "next": 10
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Then I am your teacher.",
+	  "next": 11
+	},
+	{
+	  "speaker": "",
+	  "text": "Choose how to answer Rose.",
+	  "choices": [
+		{
+		  "label": "Okay, Teacher Rose. Please teach me.",
+		  "next": 12
+		},
+		{
+		  "label": "Let us see how this goes.",
+		  "next": 13
+		},
+		{
+		  "label": "You? My teacher?",
+		  "next": 14
+		}
+	  ],
+	  "next": null
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Good. First lesson: be respectful.",
+	  "next": 15
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Fair enough. I will start easy.",
+	  "next": 15
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Yes, me. Unless you want the menu to teach you.",
+	  "next": 15
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "Rose, be patient.",
+	  "next": 16
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "I am patient, Lola. A little.",
+	  "next": null
+	}
+  ],
+  "scene_7_first_aklanon_lesson": [
+	{
+	  "speaker": "Rose",
+	  "text": "Lesson one. These are very easy words.",
+	  "next": 1
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Now try saying thank you.",
+	  "next": 2
+	},
+	{
+	  "speaker": "",
+	  "text": "Choose how to answer.",
+	  "choices": [
+		{
+		  "label": "Salamat, Rose.",
+		  "next": 3
+		},
+		{
+		  "label": "Salamat.",
+		  "next": 4
+		},
+		{
+		  "label": "Do I have to say it?",
+		  "next": 5
+		}
+	  ],
+	  "next": null
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "You are welcome. That sounded nice.",
+	  "next": 6
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Good. Simple and correct.",
+	  "next": 6
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "Yes, Apo. Saying thank you is always good.",
+	  "next": 6
+	},
+	{
+	  "speaker": "Player",
+	  "text": "Salamat.",
+	  "next": 7
+	},
+	{
+	  "speaker": "Lola Susan",
+	  "text": "Very good.",
+	  "next": 8
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "See? You are learning already.",
+	  "next": null
+	}
+  ],
+  "scene_8_chapter_ending": [
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "This place changed. But it still feels like home.",
+	  "next": 1
+	},
+	{
+	  "speaker": "Player",
+	  "text": "Lola, are you okay?",
+	  "next": 2
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "I am happy, Apo. Very happy.",
+	  "next": 3
+	},
+	{
+	  "speaker": "Lola Susan",
+	  "text": "Tomorrow, we start your wish list.",
+	  "next": 4
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "And your lessons.",
+	  "next": 5
+	},
+	{
+	  "speaker": "Player",
+	  "text": "Lessons?",
+	  "next": 6
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Yes. You need to survive Aklan.",
+	  "next": 7
+	},
+	{
+	  "speaker": "",
+	  "text": "Choose your final response for Chapter 1.",
+	  "choices": [
+		{
+		  "label": "I am ready. Teach me more.",
+		  "next": 8
+		},
+		{
+		  "label": "I will try my best.",
+		  "next": 9
+		},
+		{
+		  "label": "This is going to be difficult.",
+		  "next": 10
+		}
+	  ],
+	  "next": null
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Good. Tomorrow, we visit the market.",
+	  "next": 11
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "Trying is enough for today.",
+	  "next": 11
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Difficult, yes. Impossible, no.",
+	  "next": 11
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "Remember this, Apo: language is a bridge. When you learn even one word, you take one step closer to people.",
+	  "next": 12
+	},
+	{
+	  "speaker": "",
+	  "text": "Chapter 1 Complete.",
+	  "choices": [],
+	  "next": null,
+	  "word_id": "w122"
+	}
+  ]
+}
