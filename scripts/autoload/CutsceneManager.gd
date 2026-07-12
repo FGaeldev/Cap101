@@ -66,21 +66,22 @@ func _run_sequence(steps: Array) -> void:
 	for step in steps:
 		await _run_step(step)
 
-func _run_step(step: Dictionary) -> void:
+func _run_step(step: Dictionary) -> Variant:
 	var type: String = step.get("type", "")
 	if type == "parallel":
 		await _run_parallel(step.get("actions", []))
-		return
+		return null
 	if not _actions.has(type):
 		push_error("CutsceneManager: unknown action type '%s'" % type)
-		return
+		return null
 	await _actions[type].execute(step, self)
+	return null
 
 func _run_parallel(branches: Array) -> void:
 	# calling an async func without awaiting starts it running to its first `await`;
 	# collecting the returned states and awaiting them after starts all branches concurrently
 	var tasks: Array = []
 	for branch in branches:
-		tasks.append(_run_step(branch))
+		tasks.append(Callable(self, "_run_step").call(branch))
 	for t in tasks:
 		await t
