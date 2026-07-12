@@ -6,7 +6,7 @@ extends CharacterBody2D
 
 func _ready() -> void:
 	interactable.interacted.connect(_on_interacted)
-	dialogue.npc_id = "npc_elder"
+	dialogue.npc_id = "npc_lola_jonabel"
 	dialogue.dialogue_lines = [
 		{ "speaker": "Lolo Berto", "text": "Mayad nga agahon! Kamusta ka?", "word_id": "w001" },
 		{

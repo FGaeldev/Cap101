@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://b4kdc1v80hll3" path="res://scripts/components/InteractableComponent.gd" id="1_h14we"]
 [ext_resource type="Texture2D" uid="uid://1ekru1pneeau" path="res://assets/sprites/grandma_sprite.png" id="2_a4sf3"]
 [ext_resource type="Script" uid="uid://rdfwcbfe3lh3" path="res://scripts/components/DialogueComponent.gd" id="4_x8r32"]
+[ext_resource type="Texture2D" uid="uid://j2s5irk85ik4" path="res://assets/sprites/npc_portrait_lola_jonabel.png" id="5_7kb6q"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a4sf3"]
 atlas = ExtResource("2_a4sf3")
@@ -191,9 +192,6 @@ radius = 4.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_fbmhk"]
 radius = 19.026299
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_7kb6q"]
-size = Vector2(100, 100)
-
 [node name="NpcElder" type="CharacterBody2D" unique_id=12182856 groups=["npc"]]
 script = ExtResource("1_a4sf3")
 
@@ -220,5 +218,5 @@ metadata/_custom_type_script = "uid://b4kdc1v80hll3"
 
 [node name="DialogueComponent" type="Node" parent="." unique_id=336416574]
 script = ExtResource("4_x8r32")
-portrait = SubResource("PlaceholderTexture2D_7kb6q")
+portrait = ExtResource("5_7kb6q")
 metadata/_custom_type_script = "uid://rdfwcbfe3lh3"
