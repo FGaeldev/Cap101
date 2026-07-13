@@ -7,7 +7,7 @@ extends Control
 @onready var continue_btn:  Button = $CenterContainer/VBoxContainer/Buttons/ContinueBtn
 @onready var quit_btn:      Button = $CenterContainer/VBoxContainer/Buttons/QuitBtn
 
-const VILLAGE_SCENE = "res://scenes/world/village_area.tscn"
+const SCENE_01 = "res://scenes/world/scene01.tscn"
 
 func _ready() -> void:
 	_apply_bg()
@@ -23,11 +23,11 @@ func _check_save() -> void:
 func _on_start() -> void:
 	if FileAccess.file_exists(GameState.SAVE_PATH):
 		DirAccess.remove_absolute(GameState.SAVE_PATH)
-	get_tree().change_scene_to_file(VILLAGE_SCENE)
+	get_tree().change_scene_to_file(SCENE_01)
 
 func _on_continue() -> void:
 	GameState.load_game()
-	get_tree().change_scene_to_file(VILLAGE_SCENE)
+	get_tree().change_scene_to_file(SCENE_01)
 
 func _apply_bg() -> void:
 	# Dark forest night bg — deep green-black gradient feel via ColorRect
