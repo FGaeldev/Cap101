@@ -3,7 +3,7 @@
 [ext_resource type="StyleBox" uid="uid://b46qdjoo8r1qr" path="res://assets/ui/panelStyle.tres" id="1_b6ylm"]
 [ext_resource type="Script" uid="uid://dhq2s7pvv184" path="res://scenes/ui/word_reveal.gd" id="1_tf80k"]
 
-[node name="RevealPanel" type="PanelContainer" unique_id=1509130754]
+[node name="WordReveal" type="PanelContainer" unique_id=1509130754]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

@@ -24,7 +24,7 @@ func _process(delta: float) -> void:
 		visible = false
 		modulate.a = 1.0
 
-func _apply_style() -> void:
+func _apply_style() -> void:	
 	new_label.add_theme_color_override("font_color", Color("e8b84b"))
 	new_label.add_theme_font_size_override("font_size", 10)
 	new_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER

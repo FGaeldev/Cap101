@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="BueotHambaeon"
-run/main_scene="uid://b8oa217q8gyrx"
+run/main_scene="uid://de4g8nvxgwiga"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
