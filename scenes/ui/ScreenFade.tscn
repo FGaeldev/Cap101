@@ -3,4 +3,13 @@
 [ext_resource type="Script" uid="uid://bkduoas55qk8d" path="res://scenes/ui/ScreenFade.gd" id="1_tocyg"]
 
 [node name="ScreenFade" type="CanvasLayer" unique_id=1468063759]
+layer = 100
 script = ExtResource("1_tocyg")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=80948927]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)

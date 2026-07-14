@@ -7,6 +7,7 @@ extends Control
 @onready var continue_btn:  Button = $CenterContainer/VBoxContainer/Buttons/ContinueBtn
 @onready var quit_btn:      Button = $CenterContainer/VBoxContainer/Buttons/QuitBtn
 
+const MAIN = "res://scenes/Game.tscn"
 const SCENE_01 = "res://scenes/world/scene01.tscn"
 
 func _ready() -> void:
@@ -23,7 +24,7 @@ func _check_save() -> void:
 func _on_start() -> void:
 	if FileAccess.file_exists(GameState.SAVE_PATH):
 		DirAccess.remove_absolute(GameState.SAVE_PATH)
-	get_tree().change_scene_to_file(SCENE_01)
+	get_tree().change_scene_to_file(MAIN)
 
 func _on_continue() -> void:
 	GameState.load_game()
