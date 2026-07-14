@@ -1,5 +1,5 @@
 {
-  "scene_1_grandma_s_terrace": [
+  "scene_1_part1": [
 	{
 	  "speaker": "Lola Jonabel",
 	  "text": "Apo.",
@@ -75,41 +75,43 @@
 	  "speaker": "Lola Jonabel",
 	  "text": "Yes. If your heart is open, your mind will follow.",
 	  "next": 12
-	},
+	}
+  ],
+  "scene_1_part2": [
 	{
 	  "speaker": "Papa Jobert",
 	  "text": "Mom, I heard you talking. I have an idea.",
-	  "next": 13
+	  "next": 1
 	},
 	{
 	  "speaker": "Lola Jonabel",
 	  "text": "What is it, son?",
-	  "next": 14
+	  "next": 2
 	},
 	{
 	  "speaker": "Papa Jobert",
 	  "text": "What if we visit Aklan this summer?",
-	  "next": 15
+	  "next": 3
 	},
 	{
 	  "speaker": "Lola Jonabel",
 	  "text": "Aklan?",
-	  "next": 16
+	  "next": 4
 	},
 	{
 	  "speaker": "Papa Jobert",
 	  "text": "Yes. Your hometown.",
-	  "next": 17
+	  "next": 5
 	},
 	{
 	  "speaker": "Lola Jonabel",
 	  "text": "I would love that. With the time I have left, I want to see my home again.",
-	  "next": 18
+	  "next": 6
 	},
 	{
 	  "speaker": "Lola Jonabel",
 	  "text": "Gusto ko magbalik sa Aklan.",
-	  "next": 19,
+	  "next": 7,
 	  "translation": "I want to return to Aklan."
 	},
 	{
@@ -118,15 +120,15 @@
 	  "choices": [
 		{
 		  "label": "Then let us go, Lola. I will go with you.",
-		  "next": 20
+		  "next": 8
 		},
 		{
 		  "label": "It sounds far, but I will try.",
-		  "next": 21
+		  "next": 9
 		},
 		{
 		  "label": "Do we really have to go?",
-		  "next": 22
+		  "next": 10
 		}
 	  ],
 	  "next": null

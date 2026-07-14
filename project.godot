@@ -25,6 +25,7 @@ UIThemeApplier="*uid://cxheoq158l7gi"
 ChapterLoader="*uid://cp4qc4ks8etnm"
 CharacterRegistry="*uid://bdxanywvlf1tp"
 CutsceneManager="*uid://c51u6k5l1af2f"
+FadeManager="*uid://c0icccy81uv0i"
 
 [display]
 

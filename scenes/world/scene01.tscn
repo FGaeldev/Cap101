@@ -47,4 +47,4 @@ sentence_template = "Kung ma _ mo ra. Mayad!"
 [node name="PuzzlePanel" parent="." unique_id=415094778 instance=ExtResource("11_27kgo")]
 
 [node name="NpcPapaJobert" parent="." unique_id=985453941 instance=ExtResource("12_p45fi")]
-position = Vector2(634, 136)
+position = Vector2(605, 77)

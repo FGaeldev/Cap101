@@ -13,5 +13,5 @@ func _ready() -> void:
 func _on_interacted(_interactor: Node) -> void:
 	##print("interacted fired")
 	##print("dialogue lines: ", dialogue.dialogue_lines)
-	dialogue.dialogue_lines = ChapterLoader.get_scene_lines("chapter1", "scene_1_grandma_s_terrace")
+	dialogue.dialogue_lines = ChapterLoader.get_scene_lines("chapter1", "scene_1_part1")
 	dialogue.start_dialogue()

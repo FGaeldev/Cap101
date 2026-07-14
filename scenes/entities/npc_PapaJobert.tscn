@@ -191,8 +191,9 @@ radius = 4.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_13qdw"]
 radius = 19.0
 
-[node name="NpcPapaJobert" type="CharacterBody2D" unique_id=985453941]
+[node name="NPC_PapaJobert" type="CharacterBody2D" unique_id=985453941]
 script = ExtResource("1_uyf7i")
+actor_id = "Papa Jobert"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1379859165]
 position = Vector2(0, -10)

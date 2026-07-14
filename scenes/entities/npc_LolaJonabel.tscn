@@ -191,7 +191,7 @@ radius = 4.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_fbmhk"]
 radius = 19.026299
 
-[node name="NpcElder" type="CharacterBody2D" unique_id=12182856 groups=["npc"]]
+[node name="NPC_LolaJonabel" type="CharacterBody2D" unique_id=12182856 groups=["npc"]]
 script = ExtResource("1_a4sf3")
 actor_id = "Lola Jonabel"
 

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bc5quroj66fh4"]
+
+[ext_resource type="Script" uid="uid://bkduoas55qk8d" path="res://scenes/ui/ScreenFade.gd" id="1_tocyg"]
+
+[node name="ScreenFade" type="CanvasLayer" unique_id=1468063759]
+script = ExtResource("1_tocyg")
