@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CharacterRegistryData" format=3 uid="uid://cbi74gq000cyv"]
+
+[ext_resource type="Script" uid="uid://bu1yqorghhsta" path="res://scripts/resources/CharacterPortraitEntry.gd" id="1_y6j3n"]
+[ext_resource type="Texture2D" uid="uid://j2s5irk85ik4" path="res://assets/sprites/npc_portrait_lola_jonabel.png" id="2_btn85"]
+[ext_resource type="Script" uid="uid://bd65kv0i44i11" path="res://scripts/resources/CharacterRegistryData.gd" id="2_l7uik"]
+[ext_resource type="Texture2D" uid="uid://cpdfr15wqt5in" path="res://assets/sprites/npc_portrait_papaJobertl.png" id="3_btn85"]
+
+[sub_resource type="Resource" id="Resource_btn85"]
+script = ExtResource("1_y6j3n")
+speaker_id = "Lola Jonabel"
+portrait = ExtResource("2_btn85")
+metadata/_custom_type_script = "uid://bu1yqorghhsta"
+
+[sub_resource type="Resource" id="Resource_xrivr"]
+script = ExtResource("1_y6j3n")
+speaker_id = "Papa Jobert"
+portrait = ExtResource("3_btn85")
+metadata/_custom_type_script = "uid://bu1yqorghhsta"
+
+[resource]
+script = ExtResource("2_l7uik")
+entries = Array[ExtResource("1_y6j3n")]([SubResource("Resource_btn85"), SubResource("Resource_xrivr")])
+metadata/_custom_type_script = "uid://bd65kv0i44i11"

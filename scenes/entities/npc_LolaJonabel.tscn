@@ -1,10 +1,9 @@
 [gd_scene format=3 uid="uid://bi7ubv102jcmx"]
 
 [ext_resource type="Script" uid="uid://cjlxqtgpm256j" path="res://scenes/entities/npc_elder.gd" id="1_a4sf3"]
-[ext_resource type="Script" uid="uid://b4kdc1v80hll3" path="res://scripts/components/Comp_Interactable.gd" id="1_h14we"]
 [ext_resource type="Texture2D" uid="uid://1ekru1pneeau" path="res://assets/sprites/grandma_sprite.png" id="2_a4sf3"]
-[ext_resource type="Script" uid="uid://rdfwcbfe3lh3" path="res://scripts/components/Comp_Dialogue.gd" id="4_x8r32"]
-[ext_resource type="Texture2D" uid="uid://j2s5irk85ik4" path="res://assets/sprites/npc_portrait_lola_jonabel.png" id="5_7kb6q"]
+[ext_resource type="PackedScene" uid="uid://b8awiupnw1tue" path="res://scenes/components/interactable_component.tscn" id="3_w1wr4"]
+[ext_resource type="PackedScene" uid="uid://cdxx55olbkhhv" path="res://scenes/components/dialogue_component.tscn" id="4_gc4kh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a4sf3"]
 atlas = ExtResource("2_a4sf3")
@@ -213,11 +212,6 @@ position = Vector2(0, -14)
 shape = SubResource("CircleShape2D_fbmhk")
 debug_color = Color(0, 0.6309958, 0.4700889, 0.41960785)
 
-[node name="InteractableComponent" type="Node" parent="." unique_id=1839481093]
-script = ExtResource("1_h14we")
-metadata/_custom_type_script = "uid://b4kdc1v80hll3"
+[node name="InteractableComponent" parent="." unique_id=1024773738 instance=ExtResource("3_w1wr4")]
 
-[node name="DialogueComponent" type="Node" parent="." unique_id=336416574]
-script = ExtResource("4_x8r32")
-portrait = ExtResource("5_7kb6q")
-metadata/_custom_type_script = "uid://rdfwcbfe3lh3"
+[node name="DialogueComponent" parent="." unique_id=1621841028 instance=ExtResource("4_gc4kh")]

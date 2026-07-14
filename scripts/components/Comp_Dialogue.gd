@@ -6,7 +6,6 @@ signal word_revealed(word_id: String, akeanon: String)
 
 @export var dialogue_lines: Array = []
 @export var npc_id: String = ""
-@export var portrait: Texture2D = null  # shown in DialogueRoot's right-side slot
 
 var _current_line: int = 0
 
@@ -40,7 +39,8 @@ func choose(next_index: int) -> void:
 
 func _show_line() -> void:
 	var line: Dictionary = dialogue_lines[_current_line]
-
+	var portrait_tex = CharacterRegistry.get_portrait(line.get("speaker", ""))
+	
 	# Word exposure (Dictionary unlock)
 	if line.has("word_id") and not line["word_id"].is_empty():
 		var wid = line["word_id"]
@@ -52,10 +52,10 @@ func _show_line() -> void:
 
 	# Branch or linear
 	if line.has("choices") and not line["choices"].is_empty():
-		DialogueUI.show_line(line.get("speaker",""), line.get("text",""), self)
+		DialogueUI.show_line(line.get("speaker",""), line.get("text",""), self, portrait_tex)
 		DialogueUI.show_choices(line["choices"], self)
 	else:
-		DialogueUI.show_line(line.get("speaker",""), line.get("text",""), self)
+		DialogueUI.show_line(line.get("speaker",""), line.get("text",""), self, portrait_tex)
 
 func _end() -> void:
 	DialogueUI.hide()

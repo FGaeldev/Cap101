@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://cdxx55olbkhhv"]
+
+[ext_resource type="Script" uid="uid://rdfwcbfe3lh3" path="res://scripts/components/Comp_Dialogue.gd" id="1_yjngu"]
+
+[node name="DialogueComponent" type="Node" unique_id=1621841028]
+script = ExtResource("1_yjngu")
+dialogue_lines = null
+npc_id = null
+metadata/_custom_type_script = "uid://rdfwcbfe3lh3"

@@ -19,7 +19,7 @@ func _on_interacted(_interactor: Node) -> void:
 	
 	# Already solved — just show short message
 	if quest_flag != "" and GameState.get_flag(quest_flag):
-		DialogueUI.show_line("", already_solved_dialogue, null)
+		DialogueUI.show_line("", already_solved_dialogue, null, null)
 		return
 
 	# Open puzzle

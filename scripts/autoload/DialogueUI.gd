@@ -17,7 +17,7 @@ func register_choice_box(box: Control) -> void:
 func register_root(root: Control) -> void:
 	_root = root
 
-func show_line(speaker: String, text: String, component) -> void:
+func show_line(speaker: String, text: String, component, portrait_tex) -> void:
 	_current_component = component
 	if _dialogue_box:
 		_dialogue_box.display(speaker, text)
@@ -25,7 +25,7 @@ func show_line(speaker: String, text: String, component) -> void:
 		_root.show_box()
 		# Portrait is optional per-NPC art (DialogueComponent.portrait). Missing
 		# export just means no portrait texture assigned yet -> hides cleanly.
-		_root.set_portrait(component.get("portrait"))
+		_root.set_portrait(portrait_tex)  
 
 func show_choices(choices: Array, component) -> void:
 	if _choice_box:

@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://dxyclut21vscv" path="res://assets/tilesets/dual_grid/house1_usa.png" id="8_jukbv"]
 [ext_resource type="Texture2D" uid="uid://d28q1je5ux8jj" path="res://assets/sprites/chair01.png" id="9_3apbj"]
 
-[node name="Scene01" type="Node2D" unique_id=2131529723]
+[node name="Scene01Map" type="Node2D" unique_id=2131529723]
 
 [node name="DualGridSystem" type="Node" parent="." unique_id=590002322 node_paths=PackedStringArray("input_layer", "render_layer")]
 script = ExtResource("1_fk7cy")
