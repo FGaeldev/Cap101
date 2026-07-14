@@ -8,7 +8,6 @@ extends Control
 @onready var quit_btn:      Button = $CenterContainer/VBoxContainer/Buttons/QuitBtn
 
 const MAIN = "res://scenes/Game.tscn"
-const SCENE_01 = "res://scenes/world/scene01.tscn"
 
 func _ready() -> void:
 	_apply_bg()
@@ -28,7 +27,7 @@ func _on_start() -> void:
 
 func _on_continue() -> void:
 	GameState.load_game()
-	get_tree().change_scene_to_file(SCENE_01)
+	get_tree().change_scene_to_file(MAIN)
 
 func _apply_bg() -> void:
 	# Dark forest night bg — deep green-black gradient feel via ColorRect

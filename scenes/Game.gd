@@ -2,7 +2,7 @@
 extends Node
 
 func _ready() -> void:
-	load_level("res://scenes/world/scene01.tscn")
+	load_level(GameState.current_level_path)
 
 func load_level(path: String) -> void:
 	for c in $LevelContainer.get_children():

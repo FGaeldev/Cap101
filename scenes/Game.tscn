@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://de4g8nvxgwiga"]
 
 [ext_resource type="PackedScene" uid="uid://c2srln36wq55q" path="res://scenes/ui/DialogueRoot.tscn" id="1_400sg"]
+[ext_resource type="Script" uid="uid://8ky1eqankt4x" path="res://scenes/Game.gd" id="1_g4kob"]
 [ext_resource type="PackedScene" uid="uid://bj4xslm7prfgo" path="res://scenes/ui/hud.tscn" id="2_g4kob"]
 [ext_resource type="PackedScene" uid="uid://cioerwq3c8ipk" path="res://scenes/ui/pause_menu.tscn" id="3_qy1jj"]
 [ext_resource type="PackedScene" uid="uid://c6gceufnjpplb" path="res://scenes/ui/word_reveal.tscn" id="4_3xj3m"]
@@ -10,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://bc5quroj66fh4" path="res://scenes/ui/ScreenFade.tscn" id="8_r7sob"]
 
 [node name="Game" type="Node" unique_id=1930595896]
+script = ExtResource("1_g4kob")
 
 [node name="LevelContainer" type="Node2D" parent="." unique_id=2023280240]
 

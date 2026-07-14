@@ -6,6 +6,7 @@ var flags: Dictionary = {}          # quest/story flags
 var word_exposures: Dictionary = {} # word_id -> exposure count (doubles as Dictionary-unlock record)
 var current_area: String = "village"
 var completed_quests: Array = []
+var current_level_path: String = "res://scenes/world/scene01.tscn"
 
 const SAVE_PATH = "user://save.dat"
 
@@ -35,7 +36,8 @@ func save_game() -> void:
 		"flags": flags,
 		"word_exposures": word_exposures,
 		"current_area": current_area,
-		"completed_quests": completed_quests
+		"completed_quests": completed_quests,
+		"current_level_path": current_level_path
 	}
 	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	file.store_var(data)
@@ -51,3 +53,4 @@ func load_game() -> void:
 	word_exposures = data.get("word_exposures", {})
 	current_area = data.get("current_area", "village")
 	completed_quests = data.get("completed_quests", [])
+	current_level_path = data.get("current_level_path")
