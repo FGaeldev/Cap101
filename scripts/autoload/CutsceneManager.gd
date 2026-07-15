@@ -6,26 +6,30 @@ extends Node
 signal cutscene_started(cutscene_id: String)
 signal cutscene_finished(cutscene_id: String)
 
-var _actions: Dictionary = {}   # type string -> action instance (has .action_type(), .execute())
-var _actors: Dictionary = {}    # actor_id -> Node, populated by participants in their own _ready()
+# Explicit list, not runtime directory scan -- DirAccess enumeration of res://
+# is unreliable in exported Android builds (confirmed: silently returns zero
+# files on device, empty _actions dict, every action type fails). Add new
+# action types here -- one line, no folder-scan dependency.
+const ACTION_SCRIPTS := [
+	"res://scripts/cutscene_actions/dialogue_action.gd",
+	"res://scripts/cutscene_actions/move_npc_action.gd",
+	"res://scripts/cutscene_actions/set_flag_action.gd",
+	"res://scripts/cutscene_actions/set_visible_action.gd",
+	"res://scripts/cutscene_actions/wait_action.gd",
+	"res://scripts/cutscene_actions/fade_action.gd",
+]
+
+var _actions: Dictionary = {}
+var _actors: Dictionary = {}
 var _playing: bool = false
 
 func _ready() -> void:
-	_discover_actions()
+	_register_actions()
 
-func _discover_actions() -> void:
-	var dir = DirAccess.open("res://scripts/cutscene_actions")
-	if dir == null:
-		push_error("CutsceneManager: scripts/cutscene_actions folder missing")
-		return
-	dir.list_dir_begin()
-	var file := dir.get_next()
-	while file != "":
-		if file.ends_with(".gd"):
-			var inst = load("res://scripts/cutscene_actions/%s" % file).new()
-			_actions[inst.action_type()] = inst
-		file = dir.get_next()
-	dir.list_dir_end()
+func _register_actions() -> void:
+	for path in ACTION_SCRIPTS:
+		var inst = load(path).new()
+		_actions[inst.action_type()] = inst
 
 # --- actor registry: same pattern as DialogueUI.register_box -----------------
 func register_actor(actor_id: String, node: Node) -> void:
