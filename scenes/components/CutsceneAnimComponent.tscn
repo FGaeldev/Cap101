@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bbk8t0y83k7ib"]
+
+[ext_resource type="Script" uid="uid://bw66fop0chnv1" path="res://scripts/components/Comp_CutsceneAnim.gd" id="1_g8r28"]
+
+[node name="CutsceneAnimComponent" type="Node" unique_id=217645047]
+script = ExtResource("1_g8r28")

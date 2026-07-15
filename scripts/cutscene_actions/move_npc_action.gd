@@ -15,15 +15,16 @@ func execute(step: Dictionary, mgr: Node) -> void:
 	var to: Array = step.get("to", [0, 0])
 	var target := Vector2(to[0], to[1])
 	var speed: float = step.get("speed", 40.0)
+	var dir: Vector2 = target - actor.global_position
 	var duration: float = actor.global_position.distance_to(target) / max(speed, 1.0)
 
-	_set_anim(actor, "walk")
+	_set_anim(actor, "walk", dir)
 	var tween := actor.create_tween()
 	tween.tween_property(actor, "global_position", target, duration)
 	await tween.finished
-	_set_anim(actor, "idle")
+	_set_anim(actor, "idle", dir)
 
-func _set_anim(actor: Node, state_name: String) -> void:
-	# optional hook -- only fires if actor implements it, keeps this action actor-type-agnostic
-	if actor.has_method("set_cutscene_anim_state"):
-		actor.set_cutscene_anim_state(state_name)
+func _set_anim(actor: Node, state_name: String, dir: Vector2 = Vector2.ZERO) -> void:
+	var anim = actor.get_node_or_null("CutsceneAnimComponent")
+	if anim:
+		anim.set_cutscene_anim_state(state_name, dir)

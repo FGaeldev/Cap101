@@ -545,7 +545,7 @@
 	  "akeanon": "Ako",
 	  "category": "pronoun",
 	  "area": "all",
-	  "gloss": "",
+	  "gloss": "Me",
 	  "verified": false,
 	  "source": ""
 	},
@@ -581,7 +581,7 @@
 	  "akeanon": "Kita",
 	  "category": "pronoun",
 	  "area": "all",
-	  "gloss": "",
+	  "gloss": "We",
 	  "verified": false,
 	  "source": ""
 	},
@@ -635,7 +635,7 @@
 	  "akeanon": "Sa",
 	  "category": "preposition",
 	  "area": "all",
-	  "gloss": "",
+	  "gloss": "In",
 	  "verified": false,
 	  "source": ""
 	},
@@ -1079,6 +1079,66 @@
 	  "gloss": "",
 	  "verified": false,
 	  "source": ""
+	},
+	{
+		"id":"w121",
+		"akeanon":"Aklan",
+		"category":"proper_noun",
+		"area":"chapter1",
+		"gloss":"a province in the Philippines, the player's ancestral home",
+		"verified":false,"source":""
+	},
+	{
+		"id":"w122",
+		"akeanon":"Nahidlaw",
+		"category":"verb",
+		"area":"chapter1",
+		"gloss":"to miss, to feel homesick for",
+		"verified":false,"source":""
+	},
+	{"id":"w123",
+	"akeanon":"Tanan",
+	"category":"adjective",
+	"area":"chapter1",
+	"gloss":"all, everyone",
+	"verified":false,
+	"source":""
+	},
+	{
+		"id":"w124",
+		"akeanon":"Makatuon",
+		"category":"verb",
+		"area":"chapter1",
+		"gloss":"to be able to learn",
+		"verified":false,
+		"source":""
+	},
+	{
+		"id":"w125",
+		"akeanon":"Magbalik",
+		"category":"verb",
+		"area":"chapter1",
+		"gloss":"to return, to go back",
+		"verified":false,
+		"source":""
+	},
+	{
+		"id":"w126",
+		"akeanon":"Apo",
+		"category":"noun",
+		"area":"chapter1",
+		"gloss":"grandchild (term of address)",
+		"verified":false,
+		"source":""
+	},
+	{
+		"id":"w127",
+		"akeanon":"Lola",
+		"category":"noun",
+		"area":"chapter1",
+		"gloss":"grandma (term of address)",
+		"verified":false,
+		"source":""
 	}
   ]
 }

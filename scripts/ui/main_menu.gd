@@ -28,6 +28,10 @@ func _on_start() -> void:
 func _on_continue() -> void:
 	GameState.load_game()
 	get_tree().change_scene_to_file(MAIN)
+	
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		get_tree().quit()
 
 func _apply_bg() -> void:
 	# Dark forest night bg — deep green-black gradient feel via ColorRect

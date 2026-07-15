@@ -6,7 +6,7 @@
 	  "area": "village",
 	  "required_exposures": 0,
 	  "npc_id": "npc_lola_jonabel",
-	  "target_words": ["w001", "w002"],
+	  "target_words": ["w061", "w071", "w065", "w121", "w122", "w123", "w124", "w125", "w126" ],
 	  "completion_flag": "quest_001_done"
 	}
   ]

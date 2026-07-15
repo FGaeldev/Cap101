@@ -1,6 +1,9 @@
 # GameState.gd — Global game state, save/load, flags
 extends Node
 
+# --- Signals ---
+signal word_learned(word_id: String, akeanon: String, gloss: String)
+
 # --- State ---
 var flags: Dictionary = {}          # quest/story flags
 var word_exposures: Dictionary = {} # word_id -> exposure count (doubles as Dictionary-unlock record)
@@ -22,7 +25,11 @@ func get_flag(flag_name: String) -> bool:
 # [CLAUDE NOTE] Per panel feedback: free-text "Notes" system removed.
 # Dictionary now shows the verified gloss directly once a word is encountered.
 func expose_word(word_id: String) -> void:
+	var is_new := not word_exposures.has(word_id)
 	word_exposures[word_id] = word_exposures.get(word_id, 0) + 1
+	if is_new:
+		var w = WordBank.get_word(word_id)
+		word_learned.emit(word_id, w.get("akeanon",""), w.get("gloss",""))
 
 func get_exposure(word_id: String) -> int:
 	return word_exposures.get(word_id, 0)

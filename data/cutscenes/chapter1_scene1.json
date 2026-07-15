@@ -1,6 +1,10 @@
 [
-  {"type":"dialogue","chapter":"chapter1","scene":"scene_1_part1"},
-  {"type":"set_visible","actor":"Papa Jobert","value":true},
-  {"type":"move_npc","actor":"Papa Jobert","to":[605,77],"speed":40},
-  {"type":"dialogue","chapter":"chapter1","scene":"scene_1_part2"}
+	{"type":"fade","direction":"in","duration":3.0},
+	{"type":"dialogue","chapter":"chapter1","scene":"scene_1_part1"},
+	{"type":"set_visible","actor":"Papa Jobert","value":true},
+	{"type":"wait","seconds":1},
+	{"type":"move_npc","actor":"Papa Jobert","to":[605,77],"speed":20},
+	{"type":"move_npc","actor":"Papa Jobert","to":[603,77],"speed":20},
+	{"type":"wait","seconds":1.5},
+	{"type":"dialogue","chapter":"chapter1","scene":"scene_1_part2"}
 ]

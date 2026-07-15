@@ -4,7 +4,6 @@ extends CanvasLayer
 @onready var rect: ColorRect = $ColorRect  # full-rect anchors, black, modulate.a controls fade
 
 func _ready() -> void:
-	rect.modulate.a = 0.0
 	FadeManager.register_fade(self)
 
 func fade_in(duration: float = 0.6) -> void:

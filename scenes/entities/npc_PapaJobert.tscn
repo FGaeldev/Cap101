@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://ctxdxrvjpmc7u" path="res://scripts/entities/npc/papaJobert.gd" id="1_uyf7i"]
 [ext_resource type="Script" uid="uid://b4kdc1v80hll3" path="res://scripts/components/Comp_Interactable.gd" id="2_uyf7i"]
 [ext_resource type="Script" uid="uid://rdfwcbfe3lh3" path="res://scripts/components/Comp_Dialogue.gd" id="3_v4qet"]
+[ext_resource type="PackedScene" uid="uid://bbk8t0y83k7ib" path="res://scenes/components/CutsceneAnimComponent.tscn" id="5_v4qet"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rqx83"]
 atlas = ExtResource("1_e6f3q")
@@ -219,3 +220,6 @@ script = ExtResource("3_v4qet")
 dialogue_lines = null
 npc_id = null
 metadata/_custom_type_script = "uid://rdfwcbfe3lh3"
+
+[node name="CutsceneAnimComponent" parent="." unique_id=217645047 node_paths=PackedStringArray("sprite") instance=ExtResource("5_v4qet")]
+sprite = NodePath("../AnimatedSprite2D")

@@ -2,8 +2,6 @@
 class_name DialogueComponent
 extends Node
 
-signal word_revealed(word_id: String, akeanon: String)
-
 @export var dialogue_lines: Array = []
 @export var npc_id: String = ""
 
@@ -42,13 +40,10 @@ func _show_line() -> void:
 	var portrait_tex = CharacterRegistry.get_portrait(line.get("speaker", ""))
 	
 	# Word exposure (Dictionary unlock)
-	if line.has("word_id") and not line["word_id"].is_empty():
-		var wid = line["word_id"]
-		var is_new = not GameState.is_in_dictionary(wid)
-		GameState.expose_word(wid)
-		if is_new:
-			var word_data = WordBank.get_word(wid)
-			word_revealed.emit(wid, word_data.get("akeanon", ""))
+	if line.has("word_ids"):
+		for wid in line["word_ids"]:
+			if not wid.is_empty():
+				GameState.expose_word(wid)
 
 	# Branch or linear
 	if line.has("choices") and not line["choices"].is_empty():
