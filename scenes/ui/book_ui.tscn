@@ -3,8 +3,13 @@
 [ext_resource type="Texture2D" uid="uid://cqy7mrlfa5fxs" path="res://assets/ui/book/cover.png" id="1_danvl"]
 [ext_resource type="Script" uid="uid://cw60rs777nxi2" path="res://scripts/autoload/BookUI.gd" id="1_ue6pm"]
 [ext_resource type="Texture2D" uid="uid://3ne6bu2mcfpk" path="res://assets/ui/book/banner.png" id="2_ue6pm"]
+[ext_resource type="Texture2D" uid="uid://8xjjmesngq8c" path="res://assets/ui/book/cross_icon.png" id="4_he5ik"]
+[ext_resource type="Texture2D" uid="uid://dh2papc76syrm" path="res://assets/ui/book/page_left.png" id="4_nd61c"]
+[ext_resource type="Texture2D" uid="uid://bqn1bpq8s832f" path="res://assets/ui/book/page_right.png" id="5_he5ik"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_13qdw"]
+content_margin_top = 2.0
+content_margin_bottom = 2.0
 texture = ExtResource("2_ue6pm")
 texture_margin_left = 12.0
 texture_margin_top = 12.0
@@ -17,6 +22,20 @@ texture_margin_left = 12.0
 texture_margin_top = 12.0
 texture_margin_right = 12.0
 texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_b1lj4"]
+texture = ExtResource("4_nd61c")
+texture_margin_left = 7.0
+texture_margin_top = 3.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_njqwk"]
+texture = ExtResource("5_he5ik")
+texture_margin_left = 7.0
+texture_margin_top = 3.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
 
 [node name="BookUI" type="CanvasLayer" unique_id=465866522]
 process_mode = 3
@@ -31,60 +50,90 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Banner" type="Panel" parent="Root" unique_id=718590634]
+[node name="Banner" type="PanelContainer" parent="Root" unique_id=1119856785]
+custom_minimum_size = Vector2(0, 24)
+custom_maximum_size = Vector2(-1, 24)
+propagate_maximum_size = false
 layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 32.0
+anchors_preset = -1
+anchor_left = 0.1
+anchor_right = 0.9
 grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_13qdw")
 
+[node name="Title" type="Label" parent="Root/Banner" unique_id=1096880509]
+layout_mode = 2
+size_flags_vertical = 8
+text = "Title"
+horizontal_alignment = 1
+
 [node name="CoverPage" type="Panel" parent="Root" unique_id=434589669]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_xrivr")
 
-[node name="Bookmarks" type="VBoxContainer" parent="Root" unique_id=2107934376]
+[node name="CloseButton" type="Button" parent="Root" unique_id=697428161]
 layout_mode = 1
 anchors_preset = -1
-anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = 34.0
-offset_right = 24.0
+anchor_left = 1.0
+anchor_right = 1.0
+offset_top = 8.0
+offset_right = -8.0
+grow_horizontal = 0
+icon = ExtResource("4_he5ik")
+flat = true
+
+[node name="TabBar" type="HBoxContainer" parent="Root" unique_id=470006104]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 7.0
+offset_top = 50.0
+offset_right = 83.0
+offset_bottom = 66.0
+grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TabDictionary" type="Button" parent="Root/Bookmarks" unique_id=1647960860]
+[node name="TabInventory" type="Button" parent="Root/TabBar" unique_id=1367235715]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 
-[node name="TabBucketList" type="Button" parent="Root/Bookmarks" unique_id=141261309]
+[node name="TabDictionary" type="Button" parent="Root/TabBar" unique_id=1647960860]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 
-[node name="TabSettings" type="Button" parent="Root/Bookmarks" unique_id=1442593372]
+[node name="TabBucketList" type="Button" parent="Root/TabBar" unique_id=141261309]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 
-[node name="Pages" type="Control" parent="Root" unique_id=1263523543]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="TabSettings" type="Button" parent="Root/TabBar" unique_id=1442593372]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
 
-[node name="DictionaryPage" type="Control" parent="Root/Pages" unique_id=767504119]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="Spread" type="HBoxContainer" parent="Root" unique_id=74142674]
+propagate_maximum_size = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 65.0
+offset_right = -6.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
 
-[node name="BucketListPage" type="Control" parent="Root/Pages" unique_id=1907326552]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="PageLeft" type="Panel" parent="Root/Spread" unique_id=2133754132]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_b1lj4")
 
-[node name="SettingsPage" type="Control" parent="Root/Pages" unique_id=898044531]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="PageRight" type="Panel" parent="Root/Spread" unique_id=1771840968]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_njqwk")
