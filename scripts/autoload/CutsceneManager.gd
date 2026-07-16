@@ -89,3 +89,6 @@ func _run_parallel(branches: Array) -> void:
 		tasks.append(Callable(self, "_run_step").call(branch))
 	for t in tasks:
 		await t
+
+func is_playing() -> bool:
+	return _playing

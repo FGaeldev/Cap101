@@ -17,4 +17,5 @@ func execute(step: Dictionary, mgr: Node) -> void:
 	mgr.add_child(comp)
 	comp.start_dialogue()
 	await DialogueUI.dialogue_finished
-	comp.queue_free()
+	if is_instance_valid(comp):
+		comp.queue_free()

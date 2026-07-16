@@ -32,4 +32,7 @@ func get_input_dir() -> Vector2:
 
 ## Resolves a movement vector into direction + flip_h. Called by WalkState.
 func update_facing(dir: Vector2) -> void:
-	DirectionUtil.resolve(dir)
+	var facing: Dictionary = DirectionUtil.resolve(dir)
+	direction = facing["direction"]
+	facing_left = facing["facing_left"]
+	sprite.flip_h = facing_left

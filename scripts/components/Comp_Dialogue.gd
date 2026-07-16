@@ -2,8 +2,9 @@
 class_name DialogueComponent
 extends Node
 
-@export var dialogue_lines: Array = []
 @export var npc_id: String = ""
+@export var dialogue_lines: Array = []
+@export var completes_quest_id: String = ""   # empty = ambient dialogue, no quest side-effect
 
 var _current_line: int = 0
 
@@ -54,4 +55,5 @@ func _show_line() -> void:
 
 func _end() -> void:
 	DialogueUI.hide()
-	QuestManager.complete_quest(QuestManager.active_quest)
+	if not completes_quest_id.is_empty():
+		QuestManager.complete_quest(completes_quest_id)

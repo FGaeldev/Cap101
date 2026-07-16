@@ -6,5 +6,7 @@ extends Node
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
-		Input.action_press("ui_cancel")
-		Input.action_release("ui_cancel")
+		var ev := InputEventAction.new()
+		ev.action = "ui_cancel"
+		ev.pressed = true
+		Input.parse_input_event(ev)

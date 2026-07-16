@@ -7,6 +7,7 @@ extends CanvasLayer
 @onready var panel:      PanelContainer = $Panel
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	visible = false
 	resume_btn.pressed.connect(func(): _toggle())
 	dict_btn.pressed.connect(func():
