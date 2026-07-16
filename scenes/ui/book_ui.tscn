@@ -68,3 +68,23 @@ layout_mode = 2
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="PausePage" type="Control" parent="Root/Pages" unique_id=778857496]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SettingsPage" type="Control" parent="Root/Pages" unique_id=898044531]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="DictionaryPage" type="Control" parent="Root/Pages" unique_id=767504119]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BucketListPage" type="Control" parent="Root/Pages" unique_id=1907326552]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
