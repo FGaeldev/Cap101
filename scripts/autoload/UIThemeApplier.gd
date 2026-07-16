@@ -30,7 +30,7 @@ const COL_FOCUSED  := 4
 const SLICE_MARGIN := 10
 
 # Text colors (only 3 in the whole system)
-const TEXT_DEFAULT  := Color("45292a")  # dark leather, default label color
+const TEXT_DEFAULT  := Color("39323f")  # inky, default label color
 const TEXT_EMPHASIS := Color("b8842f")  # book-cover red, pops against tan buttons
 const TEXT_DISABLED := Color("a89484")  # muted tan-gray, low contrast on purpose
 

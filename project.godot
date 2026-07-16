@@ -28,7 +28,7 @@ CharacterRegistry="*uid://bdxanywvlf1tp"
 CutsceneManager="*uid://c51u6k5l1af2f"
 FadeManager="*uid://c0icccy81uv0i"
 BackButtonBridge="*uid://lt2he54wt8hw"
-BookUi="*uid://dlteh42a4yxhi"
+BookUI="*uid://dlteh42a4yxhi"
 
 [display]
 

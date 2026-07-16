@@ -5,7 +5,17 @@
 [ext_resource type="Texture2D" uid="uid://3ne6bu2mcfpk" path="res://assets/ui/book/banner.png" id="2_ue6pm"]
 [ext_resource type="Texture2D" uid="uid://8xjjmesngq8c" path="res://assets/ui/book/cross_icon.png" id="4_he5ik"]
 [ext_resource type="Texture2D" uid="uid://dh2papc76syrm" path="res://assets/ui/book/page_left.png" id="4_nd61c"]
+[ext_resource type="Texture2D" uid="uid://bhi1qn3t17tb" path="res://assets/ui/book/gear_icon.png" id="5_5ja33"]
+[ext_resource type="Texture2D" uid="uid://bde0e3kbbl8x4" path="res://assets/ui/book/alert_icon.png" id="5_76us2"]
 [ext_resource type="Texture2D" uid="uid://bqn1bpq8s832f" path="res://assets/ui/book/page_right.png" id="5_he5ik"]
+[ext_resource type="Texture2D" uid="uid://dmx7lv7mutv3k" path="res://assets/ui/book/dictionaryt_icon.png" id="6_blequ"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xrivr"]
+texture = ExtResource("1_danvl")
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_13qdw"]
 content_margin_top = 2.0
@@ -15,13 +25,6 @@ texture_margin_left = 12.0
 texture_margin_top = 12.0
 texture_margin_right = 12.0
 texture_margin_bottom = 4.0
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xrivr"]
-texture = ExtResource("1_danvl")
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_b1lj4"]
 texture = ExtResource("4_nd61c")
@@ -50,6 +53,19 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="CoverPage" type="Panel" parent="Root" unique_id=434589669]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_xrivr")
+
 [node name="Banner" type="PanelContainer" parent="Root" unique_id=1119856785]
 custom_minimum_size = Vector2(0, 24)
 custom_maximum_size = Vector2(-1, 24)
@@ -57,7 +73,9 @@ propagate_maximum_size = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.1
+anchor_top = 0.05
 anchor_right = 0.9
+anchor_bottom = 0.1
 grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_13qdw")
 
@@ -67,23 +85,14 @@ size_flags_vertical = 8
 text = "Title"
 horizontal_alignment = 1
 
-[node name="CoverPage" type="Panel" parent="Root" unique_id=434589669]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 60.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_xrivr")
-
 [node name="CloseButton" type="Button" parent="Root" unique_id=697428161]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
+anchor_top = 0.05
 anchor_right = 1.0
-offset_top = 8.0
-offset_right = -8.0
+anchor_bottom = 0.05
+offset_right = -12.0
 grow_horizontal = 0
 icon = ExtResource("4_he5ik")
 flat = true
@@ -91,39 +100,39 @@ flat = true
 [node name="TabBar" type="HBoxContainer" parent="Root" unique_id=470006104]
 layout_mode = 1
 anchors_preset = -1
-offset_left = 7.0
-offset_top = 50.0
-offset_right = 83.0
-offset_bottom = 66.0
-grow_horizontal = 2
-grow_vertical = 2
+anchor_left = 0.024
+anchor_top = 0.16
+anchor_right = 0.024
+anchor_bottom = 0.16
+offset_top = -2.0
 
-[node name="TabInventory" type="Button" parent="Root/TabBar" unique_id=1367235715]
+[node name="TabBucketList" type="Button" parent="Root/TabBar" unique_id=141261309]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
+icon = ExtResource("5_76us2")
 
 [node name="TabDictionary" type="Button" parent="Root/TabBar" unique_id=1647960860]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
+icon = ExtResource("6_blequ")
 
-[node name="TabBucketList" type="Button" parent="Root/TabBar" unique_id=141261309]
+[node name="TabRelationship" type="Button" parent="Root/TabBar" unique_id=1367235715]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 
 [node name="TabSettings" type="Button" parent="Root/TabBar" unique_id=1442593372]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
+icon = ExtResource("5_5ja33")
 
 [node name="Spread" type="HBoxContainer" parent="Root" unique_id=74142674]
 propagate_maximum_size = false
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 6.0
-offset_top = 65.0
-offset_right = -6.0
-offset_bottom = -6.0
+anchor_left = 0.02
+anchor_top = 0.22
+anchor_right = 0.98
+anchor_bottom = 0.95
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0
