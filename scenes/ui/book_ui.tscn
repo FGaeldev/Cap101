@@ -1,14 +1,8 @@
 [gd_scene format=3 uid="uid://dlteh42a4yxhi"]
 
 [ext_resource type="Texture2D" uid="uid://cqy7mrlfa5fxs" path="res://assets/ui/book/cover.png" id="1_danvl"]
+[ext_resource type="Script" uid="uid://cw60rs777nxi2" path="res://scripts/autoload/BookUI.gd" id="1_ue6pm"]
 [ext_resource type="Texture2D" uid="uid://3ne6bu2mcfpk" path="res://assets/ui/book/banner.png" id="2_ue6pm"]
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xrivr"]
-texture = ExtResource("1_danvl")
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_13qdw"]
 texture = ExtResource("2_ue6pm")
@@ -17,8 +11,17 @@ texture_margin_top = 12.0
 texture_margin_right = 12.0
 texture_margin_bottom = 4.0
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xrivr"]
+texture = ExtResource("1_danvl")
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
 [node name="BookUI" type="CanvasLayer" unique_id=465866522]
 process_mode = 3
+layer = 100
+script = ExtResource("1_ue6pm")
 
 [node name="Root" type="Control" parent="." unique_id=343053056]
 layout_mode = 3
@@ -27,6 +30,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Banner" type="Panel" parent="Root" unique_id=718590634]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 32.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_13qdw")
 
 [node name="CoverPage" type="Panel" parent="Root" unique_id=434589669]
 layout_mode = 1
@@ -37,44 +48,28 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_xrivr")
 
-[node name="Banner" type="Panel" parent="Root" unique_id=718590634]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 32.0
-grow_horizontal = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_13qdw")
-
 [node name="Bookmarks" type="VBoxContainer" parent="Root" unique_id=2107934376]
 layout_mode = 1
-anchors_preset = 9
+anchors_preset = -1
 anchor_bottom = 1.0
-offset_right = 8.0
+offset_left = 8.0
+offset_top = 34.0
+offset_right = 24.0
 grow_vertical = 2
 
-[node name="TabPause" type="Button" parent="Root/Bookmarks" unique_id=334357997]
-layout_mode = 2
-
-[node name="TabSettings" type="Button" parent="Root/Bookmarks" unique_id=1442593372]
-layout_mode = 2
-
 [node name="TabDictionary" type="Button" parent="Root/Bookmarks" unique_id=1647960860]
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 
 [node name="TabBucketList" type="Button" parent="Root/Bookmarks" unique_id=141261309]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+
+[node name="TabSettings" type="Button" parent="Root/Bookmarks" unique_id=1442593372]
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 
 [node name="Pages" type="Control" parent="Root" unique_id=1263523543]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="PausePage" type="Control" parent="Root/Pages" unique_id=778857496]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="SettingsPage" type="Control" parent="Root/Pages" unique_id=898044531]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -85,6 +80,11 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="BucketListPage" type="Control" parent="Root/Pages" unique_id=1907326552]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SettingsPage" type="Control" parent="Root/Pages" unique_id=898044531]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0

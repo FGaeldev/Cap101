@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://dfqsw38bvduk2" path="res://scenes/ui/puzzle_panel.tscn" id="6_2rd6h"]
 [ext_resource type="PackedScene" uid="uid://p6m2ypmf0rri" path="res://scenes/ui/dictionary_panel.tscn" id="7_7ua8r"]
 [ext_resource type="PackedScene" uid="uid://bc5quroj66fh4" path="res://scenes/ui/ScreenFade.tscn" id="8_r7sob"]
-[ext_resource type="PackedScene" uid="uid://dlteh42a4yxhi" path="res://scenes/ui/book_ui.tscn" id="9_g4kob"]
 
 [node name="Game" type="Node" unique_id=1930595896]
 script = ExtResource("1_g4kob")
@@ -22,6 +21,7 @@ script = ExtResource("1_g4kob")
 [node name="HUD" parent="UILayer" unique_id=488423917 instance=ExtResource("2_g4kob")]
 
 [node name="WordReveal" parent="UILayer" unique_id=1509130754 instance=ExtResource("4_3xj3m")]
+layer = 99
 
 [node name="QuestCompletePopup" parent="UILayer" unique_id=913054677 instance=ExtResource("5_mcffj")]
 
@@ -31,5 +31,4 @@ script = ExtResource("1_g4kob")
 anchors_preset = 15
 
 [node name="ScreenFade" parent="UILayer" unique_id=1468063759 instance=ExtResource("8_r7sob")]
-
-[node name="BookUI" parent="UILayer" unique_id=465866522 instance=ExtResource("9_g4kob")]
+layer = 99

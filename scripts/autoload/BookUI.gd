@@ -16,7 +16,6 @@ var _current_tab: String = ""
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	visible = false
-	_register_tab("pause", $Root/Bookmarks/TabPause, $Root/Pages/PausePage)
 	_register_tab("settings", $Root/Bookmarks/TabSettings, $Root/Pages/SettingsPage)
 	_register_tab("dictionary", $Root/Bookmarks/TabDictionary, $Root/Pages/DictionaryPage)
 	_register_tab("bucket_list", $Root/Bookmarks/TabBucketList, $Root/Pages/BucketListPage)
@@ -32,7 +31,9 @@ func _make_panel_style(tex: Texture2D, margin: int) -> StyleBoxTexture:
 
 func _register_tab(tab_id: String, button: Button, page: Control) -> void:
 	_tabs[tab_id] = {"button": button, "page": page, "is_unlocked": func(): return true}
-	button.add_theme_stylebox_override("normal", _make_panel_style(SLOT_FRAME, 10))
+	button.add_theme_stylebox_override("normal", _make_panel_style(SLOT_FRAME, 3))
+	button.add_theme_stylebox_override("pressed", _make_panel_style(SLOT_FRAME, 3))
+	button.add_theme_stylebox_override("hover", _make_panel_style(SLOT_FRAME, 3))
 	button.pressed.connect(func(): switch_tab(tab_id))
 	page.visible = false
 
@@ -41,7 +42,7 @@ func set_tab_lock_condition(tab_id: String, is_unlocked: Callable) -> void:
 	if _tabs.has(tab_id):
 		_tabs[tab_id]["is_unlocked"] = is_unlocked
 
-func open(tab_id: String = "pause") -> void:
+func open(tab_id: String = "settings") -> void:
 	visible = true
 	get_tree().paused = true
 	switch_tab(tab_id)
@@ -59,15 +60,16 @@ func switch_tab(tab_id: String) -> void:
 		return  # locked chapter, ignore tap
 	if not _current_tab.is_empty():
 		_tabs[_current_tab]["page"].visible = false
-		_tabs[_current_tab]["button"].add_theme_stylebox_override("normal", _make_panel_style(SLOT_FRAME, 10))
+		_tabs[_current_tab]["button"].add_theme_stylebox_override("normal", _make_panel_style(SLOT_FRAME, 3))
 	_current_tab = tab_id
 	entry["page"].visible = true
-	entry["button"].add_theme_stylebox_override("normal", _make_panel_style(SLOT_FRAME_SELECTED, 10))
+	entry["button"].add_theme_stylebox_override("hover", _make_panel_style(SLOT_FRAME_SELECTED, 3))
+	entry["button"].add_theme_stylebox_override("normal", _make_panel_style(SLOT_FRAME_SELECTED, 3))
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		if visible:
 			close()
 		else:
-			open("pause")
+			open("settings")
 			
