@@ -10,7 +10,7 @@ const PageDictionaryListScene := preload("res://scenes/ui/page_dictionary.tscn")
 const PageDictionaryFilterScene := preload("res://scenes/ui/page_dictionary_filter.tscn")
 
 const MARKER := preload("res://assets/ui/book/marker.png")
-const MARKER_SLICE_MARGIN := 3   # placeholder — measure marker.png's actual corner px, replace this
+const MARKER_SLICE_MARGIN := 3
 
 const TAB_HOVER_SCALE := 1.15
 const TAB_ANIM_TIME := 0.12

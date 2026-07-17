@@ -6,5 +6,6 @@
 	{"type":"move_npc","actor":"Papa Jobert","to":[605,77],"speed":20},
 	{"type":"move_npc","actor":"Papa Jobert","to":[603,77],"speed":20},
 	{"type":"wait","seconds":1.5},
-	{"type":"dialogue","chapter":"chapter1","scene":"scene_1_part2"}
+	{"type":"dialogue","chapter":"chapter1","scene":"scene_1_part2"},
+	{"type": "set_flag", "flag": "seen_chapter1_scene1","value": true}
 ]

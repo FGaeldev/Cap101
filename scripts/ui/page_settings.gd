@@ -14,5 +14,7 @@ func _on_volume_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(0, linear_to_db(value / 100.0))
 
 func _on_quit_pressed() -> void:
+	CutsceneManager.abort()
+	GameState.save_game()
 	BookUI.close()
-	get_tree().change_scene_to_file("res://scenes/ui/MainMenu.tscn")  # adjust path to your actual menu scene
+	get_tree().change_scene_to_file("res://scenes/ui/MainMenu.tscn")

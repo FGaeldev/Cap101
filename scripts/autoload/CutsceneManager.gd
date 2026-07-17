@@ -92,3 +92,15 @@ func _run_parallel(branches: Array) -> void:
 
 func is_playing() -> bool:
 	return _playing
+
+## Call when the scene tree is being torn down mid-cutscene (e.g. quit to
+## menu). Without this, an interrupted cutscene's coroutine is left awaiting
+## a signal that can never fire (its DialogueBox died with the old scene),
+## and _playing stays stuck true forever — silently blocking every future
+## play() call via the guard above.
+func abort() -> void:
+	if not _playing:
+		return
+	_playing = false
+	for child in get_children():
+		child.queue_free()
