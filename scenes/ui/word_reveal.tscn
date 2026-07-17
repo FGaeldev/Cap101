@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c6gceufnjpplb"]
 
-[ext_resource type="Script" uid="uid://dhq2s7pvv184" path="res://scenes/ui/word_reveal.gd" id="1_tf80k"]
+[ext_resource type="Script" uid="uid://dhq2s7pvv184" path="res://scripts/ui/word_reveal.gd" id="1_tf80k"]
 
 [node name="WordReveal" type="CanvasLayer" unique_id=917045708]
 layer = 100

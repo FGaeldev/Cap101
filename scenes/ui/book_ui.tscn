@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bde0e3kbbl8x4" path="res://assets/ui/book/alert_icon.png" id="5_76us2"]
 [ext_resource type="Texture2D" uid="uid://bqn1bpq8s832f" path="res://assets/ui/book/page_right.png" id="5_he5ik"]
 [ext_resource type="Texture2D" uid="uid://dmx7lv7mutv3k" path="res://assets/ui/book/dictionaryt_icon.png" id="6_blequ"]
+[ext_resource type="Texture2D" uid="uid://dtmnv5nuelrg4" path="res://assets/ui/book/heart_icon.png" id="7_w2i5u"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xrivr"]
 texture = ExtResource("1_danvl")
@@ -119,6 +120,7 @@ icon = ExtResource("6_blequ")
 [node name="TabRelationship" type="Button" parent="Root/TabBar" unique_id=1367235715]
 custom_minimum_size = Vector2(20, 14)
 layout_mode = 2
+icon = ExtResource("7_w2i5u")
 
 [node name="TabSettings" type="Button" parent="Root/TabBar" unique_id=1442593372]
 custom_minimum_size = Vector2(20, 14)

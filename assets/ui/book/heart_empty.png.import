@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bp6ojagpouhth"
-path="res://.godot/imported/sv_48x18xhover.png-20cd8f14dec1c8e0e8d205f1c79fe565.ctex"
+uid="uid://dbxoubpl31jht"
+path="res://.godot/imported/heart_empty.png-af5108afd5983b16d41f07002b3dadd6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/sv_48x18xhover.png"
-dest_files=["res://.godot/imported/sv_48x18xhover.png-20cd8f14dec1c8e0e8d205f1c79fe565.ctex"]
+source_file="res://assets/ui/book/heart_empty.png"
+dest_files=["res://.godot/imported/heart_empty.png-af5108afd5983b16d41f07002b3dadd6.ctex"]
 
 [params]
 

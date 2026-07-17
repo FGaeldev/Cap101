@@ -7,8 +7,6 @@
 [ext_resource type="TileSet" uid="uid://b0urwj2yfpgxn" path="res://assets/tilesets/dual_grid/input_reference.tres" id="5_bmcht"]
 [ext_resource type="Resource" uid="uid://drxggweh71op1" path="res://scripts/dual_grid/road_terrain.tres" id="5_o4nha"]
 [ext_resource type="TileSet" uid="uid://yisqb86orwim" path="res://assets/tilesets/dual_grid/terrains.tres" id="6_5y7t6"]
-[ext_resource type="Texture2D" uid="uid://dxyclut21vscv" path="res://assets/tilesets/dual_grid/house1_usa.png" id="8_jukbv"]
-[ext_resource type="Texture2D" uid="uid://d28q1je5ux8jj" path="res://assets/sprites/chair01.png" id="9_3apbj"]
 
 [node name="Scene01Map" type="Node2D" unique_id=2131529723]
 
@@ -26,19 +24,3 @@ tile_set = ExtResource("5_bmcht")
 [node name="RenderLayer" type="TileMapLayer" parent="." unique_id=1371145159]
 position = Vector2(16, 16)
 tile_set = ExtResource("6_5y7t6")
-
-[node name="House" type="StaticBody2D" parent="." unique_id=783815540]
-
-[node name="House1Usa" type="Sprite2D" parent="House" unique_id=297684000]
-position = Vector2(582, 41)
-texture = ExtResource("8_jukbv")
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="House" unique_id=1673948315]
-position = Vector2(518, 72)
-polygon = PackedVector2Array(-1, 0, -1, 0, 48, 0, 48, 31, 49, 31, 49, -10, 128, -10, 128, -26, -1, -26)
-
-[node name="Chair" type="Sprite2D" parent="." unique_id=515013791]
-position = Vector2(575, 65)
-texture = ExtResource("9_3apbj")
-hframes = 2
-frame = 1

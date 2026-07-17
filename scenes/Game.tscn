@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://de4g8nvxgwiga"]
 
 [ext_resource type="PackedScene" uid="uid://c2srln36wq55q" path="res://scenes/ui/DialogueRoot.tscn" id="1_400sg"]
-[ext_resource type="Script" uid="uid://8ky1eqankt4x" path="res://scenes/Game.gd" id="1_g4kob"]
+[ext_resource type="Script" uid="uid://8ky1eqankt4x" path="res://scripts/Game.gd" id="1_g4kob"]
 [ext_resource type="PackedScene" uid="uid://bj4xslm7prfgo" path="res://scenes/ui/hud.tscn" id="2_g4kob"]
 [ext_resource type="PackedScene" uid="uid://c6gceufnjpplb" path="res://scenes/ui/word_reveal.tscn" id="4_3xj3m"]
 [ext_resource type="PackedScene" uid="uid://iuwdr5jcimkk" path="res://scenes/ui/quest_complete_popup.tscn" id="5_mcffj"]

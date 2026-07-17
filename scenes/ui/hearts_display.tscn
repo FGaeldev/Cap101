@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/hearts_display.gd" id="1_hearts"]
+
+[node name="HeartsDisplay" type="HBoxContainer"]
+layout_mode = 3
+anchors_preset = 0
+theme_override_constants/separation = 2
+script = ExtResource("1_hearts")

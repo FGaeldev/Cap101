@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://db8tn1k81m76m"]
 
-[ext_resource type="Script" uid="uid://cqgj7bn542ysb" path="res://scenes/ui/DialogueBox.gd" id="1_2c88n"]
+[ext_resource type="Script" uid="uid://cqgj7bn542ysb" path="res://scripts/ui/DialogueBox.gd" id="1_2c88n"]
 
 [node name="DialogueBox" type="PanelContainer" unique_id=1631502302]
 size_flags_horizontal = 3

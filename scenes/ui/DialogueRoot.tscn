@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c2srln36wq55q"]
 
-[ext_resource type="Script" uid="uid://n3f6bya63jvj" path="res://scenes/ui/DialogueRoot.gd" id="1_root"]
+[ext_resource type="Script" uid="uid://n3f6bya63jvj" path="res://scripts/ui/DialogueRoot.gd" id="1_root"]
 [ext_resource type="PackedScene" uid="uid://db8tn1k81m76m" path="res://scenes/ui/DialogueBox.tscn" id="2_box"]
 [ext_resource type="PackedScene" uid="uid://bueryt32lappp" path="res://scenes/ui/choice_box.tscn" id="3_choice"]
 

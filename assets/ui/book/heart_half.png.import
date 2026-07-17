@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bqppgv7wvqyh1"
-path="res://.godot/imported/sv_48x20xhover.png-427251df7c166253d3ddc0a427ab3b72.ctex"
+uid="uid://dxhtky71oqpxk"
+path="res://.godot/imported/heart_half.png-f07eb9c94016993ec4491b41918da874.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/sv_48x20xhover.png"
-dest_files=["res://.godot/imported/sv_48x20xhover.png-427251df7c166253d3ddc0a427ab3b72.ctex"]
+source_file="res://assets/ui/book/heart_half.png"
+dest_files=["res://.godot/imported/heart_half.png-f07eb9c94016993ec4491b41918da874.ctex"]
 
 [params]
 
