@@ -51,12 +51,12 @@ func _apply_bg() -> void:
 func _apply_style() -> void:
 	# Title — large warm gold
 	title_label.add_theme_color_override("font_color", Color("e8b84b"))
-	title_label.add_theme_font_size_override("font_size", 42)
+	title_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_HERO)
 	title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
 	# Subtitle — muted green
 	sub_label.add_theme_color_override("font_color", Color("7aad7a"))
-	sub_label.add_theme_font_size_override("font_size", 13)
+	sub_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_L)
 	sub_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
 	# Buttons

@@ -19,7 +19,7 @@ func _ready() -> void:
 	toast.modulate.a = 0.0
 	akeanon_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_EMPHASIS)
 	gloss_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
-	gloss_label.add_theme_font_size_override("font_size", 8)
+	gloss_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XS)
 	gloss_label.clip_text = true
 	gloss_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	var sb := StyleBoxTexture.new()

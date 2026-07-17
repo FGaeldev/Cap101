@@ -34,6 +34,19 @@ const TEXT_DEFAULT  := Color("39323f")  # inky, default label color
 const TEXT_EMPHASIS := Color("b8842f")  # book-cover red, pops against tan buttons
 const TEXT_DISABLED := Color("a89484")  # muted tan-gray, low contrast on purpose
 
+# Font size scale — inferred from every add_theme_font_size_override in the
+# project (raw values found: 8, 9, 10, 11, 12, 13, 14, 16, 42). Near-duplicate
+# one-offs (9 vs 11, 10 vs 11) are organic drift, not intentional distinctions —
+# consolidated here into 7 steps. Migrate call sites to these over time instead
+# of hardcoding new numbers.
+const FONT_SIZE_HERO    := 42  # full-screen display text — main menu title only
+const FONT_SIZE_XXL     := 16  # modal/popup headers — quest complete title
+const FONT_SIZE_XL      := 14  # emphasized inline text — dictionary word (akeanon), card highlights
+const FONT_SIZE_L       := 13  # supporting subtitle / instructional text — puzzle hints, menu subtitle
+const FONT_SIZE_M       := 12  # default body/button text — most buttons, panel titles, feedback text
+const FONT_SIZE_S       := 10  # secondary/compact text — meta labels, quest names, small buttons
+const FONT_SIZE_XS      := 8   # smallest — tags, encounter counts, fine-print annotations
+
 # Icon Button Sprite Size
 const ICON_CELL_W := 24
 const ICON_CELL_H := 24

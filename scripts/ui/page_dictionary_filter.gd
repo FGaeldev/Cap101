@@ -6,7 +6,7 @@ extends Control
 signal filters_changed(query: String, category: String)
 
 const TEXT_FIELD := preload("res://assets/ui/book/text_field.png")
-const TEXTFIELD_SLICE_MARGIN := 6  # placeholder — measure text_field.png's actual corner px
+const TEXTFIELD_SLICE_MARGIN := 5  # placeholder — measure text_field.png's actual corner px
 
 @onready var search_box: LineEdit = $VBox/SearchBox
 @onready var category_dropdown: OptionButton = $VBox/CategoryDropdown

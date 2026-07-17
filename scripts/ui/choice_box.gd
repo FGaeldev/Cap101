@@ -32,4 +32,4 @@ func hide_choices() -> void:
 
 func _style_choice_btn(btn: Button) -> void:
 	UIThemeApplier.apply_button_theme(btn, "secondary")
-	btn.add_theme_font_size_override("font_size", 10)
+	btn.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)

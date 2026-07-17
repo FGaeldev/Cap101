@@ -43,8 +43,7 @@ func _passes_filter(word_data: Dictionary) -> bool:
 	if _filter_query.is_empty():
 		return true
 	var akeanon: String = word_data.get("akeanon", "").to_lower()
-	var gloss: String = word_data.get("gloss", "").to_lower()
-	return akeanon.contains(_filter_query) or gloss.contains(_filter_query)
+	return akeanon.contains(_filter_query)
 
 func _add_entry(word_id: String, word_data: Dictionary) -> void:
 	# Row 1: [word, tag, encounters]
@@ -55,20 +54,20 @@ func _add_entry(word_id: String, word_data: Dictionary) -> void:
 	var word_label := Label.new()
 	word_label.text = word_data.get("akeanon", "???")
 	word_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_EMPHASIS)
-	word_label.add_theme_font_size_override("font_size", 14)
+	word_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XL)
 	word_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top_row.add_child(word_label)
 
 	var cat_label := Label.new()
 	cat_label.text = "[%s]" % word_data.get("category", "")
 	cat_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DISABLED)
-	cat_label.add_theme_font_size_override("font_size", 9)
+	cat_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XS)
 	top_row.add_child(cat_label)
 
 	var enc := Label.new()
 	enc.text = "x%d" % GameState.get_exposure(word_id)
 	enc.add_theme_color_override("font_color", UIThemeApplier.TEXT_DISABLED)
-	enc.add_theme_font_size_override("font_size", 9)
+	enc.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XS)
 	top_row.add_child(enc)
 
 	# Row 2: [meaning]
@@ -78,7 +77,7 @@ func _add_entry(word_id: String, word_data: Dictionary) -> void:
 	var gloss: String = word_data.get("gloss", "")
 	meaning_label.text = gloss if not gloss.is_empty() else "(meaning pending verification)"
 	meaning_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
-	meaning_label.add_theme_font_size_override("font_size", 10)
+	meaning_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
 	meaning_label.autowrap_mode = TextServer.AUTOWRAP_WORD
 	word_list.add_child(meaning_label)
 
@@ -87,7 +86,7 @@ func _add_entry(word_id: String, word_data: Dictionary) -> void:
 	var sep_style := StyleBoxTexture.new()
 	sep_style.texture = LINE_TEXTURE
 	sep_style.axis_stretch_horizontal = StyleBoxTexture.AXIS_STRETCH_MODE_TILE
-	sep_style.content_margin_top = 4
-	sep_style.content_margin_bottom = 4
+	sep_style.content_margin_top = 2
+	sep_style.content_margin_bottom = 2
 	sep.add_theme_stylebox_override("separator", sep_style)
 	word_list.add_child(sep)

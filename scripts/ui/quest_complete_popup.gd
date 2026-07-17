@@ -23,13 +23,13 @@ func _apply_style() -> void:
 	panel.custom_minimum_size = Vector2(220, 0)
 
 	title_label.add_theme_color_override("font_color", Color("4a7c59"))
-	title_label.add_theme_font_size_override("font_size", 16)
+	title_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XXL)
 	title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title_label.text = "Hatuman ro Sugo!"
 
 	quest_name_label.add_theme_color_override("font_color", Color("2c1810"))
-	quest_name_label.add_theme_font_size_override("font_size", 11)
+	quest_name_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
 	quest_name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
 	UIThemeApplier.apply_button_theme(ok_btn, "confirm")
-	ok_btn.add_theme_font_size_override("font_size", 12)
+	ok_btn.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_M)

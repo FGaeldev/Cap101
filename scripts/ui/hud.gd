@@ -21,7 +21,7 @@ func _apply_style() -> void:
 	bg.set_content_margin(SIDE_BOTTOM, 4)
 	quest_bg.add_theme_stylebox_override("panel", bg)
 	quest_label.add_theme_color_override("font_color", Color("e8b84b"))
-	quest_label.add_theme_font_size_override("font_size", 11)
+	quest_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
 
 func _style_btn(btn: Button) -> void:
 	UIThemeApplier.apply_button_theme(btn, "primary")

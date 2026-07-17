@@ -118,7 +118,7 @@ func _apply_style() -> void:
 		panel.add_theme_stylebox_override("panel", ps)
 
 	hint_label.add_theme_color_override("font_color", Color("1a4a2e"))
-	hint_label.add_theme_font_size_override("font_size", 13)
+	hint_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_L)
 	hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
 	var ss = StyleBoxFlat.new()
@@ -129,14 +129,14 @@ func _apply_style() -> void:
 	ss.set_content_margin_all(12)
 	sentence_box.add_theme_stylebox_override("panel", ss)
 	sentence_label.add_theme_color_override("font_color", Color("0d2e1a"))
-	sentence_label.add_theme_font_size_override("font_size", 13)
+	sentence_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_L)
 	sentence_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	sentence_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 
 	choices_box.alignment = BoxContainer.ALIGNMENT_CENTER
 	for btn in _choice_btns:
 		btn.custom_minimum_size = Vector2(96, 34)
-		btn.add_theme_font_size_override("font_size", 12)
+		btn.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_M)
 
-	feedback_label.add_theme_font_size_override("font_size", 12)
+	feedback_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_M)
 	feedback_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
