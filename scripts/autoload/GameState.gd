@@ -3,7 +3,7 @@ extends Node
 
 # --- Signals ---
 signal word_learned(word_id: String, akeanon: String, gloss: String)
-signal rapport_changed(npc_id: String, value: int)
+signal rapport_changed(npc_id: String, value: float)
 signal patience_changed(npc_id: String, value: int)
 
 # --- State ---
@@ -14,27 +14,26 @@ var completed_quests: Array = []
 var current_level_path: String = "res://scenes/world/scene01.tscn"
 
 # --- Rapport / Patience ---
+# "Rapport regains around half per day"
+# flat amount, prorated for partial days.
+# Real-world clock based,
+# not an in-game day counter (none exists yet).
+# Relies on device clock
 const PATIENCE_MAX := 100
-const PATIENCE_REGEN_PER_DAY := 50.0  # "regains around half per day" — flat
-										# amount, prorated for partial days.
-										# Real-world clock based, not an
-										# in-game day counter (none exists yet).
-										# [CLAUDE NOTE] relies on device clock —
-										# not tamper-proof, fine for a capstone
-										# scope, revisit if that ever matters.
+const PATIENCE_REGEN_PER_DAY := 50.0 
 
-var rapport: Dictionary = {}              # npc_id -> int, purely cumulative
+var rapport: Dictionary = {}              # npc_id -> float, purely cumulative
 var patience: Dictionary = {}             # npc_id -> float, regenerates over time
 var _patience_last_update: Dictionary = {} # npc_id -> unix timestamp of last regen calc
 
-const RAPPORT_MAX := 10  # displayed as 10 hearts
+const RAPPORT_MAX := 10.0  # displayed as 10 hearts, 0.5 increments = half-hearts
 
-func adjust_rapport(npc_id: String, delta: int) -> void:
-	rapport[npc_id] = clamp(rapport.get(npc_id, 0) + delta, 0, RAPPORT_MAX)
+func adjust_rapport(npc_id: String, delta: float) -> void:
+	rapport[npc_id] = clamp(rapport.get(npc_id, 0.0) + delta, 0.0, RAPPORT_MAX)
 	rapport_changed.emit(npc_id, rapport[npc_id])
 
-func get_rapport(npc_id: String) -> int:
-	return rapport.get(npc_id, 0)
+func get_rapport(npc_id: String) -> float:
+	return rapport.get(npc_id, 0.0)
 
 func adjust_patience(npc_id: String, delta: int) -> void:
 	_regen_patience(npc_id)  # apply any pending regen before spending/adding
