@@ -1,6 +1,13 @@
 # BookUI.gd — autoload. Single entry point for relationship/dictionary/journal/settings.
 extends CanvasLayer
 
+@onready var page_left: Panel = $Root/Spread/PageLeft
+@onready var page_right: Panel = $Root/Spread/PageRight
+
+# -- Page Scenes --
+const PageSettingsScene := preload("res://scenes/ui/page_settings.tscn")
+const PageDictionaryScene := preload("res://scenes/ui/page_dictionary.tscn")
+
 const MARKER := preload("res://assets/ui/book/marker.png")
 const MARKER_SLICE_MARGIN := 3   # placeholder — measure marker.png's actual corner px, replace this
 
@@ -21,9 +28,19 @@ func _ready() -> void:
 	close_btn.pressed.connect(close)
 	title_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 	_register_tab("relationship", $Root/TabBar/TabRelationship, "RELATIONSHIP")
-	_register_tab("dictionary", $Root/TabBar/TabDictionary, "DICTIONARY")
 	_register_tab("bucket_list", $Root/TabBar/TabBucketList, "JOURNAL")
+	
+	# -- assigning page to tabs
 	_register_tab("settings", $Root/TabBar/TabSettings, "SETTINGS")
+	_tabs["settings"]["page"] = PageSettingsScene.instantiate()
+	page_left.add_child(_tabs["settings"]["page"])
+	_tabs["settings"]["page"].visible = false
+	
+	_register_tab("dictionary", $Root/TabBar/TabDictionary, "DICTIONARY")
+	_tabs["dictionary"]["page"] = PageDictionaryScene.instantiate()
+	page_left.add_child(_tabs["dictionary"]["page"])
+	_tabs["dictionary"]["page"].visible = false
+	set_tab_lock_condition("dictionary", func(): return not GameState.word_exposures.is_empty())
 
 func _make_marker_style() -> StyleBoxTexture:
 	var sb := StyleBoxTexture.new()
@@ -79,13 +96,18 @@ func switch_tab(tab_id: String) -> void:
 		return
 	var entry: Dictionary = _tabs[tab_id]
 	if not entry["is_unlocked"].call():
-		return  # locked chapter, ignore tap
+		return
 	if not _current_tab.is_empty() and _current_tab != tab_id:
 		_animate_tab(_current_tab, 1.0)
+		if _tabs[_current_tab].has("page"):
+			_tabs[_current_tab]["page"].visible = false
 	_current_tab = tab_id
 	_animate_tab(tab_id, TAB_HOVER_SCALE)
 	title_label.text = entry["title"]
-	# TODO: swap PageLeft/PageRight content for this tab — still unbuilt
+	if entry.has("page"):
+		if entry["page"].has_method("refresh"):
+			entry["page"].refresh()
+		entry["page"].visible = true
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):

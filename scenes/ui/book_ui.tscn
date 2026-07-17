@@ -107,21 +107,21 @@ anchor_bottom = 0.16
 offset_top = -2.0
 
 [node name="TabBucketList" type="Button" parent="Root/TabBar" unique_id=141261309]
-custom_minimum_size = Vector2(16, 16)
+custom_minimum_size = Vector2(20, 14)
 layout_mode = 2
 icon = ExtResource("5_76us2")
 
 [node name="TabDictionary" type="Button" parent="Root/TabBar" unique_id=1647960860]
-custom_minimum_size = Vector2(16, 16)
+custom_minimum_size = Vector2(20, 14)
 layout_mode = 2
 icon = ExtResource("6_blequ")
 
 [node name="TabRelationship" type="Button" parent="Root/TabBar" unique_id=1367235715]
-custom_minimum_size = Vector2(16, 16)
+custom_minimum_size = Vector2(20, 14)
 layout_mode = 2
 
 [node name="TabSettings" type="Button" parent="Root/TabBar" unique_id=1442593372]
-custom_minimum_size = Vector2(16, 16)
+custom_minimum_size = Vector2(20, 14)
 layout_mode = 2
 icon = ExtResource("5_5ja33")
 
