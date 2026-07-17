@@ -1,17 +1,26 @@
-# page_dictionary.gd — Dictionary tab content for BookUI.
-# Ported from dictionary_panel.gd: list-building logic (_rebuild/_add_entry)
-# kept as-is, styling swapped from old tropical palette to UIThemeApplier's
-# book/parchment theme. No own title/close button — BookUI Root owns those.
+# page_dictionary.gd — Dictionary word LIST, lives on PageRight.
+# Companion to page_dictionary_filter.gd (PageLeft), which drives
+# apply_filter() via BookUI's wiring. Cards replaced with line.png
+# separators per panel feedback — boxed cards wasted width at half-page.
 extends Control
 
 @onready var word_list: VBoxContainer = $ScrollContainer/WordList
 
-const CARD_BG    := Color("fffdf5")  # parchment card background
-const CARD_BORDER := Color("a89484")  # matches UIThemeApplier.TEXT_DISABLED tone
+const LINE_TEXTURE := preload("res://assets/ui/book/line.png")
+
+var _filter_query: String = ""
+var _filter_category: String = ""  # "" = all categories
 
 ## Called by BookUI.switch_tab() right before this page becomes visible,
 ## so the list is always current instead of stale from _ready().
 func refresh() -> void:
+	_rebuild()
+
+## Called by page_dictionary_filter.gd via signal whenever search text
+## or category dropdown changes.
+func apply_filter(query: String, category: String) -> void:
+	_filter_query = query.to_lower()
+	_filter_category = category
 	_rebuild()
 
 func _rebuild() -> void:
@@ -19,33 +28,30 @@ func _rebuild() -> void:
 		word_list.remove_child(child)
 		child.free()
 
-	for word_id in GameState.word_exposures:
+	var entries: Array = GameState.word_exposures.keys()
+	for word_id in entries:
 		var word_data: Dictionary = WordBank.get_word(word_id)
 		if word_data.is_empty():
 			continue
+		if not _passes_filter(word_data):
+			continue
 		_add_entry(word_id, word_data)
 
+func _passes_filter(word_data: Dictionary) -> bool:
+	if not _filter_category.is_empty() and word_data.get("category", "") != _filter_category:
+		return false
+	if _filter_query.is_empty():
+		return true
+	var akeanon: String = word_data.get("akeanon", "").to_lower()
+	var gloss: String = word_data.get("gloss", "").to_lower()
+	return akeanon.contains(_filter_query) or gloss.contains(_filter_query)
+
 func _add_entry(word_id: String, word_data: Dictionary) -> void:
-	var card := PanelContainer.new()
-	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var card_style := StyleBoxFlat.new()
-	card_style.bg_color = CARD_BG
-	card_style.border_color = CARD_BORDER
-	card_style.set_border_width_all(2)
-	card_style.set_corner_radius_all(3)
-	card_style.set_content_margin_all(8)
-	card.add_theme_stylebox_override("panel", card_style)
-
-	var vbox := VBoxContainer.new()
-	vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	card.add_child(vbox)
-
 	# Row 1: [word, tag, encounters]
 	var top_row := HBoxContainer.new()
 	top_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	vbox.add_child(top_row)
+	word_list.add_child(top_row)
 
-	# Akeanon word — big, emphasis color
 	var word_label := Label.new()
 	word_label.text = word_data.get("akeanon", "???")
 	word_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_EMPHASIS)
@@ -53,14 +59,12 @@ func _add_entry(word_id: String, word_data: Dictionary) -> void:
 	word_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top_row.add_child(word_label)
 
-	# Category tag
 	var cat_label := Label.new()
 	cat_label.text = "[%s]" % word_data.get("category", "")
 	cat_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DISABLED)
 	cat_label.add_theme_font_size_override("font_size", 9)
 	top_row.add_child(cat_label)
 
-	# Encounters — compact, shares the row now instead of owning one
 	var enc := Label.new()
 	enc.text = "x%d" % GameState.get_exposure(word_id)
 	enc.add_theme_color_override("font_color", UIThemeApplier.TEXT_DISABLED)
@@ -76,11 +80,14 @@ func _add_entry(word_id: String, word_data: Dictionary) -> void:
 	meaning_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 	meaning_label.add_theme_font_size_override("font_size", 10)
 	meaning_label.autowrap_mode = TextServer.AUTOWRAP_WORD
-	vbox.add_child(meaning_label)
+	word_list.add_child(meaning_label)
 
-	word_list.add_child(card)
-
-	# Gap between cards
-	var spacer := Control.new()
-	spacer.custom_minimum_size = Vector2(0, 6)
-	word_list.add_child(spacer)
+	# Separator — line.png, tiled to fill width instead of stretched thin
+	var sep := HSeparator.new()
+	var sep_style := StyleBoxTexture.new()
+	sep_style.texture = LINE_TEXTURE
+	sep_style.axis_stretch_horizontal = StyleBoxTexture.AXIS_STRETCH_MODE_TILE
+	sep_style.content_margin_top = 4
+	sep_style.content_margin_bottom = 4
+	sep.add_theme_stylebox_override("separator", sep_style)
+	word_list.add_child(sep)

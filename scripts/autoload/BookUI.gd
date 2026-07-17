@@ -6,7 +6,8 @@ extends CanvasLayer
 
 # -- Page Scenes --
 const PageSettingsScene := preload("res://scenes/ui/page_settings.tscn")
-const PageDictionaryScene := preload("res://scenes/ui/page_dictionary.tscn")
+const PageDictionaryListScene := preload("res://scenes/ui/page_dictionary.tscn")
+const PageDictionaryFilterScene := preload("res://scenes/ui/page_dictionary_filter.tscn")
 
 const MARKER := preload("res://assets/ui/book/marker.png")
 const MARKER_SLICE_MARGIN := 3   # placeholder — measure marker.png's actual corner px, replace this
@@ -37,9 +38,15 @@ func _ready() -> void:
 	_tabs["settings"]["page"].visible = false
 	
 	_register_tab("dictionary", $Root/TabBar/TabDictionary, "DICTIONARY")
-	_tabs["dictionary"]["page"] = PageDictionaryScene.instantiate()
-	page_left.add_child(_tabs["dictionary"]["page"])
-	_tabs["dictionary"]["page"].visible = false
+	var dict_filter := PageDictionaryFilterScene.instantiate()
+	var dict_list := PageDictionaryListScene.instantiate()
+	page_left.add_child(dict_filter)
+	page_right.add_child(dict_list)
+	dict_filter.visible = false
+	dict_list.visible = false
+	dict_filter.filters_changed.connect(dict_list.apply_filter)
+	_tabs["dictionary"]["page"] = dict_filter        # PageLeft
+	_tabs["dictionary"]["page_right"] = dict_list    # PageRight
 	set_tab_lock_condition("dictionary", func(): return not GameState.word_exposures.is_empty())
 
 func _make_marker_style() -> StyleBoxTexture:
@@ -99,15 +106,23 @@ func switch_tab(tab_id: String) -> void:
 		return
 	if not _current_tab.is_empty() and _current_tab != tab_id:
 		_animate_tab(_current_tab, 1.0)
-		if _tabs[_current_tab].has("page"):
-			_tabs[_current_tab]["page"].visible = false
+		_hide_page(_tabs[_current_tab], "page")
+		_hide_page(_tabs[_current_tab], "page_right")
 	_current_tab = tab_id
 	_animate_tab(tab_id, TAB_HOVER_SCALE)
 	title_label.text = entry["title"]
-	if entry.has("page"):
-		if entry["page"].has_method("refresh"):
-			entry["page"].refresh()
-		entry["page"].visible = true
+	_show_page(entry, "page")
+	_show_page(entry, "page_right")
+
+func _hide_page(entry: Dictionary, key: String) -> void:
+	if entry.has(key):
+		entry[key].visible = false
+
+func _show_page(entry: Dictionary, key: String) -> void:
+	if entry.has(key):
+		if entry[key].has_method("refresh"):
+			entry[key].refresh()
+		entry[key].visible = true
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
