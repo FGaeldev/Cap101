@@ -8,6 +8,7 @@ extends CanvasLayer
 const PageSettingsScene := preload("res://scenes/ui/page_settings.tscn")
 const PageDictionaryListScene := preload("res://scenes/ui/page_dictionary.tscn")
 const PageDictionaryFilterScene := preload("res://scenes/ui/page_dictionary_filter.tscn")
+const PageRelationshipScene := preload("res://scenes/ui/page_relationship.tscn")
 
 const MARKER := preload("res://assets/ui/book/marker.png")
 const MARKER_SLICE_MARGIN := 3
@@ -29,6 +30,9 @@ func _ready() -> void:
 	close_btn.pressed.connect(close)
 	title_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 	_register_tab("relationship", $Root/TabBar/TabRelationship, "RELATIONSHIP")
+	_tabs["relationship"]["page"] = PageRelationshipScene.instantiate()
+	page_left.add_child(_tabs["relationship"]["page"])
+	_tabs["relationship"]["page"].visible = false
 	_register_tab("bucket_list", $Root/TabBar/TabBucketList, "JOURNAL")
 	
 	# -- assigning page to tabs
