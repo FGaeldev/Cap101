@@ -52,9 +52,9 @@ func _add_row(npc_id: String) -> void:
 	info.add_child(name_label)
 
 	var hearts := HeartsDisplayScene.instantiate()
+	info.add_child(hearts)
 	hearts.set_value(GameState.get_rapport(npc_id))
 	_hearts_by_npc[npc_id] = hearts
-	info.add_child(hearts)
 
 	var patience_label := Label.new()
 	patience_label.text = "Patience"
@@ -63,9 +63,9 @@ func _add_row(npc_id: String) -> void:
 	info.add_child(patience_label)
 
 	var bar := MeterBarScene.instantiate()
+	info.add_child(bar)
 	bar.set_value(GameState.get_patience(npc_id), GameState.PATIENCE_MAX)
 	_bars_by_npc[npc_id] = bar
-	info.add_child(bar)
 
 func _on_rapport_changed(npc_id: String, value: float) -> void:
 	if _hearts_by_npc.has(npc_id):
