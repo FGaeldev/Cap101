@@ -148,3 +148,28 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_b1lj4")
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxTexture_njqwk")
+
+[node name="BottomBar" type="HBoxContainer" parent="Root" unique_id=984523519]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.92
+anchor_right = 0.5
+anchor_bottom = 0.92
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="ArrowLeft" type="Button" parent="Root/BottomBar" unique_id=963698994]
+custom_minimum_size = Vector2(16, 14)
+layout_mode = 2
+text = "<"
+flat = true
+
+[node name="ArrowRight" type="Button" parent="Root/BottomBar" unique_id=264888759]
+custom_minimum_size = Vector2(16, 14)
+layout_mode = 2
+text = ">"
+flat = true

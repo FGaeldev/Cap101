@@ -23,16 +23,29 @@ var _current_tab: String = ""
 @onready var root: Control = $Root
 @onready var title_label: Label = $Root/Banner/Title
 @onready var close_btn: Button = $Root/CloseButton
+@onready var bottom_bar: HBoxContainer = $Root/BottomBar
+@onready var arrow_left: Button = $Root/BottomBar/ArrowLeft
+@onready var arrow_right: Button = $Root/BottomBar/ArrowRight
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	visible = false
 	close_btn.pressed.connect(close)
+	arrow_left.pressed.connect(_on_arrow_left_pressed)
+	arrow_right.pressed.connect(_on_arrow_right_pressed)
+	arrow_left.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
+	arrow_right.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 	title_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 	_register_tab("relationship", $Root/TabBar/TabRelationship, "RELATIONSHIP")
-	_tabs["relationship"]["page"] = PageRelationshipScene.instantiate()
-	page_left.add_child(_tabs["relationship"]["page"])
-	_tabs["relationship"]["page"].visible = false
+	var rel_left := PageRelationshipScene.instantiate()
+	var rel_right := PageRelationshipScene.instantiate()
+	page_left.add_child(rel_left)
+	page_right.add_child(rel_right)
+	rel_left.visible = false
+	rel_right.visible = false
+	rel_left.partner_column = rel_right  # left owns pagination for both halves
+	_tabs["relationship"]["page"] = rel_left
+	_tabs["relationship"]["page_right"] = rel_right
 	_register_tab("bucket_list", $Root/TabBar/TabBucketList, "JOURNAL")
 	
 	# -- assigning page to tabs
@@ -117,6 +130,32 @@ func switch_tab(tab_id: String) -> void:
 	title_label.text = entry["title"]
 	_show_page(entry, "page")
 	_show_page(entry, "page_right")
+	_update_bottom_bar()
+
+## Generic — shows/enables the bottom bar for ANY tab whose primary "page"
+## exposes next_page()/prev_page()/has_next_page()/has_prev_page(), not just
+## Relationship. Future paginated tabs (Dictionary at scale, Journal) get
+## this for free by implementing the same four methods.
+func _update_bottom_bar() -> void:
+	var page = _tabs[_current_tab].get("page")
+	var paginated: bool = page != null and page.has_method("next_page")
+	bottom_bar.visible = paginated
+	if not paginated:
+		return
+	arrow_left.disabled = not page.has_prev_page()
+	arrow_right.disabled = not page.has_next_page()
+
+func _on_arrow_left_pressed() -> void:
+	var page = _tabs[_current_tab].get("page")
+	if page and page.has_method("prev_page"):
+		page.prev_page()
+		_update_bottom_bar()
+
+func _on_arrow_right_pressed() -> void:
+	var page = _tabs[_current_tab].get("page")
+	if page and page.has_method("next_page"):
+		page.next_page()
+		_update_bottom_bar()
 
 func _hide_page(entry: Dictionary, key: String) -> void:
 	if entry.has(key):
