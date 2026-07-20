@@ -12,6 +12,7 @@ border_width_bottom = 10
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_goko6")
 
 [node name="RegionPopup" type="CanvasLayer" unique_id=761235854]
+visible = false
 script = ExtResource("1_df2k8")
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=647534335]

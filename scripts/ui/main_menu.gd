@@ -49,13 +49,15 @@ func _apply_bg() -> void:
 	move_child(vignette, 1)
 
 func _apply_style() -> void:
-	# Title — large warm gold
-	title_label.add_theme_color_override("font_color", Color("e8b84b"))
+	# Title — book-cover gold (UI_STYLE_GUIDE §2 current palette, not the
+	# legacy tropical e8b84b this was hardcoded to before)
+	title_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_EMPHASIS)
 	title_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_HERO)
 	title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
-	# Subtitle — muted green
-	sub_label.add_theme_color_override("font_color", Color("7aad7a"))
+	# Subtitle — secondary/meta text role (UI_STYLE_GUIDE §2: TEXT_DISABLED
+	# doubles as secondary text even when not actually disabled)
+	sub_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DISABLED)
 	sub_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_L)
 	sub_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 

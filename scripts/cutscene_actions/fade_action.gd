@@ -7,3 +7,4 @@ func execute(step: Dictionary, _mgr: Node) -> void:
 		await FadeManager.fade_in(step.get("duration", 0.6))
 	else:
 		await FadeManager.fade_out(step.get("duration", 0.6))
+	

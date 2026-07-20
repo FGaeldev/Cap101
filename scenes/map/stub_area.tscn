@@ -11,4 +11,13 @@ offset_top = 8.0
 offset_right = 300.0
 offset_bottom = 48.0
 text = "Farming (stub area)
-Node-map 2-node proof — press Back to return to map."
+Node-map 2-node proof."
+
+[node name="ReturnToMapButton" type="Button" parent="."]
+offset_left = 8.0
+offset_top = 56.0
+offset_right = 128.0
+offset_bottom = 80.0
+text = "Return to Map"
+
+[connection signal="pressed" from="ReturnToMapButton" to="." method="_on_return_to_map_pressed"]

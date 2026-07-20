@@ -56,24 +56,19 @@ func travel_to_region(region_id: String) -> void:
 		push_error("MapManager: region '%s' is unlocked but has no scene_path set" % region_id)
 		return
 
-	# TODO: confirm FadeManager.fade_out/fade_in signatures against the live
-	# FadeManager.gd (TDD §2 lists them but exact args/coroutine shape unconfirmed here).
-	if Engine.has_singleton("FadeManager") or has_node("/root/FadeManager"):
-		var fade_manager := get_node("/root/FadeManager")
-		if fade_manager.has_method("fade_out"):
-			await fade_manager.fade_out()
+	await FadeManager.fade_out()
 
-	GameState.current_area = region_id
+	# GameState.current_area stores the region's clean id ("farming"), not the
+	# hex mask color used as this dict's key — keeps the save format consistent
+	# with the "village" default (GameState.gd) instead of leaking map_art.png
+	# color codes into the save file.
+	GameState.current_area = region.get("id", region_id)
 	GameState.current_level_path = scene_path
-	if GameState.has_method("save_game"):
-		GameState.save_game()
+	GameState.save_game()
 
 	get_tree().change_scene_to_file(scene_path)
 
-	if has_node("/root/FadeManager"):
-		var fade_manager2 := get_node("/root/FadeManager")
-		if fade_manager2.has_method("fade_in"):
-			await fade_manager2.fade_in()
+	await FadeManager.fade_in()
 
 ## Opens the node-map scene itself. TODO: no in-village trigger calls this yet —
 ## wire a signpost Comp_Interactable or a BookUI menu entry (open item, not built).

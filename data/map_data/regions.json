@@ -1,10 +1,10 @@
 {
-	"#ac3232": { "display_name": "Bonus",        "scene_path": "", "unlocked": false },
-	"#df7126": { "display_name": "Landing",      "scene_path": "", "unlocked": false },
-	"#d9a066": { "display_name": "Leaf Weaving", "scene_path": "", "unlocked": false },
-	"#eec39a": { "display_name": "Pottery",      "scene_path": "", "unlocked": false },
-	"#fbf236": { "display_name": "Airport",      "scene_path": "", "unlocked": false },
-	"#639bff": { "display_name": "Port",         "scene_path": "", "unlocked": false },
-	"#8f563b": { "display_name": "Abaca",        "scene_path": "", "unlocked": false },
-	"#6abe30": { "display_name": "Farming",      "scene_path": "res://scenes/map/stub_area.tscn", "unlocked": true }
+	"#ac3232": { "id": "bonus",        "display_name": "Bonus",        "scene_path": "", "unlocked": false },
+	"#df7126": { "id": "landing",      "display_name": "Landing",      "scene_path": "", "unlocked": false },
+	"#d9a066": { "id": "leaf_weaving", "display_name": "Leaf Weaving", "scene_path": "", "unlocked": false },
+	"#eec39a": { "id": "pottery",      "display_name": "Pottery",      "scene_path": "", "unlocked": false },
+	"#fbf236": { "id": "airport",      "display_name": "Airport",      "scene_path": "", "unlocked": false },
+	"#639bff": { "id": "port",         "display_name": "Port",         "scene_path": "", "unlocked": false },
+	"#8f563b": { "id": "abaca",        "display_name": "Abaca",        "scene_path": "", "unlocked": false },
+	"#6abe30": { "id": "farming",      "display_name": "Farming",      "scene_path": "res://scenes/map/stub_area.tscn", "unlocked": true }
 }
