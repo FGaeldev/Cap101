@@ -22,9 +22,6 @@ const SFX_LIBRARY := {
 const BGM_LIBRARY := {
 	"village": "res://assets/audio/bgm/village_loop.wav",
 }
-# NOTE: village_loop.wav is a plain WAV — Godot's default import has looping
-# off. Select it in the FileSystem dock, Import tab, enable "Loop", Reimport.
-# One-time manual step, can't be baked in from here without a live editor.
 
 var _bgm_player: AudioStreamPlayer
 var _current_bgm_id: String = ""
