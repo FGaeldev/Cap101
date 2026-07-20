@@ -29,6 +29,7 @@ CutsceneManager="*uid://c51u6k5l1af2f"
 FadeManager="*uid://c0icccy81uv0i"
 BackButtonBridge="*uid://lt2he54wt8hw"
 BookUI="*uid://dlteh42a4yxhi"
+MapManager="*uid://cquwbxe4qxyws"
 
 [display]
 

@@ -1,25 +1,22 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene format=3 uid="uid://drje5ocf6hxj4"]
 
-[ext_resource type="Script" path="res://scenes/map/map_scene.gd" id="1_ne7uw"]
-[ext_resource type="Texture2D" path="res://assets/map/region_map.png" id="2_5m4q6"]
-[ext_resource type="Texture2D" path="res://assets/map/map_art.png" id="2_vlip3"]
-[ext_resource type="PackedScene" path="res://scenes/map/region_popup.tscn" id="3_5m4q6"]
+[ext_resource type="Script" uid="uid://cjf57k2jiek2w" path="res://scripts/map/map_scene.gd" id="1_nsgnk"]
+[ext_resource type="Texture2D" uid="uid://c5mehi0g020cp" path="res://assets/map/region_map.png" id="2_5m4q6"]
+[ext_resource type="Texture2D" uid="uid://bnxg3c8gxcbw7" path="res://assets/map/map_art.png" id="2_vlip3"]
+[ext_resource type="PackedScene" uid="uid://7m2dr2ce3los" path="res://scenes/map/region_popup.tscn" id="3_5m4q6"]
 
-; -- J.Gumban -- node layout carried over as-is from the original prototype;
-; root renamed Main -> MapScene since region_area.gd no longer depends on a
-; hardcoded "Main/RegionPopup" absolute path (see region_area.gd).
+[node name="MapScene" type="Node2D" unique_id=613325755]
+script = ExtResource("1_nsgnk")
 
-[node name="MapScene" type="Node2D"]
-script = ExtResource("1_ne7uw")
-
-[node name="MapArt" type="Sprite2D" parent="."]
+[node name="MapArt" type="Sprite2D" parent="." unique_id=881451287]
 texture = ExtResource("2_vlip3")
 centered = false
 
-[node name="MapDisplay" type="Sprite2D" parent="."]
+[node name="MapDisplay" type="Sprite2D" parent="." unique_id=484691633]
 texture = ExtResource("2_5m4q6")
 centered = false
 
-[node name="Regions" type="Node2D" parent="."]
+[node name="Regions" type="Node2D" parent="." unique_id=273224457]
 
-[node name="RegionPopup" parent="." instance=ExtResource("3_5m4q6")]
+[node name="RegionPopup" parent="." unique_id=1707879217 instance=ExtResource("3_5m4q6")]
+script = null

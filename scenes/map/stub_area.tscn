@@ -1,11 +1,11 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://8rvdkavdwnhq"]
 
-[ext_resource type="Script" path="res://scenes/map/stub_area.gd" id="1"]
+[ext_resource type="Script" uid="uid://cvymbtbj88sku" path="res://scripts/map/stub_area.gd" id="1_1a6si"]
 
-[node name="StubArea" type="Node2D"]
-script = ExtResource("1")
+[node name="StubArea" type="Node2D" unique_id=1208421209]
+script = ExtResource("1_1a6si")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=481313734]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 300.0
