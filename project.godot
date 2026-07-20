@@ -30,6 +30,7 @@ FadeManager="*uid://c0icccy81uv0i"
 BackButtonBridge="*uid://lt2he54wt8hw"
 BookUI="*uid://dlteh42a4yxhi"
 MapManager="*uid://cquwbxe4qxyws"
+AudioManager="*uid://14wfwwf5a2xy"
 
 [display]
 
