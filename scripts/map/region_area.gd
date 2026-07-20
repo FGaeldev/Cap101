@@ -1,0 +1,43 @@
+extends Area2D
+## region_area.gd
+## Single clickable/tappable node-map region. Polygon shape is built by
+## map_scene.gd::load_regions() from the region_map.png color mask.
+## Emits region_selected on tap/click; map_scene.gd forwards it to RegionPopup.
+##
+## Hover-highlight + polygon-coloring logic is J. Gumban's original prototype.
+## Adapted to: emit a signal instead of reaching for a hardcoded
+## "Main/RegionPopup" node path (matches the project's autoload-mediator
+## pattern, TDD §2), and to dim (not fully hide) locked regions on hover so
+## players can see the full map shape before areas unlock (GDD §9 item 3).
+## -- J.Gumban --
+
+signal region_selected(region_id: String, region_name: String, unlocked: bool)
+
+var region_id: String = ""
+var region_name: String = ""
+var unlocked: bool = false
+
+const HOVER_ALPHA_UNLOCKED := 1.0
+const HOVER_ALPHA_LOCKED := 0.4
+
+func _on_child_entered_tree(node: Node) -> void:  # -- J.Gumban --
+	if node.is_class("Polygon2D"):
+		node.color = Color(1, 1, 1, 0)
+
+func _on_mouse_entered() -> void:  # -- J.Gumban -- (adapted: locked-region dim highlight)
+	var target_alpha := HOVER_ALPHA_UNLOCKED if unlocked else HOVER_ALPHA_LOCKED
+	for node in get_children():
+		if node.is_class("Polygon2D"):
+			node.color = Color(1, 1, 1, target_alpha)
+
+func _on_mouse_exited() -> void:  # -- J.Gumban --
+	for node in get_children():
+		if node.is_class("Polygon2D"):
+			node.color = Color(1, 1, 1, 0)
+
+## Touch taps land here too, same as Comp_Interactable elsewhere in the
+## project — relies on the project's existing "emulate mouse from touch"
+## input setting, not a separate touch handler (TDD §3 pattern).
+func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:  # -- J.Gumban -- (adapted: signal instead of hardcoded path)
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		region_selected.emit(region_id, region_name, unlocked)

@@ -1,0 +1,59 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scenes/map/region_popup.gd" id="1_7l8ch"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_goko6"]
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+
+[sub_resource type="Theme" id="Theme_7l8ch"]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_goko6")
+
+; -- J.Gumban -- panel/label/button layout + Akeanon button labels ("Mag-adto" /
+; "Balik") carried over unchanged. Dropped the two stray "pressed" -> CenterContainer
+; connections from the original file: they pointed at _on_go_button_pressed /
+; _on_back_button_pressed on CenterContainer, a node with no script — dead editor
+; leftover, not used. region_popup.gd's _ready() already connects both buttons
+; correctly (go_button.pressed.connect(_on_go_pressed), etc).
+
+[node name="RegionPopup" type="CanvasLayer"]
+script = ExtResource("1_7l8ch")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="BoxContainer" type="BoxContainer" parent="CenterContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/BoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_7l8ch")
+alignment = 1
+
+[node name="Label" type="Label" parent="CenterContainer/PanelContainer/BoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Region Name"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/BoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="go_button" type="Button" parent="CenterContainer/PanelContainer/BoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "Mag-adto"
+
+[node name="back_button" type="Button" parent="CenterContainer/PanelContainer/BoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+theme = SubResource("Theme_7l8ch")
+text = "Balik"

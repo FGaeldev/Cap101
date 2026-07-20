@@ -85,12 +85,14 @@ func _add_row(npc_id: String) -> void:
 	var tex: Texture2D = CharacterRegistry.get_portrait(npc_id)
 	portrait.texture = tex
 	portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE   # decouple min size from raw texture px
 	portrait.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	portrait.size_flags_vertical = Control.SIZE_SHRINK_BEGIN  # was unset — stop vertical stretch
 	if tex:
 		var aspect: float = float(tex.get_width()) / float(tex.get_height())
 		var target_size := Vector2(PORTRAIT_HEIGHT * aspect, PORTRAIT_HEIGHT)
 		portrait.custom_minimum_size = target_size
-		portrait.custom_maximum_size = target_size
+		# custom_maximum_size dropped — not respected by BoxContainer for shrink children
 	row.add_child(portrait)
 
 	var info := VBoxContainer.new()
@@ -107,12 +109,6 @@ func _add_row(npc_id: String) -> void:
 	info.add_child(hearts)
 	hearts.set_value(GameState.get_rapport(npc_id))
 	_hearts_by_npc[npc_id] = hearts
-
-	var patience_label := Label.new()
-	patience_label.text = "Patience"
-	patience_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DISABLED)
-	patience_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XS)
-	info.add_child(patience_label)
 
 	var bar := MeterBarScene.instantiate()
 	info.add_child(bar)
