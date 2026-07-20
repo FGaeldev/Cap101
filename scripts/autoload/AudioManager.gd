@@ -1,12 +1,6 @@
 # scripts/autoload/AudioManager.gd
-# Autoload. Audio stub — Roadmap Phase A / GDD §3.6, zero-progress panel-flagged
-# item ("original sound", Suggestion_from_Pannelists). Same register-on-ready,
-# call-through-autoload pattern as every other system (TDD §2) — no per-scene
-# audio setup needed, just AudioManager.play_sfx(id) / play_bgm(id).
-#
-# Creates "Music" and "SFX" buses under Master at runtime instead of shipping
-# a hand-edited default_bus_layout.tres — one less binary resource to merge
-# conflicts on, and it self-heals if the bus layout ever gets reset in editor.
+# Autoload. play_sfx(id) / play_bgm(id) audio interface. Creates "Music" and
+# "SFX" buses under Master at runtime (no default_bus_layout.tres dependency).
 extends Node
 
 const MUSIC_BUS := "Music"
@@ -22,6 +16,7 @@ const SFX_LIBRARY := {
 const BGM_LIBRARY := {
 	"village": "res://assets/audio/bgm/village_loop.wav",
 }
+# village_loop.wav needs "Loop" enabled in Import dock (off by default).
 
 var _bgm_player: AudioStreamPlayer
 var _current_bgm_id: String = ""
@@ -35,6 +30,11 @@ func _ready() -> void:
 	_bgm_player.bus = MUSIC_BUS
 	add_child(_bgm_player)
 
+	# Requires AudioManager declared after GameState + QuestManager in
+	# project.godot's [autoload] list.
+	GameState.word_learned.connect(func(_id, _akeanon, _gloss): play_sfx("word_discovered"))
+	QuestManager.quest_completed.connect(func(_id): play_sfx("quest_complete"))
+
 func _ensure_bus(bus_name: String) -> void:
 	if AudioServer.get_bus_index(bus_name) != -1:
 		return
@@ -43,8 +43,7 @@ func _ensure_bus(bus_name: String) -> void:
 	AudioServer.set_bus_name(idx, bus_name)
 	AudioServer.set_bus_send(idx, "Master")
 
-## Fire-and-forget one-shot. Spins up a temp AudioStreamPlayer and frees
-## itself on finish — no fixed-size pool to manage for a handful of stings.
+## Fire-and-forget one-shot; frees itself when playback finishes.
 func play_sfx(id: String) -> void:
 	if id not in SFX_LIBRARY:
 		push_warning("AudioManager: unknown sfx id '%s'" % id)
@@ -82,7 +81,7 @@ func stop_bgm() -> void:
 	_bgm_player.stop()
 	_current_bgm_id = ""
 
-## Bus volume, linear 0.0-1.0 (matches Roadmap's "bus volume" stub ask).
+## Bus volume, linear 0.0-1.0.
 func set_master_volume(linear: float) -> void:
 	_set_bus_volume("Master", linear)
 

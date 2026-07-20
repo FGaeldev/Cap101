@@ -14,6 +14,7 @@ func start_dialogue() -> void:
 
 func advance() -> void:
 	# Only called for non-choice lines.
+	AudioManager.play_sfx("advance")
 	var line: Dictionary = dialogue_lines[_current_line]
 	var nxt = line.get("next", _current_line + 1)  # explicit next, else fall through sequentially
 	if nxt == null:

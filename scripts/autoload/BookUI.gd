@@ -111,6 +111,7 @@ func open(tab_id: String = "settings") -> void:
 	switch_tab(tab_id)
 
 func close() -> void:
+	AudioManager.play_sfx("menu_click")
 	visible = false
 	get_tree().paused = false
 
@@ -121,6 +122,7 @@ func switch_tab(tab_id: String) -> void:
 	var entry: Dictionary = _tabs[tab_id]
 	if not entry["is_unlocked"].call():
 		return
+	AudioManager.play_sfx("menu_click")
 	if not _current_tab.is_empty() and _current_tab != tab_id:
 		_animate_tab(_current_tab, 1.0)
 		_hide_page(_tabs[_current_tab], "page")
@@ -148,12 +150,14 @@ func _update_bottom_bar() -> void:
 func _on_arrow_left_pressed() -> void:
 	var page = _tabs[_current_tab].get("page")
 	if page and page.has_method("prev_page"):
+		AudioManager.play_sfx("menu_click")
 		page.prev_page()
 		_update_bottom_bar()
 
 func _on_arrow_right_pressed() -> void:
 	var page = _tabs[_current_tab].get("page")
 	if page and page.has_method("next_page"):
+		AudioManager.play_sfx("menu_click")
 		page.next_page()
 		_update_bottom_bar()
 
