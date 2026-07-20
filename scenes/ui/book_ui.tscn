@@ -10,6 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://bqn1bpq8s832f" path="res://assets/ui/book/page_right.png" id="5_he5ik"]
 [ext_resource type="Texture2D" uid="uid://dmx7lv7mutv3k" path="res://assets/ui/book/dictionaryt_icon.png" id="6_blequ"]
 [ext_resource type="Texture2D" uid="uid://dtmnv5nuelrg4" path="res://assets/ui/book/heart_icon.png" id="7_w2i5u"]
+[ext_resource type="Texture2D" uid="uid://cg3uyf6a43cge" path="res://assets/ui/book/left_icon.png" id="11_iivqe"]
+[ext_resource type="Texture2D" uid="uid://bwdvlgc7nf325" path="res://assets/ui/book/right_icon.png" id="12_jyi8r"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xrivr"]
 texture = ExtResource("1_danvl")
@@ -153,23 +155,23 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_njqwk")
 visible = false
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.5
+anchor_left = 0.05
 anchor_top = 0.92
-anchor_right = 0.5
+anchor_right = 0.95
 anchor_bottom = 0.92
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_constants/separation = 24
+theme_override_constants/separation = 428
 alignment = 1
 
 [node name="ArrowLeft" type="Button" parent="Root/BottomBar" unique_id=963698994]
 custom_minimum_size = Vector2(16, 14)
 layout_mode = 2
-text = "<"
+icon = ExtResource("11_iivqe")
 flat = true
 
 [node name="ArrowRight" type="Button" parent="Root/BottomBar" unique_id=264888759]
 custom_minimum_size = Vector2(16, 14)
 layout_mode = 2
-text = ">"
+icon = ExtResource("12_jyi8r")
 flat = true
