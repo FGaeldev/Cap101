@@ -1,6 +1,6 @@
 # CutsceneManager.gd — orchestrates scripted multi-actor sequences (interactive cutscenes).
 # Sequence = ordered action list loaded from JSON. Action types auto-discovered from
-# scripts/cutscene_actions/ at startup — adding a new action type never touches this file.
+
 extends Node
 
 signal cutscene_started(cutscene_id: String)

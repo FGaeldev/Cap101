@@ -6,5 +6,6 @@
 	"#fbf236": { "id": "airport",      "display_name": "Airport",      "scene_path": "", "unlocked": false },
 	"#639bff": { "id": "port",         "display_name": "Port",         "scene_path": "", "unlocked": false },
 	"#8f563b": { "id": "abaca",        "display_name": "Abaca",        "scene_path": "", "unlocked": false },
-	"#6abe30": { "id": "farming",      "display_name": "Farming",      "scene_path": "res://scenes/map/stub_area.tscn", "unlocked": true }
+	"#6abe30": { "id": "farming",      "display_name": "Farming",      "scene_path": "res://scenes/map/stub_area.tscn", "unlocked": true },
+	"#6bea30": { "id": "village", "display_name": "Village", "scene_path": "res://scenes/world/scene01.tscn", "unlocked": true }
 }

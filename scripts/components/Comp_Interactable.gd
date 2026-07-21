@@ -18,7 +18,11 @@ func _ready() -> void:
 		area.input_event.connect(_on_input_event)
 
 func _unhandled_input(event: InputEvent) -> void:
-	if _in_range and not CutsceneManager.is_playing() and event.is_action_pressed("interact"):
+	if not _in_range or CutsceneManager.is_playing():
+		return
+	if not get_parent().is_visible_in_tree():
+		return
+	if event.is_action_pressed("interact"):
 		interacted.emit(_player_ref)
 		
 func _on_input_event(_viewport, event, _shape_idx):

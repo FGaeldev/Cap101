@@ -8,10 +8,14 @@ func _ready() -> void:
 	volume_slider.value = db_to_linear(AudioServer.get_bus_volume_db(0)) * 100
 	volume_slider.value_changed.connect(_on_volume_changed)
 	quit_btn.pressed.connect(_on_quit_pressed)
+	music_toggle.toggled.connect(_on_music_toggled)
 	UIThemeApplier.apply_button_theme(quit_btn, "danger")
 
 func _on_volume_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(0, linear_to_db(value / 100.0))
+	
+func _on_music_toggled(muted: bool) -> void:
+	AudioManager.set_music_volume(0.0 if muted else 1.0)
 
 func _on_quit_pressed() -> void:
 	CutsceneManager.abort()
