@@ -1,22 +1,23 @@
-extends Node2D
+extends CanvasLayer
 ## map_scene.gd
-## Node-map travel screen. Renders map_art.png as backdrop, traces clickable
-## region polygons from the region_map.png color mask, and opens RegionPopup
-## on tap/click so the player can travel to an unlocked region.
+## Node-map travel overlay, autoload'd as MapUI — same pattern as BookUI:
+## persistent CanvasLayer, hidden + tree-paused/unpaused via open()/close(),
+## never scene-swapped, so opening/closing it can't destroy the game scene
+## underneath.
 ##
 ## Color-mask polygon tracing (get_fit_scale / get_region_color_dict /
 ## get_polygons) is J. Gumban's original map prototype, unchanged in logic.
-## Adapted to read region metadata from MapManager.regions (regions.json)
-## instead of a flat name list, and to route selection through a signal
-## instead of a hardcoded "Main/RegionPopup" node path.
 ## -- J.Gumban --
 
 @onready var mapArt: Sprite2D = $MapArt
 @onready var mapImage: Sprite2D = $MapDisplay
 @onready var regionsNode: Node2D = $Regions
 @onready var regionPopup: CanvasLayer = $RegionPopup
+@onready var closeButton: Button = $CloseButton
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	visible = false
 	# -- J.Gumban --
 	mapArt.centered = false
 	mapImage.centered = false
@@ -25,10 +26,35 @@ func _ready() -> void:
 	mapArt.scale = Vector2(fit_scale, fit_scale)
 	regionsNode.scale = Vector2(fit_scale, fit_scale)
 	load_regions()
+	closeButton.pressed.connect(_on_close_pressed)
+
+## Shows the map and pauses the tree. Called by MapManager.open_map().
+func open() -> void:
+	_refresh_unlocks()
+	visible = true
+	get_tree().paused = true
+
+## Hides the map and unpauses the tree. Called on close-button press and by
+## MapManager.travel_to_region() before it swaps to the destination scene.
+func close() -> void:
+	regionPopup.hide()
+	visible = false
+	get_tree().paused = false
+
+func _on_close_pressed() -> void:
+	AudioManager.play_sfx("menu_click")
+	close()
+
+## Regions are built once at boot; unlock flags can change after that
+## (quest/exposure gated), so re-sync them from MapManager each time the
+## map is opened rather than only once at _ready.
+func _refresh_unlocks() -> void:
+	for region in regionsNode.get_children():
+		region.unlocked = MapManager.is_unlocked(region.region_id)
 
 # -- J.Gumban --
 func get_fit_scale() -> float:
-	var viewport_size := get_viewport_rect().size
+	var viewport_size := get_viewport().get_visible_rect().size
 	var texture_size := mapImage.get_texture().get_size()
 	return min(viewport_size.x / texture_size.x, viewport_size.y / texture_size.y)
 

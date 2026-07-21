@@ -12,7 +12,6 @@ extends Node
 ## -- J.Gumban --
 
 const REGION_DATA_PATH := "res://data/map_data/regions.json"
-const MAP_SCENE_PATH := "res://scenes/map/map_scene.tscn"
 
 ## region_id (String, hex color, matches region_map.png mask + regions.json key)
 ## -> Dictionary { display_name: String, scene_path: String, unlocked: bool }
@@ -56,6 +55,8 @@ func travel_to_region(region_id: String) -> void:
 		push_error("MapManager: region '%s' is unlocked but has no scene_path set" % region_id)
 		return
 
+	CutsceneManager.abort()
+	MapUI.close()
 	await FadeManager.fade_out()
 
 	# GameState.current_area stores the region's clean id ("farming"), not the
@@ -70,7 +71,6 @@ func travel_to_region(region_id: String) -> void:
 
 	await FadeManager.fade_in()
 
-## Opens the node-map scene itself. TODO: no in-village trigger calls this yet —
-## wire a signpost Comp_Interactable or a BookUI menu entry (open item, not built).
+## Opens the node-map overlay.
 func open_map() -> void:
-	get_tree().change_scene_to_file(MAP_SCENE_PATH)
+	MapUI.open()
