@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://c3brwhhvo634n"]
+
+[ext_resource type="Script" uid="uid://buh1xxy6runk" path="res://scripts/ui/page_journal.gd" id="1_journal"]
+[ext_resource type="Texture2D" uid="uid://dku755nhphf2r" path="res://assets/ui/book/aklan_map.png" id="2_map"]
+
+[node name="PageJournal" type="Control" unique_id=288453177]
+layout_mode = 3
+anchor_left = 0.02
+anchor_top = 0.02
+anchor_right = 0.98
+anchor_bottom = 0.98
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_journal")
+
+[node name="MapButton" type="TextureButton" parent="." unique_id=540812886]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("2_map")
+stretch_mode = 0
+
+[node name="LabelPhilippines" type="Label" parent="." unique_id=688161966]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.6
+anchor_top = 0.22
+anchor_right = 0.6
+anchor_bottom = 0.22
+offset_right = 82.0
+offset_bottom = 15.0
+text = "Philippines"
+vertical_alignment = 1
+
+[node name="LabelAklan" type="Label" parent="." unique_id=816040649]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.6
+anchor_top = 0.15
+anchor_right = 0.6
+anchor_bottom = 0.15
+text = "Aklan"
+vertical_alignment = 1

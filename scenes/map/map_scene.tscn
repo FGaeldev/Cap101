@@ -19,4 +19,3 @@ centered = false
 [node name="Regions" type="Node2D" parent="." unique_id=273224457]
 
 [node name="RegionPopup" parent="." unique_id=1707879217 instance=ExtResource("3_5m4q6")]
-script = null

@@ -9,6 +9,7 @@ const PageSettingsScene := preload("res://scenes/ui/page_settings.tscn")
 const PageDictionaryListScene := preload("res://scenes/ui/page_dictionary.tscn")
 const PageDictionaryFilterScene := preload("res://scenes/ui/page_dictionary_filter.tscn")
 const PageRelationshipScene := preload("res://scenes/ui/page_relationship.tscn")
+const PageJournalScene := preload("res://scenes/ui/page_journal.tscn")
 
 const MARKER := preload("res://assets/ui/book/marker.png")
 const MARKER_SLICE_MARGIN := 3
@@ -47,6 +48,9 @@ func _ready() -> void:
 	_tabs["relationship"]["page"] = rel_left
 	_tabs["relationship"]["page_right"] = rel_right
 	_register_tab("bucket_list", $Root/TabBar/TabBucketList, "JOURNAL")
+	_tabs["bucket_list"]["page"] = PageJournalScene.instantiate()
+	page_left.add_child(_tabs["bucket_list"]["page"])
+	_tabs["bucket_list"]["page"].visible = false
 	
 	# -- assigning page to tabs
 	_register_tab("settings", $Root/TabBar/TabSettings, "SETTINGS")
