@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://bqn1bpq8s832f" path="res://assets/ui/book/page_right.png" id="5_he5ik"]
 [ext_resource type="Texture2D" uid="uid://dmx7lv7mutv3k" path="res://assets/ui/book/dictionaryt_icon.png" id="6_blequ"]
 [ext_resource type="Texture2D" uid="uid://dtmnv5nuelrg4" path="res://assets/ui/book/heart_icon.png" id="7_w2i5u"]
+[ext_resource type="Texture2D" uid="uid://dku755nhphf2r" path="res://assets/ui/book/aklan_map.png" id="8_map"]
 [ext_resource type="Texture2D" uid="uid://cg3uyf6a43cge" path="res://assets/ui/book/left_icon.png" id="11_iivqe"]
 [ext_resource type="Texture2D" uid="uid://bwdvlgc7nf325" path="res://assets/ui/book/right_icon.png" id="12_jyi8r"]
 
@@ -124,6 +125,12 @@ custom_minimum_size = Vector2(20, 14)
 layout_mode = 2
 icon = ExtResource("7_w2i5u")
 
+[node name="TabMap" type="Button" parent="Root/TabBar" unique_id=592817364]
+custom_minimum_size = Vector2(20, 14)
+layout_mode = 2
+icon = ExtResource("8_map")
+expand_icon = true
+
 [node name="TabSettings" type="Button" parent="Root/TabBar" unique_id=1442593372]
 custom_minimum_size = Vector2(20, 14)
 layout_mode = 2
@@ -150,6 +157,16 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_b1lj4")
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxTexture_njqwk")
+
+[node name="PageMapHost" type="Control" parent="Root" unique_id=847162935]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.02
+anchor_top = 0.22
+anchor_right = 0.98
+anchor_bottom = 0.95
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="BottomBar" type="HBoxContainer" parent="Root" unique_id=984523519]
 visible = false

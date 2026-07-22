@@ -20,9 +20,9 @@ func _ready() -> void:
 	label_philippines.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
 	label_aklan.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_L)
 
-## Trigger for the aklan_map.png tap target: closes BookUI, opens the
-## node-map travel scene.
+## Trigger for the aklan_map.png tap target: Map is a BookUI tab now, so this
+## just switches tabs in place — no close/reopen round trip through a
+## separate overlay anymore.
 func _on_map_pressed() -> void:
 	AudioManager.play_sfx("menu_click")
-	BookUI.close()
-	MapManager.open_map()
+	BookUI.switch_tab("map")

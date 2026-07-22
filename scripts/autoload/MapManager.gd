@@ -2,19 +2,25 @@ extends Node
 ## MapManager.gd
 ## Autoload. Node-map travel system (Tier 0 deliverable — GDD §2, §9 item 3;
 ## Roadmap Phase A). Loads region -> destination-scene registry from
-## data/map_data/regions.json, drives RegionPopup's "Mag-adto" (go) action,
-## and writes through to GameState.current_area / GameState.current_level_path
-## on successful travel, per the register-on-ready / call-through-autoload
-## pattern used by every other system (TDD §2).
+## data/map_data/regions.json and writes through to GameState.current_area /
+## GameState.current_level_path on successful travel, per the
+## register-on-ready / call-through-autoload pattern used by every other
+## system (TDD §2).
 ##
-## Built on top of J. Gumban's color-region-mask map prototype
-## (map_scene.gd / region_area.gd / region_popup.gd, adapted — see those files).
-## -- J.Gumban --
+## Region data model and travel logic are J. Gumban's original prototype,
+## unchanged. Front-end changed: the Map is now a BookUI tab (page_map.gd)
+## instead of a separate MapUI CanvasLayer overlay — see page_map.gd for the
+## icon-button replacement of the old color-mask polygon regions
+## (region_area.gd, now retired, see scenes/map/ + scripts/map/ deprecation
+## note). -- J.Gumban --
 
 const REGION_DATA_PATH := "res://data/map_data/regions.json"
 
-## region_id (String, hex color, matches region_map.png mask + regions.json key)
-## -> Dictionary { display_name: String, scene_path: String, unlocked: bool }
+## region_id (String, hex color, matches regions.json key — also doubles as
+## the old region_map.png mask color; no longer used for hit-testing, kept
+## as the id since it's already the save-compatible key)
+## -> Dictionary { display_name: String, scene_path: String, unlocked: bool,
+##                 map_pos: {x: float, y: float} }
 var regions: Dictionary = {}
 
 func _ready() -> void:
@@ -56,7 +62,7 @@ func travel_to_region(region_id: String) -> void:
 		return
 
 	CutsceneManager.abort()
-	MapUI.close()
+	BookUI.close()
 	await FadeManager.fade_out()
 
 	# GameState.current_area stores the region's clean id ("farming"), not the
@@ -71,6 +77,8 @@ func travel_to_region(region_id: String) -> void:
 
 	await FadeManager.fade_in()
 
-## Opens the node-map overlay.
+## Opens the Map tab. Kept as the stable call site for gameplay code
+## (stub_area.gd etc.) so nothing outside BookUI needs to know the map lives
+## in a tab now instead of its own overlay.
 func open_map() -> void:
-	MapUI.open()
+	BookUI.open("map")

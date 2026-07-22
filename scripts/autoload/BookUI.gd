@@ -1,8 +1,10 @@
-# BookUI.gd — autoload. Single entry point for relationship/dictionary/journal/settings.
+# BookUI.gd — autoload. Single entry point for relationship/dictionary/journal/settings/map.
 extends CanvasLayer
 
 @onready var page_left: Panel = $Root/Spread/PageLeft
 @onready var page_right: Panel = $Root/Spread/PageRight
+@onready var spread: Control = $Root/Spread
+@onready var page_map_host: Control = $Root/PageMapHost
 
 # -- Page Scenes --
 const PageSettingsScene := preload("res://scenes/ui/page_settings.tscn")
@@ -10,6 +12,7 @@ const PageDictionaryListScene := preload("res://scenes/ui/page_dictionary.tscn")
 const PageDictionaryFilterScene := preload("res://scenes/ui/page_dictionary_filter.tscn")
 const PageRelationshipScene := preload("res://scenes/ui/page_relationship.tscn")
 const PageJournalScene := preload("res://scenes/ui/page_journal.tscn")
+const PageMapScene := preload("res://scenes/ui/page_map.tscn")
 
 const MARKER := preload("res://assets/ui/book/marker.png")
 const MARKER_SLICE_MARGIN := 3
@@ -17,7 +20,9 @@ const MARKER_SLICE_MARGIN := 3
 const TAB_HOVER_SCALE := 1.15
 const TAB_ANIM_TIME := 0.12
 
-# tab_id -> { button: Button, title: String, is_unlocked: Callable }
+# tab_id -> { button: Button, title: String, is_unlocked: Callable,
+#             page: Control, page_right: Control (optional),
+#             full_spread: bool (optional) }
 var _tabs: Dictionary = {}
 var _current_tab: String = ""
 
@@ -69,6 +74,20 @@ func _ready() -> void:
 	_tabs["dictionary"]["page"] = dict_filter        # PageLeft
 	_tabs["dictionary"]["page_right"] = dict_list    # PageRight
 	set_tab_lock_condition("dictionary", func(): return not GameState.word_exposures.is_empty())
+
+	# Map — spans the whole spread (both pages) instead of living in
+	# PageLeft/PageRight, so it gets a PNG map bg uninterrupted by the
+	# page-seam. Registered under "page" like every other tab so the
+	# existing _show_page/_hide_page plumbing needs no special case; the
+	# only extra bit is hiding the parchment Spread panels underneath
+	# (see switch_tab). page_map_host is the anchor-matched sibling of
+	# Spread that hosts it — see book_ui.tscn.
+	_register_tab("map", $Root/TabBar/TabMap, "MAP")
+	var map_page := PageMapScene.instantiate()
+	page_map_host.add_child(map_page)
+	map_page.visible = false
+	_tabs["map"]["page"] = map_page
+	_tabs["map"]["full_spread"] = true
 
 func _make_marker_style() -> StyleBoxTexture:
 	var sb := StyleBoxTexture.new()
@@ -134,6 +153,9 @@ func switch_tab(tab_id: String) -> void:
 	_current_tab = tab_id
 	_animate_tab(tab_id, TAB_HOVER_SCALE)
 	title_label.text = entry["title"]
+	# full_spread tabs (Map) draw over both pages, so hide the parchment
+	# Spread panels underneath rather than layering the map on top of them.
+	spread.visible = not entry.get("full_spread", false)
 	_show_page(entry, "page")
 	_show_page(entry, "page_right")
 	_update_bottom_bar()

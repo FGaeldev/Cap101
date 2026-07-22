@@ -20,6 +20,5 @@ func _on_music_toggled(muted: bool) -> void:
 func _on_quit_pressed() -> void:
 	CutsceneManager.abort()
 	GameState.save_game()
-	MapUI.close()
 	BookUI.close()
 	get_tree().change_scene_to_file("res://scenes/ui/MainMenu.tscn")
