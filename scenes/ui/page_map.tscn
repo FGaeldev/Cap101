@@ -12,6 +12,7 @@ grow_vertical = 2
 script = ExtResource("1_pmap")
 
 [node name="MapBG" type="TextureRect" parent="."]
+clip_contents = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

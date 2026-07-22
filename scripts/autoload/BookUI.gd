@@ -86,6 +86,7 @@ func _ready() -> void:
 	var map_page := PageMapScene.instantiate()
 	page_map_host.add_child(map_page)
 	map_page.visible = false
+	page_map_host.visible = false  # host itself must be hidden too, not just its child — else it still eats mouse input over the pages rect while on other tabs
 	_tabs["map"]["page"] = map_page
 	_tabs["map"]["full_spread"] = true
 
@@ -155,7 +156,12 @@ func switch_tab(tab_id: String) -> void:
 	title_label.text = entry["title"]
 	# full_spread tabs (Map) draw over both pages, so hide the parchment
 	# Spread panels underneath rather than layering the map on top of them.
-	spread.visible = not entry.get("full_spread", false)
+	# Both containers toggle together — page_map_host must actually be
+	# hidden (not just its content) or it keeps blocking mouse input on
+	# every other tab (see _ready comment on page_map_host.visible = false).
+	var is_full_spread: bool = entry.get("full_spread", false)
+	spread.visible = not is_full_spread
+	page_map_host.visible = is_full_spread
 	_show_page(entry, "page")
 	_show_page(entry, "page_right")
 	_update_bottom_bar()
