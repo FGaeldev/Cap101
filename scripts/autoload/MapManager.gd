@@ -16,11 +16,8 @@ extends Node
 
 const REGION_DATA_PATH := "res://data/map_data/regions.json"
 
-## region_id (String, hex color, matches regions.json key — also doubles as
-## the old region_map.png mask color; no longer used for hit-testing, kept
-## as the id since it's already the save-compatible key)
-## -> Dictionary { display_name: String, scene_path: String, unlocked: bool,
-##                 map_pos: {x: float, y: float} }
+## region_id (String, matches regions.json key and its own "id" field)
+## -> Dictionary { display_name: String, scene_path: String, unlocked: bool }
 var regions: Dictionary = {}
 
 func _ready() -> void:
@@ -65,10 +62,6 @@ func travel_to_region(region_id: String) -> void:
 	BookUI.close()
 	await FadeManager.fade_out()
 
-	# GameState.current_area stores the region's clean id ("farming"), not the
-	# hex mask color used as this dict's key — keeps the save format consistent
-	# with the "village" default (GameState.gd) instead of leaking map_art.png
-	# color codes into the save file.
 	GameState.current_area = region.get("id", region_id)
 	GameState.current_level_path = scene_path
 	GameState.save_game()

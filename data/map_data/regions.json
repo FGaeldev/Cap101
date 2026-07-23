@@ -1,11 +1,11 @@
 {
-	"#ac3232": { "id": "bonus",        "display_name": "Bonus",        "scene_path": "", "unlocked": false, "map_pos": { "x": 0.65, "y": 0.30 } },
-	"#df7126": { "id": "landing",      "display_name": "Landing",      "scene_path": "", "unlocked": false, "map_pos": { "x": 0.20, "y": 0.25 } },
-	"#d9a066": { "id": "leaf_weaving", "display_name": "Leaf Weaving", "scene_path": "", "unlocked": false, "map_pos": { "x": 0.55, "y": 0.20 } },
-	"#eec39a": { "id": "pottery",      "display_name": "Pottery",      "scene_path": "", "unlocked": false, "map_pos": { "x": 0.75, "y": 0.55 } },
-	"#fbf236": { "id": "airport",      "display_name": "Airport",      "scene_path": "", "unlocked": false, "map_pos": { "x": 0.30, "y": 0.80 } },
-	"#639bff": { "id": "port",         "display_name": "Port",         "scene_path": "", "unlocked": false, "map_pos": { "x": 0.80, "y": 0.75 } },
-	"#8f563b": { "id": "abaca",        "display_name": "Abaca",        "scene_path": "", "unlocked": false, "map_pos": { "x": 0.15, "y": 0.65 } },
-	"#6abe30": { "id": "farming",      "display_name": "Farming",      "scene_path": "res://scenes/map/stub_area.tscn", "unlocked": true, "map_pos": { "x": 0.35, "y": 0.60 } },
-	"#6bea30": { "id": "village",      "display_name": "Village",      "scene_path": "res://scenes/world/scene01.tscn", "unlocked": true, "map_pos": { "x": 0.50, "y": 0.55 } }
+	"bonus":        { "id": "bonus",        "display_name": "Bonus",        "scene_path": "", "unlocked": false },
+	"landing":      { "id": "landing",      "display_name": "Landing",      "scene_path": "res://scenes/world/scene01.tscn", "unlocked": true },
+	"leaf_weaving": { "id": "leaf_weaving", "display_name": "Leaf Weaving", "scene_path": "", "unlocked": false },
+	"pottery":      { "id": "pottery",      "display_name": "Pottery",      "scene_path": "", "unlocked": false },
+	"airport":      { "id": "airport",      "display_name": "Airport",      "scene_path": "", "unlocked": false },
+	"port":         { "id": "port",         "display_name": "Port",         "scene_path": "", "unlocked": false },
+	"abaca":        { "id": "abaca",        "display_name": "Abaca",        "scene_path": "", "unlocked": false },
+	"farming":      { "id": "farming",      "display_name": "Farming",      "scene_path": "res://scenes/map/stub_area.tscn", "unlocked": true },
+	"village":      { "id": "village",      "display_name": "Village",      "scene_path": "res://scenes/world/scene01.tscn", "unlocked": true }
 }

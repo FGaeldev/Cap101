@@ -1,8 +1,9 @@
-[gd_scene format=3 uid="uid://c3mq9wprk27lz"]
+[gd_scene format=3 uid="uid://c3mrawprk27l0"]
 
-[ext_resource type="Script" uid="uid://bnf82h5tq0wxk" path="res://scripts/ui/page_map.gd" id="1_pmap"]
+[ext_resource type="Script" uid="uid://qh4src1blo3j" path="res://scripts/ui/page_map.gd" id="1_pmap"]
+[ext_resource type="Texture2D" uid="uid://dku755nhphf2r" path="res://assets/ui/book/aklan_map.png" id="2_uc4iy"]
 
-[node name="PageMap" type="Control"]
+[node name="PageMap" type="Control" unique_id=108367728]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +12,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_pmap")
 
-[node name="MapBG" type="TextureRect" parent="."]
+[node name="MapBG" type="TextureRect" parent="." unique_id=1347167005]
 clip_contents = true
 layout_mode = 1
 anchors_preset = 15
@@ -19,10 +20,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-expand_mode = 1
-stretch_mode = 5
+texture = ExtResource("2_uc4iy")
 
-[node name="Markers" type="Control" parent="."]
+[node name="Markers" type="Control" parent="." unique_id=400194501]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -30,3 +30,17 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="landing" type="Button" parent="Markers" unique_id=223118627]
+layout_mode = 0
+offset_left = 170.0
+offset_top = 15.0
+offset_right = 178.0
+offset_bottom = 23.0
+
+[node name="airport" type="Button" parent="Markers" unique_id=1244268475]
+layout_mode = 0
+offset_left = 278.0
+offset_top = 97.0
+offset_right = 286.0
+offset_bottom = 105.0

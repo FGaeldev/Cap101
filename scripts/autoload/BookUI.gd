@@ -154,13 +154,10 @@ func switch_tab(tab_id: String) -> void:
 	_current_tab = tab_id
 	_animate_tab(tab_id, TAB_HOVER_SCALE)
 	title_label.text = entry["title"]
-	# full_spread tabs (Map) draw over both pages, so hide the parchment
-	# Spread panels underneath rather than layering the map on top of them.
-	# Both containers toggle together — page_map_host must actually be
-	# hidden (not just its content) or it keeps blocking mouse input on
-	# every other tab (see _ready comment on page_map_host.visible = false).
+	# Map draws over both pages with a transparent-bg PNG, so parchment
+	# stays visible underneath instead of being hidden. page_map_host still
+	# toggles — it hosts the map's clickable marker layer.
 	var is_full_spread: bool = entry.get("full_spread", false)
-	spread.visible = not is_full_spread
 	page_map_host.visible = is_full_spread
 	_show_page(entry, "page")
 	_show_page(entry, "page_right")
