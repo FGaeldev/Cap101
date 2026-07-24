@@ -4,22 +4,40 @@
 # separators per panel feedback — boxed cards wasted width at half-page.
 #
 # Paginated, not scrolled — implements next_page()/prev_page()/
-# has_next_page()/has_prev_page(), which BookUI's bottom bar picks up
-# generically (see BookUI.gd::_update_bottom_bar()). WORDS_PER_PAGE is a
-# hardcoded row-count guess, same placeholder-constant approach as
-# page_relationship's MAX_ROWS — adjust once real content makes overflow
-# visible on-device.
+# has_next_page()/has_prev_page(), picked up generically by BookUI's bottom
+# bar (BookUI.gd::_update_bottom_bar()).
+#
+# PAGE_HEIGHT_BUDGET is measured, not guessed: Spread anchors in book_ui.tscn
+# give ~210px tall page halves at 512x288 viewport, PageDictionary's own
+# 0.02-0.98 anchor takes ~4% off each side -> ~202px content height. Matches
+# page_relationship.gd's own "~202px row_list height" comment — same page,
+# same budget.
+#
+# ENTRY_HEIGHT is a fixed ceiling, not a measurement of any one entry —
+# meaning_label is hard-capped to 2 wrap lines (max_lines_visible + ellipsis
+# overrun) specifically so every entry has the SAME worst-case height and
+# WORDS_PER_PAGE can be a flat division instead of guessing at wrap behavior.
+# Previously this wasn't capped: a long gloss could wrap to 3-4 lines and
+# blow well past whatever WORDS_PER_PAGE assumed, spilling the list past the
+# page art into whatever sits underneath — that was the overflow bug.
+# clip_contents on the root is a hard backstop in case this estimate is off.
 extends Control
 
 @onready var word_list: VBoxContainer = $WordList
 
 const LINE_TEXTURE := preload("res://assets/ui/book/line.png")
-const WORDS_PER_PAGE := 6
+
+const PAGE_HEIGHT_BUDGET := 202.0
+const ENTRY_HEIGHT := 47.0   # word line (~17) + 2 capped gloss lines (~24) + separator (~6)
+const WORDS_PER_PAGE := 4    # floor(202/47) = 4, leaves ~14px slack for font-metric drift
 
 var _filter_query: String = ""
 var _filter_category: String = ""  # "" = all categories
 var _filtered_entries: Array = []  # word_ids passing current filter
 var _offset: int = 0
+
+func _ready() -> void:
+	clip_contents = true
 
 ## Called by BookUI's generic page-refresh hook. No-op-safe from a cold
 ## start — GameState.word_exposures may be empty pre-Dictionary-unlock.
@@ -105,7 +123,9 @@ func _add_entry(word_id: String, word_data: Dictionary) -> void:
 	enc.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XS)
 	top_row.add_child(enc)
 
-	# Row 2: [meaning]
+	# Row 2: [meaning] — hard-capped to 2 lines, ellipsis on overrun. This cap
+	# is what makes ENTRY_HEIGHT/WORDS_PER_PAGE trustworthy; without it a long
+	# gloss wraps to however many lines it needs and blows the page budget.
 	# [CLAUDE NOTE] gloss field currently blank/unverified for some words
 	# in word_bank.json. Falls back to placeholder until verified.
 	var meaning_label := Label.new()
@@ -113,7 +133,9 @@ func _add_entry(word_id: String, word_data: Dictionary) -> void:
 	meaning_label.text = gloss if not gloss.is_empty() else "(meaning pending verification)"
 	meaning_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 	meaning_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
-	meaning_label.autowrap_mode = TextServer.AUTOWRAP_WORD
+	meaning_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	meaning_label.max_lines_visible = 2
+	meaning_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	word_list.add_child(meaning_label)
 
 	# Separator — line.png, tiled to fill width instead of stretched thin

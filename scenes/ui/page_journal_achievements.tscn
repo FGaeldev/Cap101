@@ -1,8 +1,8 @@
-[gd_scene format=3 uid="uid://c3brwhhvo634n"]
+[gd_scene format=3 uid="uid://dqk3yan7wjr2a"]
 
-[ext_resource type="Script" uid="uid://buh1xxy6runk" path="res://scripts/ui/page_journal.gd" id="1_journal"]
+[ext_resource type="Script" path="res://scripts/ui/page_journal_achievements.gd" id="1_ach"]
 
-[node name="PageJournal" type="Control" unique_id=288453177]
+[node name="PageJournalAchievements" type="Control"]
 layout_mode = 3
 anchor_left = 0.02
 anchor_top = 0.02
@@ -10,7 +10,7 @@ anchor_right = 0.98
 anchor_bottom = 0.98
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_journal")
+script = ExtResource("1_ach")
 
 [node name="Header" type="Label" parent="."]
 layout_mode = 0
