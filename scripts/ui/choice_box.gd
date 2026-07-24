@@ -18,10 +18,9 @@ func show_choices(choices: Array, component: DialogueComponent) -> void:
 		btn.text = c.get("label", "...")
 		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		_style_choice_btn(btn)
-		var next = c.get("next", -1)
 		btn.pressed.connect(func():
 			hide_choices()
-			component.choose(next)
+			component.choose(c)
 		)
 		choice_list.add_child(btn)
 

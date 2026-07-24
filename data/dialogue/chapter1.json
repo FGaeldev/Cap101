@@ -36,15 +36,20 @@
 		"choices": [
 		{
 		  "label": "That sounds beautiful, Lola. I want to know more about your home.",
-		  "next": 6
+		  "next": 6,
+		  "rapport_delta": 1.0,
+		  "patience_delta": 5
 		},
 		{
 		  "label": "I do not understand Aklanon yet, but I want to listen.",
-		  "next": 7
+		  "next": 7,
+		  "rapport_delta": 0.5
 		},
 		{
 		  "label": "I do not think I can learn that language, Lola.",
-		  "next": 8
+		  "next": 8,
+		  "rapport_delta": -0.5,
+		  "patience_delta": -10
 		}
 		],
 		"next": null
@@ -62,6 +67,10 @@
 		{
 		"speaker": "Lola Jonabel",
 		"text": "Do not say that too soon. You can learn slowly. One word at a time.",
+		"patience_branch": [
+			{"min_patience": 0, "next": 9},
+			{"min_patience": 50, "next": 9}
+		],
 		"next": 9
 		},
 		{
