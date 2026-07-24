@@ -2,40 +2,75 @@
 # Companion to page_dictionary_filter.gd (PageLeft), which drives
 # apply_filter() via BookUI's wiring. Cards replaced with line.png
 # separators per panel feedback — boxed cards wasted width at half-page.
+#
+# Paginated, not scrolled — implements next_page()/prev_page()/
+# has_next_page()/has_prev_page(), which BookUI's bottom bar picks up
+# generically (see BookUI.gd::_update_bottom_bar()). WORDS_PER_PAGE is a
+# hardcoded row-count guess, same placeholder-constant approach as
+# page_relationship's MAX_ROWS — adjust once real content makes overflow
+# visible on-device.
 extends Control
 
-@onready var word_list: VBoxContainer = $ScrollContainer/WordList
+@onready var word_list: VBoxContainer = $WordList
 
 const LINE_TEXTURE := preload("res://assets/ui/book/line.png")
+const WORDS_PER_PAGE := 6
 
 var _filter_query: String = ""
 var _filter_category: String = ""  # "" = all categories
+var _filtered_entries: Array = []  # word_ids passing current filter
+var _offset: int = 0
 
-## Called by BookUI.switch_tab() right before this page becomes visible,
-## so the list is always current instead of stale from _ready().
+## Called by BookUI's generic page-refresh hook. No-op-safe from a cold
+## start — GameState.word_exposures may be empty pre-Dictionary-unlock.
 func refresh() -> void:
-	_rebuild()
+	_offset = 0
+	_apply_filter_and_rebuild()
 
 ## Called by page_dictionary_filter.gd via signal whenever search text
 ## or category dropdown changes.
 func apply_filter(query: String, category: String) -> void:
 	_filter_query = query.to_lower()
 	_filter_category = category
-	_rebuild()
+	_offset = 0
+	_apply_filter_and_rebuild()
 
-func _rebuild() -> void:
-	for child in word_list.get_children():
-		word_list.remove_child(child)
-		child.free()
+func next_page() -> void:
+	if has_next_page():
+		_offset += WORDS_PER_PAGE
+		_render_page()
 
-	var entries: Array = GameState.word_exposures.keys()
-	for word_id in entries:
+func prev_page() -> void:
+	if has_prev_page():
+		_offset -= WORDS_PER_PAGE
+		_render_page()
+
+func has_next_page() -> bool:
+	return _offset + WORDS_PER_PAGE < _filtered_entries.size()
+
+func has_prev_page() -> bool:
+	return _offset > 0
+
+func _apply_filter_and_rebuild() -> void:
+	_filtered_entries.clear()
+	for word_id in GameState.word_exposures.keys():
 		var word_data: Dictionary = WordBank.get_word(word_id)
 		if word_data.is_empty():
 			continue
 		if not _passes_filter(word_data):
 			continue
-		_add_entry(word_id, word_data)
+		_filtered_entries.append(word_id)
+	_render_page()
+
+func _render_page() -> void:
+	for child in word_list.get_children():
+		word_list.remove_child(child)
+		child.free()
+
+	var page_end: int = mini(_offset + WORDS_PER_PAGE, _filtered_entries.size())
+	var page_slice: Array = _filtered_entries.slice(_offset, page_end)
+	for word_id in page_slice:
+		_add_entry(word_id, WordBank.get_word(word_id))
 
 func _passes_filter(word_data: Dictionary) -> bool:
 	if not _filter_category.is_empty() and word_data.get("category", "") != _filter_category:
