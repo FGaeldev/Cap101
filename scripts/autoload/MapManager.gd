@@ -44,6 +44,13 @@ func is_unlocked(region_id: String) -> bool:
 
 ## Called by RegionPopup's go_button. Fades out (if FadeManager is wired),
 ## switches scene, persists travel state to GameState, fades back in.
+##
+## Routes through Game.gd::load_level() (swaps LevelContainer's child), NOT
+## get_tree().change_scene_to_file() — the latter would replace the whole
+## running scene tree (Game.tscn itself, the current_scene once past
+## MainMenu), destroying HUD/ScreenFade/DialogueRoot/WordReveal/
+## QuestCompletePopup/PuzzlePanel, all of which live in Game.tscn's UILayer
+## and are meant to persist across area travel.
 func travel_to_region(region_id: String) -> void:
 	var region := get_region(region_id)
 	if region.is_empty():
@@ -58,6 +65,11 @@ func travel_to_region(region_id: String) -> void:
 		push_error("MapManager: region '%s' is unlocked but has no scene_path set" % region_id)
 		return
 
+	var game := get_tree().current_scene
+	if game == null or not game.has_method("load_level"):
+		push_error("MapManager: current_scene has no load_level() — not running inside Game.tscn")
+		return
+
 	CutsceneManager.abort()
 	BookUI.close()
 	await FadeManager.fade_out()
@@ -66,7 +78,7 @@ func travel_to_region(region_id: String) -> void:
 	GameState.current_level_path = scene_path
 	GameState.save_game()
 
-	get_tree().change_scene_to_file(scene_path)
+	game.load_level(scene_path)
 
 	await FadeManager.fade_in()
 
