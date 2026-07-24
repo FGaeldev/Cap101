@@ -3,11 +3,22 @@ extends CanvasLayer
 
 @onready var quest_label: Label = $VBoxContainer/QuestBG/QuestLabel
 @onready var quest_bg: PanelContainer = $VBoxContainer/QuestBG
+@onready var menu_button: Button = $MenuButton
 
 func _ready() -> void:
 	QuestManager.quest_completed.connect(_on_quest_completed)
 	_refresh_quest_label()
 	_apply_style()
+	UIThemeApplier.apply_icon_button_theme(menu_button, "menu")
+	menu_button.pressed.connect(_on_menu_button_pressed)
+
+func _on_menu_button_pressed() -> void:
+	# Mobile has no keyboard ui_cancel — this is the only way to reach
+	# BookUI on a touch-only device (Android back button still works too,
+	# via BackButtonBridge). Defaults to "settings" tab, same as ui_cancel.
+	# No AudioManager.play_sfx() here — BookUI.open()/switch_tab() already
+	# plays "menu_click" itself.
+	BookUI.open()
 
 func _apply_style() -> void:
 	var bg = StyleBoxFlat.new()
