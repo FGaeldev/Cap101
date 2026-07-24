@@ -12,6 +12,7 @@ const PageDictionaryListScene := preload("res://scenes/ui/page_dictionary.tscn")
 const PageDictionaryFilterScene := preload("res://scenes/ui/page_dictionary_filter.tscn")
 const PageRelationshipScene := preload("res://scenes/ui/page_relationship.tscn")
 const PageJournalScene := preload("res://scenes/ui/page_journal.tscn")
+const PageJournalAchievementsScene := preload("res://scenes/ui/page_journal_achievements.tscn")
 const PageMapScene := preload("res://scenes/ui/page_map.tscn")
 
 const MARKER := preload("res://assets/ui/book/marker.png")
@@ -53,9 +54,14 @@ func _ready() -> void:
 	_tabs["relationship"]["page"] = rel_left
 	_tabs["relationship"]["page_right"] = rel_right
 	_register_tab("bucket_list", $Root/TabBar/TabBucketList, "JOURNAL")
-	_tabs["bucket_list"]["page"] = PageJournalScene.instantiate()
-	page_left.add_child(_tabs["bucket_list"]["page"])
-	_tabs["bucket_list"]["page"].visible = false
+	var journal_quests := PageJournalScene.instantiate()
+	var journal_achievements := PageJournalAchievementsScene.instantiate()
+	page_left.add_child(journal_quests)
+	page_right.add_child(journal_achievements)
+	journal_quests.visible = false
+	journal_achievements.visible = false
+	_tabs["bucket_list"]["page"] = journal_quests             # PageLeft — paginated
+	_tabs["bucket_list"]["page_right"] = journal_achievements  # PageRight — fits one page at current scale
 	
 	# -- assigning page to tabs
 	_register_tab("settings", $Root/TabBar/TabSettings, "SETTINGS")
@@ -163,29 +169,44 @@ func switch_tab(tab_id: String) -> void:
 	_show_page(entry, "page_right")
 	_update_bottom_bar()
 
-## Generic — shows/enables the bottom bar for ANY tab whose primary "page"
-## exposes next_page()/prev_page()/has_next_page()/has_prev_page(), not just
-## Relationship. Future paginated tabs (Dictionary at scale, Journal) get
-## this for free by implementing the same four methods.
+## Generic — shows/enables the bottom bar for ANY tab whose "page" OR
+## "page_right" exposes next_page()/prev_page()/has_next_page()/
+## has_prev_page(). Checks "page" first (matches Relationship's
+## primary-owns-pagination convention), falls back to "page_right" (matches
+## Dictionary: dict_filter on "page" is a search box with nothing to
+## paginate, dict_list on "page_right" is the actual paginated content).
+## A tab where BOTH halves independently paginate isn't supported by a
+## single shared arrow pair — split content so only one side needs paging,
+## or extend this to track per-tab which side is "active", if that's ever
+## actually needed.
+func _get_paginated_page(tab_id: String):
+	var entry: Dictionary = _tabs.get(tab_id, {})
+	var page = entry.get("page")
+	if page != null and page.has_method("next_page"):
+		return page
+	var page_right = entry.get("page_right")
+	if page_right != null and page_right.has_method("next_page"):
+		return page_right
+	return null
+
 func _update_bottom_bar() -> void:
-	var page = _tabs[_current_tab].get("page")
-	var paginated: bool = page != null and page.has_method("next_page")
-	bottom_bar.visible = paginated
-	if not paginated:
+	var page = _get_paginated_page(_current_tab)
+	bottom_bar.visible = page != null
+	if page == null:
 		return
 	arrow_left.disabled = not page.has_prev_page()
 	arrow_right.disabled = not page.has_next_page()
 
 func _on_arrow_left_pressed() -> void:
-	var page = _tabs[_current_tab].get("page")
-	if page and page.has_method("prev_page"):
+	var page = _get_paginated_page(_current_tab)
+	if page:
 		AudioManager.play_sfx("menu_click")
 		page.prev_page()
 		_update_bottom_bar()
 
 func _on_arrow_right_pressed() -> void:
-	var page = _tabs[_current_tab].get("page")
-	if page and page.has_method("next_page"):
+	var page = _get_paginated_page(_current_tab)
+	if page:
 		AudioManager.play_sfx("menu_click")
 		page.next_page()
 		_update_bottom_bar()
