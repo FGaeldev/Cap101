@@ -1,52 +1,36 @@
 [gd_scene format=3 uid="uid://dfa38cmpiqhb3"]
 
 [ext_resource type="Script" uid="uid://c4c3m8svqqju2" path="res://scenes/world/scene01.gd" id="1_4dhc7"]
-[ext_resource type="PackedScene" uid="uid://gughijvh4geh" path="res://scenes/world/scene01map.tscn" id="2_p45fi"]
+[ext_resource type="PackedScene" uid="uid://wqdu66qwhpy8" path="res://scenes/world/usa_home_indoors.tscn" id="2_osyt6"]
 [ext_resource type="PackedScene" uid="uid://brd713x4jvfe8" path="res://scenes/entities/Player.tscn" id="3_bxgpk"]
-[ext_resource type="Texture2D" uid="uid://dxyclut21vscv" path="res://assets/tilesets/dual_grid/house1_usa.png" id="3_fkk4f"]
 [ext_resource type="PackedScene" uid="uid://bi7ubv102jcmx" path="res://scenes/entities/npc_LolaJonabel.tscn" id="4_qysbm"]
 [ext_resource type="Texture2D" uid="uid://d28q1je5ux8jj" path="res://assets/sprites/chair01.png" id="5_qmxtx"]
-[ext_resource type="PackedScene" uid="uid://5vbndqd5rkqe" path="res://scenes/entities/examinable_object.tscn" id="10_chj3e"]
 [ext_resource type="PackedScene" uid="uid://c061vwko5ij8i" path="res://scenes/entities/npc_PapaJobert.tscn" id="12_p45fi"]
 
 [node name="scene01" type="Node2D" unique_id=1912818364]
 y_sort_enabled = true
 script = ExtResource("1_4dhc7")
 
-[node name="Map" parent="." unique_id=2131529723 instance=ExtResource("2_p45fi")]
-
-[node name="House2" type="StaticBody2D" parent="." unique_id=2031326133]
-position = Vector2(516, 52)
-
-[node name="House1Usa" type="Sprite2D" parent="House2" unique_id=840449299]
-position = Vector2(65.7, -11)
-texture = ExtResource("3_fkk4f")
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="House2" unique_id=7716138]
-position = Vector2(1.7000008, 20)
-polygon = PackedVector2Array(-1, 0, -1, 0, 48, 0, 48, 31, 49, 31, 49, -10, 128, -10, 128, -26, -1, -26)
-
 [node name="Chair2" type="Sprite2D" parent="." unique_id=2117924632]
-position = Vector2(575, 65)
+position = Vector2(293, 66)
 texture = ExtResource("5_qmxtx")
+offset = Vector2(0, -8)
 hframes = 2
 frame = 1
 
+[node name="usa_home_indoors" parent="." unique_id=1844967884 instance=ExtResource("2_osyt6")]
+y_sort_enabled = true
+
 [node name="Player" parent="." unique_id=410096860 instance=ExtResource("3_bxgpk")]
-position = Vector2(590, 74)
+position = Vector2(280, 206)
 
 [node name="NpcElder" parent="." unique_id=12182856 instance=ExtResource("4_qysbm")]
-position = Vector2(574, 72)
+position = Vector2(293, 68)
 
 [node name="Blanket" type="Sprite2D" parent="NpcElder" unique_id=1920727634]
 position = Vector2(0, -9)
 texture = ExtResource("5_qmxtx")
 hframes = 2
 
-[node name="ExaminableObject" parent="." unique_id=1264876013 instance=ExtResource("10_chj3e")]
-position = Vector2(560, 372)
-quest_flag = "puzzle_001_done"
-sentence_template = "Kung ma _ mo ra. Mayad!"
-
 [node name="NpcPapaJobert" parent="." unique_id=985453941 instance=ExtResource("12_p45fi")]
-position = Vector2(605, 77)
+position = Vector2(135, 111)
