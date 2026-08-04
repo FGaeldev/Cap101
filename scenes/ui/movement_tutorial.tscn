@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://w65lhxcnryyd"]
+
+[ext_resource type="Script" uid="uid://b2v3tgs0dgtun" path="res://scripts/ui/movement_tutorial.gd" id="1_1dav2"]
+
+[node name="movement_tutorial" type="CanvasLayer" unique_id=1813965200]
+script = ExtResource("1_1dav2")
+
+[node name="Control" type="Control" parent="." unique_id=662616124]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Panel" type="PanelContainer" parent="Control" unique_id=384250602]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/Panel" unique_id=1595923055]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/Panel/MarginContainer" unique_id=1160070540]
+layout_mode = 2

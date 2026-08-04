@@ -11,7 +11,8 @@ func _ready() -> void:
 		CutsceneManager.register_actor(actor_id, self)
 
 func _on_interacted(_interactor: Node) -> void:
-	##print("interacted fired")
-	##print("dialogue lines: ", dialogue.dialogue_lines)
-	dialogue.dialogue_lines = ChapterLoader.get_scene_lines("chapter1", "scene_1_part1")
-	dialogue.start_dialogue()
+	if not GameState.get_flag("seen_chapter1_scene1"):
+		CutsceneManager.play("chapter1_scene1")
+	else:
+		dialogue.dialogue_lines = ChapterLoader.get_scene_lines("chapter1", "scene_1_part1")
+		dialogue.start_dialogue()

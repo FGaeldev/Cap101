@@ -217,8 +217,8 @@ metadata/_custom_type_script = "uid://b4kdc1v80hll3"
 
 [node name="DialogueComponent" type="Node" parent="." unique_id=1621841028]
 script = ExtResource("3_v4qet")
-dialogue_lines = null
 npc_id = null
+dialogue_lines = null
 metadata/_custom_type_script = "uid://rdfwcbfe3lh3"
 
 [node name="CutsceneAnimComponent" parent="." unique_id=217645047 node_paths=PackedStringArray("sprite") instance=ExtResource("5_v4qet")]

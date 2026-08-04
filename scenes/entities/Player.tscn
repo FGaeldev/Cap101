@@ -22,6 +22,7 @@ position = Vector2(0, -6)
 shape = SubResource("CircleShape2D_24gqh")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1806770490]
+top_level = true
 offset = Vector2(0, 20)
 zoom = Vector2(1.5, 1.5)
 position_smoothing_enabled = true

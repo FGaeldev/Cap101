@@ -17,6 +17,7 @@ const ACTION_SCRIPTS := [
 	"res://scripts/cutscene_actions/set_visible_action.gd",
 	"res://scripts/cutscene_actions/wait_action.gd",
 	"res://scripts/cutscene_actions/fade_action.gd",
+	"res://scripts/cutscene_actions/camera_action.gd",
 ]
 
 var _actions: Dictionary = {}
@@ -102,5 +103,40 @@ func abort() -> void:
 	if not _playing:
 		return
 	_playing = false
+	var cam: Camera2D = get_actor("camera")
+	var player: Node2D = get_actor("player")
+	if cam and player:
+		cam.global_position = player.global_position
+		cam.top_level = false
+		cam.position = Vector2.ZERO
+	_cam_follow_target = null
 	for child in get_children():
 		child.queue_free()
+
+## -- Camera Functions --
+var _cam_follow_target: Node2D = null
+
+func _process(_delta: float) -> void:
+	if _cam_follow_target == null:
+		return
+	if not is_instance_valid(_cam_follow_target):
+		_cam_follow_target = null
+		return
+	var cam: Camera2D = get_actor("camera")
+	if cam == null or not is_instance_valid(cam):
+		_cam_follow_target = null
+		return
+	cam.global_position = _cam_follow_target.global_position
+
+func camera_follow(target: Node2D) -> void:
+	var cam: Camera2D = get_actor("camera")
+	if cam == null:
+		return
+	cam.top_level = true
+	_cam_follow_target = target
+
+func camera_release() -> void:
+	var cam: Camera2D = get_actor("camera")
+	if cam == null:
+		return
+	_cam_follow_target = get_actor("player")

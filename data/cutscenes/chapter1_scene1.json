@@ -1,11 +1,15 @@
 [
-	{"type":"fade","direction":"in","duration":3.0},
+	{"type":"camera", "mode":"focus_actor", "actor":"Lola Jonabel", "duration":0.2},
+	{"type":"wait","seconds":0.3},
+	{"type":"camera", "mode":"zoom", "to":[2.5,2.5], "duration":0.5 },
 	{"type":"dialogue","chapter":"chapter1","scene":"scene_1_part1"},
-	{"type":"set_visible","actor":"Papa Jobert","value":true},
 	{"type":"wait","seconds":1},
-	{"type":"move_npc","actor":"Papa Jobert","to":[605,77],"speed":20},
-	{"type":"move_npc","actor":"Papa Jobert","to":[603,77],"speed":20},
+	{"type":"camera", "mode":"follow", "actor":"Papa Jobert"},
+	{"type":"wait","seconds":1},
+	{"type":"move_npc","actor":"Papa Jobert","to":[264,112],"speed":20},
+	{"type":"move_npc","actor":"Papa Jobert","to":[264,80],"speed":20},
 	{"type":"wait","seconds":1.5},
 	{"type":"dialogue","chapter":"chapter1","scene":"scene_1_part2"},
-	{"type": "set_flag", "flag": "seen_chapter1_scene1","value": true}
+	{"type": "set_flag", "flag": "seen_chapter1_scene1","value": true},
+	{"type":"camera", "mode":"release", "duration":0.5 },
 ]

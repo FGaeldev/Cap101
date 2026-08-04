@@ -12,6 +12,8 @@ var facing_left: bool = false
 
 func _ready() -> void:
 	add_to_group("player")
+	CutsceneManager.register_actor("camera", $Camera2D)
+	CutsceneManager.register_actor("player", self)
 
 ## Raw input axis, snapped to 4-directional (no diagonals).
 ## Locked to zero while dialogue is active.

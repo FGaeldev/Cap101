@@ -8,8 +8,6 @@ extends CharacterBody2D
 func _ready() -> void:
 	interactable.interacted.connect(_on_interacted)
 	call_deferred("_register")
-	visible = false
-	global_position = Vector2(605, 62)
 
 func _on_interacted(_interactor: Node) -> void:
 	##print("interacted fired")

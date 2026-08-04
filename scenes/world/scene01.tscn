@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://brd713x4jvfe8" path="res://scenes/entities/Player.tscn" id="3_bxgpk"]
 [ext_resource type="PackedScene" uid="uid://bi7ubv102jcmx" path="res://scenes/entities/npc_LolaJonabel.tscn" id="4_qysbm"]
 [ext_resource type="Texture2D" uid="uid://d28q1je5ux8jj" path="res://assets/sprites/chair01.png" id="5_qmxtx"]
+[ext_resource type="PackedScene" uid="uid://w65lhxcnryyd" path="res://scenes/ui/movement_tutorial.tscn" id="7_n1c12"]
 [ext_resource type="PackedScene" uid="uid://c061vwko5ij8i" path="res://scenes/entities/npc_PapaJobert.tscn" id="12_p45fi"]
 
 [node name="scene01" type="Node2D" unique_id=1912818364]
@@ -12,7 +13,7 @@ y_sort_enabled = true
 script = ExtResource("1_4dhc7")
 
 [node name="Chair2" type="Sprite2D" parent="." unique_id=2117924632]
-position = Vector2(293, 66)
+position = Vector2(277, 66)
 texture = ExtResource("5_qmxtx")
 offset = Vector2(0, -8)
 hframes = 2
@@ -25,7 +26,7 @@ y_sort_enabled = true
 position = Vector2(280, 206)
 
 [node name="NpcElder" parent="." unique_id=12182856 instance=ExtResource("4_qysbm")]
-position = Vector2(293, 68)
+position = Vector2(277, 68)
 
 [node name="Blanket" type="Sprite2D" parent="NpcElder" unique_id=1920727634]
 position = Vector2(0, -9)
@@ -33,4 +34,6 @@ texture = ExtResource("5_qmxtx")
 hframes = 2
 
 [node name="NpcPapaJobert" parent="." unique_id=985453941 instance=ExtResource("12_p45fi")]
-position = Vector2(135, 111)
+position = Vector2(128, 112)
+
+[node name="movement_tutorial" parent="." unique_id=1813965200 instance=ExtResource("7_n1c12")]

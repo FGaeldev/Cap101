@@ -1,34 +1,34 @@
 {
   "achievements": [
-    {
-      "id": "ach_first_word",
-      "title": "First Words",
-      "description": "Learn your first Akeanon word.",
-      "condition": { "type": "word_count", "min": 1 }
-    },
-    {
-      "id": "ach_word_collector",
-      "title": "Word Collector",
-      "description": "Learn 10 Akeanon words.",
-      "condition": { "type": "word_count", "min": 10 }
-    },
-    {
-      "id": "ach_quest_complete",
-      "title": "Quest Complete",
-      "description": "Finish your first quest.",
-      "condition": { "type": "quest_count", "min": 1 }
-    },
-    {
-      "id": "ach_friend",
-      "title": "Friend of Aklan",
-      "description": "Reach 5 hearts with any NPC.",
-      "condition": { "type": "rapport_min", "min": 5.0 }
-    },
-    {
-      "id": "ach_beloved",
-      "title": "Beloved",
-      "description": "Reach max hearts with any NPC.",
-      "condition": { "type": "rapport_min", "min": 10.0 }
-    }
+	{
+	  "id": "ach_first_word",
+	  "title": "First Words",
+	  "description": "Learn your first Akeanon word.",
+	  "condition": { "type": "word_count", "min": 1 }
+	},
+	{
+	  "id": "ach_word_collector",
+	  "title": "Word Collector",
+	  "description": "Learn 10 Akeanon words.",
+	  "condition": { "type": "word_count", "min": 10 }
+	},
+	{
+	  "id": "ach_quest_complete",
+	  "title": "Quest Complete",
+	  "description": "Finish your first quest.",
+	  "condition": { "type": "quest_count", "min": 1 }
+	},
+	{
+	  "id": "ach_friend",
+	  "title": "Friend of Aklan",
+	  "description": "Reach 5 hearts with any NPC.",
+	  "condition": { "type": "rapport_min", "min": 5.0 }
+	},
+	{
+	  "id": "ach_beloved",
+	  "title": "Beloved",
+	  "description": "Reach max hearts with any NPC.",
+	  "condition": { "type": "rapport_min", "min": 10.0 }
+	}
   ]
 }
