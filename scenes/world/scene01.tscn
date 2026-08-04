@@ -4,8 +4,14 @@
 [ext_resource type="PackedScene" uid="uid://wqdu66qwhpy8" path="res://scenes/world/usa_home_indoors.tscn" id="2_osyt6"]
 [ext_resource type="PackedScene" uid="uid://brd713x4jvfe8" path="res://scenes/entities/Player.tscn" id="3_bxgpk"]
 [ext_resource type="PackedScene" uid="uid://bi7ubv102jcmx" path="res://scenes/entities/npc_LolaJonabel.tscn" id="4_qysbm"]
-[ext_resource type="Texture2D" uid="uid://d28q1je5ux8jj" path="res://assets/sprites/chair01.png" id="5_qmxtx"]
+[ext_resource type="PackedScene" uid="uid://cdyrbi5mijxkx" path="res://scenes/objects/window.tscn" id="4_x0j6r"]
+[ext_resource type="PackedScene" uid="uid://3qef8whmsvn8" path="res://scenes/objects/counter.tscn" id="5_4dhc7"]
+[ext_resource type="Texture2D" uid="uid://d28q1je5ux8jj" path="res://assets/sprites/Objects/chair01.png" id="5_qmxtx"]
+[ext_resource type="PackedScene" uid="uid://cdeaqkgwmhjpa" path="res://scenes/objects/table_1.tscn" id="6_4dhc7"]
 [ext_resource type="PackedScene" uid="uid://w65lhxcnryyd" path="res://scenes/ui/movement_tutorial.tscn" id="7_n1c12"]
+[ext_resource type="PackedScene" uid="uid://derxr4l6a4r6y" path="res://scenes/objects/sofa_long.tscn" id="7_p45fi"]
+[ext_resource type="PackedScene" uid="uid://crcmdj8w3uv5" path="res://scenes/objects/table_wide_low.tscn" id="8_bxgpk"]
+[ext_resource type="Texture2D" uid="uid://c6kls4tt8yht5" path="res://assets/sprites/Objects/blanket.png" id="8_p45fi"]
 [ext_resource type="PackedScene" uid="uid://c061vwko5ij8i" path="res://scenes/entities/npc_PapaJobert.tscn" id="12_p45fi"]
 
 [node name="scene01" type="Node2D" unique_id=1912818364]
@@ -13,25 +19,79 @@ y_sort_enabled = true
 script = ExtResource("1_4dhc7")
 
 [node name="Chair2" type="Sprite2D" parent="." unique_id=2117924632]
-position = Vector2(277, 66)
+position = Vector2(280, 66)
 texture = ExtResource("5_qmxtx")
-offset = Vector2(0, -8)
-hframes = 2
-frame = 1
+offset = Vector2(0, -5)
 
 [node name="usa_home_indoors" parent="." unique_id=1844967884 instance=ExtResource("2_osyt6")]
 y_sort_enabled = true
+
+[node name="Window" parent="usa_home_indoors" unique_id=1020269382 instance=ExtResource("4_x0j6r")]
+position = Vector2(72, 64)
+
+[node name="Window4" parent="usa_home_indoors" unique_id=407345984 instance=ExtResource("4_x0j6r")]
+position = Vector2(60, 64)
+
+[node name="Window2" parent="usa_home_indoors" unique_id=589689299 instance=ExtResource("4_x0j6r")]
+position = Vector2(128, 64)
+
+[node name="Window3" parent="usa_home_indoors" unique_id=1743913786 instance=ExtResource("4_x0j6r")]
+position = Vector2(140, 64)
+
+[node name="Window5" parent="usa_home_indoors" unique_id=334021663 instance=ExtResource("4_x0j6r")]
+position = Vector2(284, 64)
+
+[node name="Window6" parent="usa_home_indoors" unique_id=497842814 instance=ExtResource("4_x0j6r")]
+position = Vector2(272, 64)
+
+[node name="Window7" parent="usa_home_indoors" unique_id=834772887 instance=ExtResource("4_x0j6r")]
+position = Vector2(209, 64)
+
+[node name="Window8" parent="usa_home_indoors" unique_id=1612827330 instance=ExtResource("4_x0j6r")]
+position = Vector2(197, 64)
+
+[node name="Counter" parent="usa_home_indoors" unique_id=23846311 instance=ExtResource("5_4dhc7")]
+position = Vector2(50, 73)
+
+[node name="Counter2" parent="usa_home_indoors" unique_id=1785001805 instance=ExtResource("5_4dhc7")]
+position = Vector2(70, 73)
+
+[node name="Counter3" parent="usa_home_indoors" unique_id=1654798724 instance=ExtResource("5_4dhc7")]
+position = Vector2(90, 73)
+
+[node name="Counter4" parent="usa_home_indoors" unique_id=854221437 instance=ExtResource("5_4dhc7")]
+position = Vector2(110, 73)
+
+[node name="Counter5" parent="usa_home_indoors" unique_id=118665751 instance=ExtResource("5_4dhc7")]
+position = Vector2(130, 73)
+
+[node name="Counter6" parent="usa_home_indoors" unique_id=1146939533 instance=ExtResource("5_4dhc7")]
+position = Vector2(150, 73)
+
+[node name="Table1" parent="usa_home_indoors" unique_id=1667939682 instance=ExtResource("6_4dhc7")]
+position = Vector2(294, 74)
+
+[node name="SofaLong" parent="usa_home_indoors" unique_id=1961707169 instance=ExtResource("7_p45fi")]
+position = Vector2(255, 71)
+
+[node name="SofaLong2" parent="usa_home_indoors" unique_id=1307779566 instance=ExtResource("7_p45fi")]
+position = Vector2(222, 71)
+
+[node name="Base" parent="usa_home_indoors" unique_id=322230324 instance=ExtResource("8_bxgpk")]
+position = Vector2(255, 86)
+
+[node name="Base2" parent="usa_home_indoors" unique_id=92311931 instance=ExtResource("8_bxgpk")]
+position = Vector2(222, 86)
 
 [node name="Player" parent="." unique_id=410096860 instance=ExtResource("3_bxgpk")]
 position = Vector2(280, 206)
 
 [node name="NpcElder" parent="." unique_id=12182856 instance=ExtResource("4_qysbm")]
-position = Vector2(277, 68)
+position = Vector2(280, 70)
 
 [node name="Blanket" type="Sprite2D" parent="NpcElder" unique_id=1920727634]
-position = Vector2(0, -9)
-texture = ExtResource("5_qmxtx")
-hframes = 2
+position = Vector2(1, -8)
+texture = ExtResource("8_p45fi")
 
 [node name="NpcPapaJobert" parent="." unique_id=985453941 instance=ExtResource("12_p45fi")]
 position = Vector2(128, 112)

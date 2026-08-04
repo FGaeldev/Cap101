@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://cdeaqkgwmhjpa"]
+
+[ext_resource type="Texture2D" uid="uid://cc0gur6vd1gm7" path="res://assets/sprites/Objects/table_narrow_tall.png" id="1_b2bro"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xrivr"]
+size = Vector2(10, 7)
+
+[node name="Table1" type="StaticBody2D" unique_id=1667939682]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=800867129]
+position = Vector2(0, -10)
+texture = ExtResource("1_b2bro")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=924473348]
+position = Vector2(0, -13.5)
+shape = SubResource("RectangleShape2D_xrivr")

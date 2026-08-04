@@ -187,7 +187,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bxmox"]
-radius = 4.0
+radius = 3.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fbmhk"]
 radius = 19.026299
@@ -202,7 +202,7 @@ sprite_frames = SubResource("SpriteFrames_h4uhj")
 animation = &"idle_down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=80002803]
-position = Vector2(0, -4)
+position = Vector2(1, -5)
 shape = SubResource("CircleShape2D_bxmox")
 debug_color = Color(0.7230673, 0.2464309, 1, 0.41960785)
 

@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://derxr4l6a4r6y"]
+
+[ext_resource type="Texture2D" uid="uid://dy338b8budd4g" path="res://assets/sprites/Objects/sofa_long.png" id="1_ov67e"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_njqwk"]
+size = Vector2(32, 13)
+
+[node name="SofaLong" type="StaticBody2D" unique_id=1961707169]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=985707353]
+position = Vector2(0, -10)
+texture = ExtResource("1_ov67e")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1887702560]
+position = Vector2(0, -13.5)
+shape = SubResource("RectangleShape2D_njqwk")

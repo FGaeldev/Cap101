@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://crcmdj8w3uv5"]
+
+[ext_resource type="PackedScene" uid="uid://cxmfhq4yfbda6" path="res://scenes/objects/base.tscn" id="1_xjpnx"]
+[ext_resource type="Texture2D" uid="uid://h6rkiqrfvget" path="res://assets/sprites/Objects/table_wide_low.png" id="2_1iouh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4h7lf"]
+size = Vector2(20, 5)
+
+[node name="Base" unique_id=322230324 instance=ExtResource("1_xjpnx")]
+
+[node name="Sprite2D" parent="." index="0" unique_id=1419642462]
+position = Vector2(0, -5)
+texture = ExtResource("2_1iouh")
+
+[node name="CollisionShape2D" parent="." index="1" unique_id=1101315327]
+position = Vector2(0, -5.5)
+shape = SubResource("RectangleShape2D_4h7lf")
