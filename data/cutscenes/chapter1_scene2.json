@@ -1,8 +1,7 @@
 [
-	{"type":"camera", "mode":"focus_actor", "actor":"Lola Jonabel", "duration":0.2},
+	{"type":"camera", "mode":"follow", "actor":"Lola Jonabel"},
 	{"type":"wait","seconds":0.3},
 	{"type":"camera", "mode":"zoom", "to":[2.5,2.5], "duration":0.5 },
-	{"type":"dialogue","chapter":"chapter1","scene":"scene_1_part1"},
 	{"type":"wait","seconds":1},
 	{"type":"camera", "mode":"follow", "actor":"Papa Jobert"},
 	{"type":"wait","seconds":1},

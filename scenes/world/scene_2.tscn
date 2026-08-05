@@ -3,6 +3,8 @@
 [ext_resource type="TileSet" uid="uid://jtn3mp4f66aw" path="res://assets/tilesets/usa_indoor_tileset.tres" id="1_8gkpy"]
 [ext_resource type="Texture2D" uid="uid://br44a3lbby0wy" path="res://assets/tilesets/AirportWall.png" id="2_qrr83"]
 [ext_resource type="PackedScene" uid="uid://brd713x4jvfe8" path="res://scenes/entities/Player.tscn" id="3_qrr83"]
+[ext_resource type="PackedScene" uid="uid://bi7ubv102jcmx" path="res://scenes/entities/npc_LolaJonabel.tscn" id="4_aprvb"]
+[ext_resource type="PackedScene" uid="uid://c061vwko5ij8i" path="res://scenes/entities/npc_PapaJobert.tscn" id="5_o1ypm"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hqxqp"]
 texture = ExtResource("2_qrr83")
@@ -166,4 +168,10 @@ tile_map_data = PackedByteArray("AAABAAEAAAAFAAEAAAACAAEAAAAFAAEAAAADAAEAAAAFAAE
 tile_set = SubResource("TileSet_aprvb")
 
 [node name="Player" parent="." unique_id=410096860 instance=ExtResource("3_qrr83")]
+position = Vector2(252, 19)
+
+[node name="NPC_LolaJonabel" parent="." unique_id=12182856 instance=ExtResource("4_aprvb")]
 position = Vector2(241, 19)
+
+[node name="NPC_PapaJobert" parent="." unique_id=985453941 instance=ExtResource("5_o1ypm")]
+position = Vector2(228, 19)
