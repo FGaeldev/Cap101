@@ -1,14 +1,7 @@
 [
 	{"type":"camera", "mode":"follow", "actor":"Lola Jonabel"},
 	{"type":"wait","seconds":0.3},
-	{"type":"camera", "mode":"zoom", "to":[2.5,2.5], "duration":0.5 },
-	{"type":"wait","seconds":1},
-	{"type":"camera", "mode":"follow", "actor":"Papa Jobert"},
-	{"type":"wait","seconds":1},
-	{"type":"move_npc","actor":"Papa Jobert","to":[264,112],"speed":20},
-	{"type":"move_npc","actor":"Papa Jobert","to":[264,80],"speed":20},
-	{"type":"wait","seconds":1.5},
-	{"type":"dialogue","chapter":"chapter1","scene":"scene_1_part2"},
-	{"type": "set_flag", "flag": "seen_chapter1_scene1","value": true},
-	{"type":"camera", "mode":"release", "duration":0.5 },
+	{"type":"dialogue","chapter":"chapter1","scene":"scene_2_kalibo_international_airport_arrival_area"},
+	{"type": "set_flag", "flag": "seen_chapter1_scene2","value": true},
+	{"type":"camera", "mode":"release", "duration":0.5}
 ]
