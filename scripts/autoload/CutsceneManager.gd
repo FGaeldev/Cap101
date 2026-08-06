@@ -18,6 +18,7 @@ const ACTION_SCRIPTS := [
 	"res://scripts/cutscene_actions/wait_action.gd",
 	"res://scripts/cutscene_actions/fade_action.gd",
 	"res://scripts/cutscene_actions/camera_action.gd",
+	"res://scripts/cutscene_actions/load_scene_action.gd",
 ]
 
 var _actions: Dictionary = {}

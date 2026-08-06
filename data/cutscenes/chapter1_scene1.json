@@ -12,4 +12,6 @@
 	{"type":"dialogue","chapter":"chapter1","scene":"scene_1_part2"},
 	{"type": "set_flag", "flag": "seen_chapter1_scene1","value": true},
 	{"type":"camera", "mode":"release", "duration":0.5 },
+	{"type":"fade","direction":"out","duration":0.6},
+	{"type":"load_scene","scene_path":"res://scenes/world/scene_2.tscn"}
 ]
