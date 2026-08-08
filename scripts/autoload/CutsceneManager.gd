@@ -5,6 +5,7 @@ extends Node
 
 signal cutscene_started(cutscene_id: String)
 signal cutscene_finished(cutscene_id: String)
+signal _parallel_branch_done
 
 # Explicit list, not runtime directory scan -- DirAccess enumeration of res://
 # is unreliable in exported Android builds (confirmed: silently returns zero
@@ -84,13 +85,35 @@ func _run_step(step: Dictionary) -> Variant:
 	return null
 
 func _run_parallel(branches: Array) -> void:
-	# calling an async func without awaiting starts it running to its first `await`;
-	# collecting the returned states and awaiting them after starts all branches concurrently
-	var tasks: Array = []
+	# GDScript forbids capturing a coroutine's return value without `await`
+	# (hard compile error, not just a warning), so branches can't be started
+	# and collected as "tasks" the way _run_sequence awaits a single step.
+	# Instead: fire each branch as a discarded bare-statement call (allowed --
+	# only the return value capture is forbidden) and count completions.
+	#
+	# `remaining` is a 1-element Array used as a mutable box (Arrays pass by
+	# reference in GDScript) so _run_parallel_branch can decrement it directly.
+	# This matters because a branch can complete fully synchronously (e.g.
+	# move_npc with a missing actor returns with no real suspension) and emit
+	# its done-signal before this function ever reaches the `await` below --
+	# if completion were only tracked by catching that signal, the emit would
+	# be lost and the loop would hang forever. Decrementing directly makes the
+	# `while remaining[0] > 0` check correct regardless of timing.
+	if branches.is_empty():
+		return
+	var remaining: Array = [branches.size()]
 	for branch in branches:
-		tasks.append(Callable(self, "_run_step").call(branch))
-	for t in tasks:
-		await t
+		_run_parallel_branch(branch, remaining)
+	while remaining[0] > 0:
+		await _parallel_branch_done
+
+## Fire-and-forget wrapper: runs one branch, decrements the shared counter,
+## then signals. Never call this awaited from _run_parallel -- the counter
+## check above is what provides "wait for all branches", not this signal alone.
+func _run_parallel_branch(branch: Dictionary, remaining: Array) -> void:
+	await _run_step(branch)
+	remaining[0] -= 1
+	_parallel_branch_done.emit()
 
 func is_playing() -> bool:
 	return _playing
