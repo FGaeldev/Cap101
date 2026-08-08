@@ -52,6 +52,10 @@ layout_mode = 2
 text = "Mag Padayon
 (Continue)"
 
+[node name="SettingsBtn" type="Button" parent="CenterContainer/VBoxContainer/Buttons" unique_id=3041957218]
+layout_mode = 2
+text = "Settings"
+
 [node name="QuitBtn" type="Button" parent="CenterContainer/VBoxContainer/Buttons" unique_id=1078297704]
 layout_mode = 2
 text = "Mag Guwa

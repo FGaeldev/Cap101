@@ -7,9 +7,16 @@ extends Control
 func _ready() -> void:
 	volume_slider.value = db_to_linear(AudioServer.get_bus_volume_db(0)) * 100
 	volume_slider.value_changed.connect(_on_volume_changed)
-	quit_btn.pressed.connect(_on_quit_pressed)
 	music_toggle.toggled.connect(_on_music_toggled)
 	UIThemeApplier.apply_button_theme(quit_btn, "danger")
+	## Settings can now be opened from MainMenu itself (no active session).
+	## "Exit to main menu" makes no sense there, and its GameState.save_game()
+	## call would silently overwrite an existing save with whatever stale or
+	## default data currently sits in the GameState singleton's memory.
+	if get_tree().current_scene != null and get_tree().current_scene.scene_file_path == "res://scenes/ui/MainMenu.tscn":
+		quit_btn.visible = false
+	else:
+		quit_btn.pressed.connect(_on_quit_pressed)
 
 func _on_volume_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(0, linear_to_db(value / 100.0))

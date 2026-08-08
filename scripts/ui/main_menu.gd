@@ -5,6 +5,7 @@ extends Control
 @onready var sub_label:     Label  = $CenterContainer/VBoxContainer/SubLabel
 @onready var start_btn:     Button = $CenterContainer/VBoxContainer/Buttons/StartBtn
 @onready var continue_btn:  Button = $CenterContainer/VBoxContainer/Buttons/ContinueBtn
+@onready var settings_btn:  Button = $CenterContainer/VBoxContainer/Buttons/SettingsBtn
 @onready var quit_btn:      Button = $CenterContainer/VBoxContainer/Buttons/QuitBtn
 
 const MAIN = "res://scenes/Game.tscn"
@@ -15,6 +16,7 @@ func _ready() -> void:
 	_check_save()
 	start_btn.pressed.connect(_on_start)
 	continue_btn.pressed.connect(_on_continue)
+	settings_btn.pressed.connect(_on_settings)
 	quit_btn.pressed.connect(func():
 		AudioManager.play_sfx("menu_click")
 		get_tree().quit()
@@ -33,6 +35,10 @@ func _on_continue() -> void:
 	AudioManager.play_sfx("menu_click")
 	GameState.load_game()
 	get_tree().change_scene_to_file(MAIN)
+
+func _on_settings() -> void:
+	AudioManager.play_sfx("menu_click")
+	BookUI.open("settings")
 	
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
@@ -67,6 +73,7 @@ func _apply_style() -> void:
 	# Buttons
 	_style_btn(start_btn, "primary")
 	_style_btn(continue_btn, "primary")
+	_style_btn(settings_btn, "secondary")
 	_style_btn(quit_btn,     "danger")
 
 func _style_btn(btn: Button, variant: String) -> void:
