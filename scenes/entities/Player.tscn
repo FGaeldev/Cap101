@@ -41,5 +41,5 @@ script = ExtResource("4_lfoco")
 [node name="Walk" type="Node" parent="StateMachine" unique_id=1311549891]
 script = ExtResource("5_h683u")
 
-[node name="CutsceneAnimComponent" parent="." node_paths=PackedStringArray("sprite") instance=ExtResource("6_cutsceneanim")]
+[node name="CutsceneAnimComponent" parent="." unique_id=448316771 node_paths=PackedStringArray("sprite") instance=ExtResource("6_cutsceneanim")]
 sprite = NodePath("../AnimatedSprite2D")
