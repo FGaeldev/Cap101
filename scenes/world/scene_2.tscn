@@ -360,7 +360,7 @@ tile_map_data = PackedByteArray("AAABAAEAAAAFAAEAAAACAAEAAAAFAAEAAAAEAAEAAAAFAAE
 tile_set = SubResource("TileSet_aprvb")
 
 [node name="Player" parent="." unique_id=410096860 instance=ExtResource("3_qrr83")]
-position = Vector2(252, 19)
+position = Vector2(252, 16)
 
 [node name="NPC_LolaJonabel" parent="." unique_id=12182856 instance=ExtResource("4_aprvb")]
 position = Vector2(241, 19)
@@ -369,5 +369,5 @@ dialogue_scene_key = "scene_2_kalibo_international_airport_arrival_area"
 seen_flag = "seen_chapter1_scene2"
 
 [node name="NPC_PapaJobert" parent="." unique_id=985453941 instance=ExtResource("5_o1ypm")]
-position = Vector2(228, 19)
+position = Vector2(228, 17)
 dialogue_scene_key = "scene_2_kalibo_international_airport_arrival_area"
