@@ -1,12 +1,12 @@
 # main_menu.gd — Stardew-style tropical main menu
 extends Control
 
-@onready var title_label:   Label  = $CenterContainer/VBoxContainer/TitleLabel
-@onready var sub_label:     Label  = $CenterContainer/VBoxContainer/SubLabel
-@onready var start_btn:     Button = $CenterContainer/VBoxContainer/Buttons/StartBtn
-@onready var continue_btn:  Button = $CenterContainer/VBoxContainer/Buttons/ContinueBtn
-@onready var settings_btn:  Button = $CenterContainer/VBoxContainer/Buttons/SettingsBtn
-@onready var quit_btn:      Button = $CenterContainer/VBoxContainer/Buttons/QuitBtn
+@onready var title_label:   Label  = $BookPanel/Spread/LeftSide/CenterContainer/VBoxContainer/TitleLabel
+@onready var sub_label:     Label  = $BookPanel/Spread/LeftSide/CenterContainer/VBoxContainer/SubLabel
+@onready var start_btn:     Button = $BookPanel/Spread/RightPage/CenterContainer/Buttons/StartBtn
+@onready var continue_btn:  Button = $BookPanel/Spread/RightPage/CenterContainer/Buttons/ContinueBtn
+@onready var settings_btn:  Button = $BookPanel/Spread/RightPage/CenterContainer/Buttons/SettingsBtn
+@onready var quit_btn:      Button = $BookPanel/Spread/RightPage/CenterContainer/Buttons/QuitBtn
 
 const MAIN = "res://scenes/Game.tscn"
 
@@ -71,10 +71,10 @@ func _apply_style() -> void:
 	sub_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
 	# Buttons
-	_style_btn(start_btn, "primary")
-	_style_btn(continue_btn, "primary")
+	_style_btn(start_btn, "secondary")
+	_style_btn(continue_btn, "secondary")
 	_style_btn(settings_btn, "secondary")
-	_style_btn(quit_btn,     "danger")
+	_style_btn(quit_btn,     "secondary")
 
 func _style_btn(btn: Button, variant: String) -> void:
 	UIThemeApplier.apply_button_theme(btn, variant)

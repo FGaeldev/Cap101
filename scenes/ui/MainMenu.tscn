@@ -1,6 +1,30 @@
 [gd_scene format=3 uid="uid://b8oa217q8gyrx"]
 
 [ext_resource type="Script" uid="uid://41pph3hwmahb" path="res://scripts/ui/main_menu.gd" id="1_vjtqc"]
+[ext_resource type="Texture2D" uid="uid://cqy7mrlfa5fxs" path="res://assets/ui/book/cover.png" id="2_cover"]
+[ext_resource type="Texture2D" uid="uid://bqn1bpq8s832f" path="res://assets/ui/book/page_right.png" id="3_page"]
+[ext_resource type="Texture2D" uid="uid://dh2papc76syrm" path="res://assets/ui/book/page_left.png" id="3_pageleft"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cover"]
+texture = ExtResource("2_cover")
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pageleft"]
+texture = ExtResource("3_pageleft")
+texture_margin_left = 7.0
+texture_margin_top = 3.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_page"]
+texture = ExtResource("3_page")
+texture_margin_left = 7.0
+texture_margin_top = 3.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
 
 [node name="MainMenu" type="Control" unique_id=771412066]
 layout_mode = 3
@@ -11,7 +35,37 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_vjtqc")
 
-[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1639532225]
+[node name="BookPanel" type="Panel" parent="." unique_id=434589670]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_cover")
+
+[node name="Spread" type="HBoxContainer" parent="BookPanel" unique_id=74142675]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.02
+anchor_top = 0.05
+anchor_right = 0.98
+anchor_bottom = 0.95
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="LeftSide" type="Panel" parent="BookPanel/Spread" unique_id=2133754133]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_pageleft")
+
+[node name="CenterContainer" type="CenterContainer" parent="BookPanel/Spread/LeftSide" unique_id=1639532226]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,45 +73,51 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=523191591]
+[node name="VBoxContainer" type="VBoxContainer" parent="BookPanel/Spread/LeftSide/CenterContainer" unique_id=523191592]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 8
 alignment = 1
 
-[node name="TitleLabel" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1792947717]
+[node name="TitleLabel" type="Label" parent="BookPanel/Spread/LeftSide/CenterContainer/VBoxContainer" unique_id=1792947718]
 layout_mode = 2
 text = "Aklan Quest"
 horizontal_alignment = 1
 
-[node name="SubLabel" type="Label" parent="CenterContainer/VBoxContainer" unique_id=930162953]
+[node name="SubLabel" type="Label" parent="BookPanel/Spread/LeftSide/CenterContainer/VBoxContainer" unique_id=930162954]
 layout_mode = 2
 text = "Mag Kantigo it Akeanon"
+horizontal_alignment = 1
 
-[node name="Control" type="Control" parent="CenterContainer/VBoxContainer" unique_id=1103709362]
-custom_minimum_size = Vector2(0, 24)
+[node name="RightPage" type="Panel" parent="BookPanel/Spread" unique_id=1771840969]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_page")
 
-[node name="Buttons" type="VBoxContainer" parent="CenterContainer/VBoxContainer" unique_id=1047640733]
+[node name="CenterContainer" type="CenterContainer" parent="BookPanel/Spread/RightPage" unique_id=1639532227]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Buttons" type="VBoxContainer" parent="BookPanel/Spread/RightPage/CenterContainer" unique_id=1047640734]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 
-[node name="StartBtn" type="Button" parent="CenterContainer/VBoxContainer/Buttons" unique_id=1959417960]
+[node name="StartBtn" type="Button" parent="BookPanel/Spread/RightPage/CenterContainer/Buttons" unique_id=1959417961]
 layout_mode = 2
-text = "Mag Umpisa
-(Start)
-"
+text = "Start"
 
-[node name="ContinueBtn" type="Button" parent="CenterContainer/VBoxContainer/Buttons" unique_id=1288475377]
+[node name="ContinueBtn" type="Button" parent="BookPanel/Spread/RightPage/CenterContainer/Buttons" unique_id=1288475378]
 layout_mode = 2
-text = "Mag Padayon
-(Continue)"
+text = "Continue"
 
-[node name="SettingsBtn" type="Button" parent="CenterContainer/VBoxContainer/Buttons" unique_id=3041957218]
+[node name="SettingsBtn" type="Button" parent="BookPanel/Spread/RightPage/CenterContainer/Buttons" unique_id=-1253010077]
 layout_mode = 2
 text = "Settings"
 
-[node name="QuitBtn" type="Button" parent="CenterContainer/VBoxContainer/Buttons" unique_id=1078297704]
+[node name="QuitBtn" type="Button" parent="BookPanel/Spread/RightPage/CenterContainer/Buttons" unique_id=1078297705]
 layout_mode = 2
-text = "Mag Guwa
-(Quit)
-"
+text = "Exit"
