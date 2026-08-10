@@ -5,6 +5,7 @@ extends Node
 signal word_learned(word_id: String, akeanon: String, gloss: String)
 signal rapport_changed(npc_id: String, value: float)
 signal patience_changed(npc_id: String, value: int)
+signal reward_granted(reward_type: String, id_or_amount)
 
 # --- State ---
 var flags: Dictionary = {}          # quest/story flags
@@ -27,6 +28,62 @@ var patience: Dictionary = {}             # npc_id -> float, regenerates over ti
 var _patience_last_update: Dictionary = {} # npc_id -> unix timestamp of last regen calc
 
 const RAPPORT_MAX := 10.0  # displayed as 10 hearts, 0.5 increments = half-hearts
+
+# --- Reward Economy (Ch2) ---
+# Sole writer is RewardManager; GameState owns storage + mutation, per the
+# adjust_rapport/adjust_patience pattern above.
+var akeanon_stars: int = 0
+var culture_badges: Array = []          # badge ids, no duplicates
+var travel_stamps: Array = []           # stamp ids, no duplicates
+var grandma_memory_pages: Array = []    # page ids, no duplicates
+var rose_hint_tokens: int = 0
+var challenges_passed: Dictionary = {}  # challenge_id -> bool
+var challenge_attempts: Dictionary = {} # challenge_id -> int, attempt count (for first_try check)
+
+func add_stars(amount: int) -> void:
+	akeanon_stars += amount
+	reward_granted.emit("stars", amount)
+
+func add_badge(badge_id: String) -> void:
+	if badge_id in culture_badges:
+		return
+	culture_badges.append(badge_id)
+	reward_granted.emit("badge", badge_id)
+
+func add_stamp(stamp_id: String) -> void:
+	if stamp_id in travel_stamps:
+		return
+	travel_stamps.append(stamp_id)
+	reward_granted.emit("stamp", stamp_id)
+
+func add_memory_page(page_id: String) -> void:
+	if page_id in grandma_memory_pages:
+		return
+	grandma_memory_pages.append(page_id)
+	reward_granted.emit("memory_page", page_id)
+
+func add_hint_tokens(amount: int) -> void:
+	rose_hint_tokens += amount
+	reward_granted.emit("hint_token", amount)
+
+func spend_hint_token() -> bool:
+	if rose_hint_tokens <= 0:
+		return false
+	rose_hint_tokens -= 1
+	return true
+
+func mark_challenge_passed(challenge_id: String) -> void:
+	challenges_passed[challenge_id] = true
+
+func is_challenge_passed(challenge_id: String) -> bool:
+	return challenges_passed.get(challenge_id, false)
+
+func record_challenge_attempt(challenge_id: String) -> int:
+	challenge_attempts[challenge_id] = challenge_attempts.get(challenge_id, 0) + 1
+	return challenge_attempts[challenge_id]
+
+func get_challenge_attempts(challenge_id: String) -> int:
+	return challenge_attempts.get(challenge_id, 0)
 
 func adjust_rapport(npc_id: String, delta: float) -> void:
 	rapport[npc_id] = clamp(rapport.get(npc_id, 0.0) + delta, 0.0, RAPPORT_MAX)
@@ -98,7 +155,14 @@ func save_game() -> void:
 		"current_level_path": current_level_path,
 		"rapport": rapport,
 		"patience": patience,
-		"patience_last_update": _patience_last_update
+		"patience_last_update": _patience_last_update,
+		"akeanon_stars": akeanon_stars,
+		"culture_badges": culture_badges,
+		"travel_stamps": travel_stamps,
+		"grandma_memory_pages": grandma_memory_pages,
+		"rose_hint_tokens": rose_hint_tokens,
+		"challenges_passed": challenges_passed,
+		"challenge_attempts": challenge_attempts
 	}
 	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	file.store_var(data)
@@ -118,3 +182,10 @@ func load_game() -> void:
 	rapport = data.get("rapport", {})
 	patience = data.get("patience", {})
 	_patience_last_update = data.get("patience_last_update", {})
+	akeanon_stars = data.get("akeanon_stars", 0)
+	culture_badges = data.get("culture_badges", [])
+	travel_stamps = data.get("travel_stamps", [])
+	grandma_memory_pages = data.get("grandma_memory_pages", [])
+	rose_hint_tokens = data.get("rose_hint_tokens", 0)
+	challenges_passed = data.get("challenges_passed", {})
+	challenge_attempts = data.get("challenge_attempts", {})

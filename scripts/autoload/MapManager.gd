@@ -39,8 +39,22 @@ func _load_regions() -> void:
 func get_region(region_id: String) -> Dictionary:
 	return regions.get(region_id, {})
 
+## region entry may optionally set "gate_challenge_id": String. If present,
+## the node's lock state comes from ChallengeManager.is_passed(gate_id)
+## instead of the static "unlocked" bool (TDD §9 item 10 — Ch2 node-map
+## needs per-node challenge gating, not just static reveal). Regions with
+## no gate_challenge_id keep the old static-unlock behavior unchanged.
+func is_node_unlocked(region_id: String) -> bool:
+	var region: Dictionary = regions.get(region_id, {})
+	if region.is_empty():
+		return false
+	var gate_id: String = region.get("gate_challenge_id", "")
+	if not gate_id.is_empty():
+		return ChallengeManager.is_passed(gate_id)
+	return region.get("unlocked", false)
+
 func is_unlocked(region_id: String) -> bool:
-	return regions.get(region_id, {}).get("unlocked", false)
+	return is_node_unlocked(region_id)
 
 ## Called by RegionPopup's go_button. Fades out (if FadeManager is wired),
 ## switches scene, persists travel state to GameState, fades back in.
@@ -56,7 +70,7 @@ func travel_to_region(region_id: String) -> void:
 	if region.is_empty():
 		push_error("MapManager: unknown region_id '%s'" % region_id)
 		return
-	if not region.get("unlocked", false):
+	if not is_node_unlocked(region_id):
 		push_warning("MapManager: refused travel to locked region '%s'" % region_id)
 		return
 

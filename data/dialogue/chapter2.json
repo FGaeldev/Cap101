@@ -1,0 +1,112 @@
+{
+	"ch2_tutorial_field_notes": {
+		"type": "mcq",
+		"word_ids": [],
+		"question": "What does tuon mean?",
+		"choices": ["Learn or study", "Beach", "Boat"],
+		"correct_index": 0,
+		"hint_on_wrong": "Tuon means learn. Read your Field Notes, then try again.",
+		"reward": { "stars": 2, "badge": "", "stamp": "", "memory_page": "", "hint_tokens": 0 },
+		"unlock_target": "bakhawan_ecopark"
+	},
+	"ch2_bakhawan_gate1": {
+		"type": "mcq",
+		"word_ids": [],
+		"question": "What does bakhaw mean?",
+		"choices": ["Mangrove", "Rice", "Museum"],
+		"correct_index": 0,
+		"hint_on_wrong": "These are bakhaw. Try again.",
+		"reward": { "stars": 3, "badge": "", "stamp": "", "memory_page": "", "hint_tokens": 0 },
+		"unlock_target": "bakhawan_boardwalk"
+	},
+	"ch2_bakhawan_gate2": {
+		"type": "mcq",
+		"word_ids": [],
+		"question": "Complete: May _____. (Translation: There are mangroves.)",
+		"choices": ["bakhaw", "obra", "baybay"],
+		"correct_index": 0,
+		"hint_on_wrong": "Look around. The answer is the thing growing here.",
+		"reward": { "stars": 3, "badge": "bakhawan_leaf_badge", "stamp": "", "memory_page": "", "hint_tokens": 0 },
+		"unlock_target": "museo_it_akean"
+	},
+	"ch2_museum_gate1": {
+		"type": "mcq",
+		"word_ids": [],
+		"question": "What does daan mean?",
+		"choices": ["Old", "Clean", "Near"],
+		"correct_index": 0,
+		"hint_on_wrong": "This is daan. It is old.",
+		"reward": { "stars": 3, "badge": "", "stamp": "", "memory_page": "", "hint_tokens": 0 },
+		"unlock_target": "museum_display_hall"
+	},
+	"ch2_museum_gate2": {
+		"type": "mcq",
+		"word_ids": [],
+		"question": "Which answer best explains pista?",
+		"choices": ["Festival or feast", "Trash", "Boat ride"],
+		"correct_index": 0,
+		"hint_on_wrong": "Pista is a gathering with meaning. Listen again.",
+		"reward": { "stars": 3, "badge": "museum_memory_badge", "stamp": "", "memory_page": "ch2_museum_drums", "hint_tokens": 0 },
+		"unlock_target": "pina_weaving_stop"
+	},
+	"ch2_weaving_gate": {
+		"type": "mcq",
+		"word_ids": [],
+		"question": "Complete: Matahom ro _____. (Translation: The craft/work is beautiful.)",
+		"choices": ["obra", "tubi", "sakayan"],
+		"correct_index": 0,
+		"hint_on_wrong": "Obra means work or craft.",
+		"reward": { "stars": 3, "badge": "pina_craft_badge", "stamp": "", "memory_page": "", "hint_tokens": 0 },
+		"unlock_target": "kalibo_plaza"
+	},
+	"ch2_plaza_gate": {
+		"type": "mcq",
+		"word_ids": [],
+		"question": "Which sentence is the polite way to ask for water?",
+		"choices": ["Tubig, palihog.", "Daan ro tubig.", "Sakayan, palihog."],
+		"correct_index": 0,
+		"hint_on_wrong": "Apo, kind words matter. Use palihog.",
+		"reward": { "stars": 3, "badge": "", "stamp": "", "memory_page": "", "hint_tokens": 1 },
+		"unlock_target": "living_culture_stop"
+	},
+	"ch2_living_culture_gate": {
+		"type": "mcq",
+		"word_ids": [],
+		"question": "Complete: _____ ako. (Translation: I will help.)",
+		"choices": ["Magbulig", "Maeayo", "Daan"],
+		"correct_index": 0,
+		"hint_on_wrong": "Magbulig ako means I will help.",
+		"reward": { "stars": 3, "badge": "helper_badge", "stamp": "", "memory_page": "", "hint_tokens": 0 },
+		"unlock_target": "caticlan_jetty_port"
+	},
+	"ch2_port_gate": {
+		"type": "mcq",
+		"word_ids": [],
+		"question": "What does \"Diin ro sakayan?\" mean?",
+		"choices": ["Where is the boat or ride?", "The beach is clean.", "I will learn."],
+		"correct_index": 0,
+		"hint_on_wrong": "Father points at the boat sign. Review diin and sakayan.",
+		"reward": { "stars": 3, "badge": "", "stamp": "caticlan_travel_stamp", "memory_page": "", "hint_tokens": 0 },
+		"unlock_target": "boracay_white_beach"
+	},
+	"ch2_boracay_gate": {
+		"type": "mcq",
+		"word_ids": [],
+		"question": "Complete: Amligan naton ro _____. (Translation: Let us protect the beach.)",
+		"choices": ["baybay", "daan", "pila"],
+		"correct_index": 0,
+		"hint_on_wrong": "Baybay means beach.",
+		"reward": { "stars": 3, "badge": "boracay_care_badge", "stamp": "", "memory_page": "", "hint_tokens": 0 },
+		"unlock_target": "boracay_sunset"
+	},
+	"ch2_final_mastery_gate": {
+		"type": "mcq",
+		"word_ids": [],
+		"question": "What does \"Akeanon ro akong ginatuon\" mean?",
+		"choices": ["Akeanon is what I am learning.", "The boat is near.", "The craft is old."],
+		"correct_index": 0,
+		"hint_on_wrong": "Rose opens Field Notes and reviews the sentence word by word.",
+		"reward": { "stars": 5, "badge": "roots_of_aklan_badge", "stamp": "", "memory_page": "ch2_words_become_places", "hint_tokens": 0 },
+		"unlock_target": "chapter_3"
+	}
+}
