@@ -1,151 +1,38 @@
-# DialogueComponent.gd — supports linear + branching dialogue
-class_name DialogueComponent
-extends Node
+# NPC_Elder.gd
+extends CharacterBody2D
 
-@export var npc_id: String = ""
-@export var dialogue_lines: Array = []
-@export var completes_quest_id: String = ""   # empty = ambient dialogue, no quest side-effect
+@export var actor_id: String = ""
+## First-play cutscene id (data/cutscenes/<id>.json), gated by seen_flag below.
+@export var cutscene_id: String = "chapter1_scene1"
+## ChapterLoader lookup for repeat-visit (post-cutscene) dialogue.
+@export var dialogue_chapter: String = "chapter1"
+@export var dialogue_scene_key: String = "scene_1_part1"
+## GameState flag checked/set by the cutscene's own set_flag step -- must match
+## the "flag" value inside data/cutscenes/<cutscene_id>.json exactly.
+@export var seen_flag: String = "seen_chapter1_scene1"
+## data/dialogue/<dialogue_chapter>.json sibling key "idle_pool_<this>" (GDD §6.9).
+## Defaults to actor_id; override if the JSON key uses a different slug.
+@export var idle_pool_npc_key: String = ""
 
-var _current_line: int = 0
-var _last_speaker: String = ""   # most recent non-blank speaker; choice deltas attribute to this NPC
-var _pending_gate_id: String = ""   # challenge_id this component is currently waiting on, "" if none
-var _pending_gate_next = null       # next_on_pass to jump to once _pending_gate_id passes
+@onready var interactable: InteractableComponent = $InteractableComponent
+@onready var dialogue: DialogueComponent = $DialogueComponent
 
-func start_dialogue() -> void:
-	_current_line = 0
-	_last_speaker = ""
-	_show_line()
+func _ready() -> void:
+	interactable.interacted.connect(_on_interacted)
+	if not actor_id.is_empty():
+		CutsceneManager.register_actor(actor_id, self)
+	dialogue.npc_id = actor_id
+	var pool_key: String = idle_pool_npc_key if not idle_pool_npc_key.is_empty() else actor_id
+	dialogue.idle_pool = ChapterLoader.get_scene_lines(dialogue_chapter, "idle_pool_%s" % pool_key)
 
-func advance() -> void:
-	# Only called for non-choice lines.
-	AudioManager.play_sfx("advance")
-	var line: Dictionary = dialogue_lines[_current_line]
-	var nxt = _resolve_next(line)
-	if nxt == null:
-		_end()
-		return
-	_current_line = nxt
-	if _current_line >= dialogue_lines.size():
-		_end()
-		return
-	_show_line()
-
-## Resolves the next line index, honoring patience_branch if present.
-## patience_branch: [{"min_patience": int, "next": int}, ...] — evaluates against
-## the last-speaking NPC's current patience (read-only, reflects prior choices),
-## picks the highest min_patience threshold met. Falls back to explicit "next",
-## else sequential fallthrough.
-func _resolve_next(line: Dictionary):
-	if line.has("patience_branch") and not _last_speaker.is_empty():
-		var current_patience: int = GameState.get_patience(_last_speaker)
-		var best_next = null
-		var best_min: int = -1
-		for branch in line["patience_branch"]:
-			var min_p: int = branch.get("min_patience", 0)
-			if current_patience >= min_p and min_p > best_min:
-				best_min = min_p
-				best_next = branch.get("next")
-		if best_next != null:
-			return best_next
-	return line.get("next", _current_line + 1)
-
-## Called by ChoiceUI when player picks an option. Takes the full choice dict
-## (not just the next index) so rapport_delta/patience_delta on the CHOICE
-## itself — the only place player agency actually enters — can be applied.
-## Attributed to _last_speaker: the NPC the player was just responding to.
-func choose(choice: Dictionary) -> void:
-	if not _last_speaker.is_empty():
-		if choice.has("rapport_delta"):
-			GameState.adjust_rapport(_last_speaker, choice["rapport_delta"])
-		if choice.has("patience_delta"):
-			GameState.adjust_patience(_last_speaker, choice["patience_delta"])
-
-	var next_index = choice.get("next", -1)
-	if next_index == -1:
-		_end()
-		return
-	_current_line = next_index
-	if _current_line >= dialogue_lines.size():
-		_end()
-		return
-	_show_line()
-
-func _show_line() -> void:
-	var line: Dictionary = dialogue_lines[_current_line]
-
-	# challenge_gate (TDD §5): wait-state, not a branch. No text/choices are
-	# shown for this line type — it either passes through immediately (already
-	# passed) or suspends dialogue until ChallengeManager reports a pass.
-	if line.get("type", "") == "challenge_gate":
-		_handle_challenge_gate(line)
-		return
-
-	var portrait_tex = CharacterRegistry.get_portrait(line.get("speaker", ""))
-
-	# Word exposure (Dictionary unlock)
-	if line.has("word_ids"):
-		for wid in line["word_ids"]:
-			if not wid.is_empty():
-				GameState.expose_word(wid)
-
-	var speaker: String = line.get("speaker", "")
-	if not speaker.is_empty():
-		_last_speaker = speaker   # tracked for choice-delta attribution + patience_branch reads
-
-	# Branch or linear
-	if line.has("choices") and not line["choices"].is_empty():
-		DialogueUI.show_line(line.get("speaker",""), line.get("text",""), self, portrait_tex)
-		DialogueUI.show_choices(line["choices"], self)
+func _on_interacted(_interactor: Node) -> void:
+	if not GameState.get_flag(seen_flag):
+		CutsceneManager.play(cutscene_id)
+	elif not dialogue.idle_pool.is_empty():
+		# Story beat for this scene is exhausted (seen_flag already true) —
+		# show ambient banter instead of replaying the same fixed lines
+		# every re-interact (PROF_FEEDBACK_RESPONSE.md §1/§3, GDD §6.9).
+		dialogue.start_idle_dialogue()
 	else:
-		DialogueUI.show_line(line.get("speaker",""), line.get("text",""), self, portrait_tex)
-
-func _end() -> void:
-	DialogueUI.hide()
-	if not completes_quest_id.is_empty():
-		QuestManager.complete_quest(completes_quest_id)
-
-## Entry point for a challenge_gate line. No fallback "next" — this is a
-## wait-state, not a branch (TDD §5). Puzzle UI presentation for the
-## challenge itself is out of scope here; DialogueUI.challenge_gate_entered
-## is the hook point for whatever owns puzzle_panel to react to (Roadmap
-## Phase A "puzzle_panel.gd wiring" item, tracked separately).
-func _handle_challenge_gate(line: Dictionary) -> void:
-	var challenge_id: String = line.get("challenge_id", "")
-	var next_on_pass = line.get("next_on_pass", null)
-
-	if ChallengeManager.is_passed(challenge_id):
-		_advance_past_gate(next_on_pass)
-		return
-
-	DialogueUI.hide_box_only()
-	DialogueUI.challenge_gate_entered.emit(challenge_id)
-
-	_pending_gate_id = challenge_id
-	_pending_gate_next = next_on_pass
-	if not ChallengeManager.challenge_passed.is_connected(_on_challenge_passed):
-		ChallengeManager.challenge_passed.connect(_on_challenge_passed)
-
-## Filters ChallengeManager's global challenge_passed signal down to the
-## single gate this component is currently suspended on. Persistent
-## connection guard (not CONNECT_ONE_SHOT) because a challenge_passed signal
-## for a DIFFERENT challenge_id must not consume this component's wait.
-func _on_challenge_passed(challenge_id: String, _first_try: bool) -> void:
-	if challenge_id != _pending_gate_id:
-		return
-	ChallengeManager.challenge_passed.disconnect(_on_challenge_passed)
-	_pending_gate_id = ""
-	_advance_past_gate(_pending_gate_next)
-
-func _advance_past_gate(next_on_pass) -> void:
-	if next_on_pass == null or next_on_pass >= dialogue_lines.size():
-		_end()
-		return
-	_current_line = next_on_pass
-	_show_line()
-
-## Cleanup guard: if this component's scene is torn down while suspended on
-## a challenge_gate (e.g. player quits mid-gate), the connection to
-## ChallengeManager.challenge_passed must not dangle.
-func _exit_tree() -> void:
-	if ChallengeManager.challenge_passed.is_connected(_on_challenge_passed):
-		ChallengeManager.challenge_passed.disconnect(_on_challenge_passed)
+		dialogue.dialogue_lines = ChapterLoader.get_scene_lines(dialogue_chapter, dialogue_scene_key)
+		dialogue.start_dialogue()
