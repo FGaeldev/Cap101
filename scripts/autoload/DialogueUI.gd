@@ -2,6 +2,7 @@
 extends Node
 
 signal dialogue_finished
+signal challenge_gate_entered(challenge_id: String)
 
 var _current_component = null
 var _dialogue_box      = null
@@ -38,6 +39,17 @@ func hide() -> void:
 	if _root:
 		_root.hide_box()
 	dialogue_finished.emit()
+
+## Hides dialogue visuals WITHOUT ending the dialogue session — used when a
+## challenge_gate line (TDD §5) suspends dialogue to wait on ChallengeManager.
+## Must not emit dialogue_finished: dialogue_action.gd (cutscenes) awaits
+## that signal for true end-of-dialogue only, and a challenge_gate is a
+## pause, not an end.
+func hide_box_only() -> void:
+	if _choice_box:
+		_choice_box.hide_choices()
+	if _root:
+		_root.hide_box()
 
 func player_pressed_advance() -> void:
 	if _current_component:

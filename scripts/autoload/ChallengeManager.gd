@@ -77,18 +77,7 @@ func remove_wrong_option(challenge_id: String) -> int:
 			return i
 	return -1
 
-# Temporary: writes GameState directly. TDD §7 names RewardManager as sole
-# writer for these fields, with popup sequencing (stars first, then
-# badge/unlock) — replace this function's body with a RewardManager call
-# once that autoload exists; keep the GameState mutation methods as-is.
+# RewardManager is the sole writer for reward fields (TDD §7) — this just
+# forwards the reward dict + first_try flag, no GameState calls here anymore.
 func _grant_reward(reward: Dictionary, first_try: bool) -> void:
-	if reward.get("stars", 0) > 0:
-		GameState.add_stars(reward["stars"])
-	if reward.get("badge", "") != "":
-		GameState.add_badge(reward["badge"])
-	if reward.get("stamp", "") != "":
-		GameState.add_stamp(reward["stamp"])
-	if first_try and reward.get("memory_page", "") != "":
-		GameState.add_memory_page(reward["memory_page"])
-	if reward.get("hint_tokens", 0) > 0:
-		GameState.add_hint_tokens(reward["hint_tokens"])
+	RewardManager.grant_reward(reward, first_try)

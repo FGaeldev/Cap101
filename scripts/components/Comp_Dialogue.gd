@@ -8,6 +8,8 @@ extends Node
 
 var _current_line: int = 0
 var _last_speaker: String = ""   # most recent non-blank speaker; choice deltas attribute to this NPC
+var _pending_gate_id: String = ""   # challenge_id this component is currently waiting on, "" if none
+var _pending_gate_next = null       # next_on_pass to jump to once _pending_gate_id passes
 
 func start_dialogue() -> void:
 	_current_line = 0
@@ -70,6 +72,14 @@ func choose(choice: Dictionary) -> void:
 
 func _show_line() -> void:
 	var line: Dictionary = dialogue_lines[_current_line]
+
+	# challenge_gate (TDD §5): wait-state, not a branch. No text/choices are
+	# shown for this line type — it either passes through immediately (already
+	# passed) or suspends dialogue until ChallengeManager reports a pass.
+	if line.get("type", "") == "challenge_gate":
+		_handle_challenge_gate(line)
+		return
+
 	var portrait_tex = CharacterRegistry.get_portrait(line.get("speaker", ""))
 
 	# Word exposure (Dictionary unlock)
@@ -93,3 +103,49 @@ func _end() -> void:
 	DialogueUI.hide()
 	if not completes_quest_id.is_empty():
 		QuestManager.complete_quest(completes_quest_id)
+
+## Entry point for a challenge_gate line. No fallback "next" — this is a
+## wait-state, not a branch (TDD §5). Puzzle UI presentation for the
+## challenge itself is out of scope here; DialogueUI.challenge_gate_entered
+## is the hook point for whatever owns puzzle_panel to react to (Roadmap
+## Phase A "puzzle_panel.gd wiring" item, tracked separately).
+func _handle_challenge_gate(line: Dictionary) -> void:
+	var challenge_id: String = line.get("challenge_id", "")
+	var next_on_pass = line.get("next_on_pass", null)
+
+	if ChallengeManager.is_passed(challenge_id):
+		_advance_past_gate(next_on_pass)
+		return
+
+	DialogueUI.hide_box_only()
+	DialogueUI.challenge_gate_entered.emit(challenge_id)
+
+	_pending_gate_id = challenge_id
+	_pending_gate_next = next_on_pass
+	if not ChallengeManager.challenge_passed.is_connected(_on_challenge_passed):
+		ChallengeManager.challenge_passed.connect(_on_challenge_passed)
+
+## Filters ChallengeManager's global challenge_passed signal down to the
+## single gate this component is currently suspended on. Persistent
+## connection guard (not CONNECT_ONE_SHOT) because a challenge_passed signal
+## for a DIFFERENT challenge_id must not consume this component's wait.
+func _on_challenge_passed(challenge_id: String, _first_try: bool) -> void:
+	if challenge_id != _pending_gate_id:
+		return
+	ChallengeManager.challenge_passed.disconnect(_on_challenge_passed)
+	_pending_gate_id = ""
+	_advance_past_gate(_pending_gate_next)
+
+func _advance_past_gate(next_on_pass) -> void:
+	if next_on_pass == null or next_on_pass >= dialogue_lines.size():
+		_end()
+		return
+	_current_line = next_on_pass
+	_show_line()
+
+## Cleanup guard: if this component's scene is torn down while suspended on
+## a challenge_gate (e.g. player quits mid-gate), the connection to
+## ChallengeManager.challenge_passed must not dangle.
+func _exit_tree() -> void:
+	if ChallengeManager.challenge_passed.is_connected(_on_challenge_passed):
+		ChallengeManager.challenge_passed.disconnect(_on_challenge_passed)
