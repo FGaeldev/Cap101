@@ -9,6 +9,12 @@ const SHEET := preload("res://assets/ui/buttons_sheet.png")
 const ICON_SHEET := preload("res://assets/ui/icon_buttons_sheet.png")
 const DIALOGUE_BOX := preload("res://assets/ui/dialogue_box.png")
 
+# Display face — HERO/XXL sizes only (main menu title, modal headers).
+# Body text uses the project-wide default font (Project Settings > GUI >
+# Theme > Custom Font), not this — don't add a FONT_BODY const/override here,
+# it'd just duplicate the default and risk drifting out of sync with it.
+const FONT_DISPLAY := preload("res://assets/ui/fonts/AlegreyaSC-Regular.ttf")
+
 # Button Sprite Size
 const CELL_W := 64
 const CELL_H := 24
@@ -30,9 +36,9 @@ const COL_FOCUSED  := 4
 const SLICE_MARGIN := 10
 
 # Text colors (only 3 in the whole system)
-const TEXT_DEFAULT  := Color("493333")  # inky, default label color
-const TEXT_EMPHASIS := Color("b8842f")  # book-cover red, pops against tan buttons
-const TEXT_DISABLED := Color("a89484")  # muted tan-gray, low contrast on purpose
+const TEXT_DEFAULT  := Color("4C2020")  # inky, default label color
+const TEXT_EMPHASIS := Color("39290F")  # book-cover red, pops against tan buttons
+const TEXT_DISABLED := Color("332B24")  # muted tan-gray, low contrast on purpose
 
 # Font size scale — inferred from every add_theme_font_size_override in the
 # project (raw values found: 8, 9, 10, 11, 12, 13, 14, 16, 42). Near-duplicate
@@ -70,6 +76,14 @@ const ICON_VARIANT_ROWS := {
 	"close":      ICON_ROW_CLOSE,
 	"menu":       ICON_ROW_MENU,
 }
+
+## Applies the display face to a Label/Button/RichTextLabel-type control.
+## Call alongside a FONT_SIZE_HERO/FONT_SIZE_XXL size override — display face
+## is only for those two sizes, per UI Style Guide §3. Pairs with the existing
+## add_theme_font_size_override("font_size", ...) call at each call site;
+## doesn't replace it.
+func apply_display_font(control: Control) -> void:
+	control.add_theme_font_override("font", FONT_DISPLAY)
 
 
 ## Builds one StyleBoxTexture for a given row/col cell of the sheet.
