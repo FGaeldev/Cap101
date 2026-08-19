@@ -14,6 +14,11 @@ var current_area: String = "village"
 var completed_quests: Array = []
 var current_level_path: String = "res://scenes/world/scene01.tscn"
 
+## Dev-only chapter/scene skip menu toggle (Settings tab). Deliberately NOT
+## in save_game()/load_game() -- session-only, must never leak into a saved
+## game or ship "on" by default from a stale save file.
+var dev_mode: bool = false
+
 # --- Rapport / Patience ---
 # "Rapport regains around half per day"
 # flat amount, prorated for partial days.

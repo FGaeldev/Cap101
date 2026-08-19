@@ -14,8 +14,11 @@
 	]},
 	{"type":"parallel","actions":[
 		{"type":"move_npc","actor":"Lola Jonabel","to":[171,237],"speed":20},
+		{"type":"set_visible","actor":"Lola Jonabel", "value":false},
 		{"type":"move_npc","actor":"Papa Jobert","to":[158,236],"speed":20},
-		{"type":"move_npc","actor":"player","to":[155,235],"speed":20}
+		{"type":"set_visible","actor":"Papa Jobert", "value":false},
+		{"type":"move_npc","actor":"player","to":[155,235],"speed":20},
+		{"type":"set_visible","actor":"player", "value":false}
 	]},
 	{"type": "set_flag", "flag": "seen_chapter1_scene2","value": true},
 	{"type":"camera", "mode":"release", "duration":0.5}
