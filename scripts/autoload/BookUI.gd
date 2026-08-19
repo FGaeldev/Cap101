@@ -33,6 +33,11 @@ var _current_tab: String = ""
 @onready var bottom_bar: HBoxContainer = $Root/BottomBar
 @onready var arrow_left: Button = $Root/BottomBar/ArrowLeft
 @onready var arrow_right: Button = $Root/BottomBar/ArrowRight
+## Not a real tab — sits in the tab bar for chrome consistency, but presses
+## trigger _on_exit_pressed() directly instead of switch_tab(). Hidden
+## whenever BookUI is opened from MainMenu itself (see open()) — same
+## context guard page_settings.gd used to apply to its old Quit button.
+@onready var tab_exit: Button = $Root/TabBar/TabExit
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -96,6 +101,8 @@ func _ready() -> void:
 	_tabs["map"]["page"] = map_page
 	_tabs["map"]["full_spread"] = true
 
+	_setup_exit_button(tab_exit)
+
 func _make_marker_style() -> StyleBoxTexture:
 	var sb := StyleBoxTexture.new()
 	sb.texture = MARKER
@@ -126,9 +133,38 @@ func _set_pivot_bottom_left(button: Button) -> void:
 	button.pivot_offset = Vector2(0, button.size.y)
 
 func _animate_tab(tab_id: String, target_scale: float) -> void:
-	var button: Button = _tabs[tab_id]["button"]
+	_animate_button(_tabs[tab_id]["button"], target_scale)
+
+func _animate_button(button: Button, target_scale: float) -> void:
 	var tween := create_tween()
 	tween.tween_property(button, "scale", Vector2(target_scale, target_scale), TAB_ANIM_TIME)
+
+## Exit lives in the tab bar for visual consistency (same marker chrome,
+## same hover pop) but isn't a real tab -- no page, never touches
+## _tabs/_current_tab/switch_tab(). Pressing it leaves the game immediately.
+func _setup_exit_button(button: Button) -> void:
+	var style := _make_marker_style()
+	button.add_theme_stylebox_override("normal", style)
+	button.add_theme_stylebox_override("hover", style)
+	button.add_theme_stylebox_override("pressed", style)
+	button.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
+	button.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
+	button.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XS)
+	call_deferred("_set_pivot_bottom_left", button)
+	button.mouse_entered.connect(func(): _animate_button(button, TAB_HOVER_SCALE))
+	button.mouse_exited.connect(func(): _animate_button(button, 1.0))
+	button.pressed.connect(_on_exit_pressed)
+
+## Moved from page_settings.gd::_on_quit_pressed() -- same sequence
+## (CutsceneManager.abort() first, TDD §9 item 8's "any leave-game path"
+## rule), just triggered from the tab bar directly instead of a button
+## inside the Settings page.
+func _on_exit_pressed() -> void:
+	AudioManager.play_sfx("menu_click")
+	CutsceneManager.abort()
+	GameState.save_game()
+	close()
+	get_tree().change_scene_to_file("res://scenes/ui/MainMenu.tscn")
 
 ## Callable must return bool. Used to lock e.g. Dictionary before first word exposed.
 func set_tab_lock_condition(tab_id: String, is_unlocked: Callable) -> void:
@@ -138,6 +174,14 @@ func set_tab_lock_condition(tab_id: String, is_unlocked: Callable) -> void:
 func open(tab_id: String = "settings") -> void:
 	visible = true
 	get_tree().paused = true
+	# "Exit to main menu" makes no sense from MainMenu itself -- no active
+	# session, and _on_exit_pressed()'s save_game() call would silently
+	# overwrite an existing save with whatever stale/default data currently
+	# sits in the GameState singleton (same guard page_settings.gd's old
+	# Quit button used to apply in its own refresh()).
+	var in_main_menu := get_tree().current_scene != null \
+		and get_tree().current_scene.scene_file_path == "res://scenes/ui/MainMenu.tscn"
+	tab_exit.visible = not in_main_menu
 	switch_tab(tab_id)
 
 func close() -> void:

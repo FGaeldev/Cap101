@@ -8,7 +8,6 @@ extends Control
 @onready var sfx_toggle: CheckButton = $VBoxContainer/SFXToggle
 @onready var dev_mode_label: Label = $VBoxContainer/DevModeLabel
 @onready var dev_mode_toggle: CheckButton = $VBoxContainer/DevModeToggle
-@onready var quit_btn: Button = $VBoxContainer/QuitBtn
 
 func _ready() -> void:
 	for lbl in [master_volume_label, music_label, sfx_label, dev_mode_label]:
@@ -20,30 +19,18 @@ func _ready() -> void:
 	music_toggle.toggled.connect(_on_music_toggled)
 	sfx_toggle.toggled.connect(_on_sfx_toggled)
 	dev_mode_toggle.toggled.connect(_on_dev_mode_toggled)
-	UIThemeApplier.apply_button_theme(quit_btn, "danger")
 
 ## BookUI pages are instantiated once and toggled via .visible on every
 ## subsequent open (TDD §8 page pattern) — _ready() never runs again after
-## the first open. The MainMenu-context check below MUST live here, not in
-## _ready(), or it only ever evaluates against whichever scene happened to
-## be active the first time Settings was opened, then stays stale for the
-## rest of the session (e.g. opened once from MainMenu -> quit_btn hidden
-## forever, even after starting a game and reopening Settings mid-session).
+## the first open. dev_mode lives on GameState (session-only), not on this
+## page — re-sync the checkbox to it every time Settings opens so it can
+## never drift stale from whatever Journal's dev page is actually reading.
+##
+## "Exit to main menu" moved out of this page entirely -- now BookUI's
+## TabExit tab-bar button (see BookUI.gd::_on_exit_pressed()). No
+## main-menu-context guard needed here anymore; that guard now lives in
+## BookUI.open() instead, gating the tab button itself.
 func refresh() -> void:
-	## Settings can be opened from MainMenu itself (no active session).
-	## "Exit to main menu" makes no sense there, and its GameState.save_game()
-	## call would silently overwrite an existing save with whatever stale or
-	## default data currently sits in the GameState singleton's memory.
-	var in_main_menu := get_tree().current_scene != null \
-		and get_tree().current_scene.scene_file_path == "res://scenes/ui/MainMenu.tscn"
-	quit_btn.visible = not in_main_menu
-	if not in_main_menu and not quit_btn.pressed.is_connected(_on_quit_pressed):
-		quit_btn.pressed.connect(_on_quit_pressed)
-
-	## dev_mode lives on GameState (session-only, TDD §7 dev_mode note), not
-	## on this page — re-sync the checkbox to it every time Settings opens
-	## so the display can never drift from the actual flag driving Journal's
-	## hidden dev page.
 	dev_mode_toggle.set_pressed_no_signal(GameState.dev_mode)
 
 func _on_volume_changed(value: float) -> void:
@@ -57,13 +44,5 @@ func _on_sfx_toggled(muted: bool) -> void:
 
 ## Dev-only: flips GameState.dev_mode, which Journal's page_journal.gd reads
 ## on its own refresh() to decide whether to open on the hidden warp page.
-## No signal needed the other direction — Journal re-checks the flag itself
-## every time that tab is opened (same re-sync pattern as quit_btn above).
 func _on_dev_mode_toggled(enabled: bool) -> void:
 	GameState.dev_mode = enabled
-
-func _on_quit_pressed() -> void:
-	CutsceneManager.abort()
-	GameState.save_game()
-	BookUI.close()
-	get_tree().change_scene_to_file("res://scenes/ui/MainMenu.tscn")
