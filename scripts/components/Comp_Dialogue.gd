@@ -10,11 +10,42 @@ var _current_line: int = 0
 var _last_speaker: String = ""   # most recent non-blank speaker; choice deltas attribute to this NPC
 var _pending_gate_id: String = ""   # challenge_id this component is currently waiting on, "" if none
 var _pending_gate_next = null       # next_on_pass to jump to once _pending_gate_id passes
+var _idle_bag: Array = []           # shuffle-bag of remaining indices into the last idle pool passed in
+
+## Emitted once dialogue reaches its end (linear falls off the end, a choice
+## resolves to no next, or a challenge_gate's _end() path fires). Callers use
+## this to detect "story dialogue for this NPC/scene is now exhausted" and
+## switch subsequent interacts to start_idle_dialogue() instead — see
+## TDD_Addendum_ProfFeedback.md §2. Fires for idle dialogue too (harmless,
+## callers guard with their own already-set flag check).
+signal dialogue_ended
 
 func start_dialogue() -> void:
 	_current_line = 0
 	_last_speaker = ""
 	_show_line()
+
+## Idle/ambient line, drawn from an NPC's idle pool via shuffle-bag
+## (draw-without-replacement, reshuffle when exhausted) so repeat visits
+## don't repeat the same line back to back. Idle lines are leaf nodes -- no
+## choices, no "next" -- so this reuses the normal single-line dialogue
+## path unchanged (TDD_Addendum_ProfFeedback.md §2). Caller passes the pool
+## fresh each call (ChapterLoader.get_idle_pool); bag state persists on this
+## component instance across calls within the same play session.
+func start_idle_dialogue(pool: Array) -> void:
+	if pool.is_empty():
+		return
+	if _idle_bag.is_empty():
+		_refill_idle_bag(pool.size())
+	var idx: int = _idle_bag.pop_back()
+	dialogue_lines = [pool[idx]]
+	start_dialogue()
+
+func _refill_idle_bag(size: int) -> void:
+	_idle_bag.clear()
+	for i in range(size):
+		_idle_bag.append(i)
+	_idle_bag.shuffle()
 
 func advance() -> void:
 	# Only called for non-choice lines.
@@ -103,6 +134,7 @@ func _end() -> void:
 	DialogueUI.hide()
 	if not completes_quest_id.is_empty():
 		QuestManager.complete_quest(completes_quest_id)
+	dialogue_ended.emit()
 
 ## Entry point for a challenge_gate line. No fallback "next" — this is a
 ## wait-state, not a branch (TDD §5). Puzzle UI presentation for the

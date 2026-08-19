@@ -10,6 +10,13 @@ func get_scene_lines(chapter_id: String, scene_key: String) -> Array:
 		_load_chapter(chapter_id)
 	return _cache.get(chapter_id, {}).get(scene_key, [])
 
+## Idle pools live as sibling top-level keys in the same chapter JSON
+## (e.g. "idle_pool_lola_jonabel"), same {key: [lines]} shape as a scene --
+## alias kept separate from get_scene_lines() only for call-site clarity
+## (TDD_Addendum_ProfFeedback.md §2), not because the lookup differs.
+func get_idle_pool(chapter_id: String, pool_key: String) -> Array:
+	return get_scene_lines(chapter_id, pool_key)
+
 func _load_chapter(chapter_id: String) -> void:
 	var path = "res://data/dialogue/%s.json" % chapter_id
 	if not FileAccess.file_exists(path):
