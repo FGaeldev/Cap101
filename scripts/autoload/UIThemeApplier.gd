@@ -13,7 +13,7 @@ const DIALOGUE_BOX := preload("res://assets/ui/dialogue_box.png")
 # Body text uses the project-wide default font (Project Settings > GUI >
 # Theme > Custom Font), not this — don't add a FONT_BODY const/override here,
 # it'd just duplicate the default and risk drifting out of sync with it.
-const FONT_DISPLAY := preload("res://assets/ui/fonts/AlegreyaSC-Regular.ttf")
+const FONT_DISPLAY := preload("res://assets/ui/fonts/AlegreyaSC-Bold.ttf")
 
 # Button Sprite Size
 const CELL_W := 64
@@ -45,13 +45,13 @@ const TEXT_DISABLED := Color("332B24")  # muted tan-gray, low contrast on purpos
 # one-offs (9 vs 11, 10 vs 11) are organic drift, not intentional distinctions —
 # consolidated here into 7 steps. Migrate call sites to these over time instead
 # of hardcoding new numbers.
-const FONT_SIZE_HERO    := 42  # full-screen display text — main menu title only
-const FONT_SIZE_XXL     := 16  # modal/popup headers — quest complete title
-const FONT_SIZE_XL      := 14  # emphasized inline text — dictionary word (akeanon), card highlights
-const FONT_SIZE_L       := 13  # supporting subtitle / instructional text — puzzle hints, menu subtitle
-const FONT_SIZE_M       := 12  # default body/button text — most buttons, panel titles, feedback text
-const FONT_SIZE_S       := 10  # secondary/compact text — meta labels, quest names, small buttons
-const FONT_SIZE_XS      := 8   # smallest — tags, encounter counts, fine-print annotations
+const FONT_SIZE_HERO    := 38  # full-screen display text — main menu title only
+const FONT_SIZE_XXL     := 14  # modal/popup headers — quest complete title
+const FONT_SIZE_XL      := 12  # emphasized inline text — dictionary word (akeanon), card highlights
+const FONT_SIZE_L       := 11  # supporting subtitle / instructional text — puzzle hints, menu subtitle
+const FONT_SIZE_M       := 10  # default body/button text — most buttons, panel titles, feedback text
+const FONT_SIZE_S       := 8  # secondary/compact text — meta labels, quest names, small buttons
+const FONT_SIZE_XS      := 6   # smallest — tags, encounter counts, fine-print annotations
 
 # Icon Button Sprite Size
 const ICON_CELL_W := 24

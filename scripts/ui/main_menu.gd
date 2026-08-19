@@ -63,6 +63,7 @@ func _apply_style() -> void:
 	# Title — book-cover gold (UI_STYLE_GUIDE §2)
 	title_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_EMPHASIS)
 	title_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_HERO)
+	UIThemeApplier.apply_display_font(title_label)
 	title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
 	# Subtitle — secondary/meta text role (UI_STYLE_GUIDE §2)
