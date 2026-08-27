@@ -5,6 +5,7 @@ extends Node
 func _ready() -> void:
 	var level_path := GameState.current_level_path if GameState.current_level_path != "" else "res://scenes/world/scene01.tscn"
 	load_level(level_path)
+	
 
 func load_level(path: String) -> void:
 	for c in $LevelContainer.get_children():

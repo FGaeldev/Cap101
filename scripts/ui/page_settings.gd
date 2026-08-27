@@ -46,3 +46,6 @@ func _on_sfx_toggled(muted: bool) -> void:
 ## on its own refresh() to decide whether to open on the hidden warp page.
 func _on_dev_mode_toggled(enabled: bool) -> void:
 	GameState.dev_mode = enabled
+	GameState.set_flag("story_done_papa_jobert_scene1")
+	GameState.set_flag("seen_chapter1_scene1")
+	GameState.set_flag("story_done_lola_jonabel_scene1")
