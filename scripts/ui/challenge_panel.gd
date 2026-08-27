@@ -26,7 +26,7 @@ func _ready() -> void:
 	for btn in choices_box.get_children():
 		_choice_btns.append(btn)
 	_apply_style()
-	DialogueUI.challenge_gate_entered.connect(_open)
+	##DialogueUI.challenge_gate_entered.connect(_open)
 
 ## Entry point — fired by Comp_Dialogue via DialogueUI.challenge_gate_entered
 ## whenever a challenge_gate line is hit and not already passed.
