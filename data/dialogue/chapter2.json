@@ -1,0 +1,23 @@
+{
+	"scene_2_field_notes": [
+		{
+			"speaker": "",
+			"text": "You flip open your field notes before heading out.",
+			"translation": "You flip open your field notes before heading out.",
+			"word_ids": [],
+			"next": 1
+		},
+		{
+			"type": "challenge_gate",
+			"challenge_id": "ch2_tutorial_field_notes",
+			"next_on_pass": 2
+		},
+		{
+			"speaker": "",
+			"text": "Notes checked. Time to head to Bakhawan.",
+			"translation": "Notes checked. Time to head to Bakhawan.",
+			"word_ids": [],
+			"next": null
+		}
+	]
+}

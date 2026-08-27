@@ -1,0 +1,37 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/entities/field_notes.gd" id="1_fldnt"]
+[ext_resource type="Texture2D" uid="uid://obneo8yg0ffi" path="res://assets/sprites/sv_object.png" id="2_lx7m8"]
+[ext_resource type="Script" uid="uid://b4kdc1v80hll3" path="res://scripts/components/Comp_Interactable.gd" id="3_fbsxe"]
+[ext_resource type="Script" uid="uid://rdfwcbfe3lh3" path="res://scripts/components/Comp_Dialogue.gd" id="4_dlgcp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fn01"]
+size = Vector2(20, 6)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fn01"]
+radius = 16.0
+height = 34.0
+
+[node name="FieldNotes" type="StaticBody2D"]
+script = ExtResource("1_fldnt")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+texture = ExtResource("2_lx7m8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_fn01")
+
+[node name="InteractArea" type="Area2D" parent="."]
+position = Vector2(0, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea"]
+position = Vector2(0, -2)
+shape = SubResource("CapsuleShape2D_fn01")
+
+[node name="InteractableComponent" type="Node" parent="."]
+script = ExtResource("3_fbsxe")
+
+[node name="DialogueComponent" type="Node" parent="."]
+script = ExtResource("4_dlgcp")

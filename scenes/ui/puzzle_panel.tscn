@@ -45,5 +45,15 @@ layout_mode = 2
 [node name="Choice3" type="Button" parent="Panel/VBox/ChoicesBox" unique_id=1811776698]
 layout_mode = 2
 
+[node name="HintFeedbackLabel" type="Label" parent="Panel/VBox"]
+layout_mode = 2
+visible = false
+autowrap_mode = 3
+
+[node name="HintButton" type="Button" parent="Panel/VBox"]
+layout_mode = 2
+visible = false
+text = "Use Rose Hint Token"
+
 [node name="FeedbackLabel" type="Label" parent="Panel/VBox" unique_id=1169477604]
 layout_mode = 2

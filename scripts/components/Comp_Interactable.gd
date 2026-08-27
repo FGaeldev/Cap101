@@ -30,8 +30,11 @@ func _on_input_event(_viewport, event, _shape_idx):
 		return
 	if not get_parent().is_visible_in_tree():
 		return
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		interacted.emit(_player_ref)
+	# project.godot sets pointing/emulate_touch_from_mouse=true (needed for
+	# Android), which makes a single mouse click also synthesize an
+	# InputEventScreenTouch. Checking both event types here double-fired
+	# `interacted` per click. Touch alone covers real touch AND the
+	# emulated-from-mouse case, so this is the single source now.
 	if event is InputEventScreenTouch and event.pressed:
 		interacted.emit(_player_ref)
 

@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://cvymbtbj88sku" path="res://scripts/map/stub_area.gd" id="1_1a6si"]
+
+[node name="StubArea" type="Node2D"]
+script = ExtResource("1_1a6si")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 300.0
+offset_bottom = 48.0
+text = "Bakhawan Ecopark (stub area)
+Unlocked via ch2_tutorial_field_notes."
+
+[node name="ReturnToMapButton" type="Button" parent="."]
+offset_left = 8.0
+offset_top = 56.0
+offset_right = 128.0
+offset_bottom = 80.0
+text = "Return to Map"
+
+[connection signal="pressed" from="ReturnToMapButton" to="." method="_on_return_to_map_pressed"]

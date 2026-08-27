@@ -7,5 +7,6 @@
 	"port":         { "id": "port",         "display_name": "Port",         "scene_path": "", "unlocked": false },
 	"abaca":        { "id": "abaca",        "display_name": "Abaca",        "scene_path": "", "unlocked": false },
 	"farming":      { "id": "farming",      "display_name": "Farming",      "scene_path": "res://scenes/map/stub_area.tscn", "unlocked": true },
-	"village":      { "id": "village",      "display_name": "Village",      "scene_path": "res://scenes/world/scene01.tscn", "unlocked": true }
+	"village":      { "id": "village",      "display_name": "Village",      "scene_path": "res://scenes/world/scene01.tscn", "unlocked": true },
+	"bakhawan_ecopark": { "id": "bakhawan_ecopark", "display_name": "Bakhawan Ecopark", "scene_path": "res://scenes/map/stub_area_bakhawan.tscn", "gate_challenge_id": "ch2_tutorial_field_notes", "unlocked": false }
 }

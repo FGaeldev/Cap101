@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://dmx7lv7mutv3k" path="res://assets/ui/book/dictionaryt_icon.png" id="6_blequ"]
 [ext_resource type="Texture2D" uid="uid://dtmnv5nuelrg4" path="res://assets/ui/book/heart_icon.png" id="7_w2i5u"]
 [ext_resource type="Texture2D" uid="uid://x7ylxl4ew7xc" path="res://assets/ui/book/aklan_map_icon.png" id="8_jyi8r"]
+[ext_resource type="Texture2D" uid="uid://c8a8w2jxcy0ey" path="res://assets/ui/book/exit_icon.png" id="10_u0r3w"]
 [ext_resource type="Texture2D" uid="uid://cg3uyf6a43cge" path="res://assets/ui/book/left_icon.png" id="11_iivqe"]
 [ext_resource type="Texture2D" uid="uid://bwdvlgc7nf325" path="res://assets/ui/book/right_icon.png" id="12_jyi8r"]
 
@@ -136,10 +137,10 @@ custom_minimum_size = Vector2(20, 14)
 layout_mode = 2
 icon = ExtResource("5_5ja33")
 
-[node name="TabExit" type="Button" parent="Root/TabBar"]
+[node name="TabExit" type="Button" parent="Root/TabBar" unique_id=2116530092]
 custom_minimum_size = Vector2(20, 14)
 layout_mode = 2
-text = "EXIT"
+icon = ExtResource("10_u0r3w")
 
 [node name="Spread" type="HBoxContainer" parent="Root" unique_id=74142674]
 propagate_maximum_size = false

@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://crcmdj8w3uv5" path="res://scenes/objects/table_wide_low.tscn" id="8_bxgpk"]
 [ext_resource type="Texture2D" uid="uid://c6kls4tt8yht5" path="res://assets/sprites/Objects/blanket.png" id="8_p45fi"]
 [ext_resource type="PackedScene" uid="uid://c061vwko5ij8i" path="res://scenes/entities/npc_PapaJobert.tscn" id="12_p45fi"]
+[ext_resource type="PackedScene" path="res://scenes/entities/field_notes.tscn" id="13_fldnt"]
 
 [node name="scene01" type="Node2D" unique_id=1912818364]
 y_sort_enabled = true
@@ -97,3 +98,6 @@ texture = ExtResource("8_p45fi")
 position = Vector2(128, 112)
 
 [node name="movement_tutorial" parent="." unique_id=1813965200 instance=ExtResource("7_n1c12")]
+
+[node name="FieldNotes" parent="." unique_id=446276683 instance=ExtResource("13_fldnt")]
+position = Vector2(286, 168)

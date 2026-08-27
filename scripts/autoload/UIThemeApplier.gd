@@ -35,10 +35,16 @@ const COL_FOCUSED  := 4
 # Nine-slice margin (matches 6px corner spec)
 const SLICE_MARGIN := 10
 
-# Text colors (only 3 in the whole system)
+# Text colors (5 in the whole system — SUCCESS/ERROR added for challenge/
+# puzzle correct-wrong feedback, GDD §6 open question 6 / TDD §8. Chosen to
+# read clearly against the book/parchment panel bg, not reused from the
+# legacy tropical palette (#2d9a5a/#8b2e2e) that puzzle_panel.gd still
+# hardcodes — that's a separate migration, tracked, not done here.)
 const TEXT_DEFAULT  := Color("4C2020")  # inky, default label color
 const TEXT_EMPHASIS := Color("39290F")  # book-cover red, pops against tan buttons
 const TEXT_DISABLED := Color("332B24")  # muted tan-gray, low contrast on purpose
+const COLOR_SUCCESS := Color("2F6B3A")  # correct-answer feedback, challenge/puzzle panels
+const COLOR_ERROR   := Color("8B2E2E")  # wrong-answer feedback, challenge/puzzle panels
 
 # Font size scale — inferred from every add_theme_font_size_override in the
 # project (raw values found: 8, 9, 10, 11, 12, 13, 14, 16, 42). Near-duplicate
