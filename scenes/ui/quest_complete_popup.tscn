@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://iuwdr5jcimkk"]
 
 [ext_resource type="Script" uid="uid://cgki0phfh711h" path="res://scripts/ui/quest_complete_popup.gd" id="1_ggfr6"]
-[ext_resource type="StyleBox" uid="uid://b46qdjoo8r1qr" path="res://assets/ui/panelStyle.tres" id="2_gb5nx"]
 
 [node name="QuestCompletePopup" type="CanvasLayer" unique_id=913054677]
 script = ExtResource("1_ggfr6")
@@ -18,7 +17,6 @@ offset_right = 65.0
 offset_bottom = 42.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = ExtResource("2_gb5nx")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=421620614]
 layout_mode = 2

@@ -8,7 +8,8 @@
 	  "npc_id": "",
 	  "target_words": [],
 	  "completion_flag": "tutorial_move_seen",
-	  "completion_trigger": "first_move"
+	  "completion_trigger": "first_move",
+	  "show_popup": false
 	},
 	{
 	  "id": "q001",
