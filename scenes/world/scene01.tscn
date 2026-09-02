@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://3qef8whmsvn8" path="res://scenes/objects/counter.tscn" id="5_4dhc7"]
 [ext_resource type="Texture2D" uid="uid://d28q1je5ux8jj" path="res://assets/sprites/Objects/chair01.png" id="5_qmxtx"]
 [ext_resource type="PackedScene" uid="uid://cdeaqkgwmhjpa" path="res://scenes/objects/table_1.tscn" id="6_4dhc7"]
-[ext_resource type="PackedScene" uid="uid://w65lhxcnryyd" path="res://scenes/ui/movement_tutorial.tscn" id="7_n1c12"]
 [ext_resource type="PackedScene" uid="uid://derxr4l6a4r6y" path="res://scenes/objects/sofa_long.tscn" id="7_p45fi"]
 [ext_resource type="PackedScene" uid="uid://crcmdj8w3uv5" path="res://scenes/objects/table_wide_low.tscn" id="8_bxgpk"]
 [ext_resource type="Texture2D" uid="uid://c6kls4tt8yht5" path="res://assets/sprites/Objects/blanket.png" id="8_p45fi"]
@@ -96,8 +95,6 @@ texture = ExtResource("8_p45fi")
 
 [node name="NpcPapaJobert" parent="." unique_id=985453941 instance=ExtResource("12_p45fi")]
 position = Vector2(128, 112)
-
-[node name="movement_tutorial" parent="." unique_id=1813965200 instance=ExtResource("7_n1c12")]
 
 [node name="FieldNotes" parent="." unique_id=446276683 instance=ExtResource("13_fldnt")]
 position = Vector2(286, 168)

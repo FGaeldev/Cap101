@@ -1,6 +1,16 @@
 {
   "quests": [
 	{
+	  "id": "q000_move_tutorial",
+	  "title": "Move toward Lola Jonabel",
+	  "area": "village",
+	  "required_exposures": 0,
+	  "npc_id": "",
+	  "target_words": [],
+	  "completion_flag": "tutorial_move_seen",
+	  "completion_trigger": "first_move"
+	},
+	{
 	  "id": "q001",
 	  "title": "Scene 01: Pagka-hidlaw",
 	  "area": "village",

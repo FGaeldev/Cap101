@@ -21,7 +21,7 @@ offset_top = 6.0
 offset_right = 63.0
 offset_bottom = 46.0
 
-[node name="MenuButton" type="Button" parent="."]
+[node name="MenuButton" type="Button" parent="." unique_id=1114267016]
 anchors_preset = -1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -30,9 +30,3 @@ offset_top = 6.0
 offset_right = -6.0
 offset_bottom = 26.0
 grow_horizontal = 0
-
-[node name="QuestBG" type="PanelContainer" parent="VBoxContainer" unique_id=1669288569]
-layout_mode = 2
-
-[node name="QuestLabel" type="Label" parent="VBoxContainer/QuestBG" unique_id=208462667]
-layout_mode = 2

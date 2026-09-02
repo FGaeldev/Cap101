@@ -1,14 +1,14 @@
 # HUD.gd
 extends CanvasLayer
 
+const QUEST_BANNER_SCENE: PackedScene = preload("res://scenes/ui/quest_banner.tscn")
+
 @onready var vbox: VBoxContainer = $VBoxContainer
-@onready var quest_row_template: PanelContainer = $VBoxContainer/QuestBG
 @onready var menu_button: Button = $MenuButton
 
 func _ready() -> void:
 	QuestManager.quest_started.connect(_on_quest_list_changed)
 	QuestManager.quest_completed.connect(_on_quest_list_changed)
-	quest_row_template.visible = false # template only, never shown itself
 	_rebuild_quest_rows()
 	UIThemeApplier.apply_icon_button_theme(menu_button, "menu")
 	menu_button.pressed.connect(_on_menu_button_pressed)
@@ -25,13 +25,12 @@ func _on_quest_list_changed(_qid: String) -> void:
 	_rebuild_quest_rows()
 
 ## Rebuilds the VBoxContainer's quest rows from QuestManager.active_quests.
-## quest_row_template (QuestBG/QuestLabel) is duplicated per active quest
-## rather than instancing a separate scene, so styling stays centralized
-## in _style_row() and the scene file needs no new nodes.
+## Instances quest_banner.tscn once per active quest. Movement tutorial and
+## similar one-shot prompts are now regular quest entries (completion_trigger
+## field, see QuestManager) — no separate message-row system needed.
 func _rebuild_quest_rows() -> void:
 	for child in vbox.get_children():
-		if child.name.begins_with("QuestRow_"):
-			child.queue_free()
+		child.queue_free()
 
 	if QuestManager.active_quests.is_empty():
 		_add_quest_row("", "Quest: —")
@@ -42,9 +41,8 @@ func _rebuild_quest_rows() -> void:
 		_add_quest_row(qid, q.get("title", qid))
 
 func _add_quest_row(qid: String, title_text: String) -> void:
-	var row: PanelContainer = quest_row_template.duplicate()
+	var row: PanelContainer = QUEST_BANNER_SCENE.instantiate()
 	row.name = "QuestRow_%s" % (qid if qid != "" else "none")
-	row.visible = true
 	vbox.add_child(row)
 
 	var label: Label = row.get_node("QuestLabel")

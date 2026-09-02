@@ -47,6 +47,17 @@ func is_quest_available(quest_id: String) -> bool:
 		total_exposure += GameState.get_exposure(wid)
 	return total_exposure >= q.get("required_exposures", 0)
 
+## Completes any active quest whose "completion_trigger" field matches
+## trigger_name. For quests that resolve via a world/gameplay event rather
+## than word exposure or dialogue — e.g. the movement tutorial completes on
+## the player's first move, not on any word being seen. Callers (player FSM,
+## etc.) stay quest-agnostic — they fire a named trigger, not a quest id.
+func complete_quests_with_trigger(trigger_name: String) -> void:
+	for qid in active_quests.duplicate(): # duplicate: complete_quest mutates active_quests
+		var q = quests.get(qid, {})
+		if q.get("completion_trigger", "") == trigger_name:
+			complete_quest(qid)
+
 func complete_quest(quest_id: String) -> void:
 	var q = quests.get(quest_id, {})
 	if q.is_empty(): return
