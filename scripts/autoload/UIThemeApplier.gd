@@ -38,8 +38,8 @@ const CELL_H := 24
 
 # Row index INSIDE the sheet (0-based, row 0 is the skipped header row).
 # 5 rows of purely cosmetic variation.
-const VARIANT_ROW_START := 1
-const NUM_VARIANT_ROWS  := 5
+const VARIANT_ROW_START := 0
+const NUM_VARIANT_ROWS  := 4
 
 # Column index (0-based) per state
 const COL_DEFAULT  := 0
