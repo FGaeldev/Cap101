@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c85q4diaqqjf1"]
+
+[node name="QuestBG" type="PanelContainer" unique_id=1882006494]
+
+[node name="QuestLabel" type="Label" parent="." unique_id=180791203]
+layout_mode = 2
