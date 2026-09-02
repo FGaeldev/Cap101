@@ -128,7 +128,7 @@ func _render_page() -> void:
 		_add_quest_row(
 			q.get("title", quest_id),
 			GameState.get_flag(q.get("completion_flag", "")),
-			quest_id == QuestManager.active_quest
+			quest_id in QuestManager.active_quests
 		)
 
 func _add_quest_row(title: String, completed: bool, is_active: bool) -> void:

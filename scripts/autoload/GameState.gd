@@ -143,6 +143,10 @@ func expose_word(word_id: String) -> void:
 	if is_new:
 		var w = WordBank.get_word(word_id)
 		word_learned.emit(word_id, w.get("akeanon",""), w.get("gloss",""))
+	# Exposure count feeds QuestManager's exposure-gate — recheck here so a
+	# quest can go from locked to active_quests the moment its threshold
+	# is crossed, not just at boot/quest-completion.
+	QuestManager.refresh_active_quests()
 
 func get_exposure(word_id: String) -> int:
 	return word_exposures.get(word_id, 0)

@@ -1,14 +1,17 @@
 # QuestManager.gd — Quest state, gating, completion
 extends Node
 
+## Emitted when a quest becomes available and is added to active_quests.
+## HUD/journal listen to this to grow their quest lists.
+signal quest_started(quest_id: String)
 signal quest_completed(quest_id: String)
 
-var quests: Dictionary = {}   # id -> quest data
-var active_quest: String = "" # currently tracked quest
+var quests: Dictionary = {}          # id -> quest data
+var active_quests: Array[String] = [] # all currently available, uncompleted quests
 
 func _ready() -> void:
 	_load()
-	_set_initial_active()
+	_refresh_active_quests()
 
 func _load() -> void:
 	var file = FileAccess.open("res://data/quest_data.json", FileAccess.READ)
@@ -19,12 +22,20 @@ func _load() -> void:
 	for q in raw:
 		quests[q["id"]] = q
 
-func _set_initial_active() -> void:
-	# First quest not yet completed = active
+## Re-scans all quests, adds any newly-available one to active_quests.
+## Call this whenever a gating condition could have changed — quest
+## completion (handled internally) and word exposure (GameState.expose_word).
+func _refresh_active_quests() -> void:
 	for id in quests:
-		if not GameState.get_flag(quests[id]["completion_flag"]):
-			active_quest = id
-			return
+		if id in active_quests:
+			continue
+		if is_quest_available(id):
+			active_quests.append(id)
+			quest_started.emit(id)
+
+## Public entry point for external systems (GameState) to trigger a re-check.
+func refresh_active_quests() -> void:
+	_refresh_active_quests()
 
 func is_quest_available(quest_id: String) -> bool:
 	var q = quests.get(quest_id, {})
@@ -42,5 +53,6 @@ func complete_quest(quest_id: String) -> void:
 	GameState.set_flag(q["completion_flag"])
 	GameState.completed_quests.append(quest_id)
 	GameState.save_game()
+	active_quests.erase(quest_id)
 	quest_completed.emit(quest_id)
-	_set_initial_active() # advance to next
+	_refresh_active_quests() # pick up any quest newly unlocked by this completion
