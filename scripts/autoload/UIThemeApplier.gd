@@ -12,19 +12,13 @@ const SHEET := preload("res://assets/ui/buttons_sheet.png")
 const ICON_SHEET := preload("res://assets/ui/icon_buttons_sheet.png")
 const DIALOGUE_BOX := preload("res://assets/ui/dialogue_box.png")
 
-# Generic floating-panel chrome (popups, HUD readouts) — reuses BookUI's
-# existing book-texture assets so non-BookUI scenes (puzzle_panel, hud)
-# stop hand-rolling StyleBoxFlat and match the same book/parchment system
-# everyone else uses. Margins match UI STYLE GUIDE §6 values for these
-# same source PNGs.
-const PANEL := preload("res://assets/ui/book/cover.png")
-const PANEL_SLICE_MARGIN := 12
+# Generic floating-panel chrome (popups, HUD readouts)
+const PANEL := preload("res://assets/ui/book/selection_frame_unselected.png")
+const PANEL_SLICE_MARGIN := 4
 
-# Thin single-line readout strip (e.g. HUD quest label). Margin unmeasured —
-# same "placeholder" status as TEXTFIELD_SLICE_MARGIN in
-# page_dictionary_filter.gd; flag for remeasure, don't treat as final.
+# Thin single-line readout strip (e.g. HUD quest label).
 const HEADER := preload("res://assets/ui/book/header.png")
-const HEADER_SLICE_MARGIN := 4  # PLACEHOLDER, not yet measured
+const HEADER_SLICE_MARGIN := 4
 
 # Display face — HERO/XXL sizes only (main menu title, modal headers).
 # Body text uses the project-wide default font (Project Settings > GUI >
