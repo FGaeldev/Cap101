@@ -16,17 +16,13 @@ const DIALOGUE_BOX := preload("res://assets/ui/dialogue_box.png")
 const PANEL := preload("res://assets/ui/book/selection_frame_unselected.png")
 const PANEL_SLICE_MARGIN := 4
 
-# puzzle_panel's main panel background. Border measured at ~4px (fill starts
-# y=5) — margin below matches that, not guessed, per the SLICE_MARGIN=10
-# lesson (buttons_sheet.png tear postmortem).
+# puzzle_panel's main panel background.
 const PUZZLE_PANEL_BG := preload("res://assets/ui/book/puzzel.png")
-const PUZZLE_PANEL_SLICE_MARGIN := 5
+const PUZZLE_PANEL_SLICE_MARGIN := 8
 
-# Thin single-line readout strip (HUD quest label, top-left). Border
-# measured at ~1px (fill starts y=1) — margin 2 leaves headroom without
-# repeating the oversized-margin seam bug.
+# Thin single-line readout strip (HUD quest label, top-left). 
 const HEADER := preload("res://assets/ui/book/quest.png")
-const HEADER_SLICE_MARGIN := 2
+const HEADER_SLICE_MARGIN := 8
 
 # Display face — HERO/XXL sizes only (main menu title, modal headers).
 # Body text uses the project-wide default font (Project Settings > GUI >
