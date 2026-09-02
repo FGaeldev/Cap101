@@ -254,8 +254,9 @@ func _apply_style() -> void:
 
 	# Was: panel.tres (never existed in repo) -> flat StyleBoxFlat fallback,
 	# so this always rendered as a flat rounded-rect, not book chrome.
-	# Now matches BookUI's nine-slice system via UIThemeApplier.
-	panel.add_theme_stylebox_override("panel", UIThemeApplier.make_panel_style())
+	# Now uses puzzel.png, the dedicated main-panel art (not the generic
+	# placeholder make_panel_style() still uses for SentenceBox below).
+	panel.add_theme_stylebox_override("panel", UIThemeApplier.make_puzzle_panel_style())
 
 	hint_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 	hint_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_L)

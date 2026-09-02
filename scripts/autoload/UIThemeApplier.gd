@@ -16,9 +16,17 @@ const DIALOGUE_BOX := preload("res://assets/ui/dialogue_box.png")
 const PANEL := preload("res://assets/ui/book/selection_frame_unselected.png")
 const PANEL_SLICE_MARGIN := 4
 
-# Thin single-line readout strip (e.g. HUD quest label).
-const HEADER := preload("res://assets/ui/book/header.png")
-const HEADER_SLICE_MARGIN := 4
+# puzzle_panel's main panel background. Border measured at ~4px (fill starts
+# y=5) — margin below matches that, not guessed, per the SLICE_MARGIN=10
+# lesson (buttons_sheet.png tear postmortem).
+const PUZZLE_PANEL_BG := preload("res://assets/ui/book/puzzel.png")
+const PUZZLE_PANEL_SLICE_MARGIN := 5
+
+# Thin single-line readout strip (HUD quest label, top-left). Border
+# measured at ~1px (fill starts y=1) — margin 2 leaves headroom without
+# repeating the oversized-margin seam bug.
+const HEADER := preload("res://assets/ui/book/quest.png")
+const HEADER_SLICE_MARGIN := 2
 
 # Display face — HERO/XXL sizes only (main menu title, modal headers).
 # Body text uses the project-wide default font (Project Settings > GUI >
@@ -42,8 +50,12 @@ const COL_PRESSED  := 2
 const COL_DISABLED := 3
 const COL_FOCUSED  := 4
 
-# Nine-slice margin (matches 6px corner spec)
-const SLICE_MARGIN := 10
+# Nine-slice margin. Real border in buttons_sheet.png measures ~1px —
+# margin kept at 3 (not 1:1) for headroom, but was 10 before this fix,
+# which caused a seam/tear on any button under 20px tall (MainMenu buttons
+# included, since they set no explicit height). Carried forward from
+# earlier fix — see UI Style Guide / prior chat for the seam repro.
+const SLICE_MARGIN := 3
 
 # Text colors (5 in the whole system — SUCCESS/ERROR added for challenge/
 # puzzle correct-wrong feedback, GDD §6 open question 6 / TDD §8. Chosen to
@@ -190,8 +202,25 @@ func make_panel_style(content_margin: int = 14) -> StyleBoxTexture:
 	sb.content_margin_bottom = content_margin
 	return sb
 
-## Thin single-line readout background (HUD quest label). See
-## HEADER_SLICE_MARGIN note — remeasure before treating as final.
+## puzzle_panel's main outer panel background (puzzel.png). Distinct from
+## make_panel_style() — that one still backs puzzle_panel's nested
+## SentenceBox and any other generic popup chrome on the old placeholder
+## texture; this is specifically the new dedicated art for the main panel.
+func make_puzzle_panel_style(content_margin: int = 14) -> StyleBoxTexture:
+	var sb := StyleBoxTexture.new()
+	sb.texture = PUZZLE_PANEL_BG
+	sb.texture_margin_left   = PUZZLE_PANEL_SLICE_MARGIN
+	sb.texture_margin_top    = PUZZLE_PANEL_SLICE_MARGIN
+	sb.texture_margin_right  = PUZZLE_PANEL_SLICE_MARGIN
+	sb.texture_margin_bottom = PUZZLE_PANEL_SLICE_MARGIN
+	sb.content_margin_left   = content_margin
+	sb.content_margin_top    = content_margin
+	sb.content_margin_right  = content_margin
+	sb.content_margin_bottom = content_margin
+	return sb
+
+## Thin single-line readout background (HUD quest label, top-left). Now
+## quest.png (dedicated art) — was header.png (generic placeholder).
 func make_header_style() -> StyleBoxTexture:
 	var sb := StyleBoxTexture.new()
 	sb.texture = HEADER
