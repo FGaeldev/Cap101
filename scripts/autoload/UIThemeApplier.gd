@@ -1,21 +1,30 @@
 # UIThemeApplier.gd
 # Central button theming. Slices one sprite sheet into per-state StyleBoxTexture.
-# Sheet layout: 320x120px, 5 cols x 5 rows, cell 64x24.
+# Sheet layout: 320x144px, 5 cols x 6 rows, cell 64x24.
 # Row 0 = header labels (skipped, not drawn art).
-# Rows 1-4 = button variants. Cols 0-4 = states.
+# Rows 1-5 = 5 cosmetic variations of the same button (hand-painted for
+# organic variety, not semantically distinct like the old primary/secondary/
+# confirm/danger rows) — one is picked at random per apply_button_theme()
+# call. Cols 0-4 = states.
 extends Node
 
 const SHEET := preload("res://assets/ui/buttons_sheet.png")
 const ICON_SHEET := preload("res://assets/ui/icon_buttons_sheet.png")
 const DIALOGUE_BOX := preload("res://assets/ui/dialogue_box.png")
 
-# Generic floating-panel chrome (popups, HUD readouts)
-const PANEL := preload("res://assets/ui/dialogue_box.png")
+# Generic floating-panel chrome (popups, HUD readouts) — reuses BookUI's
+# existing book-texture assets so non-BookUI scenes (puzzle_panel, hud)
+# stop hand-rolling StyleBoxFlat and match the same book/parchment system
+# everyone else uses. Margins match UI STYLE GUIDE §6 values for these
+# same source PNGs.
+const PANEL := preload("res://assets/ui/book/cover.png")
 const PANEL_SLICE_MARGIN := 12
 
-# Thin single-line readout strip (e.g. HUD quest label).
-const HEADER := preload("res://assets/ui/book/selection_frame_selected.png")
-const HEADER_SLICE_MARGIN := 6
+# Thin single-line readout strip (e.g. HUD quest label). Margin unmeasured —
+# same "placeholder" status as TEXTFIELD_SLICE_MARGIN in
+# page_dictionary_filter.gd; flag for remeasure, don't treat as final.
+const HEADER := preload("res://assets/ui/book/header.png")
+const HEADER_SLICE_MARGIN := 4  # PLACEHOLDER, not yet measured
 
 # Display face — HERO/XXL sizes only (main menu title, modal headers).
 # Body text uses the project-wide default font (Project Settings > GUI >
@@ -27,11 +36,10 @@ const FONT_DISPLAY := preload("res://assets/ui/fonts/AlegreyaSC-Bold.ttf")
 const CELL_W := 64
 const CELL_H := 24
 
-# Row index INSIDE the sheet (0-based, row 0 is the skipped header row)
-const ROW_PRIMARY   := 1
-const ROW_SECONDARY := 2
-const ROW_CONFIRM   := 3
-const ROW_DANGER    := 4
+# Row index INSIDE the sheet (0-based, row 0 is the skipped header row).
+# 5 rows of purely cosmetic variation.
+const VARIANT_ROW_START := 1
+const NUM_VARIANT_ROWS  := 5
 
 # Column index (0-based) per state
 const COL_DEFAULT  := 0
@@ -77,14 +85,6 @@ const ICON_ROW_DICTIONARY := 0
 const ICON_ROW_CLOSE      := 1
 const ICON_ROW_MENU       := 2
 
-# Map variant name -> row index, so callers use strings not magic numbers
-const VARIANT_ROWS := {
-	"primary":   ROW_PRIMARY,
-	"secondary": ROW_SECONDARY,
-	"confirm":   ROW_CONFIRM,
-	"danger":    ROW_DANGER,
-}
-
 const ICON_VARIANT_ROWS := {
 	"dictionary": ICON_ROW_DICTIONARY,
 	"close":      ICON_ROW_CLOSE,
@@ -115,13 +115,14 @@ func _make_style(row: int, col: int) -> StyleBoxTexture:
 	return sb
 
 ## Applies all 5 states to a Button at once.
-## variant: "primary" | "secondary" | "confirm" | "danger"
-func apply_button_theme(btn: Button, variant: String) -> void:
-	
-	if not VARIANT_ROWS.has(variant):
-		push_error("UIThemeApplier: unknown button variant '%s'" % variant)
-		return
-	var row: int = VARIANT_ROWS[variant]
+## variant: kept for call-site compatibility (existing scripts still pass
+## "primary"/"secondary"/"confirm"/"danger") but no longer selects a row —
+## row art is now 5 cosmetic variations of one button, chosen at random
+## here rather than looked up by name. Picked once per call, so a button
+## keeps the same look for its lifetime unless apply_button_theme() is
+## called on it again (e.g. from a refresh()).
+func apply_button_theme(btn: Button, _variant: String) -> void:
+	var row: int = VARIANT_ROW_START + randi() % NUM_VARIANT_ROWS
 
 	btn.add_theme_stylebox_override("normal",   _make_style(row, COL_DEFAULT))
 	btn.add_theme_stylebox_override("hover",    _make_style(row, COL_HOVER))
