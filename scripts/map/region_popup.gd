@@ -18,6 +18,10 @@ var region_name: String = ""
 
 func _ready() -> void:  # -- J.Gumban --
 	hide()
+	# Buttons were unthemed (default engine flat gray) — sheet texture never
+	# applied. go=confirm (positive action), back=secondary, per UI Style Guide §4.
+	UIThemeApplier.apply_button_theme(go_button, "confirm")
+	UIThemeApplier.apply_button_theme(back_button, "secondary")
 	go_button.pressed.connect(_on_go_pressed)
 	back_button.pressed.connect(_on_back_pressed)
 
