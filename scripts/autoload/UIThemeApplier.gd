@@ -9,6 +9,14 @@ const SHEET := preload("res://assets/ui/buttons_sheet.png")
 const ICON_SHEET := preload("res://assets/ui/icon_buttons_sheet.png")
 const DIALOGUE_BOX := preload("res://assets/ui/dialogue_box.png")
 
+# Generic floating-panel chrome (popups, HUD readouts)
+const PANEL := preload("res://assets/ui/dialogue_box.png")
+const PANEL_SLICE_MARGIN := 12
+
+# Thin single-line readout strip (e.g. HUD quest label).
+const HEADER := preload("res://assets/ui/book/selection_frame_selected.png")
+const HEADER_SLICE_MARGIN := 6
+
 # Display face — HERO/XXL sizes only (main menu title, modal headers).
 # Body text uses the project-wide default font (Project Settings > GUI >
 # Theme > Custom Font), not this — don't add a FONT_BODY const/override here,
@@ -168,4 +176,36 @@ func make_dialogue_style() -> StyleBoxTexture:
 	sb.texture_margin_top    = DIALOGUE_SLICE_MARGIN
 	sb.texture_margin_right  = DIALOGUE_SLICE_MARGIN
 	sb.texture_margin_bottom = DIALOGUE_SLICE_MARGIN
+	return sb
+
+## Generic popup/floating-panel chrome (puzzle_panel, any future non-BookUI
+## popup). content_margin defaults to 14 all sides; pass a smaller value for
+## nested sub-panels (e.g. puzzle_panel's SentenceBox) so nesting doesn't
+## double up the inset.
+func make_panel_style(content_margin: int = 14) -> StyleBoxTexture:
+	var sb := StyleBoxTexture.new()
+	sb.texture = PANEL
+	sb.texture_margin_left   = PANEL_SLICE_MARGIN
+	sb.texture_margin_top    = PANEL_SLICE_MARGIN
+	sb.texture_margin_right  = PANEL_SLICE_MARGIN
+	sb.texture_margin_bottom = PANEL_SLICE_MARGIN
+	sb.content_margin_left   = content_margin
+	sb.content_margin_top    = content_margin
+	sb.content_margin_right  = content_margin
+	sb.content_margin_bottom = content_margin
+	return sb
+
+## Thin single-line readout background (HUD quest label). See
+## HEADER_SLICE_MARGIN note — remeasure before treating as final.
+func make_header_style() -> StyleBoxTexture:
+	var sb := StyleBoxTexture.new()
+	sb.texture = HEADER
+	sb.texture_margin_left   = HEADER_SLICE_MARGIN
+	sb.texture_margin_top    = HEADER_SLICE_MARGIN
+	sb.texture_margin_right  = HEADER_SLICE_MARGIN
+	sb.texture_margin_bottom = HEADER_SLICE_MARGIN
+	sb.content_margin_left   = 10
+	sb.content_margin_right  = 10
+	sb.content_margin_top    = 4
+	sb.content_margin_bottom = 4
 	return sb

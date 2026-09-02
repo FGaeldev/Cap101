@@ -232,7 +232,7 @@ func _flash_btn(btn: Button, color: Color) -> void:
 	s.set_content_margin_all(8)
 	btn.add_theme_stylebox_override("normal",   s)
 	btn.add_theme_stylebox_override("disabled", s)
-	btn.add_theme_color_override("font_color_disabled", Color("fdf6e3"))
+	btn.add_theme_color_override("font_color_disabled", UIThemeApplier.TEXT_DEFAULT)
 
 ## Distinct from _flash_btn — a removed (hint-token-eliminated) choice needs
 ## to stay visually "gone", not flash red/green like an answered choice.
@@ -252,30 +252,19 @@ func _apply_style() -> void:
 	panel.custom_minimum_size = Vector2(340, 0)
 	panel.set_anchors_preset(Control.PRESET_CENTER)
 
-	var path = "res://assets/ui/panel.tres"
-	if ResourceLoader.exists(path):
-		panel.add_theme_stylebox_override("panel", load(path))
-	else:
-		var ps = StyleBoxFlat.new()
-		ps.bg_color     = Color("f0faf0")
-		ps.border_color = Color("1a4a2e")
-		ps.set_border_width_all(4)
-		ps.set_corner_radius_all(6)
-		ps.set_content_margin_all(14)
-		panel.add_theme_stylebox_override("panel", ps)
+	# Was: panel.tres (never existed in repo) -> flat StyleBoxFlat fallback,
+	# so this always rendered as a flat rounded-rect, not book chrome.
+	# Now matches BookUI's nine-slice system via UIThemeApplier.
+	panel.add_theme_stylebox_override("panel", UIThemeApplier.make_panel_style())
 
-	hint_label.add_theme_color_override("font_color", Color("1a4a2e"))
+	hint_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 	hint_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_L)
 	hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
-	var ss = StyleBoxFlat.new()
-	ss.bg_color     = Color("eafaf0")
-	ss.border_color = Color("4aad6a")
-	ss.set_border_width_all(2)
-	ss.set_corner_radius_all(4)
-	ss.set_content_margin_all(12)
-	sentence_box.add_theme_stylebox_override("panel", ss)
-	sentence_label.add_theme_color_override("font_color", Color("0d2e1a"))
+	# Nested sub-panel — smaller content_margin (8) so the inset doesn't
+	# double up against the outer panel's own 14px margin.
+	sentence_box.add_theme_stylebox_override("panel", UIThemeApplier.make_panel_style(8))
+	sentence_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 	sentence_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_L)
 	sentence_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	sentence_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

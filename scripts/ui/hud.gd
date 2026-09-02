@@ -21,17 +21,10 @@ func _on_menu_button_pressed() -> void:
 	BookUI.open()
 
 func _apply_style() -> void:
-	var bg = StyleBoxFlat.new()
-	bg.bg_color     = Color(0.1, 0.1, 0.18, 0.88)
-	bg.border_color = Color("e8b84b")
-	bg.set_border_width_all(2)
-	bg.set_corner_radius_all(4)
-	bg.set_content_margin(SIDE_LEFT, 10)
-	bg.set_content_margin(SIDE_RIGHT, 10)
-	bg.set_content_margin(SIDE_TOP, 4)
-	bg.set_content_margin(SIDE_BOTTOM, 4)
-	quest_bg.add_theme_stylebox_override("panel", bg)
-	quest_label.add_theme_color_override("font_color", Color("e8b84b"))
+	# Was flat navy box w/ hardcoded gold border — off the book/parchment
+	# system entirely. Now matches BookUI chrome via UIThemeApplier.
+	quest_bg.add_theme_stylebox_override("panel", UIThemeApplier.make_header_style())
+	quest_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_EMPHASIS)
 	quest_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
 
 func _style_btn(btn: Button) -> void:
