@@ -6,7 +6,9 @@ extends Control
 signal filters_changed(query: String, category: String)
 
 const TEXT_FIELD := preload("res://assets/ui/book/text_field.png")
-const TEXTFIELD_SLICE_MARGIN := 5  # placeholder — measure text_field.png's actual corner px
+## measured: real border on text_field.png = 1px. 3 = same headroom pattern
+## as buttons_sheet.png's SLICE_MARGIN (see UIThemeApplier.gd), not a guess.
+const TEXTFIELD_SLICE_MARGIN := 3
 
 @onready var search_box: LineEdit = $VBox/SearchBox
 @onready var category_dropdown: OptionButton = $VBox/CategoryDropdown

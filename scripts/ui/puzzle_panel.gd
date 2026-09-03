@@ -223,47 +223,40 @@ func _process(delta: float) -> void:
 		# challenge_passed signal already resumed the suspended
 		# DialogueComponent (Comp_Dialogue.gd::_on_challenge_passed).
 
+# flat-rect flash swapped for the real book-panel nine-slice + a color-tinted
+# modulate on top. keeps chrome consistent w/ rest of UI, still reads
+# correct/wrong via color (modulate tints the whole 9-slice texture).
 func _flash_btn(btn: Button, color: Color) -> void:
-	var s = StyleBoxFlat.new()
-	s.bg_color = color
-	s.border_color = color.darkened(0.3)
-	s.set_border_width_all(2)
-	s.set_corner_radius_all(3)
-	s.set_content_margin_all(8)
+	var s := UIThemeApplier.make_panel_style(8)
 	btn.add_theme_stylebox_override("normal",   s)
 	btn.add_theme_stylebox_override("disabled", s)
+	btn.modulate = color
 	btn.add_theme_color_override("font_color_disabled", UIThemeApplier.TEXT_DEFAULT)
 
 ## Distinct from _flash_btn — a removed (hint-token-eliminated) choice needs
 ## to stay visually "gone", not flash red/green like an answered choice.
+## same nine-slice panel, dimmed via modulate instead of a flat gray fill.
 func _apply_removed_style(btn: Button) -> void:
-	var s = StyleBoxFlat.new()
-	s.bg_color = UIThemeApplier.TEXT_DISABLED
-	s.set_corner_radius_all(3)
-	s.set_content_margin_all(8)
+	var s := UIThemeApplier.make_panel_style(8)
 	btn.add_theme_stylebox_override("normal",   s)
 	btn.add_theme_stylebox_override("disabled", s)
+	btn.modulate = UIThemeApplier.TEXT_DISABLED
 	btn.add_theme_color_override("font_color_disabled", UIThemeApplier.TEXT_DEFAULT)
 
 func _reset_btn(btn: Button) -> void:
+	btn.modulate = Color.WHITE  # clear flash/removed tint from _flash_btn / _apply_removed_style
 	UIThemeApplier.apply_button_theme(btn, "primary")
 
 func _apply_style() -> void:
 	panel.custom_minimum_size = Vector2(340, 0)
 	panel.set_anchors_preset(Control.PRESET_CENTER)
 
-	# Was: panel.tres (never existed in repo) -> flat StyleBoxFlat fallback,
-	# so this always rendered as a flat rounded-rect, not book chrome.
-	# Now uses puzzel.png, the dedicated main-panel art (not the generic
-	# placeholder make_panel_style() still uses for SentenceBox below).
 	panel.add_theme_stylebox_override("panel", UIThemeApplier.make_puzzle_panel_style())
 
 	hint_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 	hint_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_L)
 	hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
-	# Nested sub-panel — smaller content_margin (8) so the inset doesn't
-	# double up against the outer panel's own 14px margin.
 	sentence_box.add_theme_stylebox_override("panel", UIThemeApplier.make_panel_style(8))
 	sentence_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 	sentence_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_L)

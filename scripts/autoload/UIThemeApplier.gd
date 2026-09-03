@@ -46,11 +46,7 @@ const COL_PRESSED  := 2
 const COL_DISABLED := 3
 const COL_FOCUSED  := 4
 
-# Nine-slice margin. Real border in buttons_sheet.png measures ~1px —
-# margin kept at 3 (not 1:1) for headroom, but was 10 before this fix,
-# which caused a seam/tear on any button under 20px tall (MainMenu buttons
-# included, since they set no explicit height). Carried forward from
-# earlier fix — see UI Style Guide / prior chat for the seam repro.
+# Nine-slice margin
 const SLICE_MARGIN := 3
 
 # Text colors (5 in the whole system — SUCCESS/ERROR added for challenge/
@@ -61,14 +57,10 @@ const SLICE_MARGIN := 3
 const TEXT_DEFAULT  := Color("4C2020")  # inky, default label color
 const TEXT_EMPHASIS := Color("39290F")  # book-cover red, pops against tan buttons
 const TEXT_DISABLED := Color("332B24")  # muted tan-gray, low contrast on purpose
-const COLOR_SUCCESS := Color("2F6B3A")  # correct-answer feedback, challenge/puzzle panels
-const COLOR_ERROR   := Color("8B2E2E")  # wrong-answer feedback, challenge/puzzle panels
+const COLOR_SUCCESS := Color("50ac61ff")  # correct-answer feedback, challenge/puzzle panels
+const COLOR_ERROR   := Color("ab3838ff")  # wrong-answer feedback, challenge/puzzle panels
 
-# Font size scale — inferred from every add_theme_font_size_override in the
-# project (raw values found: 8, 9, 10, 11, 12, 13, 14, 16, 42). Near-duplicate
-# one-offs (9 vs 11, 10 vs 11) are organic drift, not intentional distinctions —
-# consolidated here into 7 steps. Migrate call sites to these over time instead
-# of hardcoding new numbers.
+# Font size scale
 const FONT_SIZE_HERO    := 38  # full-screen display text — main menu title only
 const FONT_SIZE_XXL     := 14  # modal/popup headers — quest complete title
 const FONT_SIZE_XL      := 12  # emphasized inline text — dictionary word (akeanon), card highlights
@@ -102,19 +94,17 @@ func apply_display_font(control: Control) -> void:
 	control.add_theme_font_override("font", FONT_DISPLAY)
 
 
+## chops 1 cell out of a sprite sheet + wraps as nine-slice. used by both
+## button sheet + icon sheet, only the atlas/cell-size/margin numbers differ.
+func _make_sheet_cell_style(sheet: Texture2D, row: int, col: int, cell_w: int, cell_h: int, slice: int) -> StyleBoxTexture:
+	var atlas := AtlasTexture.new()
+	atlas.atlas = sheet
+	atlas.region = Rect2(col * cell_w, row * cell_h, cell_w, cell_h)
+	return _make_panel_style(atlas, slice)
+
 ## Builds one StyleBoxTexture for a given row/col cell of the sheet.
 func _make_style(row: int, col: int) -> StyleBoxTexture:
-	var atlas := AtlasTexture.new()
-	atlas.atlas = SHEET
-	atlas.region = Rect2(col * CELL_W, row * CELL_H, CELL_W, CELL_H)
-
-	var sb := StyleBoxTexture.new()
-	sb.texture = atlas
-	sb.texture_margin_left = SLICE_MARGIN
-	sb.texture_margin_top = SLICE_MARGIN
-	sb.texture_margin_right = SLICE_MARGIN
-	sb.texture_margin_bottom = SLICE_MARGIN
-	return sb
+	return _make_sheet_cell_style(SHEET, row, col, CELL_W, CELL_H, SLICE_MARGIN)
 
 ## Applies all 5 states to a Button at once.
 ## variant: kept for call-site compatibility (existing scripts still pass
@@ -141,17 +131,7 @@ func apply_button_theme(btn: Button, _variant: String) -> void:
 
 ## Builds one StyleBoxTexture for a given row/col cell of the sheet.
 func _make_icon_style(row: int, col: int) -> StyleBoxTexture:
-	var atlas := AtlasTexture.new()
-	atlas.atlas = ICON_SHEET
-	atlas.region = Rect2(col * ICON_CELL_W, row * ICON_CELL_H, ICON_CELL_W, ICON_CELL_H)
-
-	var sb := StyleBoxTexture.new()
-	sb.texture = atlas
-	sb.texture_margin_left = ICON_SLICE_MARGIN
-	sb.texture_margin_top = ICON_SLICE_MARGIN
-	sb.texture_margin_right = ICON_SLICE_MARGIN
-	sb.texture_margin_bottom = ICON_SLICE_MARGIN
-	return sb
+	return _make_sheet_cell_style(ICON_SHEET, row, col, ICON_CELL_W, ICON_CELL_H, ICON_SLICE_MARGIN)
 
 ## variant: "dictionary" | "close" | "menu"
 func apply_icon_button_theme(btn: Button, variant: String) -> void:
@@ -173,59 +153,46 @@ func apply_icon_button_theme(btn: Button, variant: String) -> void:
 const DIALOGUE_SLICE_MARGIN := 12
 
 func make_dialogue_style() -> StyleBoxTexture:
+	return _make_panel_style(DIALOGUE_BOX, DIALOGUE_SLICE_MARGIN)
+
+## one func, all nine-slice panels. texture + slice (border px) required.
+## content_margin: inset for stuff sitting inside panel. 0 = skip (dialogue box
+## doesn't want one). pad_lr/pad_tb: override content pad L/R vs T/B separately
+## (header wants tight top/bottom, wide left/right) — leave -1 to use
+## content_margin for all 4 sides.
+func _make_panel_style(texture: Texture2D, slice: int, content_margin: int = 0, pad_lr: int = -1, pad_tb: int = -1) -> StyleBoxTexture:
 	var sb := StyleBoxTexture.new()
-	sb.texture = DIALOGUE_BOX
-	sb.texture_margin_left   = DIALOGUE_SLICE_MARGIN
-	sb.texture_margin_top    = DIALOGUE_SLICE_MARGIN
-	sb.texture_margin_right  = DIALOGUE_SLICE_MARGIN
-	sb.texture_margin_bottom = DIALOGUE_SLICE_MARGIN
+	sb.texture = texture
+	sb.texture_margin_left   = slice
+	sb.texture_margin_top    = slice
+	sb.texture_margin_right  = slice
+	sb.texture_margin_bottom = slice
+	if pad_lr >= 0 or pad_tb >= 0:
+		# header-style: L/R differ from T/B
+		sb.content_margin_left   = pad_lr if pad_lr >= 0 else content_margin
+		sb.content_margin_right  = pad_lr if pad_lr >= 0 else content_margin
+		sb.content_margin_top    = pad_tb if pad_tb >= 0 else content_margin
+		sb.content_margin_bottom = pad_tb if pad_tb >= 0 else content_margin
+	elif content_margin > 0:
+		# normal case: same pad all 4 sides
+		sb.content_margin_left   = content_margin
+		sb.content_margin_top    = content_margin
+		sb.content_margin_right  = content_margin
+		sb.content_margin_bottom = content_margin
 	return sb
 
-## Generic popup/floating-panel chrome (puzzle_panel, any future non-BookUI
-## popup). content_margin defaults to 14 all sides; pass a smaller value for
-## nested sub-panels (e.g. puzzle_panel's SentenceBox) so nesting doesn't
-## double up the inset.
+## generic popup chrome (puzzle_panel's nested SentenceBox, any future popup).
+## smaller content_margin for nested sub-panels so padding don't double up.
 func make_panel_style(content_margin: int = 14) -> StyleBoxTexture:
-	var sb := StyleBoxTexture.new()
-	sb.texture = PANEL
-	sb.texture_margin_left   = PANEL_SLICE_MARGIN
-	sb.texture_margin_top    = PANEL_SLICE_MARGIN
-	sb.texture_margin_right  = PANEL_SLICE_MARGIN
-	sb.texture_margin_bottom = PANEL_SLICE_MARGIN
-	sb.content_margin_left   = content_margin
-	sb.content_margin_top    = content_margin
-	sb.content_margin_right  = content_margin
-	sb.content_margin_bottom = content_margin
-	return sb
+	return _make_panel_style(PANEL, PANEL_SLICE_MARGIN, content_margin)
 
-## puzzle_panel's main outer panel background (puzzel.png). Distinct from
-## make_panel_style() — that one still backs puzzle_panel's nested
-## SentenceBox and any other generic popup chrome on the old placeholder
-## texture; this is specifically the new dedicated art for the main panel.
+## puzzle_panel's own outer bg (puzzel.png). separate from make_panel_style
+## above cuz that one still backs SentenceBox etc on old placeholder tex —
+## this is the real dedicated art for main panel only.
 func make_puzzle_panel_style(content_margin: int = 14) -> StyleBoxTexture:
-	var sb := StyleBoxTexture.new()
-	sb.texture = PUZZLE_PANEL_BG
-	sb.texture_margin_left   = PUZZLE_PANEL_SLICE_MARGIN
-	sb.texture_margin_top    = PUZZLE_PANEL_SLICE_MARGIN
-	sb.texture_margin_right  = PUZZLE_PANEL_SLICE_MARGIN
-	sb.texture_margin_bottom = PUZZLE_PANEL_SLICE_MARGIN
-	sb.content_margin_left   = content_margin
-	sb.content_margin_top    = content_margin
-	sb.content_margin_right  = content_margin
-	sb.content_margin_bottom = content_margin
-	return sb
+	return _make_panel_style(PUZZLE_PANEL_BG, PUZZLE_PANEL_SLICE_MARGIN, content_margin)
 
-## Thin single-line readout background (HUD quest label, top-left). Now
-## quest.png (dedicated art) — was header.png (generic placeholder).
+## thin 1-line readout bg (HUD quest label top-left). quest.png = real art,
+## header.png was old placeholder.
 func make_header_style() -> StyleBoxTexture:
-	var sb := StyleBoxTexture.new()
-	sb.texture = HEADER
-	sb.texture_margin_left   = HEADER_SLICE_MARGIN
-	sb.texture_margin_top    = HEADER_SLICE_MARGIN
-	sb.texture_margin_right  = HEADER_SLICE_MARGIN
-	sb.texture_margin_bottom = HEADER_SLICE_MARGIN
-	sb.content_margin_left   = 10
-	sb.content_margin_right  = 10
-	sb.content_margin_top    = 4
-	sb.content_margin_bottom = 4
-	return sb
+	return _make_panel_style(HEADER, HEADER_SLICE_MARGIN, 0, 10, 4)
