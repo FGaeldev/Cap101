@@ -52,11 +52,17 @@ func is_quest_available(quest_id: String) -> bool:
 ## than word exposure or dialogue — e.g. the movement tutorial completes on
 ## the player's first move, not on any word being seen. Callers (player FSM,
 ## etc.) stay quest-agnostic — they fire a named trigger, not a quest id.
+## Quests with an "area" field only complete while GameState.current_area
+## matches — lets the same trigger_name be reused per-scene without needing
+## per-node scene guards on the emitting component.
 func complete_quests_with_trigger(trigger_name: String) -> void:
 	for qid in active_quests.duplicate(): # duplicate: complete_quest mutates active_quests
 		var q = quests.get(qid, {})
-		if q.get("completion_trigger", "") == trigger_name:
-			complete_quest(qid)
+		if q.get("completion_trigger", "") != trigger_name:
+			continue
+		if q.has("area") and q["area"] != GameState.current_area:
+			continue
+		complete_quest(qid)
 
 func complete_quest(quest_id: String) -> void:
 	var q = quests.get(quest_id, {})

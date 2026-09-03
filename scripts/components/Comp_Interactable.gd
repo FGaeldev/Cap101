@@ -6,6 +6,9 @@ extends Node
 signal interacted(interactor: Node)
 
 @export var interact_label: String = "Talk"
+## Optional. If set, fires QuestManager.complete_quests_with_trigger(trigger_on_enter)
+## once when player enters this InteractArea. Empty = no trigger (default, most NPCs).
+@export var trigger_on_enter: String = ""
 var _in_range: bool = false
 var _player_ref: Node = null
 
@@ -42,6 +45,8 @@ func _on_body_entered(body: Node) -> void:
 	if body.is_in_group("player"):
 		_in_range = true
 		_player_ref = body
+		if not trigger_on_enter.is_empty():
+			QuestManager.complete_quests_with_trigger(trigger_on_enter)
 		# TODO: show interact prompt UI
 
 func _on_body_exited(body: Node) -> void:

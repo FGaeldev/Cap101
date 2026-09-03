@@ -89,6 +89,12 @@ position = Vector2(280, 206)
 [node name="NpcElder" parent="." unique_id=12182856 instance=ExtResource("4_qysbm")]
 position = Vector2(280, 70)
 
+[node name="InteractableComponent" parent="NpcElder" index="3" unique_id=1024773738]
+trigger_on_enter = "enter_grandma_area"
+
+[node name="DialogueComponent" parent="NpcElder" index="4" unique_id=1621841028]
+completes_quest_id = "q000_move_tutorial"
+
 [node name="Blanket" type="Sprite2D" parent="NpcElder" unique_id=1920727634]
 position = Vector2(1, -8)
 texture = ExtResource("8_p45fi")
@@ -98,3 +104,5 @@ position = Vector2(128, 112)
 
 [node name="FieldNotes" parent="." unique_id=446276683 instance=ExtResource("13_fldnt")]
 position = Vector2(286, 168)
+
+[editable path="NpcElder"]
