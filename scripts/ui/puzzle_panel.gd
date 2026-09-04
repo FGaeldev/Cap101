@@ -36,7 +36,7 @@ var _active_challenge_id: String = ""
 var _on_solve_callback    = null
 var _showing_feedback: bool = false
 var _feedback_timer: float  = 0.0
-const FEEDBACK_DURATION     = 1.2
+const FEEDBACK_DURATION     = 2.0
 
 func _ready() -> void:
 	add_to_group("puzzle_panel")
@@ -229,7 +229,7 @@ func _show_congrats_popup(text: String) -> void:
 
 	var tw := create_tween()
 	tw.tween_property(popup, "modulate:a", 1.0, 0.15)
-	tw.tween_interval(0.65)
+	tw.tween_interval(1.0)
 	tw.tween_property(popup, "modulate:a", 0.0, 0.3)
 	tw.tween_callback(popup.queue_free)
 

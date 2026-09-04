@@ -13,7 +13,7 @@ const ICON_SHEET := preload("res://assets/ui/icon_buttons_sheet.png")
 const DIALOGUE_BOX := preload("res://assets/ui/dialogue_box.png")
 
 # Generic floating-panel chrome (popups, HUD readouts)
-const PANEL := preload("res://assets/ui/book/selection_frame_unselected.png")
+const PANEL := preload("res://assets/ui/book/banner.png")
 const PANEL_SLICE_MARGIN := 4
 
 # puzzle_panel's main panel background.
