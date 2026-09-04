@@ -18,6 +18,7 @@
 extends CanvasLayer
 
 @onready var panel:              PanelContainer = $Panel
+@onready var vbox:               VBoxContainer  = $Panel/VBox
 @onready var sentence_box:       PanelContainer = $Panel/VBox/SentenceBox
 @onready var sentence_label:     Label          = $Panel/VBox/SentenceBox/SentenceLabel
 @onready var choices_box:        HBoxContainer  = $Panel/VBox/ChoicesBox
@@ -25,6 +26,8 @@ extends CanvasLayer
 @onready var hint_label:         Label          = $Panel/VBox/HintLabel
 @onready var hint_feedback_label: Label         = $Panel/VBox/HintFeedbackLabel
 @onready var hint_button:        Button         = $Panel/VBox/HintButton
+
+var close_button: Button   # built at runtime in _apply_style, no scene node for it (see there)
 
 enum Mode { SINGLE, CHALLENGE }
 
@@ -35,8 +38,8 @@ var _correct_index: int   = -1   # MODE_CHALLENGE: choice index
 var _active_challenge_id: String = ""
 var _on_solve_callback    = null
 var _showing_feedback: bool = false
-var _feedback_timer: float  = 0.0
-const FEEDBACK_DURATION     = 2.0
+
+const CORRECT_TEXT := "Insakto"
 
 func _ready() -> void:
 	add_to_group("puzzle_panel")
@@ -62,10 +65,10 @@ func open_single(
 	_correct_id        = answer_id
 	_on_solve_callback = on_solve
 	_showing_feedback  = false
-	feedback_label.text = ""
 	hint_feedback_label.visible = false
 	hint_button.visible = false
 	hint_label.visible = true
+	close_button.visible = false
 
 	sentence_box.visible = true
 	sentence_label.text = template.replace("___", "[ _______ ]")
@@ -101,7 +104,6 @@ func _on_choice(word_id: String, btn: Button) -> void:
 			if b.visible and not b.get_meta("removed", false):
 				b.disabled = false
 				_reset_btn(b)
-		feedback_label.text = ""
 
 # --- MODE_CHALLENGE: ChallengeManager-driven mcq gate ---
 
@@ -119,10 +121,10 @@ func open_challenge(challenge_id: String) -> void:
 	_correct_index = data.get("correct_index", -1)
 	_on_solve_callback = null
 	_showing_feedback = false
-	feedback_label.text = ""
 	hint_feedback_label.visible = false
 	hint_feedback_label.text = ""
 	hint_label.visible = false   # static "Pilia ro kueang!" prompt is SINGLE-mode only
+	close_button.visible = false
 
 	sentence_box.visible = true
 	sentence_label.text = data.get("question", "")
@@ -160,7 +162,6 @@ func _on_challenge_choice(idx: int, btn: Button) -> void:
 		if b.visible and not b.get_meta("removed", false):
 			b.disabled = false
 			_reset_btn(b)
-	feedback_label.text = ""
 	_refresh_hint_button()   # a fail-twice gate opens Dictionary over this panel; button state
 							  # still needs to be correct underneath for when the player returns
 
@@ -187,51 +188,46 @@ func _refresh_hint_button() -> void:
 # --- Shared feedback rendering ---
 
 func _show_correct_feedback(btn: Button) -> void:
-	feedback_label.text = "Husto! Maayo gid!"
-	feedback_label.add_theme_color_override("font_color", UIThemeApplier.COLOR_SUCCESS)
 	_flash_btn(btn, UIThemeApplier.COLOR_SUCCESS)
-	_show_congrats_popup(feedback_label.text)
+	_show_congrats_popup(CORRECT_TEXT)
 	for b in _choice_btns:
 		b.disabled = true
 	_showing_feedback = true
-	_feedback_timer   = 0.0
+	close_button.visible = true   # player closes manually now, no auto-hide timer
 
 ## hint_text: "" in MODE_SINGLE (no per-attempt hint data there), populated
 ## from ChallengeManager.attempt()'s hint_on_wrong in MODE_CHALLENGE.
 func _show_wrong_feedback(btn: Button, hint_text: String) -> void:
-	feedback_label.text = "Mali, sulayi liwat!"
-	feedback_label.add_theme_color_override("font_color", UIThemeApplier.COLOR_ERROR)
 	_flash_btn(btn, UIThemeApplier.COLOR_ERROR)
 	if not hint_text.is_empty():
 		hint_feedback_label.text = hint_text
 		hint_feedback_label.visible = true
 
-## small celebratory popup, built at runtime (no new .tscn — same pattern
-## main_menu.gd uses for its bg ColorRects). Fades in over the panel,
-## reuses whatever text feedback_label already shows -- no new Akeanon
-## copy invented here, just makes the existing "correct" moment pop more.
-## Times out inside FEEDBACK_DURATION (1.2s) so it's gone before the panel
-## itself hides -- 0.15 in + 0.65 hold + 0.3 out = 1.1s total.
+## small celebratory popup, built at runtime 
 func _show_congrats_popup(text: String) -> void:
+	var center := CenterContainer.new()
+	center.position = panel.position
+	center.size = panel.size
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE   # don't eat clicks meant for choice buttons underneath
+	add_child(center)
+
 	var popup := PanelContainer.new()
 	popup.add_theme_stylebox_override("panel", UIThemeApplier.make_panel_style(16))
-	popup.set_anchors_preset(Control.PRESET_CENTER)
 	popup.modulate.a = 0.0
-	add_child(popup)
+	center.add_child(popup)
 
 	var lbl := Label.new()
 	lbl.text = "★ %s ★" % text
 	lbl.add_theme_color_override("font_color", UIThemeApplier.COLOR_SUCCESS)
 	lbl.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XXL)
 	UIThemeApplier.apply_display_font(lbl)
-	popup.position.x = popup.position.x-(popup.size.x*2.5)
 	popup.add_child(lbl)
 
 	var tw := create_tween()
 	tw.tween_property(popup, "modulate:a", 1.0, 0.15)
-	tw.tween_interval(1.0)
+	tw.tween_interval(1.6)
 	tw.tween_property(popup, "modulate:a", 0.0, 0.3)
-	tw.tween_callback(popup.queue_free)
+	tw.tween_callback(center.queue_free)   # frees wrapper + popup + label together
 
 func _disconnect_choice_handlers(btn: Button) -> void:
 	if btn.pressed.is_connected(_on_choice):
@@ -239,17 +235,19 @@ func _disconnect_choice_handlers(btn: Button) -> void:
 	if btn.pressed.is_connected(_on_challenge_choice):
 		btn.pressed.disconnect(_on_challenge_choice)
 
-func _process(delta: float) -> void:
+## Replaces the old _process() timer auto-hide. Player closes manually now.
+## Only does anything once _showing_feedback is true (i.e. after a correct
+## answer put the button up) -- ignore stray presses otherwise.
+func _on_close_button_pressed() -> void:
 	if not _showing_feedback: return
-	_feedback_timer += delta
-	if _feedback_timer >= FEEDBACK_DURATION:
-		_showing_feedback = false
-		visible = false
-		if _mode == Mode.SINGLE and _on_solve_callback:
-			_on_solve_callback.call()
-		# MODE_CHALLENGE: no local callback needed -- ChallengeManager's
-		# challenge_passed signal already resumed the suspended
-		# DialogueComponent (Comp_Dialogue.gd::_on_challenge_passed).
+	_showing_feedback = false
+	close_button.visible = false
+	visible = false
+	if _mode == Mode.SINGLE and _on_solve_callback:
+		_on_solve_callback.call()
+	# MODE_CHALLENGE: no local callback needed -- ChallengeManager's
+	# challenge_passed signal already resumed the suspended
+	# DialogueComponent (Comp_Dialogue.gd::_on_challenge_passed).
 
 # tint only, texture never touches. modulate w/ half alpha = color shows thru
 # without swapping button's normal look. (prior version swapped stylebox to
@@ -297,8 +295,7 @@ func _apply_style() -> void:
 		btn.custom_minimum_size = Vector2(96, 34)
 		btn.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_M)
 
-	feedback_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_M)
-	feedback_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	feedback_label.visible = false   # feedback moved to congrats popup + button tint, label unused now
 
 	hint_feedback_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_EMPHASIS)
 	hint_feedback_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
@@ -307,3 +304,15 @@ func _apply_style() -> void:
 
 	UIThemeApplier.apply_button_theme(hint_button, "secondary")
 	hint_button.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
+
+	# close_button: no scene node for this (added after original .tscn was
+	# built), so it's created here at runtime and appended to the same VBox
+	# -- same "no new .tscn" approach as _show_congrats_popup. Hidden by
+	# default, only shown after a correct answer (_show_correct_feedback).
+	close_button = Button.new()
+	close_button.text = "Close"
+	close_button.visible = false
+	UIThemeApplier.apply_button_theme(close_button, "confirm")
+	close_button.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_M)
+	close_button.pressed.connect(_on_close_button_pressed)
+	vbox.add_child(close_button)
