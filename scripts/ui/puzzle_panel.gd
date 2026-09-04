@@ -190,6 +190,7 @@ func _show_correct_feedback(btn: Button) -> void:
 	feedback_label.text = "Husto! Maayo gid!"
 	feedback_label.add_theme_color_override("font_color", UIThemeApplier.COLOR_SUCCESS)
 	_flash_btn(btn, UIThemeApplier.COLOR_SUCCESS)
+	_show_congrats_popup(feedback_label.text)
 	for b in _choice_btns:
 		b.disabled = true
 	_showing_feedback = true
@@ -204,6 +205,33 @@ func _show_wrong_feedback(btn: Button, hint_text: String) -> void:
 	if not hint_text.is_empty():
 		hint_feedback_label.text = hint_text
 		hint_feedback_label.visible = true
+
+## small celebratory popup, built at runtime (no new .tscn — same pattern
+## main_menu.gd uses for its bg ColorRects). Fades in over the panel,
+## reuses whatever text feedback_label already shows -- no new Akeanon
+## copy invented here, just makes the existing "correct" moment pop more.
+## Times out inside FEEDBACK_DURATION (1.2s) so it's gone before the panel
+## itself hides -- 0.15 in + 0.65 hold + 0.3 out = 1.1s total.
+func _show_congrats_popup(text: String) -> void:
+	var popup := PanelContainer.new()
+	popup.add_theme_stylebox_override("panel", UIThemeApplier.make_panel_style(16))
+	popup.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	popup.position.y = 30
+	popup.modulate.a = 0.0
+	add_child(popup)
+
+	var lbl := Label.new()
+	lbl.text = "★ %s ★" % text
+	lbl.add_theme_color_override("font_color", UIThemeApplier.COLOR_SUCCESS)
+	lbl.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XXL)
+	UIThemeApplier.apply_display_font(lbl)
+	popup.add_child(lbl)
+
+	var tw := create_tween()
+	tw.tween_property(popup, "modulate:a", 1.0, 0.15)
+	tw.tween_interval(0.65)
+	tw.tween_property(popup, "modulate:a", 0.0, 0.3)
+	tw.tween_callback(popup.queue_free)
 
 func _disconnect_choice_handlers(btn: Button) -> void:
 	if btn.pressed.is_connected(_on_choice):
@@ -223,24 +251,19 @@ func _process(delta: float) -> void:
 		# challenge_passed signal already resumed the suspended
 		# DialogueComponent (Comp_Dialogue.gd::_on_challenge_passed).
 
-# flat-rect flash swapped for the real book-panel nine-slice + a color-tinted
-# modulate on top. keeps chrome consistent w/ rest of UI, still reads
-# correct/wrong via color (modulate tints the whole 9-slice texture).
+# tint only, texture never touches. modulate w/ half alpha = color shows thru
+# without swapping button's normal look. (prior version swapped stylebox to
+# a panel texture here -- that was the bug, button skin changed on answer.)
 func _flash_btn(btn: Button, color: Color) -> void:
-	var s := UIThemeApplier.make_panel_style(8)
-	btn.add_theme_stylebox_override("normal",   s)
-	btn.add_theme_stylebox_override("disabled", s)
-	btn.modulate = color
+	btn.modulate = Color(color.r, color.g, color.b, 0.5)
 	btn.add_theme_color_override("font_color_disabled", UIThemeApplier.TEXT_DEFAULT)
 
 ## Distinct from _flash_btn — a removed (hint-token-eliminated) choice needs
 ## to stay visually "gone", not flash red/green like an answered choice.
-## same nine-slice panel, dimmed via modulate instead of a flat gray fill.
+## same tint-only approach, dimmed via TEXT_DISABLED at half alpha.
 func _apply_removed_style(btn: Button) -> void:
-	var s := UIThemeApplier.make_panel_style(8)
-	btn.add_theme_stylebox_override("normal",   s)
-	btn.add_theme_stylebox_override("disabled", s)
-	btn.modulate = UIThemeApplier.TEXT_DISABLED
+	var c: Color = UIThemeApplier.TEXT_DISABLED
+	btn.modulate = Color(c.r, c.g, c.b, 0.5)
 	btn.add_theme_color_override("font_color_disabled", UIThemeApplier.TEXT_DEFAULT)
 
 func _reset_btn(btn: Button) -> void:
@@ -251,12 +274,18 @@ func _apply_style() -> void:
 	panel.custom_minimum_size = Vector2(340, 0)
 	panel.set_anchors_preset(Control.PRESET_CENTER)
 
+	# Was: panel.tres (never existed in repo) -> flat StyleBoxFlat fallback,
+	# so this always rendered as a flat rounded-rect, not book chrome.
+	# Now uses puzzel.png, the dedicated main-panel art (not the generic
+	# placeholder make_panel_style() still uses for SentenceBox below).
 	panel.add_theme_stylebox_override("panel", UIThemeApplier.make_puzzle_panel_style())
 
 	hint_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 	hint_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_L)
 	hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
+	# Nested sub-panel — smaller content_margin (8) so the inset doesn't
+	# double up against the outer panel's own 14px margin.
 	sentence_box.add_theme_stylebox_override("panel", UIThemeApplier.make_panel_style(8))
 	sentence_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 	sentence_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_L)
