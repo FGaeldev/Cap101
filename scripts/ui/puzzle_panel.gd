@@ -215,8 +215,7 @@ func _show_wrong_feedback(btn: Button, hint_text: String) -> void:
 func _show_congrats_popup(text: String) -> void:
 	var popup := PanelContainer.new()
 	popup.add_theme_stylebox_override("panel", UIThemeApplier.make_panel_style(16))
-	popup.set_anchors_preset(Control.PRESET_CENTER_TOP)
-	popup.position.y = 30
+	popup.set_anchors_preset(Control.PRESET_CENTER)
 	popup.modulate.a = 0.0
 	add_child(popup)
 
@@ -225,6 +224,7 @@ func _show_congrats_popup(text: String) -> void:
 	lbl.add_theme_color_override("font_color", UIThemeApplier.COLOR_SUCCESS)
 	lbl.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XXL)
 	UIThemeApplier.apply_display_font(lbl)
+	popup.position.x = popup.position.x-(popup.size.x*2.5)
 	popup.add_child(lbl)
 
 	var tw := create_tween()
