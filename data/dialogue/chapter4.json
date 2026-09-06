@@ -1,0 +1,360 @@
+{
+  "scene_1_arrival_at_the_eco_park": [
+    {
+      "speaker": "Rose",
+      "text": "hara do mangrove , bukon eang it para sa bisita kundi para protektahan.",
+      "next": 1,
+      "translation": "This is the mangrove eco-park. It’s not just for visitors, but truly for conservation."
+    },
+    {
+      "speaker": "Player",
+      "text": "It looks peaceful. I didn’t expect it to be this wide.",
+      "next": 2
+    },
+    {
+      "speaker": "Manong Ambo",
+      "text": "Mayad-ayad nga agahon , mga bisita. iya kamo para makita do aton nga mangroves?",
+      "next": 3,
+      "translation": "Good morning, visitors. Are you here to see our coast and mangroves?"
+    },
+    {
+      "speaker": "Rose",
+      "text": "Yes, Anong Ambo. He’s the caretaker here.",
+      "next": null
+    }
+  ],
+  "scene_2_learning_about_mangroves": [
+    {
+      "speaker": "Anong Ambo",
+      "text": "ro mga ugat ru gakapyot sa eugta. kaya indi masamad bisan it bagyo.",
+      "next": 1,
+      "translation": "The roots hold the soil. It won’t collapse even during storms."
+    },
+    {
+      "speaker": "Player",
+      "text": "So this protects the town?",
+      "next": 2
+    },
+    {
+      "speaker": "Anong Ambo",
+      "text": "hara gid. Kung uwa ra, ro baeas ag tubi hay magatao it kaeainan",
+      "next": 3,
+      "translation": "Exactly. Without this, the sand and water would cause danger."
+    },
+    {
+      "speaker": "Rose",
+      "text": "That’s why they say mangroves are natural shields.",
+      "next": null
+    }
+  ],
+  "scene_3_fishing_lesson": [
+    {
+      "speaker": "Anong Ambo",
+      "text": "Gusto ninyo magkantoguhan magpamunit? bukon eang para sa isda, kundi para sa pagtuon.",
+      "next": 1,
+      "translation": "Do you want to try fishing? Not just for fish, but for learning."
+    },
+    {
+      "speaker": "",
+      "text": "Will you try fishing?",
+      "choices": [
+        {
+          "label": "Yes, I want to learn how.",
+          "next": 2
+        },
+        {
+          "label": "Maybe later, I just want to watch first.",
+          "next": 3
+        },
+        {
+          "label": "I’m not really into fishing, sorry.",
+          "next": 4
+        }
+      ],
+      "next": null
+    },
+    {
+      "speaker": "Anong Ambo",
+      "text": "Mayad! iya, sunod kakon.",
+      "next": null
+    },
+    {
+      "speaker": "Anong Ambo",
+      "text": "bukon problema. Watching teaches too.",
+      "next": null
+    },
+    {
+      "speaker": "Rose",
+      "text": "You’ll miss out. It’s part of the experience, balikbayan.",
+      "next": null
+    }
+  ],
+  "scene_4_vocabulary_practice_round_nature_and_actions": [
+    {
+      "speaker": "Rose",
+      "text": "Tan-awa ru baybay — that’s “shore.” Tubi — water. eugta — soil. Baeas — sand.",
+      "next": 1,
+      "word_ids": [
+        "w128",
+        "w129",
+        "w130",
+        "w131"
+      ]
+    },
+    {
+      "speaker": "Rose",
+      "text": "Maisog — brave. Maeuya — weak. Malimpyo — clean. Mahigko — dirty.",
+      "next": 2,
+      "word_ids": [
+        "w132",
+        "w133",
+        "w134",
+        "w135"
+      ]
+    },
+    {
+      "speaker": "Rose",
+      "text": "tikang pa — keep walking. Pamati — listen. Pamunit — to fish. Tanom — plant.",
+      "next": 3,
+      "word_ids": [
+        "w026",
+        "w136",
+        "w137"
+      ]
+    },
+    {
+      "speaker": "Player",
+      "text": "Okay, so pamunit is what Anong Ambo said earlier.",
+      "next": 4
+    },
+    {
+      "speaker": "Rose",
+      "text": "Correct. And tanom — you’ll hear that a lot here, since mangroves are plants.",
+      "next": null
+    }
+  ],
+  "scene_5_reflection": [
+    {
+      "speaker": "Lola Jonabel",
+      "text": "maabo aton nga natun-an makarang adlaw. bukon eang it mga haeambaeun, kundi pati kultura man.",
+      "next": 1,
+      "translation": "We learned so much today. Not just words, but culture too."
+    },
+    {
+      "speaker": "Papa Jobert",
+      "text": "True. This place reminds me of my childhood.",
+      "next": 2
+    },
+    {
+      "speaker": "Rose",
+      "text": "And now it’s part of yours, balikbayan.",
+      "next": null
+    }
+  ],
+  "idle_pool_manong_ambo": [
+    {
+      "speaker": "Manong Ambo",
+      "text": "Ang dagat, indi siya kaaway. Kaibahan siya, kung tama ang pagtratar mo.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Hinahaplos ni Manong Ambo ang gilid ng bangka, tila kaibigan niya ito.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Manong Ambo",
+      "text": "Damo turista nagapunta diri para lang sa litrato. Ikaw lain, nakikinig ka.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Manong Ambo",
+      "text": "Ang mga bakhaw ni, indi lang para sa amon. Para man 'to sa isda, sa kalapati, sa tanan.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Tumingin si Manong Ambo sa malayo, mukhang naaalala ang panahong wasak pa ang lugar.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Manong Ambo",
+      "text": "Kung may tyempo ka pa, balik ka diri kung early morning. Lain gid ang ganda kung aga.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Manong Ambo",
+      "text": "Ang lugar nga malapit sa amon dagat, damo bisita gapunta. Pero diri, gusto lang namon hilway.",
+      "word_ids": [],
+      "translation": "The place near our sea, many visitors go there. But here, we just want peace. [NEW-VERIFY: soft reference to Boracay tourism contrast, phrase draft]"
+    },
+    {
+      "speaker": "Manong Ambo",
+      "text": "Halong ka pirme sa dagat, apo. Ganda niya, pero indi siya laro.",
+      "word_ids": []
+    }
+  ],
+  "idle_pool_rose": [
+    {
+      "speaker": "Rose",
+      "text": "Wag mo akong tignan nang ganyan, hindi ako tour guide. ...okay, konti lang.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Magtuon ka gid, ha. Indi lang basta-basta.",
+      "word_ids": [
+        "w129"
+      ]
+    },
+    {
+      "speaker": "",
+      "text": "Tumingin si Rose sa Player nang matagal, parang sinusukat kung seryoso ba talaga siya.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "My Lola Susan talks about your Lola Jonabel parang superhero pa. Big shoes to fill, balikbayan.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Fine, you're not completely hopeless. ...don't let that get to your head.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Alam mo, hindi ko rin naman gustong magturo dati. Pero, sige na nga.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Napailing si Rose, pero halatang pigil ang ngiti.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Wag kang mag-expect ng slack sa 'kin kasi pinsan ka daw ni Tita Susan. Rules apply to everyone.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Stop overthinking the pronunciation. Just say it. Worst case, I laugh at you.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Tumingin si Rose sa mapa, tapos kay Player, parang sinusukat ang route.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Manong Pedring likes you. That's rare — he's picky about balikbayans.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Magbulig ako sa imo, pero indi ako mangin madali. Deal pa rin 'yun.",
+      "word_ids": [
+        "w130"
+      ]
+    },
+    {
+      "speaker": "Rose",
+      "text": "You're actually trying. Didn't expect that, not gonna lie.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "I actually like it here. Don't tell Manang Loleng I said that, she'll never let me hear the end of it.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Tinitignan ni Rose ang unang linya ng weaving ni Player, tapos tumango, medyo impressed.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "You're better at this than the greeting stuff, honestly. Weird flex, but okay.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Magtuon ka pa sang isara ka leksyon, tapos indi ka na \"balikbayan\" sa akon. Promise.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Nag-iisa si Rose sa dulo ng bangka, tinitignan ang tubig nang tahimik.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Manong Ambo's basically family. He used to carry me on his shoulders here, ages ago.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "This place calms me down. Don't get used to seeing me like this though.",
+      "word_ids": []
+    }
+  ],
+  "idle_pool_papa_jobert": [
+    {
+      "speaker": "Papa Jobert",
+      "text": "Grabe 'to, parang bata ulit ako pag nandito. Sobrang dami ng memories, anak.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Papa Jobert",
+      "text": "Huwag kang mag-alala kay Rose, ganyan talaga siya. Marunong naman siya magturo, promise.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Kinukuha ni Papa Jobert ang kanyang phone, kunwari kukuha ng litrato pero halatang nostalgic lang.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Papa Jobert",
+      "text": "Alam mo, dito rin ako natutong mag-Akeanon dati. Parang paulit-ulit lang 'yung kwento, ha.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Papa Jobert",
+      "text": "Sabihin mo kay Lola kung kailan ka na-tire. Alam mo naman siya, hindi siya titigil sa excitement.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Papa Jobert",
+      "text": "Sobrang saya ni Lola ngayon, no? Sulit lahat ng jetlag para diyan.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Papa Jobert",
+      "text": "Kung may makalimutan tayo, ako na bahala. Ikaw, focus ka lang sa pag-aaral.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Napapatango-tango si Papa Jobert habang naglalakad, parang bawat kanto may kwento.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Papa Jobert",
+      "text": "Grabe, ang linis ngayon kumpara noon. Manong Ambo really did something here.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Kinunan ni Papa Jobert ng litrato ang paglubog ng araw, tahimik na tahimik.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Papa Jobert",
+      "text": "Sabi ni Lola dati, mas maganda raw dito kaysa kahit saan. Mukhang tama siya.",
+      "word_ids": []
+    }
+  ]
+}

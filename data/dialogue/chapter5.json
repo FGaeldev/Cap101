@@ -1,0 +1,379 @@
+{
+  "scene_1_festival_grounds_morning": [
+    {
+      "speaker": "Rose",
+      "text": "hara do Ati-Atihan. bukon eamang pyesta, kundi kultura ag pagtuo.",
+      "next": 1,
+      "translation": "This is the Ati-Atihan. Not just a festival, but culture and faith."
+    },
+    {
+      "speaker": "Player",
+      "text": "It’s so lively. I’ve never seen anything like this.",
+      "next": 2
+    },
+    {
+      "speaker": "Kapitan Julian",
+      "text": "Mayad-ayad nga agahon sa atung mga bisita! Welcome sa atong pyesta.",
+      "next": null,
+      "translation": "Good morning, visitors! Welcome to our festival."
+    }
+  ],
+  "scene_2_parade_and_dance": [
+    {
+      "speaker": "Kapitan Julian",
+      "text": "do mga tawo iya ga celebrar it  Sto. Niño. bukon eamang it gasaot, kundi gapasaeamat.",
+      "next": 1,
+      "translation": "The people here celebrate the Child Jesus. It’s not just dance, but thanksgiving."
+    },
+    {
+      "speaker": "Player",
+      "text": "So it’s both religious and cultural?",
+      "next": 2
+    },
+    {
+      "speaker": "Kapitan Julian",
+      "text": "hara gid. Ang Ati-Atihan, kilaea sa bilog  nga Pilipinas.",
+      "next": null,
+      "translation": "Exactly. The Ati-Atihan is famous throughout the Philippines."
+    }
+  ],
+  "scene_3_call_and_response": [
+    {
+      "speaker": "Rose",
+      "text": "Sige, balikbayan. Samiti nga mag-sabat. Bukon it sagrado nga chant ’ra, safe eang.",
+      "next": 1,
+      "translation": "Come on, balikbayan. Try to respond. This isn’t a sacred chant, just a safe one."
+    },
+    {
+      "speaker": "",
+      "text": "Will you join the chant?",
+      "choices": [
+        {
+          "label": "Yes! I’ll shout with them.",
+          "next": 2
+        },
+        {
+          "label": "Maybe just a little, I’m shy.",
+          "next": 3
+        },
+        {
+          "label": "I don’t think I should, I’ll just watch.",
+          "next": 4
+        }
+      ],
+      "next": null
+    },
+    {
+      "speaker": "Kapitan Julian",
+      "text": "Mayad ! bukon ka eon outsider, apo.",
+      "next": null
+    },
+    {
+      "speaker": "Rose",
+      "text": "Fair enough. Even a little effort counts.",
+      "next": null
+    },
+    {
+      "speaker": "Kapitan Julian",
+      "text": "bukon problema. Respect is part of the festival too.",
+      "next": null
+    }
+  ],
+  "scene_4_vocabulary_practice_round_festival_words": [
+    {
+      "speaker": "Rose",
+      "text": "Saot — dance. Tamboe — drum. Pyesta — festival. Kasadyahan — joy.",
+      "next": 1,
+      "word_ids": [
+        "w128",
+        "w129",
+        "w130"
+      ]
+    },
+    {
+      "speaker": "Rose",
+      "text": "Balikbayan — returning from abroad. Bisita — visitor. Tawo — person.",
+      "next": 2,
+      "word_ids": [
+        "w131"
+      ]
+    },
+    {
+      "speaker": "Player",
+      "text": "Okay, so I’m the balikbayan, and everyone else is tawo.",
+      "next": 3
+    },
+    {
+      "speaker": "Rose",
+      "text": "Correct. And you’re also a bisita, but now part of the kasadyahan.",
+      "next": null
+    }
+  ],
+  "scene_5_reflection": [
+    {
+      "speaker": "Lola Jonabel",
+      "text": "hindi ko gid malipatan ro adlaw ngara. Btyag ko nga Mingko unga ako uman.",
+      "next": 1,
+      "translation": "I won’t forget this day. I feel like a child again."
+    },
+    {
+      "speaker": "Papa Jobert",
+      "text": "Worth every mile of travel, Ma.",
+      "next": 2
+    },
+    {
+      "speaker": "Rose",
+      "text": "And worth every word you’ve learned, balikbayan.",
+      "next": null
+    }
+  ],
+  "idle_pool_kapitan_julian": [
+    {
+      "speaker": "Kapitan Julian",
+      "text": "Kada tuig, mas grabe ang preparation. Pero indi ko gid ni ibaylo sa iba.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Nag-uutos si Kapitan Julian sa mga kabataan, sabay ngiti kahit stressed.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Kapitan Julian",
+      "text": "Rose says you're not bad anymore, huh. High praise, coming from her.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Kapitan Julian",
+      "text": "Ang pista ni, indi lang party. Amo ni ang pagpasalamat namon, tanan tuig.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Tumigil sandali si Kapitan Julian, hinihinga nang malalim, bago bumalik sa gitna ng gulo.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Kapitan Julian",
+      "text": "Kung gusto mo makakita mas damo, balik ka sa tunay nga adlaw sang pista. Ni, practice pa lang.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Kapitan Julian",
+      "text": "Tanan tao diri, pamilya. Kahit indi direkta, pamilya gihapon.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Iniabot ni Kapitan Julian ang isang maliit na costume accessory kay Player, parang regalo.",
+      "word_ids": []
+    }
+  ],
+  "idle_pool_rose": [
+    {
+      "speaker": "Rose",
+      "text": "Wag mo akong tignan nang ganyan, hindi ako tour guide. ...okay, konti lang.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Magtuon ka gid, ha. Indi lang basta-basta.",
+      "word_ids": [
+        "w129"
+      ]
+    },
+    {
+      "speaker": "",
+      "text": "Tumingin si Rose sa Player nang matagal, parang sinusukat kung seryoso ba talaga siya.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "My Lola Susan talks about your Lola Jonabel parang superhero pa. Big shoes to fill, balikbayan.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Fine, you're not completely hopeless. ...don't let that get to your head.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Alam mo, hindi ko rin naman gustong magturo dati. Pero, sige na nga.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Napailing si Rose, pero halatang pigil ang ngiti.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Wag kang mag-expect ng slack sa 'kin kasi pinsan ka daw ni Tita Susan. Rules apply to everyone.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Stop overthinking the pronunciation. Just say it. Worst case, I laugh at you.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Tumingin si Rose sa mapa, tapos kay Player, parang sinusukat ang route.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Manong Pedring likes you. That's rare — he's picky about balikbayans.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Magbulig ako sa imo, pero indi ako mangin madali. Deal pa rin 'yun.",
+      "word_ids": [
+        "w130"
+      ]
+    },
+    {
+      "speaker": "Rose",
+      "text": "You're actually trying. Didn't expect that, not gonna lie.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "I actually like it here. Don't tell Manang Loleng I said that, she'll never let me hear the end of it.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Tinitignan ni Rose ang unang linya ng weaving ni Player, tapos tumango, medyo impressed.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "You're better at this than the greeting stuff, honestly. Weird flex, but okay.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Magtuon ka pa sang isara ka leksyon, tapos indi ka na \"balikbayan\" sa akon. Promise.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Nag-iisa si Rose sa dulo ng bangka, tinitignan ang tubig nang tahimik.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Manong Ambo's basically family. He used to carry me on his shoulders here, ages ago.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "This place calms me down. Don't get used to seeing me like this though.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "This is my favorite time of year. Don't tell anyone I said that either.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Sumasayaw nang bahagya si Rose habang naglalakad, hindi napapansin.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "You did better than I expected out there. Seriously.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Sunod tuig, ikaw na mismo mag-lead sang banner. Deal?",
+      "word_ids": []
+    }
+  ],
+  "idle_pool_lola_susan": [
+    {
+      "speaker": "Lola Susan",
+      "text": "Halong, apo — mainit gid diri sa Aklan, indi pareho sa America.",
+      "word_ids": [
+        "w128"
+      ]
+    },
+    {
+      "speaker": "Lola Susan",
+      "text": "Kung gutom ka, sabihon mo lang. Damo pagkaon sa balay.",
+      "word_ids": [
+        "w006"
+      ]
+    },
+    {
+      "speaker": "",
+      "text": "Ngumiti si Lola Susan, hinahaplos ang balikat ni Jonabel na parang natatakot pang mawala ulit ito.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Susan",
+      "text": "Rose is a good girl, ha. Sharp lidah lang — sharp tongue. Her heart is bigger than that mouth.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Susan",
+      "text": "Sabihin mo sa akin kung ano pa gusto mong makita dito. Ipapakita ko lahat.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Susan",
+      "text": "Dati pa, magkasama kami ni Jonabel sa lahat. Ngayon, ikaw naman ang kasama niya.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Kinukuha ni Lola Susan ang bag ni Player nang hindi man lang pinapayagan siyang tumanggi.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Susan",
+      "text": "Indi ka gid mabudlayan diri, Apo. Kilala ka namon tanan.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Susan",
+      "text": "Ari, tan-awa ang simbahan. Kadamo ka gid memories diri, apo.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Susan",
+      "text": "Halong ka lang sa init, indi ka anad diri sa Aklan.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Tumango si Lola Susan sa mga kakilala habang naglalakad papasok ng market.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Susan",
+      "text": "Kung may gusto ka pamangkin, sabihon mo lang kay Manong Pedring. Suki namon 'to.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Susan",
+      "text": "Rose is teaching you well, no? She's stubborn, but her heart is in the right place.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Susan",
+      "text": "Sadto pa, amo ni akon paborito nga bahin sang tuig. Wala nagbag-o.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Kinunan ni Lola Susan ng litrato si Player habang nagpaparticipate sa call-response.",
+      "word_ids": []
+    }
+  ]
+}

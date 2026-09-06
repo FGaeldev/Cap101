@@ -1,0 +1,529 @@
+{
+  "scene_1_caticlan_jetty_departure": [
+    {
+      "speaker": "Rose",
+      "text": "iya eon kita sa Caticlan. Sunod, sakay kita pa-Boracay.",
+      "next": 1,
+      "translation": "We’re here at Caticlan. Next, we ride to Boracay."
+    },
+    {
+      "speaker": "Player",
+      "text": "Finally, the famous island.",
+      "next": 2
+    },
+    {
+      "speaker": "Papa Jobert",
+      "text": "Grabe, kaabo nga turista. Same as before, maybe even more now.",
+      "next": null,
+      "translation": "Wow, so many tourists. Same as before, maybe even more now."
+    }
+  ],
+  "scene_2_arrival_at_boracay_white_beach": [
+    {
+      "speaker": "Tita Beth",
+      "text": "Mayad-ayad nga agahon, mga bisita! Welcome sa Boracay.",
+      "next": 1,
+      "translation": "Good morning, visitors! Welcome to Boracay."
+    },
+    {
+      "speaker": "Rose",
+      "text": "This is my aunt, Tita Beth. She works in tourism here.",
+      "next": 2
+    },
+    {
+      "speaker": "Tita Beth",
+      "text": "iya kamo para magpahuway ag ma-enjoy ro baybay.",
+      "next": null,
+      "translation": "You’re here to rest and enjoy the shore.",
+      "word_ids": [
+        "w128"
+      ]
+    }
+  ],
+  "scene_3_tourism_lesson": [
+    {
+      "speaker": "Tita Beth",
+      "text": "ro turismo iya ro naga-suporta sa komunidad. bukon sa eamang sa negosyo, kundi pati sa trabaho it tanan.",
+      "next": 1,
+      "translation": "Tourism here supports the community. Not just business, but jobs for everyone."
+    },
+    {
+      "speaker": "Player",
+      "text": "So every visitor helps the locals too?",
+      "next": 2
+    },
+    {
+      "speaker": "Tita Beth",
+      "text": "hara gid. Kung magbakae ka sapag-obra, bukon eang souvenir — kundi suporta sa tawo nga nagahimo.",
+      "next": null,
+      "translation": "Exactly. When you buy a craft, it’s not just a souvenir — it’s support for the person who made it.",
+      "word_ids": [
+        "w129"
+      ]
+    }
+  ],
+  "scene_4_vocabulary_practice_round_tourism_and_travel": [
+    {
+      "speaker": "Rose",
+      "text": "Sakay — ride. Pahuway — rest. Eangoy — swim. Baybay — shore.",
+      "next": 1,
+      "word_ids": [
+        "w130",
+        "w131",
+        "w132"
+      ]
+    },
+    {
+      "speaker": "Rose",
+      "text": "Balik — return. Warang— travel. Bisita — visitor. Turista — tourist.",
+      "next": 2,
+      "word_ids": [
+        "w133",
+        "w134",
+        "w135"
+      ]
+    },
+    {
+      "speaker": "Player",
+      "text": "Okay, turista is me right now.",
+      "next": 3
+    },
+    {
+      "speaker": "Rose",
+      "text": "Correct. But you’re also balikbayan — returning home.",
+      "next": null
+    }
+  ],
+  "scene_5_finale_reflection": [
+    {
+      "speaker": "Lola Jonabel",
+      "text": "indi ko malipatan do pag warang natun ngara, daya hay paeanumdum sa akong kabuhi .",
+      "next": 1,
+      "translation": "I’ll never forget this trip. It feels like a memory of my life."
+    },
+    {
+      "speaker": "Papa Jobert",
+      "text": "Worth every step, Ma.",
+      "next": 2
+    },
+    {
+      "speaker": "Rose",
+      "text": "And worth every word you’ve learned, balikbayan.",
+      "next": 3
+    },
+    {
+      "speaker": "Tita Beth",
+      "text": "dahan ka sa  pagbalik mo. ag ayaw pag lipati ro Aklan.",
+      "next": null,
+      "translation": "Take care on your return. And don’t forget Aklan."
+    }
+  ],
+  "idle_pool_tita_beth": [
+    {
+      "speaker": "Tita Beth",
+      "text": "Damo turista gapunta diri, pero pila lang gid ang nagabalik sa Kalibo. Ikaw lain siguro, ha?",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Inaayos ni Tita Beth ang mga life vest, kausap-kausap pa rin ang grupo.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Tita Beth",
+      "text": "Ang Boracay, maganda gid. Pero ang Aklan, amo ang tunay nga puso namon.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Tita Beth",
+      "text": "Kung balik kamo, sabihi ako. Libre ang sakay, para sa pamilya ni Jonabel.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Tumingin si Tita Beth sa papalayong bangka, tumango-tango, ngiting-ngiti.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Tita Beth",
+      "text": "Ang dagat, damo naka-agi rira. Damo man ang nagbalik. Ikaw, isara na sa ila.",
+      "word_ids": []
+    }
+  ],
+  "idle_pool_lola_jonabel": [
+    {
+      "speaker": "",
+      "text": "Kadugay ko na di nakatilaw sang kan-on nga tumbien sa balay ni Susan.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Jonabel",
+      "text": "Player, do not forget to write to your Lola back home too. Distance should never mean silence.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Napahiling si Lola Jonabel sa bintana, nakangiti nang walang partikular na dahilan.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Jonabel",
+      "text": "Kung pagod ka na, Apo, sabihin mo lang. Hindi kailangan lahat ngayon din matutunan.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Jonabel",
+      "text": "This town raised me before it raised your Tita Susan. Funny how it still feels the same.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Hinihipo ni Lola Jonabel ang lumang litrato sa kanyang bag, hindi napapansin na napapangiti siya.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Jonabel",
+      "text": "Marami pang lugar dito na gusto kong ipakita sa'yo, Apo. Isa-isa lang.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Jonabel",
+      "text": "Alam mo, kahit gaano man katagal, parang kailan lang 'yong huling beses ko dito.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Hinawakan ni Lola Jonabel ang piña cloth nang matagal, tila naaalala ang sarili niyang lola.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Jonabel",
+      "text": "My own lola wove like this too, Apo. Small world, isn't it — some things never change here.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Jonabel",
+      "text": "Ingatan mo 'yang bookmark. It's not just cloth, it's somebody's years of patience.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Nakatingin si Lola Jonabel sa dagat nang matagal, mukhang kontento, hindi na malungkot.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Jonabel",
+      "text": "This isn't a goodbye, Apo. It never really was. We just carry it with us now.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Jonabel",
+      "text": "I used to think coming home meant staying forever. Now I know it just means never really leaving.",
+      "word_ids": []
+    }
+  ],
+  "idle_pool_papa_jobert": [
+    {
+      "speaker": "Papa Jobert",
+      "text": "Grabe 'to, parang bata ulit ako pag nandito. Sobrang dami ng memories, anak.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Papa Jobert",
+      "text": "Huwag kang mag-alala kay Rose, ganyan talaga siya. Marunong naman siya magturo, promise.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Kinukuha ni Papa Jobert ang kanyang phone, kunwari kukuha ng litrato pero halatang nostalgic lang.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Papa Jobert",
+      "text": "Alam mo, dito rin ako natutong mag-Akeanon dati. Parang paulit-ulit lang 'yung kwento, ha.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Papa Jobert",
+      "text": "Sabihin mo kay Lola kung kailan ka na-tire. Alam mo naman siya, hindi siya titigil sa excitement.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Papa Jobert",
+      "text": "Sobrang saya ni Lola ngayon, no? Sulit lahat ng jetlag para diyan.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Papa Jobert",
+      "text": "Kung may makalimutan tayo, ako na bahala. Ikaw, focus ka lang sa pag-aaral.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Napapatango-tango si Papa Jobert habang naglalakad, parang bawat kanto may kwento.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Papa Jobert",
+      "text": "Grabe, ang linis ngayon kumpara noon. Manong Ambo really did something here.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Kinunan ni Papa Jobert ng litrato ang paglubog ng araw, tahimik na tahimik.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Papa Jobert",
+      "text": "Sabi ni Lola dati, mas maganda raw dito kaysa kahit saan. Mukhang tama siya.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Papa Jobert",
+      "text": "Anak, proud ako sa'yo. Hindi ko inexpect na ganito ka-seryoso ka mag-aral nito.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Kinukuha ni Papa Jobert ang huling litrato ng buong pamilya, hindi na kunwari ang ngiti ngayon.",
+      "word_ids": []
+    }
+  ],
+  "idle_pool_lola_susan": [
+    {
+      "speaker": "Lola Susan",
+      "text": "Halong, apo — mainit gid diri sa Aklan, indi pareho sa America.",
+      "word_ids": [
+        "w128"
+      ]
+    },
+    {
+      "speaker": "Lola Susan",
+      "text": "Kung gutom ka, sabihon mo lang. Damo pagkaon sa balay.",
+      "word_ids": [
+        "w006"
+      ]
+    },
+    {
+      "speaker": "",
+      "text": "Ngumiti si Lola Susan, hinahaplos ang balikat ni Jonabel na parang natatakot pang mawala ulit ito.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Susan",
+      "text": "Rose is a good girl, ha. Sharp lidah lang — sharp tongue. Her heart is bigger than that mouth.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Susan",
+      "text": "Sabihin mo sa akin kung ano pa gusto mong makita dito. Ipapakita ko lahat.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Susan",
+      "text": "Dati pa, magkasama kami ni Jonabel sa lahat. Ngayon, ikaw naman ang kasama niya.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Kinukuha ni Lola Susan ang bag ni Player nang hindi man lang pinapayagan siyang tumanggi.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Susan",
+      "text": "Indi ka gid mabudlayan diri, Apo. Kilala ka namon tanan.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Susan",
+      "text": "Ari, tan-awa ang simbahan. Kadamo ka gid memories diri, apo.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Susan",
+      "text": "Halong ka lang sa init, indi ka anad diri sa Aklan.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Tumango si Lola Susan sa mga kakilala habang naglalakad papasok ng market.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Susan",
+      "text": "Kung may gusto ka pamangkin, sabihon mo lang kay Manong Pedring. Suki namon 'to.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Susan",
+      "text": "Rose is teaching you well, no? She's stubborn, but her heart is in the right place.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Susan",
+      "text": "Sadto pa, amo ni akon paborito nga bahin sang tuig. Wala nagbag-o.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Kinunan ni Lola Susan ng litrato si Player habang nagpaparticipate sa call-response.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Susan",
+      "text": "Balik kamo, ha. Indi ni ang huling beses — promise mo sa akon 'na.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Niyakap ni Lola Susan si Player nang mahigpit bago sila umalis, ayaw pang bitawan.",
+      "word_ids": []
+    }
+  ],
+  "idle_pool_rose": [
+    {
+      "speaker": "Rose",
+      "text": "Wag mo akong tignan nang ganyan, hindi ako tour guide. ...okay, konti lang.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Magtuon ka gid, ha. Indi lang basta-basta.",
+      "word_ids": [
+        "w129"
+      ]
+    },
+    {
+      "speaker": "",
+      "text": "Tumingin si Rose sa Player nang matagal, parang sinusukat kung seryoso ba talaga siya.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "My Lola Susan talks about your Lola Jonabel parang superhero pa. Big shoes to fill, balikbayan.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Fine, you're not completely hopeless. ...don't let that get to your head.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Alam mo, hindi ko rin naman gustong magturo dati. Pero, sige na nga.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Napailing si Rose, pero halatang pigil ang ngiti.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Wag kang mag-expect ng slack sa 'kin kasi pinsan ka daw ni Tita Susan. Rules apply to everyone.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Stop overthinking the pronunciation. Just say it. Worst case, I laugh at you.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Tumingin si Rose sa mapa, tapos kay Player, parang sinusukat ang route.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Manong Pedring likes you. That's rare — he's picky about balikbayans.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Magbulig ako sa imo, pero indi ako mangin madali. Deal pa rin 'yun.",
+      "word_ids": [
+        "w130"
+      ]
+    },
+    {
+      "speaker": "Rose",
+      "text": "You're actually trying. Didn't expect that, not gonna lie.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "I actually like it here. Don't tell Manang Loleng I said that, she'll never let me hear the end of it.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Tinitignan ni Rose ang unang linya ng weaving ni Player, tapos tumango, medyo impressed.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "You're better at this than the greeting stuff, honestly. Weird flex, but okay.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Magtuon ka pa sang isara ka leksyon, tapos indi ka na \"balikbayan\" sa akon. Promise.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Nag-iisa si Rose sa dulo ng bangka, tinitignan ang tubig nang tahimik.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Manong Ambo's basically family. He used to carry me on his shoulders here, ages ago.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "This place calms me down. Don't get used to seeing me like this though.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "This is my favorite time of year. Don't tell anyone I said that either.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Sumasayaw nang bahagya si Rose habang naglalakad, hindi napapansin.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "You did better than I expected out there. Seriously.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Sunod tuig, ikaw na mismo mag-lead sang banner. Deal?",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "You're not completely hopeless, balikbayan. I said it before, I'll say it again — don't let it get to your head.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Iniabot ni Rose ang isang tinatawag niyang \"starter list\" ng mga susunod na salita, hindi umaamin na effort 'yon.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Text me when you land back home. Not because I care or whatever. Just — text me.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Summary — full script status (amended, vocab-sequenced)",
+      "word_ids": []
+    }
+  ]
+}

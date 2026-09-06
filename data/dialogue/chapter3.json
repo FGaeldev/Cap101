@@ -1,0 +1,463 @@
+{
+  "scene_1_arrival_at_the_loom_house": [
+    {
+      "speaker": "Manang Loleng",
+      "text": "Naabi abi gid namon inyong pag abot it atong mga bisita. Maliya ag tanawon ro among mga ginhabi .",
+      "next": 1,
+      "translation": "Welcome, visitors. Here, look at our weaving.",
+      "word_ids": [
+        "w128"
+      ]
+    },
+    {
+      "speaker": "Player",
+      "text": "Whoa. Amazing, Grandma — I mean, Anang. Sorry, it’s my first time seeing a loom like this.",
+      "next": 2
+    },
+    {
+      "speaker": "Anang Loleng",
+      "text": "Uwat kaso. Abo man nga bisita ro nangangawa iya .",
+      "next": 3,
+      "translation": "It’s alright. Many visitors are surprised here too."
+    },
+    {
+      "speaker": "Rose",
+      "text": "This whole community weaves piña cloth. Been doing it for generations — older than any of us.",
+      "next": 4
+    },
+    {
+      "speaker": "Anang Loleng",
+      "text": "Halin ra sa katamnan — sa tanum nga piña. . Kaabo nga ueubrahon bago mahimo nga eambong",
+      "next": 5,
+      "translation": "This comes from the farm — from the piña plant. A lot of work before it becomes cloth.",
+      "word_ids": [
+        "w129",
+        "w130"
+      ]
+    },
+    {
+      "speaker": "",
+      "text": "What’s your reaction?",
+      "choices": [
+        {
+          "label": "This is beautiful work, Anang. I’d love to learn more.",
+          "next": 6
+        },
+        {
+          "label": "It’s really intricate, kind of hard to understand all at once.",
+          "next": 7
+        },
+        {
+          "label": "This looks like it takes forever, isn’t a machine faster?",
+          "next": 8
+        }
+      ],
+      "next": null
+    },
+    {
+      "speaker": "Anang Loleng",
+      "text": "Saeamat, apo. Not many young ones say that anymore.",
+      "next": 9
+    },
+    {
+      "speaker": "Anang Loleng",
+      "text": "Step by step. Even I took years.",
+      "next": 9
+    },
+    {
+      "speaker": "Anang Loleng",
+      "text": "Machines can’t feel the thread the way a hand does. That’s the difference.",
+      "next": 9
+    },
+    {
+      "speaker": "Anang Loleng",
+      "text": "Gusto mo ubrahon? iya, sunod ka kakon",
+      "next": null,
+      "translation": "Do you want to try? Here, follow me."
+    }
+  ],
+  "scene_2_trying_the_loom": [
+    {
+      "speaker": "Rose",
+      "text": "Oh, this I have to see. Balikbayan versus loom. Place your bets.",
+      "next": 1
+    },
+    {
+      "speaker": "Player",
+      "text": "Gee, thanks for the confidence, Rose.",
+      "next": 2
+    },
+    {
+      "speaker": "Anang Loleng",
+      "text": "Hinay-hinay eang. bukon ra padasigan.",
+      "next": 3,
+      "translation": "Slowly. This isn’t about whose faster.",
+      "word_ids": [
+        "w001"
+      ]
+    },
+    {
+      "speaker": "",
+      "text": "Will you try weaving on your own?",
+      "choices": [
+        {
+          "label": "I’ll take it slow, Anang. Show me the first move again.",
+          "next": 4
+        },
+        {
+          "label": "Can you guide my hands through it first?",
+          "next": 5
+        },
+        {
+          "label": "Maybe I’ll just watch, this looks too hard for me.",
+          "next": 6
+        }
+      ],
+      "next": null
+    },
+    {
+      "speaker": "Anang Loleng",
+      "text": "That’s the spirit, apo. One thread at a time.",
+      "next": 7
+    },
+    {
+      "speaker": "Anang Loleng",
+      "text": "Of course. Everyone starts guided.",
+      "next": 7
+    },
+    {
+      "speaker": "Rose",
+      "text": "Come on, at least try one row. I’ll laugh either way, might as well earn it.",
+      "next": 7
+    },
+    {
+      "speaker": "Anang Loleng",
+      "text": "Ay, mayad  gid, apo! Para sa una nga ubra, bukon man maeain!",
+      "next": null,
+      "translation": "Oh, that’s good, grandchild! For your first time, not bad at all!"
+    }
+  ],
+  "scene_3_closing_gift": [
+    {
+      "speaker": "Anang Loleng",
+      "text": "Hara, batuna, tanda halin sa amon nga komunidad.",
+      "next": 1,
+      "translation": "Here, take this. A token from our community."
+    },
+    {
+      "speaker": "Player",
+      "text": "Saeamat gid,  Anang. I’ll keep this.",
+      "next": 2
+    },
+    {
+      "speaker": "Anang Loleng",
+      "text": "mag dahan ka sa imong pagbiyahe. ag magbalik ka iya, ha, kung may tyempo ka.",
+      "next": 3,
+      "translation": "Take care on your journey. And come back here, okay, if you have time."
+    },
+    {
+      "speaker": "Rose",
+      "text": "Not bad for your first field trip, balikbayan. Two down, more to go.",
+      "next": null
+    }
+  ],
+  "scene_4_vocabulary_practice_round_verbs_and_pace_words": [
+    {
+      "speaker": "Rose",
+      "text": "Tan-awa sanda. panaw — to walk... wait, save that one. Bangon — to get up, like when you fall.",
+      "next": 1,
+      "word_ids": [
+        "w131",
+        "w022"
+      ]
+    },
+    {
+      "speaker": "Player",
+      "text": "These make sense with the actions right in front of us.",
+      "next": 2
+    },
+    {
+      "speaker": "Rose",
+      "text": "That’s the point. agto iya— come here. agto idto — go there. Dayon — then, or “continue.”",
+      "next": 3,
+      "word_ids": [
+        "w016"
+      ]
+    },
+    {
+      "speaker": "Rose",
+      "text": "Bakae — to buy. Baligya — to sell. Tan-aw — to look, to see. Hambae — to speak. Sabát — to answer.",
+      "next": 4,
+      "word_ids": [
+        "w132",
+        "w030",
+        "w025",
+        "w133",
+        "w028"
+      ]
+    },
+    {
+      "speaker": "",
+      "text": "Will you try using the new words?",
+      "choices": [
+        {
+          "label": "I’ll try — “Gusto ko mag bakae,” I want to buy? Something like that?",
+          "next": 5
+        },
+        {
+          "label": "I get the meanings, but it’s still hard to use them correctly.",
+          "next": 6
+        },
+        {
+          "label": "There are too many verbs now, I’m losing track.",
+          "next": 7
+        }
+      ],
+      "next": null
+    },
+    {
+      "speaker": "Rose",
+      "text": "Close enough! You’re building sentences now, not just words.",
+      "next": 8
+    },
+    {
+      "speaker": "Rose",
+      "text": "That’s normal. Meaning first, grammar later.",
+      "next": 8
+    },
+    {
+      "speaker": "Rose",
+      "text": "Deep breath. We’ll circle back to these. No rush.",
+      "next": 8
+    },
+    {
+      "speaker": "Rose",
+      "text": "Taas — tall, or long. Naba — short. Paspas — fast. Hinay — slow, base word of “hinay-hinay” that Anang taught you.",
+      "next": 9,
+      "word_ids": [
+        "w033",
+        "w034",
+        "w047",
+        "w048"
+      ]
+    },
+    {
+      "speaker": "Rose",
+      "text": "Bug-at — heavy. Maugan — light, not bug-at.  — small words, but you’ll need them everywhere.",
+      "next": 10,
+      "word_ids": [
+        "w049",
+        "w134"
+      ]
+    },
+    {
+      "speaker": "Rose",
+      "text": "Kuntra naman — “against.” Rarely used, but good to know.",
+      "next": 11,
+      "word_ids": [
+        "w135"
+      ]
+    },
+    {
+      "speaker": "Player",
+      "text": "My head’s kind of full now, but I think I actually get most of it.",
+      "next": 12
+    },
+    {
+      "speaker": "Rose",
+      "text": "That’s the goal. Not perfect. Just moving forward.",
+      "next": null
+    }
+  ],
+  "idle_pool_manang_loleng": [
+    {
+      "speaker": "Manang Loleng",
+      "text": "Ang akon lola, siya nagtudlo sa akon sang hablon. Pareho man sa imo, apo, tudlo halin sa lola.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Hinahaplos ni Manang Loleng ang tela, para bang bawat hibla ay may kwento.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Manang Loleng",
+      "text": "Halong sa hilo, apo — mabilis magbuhi kung indi tama ang hawak. [NEW-VERIFY: \"mabilis magbuhi\" - loose thread phrase]",
+      "word_ids": []
+    },
+    {
+      "speaker": "Manang Loleng",
+      "text": "Damo turista nagalabay diri, pero gadiit lang tumindog. Ikaw, lain — nagpabilin ka.",
+      "word_ids": [],
+      "translation": "Many tourists pass by here, but just stand and look. You're different — you stayed."
+    },
+    {
+      "speaker": "",
+      "text": "Napailing si Manang Loleng, natutuwa habang tinitingnan ang unang linya ng weaving ni Player.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Manang Loleng",
+      "text": "Kung mabudlay man, indi lang pag-untat. Amo na 'na ang leksyon sang hablon — kag sang kabuhi.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Manang Loleng",
+      "text": "Ipabaton ko sa imo Lola Jonabel ni. Siguro madumduman niya ang iya lola man.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Manang Loleng",
+      "text": "Sa uma pa lang, damo trabaho na. Diri lang nagatapos ang una nga parte.",
+      "word_ids": []
+    }
+  ],
+  "idle_pool_rose": [
+    {
+      "speaker": "Rose",
+      "text": "Wag mo akong tignan nang ganyan, hindi ako tour guide. ...okay, konti lang.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Magtuon ka gid, ha. Indi lang basta-basta.",
+      "word_ids": [
+        "w129"
+      ]
+    },
+    {
+      "speaker": "",
+      "text": "Tumingin si Rose sa Player nang matagal, parang sinusukat kung seryoso ba talaga siya.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "My Lola Susan talks about your Lola Jonabel parang superhero pa. Big shoes to fill, balikbayan.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Fine, you're not completely hopeless. ...don't let that get to your head.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Alam mo, hindi ko rin naman gustong magturo dati. Pero, sige na nga.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Napailing si Rose, pero halatang pigil ang ngiti.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Wag kang mag-expect ng slack sa 'kin kasi pinsan ka daw ni Tita Susan. Rules apply to everyone.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Stop overthinking the pronunciation. Just say it. Worst case, I laugh at you.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Tumingin si Rose sa mapa, tapos kay Player, parang sinusukat ang route.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Manong Pedring likes you. That's rare — he's picky about balikbayans.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Magbulig ako sa imo, pero indi ako mangin madali. Deal pa rin 'yun.",
+      "word_ids": [
+        "w130"
+      ]
+    },
+    {
+      "speaker": "Rose",
+      "text": "You're actually trying. Didn't expect that, not gonna lie.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "I actually like it here. Don't tell Manang Loleng I said that, she'll never let me hear the end of it.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Tinitignan ni Rose ang unang linya ng weaving ni Player, tapos tumango, medyo impressed.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "You're better at this than the greeting stuff, honestly. Weird flex, but okay.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Magtuon ka pa sang isara ka leksyon, tapos indi ka na \"balikbayan\" sa akon. Promise.",
+      "word_ids": []
+    }
+  ],
+  "idle_pool_lola_jonabel": [
+    {
+      "speaker": "",
+      "text": "Kadugay ko na di nakatilaw sang kan-on nga tumbien sa balay ni Susan.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Jonabel",
+      "text": "Player, do not forget to write to your Lola back home too. Distance should never mean silence.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Napahiling si Lola Jonabel sa bintana, nakangiti nang walang partikular na dahilan.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Jonabel",
+      "text": "Kung pagod ka na, Apo, sabihin mo lang. Hindi kailangan lahat ngayon din matutunan.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Jonabel",
+      "text": "This town raised me before it raised your Tita Susan. Funny how it still feels the same.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Hinihipo ni Lola Jonabel ang lumang litrato sa kanyang bag, hindi napapansin na napapangiti siya.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Jonabel",
+      "text": "Marami pang lugar dito na gusto kong ipakita sa'yo, Apo. Isa-isa lang.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Jonabel",
+      "text": "Alam mo, kahit gaano man katagal, parang kailan lang 'yong huling beses ko dito.",
+      "word_ids": []
+    },
+    {
+      "speaker": "",
+      "text": "Hinawakan ni Lola Jonabel ang piña cloth nang matagal, tila naaalala ang sarili niyang lola.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Jonabel",
+      "text": "My own lola wove like this too, Apo. Small world, isn't it — some things never change here.",
+      "word_ids": []
+    },
+    {
+      "speaker": "Lola Jonabel",
+      "text": "Ingatan mo 'yang bookmark. It's not just cloth, it's somebody's years of patience.",
+      "word_ids": []
+    }
+  ]
+}
