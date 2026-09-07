@@ -45,6 +45,13 @@ var rose_hint_tokens: int = 0
 var challenges_passed: Dictionary = {}  # challenge_id -> bool
 var challenge_attempts: Dictionary = {} # challenge_id -> int, attempt count (for first_try check)
 
+# --- World Tasks (environmental puzzles, additive to Challenge system above) ---
+# Owned by TaskManager, storage lives here per register-on-ready/call-through-autoload
+# pattern (TDD §2). Separate from challenges_passed -- world tasks are action-in-world
+# (collect/interact), not answer-select, and are not gated by node-map unlock by default.
+var active_tasks: Dictionary = {}    # task_id -> current_step_index (int)
+var completed_tasks: Dictionary = {} # task_id -> bool
+
 func add_stars(amount: int) -> void:
 	akeanon_stars += amount
 	reward_granted.emit("stars", amount)
@@ -171,7 +178,9 @@ func save_game() -> void:
 		"grandma_memory_pages": grandma_memory_pages,
 		"rose_hint_tokens": rose_hint_tokens,
 		"challenges_passed": challenges_passed,
-		"challenge_attempts": challenge_attempts
+		"challenge_attempts": challenge_attempts,
+		"active_tasks": active_tasks,
+		"completed_tasks": completed_tasks
 	}
 	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	file.store_var(data)
@@ -198,3 +207,5 @@ func load_game() -> void:
 	rose_hint_tokens = data.get("rose_hint_tokens", 0)
 	challenges_passed = data.get("challenges_passed", {})
 	challenge_attempts = data.get("challenge_attempts", {})
+	active_tasks = data.get("active_tasks", {})
+	completed_tasks = data.get("completed_tasks", {})
