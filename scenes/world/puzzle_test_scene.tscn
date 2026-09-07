@@ -359,6 +359,9 @@ tile_set = SubResource("TileSet_00mc6")
 [node name="NPC_LolaJonabel" parent="." unique_id=12182856 instance=ExtResource("3_bf48f")]
 position = Vector2(148, 53)
 
+[node name="WorldTaskComponent2" parent="NPC_LolaJonabel" unique_id=1530894359 instance=ExtResource("6_iay88")]
+task_id = "test_visit_two_spots"
+
 [node name="Player" parent="." unique_id=410096860 instance=ExtResource("4_oga2c")]
 position = Vector2(233, 48)
 
