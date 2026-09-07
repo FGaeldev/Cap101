@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://b8awiupnw1tue" path="res://scenes/components/interactable_component.tscn" id="3_w1wr4"]
 [ext_resource type="PackedScene" uid="uid://cdxx55olbkhhv" path="res://scenes/components/dialogue_component.tscn" id="4_gc4kh"]
 [ext_resource type="PackedScene" uid="uid://bbk8t0y83k7ib" path="res://scenes/components/CutsceneAnimComponent.tscn" id="5_gc4kh"]
+[ext_resource type="PackedScene" path="res://scenes/components/world_task_component.tscn" id="6_msrff"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a4sf3"]
 atlas = ExtResource("2_a4sf3")
@@ -219,3 +220,7 @@ debug_color = Color(0, 0.6309958, 0.4700889, 0.41960785)
 
 [node name="CutsceneAnimComponent" parent="." unique_id=217645047 node_paths=PackedStringArray("sprite") instance=ExtResource("5_gc4kh")]
 sprite = NodePath("../Sprite2D")
+
+[node name="WorldTaskComponent" parent="." unique_id=1832264374 instance=ExtResource("6_msrff")]
+task_id = "test_visit_two_spots"
+required_step = 1
