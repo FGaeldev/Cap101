@@ -44,3 +44,10 @@ offset_left = 278.0
 offset_top = 97.0
 offset_right = 286.0
 offset_bottom = 105.0
+
+[node name="puzzle_test" type="Button" parent="Markers" unique_id=1410063943]
+layout_mode = 0
+offset_left = 222.0
+offset_top = 71.0
+offset_right = 230.0
+offset_bottom = 79.0

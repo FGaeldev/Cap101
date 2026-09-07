@@ -1,6 +1,14 @@
 [gd_scene format=3 uid="uid://le1srvey7ctl"]
 
 [ext_resource type="Script" uid="uid://cjjmpjlovfbkr" path="res://scripts/ui/page_settings.gd" id="1_qasqg"]
+[ext_resource type="Texture2D" uid="uid://ddf4txbnkmi3h" path="res://assets/ui/book/bar_frame.png" id="2_qlhlf"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4yft2"]
+texture = ExtResource("2_qlhlf")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
 
 [node name="PageSettings" type="Control" unique_id=302040855]
 layout_mode = 3
@@ -12,35 +20,36 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_qasqg")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=330086476]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="MasterVolumeLabel" type="Label" parent="VBoxContainer"]
+[node name="MasterVolumeLabel" type="Label" parent="VBoxContainer" unique_id=186037545]
 layout_mode = 2
 text = "Master Volume"
 
 [node name="MasterVolumeSlider" type="HSlider" parent="VBoxContainer" unique_id=1519490596]
 layout_mode = 2
+theme_override_styles/slider = SubResource("StyleBoxTexture_4yft2")
 
-[node name="MusicLabel" type="Label" parent="VBoxContainer"]
+[node name="MusicLabel" type="Label" parent="VBoxContainer" unique_id=337713816]
 layout_mode = 2
 text = "Music"
 
 [node name="MusicToggle" type="CheckButton" parent="VBoxContainer" unique_id=1950065061]
 layout_mode = 2
 
-[node name="SFXLabel" type="Label" parent="VBoxContainer"]
+[node name="SFXLabel" type="Label" parent="VBoxContainer" unique_id=1206925624]
 layout_mode = 2
 text = "Sound Effects"
 
 [node name="SFXToggle" type="CheckButton" parent="VBoxContainer" unique_id=32790922]
 layout_mode = 2
 
-[node name="DevModeLabel" type="Label" parent="VBoxContainer"]
+[node name="DevModeLabel" type="Label" parent="VBoxContainer" unique_id=803804968]
 layout_mode = 2
 text = "Dev: Chapter/Scene Skip Menu"
 
-[node name="DevModeToggle" type="CheckButton" parent="VBoxContainer"]
+[node name="DevModeToggle" type="CheckButton" parent="VBoxContainer" unique_id=458634400]
 layout_mode = 2

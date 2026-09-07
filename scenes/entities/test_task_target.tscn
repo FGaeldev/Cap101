@@ -1,0 +1,38 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" uid="uid://obneo8yg0ffi" path="res://assets/sprites/sv_object.png" id="1_sprite"]
+[ext_resource type="Script" uid="uid://b4kdc1v80hll3" path="res://scripts/components/Comp_Interactable.gd" id="2_interact"]
+[ext_resource type="PackedScene" path="res://scenes/components/world_task_component.tscn" id="3_worldtask"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(20, 6)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_area"]
+radius = 16.0
+height = 34.0
+
+[node name="TestTaskTarget" type="StaticBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+texture = ExtResource("1_sprite")
+modulate = Color(0.6, 0.8, 1, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="InteractArea" type="Area2D" parent="."]
+position = Vector2(0, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea"]
+position = Vector2(0, -2)
+shape = SubResource("CapsuleShape2D_area")
+
+[node name="InteractableComponent" type="Node" parent="."]
+script = ExtResource("2_interact")
+
+[node name="WorldTaskComponent" parent="." instance=ExtResource("3_worldtask")]
+mode = "target"
+task_id = "test_visit_two_spots"
+required_step = 0

@@ -2,6 +2,7 @@
   "_NOTE": "TEST/PROOF DATA ONLY — validates TaskManager + Comp_WorldTask loop end to end. Not shippable content. word_ids left empty on purpose, no glosses invented. Replace with real designed tasks once Roadmap step 5 gate passes (see Roadmap_WorldTask_Sprint.md).",
 
   "test_visit_two_spots": {
+	"title": "Visit two spots",
 	"giver_npc": "Lola Jonabel",
 	"steps": [
 	  { "type": "interact", "target": "test_target_a", "word_ids": [] },

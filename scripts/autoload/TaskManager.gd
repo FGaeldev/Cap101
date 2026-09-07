@@ -59,6 +59,17 @@ func is_task_completed(task_id: String) -> bool:
 func get_current_step(task_id: String) -> int:
 	return GameState.active_tasks.get(task_id, -1)
 
+## HUD-facing helpers — mirrors QuestManager.quests/active_quests shape so
+## hud.gd can render task rows the same way it renders quest rows.
+func get_task_title(task_id: String) -> String:
+	return task_defs.get(task_id, {}).get("title", task_id)
+
+func get_step_count(task_id: String) -> int:
+	return task_defs.get(task_id, {}).get("steps", []).size()
+
+func get_active_task_ids() -> Array:
+	return GameState.active_tasks.keys()
+
 ## Called by Comp_WorldTask (target mode) once its required_step matches
 ## get_current_step(). Advances to next step, or completes the task if that
 ## was the last one.

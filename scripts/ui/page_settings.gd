@@ -13,12 +13,15 @@ func _ready() -> void:
 	for lbl in [master_volume_label, music_label, sfx_label, dev_mode_label]:
 		lbl.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 		lbl.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_M)
-
+	
 	volume_slider.value = db_to_linear(AudioServer.get_bus_volume_db(0)) * 100
 	volume_slider.value_changed.connect(_on_volume_changed)
 	music_toggle.toggled.connect(_on_music_toggled)
 	sfx_toggle.toggled.connect(_on_sfx_toggled)
 	dev_mode_toggle.toggled.connect(_on_dev_mode_toggled)
+	
+	music_toggle.button_pressed = true
+	sfx_toggle.button_pressed = true
 
 ## BookUI pages are instantiated once and toggled via .visible on every
 ## subsequent open (TDD §8 page pattern) — _ready() never runs again after
