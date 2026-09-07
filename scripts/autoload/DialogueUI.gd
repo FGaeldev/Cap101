@@ -54,3 +54,9 @@ func hide_box_only() -> void:
 func player_pressed_advance() -> void:
 	if _current_component:
 		_current_component.advance()
+
+## True while the dialogue box is on screen. Used by hud.gd to hide
+## joystick/menu/interact controls during dialogue -- _root is private
+## (registered via register_root), this is the read-only door into it.
+func is_active() -> bool:
+	return _root != null and _root.visible

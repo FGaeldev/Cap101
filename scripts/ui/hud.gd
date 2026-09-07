@@ -1,12 +1,27 @@
 # HUD.gd
 extends CanvasLayer
 
+# Must keep processing while BookUI pauses the tree (BookUI sets
+# get_tree().paused = true on open) -- otherwise _process below stops firing
+# and joystick/menu/interact controls stay stuck visible under the book.
+# Same reasoning as BookUI.gd's own PROCESS_MODE_ALWAYS.
 const QUEST_BANNER_SCENE: PackedScene = preload("res://scenes/ui/quest_banner.tscn")
+
+# Sibling CanvasLayers under Game.tscn's UILayer that count as "overlay
+# active" -- fetched by name via get_parent(), not stored as scene refs,
+# since HUD.tscn is instanced standalone (see hud.tscn) and only has these
+# neighbors once placed under UILayer in Game.tscn.
+const OVERLAY_SIBLINGS := ["QuestCompletePopup", "PuzzlePanel", "ChallengePanel"]
 
 @onready var vbox: VBoxContainer = $VBoxContainer
 @onready var menu_button: Button = $MenuButton
+@onready var joystick: Control = $VirtualJoystick
+@onready var interact_button: Button = $InteractButton
+
+var _nearest_interactable: InteractableComponent = null
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	QuestManager.quest_started.connect(_on_quest_list_changed)
 	QuestManager.quest_completed.connect(_on_quest_list_changed)
 	# World tasks (additive to quests, TDD Addendum WorldTask) render in the
@@ -18,6 +33,60 @@ func _ready() -> void:
 	_rebuild_quest_rows()
 	UIThemeApplier.apply_icon_button_theme(menu_button, "menu")
 	menu_button.pressed.connect(_on_menu_button_pressed)
+	UIThemeApplier.apply_button_theme(interact_button, "primary")
+	interact_button.pressed.connect(_on_interact_button_pressed)
+
+func _process(_delta: float) -> void:
+	var overlay: bool = _is_overlay_active()
+	# Controls hidden whenever any overlay (BookUI, dialogue, quest/challenge/
+	# puzzle popups) is on screen -- player can't act through them anyway,
+	# and a stray visible joystick/button over a popup reads as a bug.
+	joystick.visible = not overlay
+	menu_button.visible = not overlay
+	_update_interact_button(overlay)
+
+## Nearest in-range InteractableComponent, or null if none/overlay active.
+## Button text mirrors that NPC/object's own interact_label (e.g. "Talk",
+## "Examine") instead of a generic "Interact" for every target.
+func _update_interact_button(overlay: bool) -> void:
+	if overlay:
+		interact_button.visible = false
+		_nearest_interactable = null
+		return
+	var player := get_tree().get_first_node_in_group("player")
+	if player == null:
+		interact_button.visible = false
+		_nearest_interactable = null
+		return
+	_nearest_interactable = InteractableComponent.get_nearest(player.global_position)
+	interact_button.visible = _nearest_interactable != null
+	if _nearest_interactable:
+		interact_button.text = _nearest_interactable.interact_label
+
+func _on_interact_button_pressed() -> void:
+	if is_instance_valid(_nearest_interactable):
+		# Routes through the same guarded entry point keyboard/touch use
+		# (Comp_Interactable.try_interact) -- no separate guard copy here.
+		_nearest_interactable.try_interact()
+
+## True if any overlay that should suppress movement controls is showing.
+## BookUI/DialogueUI checked directly (autoloads, always addressable).
+## Popup CanvasLayers are scene siblings under UILayer -- see OVERLAY_SIBLINGS.
+func _is_overlay_active() -> bool:
+	if BookUI.visible:
+		return true
+	if DialogueUI.is_active():
+		return true
+	if CutsceneManager.is_playing():
+		return true
+	var parent := get_parent()
+	if parent == null:
+		return false
+	for sibling_name in OVERLAY_SIBLINGS:
+		var node := parent.get_node_or_null(sibling_name)
+		if node and node.visible:
+			return true
+	return false
 
 func _on_menu_button_pressed() -> void:
 	# Mobile has no keyboard ui_cancel — this is the only way to reach
