@@ -26,7 +26,7 @@ func _on_interacted(_interactor: Node) -> void:
 		"giver":
 			TaskManager.start_task(task_id)
 		"target":
-			if TaskManager.get_active_step(task_id) == required_step:
+			if TaskManager.get_current_step(task_id) == required_step:
 				TaskManager.advance_task_step(task_id)
 
 	# fire popup AFTER task logic, only if this instance opts in
