@@ -22,6 +22,7 @@ func _ready() -> void:
 	
 	music_toggle.button_pressed = true
 	sfx_toggle.button_pressed = true
+	volume_slider.value = 50
 
 ## BookUI pages are instantiated once and toggled via .visible on every
 ## subsequent open (TDD §8 page pattern) — _ready() never runs again after
@@ -40,10 +41,10 @@ func _on_volume_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(0, linear_to_db(value / 100.0))
 
 func _on_music_toggled(muted: bool) -> void:
-	AudioManager.set_music_volume(0.0 if muted else 1.0)
+	AudioManager.set_music_volume(1.0 if muted else 0.0)
 
 func _on_sfx_toggled(muted: bool) -> void:
-	AudioManager.set_sfx_volume(0.0 if muted else 1.0)
+	AudioManager.set_sfx_volume(1.0 if muted else 0.0)
 
 ## Dev-only: flips GameState.dev_mode, which Journal's page_journal.gd reads
 ## on its own refresh() to decide whether to open on the hidden warp page.

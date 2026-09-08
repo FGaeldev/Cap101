@@ -13,6 +13,7 @@ grow_vertical = 2
 script = ExtResource("1_pmap")
 
 [node name="MapBG" type="TextureRect" parent="." unique_id=1347167005]
+self_modulate = Color(1, 1, 1, 0.8)
 clip_contents = true
 layout_mode = 1
 anchors_preset = 15

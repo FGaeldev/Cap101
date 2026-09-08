@@ -1,6 +1,9 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://d37paf1tchwwr"]
 
-[ext_resource type="Script" path="res://scripts/components/Comp_WorldTask.gd" id="1_wtcmp"]
+[ext_resource type="Script" uid="uid://cu7a7e7yj71sn" path="res://scripts/components/Comp_WorldTask.gd" id="1_wtcmp"]
 
-[node name="WorldTaskComponent" type="Node"]
+[node name="WorldTaskComponent" type="Node" unique_id=503435493]
 script = ExtResource("1_wtcmp")
+mode = null
+task_id = null
+required_step = null
