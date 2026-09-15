@@ -33,7 +33,7 @@ func _ready() -> void:
 	_rebuild_quest_rows()
 	UIThemeApplier.apply_icon_button_theme(menu_button, "menu")
 	menu_button.pressed.connect(_on_menu_button_pressed)
-	UIThemeApplier.apply_button_theme(interact_button, "primary")
+	UIThemeApplier.apply_icon_button_theme(interact_button, "dictionary")
 	interact_button.pressed.connect(_on_interact_button_pressed)
 
 func _process(_delta: float) -> void:
@@ -60,8 +60,6 @@ func _update_interact_button(overlay: bool) -> void:
 		return
 	_nearest_interactable = InteractableComponent.get_nearest(player.global_position)
 	interact_button.visible = _nearest_interactable != null
-	if _nearest_interactable:
-		interact_button.text = _nearest_interactable.interact_label
 
 func _on_interact_button_pressed() -> void:
 	if is_instance_valid(_nearest_interactable):

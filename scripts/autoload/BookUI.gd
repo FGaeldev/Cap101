@@ -5,6 +5,7 @@ extends CanvasLayer
 @onready var page_right: Panel = $Root/Spread/PageRight
 @onready var spread: Control = $Root/Spread
 @onready var page_map_host: Control = $Root/PageMapHost
+@onready var confirm_popup: ConfirmPopup = $Root/ConfirmPopup
 
 # -- Page Scenes --
 const PageSettingsScene := preload("res://scenes/ui/page_settings.tscn")
@@ -160,10 +161,17 @@ func _setup_exit_button(button: Button) -> void:
 ## rule), just triggered from the tab bar directly instead of a button
 ## inside the Settings page.
 func _on_exit_pressed() -> void:
+	confirm_popup.open("Return to menu?")
+	if not confirm_popup.confirmed.is_connected(_on_return_confirmed):
+		confirm_popup.confirmed.connect(_on_return_confirmed)
+	
+	
+func _on_return_confirmed() -> void:
 	AudioManager.play_sfx("menu_click")
 	CutsceneManager.abort()
 	GameState.save_game()
 	close()
+	get_tree().paused = false
 	get_tree().change_scene_to_file("res://scenes/ui/MainMenu.tscn")
 
 ## Callable must return bool. Used to lock e.g. Dictionary before first word exposed.

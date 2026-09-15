@@ -100,5 +100,5 @@ func _show_complete_popup(text: String) -> void:
 	close_button.pressed.connect(popup.queue_free)
 	popup.popup_hide.connect(popup.queue_free)
 	
-func _on_task_complete(task_id: String) -> void:
+func _on_task_complete(_task_id: String) -> void:
 	_show_complete_popup("Congratulations")

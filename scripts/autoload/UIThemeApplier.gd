@@ -14,7 +14,7 @@ const DIALOGUE_BOX := preload("res://assets/ui/dialogue_box.png")
 
 # Generic floating-panel chrome (popups, HUD readouts)
 const PANEL := preload("res://assets/ui/book/banner.png")
-const PANEL_SLICE_MARGIN := 4
+const PANEL_SLICE_MARGIN := 14
 
 # puzzle_panel's main panel background.
 const PUZZLE_PANEL_BG := preload("res://assets/ui/book/puzzel.png")
@@ -72,7 +72,7 @@ const FONT_SIZE_XS      := 6   # smallest — tags, encounter counts, fine-print
 # Icon Button Sprite Size
 const ICON_CELL_W := 24
 const ICON_CELL_H := 24
-const ICON_SLICE_MARGIN := 4
+const ICON_SLICE_MARGIN := 3
 
 # Row index inside icon sheet (0-based)
 const ICON_ROW_DICTIONARY := 0
@@ -128,6 +128,11 @@ func apply_button_theme(btn: Button, _variant: String) -> void:
 	btn.add_theme_color_override("font_pressed_color", TEXT_DISABLED)
 	btn.add_theme_color_override("font_disabled_color", TEXT_DISABLED)
 	btn.add_theme_color_override("font_focus_color", TEXT_DEFAULT)
+	
+	if _variant == "danger":
+		btn.modulate = Color(1.3, 0.75, 0.75)
+	else:
+		btn.modulate = Color.WHITE
 
 ## Builds one StyleBoxTexture for a given row/col cell of the sheet.
 func _make_icon_style(row: int, col: int) -> StyleBoxTexture:
@@ -146,7 +151,6 @@ func apply_icon_button_theme(btn: Button, variant: String) -> void:
 	btn.add_theme_stylebox_override("disabled", _make_icon_style(row, COL_DISABLED))
 	btn.add_theme_stylebox_override("focus",    _make_icon_style(row, COL_FOCUSED))
 
-	btn.custom_minimum_size = Vector2(ICON_CELL_W*0.8, ICON_CELL_H*0.8)
 	btn.text = ""  # icon-only, no label
 
 # Nine-slice margin

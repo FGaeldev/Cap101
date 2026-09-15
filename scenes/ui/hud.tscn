@@ -22,6 +22,8 @@ offset_right = 63.0
 offset_bottom = 46.0
 
 [node name="MenuButton" type="Button" parent="." unique_id=1114267016]
+custom_minimum_size = Vector2(18, 18)
+custom_maximum_size = Vector2(18, 18)
 anchors_preset = -1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -32,7 +34,8 @@ offset_bottom = 26.0
 grow_horizontal = 0
 
 [node name="InteractButton" type="Button" parent="." unique_id=1082605464]
-visible = false
+custom_minimum_size = Vector2(24, 24)
+custom_maximum_size = Vector2(24, 24)
 anchors_preset = -1
 anchor_left = 1.0
 anchor_top = 1.0
@@ -44,4 +47,3 @@ offset_right = -36.0
 offset_bottom = -52.0
 grow_horizontal = 0
 grow_vertical = 0
-text = "Talk"

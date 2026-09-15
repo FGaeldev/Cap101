@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://c8a8w2jxcy0ey" path="res://assets/ui/book/exit_icon.png" id="10_u0r3w"]
 [ext_resource type="Texture2D" uid="uid://cg3uyf6a43cge" path="res://assets/ui/book/left_icon.png" id="11_iivqe"]
 [ext_resource type="Texture2D" uid="uid://bwdvlgc7nf325" path="res://assets/ui/book/right_icon.png" id="12_jyi8r"]
+[ext_resource type="PackedScene" path="res://scenes/ui/confirm_popup.tscn" id="15_5x655"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xrivr"]
 texture = ExtResource("1_danvl")
@@ -197,3 +198,6 @@ custom_minimum_size = Vector2(16, 14)
 layout_mode = 2
 icon = ExtResource("12_jyi8r")
 flat = true
+
+[node name="ConfirmPopup" parent="Root" unique_id=1664200213 instance=ExtResource("15_5x655")]
+layout_mode = 1

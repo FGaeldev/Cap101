@@ -75,7 +75,7 @@ func _apply_style() -> void:
 	_style_btn(start_btn, "secondary")
 	_style_btn(continue_btn, "secondary")
 	_style_btn(settings_btn, "secondary")
-	_style_btn(quit_btn,     "secondary")
+	_style_btn(quit_btn,     "danger")
 
 func _style_btn(btn: Button, variant: String) -> void:
 	UIThemeApplier.apply_button_theme(btn, variant)
