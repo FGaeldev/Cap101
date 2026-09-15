@@ -19,10 +19,7 @@ class_name WorldTaskComponent
 func _ready() -> void:
 	# register on ready, call through autoload — matches TDD §2 pattern
 	interactable.interacted.connect(_on_interacted)
-<<<<<<< HEAD
-=======
 	TaskManager.task_completed.connect(_on_task_complete)
->>>>>>> origin/master
 
 
 func _on_interacted(_interactor: Node) -> void:
@@ -31,10 +28,7 @@ func _on_interacted(_interactor: Node) -> void:
 			TaskManager.start_task(task_id)
 		"target":
 			if TaskManager.get_current_step(task_id) == required_step:
-<<<<<<< HEAD
-=======
 				print(TaskManager.get_current_step(task_id))
->>>>>>> origin/master
 				TaskManager.advance_task_step(task_id)
 
 	# fire popup AFTER task logic, only if this instance opts in
@@ -77,8 +71,6 @@ func _show_popup() -> void:
 	# close button + click-outside both dismiss — queue_free either way, no dupes
 	close_button.pressed.connect(popup.queue_free)
 	popup.popup_hide.connect(popup.queue_free)
-<<<<<<< HEAD
-=======
 	
 func _show_complete_popup(text: String) -> void:
 	# themed panel — uses same nine-slice chrome as dialogue box, not default AcceptDialog
@@ -110,4 +102,3 @@ func _show_complete_popup(text: String) -> void:
 	
 func _on_task_complete(task_id: String) -> void:
 	_show_complete_popup("Congratulations")
->>>>>>> origin/master
