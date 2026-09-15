@@ -4,11 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cce6nypc04qi6" path="res://assets/tilesets/Conveyer.png" id="2_68mw7"]
 [ext_resource type="PackedScene" uid="uid://brd713x4jvfe8" path="res://scenes/entities/Player.tscn" id="4_oga2c"]
 [ext_resource type="PackedScene" path="res://scenes/entities/test_task_giver.tscn" id="7_giver"]
-<<<<<<< HEAD
-[ext_resource type="PackedScene" path="res://scenes/entities/test_task_target.tscn" id="8_target"]
-=======
 [ext_resource type="PackedScene" uid="uid://dk4r5iud0tx3i" path="res://scenes/entities/test_task_target.tscn" id="8_target"]
->>>>>>> origin/master
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_whpi7"]
 texture = ExtResource("1_wct3j")
@@ -376,12 +372,8 @@ position = Vector2(522, 53)
 [node name="TestTaskTargetB" parent="." unique_id=1018099446 instance=ExtResource("8_target")]
 position = Vector2(28, 195)
 
-<<<<<<< HEAD
-[editable path="TestTaskGiver"]
-=======
 [node name="WorldTaskComponent" parent="TestTaskTargetB" index="4"]
 required_step = 1
 
 [editable path="TestTaskGiver"]
 [editable path="TestTaskTargetB"]
->>>>>>> origin/master
