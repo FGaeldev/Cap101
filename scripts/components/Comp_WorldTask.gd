@@ -19,6 +19,10 @@ class_name WorldTaskComponent
 func _ready() -> void:
 	# register on ready, call through autoload — matches TDD §2 pattern
 	interactable.interacted.connect(_on_interacted)
+<<<<<<< HEAD
+=======
+	TaskManager.task_completed.connect(_on_task_complete)
+>>>>>>> origin/master
 
 
 func _on_interacted(_interactor: Node) -> void:
@@ -27,6 +31,10 @@ func _on_interacted(_interactor: Node) -> void:
 			TaskManager.start_task(task_id)
 		"target":
 			if TaskManager.get_current_step(task_id) == required_step:
+<<<<<<< HEAD
+=======
+				print(TaskManager.get_current_step(task_id))
+>>>>>>> origin/master
 				TaskManager.advance_task_step(task_id)
 
 	# fire popup AFTER task logic, only if this instance opts in
@@ -69,3 +77,37 @@ func _show_popup() -> void:
 	# close button + click-outside both dismiss — queue_free either way, no dupes
 	close_button.pressed.connect(popup.queue_free)
 	popup.popup_hide.connect(popup.queue_free)
+<<<<<<< HEAD
+=======
+	
+func _show_complete_popup(text: String) -> void:
+	# themed panel — uses same nine-slice chrome as dialogue box, not default AcceptDialog
+	var popup := PopupPanel.new()
+	popup.add_theme_stylebox_override("panel", UIThemeApplier.make_dialogue_style())
+
+	var vbox := VBoxContainer.new()
+	popup.add_child(vbox)
+
+	var text_label := Label.new()
+	text_label.text = text
+	text_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_M)
+	text_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
+	text_label.autowrap_mode = TextServer.AUTOWRAP_WORD
+	vbox.add_child(text_label)
+	
+	var close_button := Button.new()
+	close_button.text = "Close"
+	UIThemeApplier.apply_button_theme(close_button, "confirm")
+	close_button.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
+	vbox.add_child(close_button)
+
+	get_tree().root.add_child(popup)
+	popup.popup_centered()
+
+	# close button + click-outside both dismiss — queue_free either way, no dupes
+	close_button.pressed.connect(popup.queue_free)
+	popup.popup_hide.connect(popup.queue_free)
+	
+func _on_task_complete(task_id: String) -> void:
+	_show_complete_popup("Congratulations")
+>>>>>>> origin/master
