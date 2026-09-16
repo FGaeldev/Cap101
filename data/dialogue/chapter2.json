@@ -1,23 +1,30 @@
 {
-	"scene_2_field_notes": [
-		{
-			"speaker": "",
-			"text": "You flip open your field notes before heading out.",
-			"translation": "You flip open your field notes before heading out.",
-			"word_ids": [],
-			"next": 1
-		},
-		{
-			"type": "challenge_gate",
-			"challenge_id": "ch2_tutorial_field_notes",
-			"next_on_pass": 2
-		},
-		{
-			"speaker": "",
-			"text": "Notes checked. Time to head to Bakhawan.",
-			"translation": "Notes checked. Time to head to Bakhawan.",
-			"word_ids": [],
-			"next": null
-		}
-	]
+"scene_2_field_notes": [
+{
+"start_index_if_flag": {
+"default": 0
+}
+},
+{
+"speaker": "",
+"text": "You flip open your field notes before heading out.",
+"translation": "You flip open your field notes before heading out.",
+"word_ids": [],
+"next": 1
+},
+{
+"type": "challenge_gate",
+"challenge_id": "ch2_tutorial_field_notes",
+"next_on_pass": 2,
+"set_flag_on_enter": ""
+},
+{
+"speaker": "",
+"text": "Notes checked. Time to head to Bakhawan.",
+"translation": "Notes checked. Time to head to Bakhawan.",
+"word_ids": [],
+"next": null,
+"set_flag_on_enter": ""
+}
+]
 }
