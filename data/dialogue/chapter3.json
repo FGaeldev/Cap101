@@ -296,11 +296,6 @@
 	"idle_pool_manang_loleng": {
 		"low": [
 			{
-				"start_index_if_flag": {
-					"default": 0
-				}
-			},
-			{
 				"speaker": "",
 				"text": "Hinahaplos ni Manang Loleng ang tela, para bang bawat hibla ay may kwento.",
 				"word_ids": []
@@ -349,11 +344,6 @@
 	},
 	"idle_pool_rose": {
 		"low": [
-			{
-				"start_index_if_flag": {
-					"default": 0
-				}
-			},
 			{
 				"speaker": "Rose",
 				"text": "Wag mo akong tignan nang ganyan, hindi ako tour guide. ...okay, konti lang.",
@@ -451,11 +441,6 @@
 	},
 	"idle_pool_lola_jonabel": {
 		"low": [
-			{
-				"start_index_if_flag": {
-					"default": 0
-				}
-			},
 			{
 				"speaker": "",
 				"text": "Kadugay ko na di nakatilaw sang kan-on nga tumbien sa balay ni Susan.",

@@ -11,11 +11,14 @@ func get_scene_lines(chapter_id: String, scene_key: String) -> Array:
 	return _cache.get(chapter_id, {}).get(scene_key, [])
 
 ## Idle pools live as sibling top-level keys in the same chapter JSON
-## (e.g. "idle_pool_lola_jonabel"), same {key: [lines]} shape as a scene --
-## alias kept separate from get_scene_lines() only for call-site clarity
-## (TDD_Addendum_ProfFeedback.md §2), not because the lookup differs.
-func get_idle_pool(chapter_id: String, pool_key: String) -> Array:
-	return get_scene_lines(chapter_id, pool_key)
+## (e.g. "idle_pool_lola_jonabel"), but are rapport-TIERED, not a flat line
+## array like a scene: {"low": [lines], "med": [lines], "high": [lines]}.
+## Returns the raw Dictionary -- tier selection is Comp_Dialogue's job
+## (it has npc_id + reads GameState.rapport), not ChapterLoader's.
+func get_idle_pool(chapter_id: String, pool_key: String) -> Dictionary:
+	if not _cache.has(chapter_id):
+		_load_chapter(chapter_id)
+	return _cache.get(chapter_id, {}).get(pool_key, {})
 
 func _load_chapter(chapter_id: String) -> void:
 	var path = "res://data/dialogue/%s.json" % chapter_id

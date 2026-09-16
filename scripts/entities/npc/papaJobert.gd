@@ -13,10 +13,17 @@ extends CharacterBody2D
 ## interacts draw from idle_pool_key instead of replaying it.
 @export var story_done_flag: String = "story_done_papa_jobert_scene1"
 
+## Rapport/patience key AND dialogue "speaker" string match this exactly
+## (GameState.rapport is keyed by speaker name, see Comp_Dialogue._last_speaker).
+## Was previously never set anywhere -- idle pool rapport-tier lookup was
+## silently reading rapport for "" the whole time.
+@export var npc_id: String = "Papa Jobert"
+
 @onready var interactable: InteractableComponent = $InteractableComponent
 @onready var dialogue: DialogueComponent = $DialogueComponent
 
 func _ready() -> void:
+	dialogue.npc_id = npc_id
 	interactable.interacted.connect(_on_interacted)
 	dialogue.dialogue_ended.connect(_on_dialogue_ended)
 	call_deferred("_register")

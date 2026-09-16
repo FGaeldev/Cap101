@@ -160,11 +160,6 @@
 	"idle_pool_kapitan_julian": {
 		"low": [
 			{
-				"start_index_if_flag": {
-					"default": 0
-				}
-			},
-			{
 				"speaker": "Kapitan Julian",
 				"text": "Kada tuig, mas grabe ang preparation. Pero indi ko gid ni ibaylo sa iba.",
 				"word_ids": []
@@ -212,11 +207,6 @@
 	},
 	"idle_pool_rose": {
 		"low": [
-			{
-				"start_index_if_flag": {
-					"default": 0
-				}
-			},
 			{
 				"speaker": "Rose",
 				"text": "Wag mo akong tignan nang ganyan, hindi ako tour guide. ...okay, konti lang.",
@@ -349,11 +339,6 @@
 	},
 	"idle_pool_lola_susan": {
 		"low": [
-			{
-				"start_index_if_flag": {
-					"default": 0
-				}
-			},
 			{
 				"speaker": "Lola Susan",
 				"text": "Halong, apo — mainit gid diri sa Aklan, indi pareho sa America.",

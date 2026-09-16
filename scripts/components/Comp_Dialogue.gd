@@ -10,7 +10,8 @@ var _current_line: int = 0
 var _last_speaker: String = ""   # most recent non-blank speaker; choice deltas attribute to this NPC
 var _pending_gate_id: String = ""   # challenge_id this component is currently waiting on, "" if none
 var _pending_gate_next = null       # next_on_pass to jump to once _pending_gate_id passes
-var _idle_bag: Array = []           # shuffle-bag of remaining indices into the last idle pool passed in
+var _idle_bag: Array = []           # shuffle-bag of remaining indices into the current tier's array
+var _idle_bag_tier: String = ""     # which tier _idle_bag was drawn from, forces reshuffle on tier change
 
 ## Emitted once dialogue reaches its end (linear falls off the end, a choice
 ## resolves to no next, or a challenge_gate's _end() path fires). Callers use
@@ -23,41 +24,42 @@ signal dialogue_ended
 func start_dialogue() -> void:
 	_current_line = 0
 	_last_speaker = ""
-	if not dialogue_lines.is_empty() and dialogue_lines[0].get("type", "") == "start_router":
-		_current_line = _resolve_router(dialogue_lines[0])
 	_show_line()
 
-## Resolves a "start_router" line (always index 0, never shown to player) to
-## a start index based on flags set by an earlier scene/choice/gate outcome
-## (see set_flag_on_enter in _show_line). Lets a scene re-enter at a
-## different point depending on prior player history, instead of always
-## restarting at line 0 — this is the reactive-branch hook (GDD §6.10).
-## start_index_if_flag: {flag_id: index, ..., "default": index}. Checked in
-## declaration order, first true flag wins; "default" (or 0) if none match.
-func _resolve_router(router_line: Dictionary) -> int:
-	var flag_map: Dictionary = router_line.get("start_index_if_flag", {})
-	for flag_id in flag_map.keys():
-		if flag_id == "default":
-			continue
-		if GameState.get_flag(flag_id):
-			return flag_map[flag_id]
-	return flag_map.get("default", 0)
+## Rapport tier cutoffs for idle pool selection. Matches the 3-tier JSON
+## shape ("low"/"med"/"high") authored per NPC. Out of 10.0 RAPPORT_MAX.
+const RAPPORT_TIER_MED := 3.0
+const RAPPORT_TIER_HIGH := 7.0
 
 ## Idle/ambient line, drawn from an NPC's idle pool via shuffle-bag
 ## (draw-without-replacement, reshuffle when exhausted) so repeat visits
 ## don't repeat the same line back to back. Idle lines are leaf nodes -- no
 ## choices, no "next" -- so this reuses the normal single-line dialogue
-## path unchanged (TDD_Addendum_ProfFeedback.md §2). Caller passes the pool
-## fresh each call (ChapterLoader.get_idle_pool); bag state persists on this
-## component instance across calls within the same play session.
-func start_idle_dialogue(pool: Array) -> void:
+## path unchanged (TDD_Addendum_ProfFeedback.md §2). Caller passes the raw
+## tiered pool each call (ChapterLoader.get_idle_pool); this picks the
+## rapport-appropriate tier using this component's own npc_id, THEN
+## shuffle-bags within that tier. Bag is per-tier so switching tiers
+## mid-session (rapport crossing a threshold) doesn't carry over draw state
+## from a different tier's array.
+func start_idle_dialogue(pool_data: Dictionary) -> void:
+	var tier: String = _get_rapport_tier()
+	var pool: Array = pool_data.get(tier, [])
 	if pool.is_empty():
 		return
-	if _idle_bag.is_empty():
+	if _idle_bag.is_empty() or _idle_bag_tier != tier:
 		_refill_idle_bag(pool.size())
+		_idle_bag_tier = tier
 	var idx: int = _idle_bag.pop_back()
 	dialogue_lines = [pool[idx]]
 	start_dialogue()
+
+func _get_rapport_tier() -> String:
+	var rapport: float = GameState.get_rapport(npc_id)
+	if rapport >= RAPPORT_TIER_HIGH:
+		return "high"
+	elif rapport >= RAPPORT_TIER_MED:
+		return "med"
+	return "low"
 
 func _refill_idle_bag(size: int) -> void:
 	_idle_bag.clear()
@@ -140,12 +142,6 @@ func _show_line() -> void:
 	var speaker: String = line.get("speaker", "")
 	if not speaker.is_empty():
 		_last_speaker = speaker   # tracked for choice-delta attribution + patience_branch reads
-
-	# Reactive branch write (GDD §6.10): marks this line's outcome for a later
-	# scene's start_router to read. Fires on show, not on advance-past, so it
-	# records "player reached this line" regardless of how they leave it.
-	if line.has("set_flag_on_enter"):
-		GameState.set_flag(line["set_flag_on_enter"])
 
 	# Branch or linear
 	if line.has("choices") and not line["choices"].is_empty():

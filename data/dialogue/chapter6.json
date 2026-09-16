@@ -151,11 +151,6 @@
 	"idle_pool_tita_beth": {
 		"low": [
 			{
-				"start_index_if_flag": {
-					"default": 0
-				}
-			},
-			{
 				"speaker": "Tita Beth",
 				"text": "Damo turista gapunta diri, pero pila lang gid ang nagabalik sa Kalibo. Ikaw lain siguro, ha?",
 				"word_ids": []
@@ -193,11 +188,6 @@
 	},
 	"idle_pool_lola_jonabel": {
 		"low": [
-			{
-				"start_index_if_flag": {
-					"default": 0
-				}
-			},
 			{
 				"speaker": "",
 				"text": "Kadugay ko na di nakatilaw sang kan-on nga tumbien sa balay ni Susan.",
@@ -277,11 +267,6 @@
 	"idle_pool_papa_jobert": {
 		"low": [
 			{
-				"start_index_if_flag": {
-					"default": 0
-				}
-			},
-			{
 				"speaker": "",
 				"text": "Kinukuha ni Papa Jobert ang kanyang phone, kunwari kukuha ng litrato pero halatang nostalgic lang.",
 				"word_ids": []
@@ -354,11 +339,6 @@
 	},
 	"idle_pool_lola_susan": {
 		"low": [
-			{
-				"start_index_if_flag": {
-					"default": 0
-				}
-			},
 			{
 				"speaker": "Lola Susan",
 				"text": "Halong, apo — mainit gid diri sa Aklan, indi pareho sa America.",
@@ -456,11 +436,6 @@
 	},
 	"idle_pool_rose": {
 		"low": [
-			{
-				"start_index_if_flag": {
-					"default": 0
-				}
-			},
 			{
 				"speaker": "Rose",
 				"text": "Wag mo akong tignan nang ganyan, hindi ako tour guide. ...okay, konti lang.",
