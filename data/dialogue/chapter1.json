@@ -332,7 +332,8 @@
 "set_flag_on_enter": ""
 }
 ],
-"idle_pool_lola_jonabel": [
+"idle_pool_lola_jonabel": {
+"low": [
 {
 "start_index_if_flag": {
 "default": 0
@@ -344,16 +345,18 @@
 "word_ids": []
 },
 {
+"speaker": "",
+"text": "Napahiling si Lola Jonabel sa bintana, nakangiti nang walang partikular na dahilan.",
+"word_ids": []
+}
+],
+"med": [
+{
 "speaker": "Lola Jonabel",
 "text": "Player, do not forget to write to your Lola back home too. Distance should never mean silence.",
 "word_ids": [
 "w128"
 ]
-},
-{
-"speaker": "",
-"text": "Napahiling si Lola Jonabel sa bintana, nakangiti nang walang partikular na dahilan.",
-"word_ids": []
 },
 {
 "speaker": "Lola Jonabel",
@@ -363,11 +366,6 @@
 {
 "speaker": "Lola Jonabel",
 "text": "This town raised me before it raised your Tita Susan. Funny how it still feels the same.",
-"word_ids": []
-},
-{
-"speaker": "",
-"text": "Hinihipo ni Lola Jonabel ang lumang litrato sa kanyang bag, hindi napapansin na napapangiti siya.",
 "word_ids": []
 },
 {
@@ -381,12 +379,33 @@
 "word_ids": []
 }
 ],
-"idle_pool_papa_jobert": [
+"high": [
+{
+"speaker": "",
+"text": "Hinihipo ni Lola Jonabel ang lumang litrato sa kanyang bag, hindi napapansin na napapangiti siya.",
+"word_ids": []
+}
+]
+},
+"idle_pool_papa_jobert": {
+"low": [
 {
 "start_index_if_flag": {
 "default": 0
 }
 },
+{
+"speaker": "",
+"text": "Kinukuha ni Papa Jobert ang kanyang phone, kunwari kukuha ng litrato pero halatang nostalgic lang.",
+"word_ids": []
+},
+{
+"speaker": "",
+"text": "Napapatango-tango si Papa Jobert habang naglalakad, parang bawat kanto may kwento.",
+"word_ids": []
+}
+],
+"med": [
 {
 "speaker": "Papa Jobert",
 "text": "Grabe 'to, parang bata ulit ako pag nandito. Sobrang dami ng memories, anak.",
@@ -395,11 +414,6 @@
 {
 "speaker": "Papa Jobert",
 "text": "Huwag kang mag-alala kay Rose, ganyan talaga siya. Marunong naman siya magturo, promise.",
-"word_ids": []
-},
-{
-"speaker": "",
-"text": "Kinukuha ni Papa Jobert ang kanyang phone, kunwari kukuha ng litrato pero halatang nostalgic lang.",
 "word_ids": []
 },
 {
@@ -414,21 +428,20 @@
 },
 {
 "speaker": "Papa Jobert",
-"text": "Sobrang saya ni Lola ngayon, no? Sulit lahat ng jetlag para diyan.",
-"word_ids": []
-},
-{
-"speaker": "Papa Jobert",
 "text": "Kung may makalimutan tayo, ako na bahala. Ikaw, focus ka lang sa pag-aaral.",
-"word_ids": []
-},
-{
-"speaker": "",
-"text": "Napapatango-tango si Papa Jobert habang naglalakad, parang bawat kanto may kwento.",
 "word_ids": []
 }
 ],
-"idle_pool_lola_susan": [
+"high": [
+{
+"speaker": "Papa Jobert",
+"text": "Sobrang saya ni Lola ngayon, no? Sulit lahat ng jetlag para diyan.",
+"word_ids": []
+}
+]
+},
+"idle_pool_lola_susan": {
+"low": [
 {
 "start_index_if_flag": {
 "default": 0
@@ -447,12 +460,9 @@
 "word_ids": [
 "w006"
 ]
-},
-{
-"speaker": "",
-"text": "Ngumiti si Lola Susan, hinahaplos ang balikat ni Jonabel na parang natatakot pang mawala ulit ito.",
-"word_ids": []
-},
+}
+],
+"med": [
 {
 "speaker": "Lola Susan",
 "text": "Rose is a good girl, ha. Sharp lidah lang — sharp tongue. Her heart is bigger than that mouth.",
@@ -461,11 +471,6 @@
 {
 "speaker": "Lola Susan",
 "text": "Sabihin mo sa akin kung ano pa gusto mong makita dito. Ipapakita ko lahat.",
-"word_ids": []
-},
-{
-"speaker": "Lola Susan",
-"text": "Dati pa, magkasama kami ni Jonabel sa lahat. Ngayon, ikaw naman ang kasama niya.",
 "word_ids": []
 },
 {
@@ -479,7 +484,21 @@
 "word_ids": []
 }
 ],
-"idle_pool_rose": [
+"high": [
+{
+"speaker": "",
+"text": "Ngumiti si Lola Susan, hinahaplos ang balikat ni Jonabel na parang natatakot pang mawala ulit ito.",
+"word_ids": []
+},
+{
+"speaker": "Lola Susan",
+"text": "Dati pa, magkasama kami ni Jonabel sa lahat. Ngayon, ikaw naman ang kasama niya.",
+"word_ids": []
+}
+]
+},
+"idle_pool_rose": {
+"low": [
 {
 "start_index_if_flag": {
 "default": 0
@@ -504,6 +523,13 @@
 },
 {
 "speaker": "Rose",
+"text": "Wag kang mag-expect ng slack sa 'kin kasi pinsan ka daw ni Tita Susan. Rules apply to everyone.",
+"word_ids": []
+}
+],
+"med": [
+{
+"speaker": "Rose",
 "text": "My Lola Susan talks about your Lola Jonabel parang superhero pa. Big shoes to fill, balikbayan.",
 "word_ids": []
 },
@@ -511,7 +537,9 @@
 "speaker": "Rose",
 "text": "Fine, you're not completely hopeless. ...don't let that get to your head.",
 "word_ids": []
-},
+}
+],
+"high": [
 {
 "speaker": "Rose",
 "text": "Alam mo, hindi ko rin naman gustong magturo dati. Pero, sige na nga.",
@@ -521,11 +549,7 @@
 "speaker": "",
 "text": "Napailing si Rose, pero halatang pigil ang ngiti.",
 "word_ids": []
-},
-{
-"speaker": "Rose",
-"text": "Wag kang mag-expect ng slack sa 'kin kasi pinsan ka daw ni Tita Susan. Rules apply to everyone.",
-"word_ids": []
 }
 ]
+}
 }

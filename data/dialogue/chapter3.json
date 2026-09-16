@@ -296,16 +296,12 @@
 "set_flag_on_enter": ""
 }
 ],
-"idle_pool_manang_loleng": [
+"idle_pool_manang_loleng": {
+"low": [
 {
 "start_index_if_flag": {
 "default": 0
 }
-},
-{
-"speaker": "Manang Loleng",
-"text": "Ang akon lola, siya nagtudlo sa akon sang hablon. Pareho man sa imo, apo, tudlo halin sa lola.",
-"word_ids": []
 },
 {
 "speaker": "",
@@ -319,9 +315,15 @@
 },
 {
 "speaker": "Manang Loleng",
-"text": "Damo turista nagalabay diri, pero gadiit lang tumindog. Ikaw, lain — nagpabilin ka.",
-"word_ids": [],
-"translation": "Many tourists pass by here, but just stand and look. You're different — you stayed."
+"text": "Sa uma pa lang, damo trabaho na. Diri lang nagatapos ang una nga parte.",
+"word_ids": []
+}
+],
+"med": [
+{
+"speaker": "Manang Loleng",
+"text": "Ang akon lola, siya nagtudlo sa akon sang hablon. Pareho man sa imo, apo, tudlo halin sa lola.",
+"word_ids": []
 },
 {
 "speaker": "",
@@ -337,14 +339,19 @@
 "speaker": "Manang Loleng",
 "text": "Ipabaton ko sa imo Lola Jonabel ni. Siguro madumduman niya ang iya lola man.",
 "word_ids": []
-},
-{
-"speaker": "Manang Loleng",
-"text": "Sa uma pa lang, damo trabaho na. Diri lang nagatapos ang una nga parte.",
-"word_ids": []
 }
 ],
-"idle_pool_rose": [
+"high": [
+{
+"speaker": "Manang Loleng",
+"text": "Damo turista nagalabay diri, pero gadiit lang tumindog. Ikaw, lain — nagpabilin ka.",
+"word_ids": [],
+"translation": "Many tourists pass by here, but just stand and look. You're different — you stayed."
+}
+]
+},
+"idle_pool_rose": {
+"low": [
 {
 "start_index_if_flag": {
 "default": 0
@@ -369,6 +376,25 @@
 },
 {
 "speaker": "Rose",
+"text": "Wag kang mag-expect ng slack sa 'kin kasi pinsan ka daw ni Tita Susan. Rules apply to everyone.",
+"word_ids": []
+},
+{
+"speaker": "",
+"text": "Tumingin si Rose sa mapa, tapos kay Player, parang sinusukat ang route.",
+"word_ids": []
+},
+{
+"speaker": "Rose",
+"text": "Magbulig ako sa imo, pero indi ako mangin madali. Deal pa rin 'yun.",
+"word_ids": [
+"w130"
+]
+}
+],
+"med": [
+{
+"speaker": "Rose",
 "text": "My Lola Susan talks about your Lola Jonabel parang superhero pa. Big shoes to fill, balikbayan.",
 "word_ids": []
 },
@@ -377,6 +403,33 @@
 "text": "Fine, you're not completely hopeless. ...don't let that get to your head.",
 "word_ids": []
 },
+{
+"speaker": "Rose",
+"text": "Stop overthinking the pronunciation. Just say it. Worst case, I laugh at you.",
+"word_ids": []
+},
+{
+"speaker": "Rose",
+"text": "Manong Pedring likes you. That's rare — he's picky about balikbayans.",
+"word_ids": []
+},
+{
+"speaker": "Rose",
+"text": "You're actually trying. Didn't expect that, not gonna lie.",
+"word_ids": []
+},
+{
+"speaker": "",
+"text": "Tinitignan ni Rose ang unang linya ng weaving ni Player, tapos tumango, medyo impressed.",
+"word_ids": []
+},
+{
+"speaker": "Rose",
+"text": "You're better at this than the greeting stuff, honestly. Weird flex, but okay.",
+"word_ids": []
+}
+],
+"high": [
 {
 "speaker": "Rose",
 "text": "Alam mo, hindi ko rin naman gustong magturo dati. Pero, sige na nga.",
@@ -389,49 +442,7 @@
 },
 {
 "speaker": "Rose",
-"text": "Wag kang mag-expect ng slack sa 'kin kasi pinsan ka daw ni Tita Susan. Rules apply to everyone.",
-"word_ids": []
-},
-{
-"speaker": "Rose",
-"text": "Stop overthinking the pronunciation. Just say it. Worst case, I laugh at you.",
-"word_ids": []
-},
-{
-"speaker": "",
-"text": "Tumingin si Rose sa mapa, tapos kay Player, parang sinusukat ang route.",
-"word_ids": []
-},
-{
-"speaker": "Rose",
-"text": "Manong Pedring likes you. That's rare — he's picky about balikbayans.",
-"word_ids": []
-},
-{
-"speaker": "Rose",
-"text": "Magbulig ako sa imo, pero indi ako mangin madali. Deal pa rin 'yun.",
-"word_ids": [
-"w130"
-]
-},
-{
-"speaker": "Rose",
-"text": "You're actually trying. Didn't expect that, not gonna lie.",
-"word_ids": []
-},
-{
-"speaker": "Rose",
 "text": "I actually like it here. Don't tell Manang Loleng I said that, she'll never let me hear the end of it.",
-"word_ids": []
-},
-{
-"speaker": "",
-"text": "Tinitignan ni Rose ang unang linya ng weaving ni Player, tapos tumango, medyo impressed.",
-"word_ids": []
-},
-{
-"speaker": "Rose",
-"text": "You're better at this than the greeting stuff, honestly. Weird flex, but okay.",
 "word_ids": []
 },
 {
@@ -439,8 +450,10 @@
 "text": "Magtuon ka pa sang isara ka leksyon, tapos indi ka na balikbayan sa akon. Promise.",
 "word_ids": []
 }
-],
-"idle_pool_lola_jonabel": [
+]
+},
+"idle_pool_lola_jonabel": {
+"low": [
 {
 "start_index_if_flag": {
 "default": 0
@@ -452,13 +465,15 @@
 "word_ids": []
 },
 {
-"speaker": "Lola Jonabel",
-"text": "Player, do not forget to write to your Lola back home too. Distance should never mean silence.",
-"word_ids": []
-},
-{
 "speaker": "",
 "text": "Napahiling si Lola Jonabel sa bintana, nakangiti nang walang partikular na dahilan.",
+"word_ids": []
+}
+],
+"med": [
+{
+"speaker": "Lola Jonabel",
+"text": "Player, do not forget to write to your Lola back home too. Distance should never mean silence.",
 "word_ids": []
 },
 {
@@ -472,11 +487,6 @@
 "word_ids": []
 },
 {
-"speaker": "",
-"text": "Hinihipo ni Lola Jonabel ang lumang litrato sa kanyang bag, hindi napapansin na napapangiti siya.",
-"word_ids": []
-},
-{
 "speaker": "Lola Jonabel",
 "text": "Marami pang lugar dito na gusto kong ipakita sa'yo, Apo. Isa-isa lang.",
 "word_ids": []
@@ -484,6 +494,18 @@
 {
 "speaker": "Lola Jonabel",
 "text": "Alam mo, kahit gaano man katagal, parang kailan lang 'yong huling beses ko dito.",
+"word_ids": []
+},
+{
+"speaker": "Lola Jonabel",
+"text": "Ingatan mo 'yang bookmark. It's not just cloth, it's somebody's years of patience.",
+"word_ids": []
+}
+],
+"high": [
+{
+"speaker": "",
+"text": "Hinihipo ni Lola Jonabel ang lumang litrato sa kanyang bag, hindi napapansin na napapangiti siya.",
 "word_ids": []
 },
 {
@@ -495,11 +517,7 @@
 "speaker": "Lola Jonabel",
 "text": "My own lola wove like this too, Apo. Small world, isn't it — some things never change here.",
 "word_ids": []
-},
-{
-"speaker": "Lola Jonabel",
-"text": "Ingatan mo 'yang bookmark. It's not just cloth, it's somebody's years of patience.",
-"word_ids": []
 }
 ]
+}
 }
