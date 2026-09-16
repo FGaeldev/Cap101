@@ -3,12 +3,13 @@
 		{
 			"start_index_if_flag": {
 				"default": 0
-			}
+			},
+			"type": "start_router"
 		},
 		{
 			"speaker": "Lola Jonabel",
 			"text": "Nahidlaw gid ako sa Aklan.",
-			"next": 1,
+			"next": 2,
 			"translation": "I really miss Aklan.",
 			"word_ids": [
 				"w128"
@@ -17,17 +18,17 @@
 		{
 			"speaker": "Player",
 			"text": "Grandma, are you okay? You've been staring at that photo for a while.",
-			"next": 2
+			"next": 3
 		},
 		{
 			"speaker": "Lola Jonabel",
 			"text": "I just want to go back. One more kauli, before... before I get too old to travel.",
-			"next": 3
+			"next": 4
 		},
 		{
 			"speaker": "Player",
 			"text": "Then let's go. Talk to Dad.",
-			"next": 4
+			"next": 5
 		},
 		{
 			"speaker": "",
@@ -35,7 +36,7 @@
 			"choices": [
 				{
 					"label": "I'll help you plan it, Grandma. We're really going.",
-					"next": 5
+					"next": 6
 				},
 				{
 					"label": "I don't really know much about Aklan, but fine, let's try.",
@@ -51,7 +52,8 @@
 		{
 			"speaker": "Lola Jonabel",
 			"text": "Saeamat, Apo. This old heart needed to hear that.",
-			"next": 8
+			"next": 8,
+			"set_flag_on_enter": "warm_toward_lola"
 		},
 		{
 			"speaker": "Lola Jonabel",
@@ -61,7 +63,7 @@
 		{
 			"speaker": "Lola Jonabel",
 			"text": "Maybe. But some things are worth being tired for.",
-			"next": 8,
+			"next": 9,
 			"word_ids": [
 				"w012"
 			]
@@ -154,8 +156,10 @@
 	"scene_3_kalibo_town_proper_reunion": [
 		{
 			"start_index_if_flag": {
-				"default": 0
-			}
+				"warm_toward_lola": 1,
+				"default": 1
+			},
+			"type": "start_router"
 		},
 		{
 			"speaker": "Lola Susan",
