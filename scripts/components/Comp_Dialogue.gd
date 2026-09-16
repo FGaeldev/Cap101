@@ -36,22 +36,37 @@ const RAPPORT_TIER_HIGH := 7.0
 ## don't repeat the same line back to back. Idle lines are leaf nodes -- no
 ## choices, no "next" -- so this reuses the normal single-line dialogue
 ## path unchanged (TDD_Addendum_ProfFeedback.md §2). Caller passes the raw
-## tiered pool each call (ChapterLoader.get_idle_pool); this picks the
-## rapport-appropriate tier using this component's own npc_id, THEN
-## shuffle-bags within that tier. Bag is per-tier so switching tiers
-## mid-session (rapport crossing a threshold) doesn't carry over draw state
-## from a different tier's array.
+## tiered pool each call (ChapterLoader.get_idle_pool).
+##
+## Selection order: flag_overrides checked FIRST (challenge-mastery
+## consequence, e.g. "ch2_bakhawan_gate1_mastered" -- see GDD §6.10), first
+## true flag wins; only if none match does it fall through to the normal
+## rapport tier ("low"/"med"/"high"). This is the read side of the
+## no-punishment reward path -- only a PASS ever sets these flags
+## (ChallengeManager), so idle reactions are always positive/acknowledging,
+## never a penalty for a miss.
 func start_idle_dialogue(pool_data: Dictionary) -> void:
-	var tier: String = _get_rapport_tier()
-	var pool: Array = pool_data.get(tier, [])
+	var bucket_key: String = _resolve_idle_bucket(pool_data)
+	var pool: Array = pool_data.get("flag_overrides", {}).get(bucket_key, pool_data.get(bucket_key, []))
 	if pool.is_empty():
 		return
-	if _idle_bag.is_empty() or _idle_bag_tier != tier:
+	if _idle_bag.is_empty() or _idle_bag_tier != bucket_key:
 		_refill_idle_bag(pool.size())
-		_idle_bag_tier = tier
+		_idle_bag_tier = bucket_key
 	var idx: int = _idle_bag.pop_back()
 	dialogue_lines = [pool[idx]]
 	start_dialogue()
+
+## Picks which bucket of pool_data to draw from. flag_overrides keys are
+## checked in declaration order, first GameState-true flag wins (its key
+## doubles as the bucket key into flag_overrides). Falls back to the
+## rapport tier if no override flag is set.
+func _resolve_idle_bucket(pool_data: Dictionary) -> String:
+	var overrides: Dictionary = pool_data.get("flag_overrides", {})
+	for flag_id in overrides.keys():
+		if GameState.get_flag(flag_id):
+			return flag_id
+	return _get_rapport_tier()
 
 func _get_rapport_tier() -> String:
 	var rapport: float = GameState.get_rapport(npc_id)
