@@ -157,7 +157,7 @@
 	"scene_3_kalibo_town_proper_reunion": [
 		{
 			"start_index_if_flag": {
-				"warm_toward_lola": 1,
+				"warm_toward_lola": 12,
 				"default": 1
 			},
 			"type": "start_router"
@@ -234,6 +234,12 @@
 			"word_ids": [
 				"w130"
 			]
+		},
+		{
+			"speaker": "Lola Susan",
+			"text": "Jonabel! Siin ka eon, sister?! And this must be her -- I heard she's been so excited to finally come, bless her heart.",
+			"next": 2,
+			"translation": "Jonabel! Where have you been, sister?! And this must be her -- I heard she's been so excited to finally come, bless her heart."
 		}
 	],
 	"scene_4_vocabulary_practice_round_family_pronouns_numbers": [
