@@ -3,18 +3,19 @@
 		{
 			"start_index_if_flag": {
 				"default": 0
-			}
+			},
+			"type": "start_router"
 		},
 		{
 			"speaker": "Rose",
 			"text": "iya eon kita sa Caticlan. Sunod, sakay kita pa-Boracay.",
-			"next": 1,
+			"next": 2,
 			"translation": "We’re here at Caticlan. Next, we ride to Boracay."
 		},
 		{
 			"speaker": "Player",
 			"text": "Finally, the famous island.",
-			"next": 2
+			"next": 3
 		},
 		{
 			"speaker": "Papa Jobert",
@@ -27,18 +28,19 @@
 		{
 			"start_index_if_flag": {
 				"default": 0
-			}
+			},
+			"type": "start_router"
 		},
 		{
 			"speaker": "Tita Beth",
 			"text": "Mayad-ayad nga agahon, mga bisita! Welcome sa Boracay.",
-			"next": 1,
+			"next": 2,
 			"translation": "Good morning, visitors! Welcome to Boracay."
 		},
 		{
 			"speaker": "Rose",
 			"text": "This is my aunt, Tita Beth. She works in tourism here.",
-			"next": 2
+			"next": 3
 		},
 		{
 			"speaker": "Tita Beth",
@@ -54,18 +56,19 @@
 		{
 			"start_index_if_flag": {
 				"default": 0
-			}
+			},
+			"type": "start_router"
 		},
 		{
 			"speaker": "Tita Beth",
 			"text": "ro turismo iya ro naga-suporta sa komunidad. bukon sa eamang sa negosyo, kundi pati sa trabaho it tanan.",
-			"next": 1,
+			"next": 2,
 			"translation": "Tourism here supports the community. Not just business, but jobs for everyone."
 		},
 		{
 			"speaker": "Player",
 			"text": "So every visitor helps the locals too?",
-			"next": 2
+			"next": 3
 		},
 		{
 			"speaker": "Tita Beth",
@@ -81,12 +84,13 @@
 		{
 			"start_index_if_flag": {
 				"default": 0
-			}
+			},
+			"type": "start_router"
 		},
 		{
 			"speaker": "Rose",
 			"text": "Sakay — ride. Pahuway — rest. Eangoy — swim. Baybay — shore.",
-			"next": 1,
+			"next": 2,
 			"word_ids": [
 				"w130",
 				"w131",
@@ -96,7 +100,7 @@
 		{
 			"speaker": "Rose",
 			"text": "Balik — return. Warang— travel. Bisita — visitor. Turista — tourist.",
-			"next": 2,
+			"next": 3,
 			"word_ids": [
 				"w133",
 				"w134",
@@ -106,7 +110,7 @@
 		{
 			"speaker": "Player",
 			"text": "Okay, turista is me right now.",
-			"next": 3
+			"next": 4
 		},
 		{
 			"speaker": "Rose",
@@ -118,23 +122,24 @@
 		{
 			"start_index_if_flag": {
 				"default": 0
-			}
+			},
+			"type": "start_router"
 		},
 		{
 			"speaker": "Lola Jonabel",
 			"text": "indi ko malipatan do pag warang natun ngara, daya hay paeanumdum sa akong kabuhi .",
-			"next": 1,
+			"next": 2,
 			"translation": "I’ll never forget this trip. It feels like a memory of my life."
 		},
 		{
 			"speaker": "Papa Jobert",
 			"text": "Worth every step, Ma.",
-			"next": 2
+			"next": 3
 		},
 		{
 			"speaker": "Rose",
 			"text": "And worth every word you’ve learned, balikbayan.",
-			"next": 3
+			"next": 4
 		},
 		{
 			"speaker": "Tita Beth",

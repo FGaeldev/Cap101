@@ -3,12 +3,13 @@
 		{
 			"start_index_if_flag": {
 				"default": 0
-			}
+			},
+			"type": "start_router"
 		},
 		{
 			"speaker": "Manang Loleng",
 			"text": "Naabi abi gid namon inyong pag abot it atong mga bisita. Maliya ag tanawon ro among mga ginhabi .",
-			"next": 1,
+			"next": 2,
 			"translation": "Welcome, visitors. Here, look at our weaving.",
 			"word_ids": [
 				"w128"
@@ -17,23 +18,23 @@
 		{
 			"speaker": "Player",
 			"text": "Whoa. Amazing, Grandma — I mean, Anang. Sorry, it’s my first time seeing a loom like this.",
-			"next": 2
+			"next": 3
 		},
 		{
 			"speaker": "Anang Loleng",
 			"text": "Uwat kaso. Abo man nga bisita ro nangangawa iya .",
-			"next": 3,
+			"next": 4,
 			"translation": "It’s alright. Many visitors are surprised here too."
 		},
 		{
 			"speaker": "Rose",
 			"text": "This whole community weaves piña cloth. Been doing it for generations — older than any of us.",
-			"next": 4
+			"next": 5
 		},
 		{
 			"speaker": "Anang Loleng",
 			"text": "Halin ra sa katamnan — sa tanum nga piña. . Kaabo nga ueubrahon bago mahimo nga eambong",
-			"next": 5,
+			"next": 6,
 			"translation": "This comes from the farm — from the piña plant. A lot of work before it becomes cloth.",
 			"word_ids": [
 				"w129",
@@ -46,7 +47,7 @@
 			"choices": [
 				{
 					"label": "This is beautiful work, Anang. I’d love to learn more.",
-					"next": 6
+					"next": 7
 				},
 				{
 					"label": "It’s really intricate, kind of hard to understand all at once.",
@@ -72,7 +73,7 @@
 		{
 			"speaker": "Anang Loleng",
 			"text": "Machines can’t feel the thread the way a hand does. That’s the difference.",
-			"next": 9
+			"next": 10
 		},
 		{
 			"speaker": "Anang Loleng",
@@ -85,22 +86,23 @@
 		{
 			"start_index_if_flag": {
 				"default": 0
-			}
+			},
+			"type": "start_router"
 		},
 		{
 			"speaker": "Rose",
 			"text": "Oh, this I have to see. Balikbayan versus loom. Place your bets.",
-			"next": 1
+			"next": 2
 		},
 		{
 			"speaker": "Player",
 			"text": "Gee, thanks for the confidence, Rose.",
-			"next": 2
+			"next": 3
 		},
 		{
 			"speaker": "Anang Loleng",
 			"text": "Hinay-hinay eang. bukon ra padasigan.",
-			"next": 3,
+			"next": 4,
 			"translation": "Slowly. This isn’t about whose faster.",
 			"word_ids": [
 				"w001"
@@ -112,7 +114,7 @@
 			"choices": [
 				{
 					"label": "I’ll take it slow, Anang. Show me the first move again.",
-					"next": 4
+					"next": 5
 				},
 				{
 					"label": "Can you guide my hands through it first?",
@@ -138,7 +140,7 @@
 		{
 			"speaker": "Rose",
 			"text": "Come on, at least try one row. I’ll laugh either way, might as well earn it.",
-			"next": 7
+			"next": 8
 		},
 		{
 			"speaker": "Anang Loleng",
@@ -151,23 +153,24 @@
 		{
 			"start_index_if_flag": {
 				"default": 0
-			}
+			},
+			"type": "start_router"
 		},
 		{
 			"speaker": "Anang Loleng",
 			"text": "Hara, batuna, tanda halin sa amon nga komunidad.",
-			"next": 1,
+			"next": 2,
 			"translation": "Here, take this. A token from our community."
 		},
 		{
 			"speaker": "Player",
 			"text": "Saeamat gid,  Anang. I’ll keep this.",
-			"next": 2
+			"next": 3
 		},
 		{
 			"speaker": "Anang Loleng",
 			"text": "mag dahan ka sa imong pagbiyahe. ag magbalik ka iya, ha, kung may tyempo ka.",
-			"next": 3,
+			"next": 4,
 			"translation": "Take care on your journey. And come back here, okay, if you have time."
 		},
 		{
@@ -180,12 +183,13 @@
 		{
 			"start_index_if_flag": {
 				"default": 0
-			}
+			},
+			"type": "start_router"
 		},
 		{
 			"speaker": "Rose",
 			"text": "Tan-awa sanda. panaw — to walk... wait, save that one. Bangon — to get up, like when you fall.",
-			"next": 1,
+			"next": 2,
 			"word_ids": [
 				"w131",
 				"w022"
@@ -194,12 +198,12 @@
 		{
 			"speaker": "Player",
 			"text": "These make sense with the actions right in front of us.",
-			"next": 2
+			"next": 3
 		},
 		{
 			"speaker": "Rose",
 			"text": "That’s the point. agto iya— come here. agto idto — go there. Dayon — then, or “continue.”",
-			"next": 3,
+			"next": 4,
 			"word_ids": [
 				"w016"
 			]
@@ -207,7 +211,7 @@
 		{
 			"speaker": "Rose",
 			"text": "Bakae — to buy. Baligya — to sell. Tan-aw — to look, to see. Hambae — to speak. Sabát — to answer.",
-			"next": 4,
+			"next": 5,
 			"word_ids": [
 				"w132",
 				"w030",
@@ -222,7 +226,7 @@
 			"choices": [
 				{
 					"label": "I’ll try — “Gusto ko mag bakae,” I want to buy? Something like that?",
-					"next": 5
+					"next": 6
 				},
 				{
 					"label": "I get the meanings, but it’s still hard to use them correctly.",
@@ -248,12 +252,12 @@
 		{
 			"speaker": "Rose",
 			"text": "Deep breath. We’ll circle back to these. No rush.",
-			"next": 8
+			"next": 9
 		},
 		{
 			"speaker": "Rose",
 			"text": "Taas — tall, or long. Naba — short. Paspas — fast. Hinay — slow, base word of “hinay-hinay” that Anang taught you.",
-			"next": 9,
+			"next": 10,
 			"word_ids": [
 				"w033",
 				"w034",
@@ -264,7 +268,7 @@
 		{
 			"speaker": "Rose",
 			"text": "Bug-at — heavy. Maugan — light, not bug-at.  — small words, but you’ll need them everywhere.",
-			"next": 10,
+			"next": 11,
 			"word_ids": [
 				"w049",
 				"w134"
@@ -273,7 +277,7 @@
 		{
 			"speaker": "Rose",
 			"text": "Kuntra naman — “against.” Rarely used, but good to know.",
-			"next": 11,
+			"next": 12,
 			"word_ids": [
 				"w135"
 			]
@@ -281,7 +285,7 @@
 		{
 			"speaker": "Player",
 			"text": "My head’s kind of full now, but I think I actually get most of it.",
-			"next": 12
+			"next": 13
 		},
 		{
 			"speaker": "Rose",

@@ -3,18 +3,19 @@
 		{
 			"start_index_if_flag": {
 				"default": 0
-			}
+			},
+			"type": "start_router"
 		},
 		{
 			"speaker": "Rose",
 			"text": "hara do Ati-Atihan. bukon eamang pyesta, kundi kultura ag pagtuo.",
-			"next": 1,
+			"next": 2,
 			"translation": "This is the Ati-Atihan. Not just a festival, but culture and faith."
 		},
 		{
 			"speaker": "Player",
 			"text": "It’s so lively. I’ve never seen anything like this.",
-			"next": 2
+			"next": 3
 		},
 		{
 			"speaker": "Kapitan Julian",
@@ -27,18 +28,19 @@
 		{
 			"start_index_if_flag": {
 				"default": 0
-			}
+			},
+			"type": "start_router"
 		},
 		{
 			"speaker": "Kapitan Julian",
 			"text": "do mga tawo iya ga celebrar it  Sto. Niño. bukon eamang it gasaot, kundi gapasaeamat.",
-			"next": 1,
+			"next": 2,
 			"translation": "The people here celebrate the Child Jesus. It’s not just dance, but thanksgiving."
 		},
 		{
 			"speaker": "Player",
 			"text": "So it’s both religious and cultural?",
-			"next": 2
+			"next": 3
 		},
 		{
 			"speaker": "Kapitan Julian",
@@ -51,12 +53,13 @@
 		{
 			"start_index_if_flag": {
 				"default": 0
-			}
+			},
+			"type": "start_router"
 		},
 		{
 			"speaker": "Rose",
 			"text": "Sige, balikbayan. Samiti nga mag-sabat. Bukon it sagrado nga chant ’ra, safe eang.",
-			"next": 1,
+			"next": 2,
 			"translation": "Come on, balikbayan. Try to respond. This isn’t a sacred chant, just a safe one."
 		},
 		{
@@ -65,7 +68,7 @@
 			"choices": [
 				{
 					"label": "Yes! I’ll shout with them.",
-					"next": 2
+					"next": 3
 				},
 				{
 					"label": "Maybe just a little, I’m shy.",
@@ -98,12 +101,13 @@
 		{
 			"start_index_if_flag": {
 				"default": 0
-			}
+			},
+			"type": "start_router"
 		},
 		{
 			"speaker": "Rose",
 			"text": "Saot — dance. Tamboe — drum. Pyesta — festival. Kasadyahan — joy.",
-			"next": 1,
+			"next": 2,
 			"word_ids": [
 				"w128",
 				"w129",
@@ -113,7 +117,7 @@
 		{
 			"speaker": "Rose",
 			"text": "Balikbayan — returning from abroad. Bisita — visitor. Tawo — person.",
-			"next": 2,
+			"next": 3,
 			"word_ids": [
 				"w131"
 			]
@@ -121,7 +125,7 @@
 		{
 			"speaker": "Player",
 			"text": "Okay, so I’m the balikbayan, and everyone else is tawo.",
-			"next": 3
+			"next": 4
 		},
 		{
 			"speaker": "Rose",
@@ -133,18 +137,19 @@
 		{
 			"start_index_if_flag": {
 				"default": 0
-			}
+			},
+			"type": "start_router"
 		},
 		{
 			"speaker": "Lola Jonabel",
 			"text": "hindi ko gid malipatan ro adlaw ngara. Btyag ko nga Mingko unga ako uman.",
-			"next": 1,
+			"next": 2,
 			"translation": "I won’t forget this day. I feel like a child again."
 		},
 		{
 			"speaker": "Papa Jobert",
 			"text": "Worth every mile of travel, Ma.",
-			"next": 2
+			"next": 3
 		},
 		{
 			"speaker": "Rose",

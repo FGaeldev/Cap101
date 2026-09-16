@@ -3,23 +3,24 @@
 		{
 			"start_index_if_flag": {
 				"default": 0
-			}
+			},
+			"type": "start_router"
 		},
 		{
 			"speaker": "Rose",
 			"text": "hara do mangrove , bukon eang it para sa bisita kundi para protektahan.",
-			"next": 1,
+			"next": 2,
 			"translation": "This is the mangrove eco-park. It’s not just for visitors, but truly for conservation."
 		},
 		{
 			"speaker": "Player",
 			"text": "It looks peaceful. I didn’t expect it to be this wide.",
-			"next": 2
+			"next": 3
 		},
 		{
 			"speaker": "Manong Ambo",
 			"text": "Mayad-ayad nga agahon , mga bisita. iya kamo para makita do aton nga mangroves?",
-			"next": 3,
+			"next": 4,
 			"translation": "Good morning, visitors. Are you here to see our coast and mangroves?"
 		},
 		{
@@ -32,23 +33,24 @@
 		{
 			"start_index_if_flag": {
 				"default": 0
-			}
+			},
+			"type": "start_router"
 		},
 		{
 			"speaker": "Anong Ambo",
 			"text": "ro mga ugat ru gakapyot sa eugta. kaya indi masamad bisan it bagyo.",
-			"next": 1,
+			"next": 2,
 			"translation": "The roots hold the soil. It won’t collapse even during storms."
 		},
 		{
 			"speaker": "Player",
 			"text": "So this protects the town?",
-			"next": 2
+			"next": 3
 		},
 		{
 			"speaker": "Anong Ambo",
 			"text": "hara gid. Kung uwa ra, ro baeas ag tubi hay magatao it kaeainan",
-			"next": 3,
+			"next": 4,
 			"translation": "Exactly. Without this, the sand and water would cause danger."
 		},
 		{
@@ -61,12 +63,13 @@
 		{
 			"start_index_if_flag": {
 				"default": 0
-			}
+			},
+			"type": "start_router"
 		},
 		{
 			"speaker": "Anong Ambo",
 			"text": "Gusto ninyo magkantoguhan magpamunit? bukon eang para sa isda, kundi para sa pagtuon.",
-			"next": 1,
+			"next": 2,
 			"translation": "Do you want to try fishing? Not just for fish, but for learning."
 		},
 		{
@@ -75,7 +78,7 @@
 			"choices": [
 				{
 					"label": "Yes, I want to learn how.",
-					"next": 2
+					"next": 3
 				},
 				{
 					"label": "Maybe later, I just want to watch first.",
@@ -108,12 +111,13 @@
 		{
 			"start_index_if_flag": {
 				"default": 0
-			}
+			},
+			"type": "start_router"
 		},
 		{
 			"speaker": "Rose",
 			"text": "Tan-awa ru baybay — that’s “shore.” Tubi — water. eugta — soil. Baeas — sand.",
-			"next": 1,
+			"next": 2,
 			"word_ids": [
 				"w128",
 				"w129",
@@ -124,7 +128,7 @@
 		{
 			"speaker": "Rose",
 			"text": "Maisog — brave. Maeuya — weak. Malimpyo — clean. Mahigko — dirty.",
-			"next": 2,
+			"next": 3,
 			"word_ids": [
 				"w132",
 				"w133",
@@ -135,7 +139,7 @@
 		{
 			"speaker": "Rose",
 			"text": "tikang pa — keep walking. Pamati — listen. Pamunit — to fish. Tanom — plant.",
-			"next": 3,
+			"next": 4,
 			"word_ids": [
 				"w026",
 				"w136",
@@ -145,7 +149,7 @@
 		{
 			"speaker": "Player",
 			"text": "Okay, so pamunit is what Anong Ambo said earlier.",
-			"next": 4
+			"next": 5
 		},
 		{
 			"speaker": "Rose",
@@ -157,18 +161,19 @@
 		{
 			"start_index_if_flag": {
 				"default": 0
-			}
+			},
+			"type": "start_router"
 		},
 		{
 			"speaker": "Lola Jonabel",
 			"text": "maabo aton nga natun-an makarang adlaw. bukon eang it mga haeambaeun, kundi pati kultura man.",
-			"next": 1,
+			"next": 2,
 			"translation": "We learned so much today. Not just words, but culture too."
 		},
 		{
 			"speaker": "Papa Jobert",
 			"text": "True. This place reminds me of my childhood.",
-			"next": 2
+			"next": 3
 		},
 		{
 			"speaker": "Rose",
