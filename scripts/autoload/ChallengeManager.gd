@@ -50,6 +50,11 @@ func attempt(challenge_id: String, answer_idx: int) -> Dictionary:
 	if correct:
 		var first_try := attempt_count == 1
 		GameState.mark_challenge_passed(challenge_id)
+		if first_try:
+			# Reactive branch write (GDD §6.10): later scenes/idle pools can
+			# read this via start_router / rapport-tier lookups to reflect
+			# mastery, without touching the no-punishment reward path above.
+			GameState.set_flag("ch2_%s_mastered" % challenge_id)
 		_grant_reward(data.get("reward", {}), first_try)
 		GameState.save_game()
 		challenge_passed.emit(challenge_id, first_try)

@@ -23,7 +23,25 @@ signal dialogue_ended
 func start_dialogue() -> void:
 	_current_line = 0
 	_last_speaker = ""
+	if not dialogue_lines.is_empty() and dialogue_lines[0].get("type", "") == "start_router":
+		_current_line = _resolve_router(dialogue_lines[0])
 	_show_line()
+
+## Resolves a "start_router" line (always index 0, never shown to player) to
+## a start index based on flags set by an earlier scene/choice/gate outcome
+## (see set_flag_on_enter in _show_line). Lets a scene re-enter at a
+## different point depending on prior player history, instead of always
+## restarting at line 0 — this is the reactive-branch hook (GDD §6.10).
+## start_index_if_flag: {flag_id: index, ..., "default": index}. Checked in
+## declaration order, first true flag wins; "default" (or 0) if none match.
+func _resolve_router(router_line: Dictionary) -> int:
+	var flag_map: Dictionary = router_line.get("start_index_if_flag", {})
+	for flag_id in flag_map.keys():
+		if flag_id == "default":
+			continue
+		if GameState.get_flag(flag_id):
+			return flag_map[flag_id]
+	return flag_map.get("default", 0)
 
 ## Idle/ambient line, drawn from an NPC's idle pool via shuffle-bag
 ## (draw-without-replacement, reshuffle when exhausted) so repeat visits
@@ -122,6 +140,12 @@ func _show_line() -> void:
 	var speaker: String = line.get("speaker", "")
 	if not speaker.is_empty():
 		_last_speaker = speaker   # tracked for choice-delta attribution + patience_branch reads
+
+	# Reactive branch write (GDD §6.10): marks this line's outcome for a later
+	# scene's start_router to read. Fires on show, not on advance-past, so it
+	# records "player reached this line" regardless of how they leave it.
+	if line.has("set_flag_on_enter"):
+		GameState.set_flag(line["set_flag_on_enter"])
 
 	# Branch or linear
 	if line.has("choices") and not line["choices"].is_empty():
