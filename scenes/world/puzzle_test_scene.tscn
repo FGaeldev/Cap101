@@ -372,7 +372,7 @@ position = Vector2(522, 53)
 [node name="TestTaskTargetB" parent="." unique_id=1018099446 instance=ExtResource("8_target")]
 position = Vector2(28, 195)
 
-[node name="WorldTaskComponent" parent="TestTaskTargetB" index="4"]
+[node name="WorldTaskComponent" parent="TestTaskTargetB" index="4" unique_id=1579146528]
 required_step = 1
 
 [editable path="TestTaskGiver"]

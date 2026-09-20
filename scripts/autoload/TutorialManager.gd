@@ -28,10 +28,14 @@ const FLAG_PREFIX: String = "tutorial_"
 const FLAG_SUFFIX: String = "_done"
 ## Below BookUI (100) and ScreenFade (100).
 const OVERLAY_LAYER: int = 90
-const PULSE_TIME: float = 0.5
+## Seconds per half-cycle (dim -> bright). Full flash = 2x. Raise to slow down.
+const PULSE_TIME: float = 1.0
 ## Brightening pulse. Deliberately NOT a new palette color (UI Style Guide §2:
 ## no new colors without updating the constant list) — just a modulate lift.
 const HIGHLIGHT_MODULATE: Color = Color(1.6, 1.5, 1.0)
+## Peak scale of the "breathe" (expand/contract), synced to the flash: expands
+## while brightening, contracts while dimming. 1.0 = no size change.
+const HIGHLIGHT_SCALE: float = 1.1
 
 ## tutorial_id -> { "steps": Array }
 var _tutorials: Dictionary = {}
@@ -47,6 +51,10 @@ var _panel: PanelContainer
 var _label: Label
 var _pulse_tween: Tween
 var _highlighted: CanvasItem
+## Original scale/pivot of the highlighted node, restored on clear so the
+## breathe never leaves a HUD control permanently resized or off-pivot.
+var _highlight_base_scale: Vector2 = Vector2.ONE
+var _highlight_base_pivot: Vector2 = Vector2.ZERO
 
 
 func _ready() -> void:
@@ -157,9 +165,21 @@ func _apply_highlight(target_id: String) -> void:
 		_targets.erase(target_id)
 		return
 	_highlighted = node
+	_highlight_base_scale = node.get("scale")
+	# Controls scale around pivot_offset (top-left by default) -> center it so
+	# the node breathes in place instead of drifting toward a corner.
+	if node is Control:
+		_highlight_base_pivot = node.pivot_offset
+		node.pivot_offset = node.size / 2.0
+	var peak: Vector2 = _highlight_base_scale * HIGHLIGHT_SCALE
+	# Sine easing = soft breathing instead of a linear blink. Flash and scale
+	# tweeners are chained with .parallel() so both share the same half-cycle.
 	_pulse_tween = create_tween().set_loops()
+	_pulse_tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	_pulse_tween.tween_property(node, "self_modulate", HIGHLIGHT_MODULATE, PULSE_TIME)
+	_pulse_tween.parallel().tween_property(node, "scale", peak, PULSE_TIME)
 	_pulse_tween.tween_property(node, "self_modulate", Color.WHITE, PULSE_TIME)
+	_pulse_tween.parallel().tween_property(node, "scale", _highlight_base_scale, PULSE_TIME)
 
 
 func _clear_highlight() -> void:
@@ -168,6 +188,9 @@ func _clear_highlight() -> void:
 		_pulse_tween = null
 	if is_instance_valid(_highlighted):
 		_highlighted.self_modulate = Color.WHITE
+		_highlighted.set("scale", _highlight_base_scale)
+		if _highlighted is Control:
+			_highlighted.pivot_offset = _highlight_base_pivot
 	_highlighted = null
 
 
