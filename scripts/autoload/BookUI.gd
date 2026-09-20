@@ -169,6 +169,7 @@ func _on_exit_pressed() -> void:
 func _on_return_confirmed() -> void:
 	AudioManager.play_sfx("menu_click")
 	CutsceneManager.abort()
+	TutorialManager.abort()
 	GameState.save_game()
 	close()
 	get_tree().paused = false

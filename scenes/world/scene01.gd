@@ -5,3 +5,4 @@ func _ready() -> void:
 	GameState.current_area = "village"
 	AudioManager.play_bgm("village")
 	FadeManager.fade_in(0.6)
+	TutorialManager.start("ch1_basics")

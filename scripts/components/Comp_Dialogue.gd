@@ -85,6 +85,7 @@ func _refill_idle_bag(size: int) -> void:
 func advance() -> void:
 	# Only called for non-choice lines.
 	AudioManager.play_sfx("advance")
+	TutorialManager.notify("dialogue_advanced")
 	var line: Dictionary = dialogue_lines[_current_line]
 	var nxt = _resolve_next(line)
 	if nxt == null:

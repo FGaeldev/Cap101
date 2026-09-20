@@ -54,6 +54,7 @@ func try_interact() -> void:
 		return
 	if not get_parent().is_visible_in_tree():
 		return
+	TutorialManager.notify("interacted")
 	interacted.emit(_player_ref)
 
 func _on_body_entered(body: Node) -> void:
@@ -64,6 +65,7 @@ func _on_body_entered(body: Node) -> void:
 			_in_range_pool.append(self)
 		if not trigger_on_enter.is_empty():
 			QuestManager.complete_quests_with_trigger(trigger_on_enter)
+		TutorialManager.notify("interactable_in_range")
 		# TODO: show interact prompt UI
 
 func _on_body_exited(body: Node) -> void:

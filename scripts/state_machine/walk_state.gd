@@ -11,6 +11,8 @@ func physics_update(_delta: float) -> void:
 		state_machine.transition_to("Idle")
 		return
 
+	TutorialManager.notify("player_moved")
+
 	var prev_dir: String = actor.direction
 	actor.update_facing(dir)
 	actor.velocity = dir * actor.SPEED

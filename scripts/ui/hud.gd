@@ -35,6 +35,8 @@ func _ready() -> void:
 	menu_button.pressed.connect(_on_menu_button_pressed)
 	UIThemeApplier.apply_icon_button_theme(interact_button, "dictionary")
 	interact_button.pressed.connect(_on_interact_button_pressed)
+	TutorialManager.register_target("joystick", joystick)
+	TutorialManager.register_target("interact_button", interact_button)
 
 func _process(_delta: float) -> void:
 	var overlay: bool = _is_overlay_active()
