@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://mmb1yedttndp"]
+
+[ext_resource type="Texture2D" uid="uid://nm7s3ten05xb" path="res://assets/bedroom/bedroom_table_low.png" id="1_hii51"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ed45e"]
+size = Vector2(32, 8)
+
+[node name="BedroomTable" type="StaticBody2D" unique_id=18623984]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1682699457]
+position = Vector2(16, -4)
+shape = SubResource("RectangleShape2D_ed45e")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=618635939]
+position = Vector2(16, 0)
+texture = ExtResource("1_hii51")

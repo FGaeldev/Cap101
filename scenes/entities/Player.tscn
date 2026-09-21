@@ -7,20 +7,20 @@
 [ext_resource type="Script" uid="uid://bm4tghb1wk2rs" path="res://scripts/state_machine/walk_state.gd" id="5_h683u"]
 [ext_resource type="PackedScene" uid="uid://bbk8t0y83k7ib" path="res://scenes/components/CutsceneAnimComponent.tscn" id="6_cutsceneanim"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_24gqh"]
-radius = 6.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fkk4f"]
+size = Vector2(14, 14)
 
 [node name="Player" type="CharacterBody2D" unique_id=410096860 groups=["player"]]
 script = ExtResource("1_o7et6")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=332485445]
-position = Vector2(0, -10)
+position = Vector2(0, -8)
 sprite_frames = ExtResource("2_j1g85")
 animation = &"idle_down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1762865277]
-position = Vector2(0, -6)
-shape = SubResource("CircleShape2D_24gqh")
+position = Vector2(0, -7)
+shape = SubResource("RectangleShape2D_fkk4f")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1806770490]
 top_level = true

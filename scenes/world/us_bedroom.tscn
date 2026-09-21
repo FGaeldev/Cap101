@@ -1,0 +1,102 @@
+[gd_scene format=4 uid="uid://bdu7xw31jf5tn"]
+
+[ext_resource type="Texture2D" uid="uid://con268kpo8sql" path="res://assets/bedroom/bedroom_tiles.png" id="1_342nr"]
+[ext_resource type="Texture2D" uid="uid://baex05njky5u7" path="res://assets/bedroom/bedroom_rug.png" id="2_v3tay"]
+[ext_resource type="PackedScene" uid="uid://ch1r4565fnl6q" path="res://scenes/world/bedroom_bed.tscn" id="3_7q6f3"]
+[ext_resource type="Texture2D" uid="uid://bp33nucd01emr" path="res://assets/bedroom/bedroom_pc.png" id="3_l8ueu"]
+[ext_resource type="PackedScene" uid="uid://kw0gepu4q6du" path="res://scenes/world/bedroom_desk.tscn" id="3_v3tay"]
+[ext_resource type="PackedScene" uid="uid://brd713x4jvfe8" path="res://scenes/entities/Player.tscn" id="4_ebe3o"]
+[ext_resource type="PackedScene" uid="uid://b8awiupnw1tue" path="res://scenes/components/interactable_component.tscn" id="4_wcsil"]
+[ext_resource type="PackedScene" uid="uid://mmb1yedttndp" path="res://scenes/world/bedroom_table.tscn" id="5_7q6f3"]
+[ext_resource type="Texture2D" uid="uid://bht4ide1qu8kt" path="res://assets/bedroom/bedroom_book_open.png" id="5_fxahd"]
+[ext_resource type="Texture2D" uid="uid://cpicep1vxspt6" path="res://assets/bedroom/bedroom_console.png" id="6_wdc8m"]
+[ext_resource type="Texture2D" uid="uid://c7ceomxmct6fx" path="res://assets/bedroom/bedroom_chair.png" id="10_ue42l"]
+[ext_resource type="Texture2D" uid="uid://rstxitk761rc" path="res://assets/bedroom/bedroom_door.png" id="12_wcsil"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_f5kqj"]
+texture = ExtResource("1_342nr")
+0:0/next_alternative_id = 2
+0:0/0 = 0
+0:0/0/y_sort_origin = -16
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:0/1 = 1
+0:0/1/y_sort_origin = -16
+0:1/next_alternative_id = 2
+0:1/0 = 0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:1/1 = 1
+0:2/0 = 0
+0:3/0 = 0
+0:4/0 = 0
+0:5/0 = 0
+0:6/0 = 0
+0:7/0 = 0
+0:8/0 = 0
+0:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSet" id="TileSet_7n77a"]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_f5kqj")
+
+[node name="Bedroom" type="Node2D" unique_id=819623926]
+y_sort_enabled = true
+
+[node name="BedroomRug" type="Sprite2D" parent="." unique_id=2070048524]
+position = Vector2(48, 19)
+texture = ExtResource("2_v3tay")
+offset = Vector2(0, 64)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1541510587]
+tile_map_data = PackedByteArray("AAAAAAEAAAAAAAEAAAADAAEAAAAAAAEAAAAEAAEAAAAAAAEAAAAFAAEAAAAAAAEAAAAGAAEAAAAAAAEAAAAHAAEAAAAAAAEAAAAIAAEAAAAAAAEAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAHAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAABAAEAAAAAAAEAAQABAAAAAAAAAAAAAQACAAEAAAAAAAEAAAACAAAAAAAAAAAAAAABAAIAAAAAAAYAAAACAAIAAAAAAAYAAAADAAIAAAAAAAcAAAAEAAIAAAAAAAMAAAAFAAIAAAAAAAUAAAAGAAIAAAAAAAcAAAAHAAIAAAAAAAMAAAAIAAIAAAAAAAMAAAAAAAIAAAAAAAMAAAAAAAMAAAAAAAMAAAAAAAQAAAAAAAMAAAAAAAUAAAAAAAMAAAAAAAYAAAAAAAMAAAAAAAcAAAAAAAMAAAABAAMAAAAAAAIAAAABAAQAAAAAAAIAAAABAAUAAAAAAAIAAAABAAYAAAAAAAIAAAABAAcAAAAAAAIAAAACAAcAAAAAAAIAAAACAAYAAAAAAAIAAAACAAUAAAAAAAIAAAACAAQAAAAAAAIAAAACAAMAAAAAAAIAAAADAAMAAAAAAAIAAAADAAQAAAAAAAIAAAADAAUAAAAAAAIAAAADAAYAAAAAAAIAAAADAAcAAAAAAAIAAAAEAAcAAAAAAAIAAAAEAAYAAAAAAAIAAAAEAAUAAAAAAAIAAAAEAAQAAAAAAAIAAAAEAAMAAAAAAAIAAAAFAAMAAAAAAAIAAAAFAAQAAAAAAAIAAAAFAAUAAAAAAAIAAAAFAAYAAAAAAAIAAAAFAAcAAAAAAAIAAAAGAAcAAAAAAAIAAAAGAAYAAAAAAAIAAAAGAAQAAAAAAAIAAAAGAAMAAAAAAAIAAAAHAAMAAAAAAAIAAAAHAAQAAAAAAAIAAAAHAAUAAAAAAAMAAAAHAAYAAAAAAAcAAAAHAAcAAAAAAAIAAAAIAAcAAAAAAAIAAAAIAAYAAAAAAAMAAAAIAAUAAAAAAAMAAAAIAAQAAAAAAAIAAAAIAAMAAAAAAAIAAAAGAAUAAAAAAAIAAAD//wgAAAAAAAgAAAAAAAgAAAAAAAgAAAABAAgAAAAAAAgAAAACAAgAAAAAAAgAAAADAAgAAAAAAAgAAAAEAAgAAAAAAAgAAAAFAAgAAAAAAAgAAAAGAAgAAAAAAAgAAAAHAAgAAAAAAAgAAAAIAAgAAAAAAAgAAAAJAAgAAAAAAAgAAAAJAAcAAAAAAAgAAAAJAAYAAAAAAAgAAAAJAAUAAAAAAAgAAAAJAAQAAAAAAAgAAAD//wcAAAAAAAgAAAD//wYAAAAAAAgAAAD//wUAAAAAAAgAAAD//wQAAAAAAAgAAAD//wMAAAAAAAgAAAD//wIAAAAAAAgAAAD//wEAAAAAAAgAAAD//wAAAAAAAAgAAAD/////AAAAAAgAAAAAAP//AAAAAAgAAAABAP//AAAAAAgAAAACAP//AAAAAAgAAAADAP//AAAAAAgAAAAEAP//AAAAAAgAAAAFAP//AAAAAAgAAAAGAP//AAAAAAgAAAAHAP//AAAAAAgAAAAIAP//AAAAAAgAAAAJAP//AAAAAAgAAAAJAAAAAAAAAAgAAAAJAAEAAAAAAAgAAAAJAAIAAAAAAAgAAAAJAAMAAAAAAAgAAAA=")
+tile_set = SubResource("TileSet_7n77a")
+
+[node name="Interactables" type="Node2D" parent="." unique_id=680696789]
+y_sort_enabled = true
+
+[node name="Desktop" type="Sprite2D" parent="Interactables" unique_id=527769135]
+position = Vector2(112, 56)
+texture = ExtResource("3_l8ueu")
+offset = Vector2(0, -33)
+
+[node name="InteractableComponent" parent="Interactables/Desktop" unique_id=1024773738 instance=ExtResource("4_wcsil")]
+
+[node name="Journal" type="Sprite2D" parent="Interactables" unique_id=1568334702]
+position = Vector2(136, 42)
+texture = ExtResource("5_fxahd")
+offset = Vector2(0, -14)
+
+[node name="InteractableComponent" parent="Interactables/Journal" unique_id=1291548206 instance=ExtResource("4_wcsil")]
+
+[node name="Console" type="Sprite2D" parent="Interactables" unique_id=776331421]
+position = Vector2(64, 40)
+texture = ExtResource("6_wdc8m")
+offset = Vector2(0, -16)
+
+[node name="InteractableComponent" parent="Interactables/Console" unique_id=1882570173 instance=ExtResource("4_wcsil")]
+
+[node name="Furniture" type="Node2D" parent="." unique_id=1272311697]
+y_sort_enabled = true
+
+[node name="BedroomDesk" parent="Furniture" unique_id=1905011500 instance=ExtResource("3_v3tay")]
+position = Vector2(96, 32)
+
+[node name="BedroomBed" parent="Furniture" unique_id=467436607 instance=ExtResource("3_7q6f3")]
+position = Vector2(112, 96)
+
+[node name="BedroomTable" parent="Furniture" unique_id=18623984 instance=ExtResource("5_7q6f3")]
+position = Vector2(48, 32)
+
+[node name="BedroomChair" type="Sprite2D" parent="Furniture" unique_id=1820748140]
+position = Vector2(120, 40)
+texture = ExtResource("10_ue42l")
+
+[node name="BedroomDoor" type="Sprite2D" parent="." unique_id=2099616632]
+position = Vector2(16, 32)
+texture = ExtResource("12_wcsil")
+centered = false
+offset = Vector2(-8, -25)
+
+[node name="Player" parent="." unique_id=410096860 instance=ExtResource("4_ebe3o")]
+position = Vector2(40, 95)
+
+[node name="Node2D" type="Node2D" parent="." unique_id=274218314]

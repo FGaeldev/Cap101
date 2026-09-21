@@ -1,7 +1,6 @@
 # Player.gd
 extends CharacterBody2D
 
-const SPEED = 80.0
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var state_machine: StateMachine = $StateMachine
 
@@ -9,6 +8,13 @@ const SPEED = 80.0
 var direction: String = "down"
 ## True when direction == "side" and moving left (mirrors the side anim)
 var facing_left: bool = false
+
+## Grid step size in px. Multiples of 8 only (base 16). Match active tilemap.
+@export_range(8, 64, 8) var tile_size: int = 16
+## Seconds per tile step. ~0.2 = brisk, 0.25 = GBA feel.
+@export var step_time: float = 0.3
+## Last facing as raw 4-dir vector. Used by Idle turn-in-place check.
+var facing_vec: Vector2 = Vector2.DOWN
 
 func _ready() -> void:
 	add_to_group("player")
@@ -38,4 +44,5 @@ func update_facing(dir: Vector2) -> void:
 	var facing: Dictionary = DirectionUtil.resolve(dir)
 	direction = facing["direction"]
 	facing_left = facing["facing_left"]
+	facing_vec = dir  # Raw vector for turn/step logic.
 	sprite.flip_h = facing_left
