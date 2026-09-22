@@ -38,7 +38,7 @@ position = Vector2(72, 64)
 scale = Vector2(2.25, 2)
 texture = SubResource("GradientTexture2D_byssr")
 
-[node name="Player" parent="." unique_id=410096860 instance=ExtResource("3_bxgpk")]
+[node name="DefaultSpawn" type="Marker2D" parent="."]
 position = Vector2(136, 112)
 
 [node name="NpcElder" parent="." unique_id=12182856 instance=ExtResource("4_qysbm")]
