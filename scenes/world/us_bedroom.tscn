@@ -92,4 +92,17 @@ position = Vector2(112, 32)
 position = Vector2(16, 96)
 frame = 1
 
+[node name="WarpArea" parent="Door" index="0"]
+position = Vector2(0, 12)
+target_scene = "res://scenes/world/us_living.tscn"
+target_spawn_id = "from_bedroom"
+
+[node name="DefaultSpawn" type="Marker2D" parent="." unique_id=1699439453]
+position = Vector2(128, 112)
+
+[node name="from_living" type="Marker2D" parent="." unique_id=74390705]
+position = Vector2(24, 128)
+
 [node name="Node2D" type="Node2D" parent="." unique_id=274218314]
+
+[editable path="Door"]

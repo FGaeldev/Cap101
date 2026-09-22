@@ -49,6 +49,17 @@ tile_set = SubResource("TileSet_bynd4")
 [node name="Door" parent="." unique_id=447525619 instance=ExtResource("2_37uj7")]
 position = Vector2(16, 0)
 
+[node name="WarpArea" parent="Door" index="0"]
+position = Vector2(0, -16)
+target_scene = "res://scenes/world/us_bedroom.tscn"
+target_spawn_id = "from_living"
+
+[node name="DefaultSpawn" type="Marker2D" parent="." unique_id=2052056760]
+position = Vector2(24, 128)
+
+[node name="from_bedroom" type="Marker2D" parent="." unique_id=827564645]
+position = Vector2(24, 32)
+
 [node name="RugWide" type="Sprite2D" parent="." unique_id=1469988816]
 position = Vector2(32, 48)
 texture = ExtResource("3_hkb6s")
@@ -86,3 +97,5 @@ frame = 1
 position = Vector2(48, 64)
 flip_h = true
 frame = 1
+
+[editable path="Door"]

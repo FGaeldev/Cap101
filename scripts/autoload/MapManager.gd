@@ -101,3 +101,30 @@ func travel_to_region(region_id: String) -> void:
 ## in a tab now instead of its own overlay.
 func open_map() -> void:
 	BookUI.open("map")
+
+## Direct scene warp for doors (Comp_Warp). Unlike travel_to_region(), there
+## is no region/unlock concept here — doors are always usable — but reuses
+## the identical abort/fade/save/load_level sequence so CutsceneManager
+## softlock safety (TDD §9 item 8) and save consistency stay in one place
+## instead of duplicated per warp path. spawn_id is forwarded to
+## Game.gd::load_level() to position the persistent Player (see Game.gd).
+func warp_to_scene(scene_path: String, spawn_id: String = "DefaultSpawn") -> void:
+	if scene_path.is_empty():
+		push_error("MapManager: warp_to_scene called with empty scene_path")
+		return
+
+	var game := get_tree().current_scene
+	if game == null or not game.has_method("load_level"):
+		push_error("MapManager: current_scene has no load_level() — not running inside Game.tscn")
+		return
+
+	CutsceneManager.abort()
+	BookUI.close()
+	await FadeManager.fade_out()
+
+	GameState.current_level_path = scene_path
+	GameState.save_game()
+
+	game.load_level(scene_path, spawn_id)
+
+	await FadeManager.fade_in()

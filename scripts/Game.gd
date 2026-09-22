@@ -9,7 +9,7 @@ extends Node
 ## scene's "DefaultSpawn" marker (falls back to Vector2.ZERO if scene has none).
 
 func _ready() -> void:
-	var level_path := GameState.current_level_path if GameState.current_level_path != "" else "res://scenes/world/scene01.tscn"
+	var level_path := GameState.current_level_path if GameState.current_level_path != "" else "res://scenes/world/us_bedroom.tscn"
 	load_level(level_path)
 
 

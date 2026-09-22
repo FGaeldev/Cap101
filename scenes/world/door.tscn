@@ -1,8 +1,20 @@
 [gd_scene format=3 uid="uid://bu7e6u0mdb75t"]
 
 [ext_resource type="Texture2D" uid="uid://rstxitk761rc" path="res://assets/bedroom/bedroom_door.png" id="1_qatcg"]
+[ext_resource type="Script" path="res://scripts/components/comp_warp.gd" id="2_warpscript"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_doortrigger"]
+size = Vector2(16, 12)
 
 [node name="Door" type="Sprite2D" unique_id=447525619]
 texture = ExtResource("1_qatcg")
 centered = false
 vframes = 2
+
+[node name="WarpArea" type="Area2D" parent="."]
+script = ExtResource("2_warpscript")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WarpArea"]
+position = Vector2(8, 26)
+shape = SubResource("RectangleShape2D_doortrigger")
+
