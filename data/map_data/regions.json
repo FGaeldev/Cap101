@@ -1,13 +1,13 @@
 {
 	"bonus":        { "id": "bonus",        "display_name": "Bonus",        "scene_path": "", "unlocked": false },
-	"landing":      { "id": "landing",      "display_name": "Landing",      "scene_path": "res://scenes/world/scene01.tscn", "unlocked": true },
+	"landing":      { "id": "landing",      "display_name": "Landing",      "scene_path": "res://scenes/world/us_bedroom.tscn", "unlocked": true },
 	"leaf_weaving": { "id": "leaf_weaving", "display_name": "Leaf Weaving", "scene_path": "", "unlocked": false },
 	"pottery":      { "id": "pottery",      "display_name": "Pottery",      "scene_path": "", "unlocked": false },
 	"airport":      { "id": "airport",      "display_name": "Airport",      "scene_path": "", "unlocked": false },
 	"port":         { "id": "port",         "display_name": "Port",         "scene_path": "", "unlocked": false },
 	"abaca":        { "id": "abaca",        "display_name": "Abaca",        "scene_path": "", "unlocked": false },
 	"farming":      { "id": "farming",      "display_name": "Farming",      "scene_path": "res://scenes/map/stub_area.tscn", "unlocked": true },
-	"village":      { "id": "village",      "display_name": "Village",      "scene_path": "res://scenes/world/scene01.tscn", "unlocked": true },
+	"village":      { "id": "village",      "display_name": "Village",      "scene_path": "res://scenes/world/us_living.tscn", "unlocked": true },
 	"bakhawan_ecopark": { "id": "bakhawan_ecopark", "display_name": "Bakhawan Ecopark", "scene_path": "res://scenes/map/stub_area_bakhawan.tscn", "gate_challenge_id": "ch2_tutorial_field_notes", "unlocked": false },
 	"puzzle_test": { "id": "puzzle_test", "display_name": "Puzzle Test", "scene_path": "res://scenes/world/puzzle_test_scene.tscn", "unlocked": true }
 }

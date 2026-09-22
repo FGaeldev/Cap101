@@ -42,11 +42,13 @@ const LIST_HEIGHT_BUDGET := 179.0
 const QUEST_ROW_HEIGHT := 22.0
 const QUESTS_PER_PAGE := 8   # floor(179/22) = 8 — covers Phase C's planned ~12-quest scale in 2 pages
 
-# {label, scene_path} — only scenes with their own Player node belong here;
-# sub-rooms preloaded/embedded by another scene (e.g. usa_home_indoors.tscn,
-# lives inside scene01.tscn) are not valid standalone warp targets.
+# {label, scene_path} — Player is now a persistent Game.tscn sibling (not
+# baked per-scene, see Game.gd), so every room scene is a valid standalone
+# warp target on its own. scene01.tscn is deprecated/removed — its two rooms
+# are listed directly below instead.
 const DEV_WARP_TARGETS := [
-	{"label": "Ch1 — Village (scene01)", "scene_path": "res://scenes/world/scene01.tscn"},
+	{"label": "Ch1 — Bedroom", "scene_path": "res://scenes/world/us_bedroom.tscn"},
+	{"label": "Ch1 — Living Room", "scene_path": "res://scenes/world/us_living.tscn"},
 	{"label": "Ch1 — Scene 2 (Airport)", "scene_path": "res://scenes/world/scene_2.tscn"},
 ]
 

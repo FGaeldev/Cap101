@@ -11,6 +11,14 @@ extends Node
 func _ready() -> void:
 	var level_path := GameState.current_level_path if GameState.current_level_path != "" else "res://scenes/world/us_bedroom.tscn"
 	load_level(level_path)
+	# Absorbed from scene01.gd (deprecated — scene01.tscn removed, see
+	# Team_Changes/roadmap notes; game now boots straight into us_bedroom).
+	# Runs once per app launch here instead of once per scene01 (re)load,
+	# which also fixes the old latent re-trigger-on-revisit behavior.
+	GameState.current_area = "village"
+	AudioManager.play_bgm("village")
+	FadeManager.fade_in(0.6)
+	TutorialManager.start("ch1_basics")
 
 
 func load_level(path: String, spawn_id: String = "DefaultSpawn") -> void:

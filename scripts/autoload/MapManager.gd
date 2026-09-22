@@ -128,3 +128,5 @@ func warp_to_scene(scene_path: String, spawn_id: String = "DefaultSpawn") -> voi
 	game.load_level(scene_path, spawn_id)
 
 	await FadeManager.fade_in()
+
+	await FadeManager.fade_in()

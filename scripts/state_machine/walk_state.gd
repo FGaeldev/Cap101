@@ -50,6 +50,10 @@ func _try_step(dir: Vector2) -> void:
 
 func _on_step_finished() -> void:
 	_stepping = false
+	# Fires once per completed grid step. Replaces the old free-form-movement
+	# notify (removed when movement became tile-locked) — ch1_basics tutorial
+	# step 1 ("Use the joystick to move") was otherwise unreachable.
+	TutorialManager.notify("player_moved")
 	_try_step(actor.get_input_dir())
 
 ## Round position to nearest tile multiple.
