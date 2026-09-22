@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://bvq4cmi3t1v0h"]
+
+[ext_resource type="Texture2D" uid="uid://c8nttrlq73iev" path="res://assets/tilesets/Bakhawan_tree.png" id="1_uyjhg"]
+
+[node name="BakhawanTree" type="Node2D" unique_id=1575914856]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1226533277]
+texture = ExtResource("1_uyjhg")
+centered = false
