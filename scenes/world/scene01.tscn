@@ -4,30 +4,63 @@
 [ext_resource type="PackedScene" uid="uid://bdu7xw31jf5tn" path="res://scenes/world/us_bedroom.tscn" id="2_n1c12"]
 [ext_resource type="PackedScene" uid="uid://brd713x4jvfe8" path="res://scenes/entities/Player.tscn" id="3_bxgpk"]
 [ext_resource type="PackedScene" uid="uid://bi7ubv102jcmx" path="res://scenes/entities/npc_LolaJonabel.tscn" id="4_qysbm"]
+[ext_resource type="PackedScene" uid="uid://boi31l4ehrro8" path="res://scenes/world/us_living.tscn" id="8_fkk4f"]
 [ext_resource type="Texture2D" uid="uid://c6kls4tt8yht5" path="res://assets/sprites/Objects/blanket.png" id="8_p45fi"]
 [ext_resource type="PackedScene" uid="uid://c061vwko5ij8i" path="res://scenes/entities/npc_PapaJobert.tscn" id="12_p45fi"]
 [ext_resource type="PackedScene" uid="uid://bntxc66m0cf2d" path="res://scenes/entities/field_notes.tscn" id="13_fldnt"]
+
+[sub_resource type="Gradient" id="Gradient_fkk4f"]
+offsets = PackedFloat32Array(0, 0.47445256, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.17518248, 0.17518248, 0.17518248, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_byssr"]
+gradient = SubResource("Gradient_fkk4f")
+fill_from = Vector2(0.6, 0.5)
+fill_to = Vector2(0.3, 0.90000004)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_lsrhp"]
+gradient = SubResource("Gradient_fkk4f")
+fill = 3
+fill_from = Vector2(0.4, 0.2)
+fill_to = Vector2(0, 0)
+metadata/_snap_enabled = true
 
 [node name="scene01" type="Node2D" unique_id=1912818364]
 y_sort_enabled = true
 script = ExtResource("1_4dhc7")
 
 [node name="Bedroom" parent="." unique_id=819623926 instance=ExtResource("2_n1c12")]
+modulate = Color(0.34117648, 0.28235295, 0.9372549, 1)
+
+[node name="PointLight2D" type="PointLight2D" parent="Bedroom" unique_id=1694467355]
+position = Vector2(72, 64)
+scale = Vector2(2.25, 2)
+texture = SubResource("GradientTexture2D_byssr")
 
 [node name="Player" parent="." unique_id=410096860 instance=ExtResource("3_bxgpk")]
-position = Vector2(280, 206)
+position = Vector2(136, 112)
 
 [node name="NpcElder" parent="." unique_id=12182856 instance=ExtResource("4_qysbm")]
-position = Vector2(280, 70)
+position = Vector2(103, 222)
 
 [node name="Blanket" type="Sprite2D" parent="NpcElder" unique_id=1920727634]
 position = Vector2(1, -8)
 texture = ExtResource("8_p45fi")
 
 [node name="NpcPapaJobert" parent="." unique_id=985453941 instance=ExtResource("12_p45fi")]
-position = Vector2(128, 112)
+position = Vector2(57, 239)
 
 [node name="FieldNotes" parent="." unique_id=446276683 instance=ExtResource("13_fldnt")]
 position = Vector2(290, 170)
+
+[node name="us_living" parent="." unique_id=771320374 instance=ExtResource("8_fkk4f")]
+modulate = Color(0.34117648, 0.28235295, 0.9372549, 1)
+position = Vector2(0, 144)
+
+[node name="PointLight2D2" type="PointLight2D" parent="us_living" unique_id=804666608]
+position = Vector2(88, 64)
+scale = Vector2(2.7499998, 2)
+texture = SubResource("GradientTexture2D_lsrhp")
 
 [editable path="NpcElder"]

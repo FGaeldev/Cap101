@@ -1,0 +1,88 @@
+[gd_scene format=4 uid="uid://boi31l4ehrro8"]
+
+[ext_resource type="PackedScene" uid="uid://b8awiupnw1tue" path="res://scenes/components/interactable_component.tscn" id="1_rna2r"]
+[ext_resource type="PackedScene" uid="uid://bu7e6u0mdb75t" path="res://scenes/world/door.tscn" id="2_37uj7"]
+[ext_resource type="PackedScene" uid="uid://c8erihw77d00q" path="res://scenes/world/kitchen_sink.tscn" id="3_angqy"]
+[ext_resource type="Texture2D" uid="uid://1l2ic8lkp3ep" path="res://assets/bedroom/rug_wide.png" id="3_hkb6s"]
+[ext_resource type="PackedScene" uid="uid://dxh0d1hhjam14" path="res://scenes/world/kitchen_fridge.tscn" id="4_f23ic"]
+[ext_resource type="PackedScene" uid="uid://bgofrhevqnj4e" path="res://scenes/world/dining_table.tscn" id="5_ul7tg"]
+[ext_resource type="PackedScene" uid="uid://ddsooa2hgxp8b" path="res://scenes/world/living_tv.tscn" id="6_quuvm"]
+[ext_resource type="PackedScene" uid="uid://7wclr7xt55bm" path="res://scenes/world/chair.tscn" id="7_1mkq7"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_rinov"]
+load_path = "res://.godot/imported/bedroom_tiles.png-00e17e7450d7752517e41bd3628fcaad.ctex"
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_n82bm"]
+texture = SubResource("CompressedTexture2D_rinov")
+0:0/next_alternative_id = 2
+0:0/0 = 0
+0:0/0/y_sort_origin = -16
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:0/1 = 1
+0:0/1/y_sort_origin = -16
+0:1/next_alternative_id = 2
+0:1/0 = 0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:1/1 = 1
+0:2/0 = 0
+0:3/0 = 0
+0:4/0 = 0
+0:5/0 = 0
+0:6/0 = 0
+0:7/0 = 0
+0:8/0 = 0
+0:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSet" id="TileSet_bynd4"]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_n82bm")
+
+[node name="us_living" type="Node2D" unique_id=771320374]
+y_sort_enabled = true
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1842238848]
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAQACAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAHAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAJAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAAAAAEAAAAAAAEAAAABAAEAAAAAAAEAAQACAAEAAAAAAAEAAAADAAEAAAAAAAEAAAAEAAEAAAAAAAEAAAAFAAEAAAAAAAEAAAAGAAEAAAAAAAEAAAAHAAEAAAAAAAEAAAAIAAEAAAAAAAEAAAAJAAEAAAAAAAEAAAAKAAEAAAAAAAEAAAAAAAIAAAAAAAMAAAAAAAMAAAAAAAMAAAAAAAQAAAAAAAMAAAAAAAUAAAAAAAMAAAAAAAYAAAAAAAMAAAAAAAcAAAAAAAMAAAABAAIAAAAAAAYAAAACAAIAAAAAAAYAAAADAAIAAAAAAAYAAAAEAAIAAAAAAAYAAAAFAAIAAAAAAAYAAAAGAAIAAAAAAAYAAAAHAAIAAAAAAAYAAAAIAAIAAAAAAAcAAAAJAAIAAAAAAAMAAAAKAAIAAAAAAAMAAAABAAMAAAAAAAIAAAACAAMAAAAAAAIAAAADAAMAAAAAAAIAAAAEAAMAAAAAAAIAAAAFAAMAAAAAAAIAAAAGAAMAAAAAAAIAAAAHAAMAAAAAAAIAAAAIAAMAAAAAAAIAAAAJAAMAAAAAAAIAAAAKAAMAAAAAAAIAAAAKAAQAAAAAAAIAAAAJAAQAAAAAAAIAAAAIAAQAAAAAAAIAAAAHAAQAAAAAAAIAAAAGAAQAAAAAAAIAAAAFAAQAAAAAAAIAAAAEAAQAAAAAAAIAAAADAAQAAAAAAAIAAAACAAQAAAAAAAIAAAABAAQAAAAAAAIAAAABAAUAAAAAAAIAAAACAAUAAAAAAAIAAAADAAUAAAAAAAIAAAAEAAUAAAAAAAIAAAAFAAUAAAAAAAIAAAAGAAUAAAAAAAIAAAAHAAUAAAAAAAIAAAAIAAUAAAAAAAIAAAAJAAUAAAAAAAIAAAAKAAUAAAAAAAIAAAAKAAYAAAAAAAIAAAAJAAYAAAAAAAIAAAAIAAYAAAAAAAIAAAAHAAYAAAAAAAIAAAAGAAYAAAAAAAIAAAAFAAYAAAAAAAIAAAAEAAYAAAAAAAIAAAADAAYAAAAAAAIAAAACAAYAAAAAAAIAAAABAAYAAAAAAAIAAAABAAcAAAAAAAIAAAACAAcAAAAAAAIAAAADAAcAAAAAAAIAAAAEAAcAAAAAAAIAAAAFAAcAAAAAAAIAAAAGAAcAAAAAAAIAAAAHAAcAAAAAAAIAAAAIAAcAAAAAAAIAAAAJAAcAAAAAAAIAAAAKAAcAAAAAAAIAAAAAAP//AAAAAAgAAAD/////AAAAAAgAAAD//wAAAAAAAAgAAAD//wEAAAAAAAgAAAD//wIAAAAAAAgAAAD//wMAAAAAAAgAAAD//wQAAAAAAAgAAAD//wUAAAAAAAgAAAD//wYAAAAAAAgAAAD//wcAAAAAAAgAAAD//wgAAAAAAAgAAAAAAAgAAAAAAAgAAAABAAgAAAAAAAgAAAACAAgAAAAAAAgAAAADAAgAAAAAAAgAAAAEAAgAAAAAAAgAAAAFAAgAAAAAAAgAAAAGAAgAAAAAAAgAAAAHAAgAAAAAAAgAAAAIAAgAAAAAAAgAAAAJAAgAAAAAAAgAAAAKAAgAAAAAAAgAAAALAAgAAAAAAAgAAAALAAcAAAAAAAgAAAALAAYAAAAAAAgAAAALAAUAAAAAAAgAAAALAAQAAAAAAAgAAAALAAMAAAAAAAgAAAALAAIAAAAAAAgAAAALAAEAAAAAAAgAAAALAAAAAAAAAAgAAAALAP//AAAAAAgAAAAKAP//AAAAAAgAAAAJAP//AAAAAAgAAAAIAP//AAAAAAgAAAAHAP//AAAAAAgAAAAGAP//AAAAAAgAAAAFAP//AAAAAAgAAAAEAP//AAAAAAgAAAADAP//AAAAAAgAAAACAP//AAAAAAgAAAA=")
+tile_set = SubResource("TileSet_bynd4")
+
+[node name="InteractableComponent" parent="." unique_id=1024773738 instance=ExtResource("1_rna2r")]
+
+[node name="Door" parent="." unique_id=447525619 instance=ExtResource("2_37uj7")]
+position = Vector2(16, 0)
+
+[node name="RugWide" type="Sprite2D" parent="." unique_id=1469988816]
+position = Vector2(32, 48)
+texture = ExtResource("3_hkb6s")
+centered = false
+
+[node name="Furniture" type="Node2D" parent="." unique_id=1807585381]
+y_sort_enabled = true
+
+[node name="KitchenSink" parent="Furniture" unique_id=1752920994 instance=ExtResource("3_angqy")]
+position = Vector2(128, 32)
+
+[node name="KitchenFridge" parent="Furniture" unique_id=1967635702 instance=ExtResource("4_f23ic")]
+position = Vector2(160, 64)
+
+[node name="DiningTable" parent="Furniture" unique_id=879938133 instance=ExtResource("5_ul7tg")]
+position = Vector2(64, 96)
+
+[node name="LivingTV" parent="Furniture" unique_id=36942806 instance=ExtResource("6_quuvm")]
+position = Vector2(64, 40)
+
+[node name="Chair" parent="Furniture" unique_id=1565517522 instance=ExtResource("7_1mkq7")]
+position = Vector2(96, 64)
+frame = 1
+
+[node name="Chair2" parent="Furniture" unique_id=573421453 instance=ExtResource("7_1mkq7")]
+position = Vector2(96, 80)
+frame = 1
+
+[node name="Chair3" parent="Furniture" unique_id=1120904326 instance=ExtResource("7_1mkq7")]
+position = Vector2(48, 80)
+flip_h = true
+frame = 1
+
+[node name="Chair4" parent="Furniture" unique_id=538851205 instance=ExtResource("7_1mkq7")]
+position = Vector2(48, 64)
+flip_h = true
+frame = 1

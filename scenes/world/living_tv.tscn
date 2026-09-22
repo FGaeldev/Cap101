@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://ddsooa2hgxp8b"]
+
+[ext_resource type="Texture2D" uid="uid://dk8lkviwcd8mf" path="res://assets/bedroom/living_tv.png" id="1_xkijt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ed45e"]
+size = Vector2(32, 16)
+
+[node name="LivingTV" type="StaticBody2D" unique_id=36942806]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1787543366]
+position = Vector2(16, -24)
+shape = SubResource("RectangleShape2D_ed45e")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1966131140]
+position = Vector2(0, -32)
+texture = ExtResource("1_xkijt")
+centered = false
+offset = Vector2(0, 8)

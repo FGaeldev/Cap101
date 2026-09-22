@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://7wclr7xt55bm"]
+
+[ext_resource type="Texture2D" uid="uid://c7ceomxmct6fx" path="res://assets/bedroom/bedroom_chair.png" id="1_feqqa"]
+
+[node name="Chair" type="Sprite2D" unique_id=1565517522]
+texture = ExtResource("1_feqqa")
+centered = false
+vframes = 2

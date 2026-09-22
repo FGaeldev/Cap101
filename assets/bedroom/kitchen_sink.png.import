@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://baex05njky5u7"
-path="res://.godot/imported/bedroom_rug.png-93d3cc8a623625fff97e2b471dfabb62.ctex"
+uid="uid://cixjy8238o7ni"
+path="res://.godot/imported/kitchen_sink.png-3ea7d845c9867cbbbe4e979534d5a6c7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/bedroom/bedroom_rug.png"
-dest_files=["res://.godot/imported/bedroom_rug.png-93d3cc8a623625fff97e2b471dfabb62.ctex"]
+source_file="res://assets/bedroom/kitchen_sink.png"
+dest_files=["res://.godot/imported/kitchen_sink.png-3ea7d845c9867cbbbe4e979534d5a6c7.ctex"]
 
 [params]
 

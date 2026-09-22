@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://bgofrhevqnj4e"]
+
+[ext_resource type="Texture2D" uid="uid://ddh0kw3vysyph" path="res://assets/bedroom/dining_table.png" id="1_n3ks8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ed45e"]
+size = Vector2(32, 32)
+
+[node name="DiningTable" type="StaticBody2D" unique_id=879938133]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=450956949]
+position = Vector2(16, -16)
+shape = SubResource("RectangleShape2D_ed45e")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1937272239]
+position = Vector2(0, -32)
+texture = ExtResource("1_n3ks8")
+centered = false

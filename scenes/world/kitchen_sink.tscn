@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://c8erihw77d00q"]
+
+[ext_resource type="Texture2D" uid="uid://cixjy8238o7ni" path="res://assets/bedroom/kitchen_sink.png" id="1_gy22i"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ed45e"]
+size = Vector2(48, 8)
+
+[node name="KitchenSink" type="StaticBody2D" unique_id=1752920994]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1669540476]
+position = Vector2(24, -4)
+shape = SubResource("RectangleShape2D_ed45e")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1321657885]
+position = Vector2(24, 0)
+texture = ExtResource("1_gy22i")

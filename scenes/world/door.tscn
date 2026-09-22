@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bu7e6u0mdb75t"]
+
+[ext_resource type="Texture2D" uid="uid://rstxitk761rc" path="res://assets/bedroom/bedroom_door.png" id="1_qatcg"]
+
+[node name="Door" type="Sprite2D" unique_id=447525619]
+texture = ExtResource("1_qatcg")
+centered = false
+vframes = 2
