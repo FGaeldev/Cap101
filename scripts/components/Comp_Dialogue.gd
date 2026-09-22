@@ -24,6 +24,12 @@ signal dialogue_ended
 func start_dialogue() -> void:
 	_current_line = 0
 	_last_speaker = ""
+	# Guard against a bad ChapterLoader lookup (stale/typo'd dialogue_scene_key
+	# returning []) — dialogue_lines[0] on an empty Array is a hard runtime
+	# error, not a graceful no-op. End immediately instead of crashing.
+	if dialogue_lines.is_empty():
+		_end()
+		return
 	_show_line()
 
 ## Rapport tier cutoffs for idle pool selection. Matches the 3-tier JSON

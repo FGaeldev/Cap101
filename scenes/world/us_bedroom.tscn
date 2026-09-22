@@ -98,7 +98,7 @@ target_scene = "res://scenes/world/us_living.tscn"
 target_spawn_id = "from_bedroom"
 
 [node name="DefaultSpawn" type="Marker2D" parent="." unique_id=1699439453]
-position = Vector2(128, 112)
+position = Vector2(136, 112)
 
 [node name="from_living" type="Marker2D" parent="." unique_id=74390705]
 position = Vector2(24, 128)

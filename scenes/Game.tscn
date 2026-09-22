@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://c6gceufnjpplb" path="res://scenes/ui/word_reveal.tscn" id="4_3xj3m"]
 [ext_resource type="PackedScene" uid="uid://iuwdr5jcimkk" path="res://scenes/ui/quest_complete_popup.tscn" id="5_mcffj"]
 [ext_resource type="PackedScene" uid="uid://dfqsw38bvduk2" path="res://scenes/ui/puzzle_panel.tscn" id="6_2rd6h"]
-[ext_resource type="PackedScene" path="res://scenes/ui/challenge_panel.tscn" id="7_ch2pn"]
+[ext_resource type="PackedScene" uid="uid://djyjy5tyurb4c" path="res://scenes/ui/challenge_panel.tscn" id="7_ch2pn"]
 [ext_resource type="PackedScene" uid="uid://bc5quroj66fh4" path="res://scenes/ui/ScreenFade.tscn" id="8_r7sob"]
 [ext_resource type="PackedScene" uid="uid://brd713x4jvfe8" path="res://scenes/entities/Player.tscn" id="9_player"]
 
@@ -15,7 +15,7 @@ script = ExtResource("1_g4kob")
 
 [node name="LevelContainer" type="Node2D" parent="." unique_id=2023280240]
 
-[node name="Player" parent="." instance=ExtResource("9_player")]
+[node name="Player" parent="." unique_id=1613390209 instance=ExtResource("9_player")]
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=457959940]
 
@@ -30,7 +30,7 @@ layer = 99
 
 [node name="PuzzlePanel" parent="UILayer" unique_id=415094778 instance=ExtResource("6_2rd6h")]
 
-[node name="ChallengePanel" parent="UILayer" instance=ExtResource("7_ch2pn")]
+[node name="ChallengePanel" parent="UILayer" unique_id=1298743272 instance=ExtResource("7_ch2pn")]
 
 [node name="ScreenFade" parent="UILayer" unique_id=1468063759 instance=ExtResource("8_r7sob")]
 layer = 99

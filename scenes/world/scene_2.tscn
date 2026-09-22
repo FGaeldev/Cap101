@@ -365,9 +365,9 @@ position = Vector2(252, 16)
 [node name="NPC_LolaJonabel" parent="." unique_id=12182856 instance=ExtResource("4_aprvb")]
 position = Vector2(241, 19)
 cutscene_id = "chapter1_scene2"
-dialogue_scene_key = "scene_2_kalibo_international_airport_arrival_area"
+dialogue_scene_key = "scene_2_kalibo_international_airport_arrival"
 seen_flag = "seen_chapter1_scene2"
 
 [node name="NPC_PapaJobert" parent="." unique_id=985453941 instance=ExtResource("5_o1ypm")]
 position = Vector2(228, 17)
-dialogue_scene_key = "scene_2_kalibo_international_airport_arrival_area"
+dialogue_scene_key = "scene_2_kalibo_international_airport_arrival"

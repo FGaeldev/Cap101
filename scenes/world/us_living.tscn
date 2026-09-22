@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bgofrhevqnj4e" path="res://scenes/world/dining_table.tscn" id="5_ul7tg"]
 [ext_resource type="PackedScene" uid="uid://ddsooa2hgxp8b" path="res://scenes/world/living_tv.tscn" id="6_quuvm"]
 [ext_resource type="PackedScene" uid="uid://7wclr7xt55bm" path="res://scenes/world/chair.tscn" id="7_1mkq7"]
+[ext_resource type="PackedScene" uid="uid://bi7ubv102jcmx" path="res://scenes/entities/npc_LolaJonabel.tscn" id="8_lola"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_rinov"]
 load_path = "res://.godot/imported/bedroom_tiles.png-00e17e7450d7752517e41bd3628fcaad.ctex"
@@ -54,6 +55,14 @@ position = Vector2(0, -16)
 target_scene = "res://scenes/world/us_bedroom.tscn"
 target_spawn_id = "from_living"
 
+[node name="DoorToAirport" parent="." unique_id=447525620 instance=ExtResource("2_37uj7")]
+position = Vector2(16, 96)
+frame = 1
+
+[node name="WarpArea" parent="DoorToAirport" index="0"]
+position = Vector2(0, 13)
+target_scene = "res://scenes/world/scene_2.tscn"
+
 [node name="DefaultSpawn" type="Marker2D" parent="." unique_id=2052056760]
 position = Vector2(24, 128)
 
@@ -98,4 +107,8 @@ position = Vector2(48, 64)
 flip_h = true
 frame = 1
 
+[node name="NpcLolaJonabel" parent="." unique_id=300000001 instance=ExtResource("8_lola")]
+position = Vector2(102, 80)
+
 [editable path="Door"]
+[editable path="DoorToAirport"]
