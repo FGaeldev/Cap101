@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://c4c3m8svqqju2" path="res://scenes/world/scene01.gd" id="1_4dhc7"]
 [ext_resource type="PackedScene" uid="uid://bdu7xw31jf5tn" path="res://scenes/world/us_bedroom.tscn" id="2_n1c12"]
-[ext_resource type="PackedScene" uid="uid://brd713x4jvfe8" path="res://scenes/entities/Player.tscn" id="3_bxgpk"]
 [ext_resource type="PackedScene" uid="uid://bi7ubv102jcmx" path="res://scenes/entities/npc_LolaJonabel.tscn" id="4_qysbm"]
 [ext_resource type="PackedScene" uid="uid://boi31l4ehrro8" path="res://scenes/world/us_living.tscn" id="8_fkk4f"]
 [ext_resource type="Texture2D" uid="uid://c6kls4tt8yht5" path="res://assets/sprites/Objects/blanket.png" id="8_p45fi"]
@@ -38,7 +37,7 @@ position = Vector2(72, 64)
 scale = Vector2(2.25, 2)
 texture = SubResource("GradientTexture2D_byssr")
 
-[node name="DefaultSpawn" type="Marker2D" parent="."]
+[node name="DefaultSpawn" type="Marker2D" parent="." unique_id=900107497]
 position = Vector2(136, 112)
 
 [node name="NpcElder" parent="." unique_id=12182856 instance=ExtResource("4_qysbm")]

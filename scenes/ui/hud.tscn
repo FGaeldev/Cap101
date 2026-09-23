@@ -32,6 +32,7 @@ offset_top = 14.0
 offset_right = -22.0
 offset_bottom = 32.0
 grow_horizontal = 0
+expand_icon = true
 
 [node name="InteractButton" type="Button" parent="." unique_id=1082605464]
 custom_minimum_size = Vector2(24, 24)

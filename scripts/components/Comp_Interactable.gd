@@ -1,7 +1,11 @@
 class_name InteractableComponent
 extends Node2D
 
+@onready var indicator: AnimatedSprite2D = $Indicator
+
 signal interacted(interactor: Node)
+
+@export var is_active: bool = false
 
 @export var interact_label: String = "Talk"
 ## Optional. If set, fires QuestManager.complete_quests_with_trigger(trigger_on_enter)
@@ -18,6 +22,7 @@ var _player_ref: Node = null
 static var _in_range_pool: Array[InteractableComponent] = []
 
 func _ready() -> void:
+	indicator.visible = is_active
 	# Expects sibling Area2D named InteractArea on parent
 	var area = $InteractArea
 	if area:

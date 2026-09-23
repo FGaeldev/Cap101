@@ -19,7 +19,8 @@ func _ready() -> void:
 	# which also fixes the old latent re-trigger-on-revisit behavior.
 	GameState.current_area = "village"
 	AudioManager.play_bgm("village")
-	FadeManager.fade_in(0.6)
+	await FadeManager.fade_in(5)
+	await get_tree().create_timer(1.5).timeout
 	TutorialManager.start("ch1_basics")
 
 

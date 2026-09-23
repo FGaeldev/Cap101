@@ -39,6 +39,11 @@ var _current_tab: String = ""
 ## whenever BookUI is opened from MainMenu itself (see open()) — same
 ## context guard page_settings.gd used to apply to its old Quit button.
 @onready var tab_exit: Button = $Root/TabBar/TabExit
+@onready var tab_settings: Button = $Root/TabBar/TabSettings
+@onready var tab_quest: Button = $Root/TabBar/TabBucketList
+@onready var tab_rapport: Button = $Root/TabBar/TabRelationship
+@onready var tab_dictionary: Button = $Root/TabBar/TabDictionary
+@onready var tab_map: Button = $Root/TabBar/TabMap
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -103,6 +108,13 @@ func _ready() -> void:
 	_tabs["map"]["full_spread"] = true
 
 	_setup_exit_button(tab_exit)
+	TutorialManager.register_target("book_settings", tab_settings)
+	TutorialManager.register_target("book_quest", tab_quest)
+	TutorialManager.register_target("book_rapport", tab_rapport)
+	TutorialManager.register_target("book_dictionary", tab_dictionary)
+	TutorialManager.register_target("book_map", tab_map)
+	
+	
 
 func _make_marker_style() -> StyleBoxTexture:
 	var sb := StyleBoxTexture.new()
@@ -211,6 +223,17 @@ func switch_tab(tab_id: String) -> void:
 		_hide_page(_tabs[_current_tab], "page")
 		_hide_page(_tabs[_current_tab], "page_right")
 	_current_tab = tab_id
+	match tab_id:
+		"settings":
+			TutorialManager.notify("book_settings")
+		"bucket_list":
+			TutorialManager.notify("book_quest")
+		"relationship":
+			TutorialManager.notify("book_rapport")
+		"dictionary":
+			TutorialManager.notify("book_dictionary")
+		"map":
+			TutorialManager.notify("book_map")
 	_animate_tab(tab_id, TAB_HOVER_SCALE)
 	title_label.text = entry["title"]
 	# Map draws over both pages with a transparent-bg PNG, so parchment
@@ -280,3 +303,4 @@ func _unhandled_input(event: InputEvent) -> void:
 			close()
 		else:
 			open("settings")
+		

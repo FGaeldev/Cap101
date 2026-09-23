@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://dlqi03meddd1e" path="res://assets/sprites/papaJobert_sprite.png" id="1_e6f3q"]
 [ext_resource type="Script" uid="uid://ctxdxrvjpmc7u" path="res://scripts/entities/npc/papaJobert.gd" id="1_uyf7i"]
-[ext_resource type="Script" uid="uid://b4kdc1v80hll3" path="res://scripts/components/Comp_Interactable.gd" id="2_uyf7i"]
+[ext_resource type="PackedScene" uid="uid://b8awiupnw1tue" path="res://scenes/components/interactable_component.tscn" id="3_rqx83"]
 [ext_resource type="Script" uid="uid://rdfwcbfe3lh3" path="res://scripts/components/Comp_Dialogue.gd" id="3_v4qet"]
 [ext_resource type="PackedScene" uid="uid://bbk8t0y83k7ib" path="res://scenes/components/CutsceneAnimComponent.tscn" id="5_v4qet"]
 
@@ -189,9 +189,6 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_asrpo"]
 radius = 4.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_13qdw"]
-radius = 19.0
-
 [node name="NPC_PapaJobert" type="CharacterBody2D" unique_id=985453941]
 script = ExtResource("1_uyf7i")
 actor_id = "Papa Jobert"
@@ -205,15 +202,8 @@ animation = &"idle_down"
 position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_asrpo")
 
-[node name="InteractArea" type="Area2D" parent="." unique_id=1028071844]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea" unique_id=39158925]
-position = Vector2(0, -14)
-shape = SubResource("CircleShape2D_13qdw")
-
-[node name="InteractableComponent" type="Node" parent="." unique_id=1024773738]
-script = ExtResource("2_uyf7i")
-metadata/_custom_type_script = "uid://b4kdc1v80hll3"
+[node name="InteractableComponent" parent="." unique_id=1233591827 instance=ExtResource("3_rqx83")]
+position = Vector2(0, -29)
 
 [node name="DialogueComponent" type="Node" parent="." unique_id=1621841028]
 script = ExtResource("3_v4qet")

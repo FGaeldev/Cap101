@@ -97,7 +97,7 @@ position = Vector2(160, 64)
 position = Vector2(64, 96)
 
 [node name="LivingTV" parent="Furniture" unique_id=36942806 instance=ExtResource("6_quuvm")]
-position = Vector2(64, 48)
+position = Vector2(64, 40)
 
 [node name="Chair" parent="Furniture" unique_id=1565517522 instance=ExtResource("7_1mkq7")]
 position = Vector2(96, 64)

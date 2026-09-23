@@ -70,7 +70,12 @@
 	},
 	{
 	  "speaker": "Lola Jonabel",
-	  "text": "Let's call your father. We need to book the flights now.",
+	  "text": "I'll tell your father about our plan.",
+	  "next": 10
+	},
+	{
+	  "speaker": "Lola Jonabel",
+	  "text": "You go to your room and make sure you take your notebook with you.",
 	  "next": null
 	}
   ],

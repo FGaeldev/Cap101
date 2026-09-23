@@ -6,5 +6,38 @@
 			{ "text": "Walk up to someone or something to interact.", "event": "interactable_in_range" },
 			{ "text": "Tap the button to interact.", "event": "interacted", "highlight": "interact_button" },
 		]
+	},
+	"book_ui": {
+	"steps": [
+		{
+			"text": "This is your Book. You can use it to review important information about your journey.",
+			"event": "book_settings",
+			"highlight": "book_settings"
+		},
+		{
+			"text": "Settings lets you adjust things like music, sound effects, and other game options.",
+			"event": "book_quest",
+			"highlight": "book_quest"
+		},
+		{
+			"text": "The Quest page shows your current quests and achievements.",
+			"event": "book_rapport",
+			"highlight": "book_rapport"
+		},
+		{
+			"text": "Rapport lets you check your relationships with the people you meet.",
+			"event": "book_dictionary",
+			"highlight": "book_dictionary"
+		},
+		{
+			"text": "The Dictionary keeps track of words you have discovered during your journey.",
+			"event": "book_map",
+			"highlight": "book_map"
+		},
+		{
+			"text": "The Map shows the places you have discovered and helps you keep track of the world.",
+			"event": "book_tutorial_finished"
+		}
+	]
 	}
 }
