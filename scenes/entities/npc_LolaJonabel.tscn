@@ -190,9 +190,6 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_bxmox"]
 radius = 3.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_fbmhk"]
-radius = 19.026299
-
 [node name="NPC_LolaJonabel" type="CharacterBody2D" unique_id=12182856 groups=["npc"]]
 script = ExtResource("1_a4sf3")
 actor_id = "Lola Jonabel"
@@ -206,13 +203,6 @@ animation = &"idle_down"
 position = Vector2(1, -5)
 shape = SubResource("CircleShape2D_bxmox")
 debug_color = Color(0.7230673, 0.2464309, 1, 0.41960785)
-
-[node name="InteractArea" type="Area2D" parent="." unique_id=25137121]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea" unique_id=764084262]
-position = Vector2(0, -14)
-shape = SubResource("CircleShape2D_fbmhk")
-debug_color = Color(0, 0.6309958, 0.4700889, 0.41960785)
 
 [node name="InteractableComponent" parent="." unique_id=1024773738 instance=ExtResource("3_w1wr4")]
 position = Vector2(0, -29)
