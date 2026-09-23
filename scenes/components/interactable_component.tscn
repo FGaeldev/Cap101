@@ -39,6 +39,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7n77a"]
+size = Vector2(14, 14)
+
 [node name="InteractableComponent" type="Node2D" unique_id=1233591827]
 script = ExtResource("1_onphe")
 
@@ -47,3 +50,10 @@ sprite_frames = SubResource("SpriteFrames_7n77a")
 autoplay = "default"
 frame_progress = 0.6560252
 offset = Vector2(0, 4)
+
+[node name="InteractArea" type="Area2D" parent="." unique_id=867217822]
+position = Vector2(0, 17)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea" unique_id=1133870421]
+shape = SubResource("RectangleShape2D_7n77a")
+debug_color = Color(0, 0.6309958, 0.4700889, 0.41960785)

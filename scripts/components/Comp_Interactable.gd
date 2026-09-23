@@ -21,11 +21,17 @@ static var _in_range_pool: Array[InteractableComponent] = []
 
 func _ready() -> void:
 	# Expects sibling Area2D named InteractArea on parent
-	var area = get_parent().get_node_or_null("InteractArea")
+	var area = $InteractArea
 	if area:
 		area.body_entered.connect(_on_body_entered)
 		area.body_exited.connect(_on_body_exited)
 		area.input_event.connect(_on_input_event)
+
+func interact() -> void:
+	if not _in_range:
+		return
+
+	interacted.emit()
 
 func _exit_tree() -> void:
 	# Covers despawn/free while still in range (edge case) -- without this

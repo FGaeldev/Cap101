@@ -1,6 +1,8 @@
 # NPC_Elder.gd
 extends CharacterBody2D
 
+@onready var sprite: AnimatedSprite2D = $Sprite2D
+
 @export var actor_id: String = ""
 ## First-play cutscene id (data/cutscenes/<id>.json), gated by seen_flag below.
 @export var cutscene_id: String = "chapter1_scene1"
@@ -18,6 +20,15 @@ extends CharacterBody2D
 ## Subsequent interacts draw from idle_pool_key instead of replaying it.
 @export var story_done_flag: String = "story_done_lola_jonabel_scene1"
 
+enum FacingDirection {
+	DOWN,
+	UP,
+	LEFT,
+	RIGHT
+}
+
+@export var spawn_direction: FacingDirection = FacingDirection.DOWN
+
 ## Rapport/patience key AND dialogue "speaker" string match this exactly
 ## (GameState.rapport is keyed by speaker name, see Comp_Dialogue._last_speaker).
 ## Was previously never set anywhere -- idle pool rapport-tier lookup was
@@ -28,11 +39,32 @@ extends CharacterBody2D
 @onready var dialogue: DialogueComponent = $DialogueComponent
 
 func _ready() -> void:
+	
+	_set_spawn_direction()
+	
 	dialogue.npc_id = npc_id
 	interactable.interacted.connect(_on_interacted)
 	dialogue.dialogue_ended.connect(_on_dialogue_ended)
 	if not actor_id.is_empty():
 		CutsceneManager.register_actor(actor_id, self)
+		
+func _set_spawn_direction() -> void:
+	match spawn_direction:
+		FacingDirection.DOWN:
+			sprite.flip_h = false
+			sprite.play("idle_down")
+
+		FacingDirection.UP:
+			sprite.flip_h = false
+			sprite.play("idle_up")
+
+		FacingDirection.LEFT:
+			sprite.flip_h = true
+			sprite.play("idle_side")
+
+		FacingDirection.RIGHT:
+			sprite.flip_h = false
+			sprite.play("idle_side")
 
 func _on_interacted(_interactor: Node) -> void:
 	if not GameState.get_flag(seen_flag):
