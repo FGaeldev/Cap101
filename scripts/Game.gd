@@ -7,6 +7,8 @@ extends Node
 ## after every swap, since the old per-scene baked position no longer exists.
 ## spawn_id lets doors/warps target a specific Marker2D; default reuses the
 ## scene's "DefaultSpawn" marker (falls back to Vector2.ZERO if scene has none).
+@onready var player: CharacterBody2D = $Player
+
 
 func _ready() -> void:
 	var level_path := GameState.current_level_path if GameState.current_level_path != "" else "res://scenes/world/us_bedroom.tscn"
@@ -22,15 +24,17 @@ func _ready() -> void:
 
 
 func load_level(path: String, spawn_id: String = "DefaultSpawn") -> void:
-	# DEBUG: log every level swap with its caller. Remove after diagnosing.
-	print("LOAD_LEVEL -> ", path, " spawn=", spawn_id, " frame=", Engine.get_physics_frames())
-	print_stack()
+	# Rescue Player before freeing old level, else queue_free() deletes it too.
+	if player.get_parent() != self:
+		player.reparent(self, false)
 	for c in $LevelContainer.get_children():
 		c.queue_free()
 	var level = load(path).instantiate()
 	$LevelContainer.add_child(level)
+	# Level roots are y_sort_enabled; Player must be a child to sort with furniture/NPCs.
+	player.reparent(level, false)
+	player = player.get_parent().get_node("Player")
 	_place_player_at_spawn(level, spawn_id)
-
 
 func _place_player_at_spawn(level: Node, spawn_id: String) -> void:
 	var spawn := level.get_node_or_null(spawn_id)
@@ -40,4 +44,4 @@ func _place_player_at_spawn(level: Node, spawn_id: String) -> void:
 	if spawn == null:
 		push_warning("Game: no spawn marker found in '%s', leaving Player at (0,0)" % level.name)
 		return
-	$Player.global_position = spawn.global_position
+	player.global_position = spawn.global_position

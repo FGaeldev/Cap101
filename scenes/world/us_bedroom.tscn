@@ -58,6 +58,7 @@ texture = ExtResource("3_l8ueu")
 offset = Vector2(0, -33)
 
 [node name="InteractableComponent" parent="Interactables/Desktop" unique_id=1024773738 instance=ExtResource("4_wcsil")]
+position = Vector2(0, -54)
 
 [node name="Journal" type="Sprite2D" parent="Interactables" unique_id=1568334702]
 position = Vector2(136, 42)
@@ -65,6 +66,7 @@ texture = ExtResource("5_fxahd")
 offset = Vector2(0, -14)
 
 [node name="InteractableComponent" parent="Interactables/Journal" unique_id=1291548206 instance=ExtResource("4_wcsil")]
+position = Vector2(0, -28)
 
 [node name="Console" type="Sprite2D" parent="Interactables" unique_id=776331421]
 position = Vector2(64, 40)
@@ -72,6 +74,7 @@ texture = ExtResource("6_wdc8m")
 offset = Vector2(0, -16)
 
 [node name="InteractableComponent" parent="Interactables/Console" unique_id=1882570173 instance=ExtResource("4_wcsil")]
+position = Vector2(0, -37)
 
 [node name="Furniture" type="Node2D" parent="." unique_id=1272311697]
 y_sort_enabled = true

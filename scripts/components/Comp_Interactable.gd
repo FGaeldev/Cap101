@@ -1,7 +1,7 @@
 # InteractableComponent — attach to any Node2D to make it interactable
 # Parent must have Area2D child named "InteractArea"
 class_name InteractableComponent
-extends Node
+extends Node2D
 
 signal interacted(interactor: Node)
 
