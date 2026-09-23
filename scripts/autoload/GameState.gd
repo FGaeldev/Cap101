@@ -136,6 +136,10 @@ const SAVE_PATH = "user://save.dat"
 # --- Flag System ---
 func set_flag(flag_name: String, value: bool = true) -> void:
 	flags[flag_name] = value
+	# A newly-set flag may satisfy a quest's "requires_flag" gate -- recheck so
+	# the quest appears the moment the flag flips (idempotent, only appends).
+	if value:
+		QuestManager.refresh_active_quests()
 
 func get_flag(flag_name: String) -> bool:
 	return flags.get(flag_name, false)
@@ -209,3 +213,6 @@ func load_game() -> void:
 	challenge_attempts = data.get("challenge_attempts", {})
 	active_tasks = data.get("active_tasks", {})
 	completed_tasks = data.get("completed_tasks", {})
+	# QuestManager built its active list at boot, before flags/exposures were
+	# loaded -- re-scan so flag-gated quests (requires_flag) show after Continue.
+	QuestManager.refresh_active_quests()

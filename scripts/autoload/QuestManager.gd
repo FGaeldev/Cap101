@@ -41,6 +41,11 @@ func is_quest_available(quest_id: String) -> bool:
 	var q = quests.get(quest_id, {})
 	if q.is_empty(): return false
 	if GameState.get_flag(q["completion_flag"]): return false
+	# Optional prerequisite: quest stays hidden until this flag is set.
+	# Lets a quest unlock off story progress (e.g. a cutscene's set_flag)
+	# instead of word exposure. Absent/empty = no prerequisite.
+	var required_flag: String = q.get("requires_flag", "")
+	if not required_flag.is_empty() and not GameState.get_flag(required_flag): return false
 	# Check exposure gate
 	var total_exposure = 0
 	for wid in q.get("target_words", []):

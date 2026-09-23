@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bu6mri3guu6hw"]
+
+[ext_resource type="Texture2D" uid="uid://bht4ide1qu8kt" path="res://assets/bedroom/bedroom_book_open.png" id="1_b58ce"]
+[ext_resource type="Script" uid="uid://drcb3tkmv4pfj" path="res://scripts/entities/book.gd" id="2_8c3gl"]
+[ext_resource type="PackedScene" uid="uid://b8awiupnw1tue" path="res://scenes/components/interactable_component.tscn" id="2_iv2lt"]
+
+[node name="Journal" type="Sprite2D" unique_id=1885714147]
+texture = ExtResource("1_b58ce")
+offset = Vector2(0, -14)
+script = ExtResource("2_8c3gl")
+
+[node name="InteractableComponent" parent="." unique_id=1233591827 instance=ExtResource("2_iv2lt")]
+position = Vector2(0, -28)

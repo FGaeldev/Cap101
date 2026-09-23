@@ -9,8 +9,13 @@ extends Node
 ## scene's "DefaultSpawn" marker (falls back to Vector2.ZERO if scene has none).
 @onready var player: CharacterBody2D = $Player
 
+## quest_id -> tutorial started when that quest becomes active. Tutorial ids
+## live in data/tutorials/tutorials.json.
+const QUEST_TUTORIALS := {"q002": "ch1_quest_hud"}
+
 
 func _ready() -> void:
+	QuestManager.quest_started.connect(_on_quest_started)
 	var level_path := GameState.current_level_path if GameState.current_level_path != "" else "res://scenes/world/us_bedroom.tscn"
 	load_level(level_path)
 	# Absorbed from scene01.gd (deprecated — scene01.tscn removed, see
@@ -22,6 +27,18 @@ func _ready() -> void:
 	await FadeManager.fade_in(5)
 	await get_tree().create_timer(1.5).timeout
 	TutorialManager.start("ch1_basics")
+
+
+## Starts the tutorial mapped to a newly-active quest (QUEST_TUTORIALS).
+## Waits out any tutorial still running (start() is a no-op while one is
+## active). Step timing lives in tutorials.json ("auto_advance").
+func _on_quest_started(quest_id: String) -> void:
+	var tutorial_id: String = QUEST_TUTORIALS.get(quest_id, "")
+	if tutorial_id.is_empty():
+		return
+	if TutorialManager.is_running():
+		await TutorialManager.tutorial_completed
+	TutorialManager.start(tutorial_id)
 
 
 func load_level(path: String, spawn_id: String = "DefaultSpawn") -> void:

@@ -28,6 +28,12 @@ const FLAG_PREFIX: String = "tutorial_"
 const FLAG_SUFFIX: String = "_done"
 ## Below BookUI (100) and ScreenFade (100).
 const OVERLAY_LAYER: int = 90
+## Tutorials flagged "above_book": true in JSON (e.g. book_ui) explain the Book
+## itself, so their panel must draw OVER BookUI (100) instead of hiding under it.
+const ABOVE_BOOK_LAYER: int = 101
+## Steps whose text is wider than this wrap instead of stretching the panel
+## past the 512px viewport.
+const MAX_TEXT_WIDTH: float = 240.0
 ## Seconds per half-cycle (dim -> bright). Full flash = 2x. Raise to slow down.
 const PULSE_TIME: float = 1.0
 ## Brightening pulse. Deliberately NOT a new palette color (UI Style Guide §2:
@@ -46,6 +52,9 @@ var _active_id: String = ""
 var _step_index: int = -1
 ## notify() hits still required for the current step (step "count").
 var _remaining: int = 0
+## Bumped on every step change; lets a pending auto_advance timer detect that
+## its step is already gone (event fired, skipped, aborted) and do nothing.
+var _step_serial: int = 0
 
 var _panel: PanelContainer
 var _label: Label
@@ -77,6 +86,7 @@ func start(tutorial_id: String) -> void:
 		push_warning("TutorialManager: unknown tutorial '%s'" % tutorial_id)
 		return
 	_active_id = tutorial_id
+	layer = ABOVE_BOOK_LAYER if bool(_tutorials[tutorial_id].get("above_book", false)) else OVERLAY_LAYER
 	tutorial_started.emit(tutorial_id)
 	_go_to_step(0)
 
@@ -88,6 +98,11 @@ func is_done(tutorial_id: String) -> bool:
 
 func is_running() -> bool:
 	return _active_id != ""
+
+
+## Id of the running tutorial, "" if none.
+func active_id() -> String:
+	return _active_id
 
 
 ## Any system reports that something happened. Cheap and safe to call every
@@ -122,6 +137,7 @@ func abort() -> void:
 	_panel.hide()
 	_active_id = ""
 	_step_index = -1
+	layer = OVERLAY_LAYER
 
 
 # ── Internals ───────────────────────────────────────────────────────────────
@@ -143,9 +159,33 @@ func _go_to_step(index: int) -> void:
 	var step: Dictionary = steps[index]
 	_remaining = maxi(1, int(step.get("count", 1)))
 	_label.text = str(step.get("text", ""))
+	_fit_label_width()
 	_panel.show()
 	_apply_highlight(str(step.get("highlight", "")))
 	step_changed.emit(_active_id, _step_index)
+	# Optional "auto_advance": seconds. Explanation-only steps (no "event")
+	# move on by themselves after that long.
+	_step_serial += 1
+	var auto_seconds: float = float(step.get("auto_advance", 0.0))
+	if auto_seconds > 0.0:
+		_auto_advance(auto_seconds, _step_serial)
+
+
+func _auto_advance(seconds: float, serial: int) -> void:
+	# Timer keeps ticking while BookUI pauses the tree (process_always default).
+	await get_tree().create_timer(seconds).timeout
+	if serial == _step_serial and _active_id != "":
+		_go_to_step(_step_index + 1)
+
+
+## Short text keeps the panel shrink-wrapped; long text wraps at MAX_TEXT_WIDTH.
+func _fit_label_width() -> void:
+	var text_w: float = _label.get_theme_font("font").get_string_size(
+		_label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, UIThemeApplier.FONT_SIZE_M
+	).x
+	var needs_wrap: bool = text_w > MAX_TEXT_WIDTH
+	_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART if needs_wrap else TextServer.AUTOWRAP_OFF
+	_label.custom_minimum_size.x = MAX_TEXT_WIDTH if needs_wrap else 0.0
 
 
 func _finish() -> void:

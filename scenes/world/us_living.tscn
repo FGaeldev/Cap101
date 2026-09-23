@@ -72,6 +72,7 @@ frame = 1
 [node name="WarpArea" parent="DoorToAirport" index="0"]
 position = Vector2(0, 13)
 target_scene = "res://scenes/world/scene_2.tscn"
+required_flag = "quest_002_done"
 
 [node name="DefaultSpawn" type="Marker2D" parent="." unique_id=2052056760]
 position = Vector2(56, 80)

@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://kw0gepu4q6du" path="res://scenes/world/bedroom_desk.tscn" id="3_v3tay"]
 [ext_resource type="PackedScene" uid="uid://b8awiupnw1tue" path="res://scenes/components/interactable_component.tscn" id="4_wcsil"]
 [ext_resource type="PackedScene" uid="uid://mmb1yedttndp" path="res://scenes/world/bedroom_table.tscn" id="5_7q6f3"]
-[ext_resource type="Texture2D" uid="uid://bht4ide1qu8kt" path="res://assets/bedroom/bedroom_book_open.png" id="5_fxahd"]
+[ext_resource type="PackedScene" uid="uid://bu6mri3guu6hw" path="res://scenes/world/journal.tscn" id="6_fxahd"]
 [ext_resource type="Texture2D" uid="uid://cpicep1vxspt6" path="res://assets/bedroom/bedroom_console.png" id="6_wdc8m"]
 [ext_resource type="PackedScene" uid="uid://7wclr7xt55bm" path="res://scenes/world/chair.tscn" id="10_l8ueu"]
 [ext_resource type="PackedScene" uid="uid://bu7e6u0mdb75t" path="res://scenes/world/door.tscn" id="11_l8ueu"]
@@ -64,13 +64,8 @@ offset = Vector2(0, -33)
 [node name="InteractableComponent" parent="Interactables/Desktop" unique_id=1024773738 instance=ExtResource("4_wcsil")]
 position = Vector2(0, -54)
 
-[node name="Journal" type="Sprite2D" parent="Interactables" unique_id=1568334702]
+[node name="Journal" parent="Interactables" unique_id=1885714147 instance=ExtResource("6_fxahd")]
 position = Vector2(136, 42)
-texture = ExtResource("5_fxahd")
-offset = Vector2(0, -14)
-
-[node name="InteractableComponent" parent="Interactables/Journal" unique_id=1291548206 instance=ExtResource("4_wcsil")]
-position = Vector2(0, -28)
 
 [node name="Console" type="Sprite2D" parent="Interactables" unique_id=776331421]
 position = Vector2(64, 40)

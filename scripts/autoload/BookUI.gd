@@ -19,6 +19,9 @@ const PageMapScene := preload("res://scenes/ui/page_map.tscn")
 const MARKER := preload("res://assets/ui/book/marker.png")
 const MARKER_SLICE_MARGIN := 3
 
+## Tutorial id (data/tutorials/tutorials.json) that only makes sense while the Book is open.
+const BOOK_TUTORIAL_ID := "book_ui"
+
 const TAB_HOVER_SCALE := 1.15
 const TAB_ANIM_TIME := 0.12
 
@@ -113,6 +116,7 @@ func _ready() -> void:
 	TutorialManager.register_target("book_rapport", tab_rapport)
 	TutorialManager.register_target("book_dictionary", tab_dictionary)
 	TutorialManager.register_target("book_map", tab_map)
+	TutorialManager.register_target("book_close", close_btn)
 	
 	
 
@@ -209,6 +213,12 @@ func close() -> void:
 	AudioManager.play_sfx("menu_click")
 	visible = false
 	get_tree().paused = false
+	# Last step of the "book_ui" tutorial waits for the player to close the Book.
+	TutorialManager.notify("book_tutorial_finished")
+	# Closed early = tutorial has no open Book left to act on. Drop it (NOT
+	# marked done) so the bedroom book restarts it from the top next time.
+	if TutorialManager.active_id() == BOOK_TUTORIAL_ID:
+		TutorialManager.abort()
 
 func switch_tab(tab_id: String) -> void:
 	if not _tabs.has(tab_id):
@@ -303,4 +313,3 @@ func _unhandled_input(event: InputEvent) -> void:
 			close()
 		else:
 			open("settings")
-		
