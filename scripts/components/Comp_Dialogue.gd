@@ -24,13 +24,51 @@ signal dialogue_ended
 func start_dialogue() -> void:
 	_current_line = 0
 	_last_speaker = ""
-	# Guard against a bad ChapterLoader lookup (stale/typo'd dialogue_scene_key
-	# returning []) — dialogue_lines[0] on an empty Array is a hard runtime
-	# error, not a graceful no-op. End immediately instead of crashing.
 	if dialogue_lines.is_empty():
 		_end()
 		return
+	# Resolve any non-display routing lines before showing dialogue.
+	_resolve_start_router()
+	if _current_line >= dialogue_lines.size():
+		_end()
+		return
 	_show_line()
+
+func _resolve_start_router() -> void:
+	var safety := 0
+
+	while _current_line < dialogue_lines.size():
+		var line: Dictionary = dialogue_lines[_current_line]
+
+		if line.get("type", "") != "start_router":
+			return
+
+		var routes: Dictionary = line.get("start_index_if_flag", {})
+		var next_index: int = routes.get("default", _current_line + 1)
+
+		for flag_id in routes:
+			if flag_id == "default":
+				continue
+
+			if GameState.get_flag(flag_id):
+				next_index = routes[flag_id]
+				break
+
+		# Prevent malformed dialogue data from looping forever.
+		if next_index == _current_line:
+			push_error(
+				"Dialogue start_router points to itself at index %d" % _current_line
+			)
+			_end()
+			return
+
+		_current_line = next_index
+
+		safety += 1
+		if safety > 100:
+			push_error("Dialogue start_router exceeded 100 redirects.")
+			_end()
+			return
 
 ## Rapport tier cutoffs for idle pool selection. Matches the 3-tier JSON
 ## shape ("low"/"med"/"high") authored per NPC. Out of 10.0 RAPPORT_MAX.
@@ -146,31 +184,41 @@ func choose(choice: Dictionary) -> void:
 func _show_line() -> void:
 	var line: Dictionary = dialogue_lines[_current_line]
 
-	# challenge_gate (TDD §5): wait-state, not a branch. No text/choices are
-	# shown for this line type — it either passes through immediately (already
-	# passed) or suspends dialogue until ChallengeManager reports a pass.
 	if line.get("type", "") == "challenge_gate":
 		_handle_challenge_gate(line)
 		return
 
-	var portrait_tex = CharacterRegistry.get_portrait(line.get("speaker", ""))
+	var portrait_tex = CharacterRegistry.get_portrait(
+		line.get("speaker", "")
+	)
 
-	# Word exposure (Dictionary unlock)
+	# Word exposure
 	if line.has("word_ids"):
 		for wid in line["word_ids"]:
 			if not wid.is_empty():
 				GameState.expose_word(wid)
 
 	var speaker: String = line.get("speaker", "")
-	if not speaker.is_empty():
-		_last_speaker = speaker   # tracked for choice-delta attribution + patience_branch reads
 
-	# Branch or linear
+	if not speaker.is_empty():
+		_last_speaker = speaker
+
 	if line.has("choices") and not line["choices"].is_empty():
-		DialogueUI.show_line(line.get("speaker",""), line.get("text",""), self, portrait_tex)
+		DialogueUI.show_line(
+			line.get("speaker", ""),
+			line.get("text", ""),
+			self,
+			portrait_tex
+		)
+
 		DialogueUI.show_choices(line["choices"], self)
 	else:
-		DialogueUI.show_line(line.get("speaker",""), line.get("text",""), self, portrait_tex)
+		DialogueUI.show_line(
+			line.get("speaker", ""),
+			line.get("text", ""),
+			self,
+			portrait_tex
+		)
 
 func _end() -> void:
 	DialogueUI.hide()

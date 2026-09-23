@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://ddsooa2hgxp8b" path="res://scenes/world/living_tv.tscn" id="6_quuvm"]
 [ext_resource type="PackedScene" uid="uid://7wclr7xt55bm" path="res://scenes/world/chair.tscn" id="7_1mkq7"]
 [ext_resource type="PackedScene" uid="uid://bi7ubv102jcmx" path="res://scenes/entities/npc_LolaJonabel.tscn" id="8_lola"]
+[ext_resource type="PackedScene" uid="uid://c0pbt2t43xx31" path="res://scenes/world/pulsing_light.tscn" id="9_336a2"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_rinov"]
 load_path = "res://.godot/imported/bedroom_tiles.png-00e17e7450d7752517e41bd3628fcaad.ctex"
@@ -37,7 +38,19 @@ texture = SubResource("CompressedTexture2D_rinov")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_n82bm")
 
+[sub_resource type="Gradient" id="Gradient_wcsil"]
+offsets = PackedFloat32Array(0.24817519, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_336a2"]
+gradient = SubResource("Gradient_wcsil")
+fill = 1
+fill_from = Vector2(0.5, 0.3)
+fill_to = Vector2(0.4, 0.7)
+metadata/_snap_enabled = true
+
 [node name="us_living" type="Node2D" unique_id=771320374]
+modulate = Color(0, 0.34117648, 0.4862745, 1)
 y_sort_enabled = true
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1842238848]
@@ -84,7 +97,7 @@ position = Vector2(160, 64)
 position = Vector2(64, 96)
 
 [node name="LivingTV" parent="Furniture" unique_id=36942806 instance=ExtResource("6_quuvm")]
-position = Vector2(64, 40)
+position = Vector2(64, 48)
 
 [node name="Chair" parent="Furniture" unique_id=1565517522 instance=ExtResource("7_1mkq7")]
 position = Vector2(96, 64)
@@ -107,6 +120,12 @@ frame = 1
 [node name="NpcLolaJonabel" parent="." unique_id=300000001 instance=ExtResource("8_lola")]
 position = Vector2(102, 80)
 spawn_direction = 2
+
+[node name="PulsingLight" parent="." unique_id=359865099 instance=ExtResource("9_336a2")]
+position = Vector2(88, 64.00001)
+scale = Vector2(2.75, 2.0000002)
+energy = 1.0
+texture = SubResource("GradientTexture2D_336a2")
 
 [editable path="DoorToBedroom"]
 [editable path="DoorToAirport"]

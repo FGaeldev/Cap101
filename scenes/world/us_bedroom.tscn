@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://bdu7xw31jf5tn"]
 
 [ext_resource type="Texture2D" uid="uid://con268kpo8sql" path="res://assets/bedroom/bedroom_tiles.png" id="1_342nr"]
-[ext_resource type="Script" uid="uid://pjsee1qcrdpm" path="res://scripts/map/us_bedroom.gd" id="1_wcsil"]
+[ext_resource type="Script" uid="uid://b23sdosmpwihe" path="res://scripts/game _scenes/us_bedroom.gd" id="1_fxahd"]
 [ext_resource type="Texture2D" uid="uid://baex05njky5u7" path="res://assets/bedroom/rug_square.png" id="2_v3tay"]
 [ext_resource type="PackedScene" uid="uid://ch1r4565fnl6q" path="res://scenes/world/bedroom_bed.tscn" id="3_7q6f3"]
 [ext_resource type="Texture2D" uid="uid://bp33nucd01emr" path="res://assets/bedroom/bedroom_pc.png" id="3_l8ueu"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://cpicep1vxspt6" path="res://assets/bedroom/bedroom_console.png" id="6_wdc8m"]
 [ext_resource type="PackedScene" uid="uid://7wclr7xt55bm" path="res://scenes/world/chair.tscn" id="10_l8ueu"]
 [ext_resource type="PackedScene" uid="uid://bu7e6u0mdb75t" path="res://scenes/world/door.tscn" id="11_l8ueu"]
+[ext_resource type="PackedScene" uid="uid://c0pbt2t43xx31" path="res://scenes/world/pulsing_light.tscn" id="12_wcsil"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_f5kqj"]
 texture = ExtResource("1_342nr")
@@ -38,20 +39,10 @@ texture = ExtResource("1_342nr")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_f5kqj")
 
-[sub_resource type="Gradient" id="Gradient_wcsil"]
-offsets = PackedFloat32Array(0.24817519, 1)
-colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_3ydn5"]
-gradient = SubResource("Gradient_wcsil")
-fill = 1
-fill_from = Vector2(0.10945274, 0.99502486)
-fill_to = Vector2(0.6766169, 0.52238804)
-
 [node name="Bedroom" type="Node2D" unique_id=819623926]
-modulate = Color(9.62615e-07, 0.3411197, 0.48612636, 1)
+modulate = Color(0, 0.34117648, 0.4862745, 1)
 y_sort_enabled = true
-script = ExtResource("1_wcsil")
+script = ExtResource("1_fxahd")
 
 [node name="BedroomRug" type="Sprite2D" parent="." unique_id=2070048524]
 position = Vector2(48, 19)
@@ -121,10 +112,7 @@ position = Vector2(24, 128)
 
 [node name="Node2D" type="Node2D" parent="." unique_id=274218314]
 
-[node name="PointLight2D" type="PointLight2D" parent="." unique_id=174610942]
+[node name="PulsingLight" parent="." unique_id=359865099 instance=ExtResource("12_wcsil")]
 position = Vector2(72, 64.00001)
-scale = Vector2(2.25, 2.0000002)
-energy = 0.0
-texture = SubResource("GradientTexture2D_3ydn5")
 
 [editable path="Door"]

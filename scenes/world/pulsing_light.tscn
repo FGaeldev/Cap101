@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://c0pbt2t43xx31"]
+
+[ext_resource type="Script" uid="uid://cgkx6yric7k2v" path="res://scripts/entities/pulsing_light.gd" id="1_rs40u"]
+
+[sub_resource type="Gradient" id="Gradient_wcsil"]
+offsets = PackedFloat32Array(0.24817519, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_3ydn5"]
+gradient = SubResource("Gradient_wcsil")
+fill = 1
+fill_from = Vector2(0.10945274, 0.99502486)
+fill_to = Vector2(0.6766169, 0.52238804)
+
+[node name="PulsingLight" type="PointLight2D" unique_id=359865099]
+scale = Vector2(2.25, 2.0000002)
+energy = 0.0
+texture = SubResource("GradientTexture2D_3ydn5")
+script = ExtResource("1_rs40u")

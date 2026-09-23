@@ -1,10 +1,10 @@
 {
 	"ch1_basics": {
 		"steps": [
+			{ "text": "Tap the screen to continue the conversation.", "event": "dialogue_advanced" },
 			{ "text": "Use the joystick to move.", "event": "player_moved", "count": 3, "highlight": "joystick" },
 			{ "text": "Walk up to someone or something to interact.", "event": "interactable_in_range" },
 			{ "text": "Tap the button to interact.", "event": "interacted", "highlight": "interact_button" },
-			{ "text": "Tap the screen to continue the conversation.", "event": "dialogue_advanced" }
 		]
 	}
 }
