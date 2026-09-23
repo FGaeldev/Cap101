@@ -124,6 +124,9 @@ func warp_to_scene(scene_path: String, spawn_id: String = "DefaultSpawn") -> voi
 		push_error("MapManager: warp_to_scene called with empty scene_path")
 		return
 
+	if is_transitioning:
+		return
+
 	var game := get_tree().current_scene
 	if game == null or not game.has_method("load_level"):
 		push_error("MapManager: current_scene has no load_level() — not running inside Game.tscn")

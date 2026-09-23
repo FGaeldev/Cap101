@@ -22,6 +22,9 @@ func _ready() -> void:
 
 
 func load_level(path: String, spawn_id: String = "DefaultSpawn") -> void:
+	# DEBUG: log every level swap with its caller. Remove after diagnosing.
+	print("LOAD_LEVEL -> ", path, " spawn=", spawn_id, " frame=", Engine.get_physics_frames())
+	print_stack()
 	for c in $LevelContainer.get_children():
 		c.queue_free()
 	var level = load(path).instantiate()

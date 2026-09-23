@@ -93,7 +93,7 @@ position = Vector2(16, 96)
 frame = 1
 
 [node name="WarpArea" parent="Door" index="0"]
-position = Vector2(0, 12)
+position = Vector2(0, 13)
 target_scene = "res://scenes/world/us_living.tscn"
 target_spawn_id = "from_bedroom"
 
