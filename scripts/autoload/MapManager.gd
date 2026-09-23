@@ -16,6 +16,15 @@ extends Node
 
 const REGION_DATA_PATH := "res://data/map_data/regions.json"
 
+## True from the moment a warp/travel starts (fade-out) until its fade-in
+## finishes. Player.get_input_dir() reads this to zero movement input during
+## the transition — without it, a held direction carries through the
+## black-screen fade into the newly-loaded scene and can walk straight into
+## another door standing near the arrival spawn point, chain-triggering a
+## second warp mid-fade (seen as both an unwanted instant scene-chain AND an
+## overlapping fade_out/fade_in "pulse", same root cause, one flag fixes both).
+var is_transitioning: bool = false
+
 ## region_id (String, matches regions.json key and its own "id" field)
 ## -> Dictionary { display_name: String, scene_path: String, unlocked: bool }
 var regions: Dictionary = {}
@@ -86,6 +95,7 @@ func travel_to_region(region_id: String) -> void:
 
 	CutsceneManager.abort()
 	BookUI.close()
+	is_transitioning = true
 	await FadeManager.fade_out()
 
 	GameState.current_area = region.get("id", region_id)
@@ -95,6 +105,7 @@ func travel_to_region(region_id: String) -> void:
 	game.load_level(scene_path)
 
 	await FadeManager.fade_in()
+	is_transitioning = false
 
 ## Opens the Map tab. Kept as the stable call site for gameplay code
 ## (stub_area.gd etc.) so nothing outside BookUI needs to know the map lives
@@ -120,6 +131,7 @@ func warp_to_scene(scene_path: String, spawn_id: String = "DefaultSpawn") -> voi
 
 	CutsceneManager.abort()
 	BookUI.close()
+	is_transitioning = true
 	await FadeManager.fade_out()
 
 	GameState.current_level_path = scene_path
@@ -128,3 +140,4 @@ func warp_to_scene(scene_path: String, spawn_id: String = "DefaultSpawn") -> voi
 	game.load_level(scene_path, spawn_id)
 
 	await FadeManager.fade_in()
+	is_transitioning = false

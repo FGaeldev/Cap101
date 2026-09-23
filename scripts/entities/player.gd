@@ -23,9 +23,16 @@ func _ready() -> void:
 	CutsceneManager.camera_follow(self)
 
 ## Raw input axis, snapped to 4-directional (no diagonals).
-## Locked to zero while dialogue is active.
+## Locked to zero while dialogue is active, during a warp/region transition
+## (MapManager.is_transitioning), or while any cutscene is running
+## (CutsceneManager.is_playing()) — cutscene-triggered scene loads
+## (load_scene_action.gd) bypass MapManager entirely, so without this check
+## the player can walk freely mid-cutscene and chain-trigger a door the same
+## way an unlocked warp transition can.
 func get_input_dir() -> Vector2:
-	if DialogueUI._current_component != null:
+	if DialogueUI._current_component != null \
+			or MapManager.is_transitioning \
+			or CutsceneManager.is_playing():
 		return Vector2.ZERO
 	var raw := Vector2(
 		Input.get_axis("ui_left", "ui_right"),
