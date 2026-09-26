@@ -4,6 +4,14 @@ extends CharacterBody2D
 @onready var sprite: AnimatedSprite2D = $Sprite2D
 
 @export var actor_id: String = ""
+## Quest/task/flag this NPC is imperative to. All optional, checked in that
+## order by Comp_Interactable.refresh_quest_marker. Fill quest_id in when a
+## real quest exists for her again.
+@export var quest_id: String = ""
+@export var task_id: String = ""
+@export var task_step: int = -1
+## Marker shows until the intro cutscene (chapter1_scene1) has played once.
+@export var show_until_flag: String = "seen_chapter1_scene1"
 ## First-play cutscene id (data/cutscenes/<id>.json), gated by seen_flag below.
 @export var cutscene_id: String = "chapter1_scene1"
 ## ChapterLoader lookup for repeat-visit (post-cutscene) dialogue.

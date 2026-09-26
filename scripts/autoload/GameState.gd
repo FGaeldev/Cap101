@@ -12,7 +12,7 @@ var flags: Dictionary = {}          # quest/story flags
 var word_exposures: Dictionary = {} # word_id -> exposure count (doubles as Dictionary-unlock record)
 var current_area: String = "village"
 var completed_quests: Array = []
-var current_level_path: String = "res://scenes/world/us_bedroom.tscn"
+var current_level_path: String = "res://scenes/world/chapter1/us_bedroom.tscn"
 
 ## Dev-only chapter/scene skip menu toggle (Settings tab). Deliberately NOT
 ## in save_game()/load_game() -- session-only, must never leak into a saved

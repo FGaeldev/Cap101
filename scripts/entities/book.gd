@@ -21,6 +21,13 @@ const BOOK_QUEST_ID: String = "q002"
 ## Must match "completion_flag" of BOOK_QUEST_ID in data/quest_data.json.
 const BOOK_QUEST_DONE_FLAG: String = "quest_002_done"
 const BOOK_TUTORIAL_ID: String = "book_ui"
+
+## Quest/task this object is imperative to. Read by its InteractableComponent
+## (Comp_Interactable.refresh_quest_marker). Same id as BOOK_QUEST_ID.
+@export var quest_id: String = BOOK_QUEST_ID
+@export var task_id: String = ""
+## -1 = any active step of task_id.
+@export var task_step: int = -1
 ## Not "settings": tutorial step 1 ("Tap the Settings tab") waits for the
 ## player to tap Settings; opening on that tab would satisfy it instantly.
 const BOOK_START_TAB: String = "bucket_list"

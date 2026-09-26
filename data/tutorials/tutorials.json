@@ -12,7 +12,7 @@
 				"highlight": "joystick"
 			},
 			{
-				"text": "Walk up to someone or something to interact.",
+				"text": "Walk to the living room and talk to Grandma.",
 				"event": "interactable_in_range"
 			},
 			{

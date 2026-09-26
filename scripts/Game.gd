@@ -16,7 +16,7 @@ const QUEST_TUTORIALS := {"q002": "ch1_quest_hud"}
 
 func _ready() -> void:
 	QuestManager.quest_started.connect(_on_quest_started)
-	var level_path := GameState.current_level_path if GameState.current_level_path != "" else "res://scenes/world/us_bedroom.tscn"
+	var level_path := GameState.current_level_path if GameState.current_level_path != "" else "res://scenes/world/chapter1/us_bedroom.tscn"
 	load_level(level_path)
 	# Absorbed from scene01.gd (deprecated — scene01.tscn removed, see
 	# Team_Changes/roadmap notes; game now boots straight into us_bedroom).
@@ -24,7 +24,7 @@ func _ready() -> void:
 	# which also fixes the old latent re-trigger-on-revisit behavior.
 	GameState.current_area = "village"
 	AudioManager.play_bgm("village")
-	await FadeManager.fade_in(5)
+	await FadeManager.fade_in(3)
 	await get_tree().create_timer(1.5).timeout
 	TutorialManager.start("ch1_basics")
 

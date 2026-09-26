@@ -11,6 +11,7 @@ var active_quests: Array[String] = [] # all currently available, uncompleted que
 
 func _ready() -> void:
 	_load()
+	print("QuestManager loaded ids: ", quests.keys())
 	_refresh_active_quests()
 
 func _load() -> void:

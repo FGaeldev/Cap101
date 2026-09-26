@@ -14,6 +14,10 @@ signal interacted(interactor: Node)
 var _in_range: bool = false
 var _player_ref: Node = null
 
+# Quest marker gating. Quest/task link lives on the PARENT object (exports on
+# its root script: quest_id, task_id, task_step), read via get() so objects
+# without those vars fall back to is_active.
+
 # Global pool of currently in-range interactables, across ALL instances.
 # HUD's interact button (hud.gd) reads this to find the nearest one to the
 # player without HUD needing a per-NPC reference — same "register on ready,
@@ -22,13 +26,54 @@ var _player_ref: Node = null
 static var _in_range_pool: Array[InteractableComponent] = []
 
 func _ready() -> void:
-	indicator.visible = is_active
+	QuestManager.quest_started.connect(_on_quest_signal)
+	QuestManager.quest_completed.connect(_on_quest_signal)
+	TaskManager.task_started.connect(_on_task_signal)
+	TaskManager.task_step_advanced.connect(_on_task_signal)
+	TaskManager.task_completed.connect(_on_task_signal)
+	refresh_quest_marker()
 	# Expects sibling Area2D named InteractArea on parent
 	var area = $InteractArea
 	if area:
 		area.body_entered.connect(_on_body_entered)
 		area.body_exited.connect(_on_body_exited)
 		area.input_event.connect(_on_input_event)
+
+## Shows/hides the existing indicator from the parent object's quest/task
+## link. Falls back to is_active when the parent sets no link.
+func refresh_quest_marker() -> void:
+	var quest_id: String = _parent_prop("quest_id", "")
+	var task_id: String = _parent_prop("task_id", "")
+	var show_until_flag: String = _parent_prop("show_until_flag", "")
+	var linked := quest_id != "" or task_id != "" or show_until_flag != ""
+	indicator.visible = _is_quest_imperative(quest_id, task_id, show_until_flag) if linked else is_active
+
+## Reads an exported property from the parent object. Returns fallback when
+## the parent doesn't define it (get() returns null).
+func _parent_prop(prop: String, fallback: Variant) -> Variant:
+	var value: Variant = get_parent().get(prop)
+	return fallback if value == null else value
+
+## True if the parent object is currently imperative: an active quest/task,
+## or (for flag-only NPCs with no real quest) a not-yet-set story flag.
+func _is_quest_imperative(quest_id: String, task_id: String, show_until_flag: String) -> bool:
+	if quest_id != "" and QuestManager.active_quests.has(quest_id):
+		return true
+	if task_id != "" and TaskManager.is_task_active(task_id):
+		var task_step: int = _parent_prop("task_step", -1)
+		return task_step == -1 or TaskManager.get_current_step(task_id) == task_step
+	if show_until_flag != "":
+		return not GameState.get_flag(show_until_flag)
+	return false
+
+## Signal handlers. Args unused, defaulted so both signal arities connect.
+func _on_quest_signal(_quest_id: String) -> void:
+	refresh_quest_marker()
+
+
+func _on_task_signal(_task_id: String, _step: int = -1) -> void:
+	refresh_quest_marker()
+
 
 func interact() -> void:
 	if not _in_range:

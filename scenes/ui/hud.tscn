@@ -35,8 +35,8 @@ grow_horizontal = 0
 expand_icon = true
 
 [node name="InteractButton" type="Button" parent="." unique_id=1082605464]
-custom_minimum_size = Vector2(24, 24)
-custom_maximum_size = Vector2(24, 24)
+custom_minimum_size = Vector2(48, 48)
+custom_maximum_size = Vector2(48, 48)
 anchors_preset = -1
 anchor_left = 1.0
 anchor_top = 1.0
@@ -48,3 +48,4 @@ offset_right = -52.0
 offset_bottom = -52.0
 grow_horizontal = 0
 grow_vertical = 0
+expand_icon = true

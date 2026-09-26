@@ -1,14 +1,14 @@
 [gd_scene format=4 uid="uid://boi31l4ehrro8"]
 
-[ext_resource type="PackedScene" uid="uid://bu7e6u0mdb75t" path="res://scenes/world/door.tscn" id="2_37uj7"]
-[ext_resource type="PackedScene" uid="uid://c8erihw77d00q" path="res://scenes/world/kitchen_sink.tscn" id="3_angqy"]
+[ext_resource type="PackedScene" uid="uid://bu7e6u0mdb75t" path="res://scenes/entities/furniture/door.tscn" id="2_37uj7"]
+[ext_resource type="PackedScene" uid="uid://c8erihw77d00q" path="res://scenes/entities/furniture/kitchen_sink.tscn" id="3_angqy"]
 [ext_resource type="Texture2D" uid="uid://1l2ic8lkp3ep" path="res://assets/bedroom/rug_wide.png" id="3_hkb6s"]
-[ext_resource type="PackedScene" uid="uid://dxh0d1hhjam14" path="res://scenes/world/kitchen_fridge.tscn" id="4_f23ic"]
-[ext_resource type="PackedScene" uid="uid://bgofrhevqnj4e" path="res://scenes/world/dining_table.tscn" id="5_ul7tg"]
-[ext_resource type="PackedScene" uid="uid://ddsooa2hgxp8b" path="res://scenes/world/living_tv.tscn" id="6_quuvm"]
-[ext_resource type="PackedScene" uid="uid://7wclr7xt55bm" path="res://scenes/world/chair.tscn" id="7_1mkq7"]
+[ext_resource type="PackedScene" uid="uid://dxh0d1hhjam14" path="res://scenes/entities/furniture/kitchen_fridge.tscn" id="4_f23ic"]
+[ext_resource type="PackedScene" uid="uid://bgofrhevqnj4e" path="res://scenes/entities/furniture/dining_table.tscn" id="5_ul7tg"]
+[ext_resource type="PackedScene" uid="uid://ddsooa2hgxp8b" path="res://scenes/entities/furniture/living_tv.tscn" id="6_quuvm"]
+[ext_resource type="PackedScene" uid="uid://7wclr7xt55bm" path="res://scenes/entities/furniture/chair.tscn" id="7_1mkq7"]
 [ext_resource type="PackedScene" uid="uid://bi7ubv102jcmx" path="res://scenes/entities/npc_LolaJonabel.tscn" id="8_lola"]
-[ext_resource type="PackedScene" uid="uid://c0pbt2t43xx31" path="res://scenes/world/pulsing_light.tscn" id="9_336a2"]
+[ext_resource type="PackedScene" uid="uid://c0pbt2t43xx31" path="res://scenes/entities/furniture/pulsing_light.tscn" id="9_336a2"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_rinov"]
 load_path = "res://.godot/imported/bedroom_tiles.png-00e17e7450d7752517e41bd3628fcaad.ctex"
