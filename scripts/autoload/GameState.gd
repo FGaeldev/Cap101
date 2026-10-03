@@ -158,6 +158,11 @@ func expose_word(word_id: String) -> void:
 	# quest can go from locked to active_quests the moment its threshold
 	# is crossed, not just at boot/quest-completion.
 	QuestManager.refresh_active_quests()
+	# Persist on FIRST exposure only: a hard force-quit before any other save
+	# trigger (flag/quest/travel) would otherwise drop the new Dictionary entry.
+	# Repeat exposures skipped -- count-only change, not worth a disk write.
+	if is_new:
+		save_game()
 
 func get_exposure(word_id: String) -> int:
 	return word_exposures.get(word_id, 0)

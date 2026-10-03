@@ -37,11 +37,6 @@ var _current_tab: String = ""
 @onready var bottom_bar: HBoxContainer = $Root/BottomBar
 @onready var arrow_left: Button = $Root/BottomBar/ArrowLeft
 @onready var arrow_right: Button = $Root/BottomBar/ArrowRight
-## Not a real tab — sits in the tab bar for chrome consistency, but presses
-## trigger _on_exit_pressed() directly instead of switch_tab(). Hidden
-## whenever BookUI is opened from MainMenu itself (see open()) — same
-## context guard page_settings.gd used to apply to its old Quit button.
-@onready var tab_exit: Button = $Root/TabBar/TabExit
 @onready var tab_settings: Button = $Root/TabBar/TabSettings
 @onready var tab_quest: Button = $Root/TabBar/TabBucketList
 @onready var tab_rapport: Button = $Root/TabBar/TabRelationship
@@ -110,7 +105,6 @@ func _ready() -> void:
 	_tabs["map"]["page"] = map_page
 	_tabs["map"]["full_spread"] = true
 
-	_setup_exit_button(tab_exit)
 	TutorialManager.register_target("book_settings", tab_settings)
 	TutorialManager.register_target("book_quest", tab_quest)
 	TutorialManager.register_target("book_rapport", tab_rapport)
@@ -156,27 +150,10 @@ func _animate_button(button: Button, target_scale: float) -> void:
 	var tween := create_tween()
 	tween.tween_property(button, "scale", Vector2(target_scale, target_scale), TAB_ANIM_TIME)
 
-## Exit lives in the tab bar for visual consistency (same marker chrome,
-## same hover pop) but isn't a real tab -- no page, never touches
-## _tabs/_current_tab/switch_tab(). Pressing it leaves the game immediately.
-func _setup_exit_button(button: Button) -> void:
-	var style := _make_marker_style()
-	button.add_theme_stylebox_override("normal", style)
-	button.add_theme_stylebox_override("hover", style)
-	button.add_theme_stylebox_override("pressed", style)
-	button.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
-	button.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
-	button.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XS)
-	call_deferred("_set_pivot_bottom_left", button)
-	button.mouse_entered.connect(func(): _animate_button(button, TAB_HOVER_SCALE))
-	button.mouse_exited.connect(func(): _animate_button(button, 1.0))
-	button.pressed.connect(_on_exit_pressed)
-
-## Moved from page_settings.gd::_on_quit_pressed() -- same sequence
-## (CutsceneManager.abort() first, TDD §9 item 8's "any leave-game path"
-## rule), just triggered from the tab bar directly instead of a button
-## inside the Settings page.
-func _on_exit_pressed() -> void:
+## Exit-to-menu trigger moved back to Settings page (page_settings.gd Quit
+## button) — this is just the shared confirm+abort sequence now, called from
+## there instead of from a tab-bar button.
+func confirm_exit_to_menu() -> void:
 	confirm_popup.open("Return to menu?")
 	if not confirm_popup.confirmed.is_connected(_on_return_confirmed):
 		confirm_popup.confirmed.connect(_on_return_confirmed)
@@ -191,6 +168,15 @@ func _on_return_confirmed() -> void:
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://scenes/ui/MainMenu.tscn")
 
+## "Exit to main menu" makes no sense from MainMenu itself -- no active
+## session, and confirm_exit_to_menu()'s save_game() call would silently
+## overwrite an existing save with whatever stale/default data currently
+## sits in the GameState singleton. page_settings.gd's Quit button uses this
+## to hide itself in that context (same guard this used to apply to itself).
+func is_main_menu_context() -> bool:
+	return get_tree().current_scene != null \
+		and get_tree().current_scene.scene_file_path == "res://scenes/ui/MainMenu.tscn"
+
 ## Callable must return bool. Used to lock e.g. Dictionary before first word exposed.
 func set_tab_lock_condition(tab_id: String, is_unlocked: Callable) -> void:
 	if _tabs.has(tab_id):
@@ -199,14 +185,6 @@ func set_tab_lock_condition(tab_id: String, is_unlocked: Callable) -> void:
 func open(tab_id: String = "settings") -> void:
 	visible = true
 	get_tree().paused = true
-	# "Exit to main menu" makes no sense from MainMenu itself -- no active
-	# session, and _on_exit_pressed()'s save_game() call would silently
-	# overwrite an existing save with whatever stale/default data currently
-	# sits in the GameState singleton (same guard page_settings.gd's old
-	# Quit button used to apply in its own refresh()).
-	var in_main_menu := get_tree().current_scene != null \
-		and get_tree().current_scene.scene_file_path == "res://scenes/ui/MainMenu.tscn"
-	tab_exit.visible = not in_main_menu
 	switch_tab(tab_id)
 
 func close() -> void:

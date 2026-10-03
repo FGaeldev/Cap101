@@ -138,11 +138,6 @@ custom_minimum_size = Vector2(20, 14)
 layout_mode = 2
 icon = ExtResource("5_5ja33")
 
-[node name="TabExit" type="Button" parent="Root/TabBar" unique_id=2116530092]
-custom_minimum_size = Vector2(20, 14)
-layout_mode = 2
-icon = ExtResource("10_u0r3w")
-
 [node name="Spread" type="HBoxContainer" parent="Root" unique_id=74142674]
 propagate_maximum_size = false
 layout_mode = 1

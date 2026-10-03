@@ -182,11 +182,11 @@ func _build_dev_buttons() -> void:
 		btn.pressed.connect(_on_dev_warp_pressed.bind(target["scene_path"]))
 		dev_list.add_child(btn)
 
-## Mirrors page_settings.gd::_on_quit_pressed()'s leave-scene sequence:
-## abort any in-flight cutscene first (TDD §9 item 8 — mid-cutscene quit
-## softlock rule applies to any "leave the game" path, warping included),
-## close BookUI and unpause, then swap scenes directly. No save — this is a
-## dev shortcut, not a real save-point transition.
+## Mirrors page_settings.gd's Quit button -> BookUI.confirm_exit_to_menu()
+## leave-scene sequence: abort any in-flight cutscene first (TDD §9 item 8 —
+## mid-cutscene quit softlock rule applies to any "leave the game" path,
+## warping included), close BookUI and unpause, then swap scenes directly.
+## No save — this is a dev shortcut, not a real save-point transition.
 func _on_dev_warp_pressed(scene_path: String) -> void:
 	CutsceneManager.abort()
 	BookUI.close()

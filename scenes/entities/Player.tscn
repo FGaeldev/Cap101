@@ -14,16 +14,17 @@ size = Vector2(14, 14)
 script = ExtResource("1_o7et6")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=332485445]
-position = Vector2(0, -11)
+position = Vector2(8, -11)
 sprite_frames = ExtResource("2_j1g85")
 animation = &"idle_down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1762865277]
-position = Vector2(0, -8)
+position = Vector2(8, -8)
 shape = SubResource("RectangleShape2D_fkk4f")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1806770490]
 top_level = true
+position = Vector2(8, 0)
 offset = Vector2(0, 20)
 zoom = Vector2(2, 2)
 position_smoothing_enabled = true

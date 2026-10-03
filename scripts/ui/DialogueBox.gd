@@ -58,8 +58,20 @@ func _dialogue_input() -> void:
 		DialogueUI.player_pressed_advance()
 	get_viewport().set_input_as_handled()
 
+var _last_input_frame: int = -1
+
 func _on_gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		_dialogue_input()
-	if event is InputEventScreenTouch and event.pressed:
-		_dialogue_input()
+	var is_press = (event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed) \
+		or (event is InputEventScreenTouch and event.pressed)
+	if not is_press:
+		return
+	# emulate_mouse_from_touch (Godot default, on) fires a real ScreenTouch
+	# AND a synthetic MouseButton for one physical tap, same frame. Without
+	# this guard both hit _dialogue_input(): 1st skips typewriter, 2nd
+	# (typing already false) immediately advances -> tap looks like it
+	# skips the line instead of just finishing the text.
+	var frame := Engine.get_process_frames()
+	if frame == _last_input_frame:
+		return
+	_last_input_frame = frame
+	_dialogue_input()

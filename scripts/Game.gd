@@ -18,6 +18,9 @@ func _ready() -> void:
 	QuestManager.quest_started.connect(_on_quest_started)
 	var level_path := GameState.current_level_path if GameState.current_level_path != "" else "res://scenes/world/chapter1/us_bedroom.tscn"
 	load_level(level_path)
+	# Tutorial start moved here (was after fade_in+timer) — fixes race where
+	# player could act mid-fade before tutorial hooks were armed.
+	TutorialManager.start("ch1_basics")
 	# Absorbed from scene01.gd (deprecated — scene01.tscn removed, see
 	# Team_Changes/roadmap notes; game now boots straight into us_bedroom).
 	# Runs once per app launch here instead of once per scene01 (re)load,
@@ -26,7 +29,6 @@ func _ready() -> void:
 	AudioManager.play_bgm("village")
 	await FadeManager.fade_in(3)
 	await get_tree().create_timer(1.5).timeout
-	TutorialManager.start("ch1_basics")
 
 
 ## Starts the tutorial mapped to a newly-active quest (QUEST_TUTORIALS).

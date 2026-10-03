@@ -37,7 +37,6 @@ func is_passed(challenge_id: String) -> bool:
 	return GameState.is_challenge_passed(challenge_id)
 
 ## answer_idx is ignored for fill_blank until that mode is built (TDD §6.5
-## backlog item — puzzle_panel is mcq-only today).
 func attempt(challenge_id: String, answer_idx: int) -> Dictionary:
 	var data: Dictionary = challenges.get(challenge_id, {})
 	if data.is_empty():

@@ -53,3 +53,7 @@ text = "Dev: Chapter/Scene Skip Menu"
 
 [node name="DevModeToggle" type="CheckButton" parent="VBoxContainer" unique_id=458634400]
 layout_mode = 2
+
+[node name="QuitBtn" type="Button" parent="VBoxContainer" unique_id=3928410501]
+layout_mode = 2
+text = "Return to Menu"

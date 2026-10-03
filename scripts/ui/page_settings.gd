@@ -8,6 +8,7 @@ extends Control
 @onready var sfx_toggle: CheckButton = $VBoxContainer/SFXToggle
 @onready var dev_mode_label: Label = $VBoxContainer/DevModeLabel
 @onready var dev_mode_toggle: CheckButton = $VBoxContainer/DevModeToggle
+@onready var quit_btn: Button = $VBoxContainer/QuitBtn
 
 func _ready() -> void:
 	for lbl in [master_volume_label, music_label, sfx_label, dev_mode_label]:
@@ -19,6 +20,8 @@ func _ready() -> void:
 	music_toggle.toggled.connect(_on_music_toggled)
 	sfx_toggle.toggled.connect(_on_sfx_toggled)
 	dev_mode_toggle.toggled.connect(_on_dev_mode_toggled)
+	UIThemeApplier.apply_button_theme(quit_btn, "danger")
+	quit_btn.pressed.connect(func(): BookUI.confirm_exit_to_menu())
 	
 	music_toggle.button_pressed = true
 	sfx_toggle.button_pressed = true
@@ -30,12 +33,12 @@ func _ready() -> void:
 ## page — re-sync the checkbox to it every time Settings opens so it can
 ## never drift stale from whatever Journal's dev page is actually reading.
 ##
-## "Exit to main menu" moved out of this page entirely -- now BookUI's
-## TabExit tab-bar button (see BookUI.gd::_on_exit_pressed()). No
-## main-menu-context guard needed here anymore; that guard now lives in
-## BookUI.open() instead, gating the tab button itself.
+## Quit button lives here again (moved back from BookUI's tab bar) — hidden
+## when opened from MainMenu itself, same guard BookUI.open() used to apply
+## to the tab-bar button (no active session there, nothing sane to return to).
 func refresh() -> void:
 	dev_mode_toggle.set_pressed_no_signal(GameState.dev_mode)
+	quit_btn.visible = not BookUI.is_main_menu_context()
 
 func _on_volume_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(0, linear_to_db(value / 100.0))
