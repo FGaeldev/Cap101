@@ -126,7 +126,7 @@ target_spawn_id = "from_living"
 position = Vector2(24, 121)
 trigger_direction = 1
 target_scene = "res://scenes/world/chapter1/airport_arival.tscn"
-required_flag = "q001"
+required_flag = "quest_002_done"
 
 [node name="DoorDownWide" type="Sprite2D" parent="." unique_id=1649580381]
 position = Vector2(24, 120)
