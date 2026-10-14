@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://c3em5smth8syb"]
 
 [ext_resource type="Texture2D" uid="uid://c62yajmn6obpy" path="res://assets/airport/Airport_Outdoors.png" id="1_w2knu"]
+[ext_resource type="PackedScene" uid="uid://de6nkx7tf7u8d" path="res://scenes/entities/furniture/warp_area.tscn" id="2_jyuqw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jyuqw"]
 texture = ExtResource("1_w2knu")
@@ -273,3 +274,28 @@ tile_set = SubResource("TileSet_3ydn5")
 
 [node name="DefaultSpawn" type="Marker2D" parent="." unique_id=1461791157]
 position = Vector2(272, 144)
+
+[node name="WarpArea" parent="." unique_id=1965068349 instance=ExtResource("2_jyuqw")]
+position = Vector2(48, 136)
+door_width = 2
+target_scene = "res://scenes/world/chapter1/airport_arival.tscn"
+
+[node name="WarpArea2" parent="." unique_id=765081227 instance=ExtResource("2_jyuqw")]
+position = Vector2(160, 136)
+door_width = 2
+target_scene = "res://scenes/world/chapter1/airport_arival.tscn"
+
+[node name="WarpArea3" parent="." unique_id=77709694 instance=ExtResource("2_jyuqw")]
+position = Vector2(304, 136)
+door_width = 2
+target_scene = "res://scenes/world/chapter1/airport_arival.tscn"
+
+[node name="WarpArea4" parent="." unique_id=842558184 instance=ExtResource("2_jyuqw")]
+position = Vector2(448, 136)
+door_width = 2
+target_scene = "res://scenes/world/chapter1/airport_arival.tscn"
+
+[node name="WarpArea5" parent="." unique_id=374208562 instance=ExtResource("2_jyuqw")]
+position = Vector2(560, 136)
+door_width = 2
+target_scene = "res://scenes/world/chapter1/airport_arival.tscn"
