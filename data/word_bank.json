@@ -1,1144 +1,2207 @@
 {
   "words": [
-	{
-	  "id": "w001",
-	  "akeanon": "Mayad",
-	  "category": "adjective",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w002",
-	  "akeanon": "Maayo",
-	  "category": "adjective",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w003",
-	  "akeanon": "Buot",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w004",
-	  "akeanon": "Tawo",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w005",
-	  "akeanon": "Balay",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w006",
-	  "akeanon": "Pagkaon",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w007",
-	  "akeanon": "Basa",
-	  "category": "verb",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w008",
-	  "akeanon": "Bata",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w009",
-	  "akeanon": "Amay",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w010",
-	  "akeanon": "Nanay",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w011",
-	  "akeanon": "Kamusta",
-	  "category": "expression",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w012",
-	  "akeanon": "Saeamat",
-	  "category": "expression",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w013",
-	  "akeanon": "Oo",
-	  "category": "expression",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w014",
-	  "akeanon": "Indi",
-	  "category": "expression",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w015",
-	  "akeanon": "Sige",
-	  "category": "expression",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w016",
-	  "akeanon": "Dayon",
-	  "category": "verb",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w017",
-	  "akeanon": "Kadto",
-	  "category": "verb",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w018",
-	  "akeanon": "Kari",
-	  "category": "verb",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w019",
-	  "akeanon": "Kaon",
-	  "category": "verb",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w020",
-	  "akeanon": "Inom",
-	  "category": "verb",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w021",
-	  "akeanon": "Tulug",
-	  "category": "verb",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w022",
-	  "akeanon": "Bangon",
-	  "category": "verb",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w023",
-	  "akeanon": "Lakát",
-	  "category": "verb",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w024",
-	  "akeanon": "Dalagan",
-	  "category": "verb",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w025",
-	  "akeanon": "Tan-aw",
-	  "category": "verb",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w026",
-	  "akeanon": "Pamati",
-	  "category": "verb",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w027",
-	  "akeanon": "Hambal",
-	  "category": "verb",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w028",
-	  "akeanon": "Sabát",
-	  "category": "verb",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w029",
-	  "akeanon": "Bakal",
-	  "category": "verb",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w030",
-	  "akeanon": "Baligya",
-	  "category": "verb",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w031",
-	  "akeanon": "Dako",
-	  "category": "adjective",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w032",
-	  "akeanon": "Gamay",
-	  "category": "adjective",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w033",
-	  "akeanon": "Taas",
-	  "category": "adjective",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w034",
-	  "akeanon": "Naba",
-	  "category": "adjective",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w035",
-	  "akeanon": "Gwapa",
-	  "category": "adjective",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w036",
-	  "akeanon": "Gwapo",
-	  "category": "adjective",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w037",
-	  "akeanon": "Puti",
-	  "category": "adjective",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w038",
-	  "akeanon": "Itom",
-	  "category": "adjective",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w039",
-	  "akeanon": "Pula",
-	  "category": "adjective",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w040",
-	  "akeanon": "Asul",
-	  "category": "adjective",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w041",
-	  "akeanon": "Dilaw",
-	  "category": "adjective",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w042",
-	  "akeanon": "Berdi",
-	  "category": "adjective",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w043",
-	  "akeanon": "Mainit",
-	  "category": "adjective",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w044",
-	  "akeanon": "Malamig",
-	  "category": "adjective",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w045",
-	  "akeanon": "Bag-o",
-	  "category": "adjective",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w046",
-	  "akeanon": "Daán",
-	  "category": "adjective",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w047",
-	  "akeanon": "Paspas",
-	  "category": "adjective",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w048",
-	  "akeanon": "Hinay",
-	  "category": "adjective",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w049",
-	  "akeanon": "Bug-at",
-	  "category": "adjective",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w050",
-	  "akeanon": "Magaan",
-	  "category": "adjective",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w051",
-	  "akeanon": "Isa",
-	  "category": "number",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w052",
-	  "akeanon": "Duha",
-	  "category": "number",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w053",
-	  "akeanon": "Tatlo",
-	  "category": "number",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w054",
-	  "akeanon": "Apat",
-	  "category": "number",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w055",
-	  "akeanon": "Lima",
-	  "category": "number",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w056",
-	  "akeanon": "Anom",
-	  "category": "number",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w057",
-	  "akeanon": "Pito",
-	  "category": "number",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w058",
-	  "akeanon": "Walo",
-	  "category": "number",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w059",
-	  "akeanon": "Siyam",
-	  "category": "number",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w060",
-	  "akeanon": "Napulo",
-	  "category": "number",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w061",
-	  "akeanon": "Ako",
-	  "category": "pronoun",
-	  "area": "all",
-	  "gloss": "Me",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w062",
-	  "akeanon": "Ikaw",
-	  "category": "pronoun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w063",
-	  "akeanon": "Siya",
-	  "category": "pronoun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w064",
-	  "akeanon": "Kami",
-	  "category": "pronoun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w065",
-	  "akeanon": "Kita",
-	  "category": "pronoun",
-	  "area": "all",
-	  "gloss": "We",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w066",
-	  "akeanon": "Kamo",
-	  "category": "pronoun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w067",
-	  "akeanon": "Sanda",
-	  "category": "pronoun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w068",
-	  "akeanon": "Ini",
-	  "category": "pronoun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w069",
-	  "akeanon": "Ina",
-	  "category": "pronoun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w070",
-	  "akeanon": "Ito",
-	  "category": "pronoun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w071",
-	  "akeanon": "Sa",
-	  "category": "preposition",
-	  "area": "all",
-	  "gloss": "In",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w072",
-	  "akeanon": "Halin",
-	  "category": "preposition",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w073",
-	  "akeanon": "Para",
-	  "category": "preposition",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w074",
-	  "akeanon": "Uban",
-	  "category": "preposition",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w075",
-	  "akeanon": "Batok",
-	  "category": "preposition",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w076",
-	  "akeanon": "Kag",
-	  "category": "conjunction",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w077",
-	  "akeanon": "O",
-	  "category": "conjunction",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w078",
-	  "akeanon": "Pero",
-	  "category": "conjunction",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w079",
-	  "akeanon": "Kay",
-	  "category": "conjunction",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w080",
-	  "akeanon": "Bisan",
-	  "category": "conjunction",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w081",
-	  "akeanon": "Adlaw",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w082",
-	  "akeanon": "Gabi-i",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w083",
-	  "akeanon": "Oras",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w084",
-	  "akeanon": "Semana",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w085",
-	  "akeanon": "Tuig",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w086",
-	  "akeanon": "Amigo",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w087",
-	  "akeanon": "Amiga",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w088",
-	  "akeanon": "Eskwela",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w089",
-	  "akeanon": "Trabaho",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w090",
-	  "akeanon": "Kwarto",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w091",
-	  "akeanon": "Lamesa",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w092",
-	  "akeanon": "Lingkuranan",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w093",
-	  "akeanon": "Sapatos",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w094",
-	  "akeanon": "Bayo",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w095",
-	  "akeanon": "Pantalon",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w096",
-	  "akeanon": "Pag-ibig",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w097",
-	  "akeanon": "Kasubo",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w098",
-	  "akeanon": "Kalipay",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w099",
-	  "akeanon": "Kahadlok",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w100",
-	  "akeanon": "Gutom",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w101",
-	  "akeanon": "Uhaw",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w102",
-	  "akeanon": "Init",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w103",
-	  "akeanon": "Bugnaw",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w104",
-	  "akeanon": "Ulan",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w105",
-	  "akeanon": "Hangin",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w106",
-	  "akeanon": "Langit",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w107",
-	  "akeanon": "Duta",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w108",
-	  "akeanon": "Dagat",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w109",
-	  "akeanon": "Suba",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w110",
-	  "akeanon": "Bukid",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w111",
-	  "akeanon": "Isda",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w112",
-	  "akeanon": "Manok",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w113",
-	  "akeanon": "Baboy",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w114",
-	  "akeanon": "Karne",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w115",
-	  "akeanon": "Itlog",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w116",
-	  "akeanon": "Kan-on",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w117",
-	  "akeanon": "Tinapay",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w118",
-	  "akeanon": "Asukar",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w119",
-	  "akeanon": "Kape",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-	  "id": "w120",
-	  "akeanon": "Tsaa",
-	  "category": "noun",
-	  "area": "all",
-	  "gloss": "",
-	  "verified": false,
-	  "source": ""
-	},
-	{
-		"id":"w121",
-		"akeanon":"Aklan",
-		"category":"proper_noun",
-		"area":"chapter1",
-		"gloss":"a province in the Philippines, the player's ancestral home",
-		"verified":false,"source":""
-	},
-	{
-		"id":"w122",
-		"akeanon":"Nahidlaw",
-		"category":"verb",
-		"area":"chapter1",
-		"gloss":"to miss, to feel homesick for",
-		"verified":false,"source":""
-	},
-	{"id":"w123",
-	"akeanon":"Tanan",
-	"category":"adjective",
-	"area":"chapter1",
-	"gloss":"all, everyone",
-	"verified":false,
-	"source":""
-	},
-	{
-		"id":"w124",
-		"akeanon":"Makatuon",
-		"category":"verb",
-		"area":"chapter1",
-		"gloss":"to be able to learn",
-		"verified":false,
-		"source":""
-	},
-	{
-		"id":"w125",
-		"akeanon":"Magbalik",
-		"category":"verb",
-		"area":"chapter1",
-		"gloss":"to return, to go back",
-		"verified":false,
-		"source":""
-	},
-	{
-		"id":"w126",
-		"akeanon":"Apo",
-		"category":"noun",
-		"area":"chapter1",
-		"gloss":"grandchild (term of address)",
-		"verified":false,
-		"source":""
-	},
-	{
-		"id":"w127",
-		"akeanon":"Lola",
-		"category":"noun",
-		"area":"chapter1",
-		"gloss":"grandma (term of address)",
-		"verified":false,
-		"source":""
-	}
+    {
+      "id": "w001",
+      "akeanon": "abo",
+      "category": "Adjective (adj.)",
+      "area": "chapter2",
+      "gloss": "many",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w002",
+      "akeanon": "abot",
+      "category": "Verb (v)",
+      "area": "chapter3",
+      "gloss": "reach, arrive",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w003",
+      "akeanon": "adlaw",
+      "category": "Noun (n)",
+      "area": "chapter4",
+      "gloss": "day, the sun",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w004",
+      "akeanon": "adto/agto",
+      "category": "Verb (v)",
+      "area": "chapter2",
+      "gloss": "to go, to visit",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w005",
+      "akeanon": "ag",
+      "category": "Conjunction (conj.)",
+      "area": "chapter3",
+      "gloss": "and",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w006",
+      "akeanon": "agahon",
+      "category": "Noun (n)",
+      "area": "chapter1",
+      "gloss": "morning",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w007",
+      "akeanon": "agtunan",
+      "category": "Verb (v)",
+      "area": "chapter2",
+      "gloss": "to visit, to go to",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w008",
+      "akeanon": "Akeanon",
+      "category": "Proper Noun (N)",
+      "area": "chapter2",
+      "gloss": "the language spoken by the people of Aklan",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w009",
+      "akeanon": "akeanon",
+      "category": "Adjective (adj.)",
+      "area": "chapter1",
+      "gloss": "things or prople from Aklan",
+      "verified": true,
+      "source": ""
+    },
+    {
+      "id": "w010",
+      "akeanon": "Aklan",
+      "category": "Proper Noun (N)",
+      "area": "chapter1",
+      "gloss": "a province in the Philippines",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w011",
+      "akeanon": "ako",
+      "category": "Pronoun (pro)",
+      "area": "chapter1",
+      "gloss": "I / me",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w012",
+      "akeanon": "alin",
+      "category": "Pronoun (pro)",
+      "area": "chapter2",
+      "gloss": "what",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w013",
+      "akeanon": "ama",
+      "category": "Noun (n)",
+      "area": "chapter1",
+      "gloss": "father",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w014",
+      "akeanon": "amiga",
+      "category": "Noun (n)",
+      "area": "chapter6",
+      "gloss": "friend (female)",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w015",
+      "akeanon": "amigo",
+      "category": "Noun (n)",
+      "area": "chapter6",
+      "gloss": "friend (male)",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w016",
+      "akeanon": "amon",
+      "category": "Pronoun (pro)",
+      "area": "chapter3",
+      "gloss": "our",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w017",
+      "akeanon": "An-om",
+      "category": "Proper Noun (N)",
+      "area": "chapter2",
+      "gloss": "six",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w018",
+      "akeanon": "Ap-at",
+      "category": "Proper Noun (N)",
+      "area": "chapter1",
+      "gloss": "four",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w019",
+      "akeanon": "apo",
+      "category": "Noun (n)",
+      "area": "chapter1",
+      "gloss": "grandchild",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w020",
+      "akeanon": "asukar",
+      "category": "Noun (n)",
+      "area": "chapter6",
+      "gloss": "sugar",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w021",
+      "akeanon": "asul",
+      "category": "Noun (n)",
+      "area": "chapter2",
+      "gloss": "blue",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w022",
+      "akeanon": "aton",
+      "category": "Pronoun (pro)",
+      "area": "chapter2",
+      "gloss": "our",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w023",
+      "akeanon": "ayaw",
+      "category": "Negative (Neg)",
+      "area": "chapter6",
+      "gloss": "do not",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w024",
+      "akeanon": "baboy",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "pig",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w025",
+      "akeanon": "baea",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "By the way",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w026",
+      "akeanon": "baeas",
+      "category": "",
+      "area": "chapter4",
+      "gloss": "Sand",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w027",
+      "akeanon": "baeay",
+      "category": "Noun (n)",
+      "area": "chapter1",
+      "gloss": "house",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w028",
+      "akeanon": "bag-o",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "new",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w029",
+      "akeanon": "bago",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Before",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w030",
+      "akeanon": "bagyo",
+      "category": "",
+      "area": "chapter4",
+      "gloss": "Storm",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w031",
+      "akeanon": "bakae",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Buy",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w032",
+      "akeanon": "baligya",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Sell",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w033",
+      "akeanon": "balikbayan",
+      "category": "Noun (n)",
+      "area": "chapter1",
+      "gloss": "A person or people that went to other country and came home to their native land",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w034",
+      "akeanon": "bangon",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Rise",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w035",
+      "akeanon": "batuna",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Accept/ Receive",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w036",
+      "akeanon": "batyag",
+      "category": "",
+      "area": "chapter5",
+      "gloss": "feel",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w037",
+      "akeanon": "baybay",
+      "category": "",
+      "area": "chapter4",
+      "gloss": "Shore / shore",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w038",
+      "akeanon": "berdi",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "green",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w039",
+      "akeanon": "bisan",
+      "category": "conj.",
+      "area": "chapter2",
+      "gloss": "although, no matter, even if",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w040",
+      "akeanon": "bisan",
+      "category": "conj.",
+      "area": "chapter4",
+      "gloss": "although, no matter, even if",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w041",
+      "akeanon": "bisan",
+      "category": "conj.",
+      "area": "chapter5",
+      "gloss": "although, no matter, even if",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w042",
+      "akeanon": "bisita",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Visitor",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w043",
+      "akeanon": "bituon",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "star",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w044",
+      "akeanon": "bug-at",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Heavy",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w045",
+      "akeanon": "bukon",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Not",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w046",
+      "akeanon": "bukon eamang",
+      "category": "",
+      "area": "chapter5",
+      "gloss": "Not just",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w047",
+      "akeanon": "daan",
+      "category": "adj.",
+      "area": "chapter2",
+      "gloss": "old, ancient, former",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w048",
+      "akeanon": "daeagan",
+      "category": "",
+      "area": "chapter5",
+      "gloss": "to run",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w049",
+      "akeanon": "dahan",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "Be careful / Take care",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w050",
+      "akeanon": "dasig",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Fast",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w051",
+      "akeanon": "dato",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "that / it",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w052",
+      "akeanon": "daya",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "this",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w053",
+      "akeanon": "dayon",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Then/ Continue",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w054",
+      "akeanon": "daywa",
+      "category": "",
+      "area": "chapter1",
+      "gloss": "two",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w055",
+      "akeanon": "do",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "is",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w056",
+      "akeanon": "dueaw",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "yellow",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w057",
+      "akeanon": "eambong",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Clothe / shirt / clothing",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w058",
+      "akeanon": "eambong",
+      "category": "",
+      "area": "chapter6",
+      "gloss": "Clothe / shirt / clothing",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w059",
+      "akeanon": "eang",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Just",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w060",
+      "akeanon": "eangoy",
+      "category": "",
+      "area": "chapter6",
+      "gloss": "swim",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w061",
+      "akeanon": "eskuylahan",
+      "category": "",
+      "area": "chapter6",
+      "gloss": "school",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w062",
+      "akeanon": "eugta",
+      "category": "",
+      "area": "chapter4",
+      "gloss": "Soil",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w063",
+      "akeanon": "gakapyot",
+      "category": "",
+      "area": "chapter4",
+      "gloss": "Hold/ Cling",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w064",
+      "akeanon": "gali",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "oh",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w065",
+      "akeanon": "gapasaeamat",
+      "category": "",
+      "area": "chapter5",
+      "gloss": "thanksgiving",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w066",
+      "akeanon": "gid",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Really/ Truly",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w067",
+      "akeanon": "ginhabi (?)",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Weave/ Weaving",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w068",
+      "akeanon": "gusto",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "want",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w069",
+      "akeanon": "gutom",
+      "category": "",
+      "area": "chapter5",
+      "gloss": "hunger",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w070",
+      "akeanon": "gwapa",
+      "category": "",
+      "area": "chapter6",
+      "gloss": "beautiful (of a woman)",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w071",
+      "akeanon": "gwapo",
+      "category": "",
+      "area": "chapter6",
+      "gloss": "handsome (of a man)",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w072",
+      "akeanon": "halin",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "From (variant)",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w073",
+      "akeanon": "hambae",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Speak",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w074",
+      "akeanon": "hambaeunon",
+      "category": "",
+      "area": "chapter4",
+      "gloss": "Words/Sayings",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w075",
+      "akeanon": "hara",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "this / here",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w076",
+      "akeanon": "hay",
+      "category": "",
+      "area": "chapter4",
+      "gloss": "(?) / because",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w077",
+      "akeanon": "hay",
+      "category": "",
+      "area": "chapter5",
+      "gloss": "(?) / because",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w078",
+      "akeanon": "himo",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Create/ Do",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w079",
+      "akeanon": "hinay",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Slow/ Weak",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w080",
+      "akeanon": "humay",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "rice",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w081",
+      "akeanon": "huo",
+      "category": "",
+      "area": "chapter1",
+      "gloss": "yes",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w082",
+      "akeanon": "igto",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "there",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w083",
+      "akeanon": "ikaw/ka",
+      "category": "",
+      "area": "chapter1",
+      "gloss": "you (sing.)",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w084",
+      "akeanon": "imaw",
+      "category": "",
+      "area": "chapter1",
+      "gloss": "he / she",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w085",
+      "akeanon": "ina",
+      "category": "n",
+      "area": "chapter1",
+      "gloss": "mother",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w086",
+      "akeanon": "indi",
+      "category": "",
+      "area": "chapter1",
+      "gloss": "no / no",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w087",
+      "akeanon": "ing",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "your",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w088",
+      "akeanon": "inom",
+      "category": "",
+      "area": "chapter5",
+      "gloss": "to drink",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w089",
+      "akeanon": "inyo",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Your",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w090",
+      "akeanon": "isaea",
+      "category": "",
+      "area": "chapter1",
+      "gloss": "one",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w091",
+      "akeanon": "isda",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "fish",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w092",
+      "akeanon": "it",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "of",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w093",
+      "akeanon": "itlog",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "egg",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w094",
+      "akeanon": "itom",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "black",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w095",
+      "akeanon": "iya",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "here",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w096",
+      "akeanon": "kaabo",
+      "category": "",
+      "area": "chapter6",
+      "gloss": "many",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w097",
+      "akeanon": "kabuhi",
+      "category": "",
+      "area": "chapter6",
+      "gloss": "life",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w098",
+      "akeanon": "kaeainan",
+      "category": "",
+      "area": "chapter4",
+      "gloss": "Danger",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w099",
+      "akeanon": "kakon",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Me",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w100",
+      "akeanon": "kalipay",
+      "category": "",
+      "area": "chapter5",
+      "gloss": "happiness",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w101",
+      "akeanon": "kami",
+      "category": "",
+      "area": "chapter1",
+      "gloss": "we (excl.)",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w102",
+      "akeanon": "kamo",
+      "category": "",
+      "area": "chapter1",
+      "gloss": "you (pl.)",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w103",
+      "akeanon": "kamusta",
+      "category": "",
+      "area": "chapter1",
+      "gloss": "how are you",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w104",
+      "akeanon": "kan-on",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "rice",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w105",
+      "akeanon": "kaon",
+      "category": "v",
+      "area": "chapter5",
+      "gloss": "to eat",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w106",
+      "akeanon": "kape",
+      "category": "",
+      "area": "chapter6",
+      "gloss": "coffee",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w107",
+      "akeanon": "karne",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "meat",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w108",
+      "akeanon": "kasadyahan",
+      "category": "",
+      "area": "chapter5",
+      "gloss": "joy",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w109",
+      "akeanon": "kasubo",
+      "category": "",
+      "area": "chapter5",
+      "gloss": "sadness",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w110",
+      "akeanon": "katamnan/taeamnan",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Farm/ Plantation",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w111",
+      "akeanon": "kaya",
+      "category": "",
+      "area": "chapter4",
+      "gloss": "So/ Capable",
+      "verified": false,
+      "source": ""    },
+    {
+      "id": "w112",
+      "akeanon": "kilaea",
+      "category": "",
+      "area": "chapter5",
+      "gloss": "famous",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w113",
+      "akeanon": "kita",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "us",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w114",
+      "akeanon": "kon",
+      "category": "conj.",
+      "area": "chapter2",
+      "gloss": "if, when, whenever",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w115",
+      "akeanon": "ku",
+      "category": "am",
+      "area": "chapter2",
+      "gloss": "of, by, with",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w116",
+      "akeanon": "kueba",
+      "category": "",
+      "area": "chapter5",
+      "gloss": "fear",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w117",
+      "akeanon": "kultura",
+      "category": "",
+      "area": "chapter4",
+      "gloss": "Culture",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w118",
+      "akeanon": "kundi",
+      "category": "",
+      "area": "chapter4",
+      "gloss": "(?)",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w119",
+      "akeanon": "kung",
+      "category": "conj.",
+      "area": "chapter2",
+      "gloss": "if, when, whenever",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w120",
+      "akeanon": "kuntra",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Against",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w121",
+      "akeanon": "kwarto",
+      "category": "",
+      "area": "chapter6",
+      "gloss": "room",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w122",
+      "akeanon": "lamisa",
+      "category": "",
+      "area": "chapter6",
+      "gloss": "table",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w123",
+      "akeanon": "lima",
+      "category": "",
+      "area": "chapter1",
+      "gloss": "five",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w124",
+      "akeanon": "lingkuran",
+      "category": "",
+      "area": "chapter6",
+      "gloss": "chair",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w125",
+      "akeanon": "lipati",
+      "category": "",
+      "area": "chapter6",
+      "gloss": "forget",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w126",
+      "akeanon": "lola",
+      "category": "",
+      "area": "chapter1",
+      "gloss": "grandma",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w127",
+      "akeanon": "lugar",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "place",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w128",
+      "akeanon": "mabahoe",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "big",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w129",
+      "akeanon": "mabakae",
+      "category": "",
+      "area": "chapter6",
+      "gloss": "but",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w130",
+      "akeanon": "mabuot",
+      "category": "",
+      "area": "chapter6",
+      "gloss": "kind / good-natured",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w131",
+      "akeanon": "madali",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "easy",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w132",
+      "akeanon": "maeain",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Bad",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w133",
+      "akeanon": "maeapit",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "near",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w134",
+      "akeanon": "maeayo",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "far",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w135",
+      "akeanon": "maeuya",
+      "category": "",
+      "area": "chapter4",
+      "gloss": "Weak",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w136",
+      "akeanon": "magatao",
+      "category": "",
+      "area": "chapter4",
+      "gloss": "Give/ Provide/ Cause",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w137",
+      "akeanon": "magbalik",
+      "category": "",
+      "area": "chapter1",
+      "gloss": "to return",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w138",
+      "akeanon": "magkantigo",
+      "category": "",
+      "area": "chapter1",
+      "gloss": "to be able to learn",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w139",
+      "akeanon": "magpamunit",
+      "category": "",
+      "area": "chapter4",
+      "gloss": "Fishing",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w140",
+      "akeanon": "magpanahi",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "To sew or weave",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w141",
+      "akeanon": "magphuway",
+      "category": "",
+      "area": "chapter6",
+      "gloss": "rest",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w142",
+      "akeanon": "magtuon",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "To learn",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w143",
+      "akeanon": "mahigko",
+      "category": "",
+      "area": "chapter4",
+      "gloss": "Dirty",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w144",
+      "akeanon": "maisog",
+      "category": "",
+      "area": "chapter4",
+      "gloss": "Brave",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w145",
+      "akeanon": "maisot",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "small",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w146",
+      "akeanon": "makaagto",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "To arrive",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w147",
+      "akeanon": "makauli",
+      "category": "Verb (v)",
+      "area": "chapter1",
+      "gloss": "To go home",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w148",
+      "akeanon": "makita",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "To see",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w149",
+      "akeanon": "malimpyo",
+      "category": "",
+      "area": "chapter4",
+      "gloss": "Clean",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w150",
+      "akeanon": "maliya",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Come here",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w151",
+      "akeanon": "man",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Also",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w152",
+      "akeanon": "manok",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "chicken",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w153",
+      "akeanon": "manong",
+      "category": "Noun (n)",
+      "area": "chapter2",
+      "gloss": "older brother",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w154",
+      "akeanon": "mapa",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "map",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w155",
+      "akeanon": "mas",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "More likely",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w156",
+      "akeanon": "masamad",
+      "category": "",
+      "area": "chapter4",
+      "gloss": "Damage",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w157",
+      "akeanon": "masimba",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "To worship",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w158",
+      "akeanon": "masunod",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "next",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w159",
+      "akeanon": "matam-is",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "sweet",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w160",
+      "akeanon": "matuod",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "True/real",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w161",
+      "akeanon": "maugan",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Light",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w162",
+      "akeanon": "may",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Have",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w163",
+      "akeanon": "mayad",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "good (variant) / good",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w164",
+      "akeanon": "mayad-ayad",
+      "category": "",
+      "area": "chapter1",
+      "gloss": "Good (morning,evening)",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w165",
+      "akeanon": "medyo",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "A little bit",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w166",
+      "akeanon": "mga",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "these / Those",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w167",
+      "akeanon": "mga",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "these / Those",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w168",
+      "akeanon": "mo",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "You",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w169",
+      "akeanon": "naabi-abi",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "(?)",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w170",
+      "akeanon": "naba",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Short",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w171",
+      "akeanon": "naghalin",
+      "category": "",
+      "area": "chapter1",
+      "gloss": "From/to leave",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w172",
+      "akeanon": "naghimo",
+      "category": "",
+      "area": "chapter6",
+      "gloss": "Made it",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w173",
+      "akeanon": "nahidlaw",
+      "category": "",
+      "area": "chapter1",
+      "gloss": "to miss / feel homesick",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w174",
+      "akeanon": "namon",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "our / We",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w175",
+      "akeanon": "namon",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "our / We",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w176",
+      "akeanon": "nanay",
+      "category": "",
+      "area": "chapter1",
+      "gloss": "mother",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w177",
+      "akeanon": "nangangawa",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Surprise/ Wonder",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w178",
+      "akeanon": "napueo",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "ten",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w179",
+      "akeanon": "natun-an",
+      "category": "",
+      "area": "chapter4",
+      "gloss": "Learned",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w180",
+      "akeanon": "nga",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "? / Of",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w181",
+      "akeanon": "ngara",
+      "category": "",
+      "area": "chapter6",
+      "gloss": "this",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w182",
+      "akeanon": "o",
+      "category": "",
+      "area": "chapter5",
+      "gloss": "or",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w183",
+      "akeanon": "pag-higugma",
+      "category": "",
+      "area": "chapter5",
+      "gloss": "love",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w184",
+      "akeanon": "pagbiyahe",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Trip/ Journey",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w185",
+      "akeanon": "pagkaon",
+      "category": "n",
+      "area": "chapter2",
+      "gloss": "food",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w186",
+      "akeanon": "pagtuo",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "faith / faith",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w187",
+      "akeanon": "pamati",
+      "category": "",
+      "area": "chapter4",
+      "gloss": "Listen / to listen / feel",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w188",
+      "akeanon": "panakayon",
+      "category": "",
+      "area": "chapter6",
+      "gloss": "ride",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w189",
+      "akeanon": "pangabay",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "To ask for something nicely",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w190",
+      "akeanon": "pangaean",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "name",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w191",
+      "akeanon": "para",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "For",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w192",
+      "akeanon": "paspas",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Fast",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w193",
+      "akeanon": "pati",
+      "category": "",
+      "area": "chapter4",
+      "gloss": "As well",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w194",
+      "akeanon": "piña",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "pineapple",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w195",
+      "akeanon": "pinakamasunuron",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "The most t to attend or most obedient",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w196",
+      "akeanon": "pito",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "seven",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w197",
+      "akeanon": "protektahan",
+      "category": "",
+      "area": "chapter4",
+      "gloss": "Protect/ to protect",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w198",
+      "akeanon": "puea",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "red",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w199",
+      "akeanon": "puti",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "white",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w200",
+      "akeanon": "pyesta",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "festival / festival",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w201",
+      "akeanon": "raya",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "this",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w202",
+      "akeanon": "ro",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "the",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w203",
+      "akeanon": "sa",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "? / In",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w204",
+      "akeanon": "sa",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "? / In",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w205",
+      "akeanon": "sabat",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Answer",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w206",
+      "akeanon": "saeamat",
+      "category": "",
+      "area": "chapter1",
+      "gloss": "thank you",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w207",
+      "akeanon": "saewae",
+      "category": "",
+      "area": "chapter6",
+      "gloss": "pants",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w208",
+      "akeanon": "samad",
+      "category": "v",
+      "area": "chapter4",
+      "gloss": "to break, damage, ruin, destroy",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w209",
+      "akeanon": "samad",
+      "category": "adj.",
+      "area": "chapter4",
+      "gloss": "broken, damaged, destroyed, ruined",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w210",
+      "akeanon": "sanda",
+      "category": "",
+      "area": "chapter1",
+      "gloss": "they",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w211",
+      "akeanon": "saot",
+      "category": "",
+      "area": "chapter5",
+      "gloss": "dance",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w212",
+      "akeanon": "sapatos",
+      "category": "",
+      "area": "chapter6",
+      "gloss": "shoes",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w213",
+      "akeanon": "sige",
+      "category": "",
+      "area": "chapter1",
+      "gloss": "okay / go ahead",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w214",
+      "akeanon": "siin",
+      "category": "",
+      "area": "chapter1",
+      "gloss": "where / where",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w215",
+      "akeanon": "siyam",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "nine",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w216",
+      "akeanon": "suki",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "Regular customer",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w217",
+      "akeanon": "sunod",
+      "category": "",
+      "area": "chapter1",
+      "gloss": "follow",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w218",
+      "akeanon": "taas",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Tall",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w219",
+      "akeanon": "taeamnan",
+      "category": "n",
+      "area": "chapter3",
+      "gloss": "field, farm, plantation",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w220",
+      "akeanon": "tamboe",
+      "category": "",
+      "area": "chapter5",
+      "gloss": "drum",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w221",
+      "akeanon": "tanan",
+      "category": "",
+      "area": "chapter1",
+      "gloss": "all / everyone / all",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w222",
+      "akeanon": "tanan",
+      "category": "",
+      "area": "chapter6",
+      "gloss": "all / everyone",
+      "verified": false,
+      "source": ""
+    },    {
+      "id": "w223",
+      "akeanon": "tanawa",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "look",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w224",
+      "akeanon": "tanda",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Mark/ Token",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w225",
+      "akeanon": "tanom",
+      "category": "",
+      "area": "chapter4",
+      "gloss": "Plant",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w226",
+      "akeanon": "tatay",
+      "category": "n",
+      "area": "chapter1",
+      "gloss": "father",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w227",
+      "akeanon": "tatlo",
+      "category": "",
+      "area": "chapter1",
+      "gloss": "three",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w228",
+      "akeanon": "tawo",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "person",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w229",
+      "akeanon": "tikang",
+      "category": "",
+      "area": "chapter4",
+      "gloss": "Step/ Walk",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w230",
+      "akeanon": "tinapay",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "bread",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w231",
+      "akeanon": "trabaho",
+      "category": "",
+      "area": "chapter6",
+      "gloss": "work / job",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w232",
+      "akeanon": "tsaa",
+      "category": "",
+      "area": "chapter6",
+      "gloss": "tea",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w233",
+      "akeanon": "tubi",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "water",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w234",
+      "akeanon": "tueog",
+      "category": "",
+      "area": "chapter5",
+      "gloss": "to sleep",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w235",
+      "akeanon": "tyempo",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "Weather/ Timing",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w236",
+      "akeanon": "ubra",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "work",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w237",
+      "akeanon": "ugaling",
+      "category": "",
+      "area": "chapter5",
+      "gloss": "but",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w238",
+      "akeanon": "ugat",
+      "category": "",
+      "area": "chapter4",
+      "gloss": "Root",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w239",
+      "akeanon": "uhaw",
+      "category": "",
+      "area": "chapter5",
+      "gloss": "thirst",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w240",
+      "akeanon": "una",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "that (near listener) / First",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w241",
+      "akeanon": "una",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "that (near listener) / First",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w242",
+      "akeanon": "unga",
+      "category": "",
+      "area": "chapter1",
+      "gloss": "child / child",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w243",
+      "akeanon": "uwa",
+      "category": "",
+      "area": "chapter3",
+      "gloss": "None",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w244",
+      "akeanon": "waeo",
+      "category": "",
+      "area": "chapter2",
+      "gloss": "eight",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w245",
+      "akeanon": "warang",
+      "category": "",
+      "area": "chapter6",
+      "gloss": "travel",
+      "verified": false,
+      "source": ""
+    }
   ]
 }
