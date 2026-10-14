@@ -67,6 +67,7 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_i7ehv")
 
 [node name="Bedroom" type="Node2D" unique_id=819623926]
+modulate = Color(0, 0.34117648, 0.4862745, 1)
 y_sort_enabled = true
 script = ExtResource("1_fxahd")
 
@@ -145,6 +146,5 @@ position = Vector2(72, 64.00001)
 [node name="WarpArea" parent="." unique_id=1965068349 instance=ExtResource("13_6bimx")]
 position = Vector2(24, 121)
 trigger_direction = 1
-hold_delay = null
 target_scene = "res://scenes/world/chapter1/us_living.tscn"
 target_spawn_id = "from_bedroom"

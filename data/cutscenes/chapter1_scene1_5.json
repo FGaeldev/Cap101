@@ -1,0 +1,30 @@
+[
+	{"type":"set_visible","actor":"player","value":false},
+	{"type":"wait","seconds":0.5},
+	{"type":"parallel","actions":[
+		{"type":"sequence","actions":[
+			{"type":"spawn_npc","actor":"Lola Jonabel","scene":"res://scenes/entities/npc_LolaJonabel.tscn","at":[-64,48]},
+			{"type":"move_npc","actor":"Lola Jonabel","to":[80,48],"speed":30},
+			{"type":"move_npc","actor":"Lola Jonabel","to":[80,154],"speed":30},
+			{"type":"despawn_npc","actor":"Lola Jonabel"}
+		]},
+		{"type":"sequence","actions":[
+			{"type":"wait","seconds":0.6},
+			{"type":"spawn_npc","actor":"Papa Jobert","scene":"res://scenes/entities/npc_PapaJobert.tscn","at":[-64,48]},
+			{"type":"move_npc","actor":"Papa Jobert","to":[80,48],"speed":30},
+			{"type":"move_npc","actor":"Papa Jobert","to":[80,154],"speed":30},
+			{"type":"despawn_npc","actor":"Papa Jobert"}
+		]},
+		{"type":"sequence","actions":[
+			{"type":"wait","seconds":1.2},
+			{"type":"set_visible","actor":"player","value":true},
+			{"type":"move_npc","actor":"player","to":[80,48],"speed":30},
+			{"type":"move_npc","actor":"player","to":[80,154],"speed":30},
+			{"type":"set_visible","actor":"player","value":false}
+		]}
+	]},
+	{"type":"fade","direction":"out","duration":0.6},
+	{"type":"set_visible","actor":"player","value":true},
+	{"type":"set_flag","flag":"seen_chapter1_scene1_5","value":true},
+	{"type":"load_scene","scene_path":"res://scenes/world/chapter1/airport_ourdoors.tscn"}
+]

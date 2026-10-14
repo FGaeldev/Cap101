@@ -188,6 +188,10 @@ func _show_line() -> void:
 		_handle_challenge_gate(line)
 		return
 
+	if line.get("type", "") == "phrase_builder":
+		_handle_phrase_builder(line)
+		return
+
 	# Apply authored story flags when this line becomes active.
 	var flag_id := str(line.get("set_flag_on_enter", "")).strip_edges()
 	if not flag_id.is_empty():
@@ -231,6 +235,23 @@ func _show_line() -> void:
 			portrait_tex,
 			translation
 		)
+
+## phrase_builder line: suspend normal line display, hand the line to the UI.
+## Player stays input-locked because DialogueUI._current_component stays set.
+func _handle_phrase_builder(line: Dictionary) -> void:
+	DialogueUI.hide_box_only()
+	DialogueUI.show_phrase_builder(line, self)
+
+## Called by DialogueUI when the builder resolves. Jumps to the line's
+## "success" / "failure" index, falling back to "next", else ends dialogue.
+func resolve_phrase_builder(passed: bool) -> void:
+	var line: Dictionary = dialogue_lines[_current_line]
+	var nxt = line.get("success" if passed else "failure", line.get("next"))
+	if nxt == null or nxt >= dialogue_lines.size():
+		_end()
+		return
+	_current_line = nxt
+	_show_line()
 
 func _end() -> void:
 	DialogueUI.hide()

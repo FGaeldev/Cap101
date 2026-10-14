@@ -20,6 +20,8 @@ const ACTION_SCRIPTS := [
 	"res://scripts/cutscene_actions/fade_action.gd",
 	"res://scripts/cutscene_actions/camera_action.gd",
 	"res://scripts/cutscene_actions/load_scene_action.gd",
+	"res://scripts/cutscene_actions/spawn_npc_action.gd",
+	"res://scripts/cutscene_actions/despawn_npc_action.gd",
 ]
 
 var _actions: Dictionary = {}
@@ -75,8 +77,13 @@ func _run_sequence(steps: Array) -> void:
 
 func _run_step(step: Dictionary) -> Variant:
 	var type: String = step.get("type", "")
+	# "parallel" step be its own multi-step chain (per-actor conga timing).
 	if type == "parallel":
 		await _run_parallel(step.get("actions", []))
+		return null
+	# "sequence": ordered sub-steps run as ONE step. Lets each branch of a
+	if type == "sequence":
+		await _run_sequence(step.get("actions", []))
 		return null
 	if not _actions.has(type):
 		push_error("CutsceneManager: unknown action type '%s'" % type)
