@@ -47,9 +47,10 @@ const QUESTS_PER_PAGE := 8   # floor(179/22) = 8 — covers Phase C's planned ~1
 # warp target on its own. scene01.tscn is deprecated/removed — its two rooms
 # are listed directly below instead.
 const DEV_WARP_TARGETS := [
-	{"label": "Ch1 — Bedroom", "scene_path": "res://scenes/world/us_bedroom.tscn"},
-	{"label": "Ch1 — Living Room", "scene_path": "res://scenes/world/us_living.tscn"},
-	{"label": "Ch1 — Scene 2 (Airport)", "scene_path": "res://scenes/world/scene_2.tscn"},
+	{"label": "Ch1 — US Home - Bedroom", "scene_path": "res://scenes/world/us_bedroom.tscn"},
+	{"label": "Ch1 — US Home - Living Room", "scene_path": "res://scenes/world/us_living.tscn"},
+	{"label": "Ch1 — Airport - Indoors", "scene_path": "res://scenes/world/chapter1/airport_arival.tscn"},
+	{"label": "Ch1 — Airport - Outdoors", "scene_path": "res://scenes/world/chapter1/airport_ourdoors.tscn"},
 ]
 
 var _quest_ids: Array = []
