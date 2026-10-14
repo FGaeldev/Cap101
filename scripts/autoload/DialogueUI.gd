@@ -18,15 +18,21 @@ func register_choice_box(box: Control) -> void:
 func register_root(root: Control) -> void:
 	_root = root
 
-func show_line(speaker: String, text: String, component, portrait_tex) -> void:
+## Display dialogue text and its optional authored translation.
+func show_line(
+	speaker: String,
+	text: String,
+	component,
+	portrait_tex,
+	translation: String = ""
+) -> void:
 	_current_component = component
 	if _dialogue_box:
-		_dialogue_box.display(speaker, text)
+		_dialogue_box.display(speaker, text, translation)
 	if _root:
 		_root.show_box()
-		# Portrait is optional per-NPC art (DialogueComponent.portrait). Missing
-		# export just means no portrait texture assigned yet -> hides cleanly.
-		_root.set_portrait(portrait_tex)  
+		# Portrait is optional per-NPC art. Missing art hides cleanly.
+		_root.set_portrait(portrait_tex)
 
 func show_choices(choices: Array, component) -> void:
 	if _choice_box:
@@ -40,11 +46,7 @@ func hide() -> void:
 		_root.hide_box()
 	dialogue_finished.emit()
 
-## Hides dialogue visuals WITHOUT ending the dialogue session — used when a
-## challenge_gate line (TDD §5) suspends dialogue to wait on ChallengeManager.
-## Must not emit dialogue_finished: dialogue_action.gd (cutscenes) awaits
-## that signal for true end-of-dialogue only, and a challenge_gate is a
-## pause, not an end.
+## Hide visuals without ending the dialogue session; challenge gates use this pause.
 func hide_box_only() -> void:
 	if _choice_box:
 		_choice_box.hide_choices()
@@ -55,8 +57,6 @@ func player_pressed_advance() -> void:
 	if _current_component:
 		_current_component.advance()
 
-## True while the dialogue box is on screen. Used by hud.gd to hide
-## joystick/menu/interact controls during dialogue -- _root is private
-## (registered via register_root), this is the read-only door into it.
+## True while dialogue box is visible; HUD uses this to hide gameplay controls.
 func is_active() -> bool:
 	return _root != null and _root.visible

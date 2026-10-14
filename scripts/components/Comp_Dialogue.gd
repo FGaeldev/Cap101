@@ -188,6 +188,11 @@ func _show_line() -> void:
 		_handle_challenge_gate(line)
 		return
 
+	# Apply authored story flags when this line becomes active.
+	var flag_id := str(line.get("set_flag_on_enter", "")).strip_edges()
+	if not flag_id.is_empty():
+		GameState.set_flag(flag_id)
+
 	var portrait_tex = CharacterRegistry.get_portrait(
 		line.get("speaker", "")
 	)
@@ -195,29 +200,36 @@ func _show_line() -> void:
 	# Word exposure
 	if line.has("word_ids"):
 		for wid in line["word_ids"]:
-			if not wid.is_empty():
-				GameState.expose_word(wid)
+			var word_id := str(wid).strip_edges()
+			if word_id.is_empty():
+				continue
+			if WordBank.get_word(word_id).is_empty():
+				push_warning("Dialogue references unknown word ID '%s'." % word_id)
+				continue
+			GameState.expose_word(word_id)
 
 	var speaker: String = line.get("speaker", "")
 
 	if not speaker.is_empty():
 		_last_speaker = speaker
 
+	var translation := str(line.get("translation", "")).strip_edges()
 	if line.has("choices") and not line["choices"].is_empty():
 		DialogueUI.show_line(
 			line.get("speaker", ""),
 			line.get("text", ""),
 			self,
-			portrait_tex
+			portrait_tex,
+			translation
 		)
-
 		DialogueUI.show_choices(line["choices"], self)
 	else:
 		DialogueUI.show_line(
 			line.get("speaker", ""),
 			line.get("text", ""),
 			self,
-			portrait_tex
+			portrait_tex,
+			translation
 		)
 
 func _end() -> void:

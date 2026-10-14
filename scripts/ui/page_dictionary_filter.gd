@@ -6,8 +6,6 @@ extends Control
 signal filters_changed(query: String, category: String)
 
 const TEXT_FIELD := preload("res://assets/ui/book/text_field.png")
-## measured: real border on text_field.png = 1px. 3 = same headroom pattern
-## as buttons_sheet.png's SLICE_MARGIN (see UIThemeApplier.gd), not a guess.
 const TEXTFIELD_SLICE_MARGIN := 3
 
 @onready var search_box: LineEdit = $VBox/SearchBox
@@ -37,14 +35,17 @@ func _style_search_box() -> void:
 func _populate_categories() -> void:
 	category_dropdown.clear()
 	category_dropdown.add_item("All")
-	var seen: Dictionary = {}
+	var categories: Array[String] = []
 	for word_data in WordBank.words.values():
-		var cat: String = word_data.get("category", "")
-		if cat.is_empty() or seen.has(cat):
-			continue
-		seen[cat] = true
-		category_dropdown.add_item(cat.capitalize())
-	# item index 0 = "All" = no category filter
+		var category := str(word_data.get("category", "uncategorized"))
+		if category.is_empty():
+			category = "uncategorized"
+		if category not in categories:
+			categories.append(category)
+	categories.sort()
+	for category in categories:
+		category_dropdown.add_item(category.capitalize())
+	# Index 0 = All. WordBank normalizes categories before the UI reads them.
 
 func _on_filters_changed(_text: String = "") -> void:
 	var query := search_box.text
