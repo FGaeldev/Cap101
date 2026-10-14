@@ -1,13 +1,13 @@
 {
-  "quests": [
-	{
-	  "id": "q002",
-	  "title": "Return to your room: open the book",
-	  "required_exposures": 0,
-	  "target_words": [],
-	  "requires_flag": "seen_chapter1_scene1",
-	  "completion_flag": "quest_002_done",
-	  "show_popup": false
-	}
-  ]
+	"quests": [
+		{
+			"id": "q002",
+			"title": "Return to your room: open the book",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "seen_chapter1_scene1",
+			"completion_flag": "quest_002_done",
+			"show_popup": true
+		}
+	]
 }
