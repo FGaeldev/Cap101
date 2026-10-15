@@ -1,0 +1,215 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/lolaSusan_sprite.png" id="1_tex"]
+[ext_resource type="Script" path="res://scripts/entities/npc/npc_generic.gd" id="2_scr"]
+[ext_resource type="PackedScene" uid="uid://b8awiupnw1tue" path="res://scenes/components/interactable_component.tscn" id="3_int"]
+[ext_resource type="PackedScene" uid="uid://cdxx55olbkhhv" path="res://scenes/components/dialogue_component.tscn" id="4_dlg"]
+[ext_resource type="PackedScene" uid="uid://bbk8t0y83k7ib" path="res://scenes/components/CutsceneAnimComponent.tscn" id="5_anim"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rqx83"]
+atlas = ExtResource("1_tex")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2e41u"]
+atlas = ExtResource("1_tex")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qj80l"]
+atlas = ExtResource("1_tex")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_voveq"]
+atlas = ExtResource("1_tex")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ugxcs"]
+atlas = ExtResource("1_tex")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sfjuu"]
+atlas = ExtResource("1_tex")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t8s35"]
+atlas = ExtResource("1_tex")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lhq0n"]
+atlas = ExtResource("1_tex")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_06fsp"]
+atlas = ExtResource("1_tex")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rdrds"]
+atlas = ExtResource("1_tex")
+region = Rect2(96, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vjhoi"]
+atlas = ExtResource("1_tex")
+region = Rect2(128, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_13gbb"]
+atlas = ExtResource("1_tex")
+region = Rect2(160, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rr1qw"]
+atlas = ExtResource("1_tex")
+region = Rect2(0, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_akwcs"]
+atlas = ExtResource("1_tex")
+region = Rect2(32, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t2bm6"]
+atlas = ExtResource("1_tex")
+region = Rect2(64, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jiepx"]
+atlas = ExtResource("1_tex")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tdlxm"]
+atlas = ExtResource("1_tex")
+region = Rect2(128, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jc003"]
+atlas = ExtResource("1_tex")
+region = Rect2(160, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2qnld"]
+atlas = ExtResource("1_tex")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mxj8e"]
+atlas = ExtResource("1_tex")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_26kuu"]
+atlas = ExtResource("1_tex")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xrivr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rqx83")
+}],
+"loop": 1,
+"name": &"idle_down",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2e41u")
+}],
+"loop": 1,
+"name": &"idle_side",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qj80l")
+}],
+"loop": 1,
+"name": &"idle_up",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_voveq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ugxcs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sfjuu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t8s35")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lhq0n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_06fsp")
+}],
+"loop": 1,
+"name": &"walk_down",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rdrds")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vjhoi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_13gbb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rr1qw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_akwcs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t2bm6")
+}],
+"loop": 1,
+"name": &"walk_side",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jiepx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tdlxm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jc003")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2qnld")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mxj8e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_26kuu")
+}],
+"loop": 1,
+"name": &"walk_up",
+"speed": 8.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_npc"]
+radius = 4.0
+
+[node name="NPC_LolaSusan" type="CharacterBody2D" groups=["npc"]]
+script = ExtResource("2_scr")
+actor_id = "Lola Susan"
+npc_id = "Lola Susan"
+dialogue_scene_key = "scene_lola_susan"
+idle_pool_key = "idle_pool_lola_susan"
+story_done_flag = "story_done_lola_susan"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -10)
+sprite_frames = SubResource("SpriteFrames_xrivr")
+animation = &"idle_down"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_npc")
+
+[node name="InteractableComponent" parent="." instance=ExtResource("3_int")]
+position = Vector2(0, -29)
+
+[node name="DialogueComponent" parent="." instance=ExtResource("4_dlg")]
+
+[node name="CutsceneAnimComponent" parent="." node_paths=PackedStringArray("sprite") instance=ExtResource("5_anim")]
+sprite = NodePath("../AnimatedSprite2D")
