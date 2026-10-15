@@ -662,7 +662,7 @@
 	},
 	{
 	  "speaker": "Rose",
-	  "text": "Do you know how to count to ten(10)?",
+	  "text": "Do you know how to count to five(5)?",
 	  "next": 19,
 	  "word_ids": [
         "w033"
@@ -694,7 +694,14 @@
 	  "type": "minigame_trigger",
 	  "minigame_type": "memory_match",
 	  "success": 21,
-	  "failure": 22
+	  "failure": 22,
+	  "word_pool": [
+		"w090",
+		"w054",
+		"w227",
+		"w018",
+        "w123"
+	  ]
 	},
 	{
 	  "speaker": "Rose",
@@ -788,7 +795,14 @@
 	  "type": "minigame_trigger",
 	  "minigame_type": "memory_match",
 	  "success": 34,
-	  "failure": 33
+	  "failure": 33,
+	  "word_pool": [
+		"w090",
+		"w054",
+		"w227",
+		"w018",
+        "w123"
+	  ]
 	},
 	{
 	  "speaker": "Rose",

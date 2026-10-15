@@ -45,6 +45,7 @@ func attempt(challenge_id: String, answer_idx: int) -> Dictionary:
 
 	var attempt_count := GameState.record_challenge_attempt(challenge_id)
 	var correct: bool = answer_idx == data.get("correct_index", -1)
+	_record_mastery(data, correct)
 
 	if correct:
 		var first_try := attempt_count == 1
@@ -80,6 +81,13 @@ func remove_wrong_option(challenge_id: String) -> int:
 		if i != correct_index:
 			return i
 	return -1
+
+## Mastery feeds adaptive word selection only (GDD 6.8). Never touches rewards,
+## rapport or patience -- no-punishment rule (GDD 7) holds. No-op while a
+## challenge entry has empty word_ids.
+func _record_mastery(data: Dictionary, correct: bool) -> void:
+	for word_id in data.get("word_ids", []):
+		GameState.adjust_mastery(str(word_id), 1 if correct else -1)
 
 # RewardManager is the sole writer for reward fields (TDD §7) — this just
 # forwards the reward dict + first_try flag, no GameState calls here anymore.

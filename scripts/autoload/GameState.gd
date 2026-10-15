@@ -59,6 +59,23 @@ var challenge_attempts: Dictionary = {} # challenge_id -> int, attempt count (fo
 var active_tasks: Dictionary = {}    # task_id -> current_step_index (int)
 var completed_tasks: Dictionary = {} # task_id -> bool
 
+# --- Word Mastery (adaptive review, GDD 6.8) ---
+# +1 when a word is used/identified correctly in a quiz, phrase builder or
+# puzzle; -1 per wrong answer. Hidden weighting signal only -- low mastery
+# raises a word's pick weight (WordBank.get_weighted_review_word). Never feeds
+# rewards, rapport or patience, so the no-punishment rule (GDD 7) holds.
+const MASTERY_MAX := 10
+var word_mastery: Dictionary = {}    # word_id -> int, clamped 0..MASTERY_MAX
+
+## Apply a mastery delta (+1 correct / -1 wrong). Ignores empty ids.
+func adjust_mastery(word_id: String, delta: int) -> void:
+	if word_id.is_empty():
+		return
+	word_mastery[word_id] = clampi(word_mastery.get(word_id, 0) + delta, 0, MASTERY_MAX)
+
+func get_mastery(word_id: String) -> int:
+	return word_mastery.get(word_id, 0)
+
 func add_stars(amount: int) -> void:
 	akeanon_stars += amount
 	reward_granted.emit("stars", amount)
@@ -198,7 +215,8 @@ func save_game() -> void:
 		"challenges_passed": challenges_passed,
 		"challenge_attempts": challenge_attempts,
 		"active_tasks": active_tasks,
-		"completed_tasks": completed_tasks
+		"completed_tasks": completed_tasks,
+		"word_mastery": word_mastery
 	}
 	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	file.store_var(data)
@@ -228,6 +246,7 @@ func load_game() -> void:
 	challenge_attempts = data.get("challenge_attempts", {})
 	active_tasks = data.get("active_tasks", {})
 	completed_tasks = data.get("completed_tasks", {})
+	word_mastery = data.get("word_mastery", {})  # additive field, old saves -> {}
 	# QuestManager built its active list at boot, before flags/exposures were
 	# loaded -- re-scan so flag-gated quests (requires_flag) show after Continue.
 	QuestManager.refresh_active_quests()

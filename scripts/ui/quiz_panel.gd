@@ -56,6 +56,10 @@ const GLOSS_FALLBACK: String = "(meaning pending verification)"
 const CHOICE_COLUMNS: int = 2
 ## Minimum option button height (px).
 const CHOICE_BTN_MIN_HEIGHT: float = 24.0
+## Dynamic quizzes pad word_pool / choices up to this many ids with known words.
+const MIN_POOL_SIZE: int = 6
+## Hard cap on option buttons per question (answer + distractors).
+const MAX_OPTIONS: int = 6
 
 var _questions: Array = []        # [{prompt, answer, options:[{id,text}]}]
 var _index: int = 0               # current question
@@ -119,6 +123,12 @@ func _build_questions(line: Dictionary) -> Array:
 	var authored: Array = line.get("questions", [])
 	var pool: Array = _to_string_array(line.get("word_pool", line.get("choices", [])))
 	var option_pool: Array = _to_string_array(line.get("choices", pool))
+
+	# Dynamic quizzes: pad thin pools with words the player already knows,
+	# lowest mastery first, so review never runs on 2-3 words.
+	if is_dynamic:
+		pool = WordBank.top_up_pool(pool, MIN_POOL_SIZE, true)
+		option_pool = WordBank.top_up_pool(option_pool, MIN_POOL_SIZE, true)
 
 	var templates: Array = line.get("question_templates", [])
 	if templates.is_empty() and line.has("question_template"):
@@ -193,19 +203,28 @@ func _generate_question(
 
 ## Options for one question: answer + option_pool, deduped, unknown ids dropped, shuffled.
 func _build_options(answer: String, option_pool: Array, display: String) -> Array:
-	var ids: Array = [answer]
+	var distractors: Array = []
 	for id in option_pool:
-		if not ids.has(id):
-			ids.append(id)
+		if id != answer and not distractors.has(id):
+			distractors.append(id)
+	distractors.shuffle()
+	var ids: Array = [answer]
+	ids.append_array(distractors.slice(0, MAX_OPTIONS - 1))
 	ids.shuffle()
 
 	var options: Array = []
+	var seen_text: Array = []
 	for id in ids:
 		var word: Dictionary = WordBank.get_word(id)
 		if word.is_empty():
 			push_warning("QuizPanel: unknown choice word id '%s', dropped." % id)
 			continue
 		var text: String = str(word.get("akeanon", "???")) if display == "word" else _gloss_of(word)
+		# Two options with identical text (e.g. shared gloss) would make the
+		# question ambiguous -- drop the distractor, never the answer.
+		if id != answer and seen_text.has(text.to_lower()):
+			continue
+		seen_text.append(text.to_lower())
 		options.append({"id": id, "text": text})
 	return options
 
@@ -284,6 +303,7 @@ func _on_option_pressed(option_idx: int, btn: Button) -> void:
 	var q: Dictionary = _questions[_index]
 	var options: Array = q["options"]
 	var correct: bool = options[option_idx]["id"] == q["answer"]
+	GameState.adjust_mastery(q["answer"], 1 if correct else -1)
 
 	if correct:
 		_correct_count += 1
@@ -314,6 +334,7 @@ func _on_option_pressed(option_idx: int, btn: Button) -> void:
 
 func _finish() -> void:
 	_locked = true
+	GameState.save_game()   # persist mastery changes from this quiz
 	var ratio: float = float(_correct_count) / float(_questions.size())
 	_emit_resolved(ratio >= _pass_ratio)
 

@@ -35,6 +35,9 @@ const BANK_COLUMNS_LARGE: int = 3
 const BANK_BTN_MIN_HEIGHT: float = 24.0
 ## Max reshuffles to avoid presenting the bank already in answer order.
 const MAX_RESHUFFLES: int = 8
+## Bank is padded to this many tiles with known-word distractors. A line may
+## override via "min_bank" (0 disables padding for a hand-tuned bank).
+const MIN_BANK_SIZE: int = 6
 
 var _words: Array = []              # bank strings, in SHUFFLED display order
 var _answer: Array = []             # correct words, in order
@@ -83,6 +86,7 @@ func open(line: Dictionary) -> void:
 		call_deferred("_emit_resolved", true)
 		return
 
+	choices = _top_up_bank(choices, int(line.get("min_bank", MIN_BANK_SIZE)))
 	_words = _shuffled_bank(choices, _answer)
 	_prompt_label.text = str(line.get("prompt", ""))
 	_feedback_label.text = ""
@@ -238,6 +242,7 @@ func _on_check_pressed() -> void:
 	for bank_idx in _placed:
 		attempt.append(_words[bank_idx])
 	var passed: bool = attempt == _answer
+	_record_mastery(attempt)
 
 	_feedback_label.text = "Correct!" if passed else "Not quite."
 	_feedback_label.add_theme_color_override(
@@ -268,6 +273,25 @@ func _answer_in_choices(answer: Array, choices: Array) -> bool:
 		if not choices.has(w):
 			return false
 	return true
+
+## Pads the bank with known-word distractors (lowest mastery first) up to
+## `min_size`. Distractors never duplicate a bank word, so answer tiles stay unique.
+func _top_up_bank(choices: Array, min_size: int) -> Array:
+	var bank: Array = choices.duplicate()
+	if bank.size() >= min_size:
+		return bank
+	bank.append_array(WordBank.pick_known_akeanon(bank, min_size - bank.size()))
+	return bank
+
+## Per-slot mastery: +1 for each answer word placed in its correct position,
+## -1 for each wrong one. Answer words not in the word bank are skipped.
+func _record_mastery(attempt: Array) -> void:
+	for i in range(_answer.size()):
+		var word_id: String = WordBank.find_id_by_form(_answer[i])
+		if word_id.is_empty():
+			continue
+		GameState.adjust_mastery(word_id, 1 if attempt[i] == _answer[i] else -1)
+	GameState.save_game()
 
 ## Shuffles the bank, retrying so it never starts already in answer order
 ## (only possible to detect when bank == answer length, i.e. no distractors).

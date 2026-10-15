@@ -38,6 +38,9 @@ var _correct_index: int   = -1   # MODE_CHALLENGE: choice index
 var _active_challenge_id: String = ""
 var _on_solve_callback    = null
 var _showing_feedback: bool = false
+var _single_ids: Array    = []   # MODE_SINGLE: word_ids in current DISPLAY order (reshuffled per wrong try)
+var _order: Array         = []   # MODE_CHALLENGE: display slot -> original choice index (reshuffled per wrong try)
+var _removed: Array       = []   # MODE_CHALLENGE: ORIGINAL indices eliminated by Rose Hint Tokens
 
 const CORRECT_TEXT := "Insakto"
 
@@ -73,37 +76,39 @@ func open_single(
 	sentence_box.visible = true
 	sentence_label.text = template.replace("___", "[ _______ ]")
 
-	var choices = ([answer_id] + distractor_ids)
-	choices.shuffle()
-
-	for i in range(_choice_btns.size()):
-		var btn: Button = _choice_btns[i]
-		if i < choices.size():
-			var word_data = WordBank.get_word(choices[i])
-			btn.text     = word_data.get("akeanon", "???")
-			btn.visible  = true
-			btn.disabled = false
-			btn.set_meta("removed", false)
-			_reset_btn(btn)
-			_disconnect_choice_handlers(btn)
-			btn.pressed.connect(_on_choice.bind(choices[i], btn))
-		else:
-			btn.visible = false
+	_single_ids = [answer_id] + distractor_ids
+	_single_ids.shuffle()
+	_layout_single_choices()
 
 	visible = true
 
+## Renders _single_ids onto the choice buttons in order. Handlers bind the
+## word_id (not the slot), so reshuffling never changes what a tap means.
+func _layout_single_choices() -> void:
+	for i in range(_choice_btns.size()):
+		var btn: Button = _choice_btns[i]
+		_disconnect_choice_handlers(btn)
+		if i >= _single_ids.size():
+			btn.visible = false
+			continue
+		btn.text     = WordBank.get_word(_single_ids[i]).get("akeanon", "???")
+		btn.visible  = true
+		btn.disabled = false
+		btn.set_meta("removed", false)
+		_reset_btn(btn)
+		btn.pressed.connect(_on_choice.bind(_single_ids[i], btn))
+
 func _on_choice(word_id: String, btn: Button) -> void:
 	if _showing_feedback: return
+	GameState.adjust_mastery(_correct_id, 1 if word_id == _correct_id else -1)
 
 	if word_id == _correct_id:
 		_show_correct_feedback(btn)
 	else:
 		_show_wrong_feedback(btn, "")
 		await get_tree().create_timer(0.4).timeout
-		for b in _choice_btns:
-			if b.visible and not b.get_meta("removed", false):
-				b.disabled = false
-				_reset_btn(b)
+		_single_ids.shuffle()   # new positions every try -- no memorizing slots
+		_layout_single_choices()
 
 # --- MODE_CHALLENGE: ChallengeManager-driven mcq gate ---
 
@@ -130,21 +135,35 @@ func open_challenge(challenge_id: String) -> void:
 	sentence_label.text = data.get("question", "")
 
 	var choices: Array = data.get("choices", [])
-	for i in range(_choice_btns.size()):
-		var btn: Button = _choice_btns[i]
-		if i < choices.size():
-			btn.text     = choices[i]
-			btn.visible  = true
-			btn.disabled = false
-			btn.set_meta("removed", false)
-			_reset_btn(btn)
-			_disconnect_choice_handlers(btn)
-			btn.pressed.connect(_on_challenge_choice.bind(i, btn))
-		else:
-			btn.visible = false
+	_order = range(choices.size())
+	_order.shuffle()
+	_removed.clear()
+	_layout_challenge_choices()
 
 	_refresh_hint_button()
 	visible = true
+
+## Renders _order onto the choice buttons. Handlers bind the ORIGINAL choice
+## index, so ChallengeManager.attempt()/correct_index stay valid after any
+## reshuffle. Hint-removed choices stay removed (tracked by original index).
+func _layout_challenge_choices() -> void:
+	var choices: Array = ChallengeManager.challenges.get(_active_challenge_id, {}).get("choices", [])
+	for i in range(_choice_btns.size()):
+		var btn: Button = _choice_btns[i]
+		_disconnect_choice_handlers(btn)
+		if i >= _order.size():
+			btn.visible = false
+			continue
+		var orig: int = _order[i]
+		var is_removed: bool = _removed.has(orig)
+		btn.text    = choices[orig]
+		btn.visible = true
+		btn.set_meta("removed", is_removed)
+		_reset_btn(btn)
+		btn.disabled = is_removed
+		if is_removed:
+			_apply_removed_style(btn)
+		btn.pressed.connect(_on_challenge_choice.bind(orig, btn))
 
 func _on_challenge_choice(idx: int, btn: Button) -> void:
 	if _showing_feedback: return
@@ -158,10 +177,8 @@ func _on_challenge_choice(idx: int, btn: Button) -> void:
 
 	_show_wrong_feedback(btn, result.get("hint", ""))
 	await get_tree().create_timer(0.4).timeout
-	for b in _choice_btns:
-		if b.visible and not b.get_meta("removed", false):
-			b.disabled = false
-			_reset_btn(b)
+	_order.shuffle()   # new positions every try -- no memorizing slots
+	_layout_challenge_choices()
 	_refresh_hint_button()   # a fail-twice gate opens Dictionary over this panel; button state
 							  # still needs to be correct underneath for when the player returns
 
@@ -174,8 +191,11 @@ func _on_hint_button_pressed() -> void:
 	var removed_idx: int = ChallengeManager.remove_wrong_option(_active_challenge_id)
 	if removed_idx == -1:
 		return
-	if removed_idx < _choice_btns.size():
-		var btn: Button = _choice_btns[removed_idx]
+	if not _removed.has(removed_idx):
+		_removed.append(removed_idx)
+	var slot: int = _order.find(removed_idx)   # removed_idx is an ORIGINAL index
+	if slot != -1 and slot < _choice_btns.size():
+		var btn: Button = _choice_btns[slot]
 		btn.set_meta("removed", true)
 		btn.disabled = true
 		_apply_removed_style(btn)
