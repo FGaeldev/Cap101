@@ -6,6 +6,9 @@ signal word_learned(word_id: String, akeanon: String, gloss: String)
 signal rapport_changed(npc_id: String, value: float)
 signal patience_changed(npc_id: String, value: int)
 signal reward_granted(reward_type: String, id_or_amount)
+## Fired on every set_flag. Lets level scripts react to story flags (e.g.
+## despawn cast on "chapter1_complete") without polling.
+signal flag_changed(flag_name: String, value: bool)
 
 # --- State ---
 var flags: Dictionary = {}          # quest/story flags
@@ -136,6 +139,7 @@ const SAVE_PATH = "user://save.dat"
 # --- Flag System ---
 func set_flag(flag_name: String, value: bool = true) -> void:
 	flags[flag_name] = value
+	flag_changed.emit(flag_name, value)
 	# A newly-set flag may satisfy a quest's "requires_flag" gate -- recheck so
 	# the quest appears the moment the flag flips (idempotent, only appends).
 	if value:

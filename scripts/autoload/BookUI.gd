@@ -37,6 +37,20 @@ var _current_tab: String = ""
 @onready var bottom_bar: HBoxContainer = $Root/BottomBar
 @onready var arrow_left: Button = $Root/BottomBar/ArrowLeft
 @onready var arrow_right: Button = $Root/BottomBar/ArrowRight
+
+## Horizontal inset (px) between a page edge and its arrow buttons.
+const ARROW_PAGE_INSET := 6
+## Fraction of page width the OUTER-edge arrow is pulled inward (left page:
+## left arrow moves right; right page: right arrow moves left).
+const ARROW_OUTER_SHIFT := 0.10
+## Must match ArrowLeft/ArrowRight custom_minimum_size.x in book_ui.tscn.
+const ARROW_WIDTH := 16
+
+## Per-side arrow bars. "page" = PageLeft's bar (the scene's BottomBar),
+## "page_right" = PageRight's bar (runtime duplicate of BottomBar, built in
+## _ready). Each side paginates independently of the other.
+var _bars: Dictionary = {}    # side key -> HBoxContainer
+var _arrows: Dictionary = {}  # side key -> {"prev": Button, "next": Button}
 @onready var tab_settings: Button = $Root/TabBar/TabSettings
 @onready var tab_quest: Button = $Root/TabBar/TabBucketList
 @onready var tab_rapport: Button = $Root/TabBar/TabRelationship
@@ -47,10 +61,24 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	visible = false
 	close_btn.pressed.connect(close)
-	arrow_left.pressed.connect(_on_arrow_left_pressed)
-	arrow_right.pressed.connect(_on_arrow_right_pressed)
-	arrow_left.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
-	arrow_right.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
+	# Duplicate BEFORE connecting signals so the copy doesn't inherit
+	# left-page connections.
+	var bar_right: HBoxContainer = bottom_bar.duplicate() as HBoxContainer
+	bar_right.name = "BottomBarRight"
+	bottom_bar.get_parent().add_child(bar_right)
+	_bars = {"page": bottom_bar, "page_right": bar_right}
+	_arrows = {
+		"page": {"prev": arrow_left, "next": arrow_right},
+		"page_right": {
+			"prev": bar_right.get_node("ArrowLeft"),
+			"next": bar_right.get_node("ArrowRight"),
+		},
+	}
+	for side in _arrows:
+		_arrows[side]["prev"].pressed.connect(_on_arrow_pressed.bind(side, false))
+		_arrows[side]["next"].pressed.connect(_on_arrow_pressed.bind(side, true))
+		_arrows[side]["prev"].add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
+		_arrows[side]["next"].add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 	title_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 	_register_tab("relationship", $Root/TabBar/TabRelationship, "RELATIONSHIP")
 	var rel_left := PageRelationshipScene.instantiate()
@@ -233,47 +261,55 @@ func switch_tab(tab_id: String) -> void:
 	_show_page(entry, "page_right")
 	_update_bottom_bar()
 
-## Generic — shows/enables the bottom bar for ANY tab whose "page" OR
-## "page_right" exposes next_page()/prev_page()/has_next_page()/
-## has_prev_page(). Checks "page" first (matches Relationship's
-## primary-owns-pagination convention), falls back to "page_right" (matches
-## Dictionary: dict_filter on "page" is a search box with nothing to
-## paginate, dict_list on "page_right" is the actual paginated content).
-## A tab where BOTH halves independently paginate isn't supported by a
-## single shared arrow pair — split content so only one side needs paging,
-## or extend this to track per-tab which side is "active", if that's ever
-## actually needed.
-func _get_paginated_page(tab_id: String):
-	var entry: Dictionary = _tabs.get(tab_id, {})
-	var page = entry.get("page")
+## Returns the page node on `side` ("page" or "page_right") of tab_id if it
+## paginates (exposes next_page()/prev_page()/has_next_page()/has_prev_page()),
+## else null. Each side is checked independently, so a tab may paginate on
+## the left, the right, both, or neither.
+func _get_paginated_page(tab_id: String, side: String):
+	var page = _tabs.get(tab_id, {}).get(side)
 	if page != null and page.has_method("next_page"):
 		return page
-	var page_right = entry.get("page_right")
-	if page_right != null and page_right.has_method("next_page"):
-		return page_right
 	return null
 
+## Per side: shows that side's arrow bar only if its page paginates AND has
+## somewhere to go (a prev or next page), snaps the bar under its own page,
+## and syncs prev/next enabled state. Single-page content hides the bar.
 func _update_bottom_bar() -> void:
-	var page = _get_paginated_page(_current_tab)
-	bottom_bar.visible = page != null
+	for side in _bars:
+		var bar: HBoxContainer = _bars[side]
+		var page = _get_paginated_page(_current_tab, side)
+		var has_pages: bool = page != null and (page.has_prev_page() or page.has_next_page())
+		bar.visible = has_pages
+		if not has_pages:
+			continue
+		var host: Control = page_left if side == "page" else page_right
+		var shift: float = host.size.x * ARROW_OUTER_SHIFT
+		var is_left: bool = side == "page"
+		var width: float = host.size.x - ARROW_PAGE_INSET * 2 - shift
+		# Separation MUST be set before size: the scene's baked-in separation
+		# (428) sets the HBox minimum width and would clamp size.x otherwise.
+		bar.add_theme_constant_override(
+			"separation", maxi(0, int(width) - ARROW_WIDTH * 2))
+		bar.size = Vector2(width, bar.size.y)
+		# Left page: bar starts further right (left arrow shifts in).
+		# Right page: bar starts at normal inset, ends sooner (right arrow shifts in).
+		var x_offset: float = ARROW_PAGE_INSET + (shift if is_left else 0.0)
+		bar.global_position.x = host.global_position.x + x_offset
+		_arrows[side]["prev"].disabled = not page.has_prev_page()
+		_arrows[side]["next"].disabled = not page.has_next_page()
+
+## Shared handler for all four arrows. `side` = "page"/"page_right",
+## `forward` = true for next, false for prev.
+func _on_arrow_pressed(side: String, forward: bool) -> void:
+	var page = _get_paginated_page(_current_tab, side)
 	if page == null:
 		return
-	arrow_left.disabled = not page.has_prev_page()
-	arrow_right.disabled = not page.has_next_page()
-
-func _on_arrow_left_pressed() -> void:
-	var page = _get_paginated_page(_current_tab)
-	if page:
-		AudioManager.play_sfx("menu_click")
-		page.prev_page()
-		_update_bottom_bar()
-
-func _on_arrow_right_pressed() -> void:
-	var page = _get_paginated_page(_current_tab)
-	if page:
-		AudioManager.play_sfx("menu_click")
+	AudioManager.play_sfx("menu_click")
+	if forward:
 		page.next_page()
-		_update_bottom_bar()
+	else:
+		page.prev_page()
+	_update_bottom_bar()
 
 func _hide_page(entry: Dictionary, key: String) -> void:
 	if entry.has(key):

@@ -1,0 +1,12 @@
+[
+	{"type":"spawn_npc","actor":"Lola Jonabel","scene":"res://scenes/entities/npc_LolaJonabel.tscn","at":[296,330]},
+	{"type":"spawn_npc","actor":"Papa Jobert","scene":"res://scenes/entities/npc_PapaJobert.tscn","at":[312,330]},
+	{"type":"wait","seconds":0.3},
+	{"type":"parallel","actions":[
+		{"type":"move_npc","actor":"Lola Jonabel","to":[250,492],"speed":40},
+		{"type":"move_npc","actor":"Papa Jobert","to":[274,492],"speed":40}
+	]},
+	{"type":"dialogue","chapter":"chapter1","scene":"scene_3_kalibo_town_proper_reunion"},
+	{"type":"set_flag","flag":"story_done_scene_3_reunion","value":true},
+	{"type":"set_flag","flag":"seen_chapter1_scene3","value":true}
+]

@@ -73,6 +73,9 @@ func complete_quests_with_trigger(trigger_name: String) -> void:
 func complete_quest(quest_id: String) -> void:
 	var q = quests.get(quest_id, {})
 	if q.is_empty(): return
+	# Idempotent: NPC dialogue components call this on EVERY dialogue end
+	# (incl. idle chat), so a repeat call must not re-popup/re-save.
+	if quest_id in GameState.completed_quests: return
 	GameState.set_flag(q["completion_flag"])
 	GameState.completed_quests.append(quest_id)
 	GameState.save_game()

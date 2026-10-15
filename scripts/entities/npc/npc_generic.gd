@@ -18,6 +18,18 @@ extends CharacterBody2D
 @export var idle_pool_key: String = ""
 ## Set when story dialogue completes once; flips interact to idle pool.
 @export var story_done_flag: String = ""
+## Optional quest link. While this quest is active, Comp_Interactable shows
+## the quest marker over the NPC (read via get() on the parent).
+@export var quest_id: String = ""
+## Quest completed the first time the player interacts with this NPC
+## (idempotent in QuestManager). Empty = this NPC never triggers a quest.
+@export var interact_quest_id: String = ""
+## data/cutscenes/<cutscene_id>.json plays INSTEAD of story dialogue until
+## cutscene_seen_flag is set (the cutscene must set that flag itself).
+@export var cutscene_id: String = ""
+@export var cutscene_seen_flag: String = ""
+## Interaction is ignored until this flag is set. Empty = always interactable.
+@export var unlock_flag: String = ""
 
 @onready var interactable: InteractableComponent = $InteractableComponent
 @onready var dialogue: DialogueComponent = $DialogueComponent
@@ -29,6 +41,13 @@ func _ready() -> void:
 	call_deferred("_register")
 
 func _on_interacted(_interactor: Node) -> void:
+	if not unlock_flag.is_empty() and not GameState.get_flag(unlock_flag):
+		return
+	if not interact_quest_id.is_empty():
+		QuestManager.complete_quest(interact_quest_id)
+	if not cutscene_id.is_empty() and not GameState.get_flag(cutscene_seen_flag):
+		CutsceneManager.play(cutscene_id)
+		return
 	if idle_pool_key.is_empty() or story_done_flag.is_empty() or not GameState.get_flag(story_done_flag):
 		dialogue.dialogue_lines = ChapterLoader.get_scene_lines(dialogue_chapter, dialogue_scene_key)
 		dialogue.start_dialogue()

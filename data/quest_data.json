@@ -8,6 +8,15 @@
 			"requires_flag": "seen_chapter1_scene1",
 			"completion_flag": "quest_002_done",
 			"show_popup": true
+		},
+		{
+			"id": "q003",
+			"title": "Find Lola Susan and Rose in the parking lot",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "seen_chapter1_scene2",
+			"completion_flag": "quest_003_done",
+			"show_popup": true
 		}
 	]
 }
