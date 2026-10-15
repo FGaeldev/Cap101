@@ -188,7 +188,7 @@
 	  "choices": [
 		{
 		  "label": "Yes",
-		  "next": 8
+		  "next": 5
 		},
 		{
 		  "label": "No",

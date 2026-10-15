@@ -27,6 +27,12 @@ signal resolved(passed: bool)
 
 ## Seconds the correct/wrong feedback stays visible before resolving.
 const FEEDBACK_HOLD: float = 1.2
+## Bank layout: banks up to BANK_SMALL_MAX words use 2 columns, larger use 3.
+const BANK_SMALL_MAX: int = 4
+const BANK_COLUMNS_SMALL: int = 2
+const BANK_COLUMNS_LARGE: int = 3
+## Minimum height (px) of a bank word button; grows past this to fill.
+const BANK_BTN_MIN_HEIGHT: float = 24.0
 ## Max reshuffles to avoid presenting the bank already in answer order.
 const MAX_RESHUFFLES: int = 8
 
@@ -39,7 +45,7 @@ var _locked: bool = false           # true while feedback shows; ignores input
 var _prompt_label: Label
 var _slot_flow: HFlowContainer
 var _slot_hint: Label
-var _bank_flow: HFlowContainer
+var _bank_grid: GridContainer
 var _feedback_label: Label
 var _clear_btn: Button
 var _check_btn: Button
@@ -125,20 +131,22 @@ func _build_layout() -> void:
 	slot_panel.add_child(_slot_hint)
 
 	# Word bank.
-	_bank_flow = HFlowContainer.new()
-	_bank_flow.add_theme_constant_override("h_separation", 3)
-	_bank_flow.add_theme_constant_override("v_separation", 3)
-	_bank_flow.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	vbox.add_child(_bank_flow)
+	# Grid (not flow) so word buttons stretch evenly to fill all free space.
+	_bank_grid = GridContainer.new()
+	_bank_grid.add_theme_constant_override("h_separation", 3)
+	_bank_grid.add_theme_constant_override("v_separation", 3)
+	_bank_grid.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	vbox.add_child(_bank_grid)
 
-	_feedback_label = Label.new()
-	_feedback_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
-	vbox.add_child(_feedback_label)
-
+	# Feedback shares the action row to save a row of vertical space.
 	var actions := HBoxContainer.new()
 	actions.add_theme_constant_override("separation", 4)
-	actions.alignment = BoxContainer.ALIGNMENT_END
 	vbox.add_child(actions)
+
+	_feedback_label = Label.new()
+	_feedback_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_feedback_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
+	actions.add_child(_feedback_label)
 
 	_clear_btn = _make_button("Clear", "secondary")
 	_clear_btn.pressed.connect(_on_clear_pressed)
@@ -169,14 +177,19 @@ func _make_slot_style() -> StyleBoxFlat:
 # --- bank / slots --------------------------------------------------------------
 
 func _rebuild_bank() -> void:
-	for child in _bank_flow.get_children():
-		_bank_flow.remove_child(child)
+	for child in _bank_grid.get_children():
+		_bank_grid.remove_child(child)
 		child.queue_free()
 	_bank_btns.clear()
+	_bank_grid.columns = BANK_COLUMNS_SMALL if _words.size() <= BANK_SMALL_MAX else BANK_COLUMNS_LARGE
 	for i in range(_words.size()):
 		var btn := _make_button(_words[i], "primary")
+		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		btn.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		btn.custom_minimum_size = Vector2(0, BANK_BTN_MIN_HEIGHT)
+		btn.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_M)
 		btn.pressed.connect(_on_bank_pressed.bind(i))
-		_bank_flow.add_child(btn)
+		_bank_grid.add_child(btn)
 		_bank_btns.append(btn)
 
 ## Re-syncs slots, bank enabled-state and Check button from `_placed`.
