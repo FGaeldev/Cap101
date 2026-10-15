@@ -17,6 +17,15 @@
 			"requires_flag": "seen_chapter1_scene2",
 			"completion_flag": "quest_003_done",
 			"show_popup": true
+		},
+		{
+			"id": "q004",
+			"title": "Practice words with Rose",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "seen_chapter1_scene3",
+			"completion_flag": "quest_004_done",
+			"show_popup": true
 		}
 	]
 }

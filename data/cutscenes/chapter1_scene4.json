@@ -1,0 +1,5 @@
+[
+	{"type":"dialogue","chapter":"chapter1","scene":"scene_4_vocabulary_practice_round_family_pronouns_numbers"},
+	{"type":"set_flag","flag":"story_done_scene_4_rose","value":true},
+	{"type":"set_flag","flag":"seen_chapter1_scene4","value":true}
+]

@@ -13,6 +13,11 @@ const SCENE3_SEEN_FLAG: String = "seen_chapter1_scene3"
 ## Joint story-done flag: flips every lot NPC to its idle pool. Set by the
 ## scene-3 cutscene.
 const STORY_DONE_FLAG: String = "story_done_scene_3_reunion"
+## Scene 4 (Rose vocab drill). Only Rose uses these: her idle pool starts after the drill.
+const SCENE4_SEEN_FLAG: String = "seen_chapter1_scene4"
+const ROSE_STORY_DONE_FLAG: String = "story_done_scene_4_rose"
+## Completed by interacting with Rose (post scene 3) ONLY.
+const PRACTICE_QUEST_ID: String = "q004"
 ## Must be set by whatever ends Chapter 1 (cutscene set_flag step, dialogue
 ## hook, etc). Cast despawns on the flip and never respawns afterwards.
 const CHAPTER_DONE_FLAG: String = "chapter1_complete"
@@ -65,7 +70,11 @@ func _spawn_lot_cast() -> void:
 	var rose: Node2D = _spawn(ROSE)
 	rose.unlock_flag = SCENE3_SEEN_FLAG            # silent until the reunion
 	rose.dialogue_scene_key = ""
-	rose.story_done_flag = STORY_DONE_FLAG
+	rose.quest_id = PRACTICE_QUEST_ID              # quest marker
+	rose.interact_quest_id = PRACTICE_QUEST_ID     # completes on interact
+	rose.cutscene_id = "chapter1_scene4"
+	rose.cutscene_seen_flag = SCENE4_SEEN_FLAG
+	rose.story_done_flag = ROSE_STORY_DONE_FLAG
 
 	if GameState.get_flag(SCENE3_SEEN_FLAG):
 		_spawn(JONABEL)
