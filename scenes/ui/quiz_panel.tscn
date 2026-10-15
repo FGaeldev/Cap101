@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/quiz_panel.gd" id="1_qp"]
+
+[node name="QuizPanel" type="PanelContainer"]
+script = ExtResource("1_qp")
