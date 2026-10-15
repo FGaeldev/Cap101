@@ -439,7 +439,11 @@
       "next": 22,
       "translation": "Ahh, You must be [Player]",
       "type": "dialogue",
-      "word_ids": []
+      "word_ids": [
+        "w246",
+        "w247",
+        "w248"
+      ]
     },
     {
       "speaker": "Lola Susan",
@@ -449,6 +453,7 @@
       "type": "dialogue",
       "word_ids": [
         "w214",
+        "w248",
         "w168"
       ]
     }
@@ -468,95 +473,360 @@
     },
     {
       "speaker": "Rose",
-      "text": "Ako — that's I. Ikaw — you. Siya — he or she.",
+      "text": "\"\\Ako\" that means \"I\" or \"me\"",
       "next": 3,
       "word_ids": [
-        "w092"
+        "w011"
       ],
       "type": "dialogue"
     },
     {
-      "speaker": "Player",
-      "text": "Okay, ako... ikaw... siya. Got it, I think.",
+      "speaker": "Rose",
+      "text": "\"\\Ikaw\"  means \"you\"",
       "next": 4,
+      "word_ids": [
+        "w246"
+      ],
       "type": "dialogue"
     },
     {
       "speaker": "Rose",
-      "text": "Kami — we, but not you. Kita — we, and that includes you. Kamo — you all. Sanda — they.",
+      "text": "\"\\Imaw\" means \"he/she or him/her\"",
       "next": 5,
       "word_ids": [
-        "w104"
+        "w084"
+      ],
+      "type": "dialogue"
+    },
+    {
+      "type": "quiz",
+      "questions": [
+        {
+          "question": "What akeanon word has the meaning \"he/she or him/her\"",
+          "correct_answer": "w084"
+        },
+        {
+          "question": "",
+          "correct_answer": ""
+        }
+      ],
+      "choices": [
+        "w011",
+        "w084",
+        "w246"
+      ],
+      "quiz_type": "dynamic",
+      "question_template": "What does \"[word]\" mean?",
+      "word_pool": [
+        "w011",
+        "w084",
+        "w246"
+      ],
+      "question_templates": [
+        "What does \"[word]\" mean?",
+        "What Akeanon word means \"[gloss]\"?"
+      ],
+      "question_template_choice_displays": [
+        "gloss",
+        "word"
+      ],
+      "choice_display": "gloss",
+      "success": 6,
+      "failure": 7
+    },
+    {
+      "speaker": "Rose",
+      "text": "Well Done!",
+      "next": 8,
+      "word_ids": [],
+      "type": "dialogue"
+    },
+    {
+      "speaker": "Rose",
+      "text": "Nice try, we can try again later",
+      "next": 8,
+      "word_ids": [],
+      "type": "dialogue"
+    },
+    {
+      "speaker": "Rose",
+      "text": "Next are words used when talking about multiple people",
+      "next": 9,
+      "word_ids": [],
+      "type": "dialogue"
+    },
+    {
+      "speaker": "Rose",
+      "text": "In \\akeanon we have  two words for \"we\"",
+      "next": 10,
+      "word_ids": [
+        "w008",
+        "w009"
       ],
       "type": "dialogue"
     },
     {
       "speaker": "Rose",
-      "text": "Are you ready for the next?",
+      "text": "There is \"\\kita\" meaning \"we including you\" or \"us\"",
+      "next": 11,
+      "word_ids": [
+        "w113"
+      ],
+      "type": "dialogue"
+    },
+    {
+      "speaker": "Rose",
+      "text": "There is also \"\\kami\" meaning \"we excluding you\"",
+      "next": 12,
+      "word_ids": [
+        "w101"
+      ],
+      "type": "dialogue"
+    },
+    {
+      "speaker": "Rose",
+      "text": "Then we have \"\\kamo\" which means \"you\" when talking about multiple people",
+      "next": 13,
+      "word_ids": [
+        "w102"
+      ],
+      "type": "dialogue"
+    },
+    {
+      "speaker": "Rose",
+      "text": "Also we have \"\\sanda\" which means \"they or them\" ",
+      "next": 14,
+      "word_ids": [
+        "w210"
+      ],
+      "type": "dialogue"
+    },
+    {
+      "speaker": "Rose",
+      "text": "I have a few more common words to teach you",
+      "next": 15,
+      "word_ids": [
+        "w210"
+      ],
+      "type": "dialogue"
+    },
+    {
+      "speaker": "Rose",
+      "text": "Do you want a review now or we can do it later?",
       "choices": [
         {
-          "label": "Yes, keep going. I want to actually remember these.",
-          "next": 6
+          "label": "Later, keep going for now.",
+          "next": 16
         },
         {
-          "label": "Give me a second, it's already too many at once.",
-          "next": 7
-        },
-        {
-          "label": "Can we save the rest for later, Rose? My brain hurts.",
-          "next": 8
+          "label": "Sure, Quiz me now to make sure I got it",
+          "next": 17
         }
       ],
       "next": null,
-      "type": "dialogue"
+      "type": "dialogue",
+      "word_ids": []
     },
     {
       "speaker": "Rose",
-      "text": "That's what I like to hear. Fine, one more batch.",
-      "next": 9,
-      "type": "dialogue"
+      "text": "That's what I like to hear.",
+      "next": 18,
+      "type": "dialogue",
+      "word_ids": []
+    },
+    {
+      "type": "quiz",
+      "quiz_type": "dynamic",
+      "questions": [],
+      "choices": [
+        "w101",
+        "w102",
+        "w113",
+        "w210"
+      ],
+      "success": 24,
+      "failure": 23,
+      "question_templates": [
+        "\"[word]\" means what?"
+      ],
+      "question_template": "\"[word]\" means what?",
+      "question_template_choice_displays": [
+        "gloss"
+      ],
+      "word_pool": [
+        "w101",
+        "w102",
+        "w113",
+        "w210"
+      ]
     },
     {
       "speaker": "Rose",
-      "text": "Fair. Take your time, we've got a walk ahead anyway.",
-      "next": 9,
-      "type": "dialogue"
-    },
-    {
-      "speaker": "Rose",
-      "text": "Ugh, fine. But we're picking this up again tomorrow.",
-      "next": 9,
-      "type": "dialogue"
-    },
-    {
-      "speaker": "Rose",
-      "text": "Tatay — father. Nanay — mother. Unga — child. Easy ones, you'll hear these a lot.",
-      "next": 10,
+      "text": "Do you know how to count to ten(10)?",
+      "next": 19,
       "word_ids": [
         "w033"
       ],
-      "type": "dialogue"
+      "type": "dialogue",
+      "choices": [
+        {
+          "label": "Yes",
+          "next": 19,
+          "rapport_delta": 0,
+          "patience_delta": 0
+        },
+        {
+          "label": "No\n",
+          "next": 25,
+          "rapport_delta": 0,
+          "patience_delta": 0
+        }
+      ]
     },
     {
       "speaker": "Rose",
-      "text": "Isa, daywa, tatlo, apat, lima — count with me. Point at each one.",
-      "next": 11,
-      "word_ids": [
-        "w064"
-      ],
+      "text": "Really? Let's play a game then",
+      "next": 20,
+      "word_ids": [],
       "type": "dialogue"
+    },
+    {
+      "type": "minigame_trigger",
+      "minigame_type": "memory_match",
+      "success": 21,
+      "failure": 22
+    },
+    {
+      "speaker": "Rose",
+      "text": "Wow! You know more than I thought.",
+      "next": null,
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "It's OK, I'll teach you again as a refresher",
+      "next": 26,
+      "word_ids": [],
+      "set_flag": {
+        "flag": "is_numbers_refresher",
+        "value": true
+      }
+    },
+    {
+      "speaker": "Rose",
+      "text": "It's fine we can review again when we get home",
+      "next": 18,
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Well Done! You're a natural",
+      "next": 18,
+      "word_ids": []
     },
     {
       "speaker": "Player",
-      "text": "Isa, daywa, tatlo, apat, lima. Hey, that wasn't so bad.",
-      "next": 12,
-      "type": "dialogue"
+      "text": "Ok I'll teach you one(1) to five(5) for now",
+      "next": 26,
+      "type": "dialogue",
+      "word_ids": []
     },
     {
       "speaker": "Rose",
-      "text": "See? Told you. Baby steps, balikbayan.",
+      "text": "One(1) is \"\\isaea\"",
+      "next": 27,
+      "type": "dialogue",
+      "word_ids": [
+        "w090"
+      ]
+    },
+    {
+      "speaker": "Rose",
+      "text": "Two(2) is \"\\daywa\"",
+      "next": 28,
+      "type": "dialogue",
+      "word_ids": [
+        "w054"
+      ]
+    },
+    {
+      "speaker": "Rose",
+      "text": "Three(3) is \"\\tatlo\"",
+      "next": 29,
+      "type": "dialogue",
+      "word_ids": [
+        "w227"
+      ]
+    },
+    {
+      "speaker": "Rose",
+      "text": "Four(4) is \"\\ap-at\"",
+      "next": 30,
+      "type": "dialogue",
+      "word_ids": [
+        "w018"
+      ]
+    },
+    {
+      "speaker": "Rose",
+      "text": "Five(5) is \"\\lima\"",
+      "next": 31,
+      "type": "dialogue",
+      "word_ids": [
+        "w123"
+      ],
+      "check_flag": "is_numbers_refresher",
+      "check_flag_next": 36
+    },
+    {
+      "speaker": "Rose",
+      "text": "Let's play a game to see if you got it.",
+      "next": 32,
+      "word_ids": []
+    },
+    {
+      "type": "minigame_trigger",
+      "minigame_type": "memory_match",
+      "success": 34,
+      "failure": 33
+    },
+    {
+      "speaker": "Rose",
+      "text": "Ok we can try again at home",
+      "next": 35,
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Well Done",
+      "next": 35,
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Let's go home.",
       "next": null,
-      "type": "dialogue"
+      "word_ids": []
+    },
+    {
+      "speaker": "Rose",
+      "text": "Do you want to play agin?",
+      "next": null,
+      "word_ids": [],
+      "choices": [
+        {
+          "label": "Yes",
+          "next": 32,
+          "rapport_delta": 0,
+          "patience_delta": 0
+        },
+        {
+          "label": "No\n",
+          "next": 33,
+          "rapport_delta": 0,
+          "patience_delta": 0
+        }
+      ]
     }
   ],
   "idle_pool_lola_jonabel": {

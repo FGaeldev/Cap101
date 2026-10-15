@@ -95,7 +95,7 @@
       "akeanon": "ako",
       "category": "Pronoun (pro)",
       "area": "chapter1",
-      "gloss": "I / me",
+      "gloss": "I or me",
       "verified": false,
       "source": ""
     },
@@ -740,7 +740,7 @@
     },
     {
       "id": "w083",
-      "akeanon": "ikaw/ka",
+      "akeanon": "ka",
       "category": "",
       "area": "chapter1",
       "gloss": "you (sing.)",
@@ -903,7 +903,7 @@
     {
       "id": "w101",
       "akeanon": "kami",
-      "category": "",
+      "category": "Pronoun (pro)",
       "area": "chapter1",
       "gloss": "we (excl.)",
       "verified": false,
@@ -912,7 +912,7 @@
     {
       "id": "w102",
       "akeanon": "kamo",
-      "category": "",
+      "category": "Pronoun (pro)",
       "area": "chapter1",
       "gloss": "you (pl.)",
       "verified": false,
@@ -997,7 +997,8 @@
       "area": "chapter4",
       "gloss": "So/ Capable",
       "verified": false,
-      "source": ""    },
+      "source": ""
+    },
     {
       "id": "w112",
       "akeanon": "kilaea",
@@ -1010,9 +1011,9 @@
     {
       "id": "w113",
       "akeanon": "kita",
-      "category": "",
+      "category": "Pronoun (pro)",
       "area": "chapter2",
-      "gloss": "us",
+      "gloss": "us or we (incl.)",
       "verified": false,
       "source": ""
     },
@@ -1883,9 +1884,9 @@
     {
       "id": "w210",
       "akeanon": "sanda",
-      "category": "",
+      "category": "Pronoun (pro)",
       "area": "chapter1",
-      "gloss": "they",
+      "gloss": "they or them",
       "verified": false,
       "source": ""
     },
@@ -1983,20 +1984,12 @@
       "id": "w221",
       "akeanon": "tanan",
       "category": "",
-      "area": "chapter1",
-      "gloss": "all / everyone / all",
+      "area": "chapter2",
+      "gloss": "all / everyone",
       "verified": false,
       "source": ""
     },
     {
-      "id": "w222",
-      "akeanon": "tanan",
-      "category": "",
-      "area": "chapter6",
-      "gloss": "all / everyone",
-      "verified": false,
-      "source": ""
-    },    {
       "id": "w223",
       "akeanon": "tanawa",
       "category": "",
@@ -2200,6 +2193,33 @@
       "category": "",
       "area": "chapter6",
       "gloss": "travel",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w246",
+      "akeanon": "ikaw",
+      "category": "Pronoun (pro)",
+      "area": "chapter1",
+      "gloss": "you",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w247",
+      "akeanon": "siguro",
+      "category": "Adverb (adv.)",
+      "area": "chapter1",
+      "gloss": "maybe",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w248",
+      "akeanon": "si",
+      "category": "Topic Marker (Tm)",
+      "area": "chapter1",
+      "gloss": "used to mark the topic of a sentence if its the name of a person or pet, denoting the singular",
       "verified": false,
       "source": ""
     }
