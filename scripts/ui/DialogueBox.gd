@@ -24,9 +24,9 @@ func _apply_style() -> void:
 
 ## Display source text and optional translation with the existing typewriter.
 func display(speaker: String, text: String, translation: String = "") -> void:
-	speaker_label.text = "[ %s ]" % speaker
-	_full_text = text
-	var clean_translation := translation.strip_edges()
+	speaker_label.text = TextUtil.resolve_speaker(speaker)
+	_full_text = TextUtil.resolve(text)
+	var clean_translation := TextUtil.resolve(translation).strip_edges()
 	if not clean_translation.is_empty():
 		_full_text += "\n" + clean_translation
 	_shown_chars = 0

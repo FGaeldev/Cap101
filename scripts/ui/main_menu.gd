@@ -9,6 +9,8 @@ extends Control
 @onready var quit_btn:      Button = $BookPanel/Spread/RightPage/CenterContainer/Buttons/QuitBtn
 
 const MAIN = "res://scenes/Game.tscn"
+## New-game name prompt; hands off to MAIN once a name is confirmed.
+const NAME_ENTRY = "res://scenes/ui/name_entry.tscn"
 
 func _ready() -> void:
 	_apply_bg()
@@ -29,7 +31,8 @@ func _on_start() -> void:
 	AudioManager.play_sfx("menu_click")
 	if FileAccess.file_exists(GameState.SAVE_PATH):
 		DirAccess.remove_absolute(GameState.SAVE_PATH)
-	get_tree().change_scene_to_file(MAIN)
+	GameState.player_name = ""  # force fresh name entry
+	get_tree().change_scene_to_file(NAME_ENTRY)
 
 func _on_continue() -> void:
 	AudioManager.play_sfx("menu_click")

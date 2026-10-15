@@ -23,7 +23,7 @@ func show_choices(choices: Array, component: DialogueComponent) -> void:
 
 	for c in choices:
 		var btn = Button.new()
-		btn.text = c.get("label", "...")
+		btn.text = TextUtil.resolve(str(c.get("label", "...")))
 		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		# Fill the row; wrap long labels instead of widening the box.
 		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL

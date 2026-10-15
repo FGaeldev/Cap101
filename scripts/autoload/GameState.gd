@@ -17,6 +17,10 @@ var current_area: String = "village"
 var completed_quests: Array = []
 var current_level_path: String = "res://scenes/world/chapter1/us_bedroom.tscn"
 
+## Player-chosen display name. Empty until name entry completes (new game) or
+## when loading a pre-name-entry save. TextUtil substitutes a fallback when empty.
+var player_name: String = ""
+
 ## Dev-only chapter/scene skip menu toggle (Settings tab). Deliberately NOT
 ## in save_game()/load_game() -- session-only, must never leak into a saved
 ## game or ship "on" by default from a stale save file.
@@ -182,6 +186,7 @@ func save_game() -> void:
 		"current_area": current_area,
 		"completed_quests": completed_quests,
 		"current_level_path": current_level_path,
+		"player_name": player_name,
 		"rapport": rapport,
 		"patience": patience,
 		"patience_last_update": _patience_last_update,
@@ -210,6 +215,7 @@ func load_game() -> void:
 	current_area = data.get("current_area", "village")
 	completed_quests = data.get("completed_quests", [])
 	current_level_path = data.get("current_level_path")
+	player_name = data.get("player_name", "")  # additive field, old saves -> ""
 	rapport = data.get("rapport", {})
 	patience = data.get("patience", {})
 	_patience_last_update = data.get("patience_last_update", {})
