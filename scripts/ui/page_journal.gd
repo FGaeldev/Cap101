@@ -211,7 +211,7 @@ func _on_dev_warp_pressed(scene_path: String) -> void:
 	GameState.set_flag("story_done_papa_jobert_scene1")
 	GameState.set_flag("story_done_lola_jonabel_scene1")
 	if not GameState.get_flag("quest_002_done"):
-		QuestManager.complete_quest("q002")
+		QuestManager.complete_quest_silently("q002")
 
 	BookUI.close()
 	game.load_level(scene_path)
