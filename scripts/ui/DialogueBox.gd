@@ -53,6 +53,13 @@ func _unhandled_input(event: InputEvent) -> void:
 	_dialogue_input()
 
 func _dialogue_input() -> void:
+	# Choice dialogue must be resolved through a choice button, never by tapping
+	# unused space in the dialogue panel or pressing the generic interact action.
+	var choice_box := get_parent().get_node_or_null("ChoiceBox") as Control
+	if choice_box != null and choice_box.visible:
+		get_viewport().set_input_as_handled()
+		return
+
 	if _typing:
 		_typing = false
 		text_label.text = _full_text
