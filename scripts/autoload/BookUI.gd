@@ -1,11 +1,11 @@
 # BookUI.gd — autoload. Single entry point for relationship/dictionary/journal/settings/map.
 extends CanvasLayer
 
-@onready var page_left: Panel = $Root/Spread/PageLeft
-@onready var page_right: Panel = $Root/Spread/PageRight
-@onready var spread: Control = $Root/Spread
-@onready var page_map_host: Control = $Root/PageMapHost
-@onready var confirm_popup: ConfirmPopup = $Root/ConfirmPopup
+@export var page_left: Panel = $Root/Spread/PageLeft
+@export var page_right: Panel = $Root/Spread/PageRight
+@export var spread: Control = $Root/Spread
+@export var page_map_host: Control = $Root/PageMapHost
+@export var confirm_popup: ConfirmPopup = $Root/ConfirmPopup
 
 # -- Page Scenes --
 const PageSettingsScene := preload("res://scenes/ui/page_settings.tscn")
@@ -31,12 +31,12 @@ const TAB_ANIM_TIME := 0.12
 var _tabs: Dictionary = {}
 var _current_tab: String = ""
 
-@onready var root: Control = $Root
-@onready var title_label: Label = $Root/Banner/Title
-@onready var close_btn: Button = $Root/CloseButton
-@onready var bottom_bar: HBoxContainer = $Root/BottomBar
-@onready var arrow_left: Button = $Root/BottomBar/ArrowLeft
-@onready var arrow_right: Button = $Root/BottomBar/ArrowRight
+@export var root: Control = $Root
+@export var title_label: Label = $Root/Banner/Title
+@export var close_btn: Button = $Root/CloseButton
+@export var bottom_bar: HBoxContainer = $Root/BottomBar
+@export var arrow_left: Button = $Root/BottomBar/ArrowLeft
+@export var arrow_right: Button = $Root/BottomBar/ArrowRight
 
 ## Horizontal inset (px) between a page edge and its arrow buttons.
 const ARROW_PAGE_INSET := 6
@@ -51,11 +51,11 @@ const ARROW_WIDTH := 16
 ## _ready). Each side paginates independently of the other.
 var _bars: Dictionary = {}    # side key -> HBoxContainer
 var _arrows: Dictionary = {}  # side key -> {"prev": Button, "next": Button}
-@onready var tab_settings: Button = $Root/TabBar/TabSettings
-@onready var tab_quest: Button = $Root/TabBar/TabBucketList
-@onready var tab_rapport: Button = $Root/TabBar/TabRelationship
-@onready var tab_dictionary: Button = $Root/TabBar/TabDictionary
-@onready var tab_map: Button = $Root/TabBar/TabMap
+@export var tab_settings: Button = $Root/TabBar/TabSettings
+@export var tab_quest: Button = $Root/TabBar/TabBucketList
+@export var tab_rapport: Button = $Root/TabBar/TabRelationship
+@export var tab_dictionary: Button = $Root/TabBar/TabDictionary
+@export var tab_map: Button = $Root/TabBar/TabMap
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -80,7 +80,7 @@ func _ready() -> void:
 		_arrows[side]["prev"].add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 		_arrows[side]["next"].add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 	title_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
-	_register_tab("relationship", $Root/TabBar/TabRelationship, "RELATIONSHIP")
+	_register_tab("relationship", tab_rapport, "RELATIONSHIP")
 	var rel_left := PageRelationshipScene.instantiate()
 	var rel_right := PageRelationshipScene.instantiate()
 	page_left.add_child(rel_left)
@@ -90,7 +90,7 @@ func _ready() -> void:
 	rel_left.partner_column = rel_right  # left owns pagination for both halves
 	_tabs["relationship"]["page"] = rel_left
 	_tabs["relationship"]["page_right"] = rel_right
-	_register_tab("bucket_list", $Root/TabBar/TabBucketList, "JOURNAL")
+	_register_tab("bucket_list", tab_quest, "JOURNAL")
 	var journal_quests := PageJournalScene.instantiate()
 	var journal_achievements := PageJournalAchievementsScene.instantiate()
 	page_left.add_child(journal_quests)
@@ -101,12 +101,12 @@ func _ready() -> void:
 	_tabs["bucket_list"]["page_right"] = journal_achievements  # PageRight — fits one page at current scale
 	
 	# -- assigning page to tabs
-	_register_tab("settings", $Root/TabBar/TabSettings, "SETTINGS")
+	_register_tab("settings", tab_settings, "SETTINGS")
 	_tabs["settings"]["page"] = PageSettingsScene.instantiate()
 	page_left.add_child(_tabs["settings"]["page"])
 	_tabs["settings"]["page"].visible = false
 	
-	_register_tab("dictionary", $Root/TabBar/TabDictionary, "DICTIONARY")
+	_register_tab("dictionary", tab_dictionary, "DICTIONARY")
 	var dict_filter := PageDictionaryFilterScene.instantiate()
 	var dict_list := PageDictionaryListScene.instantiate()
 	page_left.add_child(dict_filter)
@@ -125,7 +125,7 @@ func _ready() -> void:
 	# only extra bit is hiding the parchment Spread panels underneath
 	# (see switch_tab). page_map_host is the anchor-matched sibling of
 	# Spread that hosts it — see book_ui.tscn.
-	_register_tab("map", $Root/TabBar/TabMap, "MAP")
+	_register_tab("map", tab_map, "MAP")
 	var map_page := PageMapScene.instantiate()
 	page_map_host.add_child(map_page)
 	map_page.visible = false
