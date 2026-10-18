@@ -1,19 +1,9 @@
 # spawn_npc_action.gd -- instantiates an NPC scene into the running level at
-# cutscene time, so one-shot cast members (e.g. Lola/Papa arriving at the
-# airport) only exist while the cutscene needs them, instead of being baked
-# into the level .tscn where they would persist on every revisit.
+# cutscene time, so one-shot cast members only exist while the cutscene needs them.
 #
-# The spawned NPC registers itself with CutsceneManager in its own _ready()
-# (via its exported actor_id), so later move_npc / set_visible / despawn_npc
-# steps can address it by id. The NPC scene's actor_id MUST equal "actor".
-#
-# JSON usage:
-#   {"type":"spawn_npc", "actor":"Lola Jonabel",
-#    "scene":"res://scenes/entities/npc_LolaJonabel.tscn", "at":[-64,48]}
-#
-# "at" is in level-local coordinates (level roots sit at the origin, so this
-# equals global position). Position is set BEFORE add_child so the NPC never
-# renders for a frame at (0,0).
+# JSON supports either explicit level-local coordinates ("at") or a Marker2D
+# under the active level's NPCSpawn node ("at_marker"). Marker-based spawning
+# keeps cutscene placement aligned with positions authored in the level scene.
 class_name SpawnNpcCutsceneAction
 extends RefCounted
 
@@ -33,12 +23,29 @@ func execute(step: Dictionary, mgr: Node) -> void:
 		push_error("SpawnNpcCutsceneAction: no player/level to parent '%s' under" % scene_path)
 		return
 
-	var at: Array = step.get("at", [0, 0])
+	var spawn_root: Node = player.get_parent()
+	var spawn_position: Vector2
+	var marker_name: String = step.get("at_marker", "")
+
+	if not marker_name.is_empty():
+		# Markers live under NPCSpawn in the active level scene.
+		var marker: Node2D = spawn_root.get_node_or_null("NPCSpawn/" + marker_name) as Node2D
+		if marker == null:
+			push_error("SpawnNpcCutsceneAction: marker 'NPCSpawn/%s' not found" % marker_name)
+			return
+		spawn_position = spawn_root.to_local(marker.global_position)
+	else:
+		var at: Array = step.get("at", [0, 0])
+		if at.size() < 2:
+			push_error("SpawnNpcCutsceneAction: 'at' must contain [x, y]")
+			return
+		spawn_position = Vector2(at[0], at[1])
+
 	var npc: Node2D = (load(scene_path) as PackedScene).instantiate()
-	npc.position = Vector2(at[0], at[1])
-	player.get_parent().add_child(npc)
-	# Register NOW, by the step's actor id. Some NPC scripts (papaJobert.gd)
-	# self-register via call_deferred, i.e. one frame too late -- the very next
-	# move_npc/despawn_npc step would find no actor and silently do nothing.
-	# Re-registering the same node is harmless.
+	# Set position before adding child to prevent a frame at the origin.
+	npc.position = spawn_position
+	spawn_root.add_child(npc)
+
+	# Register immediately; some NPC scripts self-register via call_deferred.
+	# Explicit registration ensures the next cutscene action can find this NPC.
 	mgr.register_actor(step.get("actor", ""), npc)
