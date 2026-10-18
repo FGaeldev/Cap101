@@ -1,50 +1,5 @@
 [
 	{
-		"type": "spawn_npc",
-		"actor": "Lola Jonabel",
-		"scene": "res://scenes/entities/npc_LolaJonabel.tscn",
-		"at": [
-			296,
-			330
-		]
-	},
-	{
-		"type": "spawn_npc",
-		"actor": "Papa Jobert",
-		"scene": "res://scenes/entities/npc_PapaJobert.tscn",
-		"at": [
-			312,
-			330
-		]
-	},
-	{
-		"type": "wait",
-		"seconds": 0.3
-	},
-	{
-		"type": "parallel",
-		"actions": [
-			{
-				"type": "move_npc",
-				"actor": "Lola Jonabel",
-				"to": [
-					250,
-					492
-				],
-				"speed": 40
-			},
-			{
-				"type": "move_npc",
-				"actor": "Papa Jobert",
-				"to": [
-					274,
-					492
-				],
-				"speed": 40
-			}
-		]
-	},
-	{
 		"type": "dialogue",
 		"chapter": "chapter1",
 		"scene": "scene_3_kalibo_town_proper_reunion"
@@ -59,21 +14,28 @@
 						"type": "move_npc",
 						"actor": "player",
 						"direction": "right",
-						"tiles": 13,
+						"tiles": 1,
+						"speed": 40
+					},
+					{
+						"type": "move_npc",
+						"actor": "player",
+						"direction": "right",
+						"tiles": 18,
 						"speed": 40
 					},
 					{
 						"type": "move_npc",
 						"actor": "player",
 						"direction": "up",
-						"tiles": 14,
+						"tiles": 12,
 						"speed": 40
 					},
 					{
 						"type": "move_npc",
 						"actor": "player",
 						"direction": "left",
-						"tiles": 3,
+						"tiles": 4,
 						"speed": 40
 					}
 				]
@@ -82,28 +44,31 @@
 				"type": "sequence",
 				"actions": [
 					{
-						"type": "wait",
-						"seconds": 0.6
+						"type": "move_npc",
+						"actor": "Rose",
+						"direction": "up",
+						"tiles": 3,
+						"speed": 40
 					},
 					{
 						"type": "move_npc",
 						"actor": "Rose",
 						"direction": "right",
-						"tiles": 13,
+						"tiles": 19,
 						"speed": 40
 					},
 					{
 						"type": "move_npc",
 						"actor": "Rose",
 						"direction": "up",
-						"tiles": 14,
+						"tiles": 12,
 						"speed": 40
 					},
 					{
 						"type": "move_npc",
 						"actor": "Rose",
 						"direction": "left",
-						"tiles": 3,
+						"tiles": 2,
 						"speed": 40
 					}
 				]
@@ -112,21 +77,31 @@
 				"type": "sequence",
 				"actions": [
 					{
-						"type": "wait",
-						"seconds": 1.2
+						"type": "move_npc",
+						"actor": "Lola Susan",
+						"direction": "up",
+						"tiles": 1,
+						"speed": 40
 					},
 					{
 						"type": "move_npc",
 						"actor": "Lola Susan",
 						"direction": "right",
-						"tiles": 13,
+						"tiles": 1,
+						"speed": 40
+					},
+					{
+						"type": "move_npc",
+						"actor": "Lola Susan",
+						"direction": "right",
+						"tiles": 18,
 						"speed": 40
 					},
 					{
 						"type": "move_npc",
 						"actor": "Lola Susan",
 						"direction": "up",
-						"tiles": 14,
+						"tiles": 12,
 						"speed": 40
 					},
 					{
