@@ -62,12 +62,12 @@ const COLOR_ERROR   := Color("ab3838ff")  # wrong-answer feedback, challenge/puz
 
 # Font size scale
 const FONT_SIZE_HERO    := 38  # full-screen display text — main menu title only
-const FONT_SIZE_XXL     := 14  # modal/popup headers — quest complete title
-const FONT_SIZE_XL      := 12  # emphasized inline text — dictionary word (akeanon), card highlights
-const FONT_SIZE_L       := 11  # supporting subtitle / instructional text — puzzle hints, menu subtitle
-const FONT_SIZE_M       := 10  # default body/button text — most buttons, panel titles, feedback text
-const FONT_SIZE_S       := 8  # secondary/compact text — meta labels, quest names, small buttons
-const FONT_SIZE_XS      := 6   # smallest — tags, encounter counts, fine-print annotations
+const FONT_SIZE_XXL     := 20  # modal/popup headers — quest complete title; larger for Android readability
+const FONT_SIZE_XL      := 18  # emphasized inline text — dictionary word (akeanon), card highlights
+const FONT_SIZE_L       := 16  # supporting subtitle / instructional text — puzzle hints, menu subtitle
+const FONT_SIZE_M       := 16  # default body/button text — most buttons, panel titles, feedback text
+const FONT_SIZE_S       := 14  # secondary/compact text — meta labels, quest names, small buttons
+const FONT_SIZE_XS      := 12  # smallest — tags, encounter counts, fine-print annotations; avoid unreadable microtext
 
 # Icon Button Sprite Size
 const ICON_CELL_W := 24
