@@ -283,8 +283,14 @@ position = Vector2(272, 144)
 
 [node name="NPCSpawn" type="Node2D" parent="." unique_id=381007296]
 
-[node name="S3_LolaSusan" type="Marker2D" parent="NPCSpawn" unique_id=1613906900]
+[node name="S3_Susan" type="Marker2D" parent="NPCSpawn" unique_id=1613906900]
 position = Vector2(-16, 528)
+
+[node name="S3_Jonabel" type="Marker2D" parent="NPCSpawn" unique_id=544279756]
+position = Vector2(224, 288)
+
+[node name="S3_Jobert" type="Marker2D" parent="NPCSpawn" unique_id=840811846]
+position = Vector2(208, 288)
 
 [node name="S3_Rose" type="Marker2D" parent="NPCSpawn" unique_id=1600347131]
 position = Vector2(-16, 560)
