@@ -23,7 +23,9 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Header" type="Label" parent="VBoxContainer" unique_id=1585838208]
+custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
+size_flags_vertical = 0
 
 [node name="List" type="VBoxContainer" parent="VBoxContainer" unique_id=1167552665]
 clip_contents = true
