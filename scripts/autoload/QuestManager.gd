@@ -70,6 +70,17 @@ func complete_quests_with_trigger(trigger_name: String) -> void:
 			continue
 		complete_quest(qid)
 
+## Mark quest complete without popup/signal. Use for dev shortcuts that bypass gameplay.
+func complete_quest_silently(quest_id: String) -> void:
+	var q: Dictionary = quests.get(quest_id, {})
+	if q.is_empty() or quest_id in GameState.completed_quests:
+		return
+	GameState.set_flag(q["completion_flag"])
+	GameState.completed_quests.append(quest_id)
+	active_quests.erase(quest_id)
+	GameState.save_game()
+	_refresh_active_quests()
+
 func complete_quest(quest_id: String) -> void:
 	var q = quests.get(quest_id, {})
 	if q.is_empty(): return
