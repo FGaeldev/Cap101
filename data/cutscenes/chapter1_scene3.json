@@ -1,6 +1,6 @@
 [
-	{"type":"spawn_npc","actor":"Lola Jonabel","scene":"res://scenes/entities/npc_LolaJonabel.tscn","at_marker":"S3_LolaSusan"},
-	{"type":"spawn_npc","actor":"Papa Jobert","scene":"res://scenes/entities/npc_PapaJobert.tscn","at_marker":"S3_Rose"},
+	{"type":"spawn_npc","actor":"Lola Jonabel","scene":"res://scenes/entities/npc_LolaJonabel.tscn","at":[296,330]},
+	{"type":"spawn_npc","actor":"Papa Jobert","scene":"res://scenes/entities/npc_PapaJobert.tscn","at":[312,330]},
 	{"type":"wait","seconds":0.3},
 	{"type":"parallel","actions":[
 		{"type":"move_npc","actor":"Lola Jonabel","to":[250,492],"speed":40},

@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://bdu7xw31jf5tn"]
 
 [ext_resource type="Texture2D" uid="uid://con268kpo8sql" path="res://assets/bedroom/bedroom_tiles.png" id="1_342nr"]
-[ext_resource type="Script" uid="uid://b23sdosmpwihe" path="res://scripts/game _scenes/us_bedroom.gd" id="1_fxahd"]
+[ext_resource type="Script" uid="uid://b23sdosmpwihe" path="res://scripts/game_scenes/us_bedroom.gd" id="1_fxahd"]
 [ext_resource type="Texture2D" uid="uid://baex05njky5u7" path="res://assets/bedroom/rug_square.png" id="2_v3tay"]
 [ext_resource type="PackedScene" uid="uid://ch1r4565fnl6q" path="res://scenes/entities/furniture/bedroom_bed.tscn" id="3_7q6f3"]
 [ext_resource type="Texture2D" uid="uid://bp33nucd01emr" path="res://assets/bedroom/bedroom_pc.png" id="3_l8ueu"]
