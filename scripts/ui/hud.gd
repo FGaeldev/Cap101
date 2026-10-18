@@ -24,6 +24,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	QuestManager.quest_started.connect(_on_quest_list_changed)
 	QuestManager.quest_completed.connect(_on_quest_list_changed)
+	QuestManager.quest_list_changed.connect(_on_quest_list_changed_silently)
 	# World tasks (additive to quests, TDD Addendum WorldTask) render in the
 	# same upper-left list — task_step_advanced carries 2 args, quest signals
 	# carry 1, so it gets its own thin wrapper rather than sharing the slot.
@@ -97,6 +98,10 @@ func _on_menu_button_pressed() -> void:
 	BookUI.open()
 
 func _on_quest_list_changed(_qid: String) -> void:
+	_rebuild_quest_rows()
+
+## Silent quest-state refresh; intentionally does not trigger completion popup.
+func _on_quest_list_changed_silently() -> void:
 	_rebuild_quest_rows()
 
 func _on_task_progress_changed(_task_id: String, _step_index: int) -> void:

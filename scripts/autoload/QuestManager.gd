@@ -5,6 +5,9 @@ extends Node
 ## HUD/journal listen to this to grow their quest lists.
 signal quest_started(quest_id: String)
 signal quest_completed(quest_id: String)
+## Emitted when active quest state changes without a gameplay completion event.
+## HUD uses this to refresh silently, without showing QuestCompletePopup.
+signal quest_list_changed
 
 var quests: Dictionary = {}          # id -> quest data
 var active_quests: Array[String] = [] # all currently available, uncompleted quests
@@ -80,6 +83,7 @@ func complete_quest_silently(quest_id: String) -> void:
 	active_quests.erase(quest_id)
 	GameState.save_game()
 	_refresh_active_quests()
+	quest_list_changed.emit()
 
 func complete_quest(quest_id: String) -> void:
 	var q = quests.get(quest_id, {})

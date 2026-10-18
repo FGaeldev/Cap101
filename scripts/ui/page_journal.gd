@@ -205,6 +205,8 @@ func _on_dev_warp_pressed(scene_path: String) -> void:
 
 	CutsceneManager.abort()
 	TutorialManager.abort()
+	# Close dialogue already on screen before replacing the current level.
+	DialogueUI.hide()
 	for tutorial_id in ["ch1_basics", "ch1_quest_hud"]:
 		GameState.set_flag("tutorial_" + tutorial_id + "_done")
 	GameState.set_flag("seen_chapter1_scene1")
