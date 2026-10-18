@@ -26,8 +26,8 @@ const FIND_QUEST_ID: String = "q003"
 
 ## Level-local coords, lower parking lot. Jonabel/Papa spots MUST match the
 ## "to" targets in data/cutscenes/chapter1_scene3.json.
-const SUSAN: Dictionary = {"scene": "res://scenes/entities/npc_LolaSusan.tscn", "at": Vector2(244, 520)}
-const ROSE: Dictionary = {"scene": "res://scenes/entities/npc_Rose.tscn", "at": Vector2(268, 520)}
+const SUSAN: Dictionary = {"scene": "res://scenes/entities/npc_LolaSusan.tscn", "marker": "S3_LolaSusan", "at": Vector2(244, 520)}
+const ROSE: Dictionary = {"scene": "res://scenes/entities/npc_Rose.tscn", "marker": "S3_Rose", "at": Vector2(268, 520)}
 const JONABEL: Dictionary = {"scene": "res://scenes/entities/npc_LolaJonabel.tscn", "at": Vector2(250, 492)}
 const PAPA: Dictionary = {"scene": "res://scenes/entities/npc_PapaJobert.tscn", "at": Vector2(274, 492)}
 
@@ -80,10 +80,20 @@ func _spawn_lot_cast() -> void:
 		_spawn(JONABEL)
 		_spawn(PAPA)
 
-## Instantiates + places an NPC under this (y-sorted) level root.
+## Instantiates NPC under this y-sorted level root. Marker entries use authored
+## level markers; "at" remains a fallback for cast without a marker.
 func _spawn(entry: Dictionary) -> Node2D:
+	var spawn_position: Vector2 = entry.get("at", Vector2.ZERO)
+	var marker_name: String = entry.get("marker", "")
+	if not marker_name.is_empty():
+		var marker := get_node_or_null("NPCSpawn/" + marker_name) as Marker2D
+		if marker == null:
+			push_error("scene_2: NPC spawn marker 'NPCSpawn/%s' missing; using fallback position" % marker_name)
+		else:
+			spawn_position = to_local(marker.global_position)
+
 	var npc: Node2D = (load(entry["scene"]) as PackedScene).instantiate()
-	npc.position = entry["at"]
+	npc.position = spawn_position
 	add_child(npc)
 	return npc
 
