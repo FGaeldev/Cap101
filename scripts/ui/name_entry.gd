@@ -22,6 +22,7 @@ const INPUT_WIDTH: float = 150.0
 
 var _name_field: LineEdit
 var _confirm_btn: Button
+var _cancel_btn: Button
 
 
 func _ready() -> void:
@@ -91,7 +92,7 @@ func _build_left_page(page: Panel) -> void:
 	center.add_child(prompt)
 
 
-## Right page: input field + confirm button.
+## Right page: input field + confirm and cancel buttons.
 func _build_right_page(page: Panel) -> void:
 	var center := _make_centered(page)
 	var box := VBoxContainer.new()
@@ -124,6 +125,12 @@ func _build_right_page(page: Panel) -> void:
 	UIThemeApplier.apply_button_theme(_confirm_btn, "confirm")
 	_confirm_btn.pressed.connect(_on_confirm)
 	box.add_child(_confirm_btn)
+
+	_cancel_btn = Button.new()
+	_cancel_btn.text = "Cancel"
+	UIThemeApplier.apply_button_theme(_cancel_btn, "secondary")
+	_cancel_btn.pressed.connect(_on_cancel)
+	box.add_child(_cancel_btn)
 
 
 ## Page panel, styled like PageLeft/PageRight (nine-slice 7/3/7/7).
@@ -163,12 +170,20 @@ func _on_confirm() -> void:
 	if chosen.is_empty():
 		return
 	AudioManager.play_sfx("menu_click")
+	# Replace the previous save only after the player confirms starting a new game.
+	if FileAccess.file_exists(GameState.SAVE_PATH):
+		DirAccess.remove_absolute(GameState.SAVE_PATH)
 	GameState.player_name = chosen
 	GameState.save_game()  # persist now so Continue always has the name
 	get_tree().change_scene_to_file(WORLD_SCENE_PATH)
 
 
+func _on_cancel() -> void:
+	AudioManager.play_sfx("menu_click")
+	get_tree().change_scene_to_file(MENU_SCENE_PATH)
+
+
 ## ui_cancel (also Android back via BackButtonBridge) returns to main menu.
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
-		get_tree().change_scene_to_file(MENU_SCENE_PATH)
+		_on_cancel()

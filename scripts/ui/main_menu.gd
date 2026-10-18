@@ -3,10 +3,10 @@ extends Control
 
 @onready var title_label:   Label  = $BookPanel/Spread/LeftSide/CenterContainer/VBoxContainer/TitleLabel
 @onready var sub_label:     Label  = $BookPanel/Spread/LeftSide/CenterContainer/VBoxContainer/SubLabel
-@onready var start_btn:     Button = $BookPanel/Spread/RightPage/CenterContainer/Buttons/StartBtn
-@onready var continue_btn:  Button = $BookPanel/Spread/RightPage/CenterContainer/Buttons/ContinueBtn
-@onready var settings_btn:  Button = $BookPanel/Spread/RightPage/CenterContainer/Buttons/SettingsBtn
-@onready var quit_btn:      Button = $BookPanel/Spread/RightPage/CenterContainer/Buttons/QuitBtn
+@onready var start_btn:    Button = $BookPanel/Spread/RightPage/CenterContainer/Buttons/StartBtn
+@onready var continue_btn: Button = $BookPanel/Spread/RightPage/CenterContainer/Buttons/ContinueBtn
+@onready var settings_btn: Button = $BookPanel/Spread/RightPage/CenterContainer/Buttons/SettingsBtn
+@onready var quit_btn:     Button = $BookPanel/Spread/RightPage/CenterContainer/Buttons/QuitBtn
 
 const MAIN = "res://scenes/Game.tscn"
 ## New-game name prompt; hands off to MAIN once a name is confirmed.
@@ -29,9 +29,7 @@ func _check_save() -> void:
 
 func _on_start() -> void:
 	AudioManager.play_sfx("menu_click")
-	if FileAccess.file_exists(GameState.SAVE_PATH):
-		DirAccess.remove_absolute(GameState.SAVE_PATH)
-	GameState.player_name = ""  # force fresh name entry
+	GameState.player_name = ""  # force fresh name entry; preserve existing save until confirmed
 	get_tree().change_scene_to_file(NAME_ENTRY)
 
 func _on_continue() -> void:
@@ -78,7 +76,7 @@ func _apply_style() -> void:
 	_style_btn(start_btn, "secondary")
 	_style_btn(continue_btn, "secondary")
 	_style_btn(settings_btn, "secondary")
-	_style_btn(quit_btn,     "danger")
+	_style_btn(quit_btn, "danger")
 
 func _style_btn(btn: Button, variant: String) -> void:
 	UIThemeApplier.apply_button_theme(btn, variant)
