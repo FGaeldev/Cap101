@@ -1,11 +1,16 @@
 # BookUI.gd — autoload. Single entry point for relationship/dictionary/journal/settings/map.
 extends CanvasLayer
 
-@export var page_left: Panel = $Root/Spread/PageLeft
-@export var page_right: Panel = $Root/Spread/PageRight
-@export var spread: Control = $Root/Spread
-@export var page_map_host: Control = $Root/PageMapHost
-@export var confirm_popup: ConfirmPopup = $Root/ConfirmPopup
+@export var page_left_path: NodePath = ^"Root/Spread/PageLeft"
+@onready var page_left: Panel = get_node(page_left_path)
+@export var page_right_path: NodePath = ^"Root/Spread/PageRight"
+@onready var page_right: Panel = get_node(page_right_path)
+@export var spread_path: NodePath = ^"Root/Spread"
+@onready var spread: Control = get_node(spread_path)
+@export var page_map_host_path: NodePath = ^"Root/PageMapHost"
+@onready var page_map_host: Control = get_node(page_map_host_path)
+@export var confirm_popup_path: NodePath = ^"Root/ConfirmPopup"
+@onready var confirm_popup: ConfirmPopup = get_node(confirm_popup_path)
 
 # -- Page Scenes --
 const PageSettingsScene := preload("res://scenes/ui/page_settings.tscn")
@@ -31,12 +36,18 @@ const TAB_ANIM_TIME := 0.12
 var _tabs: Dictionary = {}
 var _current_tab: String = ""
 
-@export var root: Control = $Root
-@export var title_label: Label = $Root/Banner/Title
-@export var close_btn: Button = $Root/CloseButton
-@export var bottom_bar: HBoxContainer = $Root/BottomBar
-@export var arrow_left: Button = $Root/BottomBar/ArrowLeft
-@export var arrow_right: Button = $Root/BottomBar/ArrowRight
+@export var root_path: NodePath = ^"Root"
+@onready var root: Control = get_node(root_path)
+@export var title_label_path: NodePath = ^"Root/Banner/Title"
+@onready var title_label: Label = get_node(title_label_path)
+@export var close_btn_path: NodePath = ^"Root/CloseButton"
+@onready var close_btn: Button = get_node(close_btn_path)
+@export var bottom_bar_path: NodePath = ^"Root/BottomBar"
+@onready var bottom_bar: HBoxContainer = get_node(bottom_bar_path)
+@export var arrow_left_path: NodePath = ^"Root/BottomBar/ArrowLeft"
+@onready var arrow_left: Button = get_node(arrow_left_path)
+@export var arrow_right_path: NodePath = ^"Root/BottomBar/ArrowRight"
+@onready var arrow_right: Button = get_node(arrow_right_path)
 
 ## Horizontal inset (px) between a page edge and its arrow buttons.
 const ARROW_PAGE_INSET := 6
@@ -51,11 +62,16 @@ const ARROW_WIDTH := 16
 ## _ready). Each side paginates independently of the other.
 var _bars: Dictionary = {}    # side key -> HBoxContainer
 var _arrows: Dictionary = {}  # side key -> {"prev": Button, "next": Button}
-@export var tab_settings: Button = $Root/TabBar/TabSettings
-@export var tab_quest: Button = $Root/TabBar/TabBucketList
-@export var tab_rapport: Button = $Root/TabBar/TabRelationship
-@export var tab_dictionary: Button = $Root/TabBar/TabDictionary
-@export var tab_map: Button = $Root/TabBar/TabMap
+@export var tab_settings_path: NodePath = ^"Root/TabBar/TabSettings"
+@onready var tab_settings: Button = get_node(tab_settings_path)
+@export var tab_quest_path: NodePath = ^"Root/TabBar/TabBucketList"
+@onready var tab_quest: Button = get_node(tab_quest_path)
+@export var tab_rapport_path: NodePath = ^"Root/TabBar/TabRelationship"
+@onready var tab_rapport: Button = get_node(tab_rapport_path)
+@export var tab_dictionary_path: NodePath = ^"Root/TabBar/TabDictionary"
+@onready var tab_dictionary: Button = get_node(tab_dictionary_path)
+@export var tab_map_path: NodePath = ^"Root/TabBar/TabMap"
+@onready var tab_map: Button = get_node(tab_map_path)
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
