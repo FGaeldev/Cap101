@@ -173,7 +173,9 @@ func _on_confirm() -> void:
 	# Autoloads persist across scene changes; reset in-memory progress before saving fresh run.
 	GameState.reset_game_state()
 	GameState.player_name = chosen
-	GameState.save_game()  # persist now so Continue always has the name
+	# Do not enter world unless fresh state successfully replaced the prior save.
+	if not GameState.save_game():
+		return
 	get_tree().change_scene_to_file(WORLD_SCENE_PATH)
 
 
