@@ -28,6 +28,7 @@ func action_type() -> String:
 ## Supported step schemas:
 ## Relative (preferred):
 ##   {"type":"move_npc", "actor":"father", "direction":"right", "tiles":3}
+## Optional "from": [x, y] snaps actor to a start tile before movement.
 ## Absolute (legacy):
 ##   {"type":"move_npc", "actor":"father", "to":[128,80], "speed":40, "order":"xy"}
 ## Optional speed is measured in pixels per second. Legacy order controls which
@@ -36,6 +37,15 @@ func execute(step: Dictionary, mgr: Node) -> void:
 	var actor: Node2D = mgr.get_actor(step.get("actor", ""))
 	if actor == null:
 		return
+
+	# Optional placement lets persistent actors (e.g. the player) join spawned
+	# actors at the same tile without tweening from their previous location.
+	if step.has("from"):
+		var from: Array = step.get("from", [])
+		if from.size() != 2:
+			push_error("move_npc: 'from' must be a two-number [x, y] position")
+			return
+		actor.global_position = _snap(Vector2(float(from[0]), float(from[1])))
 
 	var start: Vector2 = _snap(actor.global_position)
 	if actor.global_position != start:
