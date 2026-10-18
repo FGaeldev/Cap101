@@ -22,9 +22,17 @@ theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
-[node name="Layout" type="HBoxContainer" parent="Margin" unique_id=892028843]
+[node name="Layout" type="VBoxContainer" parent="Margin" unique_id=892028843]
 layout_mode = 2
 theme_override_constants/separation = 4
+
+[node name="Portrait" type="TextureRect" parent="Margin/Layout" unique_id=74251943]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+stretch_mode = 5
 
 [node name="TextColumn" type="VBoxContainer" parent="Margin/Layout" unique_id=603088661]
 layout_mode = 2
@@ -37,11 +45,3 @@ theme_override_constants/separation = 2
 [node name="ChoiceBox" parent="Margin/Layout/TextColumn" unique_id=1542754520 instance=ExtResource("3_choice")]
 layout_mode = 2
 size_flags_vertical = 0
-
-[node name="Portrait" type="TextureRect" parent="Margin/Layout" unique_id=74251943]
-texture_filter = 1
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 3
-stretch_mode = 5
