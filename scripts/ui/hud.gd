@@ -24,6 +24,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	QuestManager.quest_started.connect(_on_quest_list_changed)
 	QuestManager.quest_completed.connect(_on_quest_list_changed)
+	QuestManager.quest_list_changed.connect(_on_quest_list_changed_silently)
 	# World tasks (additive to quests, TDD Addendum WorldTask) render in the
 	# same upper-left list — task_step_advanced carries 2 args, quest signals
 	# carry 1, so it gets its own thin wrapper rather than sharing the slot.
