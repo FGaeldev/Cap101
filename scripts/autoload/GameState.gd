@@ -195,6 +195,31 @@ func get_exposure(word_id: String) -> int:
 func is_in_dictionary(word_id: String) -> bool:
 	return word_exposures.has(word_id)
 
+## Reset every persisted field before starting a fresh run in the same process.
+## Autoloads survive scene changes, so deleting save.dat alone leaves stale state in memory.
+func reset_game_state() -> void:
+	flags.clear()
+	word_exposures.clear()
+	current_area = "village"
+	completed_quests.clear()
+	current_level_path = "res://scenes/world/chapter1/us_bedroom.tscn"
+	player_name = ""
+	rapport.clear()
+	patience.clear()
+	_patience_last_update.clear()
+	akeanon_stars = 0
+	culture_badges.clear()
+	travel_stamps.clear()
+	grandma_memory_pages.clear()
+	rose_hint_tokens = 0
+	challenges_passed.clear()
+	challenge_attempts.clear()
+	active_tasks.clear()
+	completed_tasks.clear()
+	word_mastery.clear()
+	QuestManager.refresh_active_quests()
+
+
 # --- Save/Load ---
 func save_game() -> void:
 	var data = {
