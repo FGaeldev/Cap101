@@ -44,7 +44,7 @@ func show_line(
 	if _root:
 		_root.show_box()
 		# Portrait is optional per-NPC art. Missing art hides cleanly.
-		_root.set_portrait(portrait_tex)
+		_root.set_portrait(portrait_tex, speaker)
 
 func show_choices(choices: Array, component) -> void:
 	if _choice_box:
