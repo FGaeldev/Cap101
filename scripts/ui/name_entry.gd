@@ -170,9 +170,8 @@ func _on_confirm() -> void:
 	if chosen.is_empty():
 		return
 	AudioManager.play_sfx("menu_click")
-	# Replace the previous save only after the player confirms starting a new game.
-	if FileAccess.file_exists(GameState.SAVE_PATH):
-		DirAccess.remove_absolute(GameState.SAVE_PATH)
+	# Autoloads persist across scene changes; reset in-memory progress before saving fresh run.
+	GameState.reset_game_state()
 	GameState.player_name = chosen
 	GameState.save_game()  # persist now so Continue always has the name
 	get_tree().change_scene_to_file(WORLD_SCENE_PATH)
