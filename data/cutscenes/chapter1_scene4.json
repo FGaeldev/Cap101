@@ -14,7 +14,7 @@
 						"type": "move_npc",
 						"actor": "Rose",
 						"direction": "left",
-						"tiles": 17,
+						"tiles": 27,
 						"speed": 40
 					}
 				]
@@ -30,7 +30,7 @@
 						"type": "move_npc",
 						"actor": "Lola Susan",
 						"direction": "left",
-						"tiles": 15,
+						"tiles": 25,
 						"speed": 40
 					}
 				]
