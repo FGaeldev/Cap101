@@ -1,12 +1,21 @@
-# DialogueRoot.gd — compact bottom dialogue UI with portrait above the panel.
-# Root height tracks content minimum size; panel never fills unused screen space.
+# DialogueRoot.gd — full-width bottom dialogue UI with portrait above the panel.
+# Keep a minimum panel height for the speaker, prompt, and three choice rows.
 extends Control
 
+const MIN_CHOICE_HEIGHT: float = 24.0
+const CHOICE_SEPARATION: float = 3.0
+const PANEL_VERTICAL_MARGINS: float = 6.0
+const COLUMN_SEPARATION: float = 2.0
+const LAYOUT_SEPARATION: float = 6.0
+
 @onready var layout: VBoxContainer = $Layout
+@onready var portrait_row: HBoxContainer = $Layout/PortraitRow
 @onready var portrait: TextureRect = $Layout/PortraitRow/Portrait
 @onready var left_spacer: Control = $Layout/PortraitRow/LeftSpacer
 @onready var right_spacer: Control = $Layout/PortraitRow/RightSpacer
 @onready var dialogue_panel: PanelContainer = $Layout/DialoguePanel
+@onready var dialogue_box: PanelContainer = $Layout/DialoguePanel/Margin/TextColumn/DialogueBox
+@onready var choice_box: PanelContainer = $Layout/DialoguePanel/Margin/TextColumn/ChoiceBox
 
 func _ready() -> void:
 	dialogue_panel.add_theme_stylebox_override("panel", UIThemeApplier.make_dialogue_style())
@@ -22,12 +31,21 @@ func show_box() -> void:
 func hide_box() -> void:
 	visible = false
 
-## Fit root height to speaker, prompt, and visible choices while keeping bottom anchor.
+## Keep full viewport width; calculate bottom-anchored height from content and a three-choice minimum.
 func _fit_to_content() -> void:
 	if not is_node_ready():
 		return
-	# Read minimum height without resetting the layout's full-width anchored size.
-	var required_height: float = layout.get_combined_minimum_size().y
+
+	var minimum_choice_height := 3.0 * MIN_CHOICE_HEIGHT + 2.0 * CHOICE_SEPARATION
+	var visible_choice_height := choice_box.get_combined_minimum_size().y
+	var choice_height := maxf(minimum_choice_height, visible_choice_height)
+	var dialogue_height := dialogue_box.get_combined_minimum_size().y
+	var panel_height := dialogue_height + COLUMN_SEPARATION + choice_height + PANEL_VERTICAL_MARGINS
+
+	# Custom minimum affects only vertical sizing; horizontal anchors remain full-screen.
+	dialogue_panel.custom_minimum_size.y = panel_height
+	var content_height := portrait_row.get_combined_minimum_size().y + panel_height + LAYOUT_SEPARATION
+	var required_height := maxf(layout.get_combined_minimum_size().y, content_height)
 	offset_top = -required_height
 
 ## Hide portrait when speaker has no portrait; otherwise align by speaker role.
