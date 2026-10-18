@@ -217,11 +217,13 @@ func reset_game_state() -> void:
 	active_tasks.clear()
 	completed_tasks.clear()
 	word_mastery.clear()
+	# QuestManager is an autoload too; discard prior-run quest availability before rebuilding it.
+	QuestManager.active_quests.clear()
 	QuestManager.refresh_active_quests()
 
 
 # --- Save/Load ---
-func save_game() -> void:
+func save_game() -> bool:
 	var data = {
 		"flags": flags,
 		"word_exposures": word_exposures,
@@ -243,9 +245,21 @@ func save_game() -> void:
 		"completed_tasks": completed_tasks,
 		"word_mastery": word_mastery
 	}
-	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
+	# WRITE truncates the existing save. Check open/write errors so a failed
+	# overwrite cannot silently leave the previous run on disk.
+	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
+	if file == null:
+		push_error("GameState.save_game: cannot open %s for writing (error %d)" % [SAVE_PATH, FileAccess.get_open_error()])
+		return false
+
 	file.store_var(data)
+	file.flush()
+	var write_error: Error = file.get_error()
 	file.close()
+	if write_error != OK:
+		push_error("GameState.save_game: failed writing %s (error %d)" % [SAVE_PATH, write_error])
+		return false
+	return true
 
 func load_game() -> void:
 	if not FileAccess.file_exists(SAVE_PATH):
