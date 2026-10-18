@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://dqk3yan7wjr2a"]
 
-[ext_resource type="Script" path="res://scripts/ui/page_journal_achievements.gd" id="1_ach"]
+[ext_resource type="Script" uid="uid://1x8hxxr3mrxp" path="res://scripts/ui/page_journal_achievements.gd" id="1_ach"]
 
-[node name="PageJournalAchievements" type="Control"]
+[node name="PageJournalAchievements" type="Control" unique_id=1218570289]
 layout_mode = 3
 anchor_left = 0.02
 anchor_top = 0.02
@@ -11,19 +11,22 @@ anchor_bottom = 0.98
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ach")
+header_path = NodePath("VBoxContainer/Header")
+list_path = NodePath("VBoxContainer/List")
 
-[node name="Header" type="Label" parent="."]
-layout_mode = 0
-offset_right = 200.0
-offset_bottom = 16.0
-
-[node name="List" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=409535061]
 layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.11
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Header" type="Label" parent="VBoxContainer" unique_id=1585838208]
+layout_mode = 2
+
+[node name="List" type="VBoxContainer" parent="VBoxContainer" unique_id=1167552665]
+clip_contents = true
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3

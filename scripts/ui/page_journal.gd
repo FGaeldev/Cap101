@@ -29,11 +29,17 @@
 # builds, TDD §9 item 1). Add new playable levels here by hand as they land.
 extends Control
 
-@onready var header: Label = $Header
-@onready var list: VBoxContainer = $List
-@onready var dev_page: Control = $DevSkipPage
-@onready var dev_header: Label = $DevSkipPage/DevHeader
-@onready var dev_list: VBoxContainer = $DevSkipPage/DevList
+@export var header_path: NodePath = ^"VBoxContainer/Header"
+@export var list_path: NodePath = ^"VBoxContainer/List"
+@export var dev_page_path: NodePath = ^"VBoxContainer/DevSkipPage"
+@export var dev_header_path: NodePath = ^"VBoxContainer/DevSkipPage/DevHeader"
+@export var dev_list_path: NodePath = ^"VBoxContainer/DevSkipPage/DevList"
+
+@onready var header: Label = get_node(header_path)
+@onready var list: VBoxContainer = get_node(list_path)
+@onready var dev_page: Control = get_node(dev_page_path)
+@onready var dev_header: Label = get_node(dev_header_path)
+@onready var dev_list: VBoxContainer = get_node(dev_list_path)
 
 const LINE_TEXTURE := preload("res://assets/ui/book/line.png")
 

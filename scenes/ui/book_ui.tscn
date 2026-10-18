@@ -11,10 +11,9 @@
 [ext_resource type="Texture2D" uid="uid://dmx7lv7mutv3k" path="res://assets/ui/book/dictionaryt_icon.png" id="6_blequ"]
 [ext_resource type="Texture2D" uid="uid://dtmnv5nuelrg4" path="res://assets/ui/book/heart_icon.png" id="7_w2i5u"]
 [ext_resource type="Texture2D" uid="uid://x7ylxl4ew7xc" path="res://assets/ui/book/aklan_map_icon.png" id="8_jyi8r"]
-[ext_resource type="Texture2D" uid="uid://c8a8w2jxcy0ey" path="res://assets/ui/book/exit_icon.png" id="10_u0r3w"]
 [ext_resource type="Texture2D" uid="uid://cg3uyf6a43cge" path="res://assets/ui/book/left_icon.png" id="11_iivqe"]
 [ext_resource type="Texture2D" uid="uid://bwdvlgc7nf325" path="res://assets/ui/book/right_icon.png" id="12_jyi8r"]
-[ext_resource type="PackedScene" path="res://scenes/ui/confirm_popup.tscn" id="15_5x655"]
+[ext_resource type="PackedScene" uid="uid://ijbu0mmes24m" path="res://scenes/ui/confirm_popup.tscn" id="15_5x655"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xrivr"]
 texture = ExtResource("1_danvl")
@@ -24,7 +23,7 @@ texture_margin_right = 12.0
 texture_margin_bottom = 12.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_13qdw"]
-content_margin_top = 2.0
+content_margin_top = 4.0
 content_margin_bottom = 2.0
 texture = ExtResource("2_ue6pm")
 texture_margin_left = 12.0
@@ -50,6 +49,21 @@ texture_margin_bottom = 7.0
 process_mode = 3
 layer = 100
 script = ExtResource("1_ue6pm")
+page_left_path = NodePath("Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/Control/Spread/PageLeft")
+page_right_path = NodePath("Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/Control/Spread/PageRight")
+spread_path = NodePath("Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/Control/Spread")
+page_map_host_path = NodePath("Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/Control/PageMapHost")
+confirm_popup_path = NodePath("Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/Control/ConfirmPopup")
+title_label_path = NodePath("Root/CoverPage/MarginContainer/VBoxContainer/HBoxContainer/Banner/Title")
+close_btn_path = NodePath("Root/CoverPage/MarginContainer/VBoxContainer/HBoxContainer/CloseButton")
+bottom_bar_path = NodePath("Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/Control/BottomBar")
+arrow_left_path = NodePath("Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/Control/BottomBar/ArrowLeft")
+arrow_right_path = NodePath("Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/Control/BottomBar/ArrowRight")
+tab_settings_path = NodePath("Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/TabBar/TabSettings")
+tab_quest_path = NodePath("Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/TabBar/TabBucketList")
+tab_rapport_path = NodePath("Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/TabBar/TabRelationship")
+tab_dictionary_path = NodePath("Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/TabBar/TabDictionary")
+tab_map_path = NodePath("Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/TabBar/TabMap")
 
 [node name="Root" type="Control" parent="." unique_id=343053056]
 layout_mode = 3
@@ -64,135 +78,147 @@ layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 4.0
-offset_top = 4.0
-offset_right = -4.0
-offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_xrivr")
 
-[node name="Banner" type="PanelContainer" parent="Root" unique_id=1119856785]
+[node name="MarginContainer" type="MarginContainer" parent="Root/CoverPage" unique_id=1938008019]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Root/CoverPage/MarginContainer" unique_id=268900669]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Root/CoverPage/MarginContainer/VBoxContainer" unique_id=36086528]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Banner" type="PanelContainer" parent="Root/CoverPage/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1119856785]
 custom_minimum_size = Vector2(0, 24)
 custom_maximum_size = Vector2(-1, 24)
 propagate_maximum_size = false
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.1
-anchor_top = 0.05
-anchor_right = 0.9
-anchor_bottom = 0.1
-grow_horizontal = 2
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxTexture_13qdw")
 
-[node name="Title" type="Label" parent="Root/Banner" unique_id=1096880509]
+[node name="Title" type="Label" parent="Root/CoverPage/MarginContainer/VBoxContainer/HBoxContainer/Banner" unique_id=1096880509]
 layout_mode = 2
-size_flags_vertical = 8
+size_flags_horizontal = 4
 text = "Title"
 horizontal_alignment = 1
 
-[node name="CloseButton" type="Button" parent="Root" unique_id=697428161]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 1.0
-anchor_top = 0.05
-anchor_right = 1.0
-anchor_bottom = 0.05
-offset_right = -12.0
-grow_horizontal = 0
+[node name="CloseButton" type="Button" parent="Root/CoverPage/MarginContainer/VBoxContainer/HBoxContainer" unique_id=697428161]
+layout_mode = 2
 icon = ExtResource("4_he5ik")
 flat = true
 
-[node name="TabBar" type="HBoxContainer" parent="Root" unique_id=470006104]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.024
-anchor_top = 0.16
-anchor_right = 0.024
-anchor_bottom = 0.16
-offset_top = -2.0
+[node name="VBoxContainer" type="VBoxContainer" parent="Root/CoverPage/MarginContainer/VBoxContainer" unique_id=641349595]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = -1
 
-[node name="TabBucketList" type="Button" parent="Root/TabBar" unique_id=141261309]
+[node name="TabBar" type="HBoxContainer" parent="Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer" unique_id=470006104]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="TabBucketList" type="Button" parent="Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/TabBar" unique_id=141261309]
 custom_minimum_size = Vector2(20, 14)
 layout_mode = 2
 icon = ExtResource("5_76us2")
+expand_icon = true
 
-[node name="TabDictionary" type="Button" parent="Root/TabBar" unique_id=1647960860]
+[node name="TabDictionary" type="Button" parent="Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/TabBar" unique_id=1647960860]
 custom_minimum_size = Vector2(20, 14)
 layout_mode = 2
 icon = ExtResource("6_blequ")
+expand_icon = true
 
-[node name="TabRelationship" type="Button" parent="Root/TabBar" unique_id=1367235715]
+[node name="TabRelationship" type="Button" parent="Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/TabBar" unique_id=1367235715]
 custom_minimum_size = Vector2(20, 14)
 layout_mode = 2
 icon = ExtResource("7_w2i5u")
+expand_icon = true
 
-[node name="TabMap" type="Button" parent="Root/TabBar" unique_id=592817364]
+[node name="TabMap" type="Button" parent="Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/TabBar" unique_id=592817364]
 custom_minimum_size = Vector2(20, 14)
 layout_mode = 2
 icon = ExtResource("8_jyi8r")
 expand_icon = true
 
-[node name="TabSettings" type="Button" parent="Root/TabBar" unique_id=1442593372]
-custom_minimum_size = Vector2(20, 14)
+[node name="TabSettings" type="Button" parent="Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/TabBar" unique_id=1442593372]
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 icon = ExtResource("5_5ja33")
+expand_icon = true
 
-[node name="Spread" type="HBoxContainer" parent="Root" unique_id=74142674]
+[node name="Control" type="Control" parent="Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer" unique_id=472015290]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Spread" type="HBoxContainer" parent="Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/Control" unique_id=74142674]
 propagate_maximum_size = false
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.02
-anchor_top = 0.22
-anchor_right = 0.98
-anchor_bottom = 0.95
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_vertical = 3
 theme_override_constants/separation = 0
 
-[node name="PageLeft" type="Panel" parent="Root/Spread" unique_id=2133754132]
+[node name="PageLeft" type="Panel" parent="Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/Control/Spread" unique_id=2133754132]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxTexture_b1lj4")
 
-[node name="PageRight" type="Panel" parent="Root/Spread" unique_id=1771840968]
+[node name="PageRight" type="Panel" parent="Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/Control/Spread" unique_id=1771840968]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxTexture_njqwk")
 
-[node name="PageMapHost" type="Control" parent="Root" unique_id=847162935]
-layout_mode = 1
-anchor_left = 0.02
-anchor_top = 0.22
-anchor_right = 0.98
-anchor_bottom = 0.95
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="BottomBar" type="HBoxContainer" parent="Root" unique_id=984523519]
+[node name="BottomBar" type="HBoxContainer" parent="Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/Control" unique_id=984523519]
 visible = false
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.05
-anchor_top = 0.92
-anchor_right = 0.95
-anchor_bottom = 0.92
+layout_mode = 0
+offset_top = 263.0
+offset_right = 616.0
+offset_bottom = 287.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 428
 alignment = 1
 
-[node name="ArrowLeft" type="Button" parent="Root/BottomBar" unique_id=963698994]
+[node name="ArrowLeft" type="Button" parent="Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/Control/BottomBar" unique_id=963698994]
 custom_minimum_size = Vector2(16, 14)
 layout_mode = 2
 icon = ExtResource("11_iivqe")
 flat = true
 
-[node name="ArrowRight" type="Button" parent="Root/BottomBar" unique_id=264888759]
+[node name="ArrowRight" type="Button" parent="Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/Control/BottomBar" unique_id=264888759]
 custom_minimum_size = Vector2(16, 14)
 layout_mode = 2
 icon = ExtResource("12_jyi8r")
 flat = true
 
-[node name="ConfirmPopup" parent="Root" unique_id=1664200213 instance=ExtResource("15_5x655")]
+[node name="ConfirmPopup" parent="Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/Control" unique_id=1664200213 instance=ExtResource("15_5x655")]
 layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+
+[node name="PageMapHost" type="Control" parent="Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/Control" unique_id=847162935]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

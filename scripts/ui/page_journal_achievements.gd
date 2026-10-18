@@ -21,8 +21,11 @@
 # fixed length, never risks wrapping).
 extends Control
 
-@onready var header: Label = $Header
-@onready var list: VBoxContainer = $List
+@export var header_path: NodePath = ^"Header"
+@export var list_path: NodePath = ^"List"
+
+@onready var header: Label = get_node(header_path)
+@onready var list: VBoxContainer = get_node(list_path)
 
 const LINE_TEXTURE := preload("res://assets/ui/book/line.png")
 const ACHIEVEMENT_ROW_HEIGHT := 35.0  # title line + desc capped to 1 line + separator
