@@ -26,7 +26,7 @@ func hide_box() -> void:
 func _fit_to_content() -> void:
 	if not is_node_ready():
 		return
-	layout.reset_size()
+	# Read minimum height without resetting the layout's full-width anchored size.
 	var required_height: float = layout.get_combined_minimum_size().y
 	offset_top = -required_height
 
