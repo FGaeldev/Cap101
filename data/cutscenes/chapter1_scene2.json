@@ -5,22 +5,19 @@
 	{"type":"wait","seconds":0.3},
 	{"type":"parallel","actions":[
 		{"type":"sequence","actions":[
-			{"type":"move_npc","actor":"Lola Jonabel","direction":"down","tiles":1,"speed":20},
-			{"type":"move_npc","actor":"Lola Jonabel","direction":"left","tiles":8,"speed":20},
+			{"type":"move_npc","actor":"Lola Jonabel","direction":"left","tiles":7,"speed":20},
 			{"type":"move_npc","actor":"Lola Jonabel","direction":"down","tiles":9,"speed":20},
 			{"type":"move_npc","actor":"Lola Jonabel","direction":"right","tiles":4,"speed":20}
 		]},
 		{"type":"sequence","actions":[
 			{"type":"wait","seconds":0.8},
-			{"type":"move_npc","actor":"Papa Jobert","direction":"down","tiles":1,"speed":20},
-			{"type":"move_npc","actor":"Papa Jobert","direction":"left","tiles":8,"speed":20},
+			{"type":"move_npc","actor":"Papa Jobert","direction":"left","tiles":7,"speed":20},
 			{"type":"move_npc","actor":"Papa Jobert","direction":"down","tiles":9,"speed":20},
 			{"type":"move_npc","actor":"Papa Jobert","direction":"right","tiles":3,"speed":20}
 		]},
 		{"type":"sequence","actions":[
 			{"type":"wait","seconds":1.6},
-			{"type":"move_npc","actor":"player","from":[273,162],"direction":"down","tiles":1,"speed":20},
-			{"type":"move_npc","actor":"player","direction":"left","tiles":8,"speed":20},
+			{"type":"move_npc","actor":"player","from":[273,162],"direction":"left","tiles":7,"speed":20},
 			{"type":"move_npc","actor":"player","direction":"down","tiles":9,"speed":20},
 			{"type":"move_npc","actor":"player","direction":"right","tiles":2,"speed":20}
 		]}
