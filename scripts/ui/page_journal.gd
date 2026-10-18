@@ -189,10 +189,10 @@ func _build_dev_buttons() -> void:
 		btn.pressed.connect(_on_dev_warp_pressed.bind(target["scene_path"]))
 		dev_list.add_child(btn)
 
-## Warps through Game.load_level() so Game.tscn, the persistent Player,
-## and gameplay autoload/UI architecture survive the transition.
-## Abort cutscenes before closing BookUI to avoid leaving a coroutine or pause
-## state behind. This is a dev shortcut; it does not save progress.
+## Dev warp skips Chapter 1 onboarding as well as changing levels. Mark its
+## story gates/tutorials complete so their triggers do not replay after a warp.
+## Keep normal quest progression intact except for q002, whose objective is the
+## opening-room/book onboarding that this shortcut bypasses.
 func _on_dev_warp_pressed(scene_path: String) -> void:
 	if not ResourceLoader.exists(scene_path, "PackedScene"):
 		push_error("DevSkip: scene resource not found: %s" % scene_path)
@@ -204,5 +204,14 @@ func _on_dev_warp_pressed(scene_path: String) -> void:
 		return
 
 	CutsceneManager.abort()
+	TutorialManager.abort()
+	for tutorial_id in ["ch1_basics", "ch1_quest_hud"]:
+		GameState.set_flag("tutorial_" + tutorial_id + "_done")
+	GameState.set_flag("seen_chapter1_scene1")
+	GameState.set_flag("story_done_papa_jobert_scene1")
+	GameState.set_flag("story_done_lola_jonabel_scene1")
+	if not GameState.get_flag("quest_002_done"):
+		QuestManager.complete_quest("q002")
+
 	BookUI.close()
 	game.load_level(scene_path)
