@@ -1,5 +1,96 @@
 [
-	{"type":"dialogue","chapter":"chapter1","scene":"scene_4_vocabulary_practice_round_family_pronouns_numbers"},
-	{"type":"set_flag","flag":"story_done_scene_4_rose","value":true},
-	{"type":"set_flag","flag":"seen_chapter1_scene4","value":true}
+	{
+		"type": "dialogue",
+		"chapter": "chapter1",
+		"scene": "scene_4_vocabulary_practice_round_family_pronouns_numbers"
+	},
+	{
+		"type": "parallel",
+		"actions": [
+			{
+				"type": "sequence",
+				"actions": [
+					{
+						"type": "move_npc",
+						"actor": "Rose",
+						"direction": "left",
+						"tiles": 17,
+						"speed": 40
+					}
+				]
+			},
+			{
+				"type": "sequence",
+				"actions": [
+					{
+						"type": "wait",
+						"seconds": 0.6
+					},
+					{
+						"type": "move_npc",
+						"actor": "Lola Susan",
+						"direction": "left",
+						"tiles": 15,
+						"speed": 40
+					}
+				]
+			},
+			{
+				"type": "sequence",
+				"actions": [
+					{
+						"type": "wait",
+						"seconds": 1.2
+					},
+					{
+						"type": "move_npc",
+						"actor": "Lola Jonabel",
+						"direction": "left",
+						"tiles": 16,
+						"speed": 40
+					}
+				]
+			},
+			{
+				"type": "sequence",
+				"actions": [
+					{
+						"type": "wait",
+						"seconds": 1.8
+					},
+					{
+						"type": "move_npc",
+						"actor": "Papa Jobert",
+						"direction": "left",
+						"tiles": 17,
+						"speed": 40
+					}
+				]
+			}
+		]
+	},
+	{
+		"type": "fade",
+		"direction": "out",
+		"duration": 0.6
+	},
+	{
+		"type": "set_flag",
+		"flag": "story_done_scene_4_rose",
+		"value": true
+	},
+	{
+		"type": "set_flag",
+		"flag": "seen_chapter1_scene4",
+		"value": true
+	},
+	{
+		"type": "set_flag",
+		"flag": "chapter1_complete",
+		"value": true
+	},
+	{
+		"type": "load_scene",
+		"scene_path": "res://scenes/world/chapter2/aklan_living.tscn"
+	}
 ]
