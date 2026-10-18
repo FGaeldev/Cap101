@@ -100,6 +100,10 @@ func _on_menu_button_pressed() -> void:
 func _on_quest_list_changed(_qid: String) -> void:
 	_rebuild_quest_rows()
 
+## Silent quest-state refresh; intentionally does not trigger completion popup.
+func _on_quest_list_changed_silently() -> void:
+	_rebuild_quest_rows()
+
 func _on_task_progress_changed(_task_id: String, _step_index: int) -> void:
 	_rebuild_quest_rows()
 
