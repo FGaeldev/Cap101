@@ -26,7 +26,7 @@ const FIND_QUEST_ID: String = "q003"
 
 ## Level-local coords, lower parking lot. Jonabel/Papa spots MUST match the
 ## "to" targets in data/cutscenes/chapter1_scene3.json.
-const SUSAN: Dictionary = {"scene": "res://scenes/entities/npc_LolaSusan.tscn", "marker": "S3_LolaSusan", "at": Vector2(244, 520)}
+const SUSAN: Dictionary = {"scene": "res://scenes/entities/npc_LolaSusan.tscn", "marker": "S3_Susan", "at": Vector2(244, 520)}
 const ROSE: Dictionary = {"scene": "res://scenes/entities/npc_Rose.tscn", "marker": "S3_Rose", "at": Vector2(268, 520)}
 const JONABEL: Dictionary = {"scene": "res://scenes/entities/npc_LolaJonabel.tscn", "at": Vector2(250, 492)}
 const PAPA: Dictionary = {"scene": "res://scenes/entities/npc_PapaJobert.tscn", "at": Vector2(274, 492)}
