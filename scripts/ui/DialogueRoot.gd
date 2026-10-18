@@ -1,7 +1,7 @@
 # DialogueRoot.gd — outer shell for the dialogue UI.
 # Owns: background panel (single draw, no double-panels from children),
-# the 45%-of-screen-height cap, and the speaker portrait on the right.
-# DialogueBox (text) + ChoiceBox (options) live inside as a plain text column.
+# the 45%-of-screen-height cap, and the speaker portrait above the text column.
+# DialogueBox (text) + ChoiceBox (options) remain grouped in the text column.
 extends PanelContainer
 
 @onready var portrait: TextureRect = $Margin/Layout/Portrait
