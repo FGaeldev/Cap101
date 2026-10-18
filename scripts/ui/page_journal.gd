@@ -53,8 +53,8 @@ const QUESTS_PER_PAGE := 8   # floor(179/22) = 8 — covers Phase C's planned ~1
 # warp target on its own. scene01.tscn is deprecated/removed — its two rooms
 # are listed directly below instead.
 const DEV_WARP_TARGETS := [
-	{"label": "Ch1 — US Home - Bedroom", "scene_path": "res://scenes/world/us_bedroom.tscn"},
-	{"label": "Ch1 — US Home - Living Room", "scene_path": "res://scenes/world/us_living.tscn"},
+	{"label": "Ch1 — US Home - Bedroom", "scene_path": "res://scenes/world/chapter1/us_bedroom.tscn"},
+	{"label": "Ch1 — US Home - Living Room", "scene_path": "res://scenes/world/chapter1/us_living.tscn"},
 	{"label": "Ch1 — Airport - Indoors", "scene_path": "res://scenes/world/chapter1/airport_arival.tscn"},
 	{"label": "Ch1 — Airport - Outdoors", "scene_path": "res://scenes/world/chapter1/airport_ourdoors.tscn"},
 ]
@@ -189,12 +189,20 @@ func _build_dev_buttons() -> void:
 		btn.pressed.connect(_on_dev_warp_pressed.bind(target["scene_path"]))
 		dev_list.add_child(btn)
 
-## Mirrors page_settings.gd's Quit button -> BookUI.confirm_exit_to_menu()
-## leave-scene sequence: abort any in-flight cutscene first (TDD §9 item 8 —
-## mid-cutscene quit softlock rule applies to any "leave the game" path,
-## warping included), close BookUI and unpause, then swap scenes directly.
-## No save — this is a dev shortcut, not a real save-point transition.
+## Warps through Game.load_level() so Game.tscn, the persistent Player,
+## and gameplay autoload/UI architecture survive the transition.
+## Abort cutscenes before closing BookUI to avoid leaving a coroutine or pause
+## state behind. This is a dev shortcut; it does not save progress.
 func _on_dev_warp_pressed(scene_path: String) -> void:
+	if not ResourceLoader.exists(scene_path, "PackedScene"):
+		push_error("DevSkip: scene resource not found: %s" % scene_path)
+		return
+
+	var game := get_tree().current_scene
+	if game == null or not game.has_method("load_level"):
+		push_error("DevSkip: current scene does not provide load_level()")
+		return
+
 	CutsceneManager.abort()
 	BookUI.close()
-	get_tree().change_scene_to_file(scene_path)
+	game.load_level(scene_path)
