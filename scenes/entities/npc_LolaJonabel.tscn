@@ -187,25 +187,25 @@ animations = [{
 "speed": 8.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_bxmox"]
-radius = 3.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1y6ve"]
+size = Vector2(14, 14)
 
 [node name="NPC_LolaJonabel" type="CharacterBody2D" unique_id=12182856 groups=["npc"]]
 script = ExtResource("1_a4sf3")
 actor_id = "Lola Jonabel"
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=2126335115]
-position = Vector2(0, -10)
+position = Vector2(8, -11)
 sprite_frames = SubResource("SpriteFrames_h4uhj")
 animation = &"idle_down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=80002803]
-position = Vector2(1, -5)
-shape = SubResource("CircleShape2D_bxmox")
+position = Vector2(8, -8)
+shape = SubResource("RectangleShape2D_1y6ve")
 debug_color = Color(0.7230673, 0.2464309, 1, 0.41960785)
 
 [node name="InteractableComponent" parent="." unique_id=1024773738 instance=ExtResource("3_w1wr4")]
-position = Vector2(0, -29)
+position = Vector2(8, -29)
 
 [node name="DialogueComponent" parent="." unique_id=1621841028 instance=ExtResource("4_gc4kh")]
 

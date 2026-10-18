@@ -281,6 +281,14 @@ tile_set = SubResource("TileSet_3ydn5")
 [node name="DefaultSpawn" type="Marker2D" parent="." unique_id=1461791157]
 position = Vector2(272, 144)
 
+[node name="NPCSpawn" type="Node2D" parent="." unique_id=381007296]
+
+[node name="S2_LolaSusan" type="Marker2D" parent="NPCSpawn" unique_id=1613906900]
+position = Vector2(-16, 528)
+
+[node name="S2_Rose" type="Marker2D" parent="NPCSpawn" unique_id=1600347131]
+position = Vector2(-16, 560)
+
 [node name="WarpAreas" type="Node2D" parent="." unique_id=426153827]
 
 [node name="WarpArea" parent="WarpAreas" unique_id=1965068349 instance=ExtResource("2_jyuqw")]

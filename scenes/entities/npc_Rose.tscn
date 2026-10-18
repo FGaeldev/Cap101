@@ -1,7 +1,7 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://b3hfkdbyijbfp"]
 
-[ext_resource type="Texture2D" path="res://assets/sprites/rose_sprite.png" id="1_tex"]
-[ext_resource type="Script" path="res://scripts/entities/npc/npc_generic.gd" id="2_scr"]
+[ext_resource type="Texture2D" uid="uid://btrsikgc6ro6i" path="res://assets/sprites/rose_sprite.png" id="1_tex"]
+[ext_resource type="Script" uid="uid://il6nt77p6sdq" path="res://scripts/entities/npc/npc_generic.gd" id="2_scr"]
 [ext_resource type="PackedScene" uid="uid://b8awiupnw1tue" path="res://scenes/components/interactable_component.tscn" id="3_int"]
 [ext_resource type="PackedScene" uid="uid://cdxx55olbkhhv" path="res://scenes/components/dialogue_component.tscn" id="4_dlg"]
 [ext_resource type="PackedScene" uid="uid://bbk8t0y83k7ib" path="res://scenes/components/CutsceneAnimComponent.tscn" id="5_anim"]
@@ -186,10 +186,10 @@ animations = [{
 "speed": 8.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_npc"]
-radius = 4.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pte0q"]
+size = Vector2(14, 14)
 
-[node name="NPC_Rose" type="CharacterBody2D" groups=["npc"]]
+[node name="NPC_Rose" type="CharacterBody2D" unique_id=1356438045 groups=["npc"]]
 script = ExtResource("2_scr")
 actor_id = "Rose"
 npc_id = "Rose"
@@ -197,19 +197,19 @@ dialogue_scene_key = "scene_rose"
 idle_pool_key = "idle_pool_rose"
 story_done_flag = "story_done_rose"
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -10)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=913573483]
+position = Vector2(8, -11)
 sprite_frames = SubResource("SpriteFrames_xrivr")
 animation = &"idle_down"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -4)
-shape = SubResource("CircleShape2D_npc")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2103815804]
+position = Vector2(8, -8)
+shape = SubResource("RectangleShape2D_pte0q")
 
-[node name="InteractableComponent" parent="." instance=ExtResource("3_int")]
-position = Vector2(0, -29)
+[node name="InteractableComponent" parent="." unique_id=2021869736 instance=ExtResource("3_int")]
+position = Vector2(8, -29)
 
-[node name="DialogueComponent" parent="." instance=ExtResource("4_dlg")]
+[node name="DialogueComponent" parent="." unique_id=1751105956 instance=ExtResource("4_dlg")]
 
-[node name="CutsceneAnimComponent" parent="." node_paths=PackedStringArray("sprite") instance=ExtResource("5_anim")]
+[node name="CutsceneAnimComponent" parent="." unique_id=452285367 node_paths=PackedStringArray("sprite") instance=ExtResource("5_anim")]
 sprite = NodePath("../AnimatedSprite2D")
