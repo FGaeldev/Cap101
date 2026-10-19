@@ -18,7 +18,18 @@ class_name Comp_Warp
 ## Direction the player must be walking to trigger this door. Player movement
 ## is grid-tweened (walk_state.gd) so CharacterBody2D.velocity is always zero;
 ## trigger is read from Player.get_input_dir() instead.
-enum TriggerDirection { UP, DOWN }
+## LEFT/RIGHT (appended -- existing UP=0/DOWN=1 values in saved .tscn files
+## keep their meaning) turn the area into a side exit, e.g. walking off a map
+## edge. Side exits lay the detection shape out vertically (see _refresh_shape).
+enum TriggerDirection { UP, DOWN, LEFT, RIGHT }
+
+## Input vector that fires each TriggerDirection.
+const TRIGGER_VECTORS: Dictionary = {
+	TriggerDirection.UP: Vector2.UP,
+	TriggerDirection.DOWN: Vector2.DOWN,
+	TriggerDirection.LEFT: Vector2.LEFT,
+	TriggerDirection.RIGHT: Vector2.RIGHT,
+}
 
 ## Door width in tiles. Drives detection width: ONE = 16px, TWO = 32px.
 enum DoorWidth { ONE = 1, TWO = 2 }
@@ -26,7 +37,11 @@ enum DoorWidth { ONE = 1, TWO = 2 }
 const UNIT_WIDTH_PX: float = 16.0
 
 ## Walk direction that fires the warp. Set per door instance in the editor.
-@export var trigger_direction: TriggerDirection = TriggerDirection.UP
+## Changing it re-lays the shape (UP/DOWN = horizontal span, LEFT/RIGHT = vertical).
+@export var trigger_direction: TriggerDirection = TriggerDirection.UP:
+	set(value):
+		trigger_direction = value
+		_refresh_shape()
 
 ## 1 or 2 tiles wide. Resizes this node's CollisionShape2D width live in the
 ## editor (height and position untouched). Door art is the parent Sprite2D's
@@ -34,6 +49,13 @@ const UNIT_WIDTH_PX: float = 16.0
 @export var door_width: DoorWidth = DoorWidth.ONE:
 	set(value):
 		door_width = value
+		_refresh_shape()
+
+## Overrides door_width when > 0. For openings wider than a door, e.g. a
+## 6-tile road leaving the map edge. 0 = use door_width (default, all doors).
+@export_range(0, 32) var span_tiles_override: int = 0:
+	set(value):
+		span_tiles_override = value
 		_refresh_shape()
 
 ## Seconds the player must keep holding the trigger direction, when they step
@@ -85,7 +107,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if Engine.is_editor_hint() or _player == null or _fired:
 		return
-	var want: Vector2 = Vector2.UP if trigger_direction == TriggerDirection.UP else Vector2.DOWN
+	var want: Vector2 = TRIGGER_VECTORS[trigger_direction]
 	if _player.get_input_dir() != want:
 		_armed = true
 		_hold_time = 0.0
@@ -111,18 +133,27 @@ func _on_body_exited(body: Node) -> void:
 		_armed = false
 		_hold_time = 0.0
 
-## Resizes detection width from door_width. Fresh RectangleShape2D per door:
-## door.tscn's sub-resource is shared across instances, so mutating it in place
-## would resize every door.
+## Resizes detection span from door_width / span_tiles_override. Fresh
+## RectangleShape2D per door: door.tscn's sub-resource is shared across
+## instances, so mutating it in place would resize every door.
+## UP/DOWN: span along X, depth along Y. LEFT/RIGHT: span along Y, depth along X.
+## Depth is read back from the current shape's short side so switching
+## direction in the editor keeps the authored depth.
 func _refresh_shape() -> void:
 	var col := get_node_or_null("CollisionShape2D") as CollisionShape2D
 	if col == null:
 		return
-	var height: float = 12.0
+	var depth: float = 12.0
 	if col.shape is RectangleShape2D:
-		height = (col.shape as RectangleShape2D).size.y
+		var old_size: Vector2 = (col.shape as RectangleShape2D).size
+		depth = min(old_size.x, old_size.y)
+	var tiles: int = span_tiles_override if span_tiles_override > 0 else int(door_width)
+	var span: float = UNIT_WIDTH_PX * float(tiles)
 	var rect := RectangleShape2D.new()
-	rect.size = Vector2(UNIT_WIDTH_PX * float(door_width), height)
+	if trigger_direction == TriggerDirection.LEFT or trigger_direction == TriggerDirection.RIGHT:
+		rect.size = Vector2(depth, span)
+	else:
+		rect.size = Vector2(span, depth)
 	col.shape = rect
 
 func _fire(body: Node) -> void:

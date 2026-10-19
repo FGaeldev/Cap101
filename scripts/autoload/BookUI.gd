@@ -1,4 +1,4 @@
-# BookUI.gd — autoload. Single entry point for relationship/dictionary/journal/settings/map.
+# BookUI.gd — autoload. Single entry point for relationship/dictionary/journal/achievements/dev/settings/map.
 extends CanvasLayer
 
 @export var page_left_path: NodePath = ^"Root/Spread/PageLeft"
@@ -17,8 +17,12 @@ const PageSettingsScene := preload("res://scenes/ui/page_settings.tscn")
 const PageDictionaryListScene := preload("res://scenes/ui/page_dictionary.tscn")
 const PageDictionaryFilterScene := preload("res://scenes/ui/page_dictionary_filter.tscn")
 const PageRelationshipScene := preload("res://scenes/ui/page_relationship.tscn")
-const PageJournalScene := preload("res://scenes/ui/page_journal.tscn")
-const PageJournalAchievementsScene := preload("res://scenes/ui/page_journal_achievements.tscn")
+## Shared Header + List layout used by every list tab (Journal, Achievements,
+## Dev). Scriptless — _make_list_column() attaches the per-tab script.
+const PageListColumnScene := preload("res://scenes/ui/page_list_column.tscn")
+const PageJournalScript := preload("res://scripts/ui/page_journal.gd")
+const PageJournalAchievementsScript := preload("res://scripts/ui/page_journal_achievements.gd")
+const PageDevScript := preload("res://scripts/ui/page_dev.gd")
 const PageMapScene := preload("res://scenes/ui/page_map.tscn")
 
 const MARKER := preload("res://assets/ui/book/marker.png")
@@ -72,6 +76,10 @@ var _arrows: Dictionary = {}  # side key -> {"prev": Button, "next": Button}
 @onready var tab_dictionary: Button = get_node(tab_dictionary_path)
 @export var tab_map_path: NodePath = ^"Root/TabBar/TabMap"
 @onready var tab_map: Button = get_node(tab_map_path)
+@export var tab_achievements_path: NodePath = ^"Root/TabBar/TabAchievements"
+@onready var tab_achievements: Button = get_node(tab_achievements_path)
+@export var tab_dev_path: NodePath = ^"Root/TabBar/TabDev"
+@onready var tab_dev: Button = get_node(tab_dev_path)
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -106,15 +114,22 @@ func _ready() -> void:
 	rel_left.partner_column = rel_right  # left owns pagination for both halves
 	_tabs["relationship"]["page"] = rel_left
 	_tabs["relationship"]["page_right"] = rel_right
-	_register_tab("bucket_list", tab_quest, "JOURNAL")
-	var journal_quests := PageJournalScene.instantiate()
-	var journal_achievements := PageJournalAchievementsScene.instantiate()
-	page_left.add_child(journal_quests)
-	page_right.add_child(journal_achievements)
-	journal_quests.visible = false
-	journal_achievements.visible = false
-	_tabs["bucket_list"]["page"] = journal_quests             # PageLeft — paginated
-	_tabs["bucket_list"]["page_right"] = journal_achievements  # PageRight — fits one page at current scale
+	# -- List tabs: Journal / Achievements / Dev share one Header + List
+	# layout (page_list_column.tscn), one column per page. Journal and
+	# Achievements paginate as one list across both columns (left = primary).
+	_register_tab("bucket_list", tab_quest, "JOURNAL")   # id kept: book.gd + tutorials.json use it
+	_register_list_tab_pair("bucket_list", PageJournalScript)
+
+	_register_tab("achievements", tab_achievements, "ACHIEVEMENTS")
+	_register_list_tab_pair("achievements", PageJournalAchievementsScript)
+
+	# Dev columns are independent (warps left, cutscenes right), not a
+	# paginated pair. Tab hidden + locked unless GameState.dev_mode.
+	_register_tab("dev", tab_dev, "DEV")
+	_tabs["dev"]["page"] = _make_list_column(PageDevScript, page_left, {"column": "warps"})
+	_tabs["dev"]["page_right"] = _make_list_column(PageDevScript, page_right, {"column": "cutscenes"})
+	set_tab_lock_condition("dev", func(): return GameState.dev_mode)
+	refresh_dev_tab()
 	
 	# -- assigning page to tabs
 	_register_tab("settings", tab_settings, "SETTINGS")
@@ -222,6 +237,37 @@ func is_main_menu_context() -> bool:
 		and get_tree().current_scene.scene_file_path == "res://scenes/ui/MainMenu.tscn"
 
 ## Callable must return bool. Used to lock e.g. Dictionary before first word exposed.
+## Instantiates the shared list layout, attaches `script`, applies `props`
+## (e.g. page_dev.gd's `column`), then parents it hidden under `host`.
+## Script + props MUST be set before add_child(): the column's _ready()
+## reads them (header text, partner role).
+func _make_list_column(script: Script, host: Control, props: Dictionary = {}, partner: Control = null) -> Control:
+	var col: Control = PageListColumnScene.instantiate()
+	col.set_script(script)
+	for key in props:
+		col.set(key, props[key])
+	if partner != null:
+		col.partner_column = partner
+	col.visible = false
+	host.add_child(col)
+	return col
+
+## Two-column paginated list tab: right column built first so the left
+## (primary, owns pagination for both) can take it as partner_column.
+func _register_list_tab_pair(tab_id: String, script: Script) -> void:
+	var right := _make_list_column(script, page_right)
+	var left := _make_list_column(script, page_left, {}, right)
+	_tabs[tab_id]["page"] = left
+	_tabs[tab_id]["page_right"] = right
+
+## Shows/hides the Dev tab button to match GameState.dev_mode. Called on
+## open() and by page_settings.gd when DevModeToggle flips. If dev mode is
+## switched off while the Dev tab is current, falls back to Settings.
+func refresh_dev_tab() -> void:
+	tab_dev.visible = GameState.dev_mode
+	if not GameState.dev_mode and _current_tab == "dev" and visible:
+		switch_tab("settings")
+
 func set_tab_lock_condition(tab_id: String, is_unlocked: Callable) -> void:
 	if _tabs.has(tab_id):
 		_tabs[tab_id]["is_unlocked"] = is_unlocked
@@ -229,6 +275,7 @@ func set_tab_lock_condition(tab_id: String, is_unlocked: Callable) -> void:
 func open(tab_id: String = "settings") -> void:
 	visible = true
 	get_tree().paused = true
+	refresh_dev_tab()
 	switch_tab(tab_id)
 
 func close() -> void:

@@ -10,4 +10,4 @@ offset = Vector2(0, -14)
 script = ExtResource("2_8c3gl")
 
 [node name="InteractableComponent" parent="." unique_id=1233591827 instance=ExtResource("2_iv2lt")]
-position = Vector2(0, -28)
+position = Vector2(0, -14)

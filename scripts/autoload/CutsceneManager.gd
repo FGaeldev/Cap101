@@ -22,6 +22,7 @@ const ACTION_SCRIPTS := [
 	"res://scripts/cutscene_actions/load_scene_action.gd",
 	"res://scripts/cutscene_actions/spawn_npc_action.gd",
 	"res://scripts/cutscene_actions/despawn_npc_action.gd",
+	"res://scripts/cutscene_actions/conga_action.gd",
 ]
 
 var _actions: Dictionary = {}

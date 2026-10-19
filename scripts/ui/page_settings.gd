@@ -49,10 +49,11 @@ func _on_music_toggled(muted: bool) -> void:
 func _on_sfx_toggled(muted: bool) -> void:
 	AudioManager.set_sfx_volume(1.0 if muted else 0.0)
 
-## Dev-only: flips GameState.dev_mode, which Journal's page_journal.gd reads
-## on its own refresh() to decide whether to open on the hidden warp page.
+## Dev-only: flips GameState.dev_mode, which shows/hides BookUI's Dev tab
+## (warp + cutscene menu, page_dev.gd) immediately via refresh_dev_tab().
 func _on_dev_mode_toggled(enabled: bool) -> void:
 	GameState.dev_mode = enabled
+	BookUI.refresh_dev_tab()
 	GameState.set_flag("story_done_papa_jobert_scene1")
 	GameState.set_flag("seen_chapter1_scene1")
 	GameState.set_flag("story_done_lola_jonabel_scene1")
