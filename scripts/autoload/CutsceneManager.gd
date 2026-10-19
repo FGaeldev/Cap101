@@ -28,6 +28,14 @@ const ACTION_SCRIPTS := [
 var _actions: Dictionary = {}
 var _actors: Dictionary = {}
 var _playing: bool = false
+## Bumped by every play() and abort(). A coroutine whose captured id no
+## longer matches has been aborted: it stops at its next await instead of
+## running more steps or clearing _playing for a newer cutscene.
+var _run_id: int = 0
+## Tweens started by the current run (track_tween). abort() kills them so an
+## aborted move can't keep walking a persistent actor (the player) after a
+## level swap.
+var _tweens: Array[Tween] = []
 
 func _ready() -> void:
 	_register_actions()
@@ -66,25 +74,33 @@ func play(cutscene_id: String) -> void:
 		push_error("CutsceneManager: bad JSON in %s (%s)" % [path, json.get_error_message()])
 		return
 
+	_run_id += 1
+	var run_id := _run_id
+	_tweens.clear()
 	_playing = true
 	cutscene_started.emit(cutscene_id)
-	await _run_sequence(json.get_data())
+	await _run_sequence(json.get_data(), run_id)
+	if run_id != _run_id:
+		return  # aborted: abort() already reset state, a newer run may own it
 	_playing = false
+	_tweens.clear()
 	cutscene_finished.emit(cutscene_id)
 
-func _run_sequence(steps: Array) -> void:
+func _run_sequence(steps: Array, run_id: int) -> void:
 	for step in steps:
-		await _run_step(step)
+		if run_id != _run_id:
+			return
+		await _run_step(step, run_id)
 
-func _run_step(step: Dictionary) -> Variant:
+func _run_step(step: Dictionary, run_id: int) -> Variant:
 	var type: String = step.get("type", "")
 	# "parallel" step be its own multi-step chain (per-actor conga timing).
 	if type == "parallel":
-		await _run_parallel(step.get("actions", []))
+		await _run_parallel(step.get("actions", []), run_id)
 		return null
 	# "sequence": ordered sub-steps run as ONE step. Lets each branch of a
 	if type == "sequence":
-		await _run_sequence(step.get("actions", []))
+		await _run_sequence(step.get("actions", []), run_id)
 		return null
 	if not _actions.has(type):
 		push_error("CutsceneManager: unknown action type '%s'" % type)
@@ -92,7 +108,22 @@ func _run_step(step: Dictionary) -> Variant:
 	await _actions[type].execute(step, self)
 	return null
 
-func _run_parallel(branches: Array) -> void:
+## Id of the run currently playing. Actions that loop over several awaits
+## capture this at the start of execute() and check is_run_current() after
+## each await, so an abort stops them mid-action.
+func current_run() -> int:
+	return _run_id
+
+func is_run_current(run_id: int) -> bool:
+	return _playing and run_id == _run_id
+
+## Registers a tween an action started so abort() can kill it. Returns the
+## tween for chaining: `var t := mgr.track_tween(actor.create_tween())`.
+func track_tween(tween: Tween) -> Tween:
+	_tweens.append(tween)
+	return tween
+
+func _run_parallel(branches: Array, run_id: int) -> void:
 	# GDScript forbids capturing a coroutine's return value without `await`
 	# (hard compile error, not just a warning), so branches can't be started
 	# and collected as "tasks" the way _run_sequence awaits a single step.
@@ -111,15 +142,17 @@ func _run_parallel(branches: Array) -> void:
 		return
 	var remaining: Array = [branches.size()]
 	for branch in branches:
-		_run_parallel_branch(branch, remaining)
-	while remaining[0] > 0:
+		_run_parallel_branch(branch, remaining, run_id)
+	# run_id check: abort() emits _parallel_branch_done once to wake this loop,
+	# since aborted branches may never finish (their tweens were killed).
+	while remaining[0] > 0 and run_id == _run_id:
 		await _parallel_branch_done
 
 ## Fire-and-forget wrapper: runs one branch, decrements the shared counter,
 ## then signals. Never call this awaited from _run_parallel -- the counter
 ## check above is what provides "wait for all branches", not this signal alone.
-func _run_parallel_branch(branch: Dictionary, remaining: Array) -> void:
-	await _run_step(branch)
+func _run_parallel_branch(branch: Dictionary, remaining: Array, run_id: int) -> void:
+	await _run_step(branch, run_id)
 	remaining[0] -= 1
 	_parallel_branch_done.emit()
 
@@ -131,10 +164,22 @@ func is_playing() -> bool:
 ## a signal that can never fire (its DialogueBox died with the old scene),
 ## and _playing stays stuck true forever — silently blocking every future
 ## play() call via the guard above.
+## The aborted run's coroutines are left suspended or return at their next
+## run-id check; none of them touch _playing or emit cutscene_finished.
 func abort() -> void:
 	if not _playing:
 		return
+	_run_id += 1
 	_playing = false
+	for tween in _tweens:
+		if tween.is_valid():
+			tween.kill()
+	_tweens.clear()
+	# A cutscene dialogue line would otherwise stay on screen and keep the
+	# player input-locked (DialogueUI._current_component) after the abort.
+	if DialogueUI.is_active():
+		DialogueUI.hide()
+	_parallel_branch_done.emit()
 	var cam: Camera2D = get_actor("camera")
 	var player: Node2D = get_actor("player")
 	if cam and player:
