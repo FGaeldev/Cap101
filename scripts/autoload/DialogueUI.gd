@@ -41,12 +41,21 @@ func show_line(
 	translation: String = ""
 ) -> void:
 	_current_component = component
+
+	# A previous NPC menu hides the dialogue controls. Restore them before
+	# rendering the next line so an interaction cannot leave an empty panel.
+	if _npc_menu and is_instance_valid(_npc_menu):
+		_npc_menu.hide()
 	if _dialogue_box:
+		_dialogue_box.show()
 		_dialogue_box.display(speaker, text, translation)
+	if _choice_box:
+		_choice_box.show()
 	if _root:
 		_root.show_box()
 		# Portrait is optional per-NPC art. Missing art hides cleanly.
 		_root.set_portrait(portrait_tex, speaker)
+		_root.refresh_content_size()
 
 func show_choices(choices: Array, component) -> void:
 	if _choice_box:
