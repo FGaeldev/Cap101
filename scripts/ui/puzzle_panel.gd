@@ -188,7 +188,7 @@ func _on_challenge_choice(idx: int, btn: Button) -> void:
 ## answer (_refresh_hint_button) since GameState.rose_hint_tokens can hit 0
 ## mid-challenge.
 func _on_hint_button_pressed() -> void:
-	var removed_idx: int = ChallengeManager.remove_wrong_option(_active_challenge_id)
+	var removed_idx: int = ChallengeManager.remove_wrong_option(_active_challenge_id, _removed)
 	if removed_idx == -1:
 		return
 	if not _removed.has(removed_idx):
@@ -202,7 +202,9 @@ func _on_hint_button_pressed() -> void:
 	_refresh_hint_button()
 
 func _refresh_hint_button() -> void:
-	hint_button.visible = _mode == Mode.CHALLENGE and GameState.rose_hint_tokens > 0
+	# Hidden once nothing is left to eliminate, so a press never wastes a token.
+	hint_button.visible = _mode == Mode.CHALLENGE \
+			and ChallengeManager.can_remove_wrong_option(_active_challenge_id, _removed)
 	hint_button.text = "Use Rose Hint Token (%d)" % GameState.rose_hint_tokens
 
 # --- Shared feedback rendering ---
