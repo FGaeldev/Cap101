@@ -22,6 +22,7 @@ func _ready() -> void:
 	DialogueUI.register_root(self)
 	visible = false
 	portrait.visible = false
+	portrait_row.visible = false
 	_fit_to_content()
 
 func show_box() -> void:
