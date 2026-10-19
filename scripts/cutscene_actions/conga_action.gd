@@ -21,14 +21,14 @@
 #   	"type": "conga",
 #   	"leader": "Rose",
 #   	"followers": ["Lola Susan", "Lola Jonabel", "Papa Jobert"],
-#   	"waypoints": [[-464, 320]],   # level-space px, snapped to the 16px grid
+#   	"waypoints": [[-464, 320]],   # [x, y] level-space px or marker names ("S4/Exit"), snapped to the 16px grid
 #   	"order": "yx",                # leg order per waypoint: "xy" (default) or "yx"
 #   	"queue_direction": "right",   # optional; default = opposite of first step
 #   	"gap": 1,                     # optional; tiles between actors (default 1)
 #   	"speed": 40,                  # optional; px/sec (default 40)
 #   	"despawn": true,              # optional; free each actor at trail end / once off-screen
 #   	"keep": ["player"],           # optional; never despawned (player is ALWAYS kept)
-#   	"hold_at": [-432, 320]        # optional; tile where kept actors stop
+#   	"hold_at": [-432, 320]        # optional; tile ([x, y] or marker name) where kept actors stop
 #   }
 #
 # The player can join like any follower (actor id "player"). It is never
@@ -49,6 +49,8 @@ extends RefCounted
 
 ## Tile edge length in pixels. Must match move_npc_action.gd and Player.tile_size.
 const TILE_SIZE: int = 16
+
+const MarkerUtil := preload("res://scripts/util/marker_util.gd")
 
 ## Extra pixels past the viewport edge before an actor counts as off-screen,
 ## so sprites are fully out of view (not half-clipped) when freed.
@@ -100,11 +102,12 @@ func execute(step: Dictionary, mgr: Node) -> void:
 	leader.global_position = start
 	var route: Array[Vector2] = [start]
 	var cursor: Vector2 = start
+	var level: Node = leader.get_parent()
 	for wp in step.get("waypoints", []):
-		if typeof(wp) != TYPE_ARRAY or wp.size() != 2:
-			push_error("conga: each waypoint must be a two-number [x, y] position")
+		var wp_pos: Variant = MarkerUtil.resolve(level, wp, "conga waypoint")
+		if wp_pos == null:
 			return
-		var target: Vector2 = _snap(Vector2(float(wp[0]), float(wp[1])))
+		var target: Vector2 = _snap(wp_pos)
 		for corner in _build_legs(cursor, target, order):
 			_append_tiles(route, corner)
 		cursor = target
@@ -140,11 +143,10 @@ func execute(step: Dictionary, mgr: Node) -> void:
 	var last: int = trail.size() - 1
 	var hold_index: int = last
 	if step.has("hold_at"):
-		var hold: Array = step.get("hold_at", [])
-		if hold.size() != 2:
-			push_error("conga: 'hold_at' must be a two-number [x, y] position")
+		var hold: Variant = MarkerUtil.resolve(level, step["hold_at"], "conga 'hold_at'")
+		if hold == null:
 			return
-		var hold_tile: Vector2 = _snap(Vector2(float(hold[0]), float(hold[1])))
+		var hold_tile: Vector2 = _snap(hold)
 		hold_index = trail.find(hold_tile, slot_count)
 		if hold_index == -1:
 			push_warning("conga: hold_at %s is not on the leader route; kept actors stop at the end" % hold_tile)

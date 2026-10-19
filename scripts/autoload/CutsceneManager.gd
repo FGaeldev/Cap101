@@ -52,6 +52,24 @@ func register_actor(actor_id: String, node: Node) -> void:
 func unregister_actor(actor_id: String) -> void:
 	_actors.erase(actor_id)
 
+## True if actor_id is registered to a live node. Unlike get_actor(), never
+## logs: callers use it to avoid double-spawning cast a cutscene already
+## placed. Entries for freed or queued-for-deletion nodes count as absent:
+## Game.load_level() queue_frees the old level in the same frame the new
+## level's _ready() runs, so its actors are still "valid" at that point.
+func has_actor(actor_id: String) -> bool:
+	var node: Variant = _actors.get(actor_id)
+	if not is_instance_valid(node):
+		return false
+	# queue_free() only flags the node it was called on, so an NPC inside the
+	# outgoing level root is not flagged itself: walk up the ancestors.
+	var n: Node = node
+	while n != null:
+		if n.is_queued_for_deletion():
+			return false
+		n = n.get_parent()
+	return true
+
 func get_actor(actor_id: String) -> Node:
 	if not _actors.has(actor_id):
 		push_error("CutsceneManager: unknown actor_id '%s'" % actor_id)

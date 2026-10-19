@@ -704,7 +704,7 @@ door_width = 2
 [node name="Spawns" type="Node2D" parent="." unique_id=141127280]
 
 [node name="Stairs" type="Marker2D" parent="Spawns" unique_id=325780301]
-position = Vector2(32, 64)
+position = Vector2(16, 64)
 
 [node name="BR_Rose" type="Marker2D" parent="Spawns" unique_id=1513260454]
 position = Vector2(64, 48)
@@ -716,4 +716,4 @@ position = Vector2(176, 48)
 position = Vector2(288, 48)
 
 [node name="DefaultSpawn" type="Marker2D" parent="Spawns" unique_id=793070144]
-position = Vector2(48, 96)
+position = Vector2(32, 96)

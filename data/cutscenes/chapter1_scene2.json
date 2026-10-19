@@ -1,25 +1,25 @@
 [
-	{"type":"spawn_npc","actor":"Lola Jonabel","scene":"res://scenes/entities/npc_LolaJonabel.tscn","at":[273,162]},
-	{"type":"spawn_npc","actor":"Papa Jobert","scene":"res://scenes/entities/npc_PapaJobert.tscn","at":[273,162]},
+	{"type":"spawn_npc","actor":"Lola Jonabel","scene":"res://scenes/entities/npc_LolaJonabel.tscn","at_marker":"S2/Arrival"},
+	{"type":"spawn_npc","actor":"Papa Jobert","scene":"res://scenes/entities/npc_PapaJobert.tscn","at_marker":"S2/Arrival"},
 	{"type":"camera","mode":"follow","actor":"Lola Jonabel"},
 	{"type":"wait","seconds":0.3},
 	{"type":"parallel","actions":[
 		{"type":"sequence","actions":[
 			{"type":"move_npc","actor":"Lola Jonabel","direction":"left","tiles":7,"speed":20},
 			{"type":"move_npc","actor":"Lola Jonabel","direction":"down","tiles":8,"speed":20},
-			{"type":"move_npc","actor":"Lola Jonabel","direction":"right","tiles":4,"speed":20}
+			{"type":"move_npc","actor":"Lola Jonabel","to":"S3/Jonabel","speed":20}
 		]},
 		{"type":"sequence","actions":[
 			{"type":"wait","seconds":0.8},
 			{"type":"move_npc","actor":"Papa Jobert","direction":"left","tiles":7,"speed":20},
 			{"type":"move_npc","actor":"Papa Jobert","direction":"down","tiles":8,"speed":20},
-			{"type":"move_npc","actor":"Papa Jobert","direction":"right","tiles":3,"speed":20}
+			{"type":"move_npc","actor":"Papa Jobert","to":"S3/Jobert","speed":20}
 		]},
 		{"type":"sequence","actions":[
 			{"type":"wait","seconds":1.6},
-			{"type":"move_npc","actor":"player","from":[273,162],"direction":"left","tiles":7,"speed":20},
+			{"type":"move_npc","actor":"player","from":"S2/Arrival","direction":"left","tiles":7,"speed":20},
 			{"type":"move_npc","actor":"player","direction":"down","tiles":8,"speed":20},
-			{"type":"move_npc","actor":"player","direction":"right","tiles":2,"speed":20}
+			{"type":"move_npc","actor":"player","to":"S3/Player","speed":20}
 		]}
 	]},
 	{"type":"dialogue","chapter":"chapter1","scene":"scene_2_kalibo_international_airport_arrival"},

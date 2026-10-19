@@ -3,7 +3,7 @@
 	{"type":"wait","seconds":0.5},
 	{"type":"parallel","actions":[
 		{"type":"sequence","actions":[
-			{"type":"spawn_npc","actor":"Lola Jonabel","scene":"res://scenes/entities/npc_LolaJonabel.tscn","at":[-64,48]},
+			{"type":"spawn_npc","actor":"Lola Jonabel","scene":"res://scenes/entities/npc_LolaJonabel.tscn","at_marker":"S1_5/Gate"},
 			{"type":"move_npc","actor":"Lola Jonabel","direction":"down","tiles":5,"speed":30},
 			{"type":"move_npc","actor":"Lola Jonabel","direction":"right","tiles":9,"speed":30},
 			{"type":"move_npc","actor":"Lola Jonabel","direction":"down","tiles":2,"speed":30},
@@ -11,7 +11,7 @@
 		]},
 		{"type":"sequence","actions":[
 			{"type":"wait","seconds":0.533},
-			{"type":"spawn_npc","actor":"Papa Jobert","scene":"res://scenes/entities/npc_PapaJobert.tscn","at":[-64,48]},
+			{"type":"spawn_npc","actor":"Papa Jobert","scene":"res://scenes/entities/npc_PapaJobert.tscn","at_marker":"S1_5/Gate"},
 			{"type":"move_npc","actor":"Papa Jobert","direction":"down","tiles":5,"speed":30},
 			{"type":"move_npc","actor":"Papa Jobert","direction":"right","tiles":9,"speed":30},
 			{"type":"move_npc","actor":"Papa Jobert","direction":"down","tiles":2,"speed":30},
@@ -20,7 +20,7 @@
 		{"type":"sequence","actions":[
 			{"type":"wait","seconds":1.066},
 			{"type":"set_visible","actor":"player","value":true},
-			{"type":"move_npc","actor":"player","from":[-64,48],"direction":"down","tiles":5,"speed":30},
+			{"type":"move_npc","actor":"player","from":"S1_5/Gate","direction":"down","tiles":5,"speed":30},
 			{"type":"move_npc","actor":"player","direction":"right","tiles":9,"speed":30},
 			{"type":"move_npc","actor":"player","direction":"down","tiles":2,"speed":30},
 			{"type":"set_visible","actor":"player","value":false}

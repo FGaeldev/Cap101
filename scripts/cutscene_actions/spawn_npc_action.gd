@@ -2,10 +2,12 @@
 # cutscene time, so one-shot cast members only exist while the cutscene needs them.
 #
 # JSON supports either explicit level-local coordinates ("at") or a Marker2D
-# under the active level's NPCSpawn node ("at_marker"). Marker-based spawning
+# anywhere under the active level ("at_marker", e.g. "S3/Susan"). Marker-based spawning
 # keeps cutscene placement aligned with positions authored in the level scene.
 class_name SpawnNpcCutsceneAction
 extends RefCounted
+
+const MarkerUtil := preload("res://scripts/util/marker_util.gd")
 
 func action_type() -> String:
 	return "spawn_npc"
@@ -25,21 +27,21 @@ func execute(step: Dictionary, mgr: Node) -> void:
 
 	var spawn_root: Node = player.get_parent()
 	var spawn_position: Vector2
-	var marker_name: String = step.get("at_marker", "")
-
-	if not marker_name.is_empty():
-		# Markers live under NPCSpawn in the active level scene.
-		var marker: Node2D = spawn_root.get_node_or_null("NPCSpawn/" + marker_name) as Node2D
+	# "at_marker" (or a marker name in "at") is looked up anywhere under the
+	# level, e.g. "S3/Susan" -> SceneMarkers/S3/Susan. "at": [x, y] stays
+	# level-local, as before.
+	var where: Variant = step.get("at_marker", step.get("at", [0, 0]))
+	if where is String:
+		var marker := MarkerUtil.find(spawn_root, where)
 		if marker == null:
-			push_error("SpawnNpcCutsceneAction: marker 'NPCSpawn/%s' not found" % marker_name)
+			push_error("SpawnNpcCutsceneAction: marker '%s' not found in '%s'" % [where, spawn_root.name])
 			return
 		spawn_position = spawn_root.to_local(marker.global_position)
+	elif where is Array and where.size() >= 2:
+		spawn_position = Vector2(where[0], where[1])
 	else:
-		var at: Array = step.get("at", [0, 0])
-		if at.size() < 2:
-			push_error("SpawnNpcCutsceneAction: 'at' must contain [x, y]")
-			return
-		spawn_position = Vector2(at[0], at[1])
+		push_error("SpawnNpcCutsceneAction: 'at' must be [x, y] or a marker name")
+		return
 
 	var npc: Node2D = (load(scene_path) as PackedScene).instantiate()
 	# Set position before adding child to prevent a frame at the origin.

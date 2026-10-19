@@ -8,13 +8,13 @@
 		"type": "conga",
 		"leader": "Rose",
 		"followers": ["Lola Susan", "Lola Jonabel", "Papa Jobert", "player"],
-		"waypoints": [[-640, 320]],
+		"waypoints": ["S4/Exit"],
 		"order": "yx",
 		"queue_direction": "right",
 		"gap": 1,
 		"speed": 48,
 		"despawn": true,
-		"hold_at": [-432, 320]
+		"hold_at": "S4/Hold"
 	},
 	{
 		"type": "set_flag",

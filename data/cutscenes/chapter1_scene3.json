@@ -13,29 +13,15 @@
 					{
 						"type": "move_npc",
 						"actor": "player",
-						"direction": "right",
-						"tiles": 1,
+						"to": "S3/RoadTurn",
+						"order": "yx",
 						"speed": 40
 					},
 					{
 						"type": "move_npc",
 						"actor": "player",
-						"direction": "right",
-						"tiles": 18,
-						"speed": 40
-					},
-					{
-						"type": "move_npc",
-						"actor": "player",
-						"direction": "up",
-						"tiles": 12,
-						"speed": 40
-					},
-					{
-						"type": "move_npc",
-						"actor": "player",
-						"direction": "left",
-						"tiles": 4,
+						"to": "S4/Player",
+						"order": "yx",
 						"speed": 40
 					}
 				]
@@ -46,29 +32,15 @@
 					{
 						"type": "move_npc",
 						"actor": "Rose",
-						"direction": "up",
-						"tiles": 3,
+						"to": "S3/RoadTurn",
+						"order": "yx",
 						"speed": 40
 					},
 					{
 						"type": "move_npc",
 						"actor": "Rose",
-						"direction": "right",
-						"tiles": 19,
-						"speed": 40
-					},
-					{
-						"type": "move_npc",
-						"actor": "Rose",
-						"direction": "up",
-						"tiles": 12,
-						"speed": 40
-					},
-					{
-						"type": "move_npc",
-						"actor": "Rose",
-						"direction": "left",
-						"tiles": 2,
+						"to": "S4/Rose",
+						"order": "yx",
 						"speed": 40
 					}
 				]
@@ -79,36 +51,15 @@
 					{
 						"type": "move_npc",
 						"actor": "Lola Susan",
-						"direction": "up",
-						"tiles": 1,
+						"to": "S3/RoadTurn",
+						"order": "yx",
 						"speed": 40
 					},
 					{
 						"type": "move_npc",
 						"actor": "Lola Susan",
-						"direction": "right",
-						"tiles": 1,
-						"speed": 40
-					},
-					{
-						"type": "move_npc",
-						"actor": "Lola Susan",
-						"direction": "right",
-						"tiles": 18,
-						"speed": 40
-					},
-					{
-						"type": "move_npc",
-						"actor": "Lola Susan",
-						"direction": "up",
-						"tiles": 12,
-						"speed": 40
-					},
-					{
-						"type": "move_npc",
-						"actor": "Lola Susan",
-						"direction": "left",
-						"tiles": 3,
+						"to": "S4/Susan",
+						"order": "yx",
 						"speed": 40
 					}
 				]

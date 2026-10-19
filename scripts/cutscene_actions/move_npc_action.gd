@@ -14,6 +14,8 @@ extends RefCounted
 ## Tile edge length in pixels. Must match the project's grid and Player.tile_size.
 const TILE_SIZE: int = 16
 
+const MarkerUtil := preload("res://scripts/util/marker_util.gd")
+
 ## Screen-space direction vectors; Godot's positive Y axis points down.
 const DIRECTIONS: Dictionary = {
 	"up": Vector2.UP,
@@ -28,9 +30,13 @@ func action_type() -> String:
 ## Supported step schemas:
 ## Relative (preferred):
 ##   {"type":"move_npc", "actor":"father", "direction":"right", "tiles":3}
-## Optional "from": [x, y] snaps actor to a start tile before movement.
-## Absolute (legacy):
+## Optional "from" snaps actor to a start tile before movement.
+## Absolute:
 ##   {"type":"move_npc", "actor":"father", "to":[128,80], "speed":40, "order":"xy"}
+##   {"type":"move_npc", "actor":"Rose", "to":"S4/Rose", "order":"yx"}
+## "from" and "to" take [x, y] or a level marker name (MarkerUtil.find), e.g.
+## "S4/Rose" -> SceneMarkers/S4/Rose. Prefer markers: positions stay editable
+## in the level scene instead of drifting out of sync with this JSON.
 ## Optional speed is measured in pixels per second. Legacy order controls which
 ## axis moves first when both coordinates change ("xy" by default, or "yx").
 func execute(step: Dictionary, mgr: Node) -> void:
@@ -40,12 +46,12 @@ func execute(step: Dictionary, mgr: Node) -> void:
 
 	# Optional placement lets persistent actors (e.g. the player) join spawned
 	# actors at the same tile without tweening from their previous location.
+	var level: Node = actor.get_parent()
 	if step.has("from"):
-		var from: Array = step.get("from", [])
-		if from.size() != 2:
-			push_error("move_npc: 'from' must be a two-number [x, y] position")
+		var from: Variant = MarkerUtil.resolve(level, step["from"], "move_npc 'from'")
+		if from == null:
 			return
-		actor.global_position = _snap(Vector2(float(from[0]), float(from[1])))
+		actor.global_position = _snap(from)
 
 	var start: Vector2 = _snap(actor.global_position)
 	if actor.global_position != start:
@@ -69,11 +75,13 @@ func execute(step: Dictionary, mgr: Node) -> void:
 
 		target = start + DIRECTIONS[direction] * TILE_SIZE * tiles
 	else:
-		var to: Array = step.get("to", [])
-		if to.size() != 2:
-			push_error("move_npc: provide 'direction' + 'tiles', or legacy 'to' [x, y]")
+		if not step.has("to"):
+			push_error("move_npc: provide 'direction' + 'tiles', or 'to' ([x, y] or marker name)")
 			return
-		var raw_target := Vector2(float(to[0]), float(to[1]))
+		var to: Variant = MarkerUtil.resolve(level, step["to"], "move_npc 'to'")
+		if to == null:
+			return
+		var raw_target: Vector2 = to
 		target = _snap(raw_target)
 		if target != raw_target:
 			push_warning("move_npc: '%s' target %s is off-grid, snapped to %s"

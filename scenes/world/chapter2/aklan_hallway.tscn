@@ -627,7 +627,7 @@ texture = ExtResource("2_exjy1")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_of338")
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_exjy1"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_e4q87"]
 texture = ExtResource("3_sapci")
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -658,7 +658,7 @@ texture = ExtResource("3_sapci")
 
 [sub_resource type="TileSet" id="TileSet_sapci"]
 physics_layer_0/collision_layer = 1
-sources/0 = SubResource("TileSetAtlasSource_exjy1")
+sources/0 = SubResource("TileSetAtlasSource_e4q87")
 
 [node name="AklanHallway" type="Node2D" unique_id=227164017]
 
@@ -681,6 +681,7 @@ tile_set = SubResource("TileSet_sapci")
 
 [node name="WarpArea" parent="Warps" unique_id=1965068349 instance=ExtResource("4_6qgat")]
 position = Vector2(40, 56)
+target_scene = "res://scenes/world/chapter2/aklan_BR_Player.tscn"
 
 [node name="WarpArea3" parent="Warps" unique_id=1960219950 instance=ExtResource("4_6qgat")]
 position = Vector2(152, 56)
@@ -690,20 +691,21 @@ position = Vector2(264, 56)
 
 [node name="WarpArea2" parent="Warps" unique_id=1657116116 instance=ExtResource("4_6qgat")]
 position = Vector2(48, 72)
+trigger_direction = 1
 door_width = 2
 target_scene = "res://scenes/world/chapter2/aklan_living.tscn"
 target_spawn_id = "Stairs"
 
 [node name="Spawns" type="Node2D" parent="." unique_id=1390608760]
 
-[node name="Living" type="Marker2D" parent="Spawns" unique_id=1460631221]
-position = Vector2(48, 80)
+[node name="DefaultSpawn" type="Marker2D" parent="Spawns" unique_id=1460631221]
+position = Vector2(32, 80)
 
 [node name="BR_Player" type="Marker2D" parent="Spawns" unique_id=1364449943]
-position = Vector2(48, 64)
+position = Vector2(32, 64)
 
 [node name="BR_Jonabel" type="Marker2D" parent="Spawns" unique_id=959341176]
-position = Vector2(160, 64)
+position = Vector2(144, 64)
 
 [node name="BR_Jobert" type="Marker2D" parent="Spawns" unique_id=884038717]
-position = Vector2(272, 64)
+position = Vector2(256, 64)

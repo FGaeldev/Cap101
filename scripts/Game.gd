@@ -13,6 +13,8 @@ extends Node
 ## live in data/tutorials/tutorials.json.
 const QUEST_TUTORIALS := {"q002": "ch1_quest_hud"}
 
+const MarkerUtil := preload("res://scripts/util/marker_util.gd")
+
 
 func _ready() -> void:
 	QuestManager.quest_started.connect(_on_quest_started)
@@ -70,11 +72,16 @@ func _update_current_area(path: String) -> void:
 	GameState.current_area = area
 
 func _place_player_at_spawn(level: Node, spawn_id: String) -> void:
-	var spawn := level.get_node_or_null(spawn_id)
+	var spawn := _find_spawn(level, spawn_id)
 	if spawn == null and spawn_id != "DefaultSpawn":
 		push_warning("Game: spawn_id '%s' not found in '%s', falling back to DefaultSpawn" % [spawn_id, level.name])
-		spawn = level.get_node_or_null("DefaultSpawn")
+		spawn = _find_spawn(level, "DefaultSpawn")
 	if spawn == null:
 		push_warning("Game: no spawn marker found in '%s', leaving Player at (0,0)" % level.name)
 		return
 	player.global_position = spawn.global_position
+
+## Spawn markers may sit directly under the level root or be grouped under
+## an organizing node (e.g. "Spawns/Stairs"); MarkerUtil finds either.
+func _find_spawn(level: Node, spawn_id: String) -> Node2D:
+	return MarkerUtil.find(level, spawn_id)
