@@ -97,8 +97,11 @@ func _on_interaction_menu_choice(choice: String) -> void:
 
 
 func _start_dialogue_or_idle() -> void:
-	if idle_pool_key.is_empty() or not GameState.get_flag(story_done_flag):
-		dialogue.dialogue_lines = ChapterLoader.get_scene_lines(dialogue_chapter, dialogue_scene_key)
+	var story_lines: Array = ChapterLoader.get_scene_lines(dialogue_chapter, dialogue_scene_key)
+	# No authored story lines -> go straight to idle instead of closing silently.
+	var story_pending: bool = not story_lines.is_empty() and not GameState.get_flag(story_done_flag)
+	if idle_pool_key.is_empty() or story_pending:
+		dialogue.dialogue_lines = story_lines
 		dialogue.start_dialogue()
 	else:
 		dialogue.start_idle_dialogue(ChapterLoader.get_idle_pool(dialogue_chapter, idle_pool_key))

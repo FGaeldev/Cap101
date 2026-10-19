@@ -101,7 +101,7 @@ func show_npc_interaction_menu(npc_display_name: String, callback: Callable) -> 
 	_root.refresh_layout()
 
 
-## Build actions inside existing DialogueRoot. Talk stays disabled while idle_pool is reworked.
+## Build actions inside existing DialogueRoot. Talk routes back to the NPC script's story/idle dialogue path.
 func _build_npc_interaction_menu() -> void:
 	var title := Label.new()
 	title.name = "NpcName"
@@ -112,18 +112,10 @@ func _build_npc_interaction_menu() -> void:
 
 	var talk_button := Button.new()
 	talk_button.text = "Talk"
-	talk_button.disabled = true
 	talk_button.custom_minimum_size.y = 36.0
 	UIThemeApplier.apply_button_theme(talk_button, "secondary")
+	talk_button.pressed.connect(_on_npc_interaction_choice.bind("talk"))
 	_npc_menu.add_child(talk_button)
-
-	var note := Label.new()
-	note.text = "disabled as reworking idle_pool system (10/19/2026)"
-	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	note.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XS)
-	note.add_theme_color_override("font_color", UIThemeApplier.TEXT_DISABLED)
-	_npc_menu.add_child(note)
 
 	var review_button := Button.new()
 	review_button.text = "Review"
