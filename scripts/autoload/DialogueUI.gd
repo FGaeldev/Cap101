@@ -41,8 +41,15 @@ func show_line(
 	translation: String = ""
 ) -> void:
 	_current_component = component
+
+	# Restore controls hidden by the NPC menu before rendering the next line.
+	if _npc_menu and is_instance_valid(_npc_menu):
+		_npc_menu.hide()
 	if _dialogue_box:
+		_dialogue_box.show()
 		_dialogue_box.display(speaker, text, translation)
+	if _choice_box:
+		_choice_box.show()
 	if _root:
 		_root.show_box()
 		# Portrait is optional per-NPC art. Missing art hides cleanly.
