@@ -12,9 +12,12 @@ var _phrase_box        = null   # lazily instantiated phrase_builder panel
 var _quiz_box          = null   # lazily instantiated quiz_panel
 var _minigame_box      = null   # lazily instantiated minigame panel (one at a time)
 var _minigame_type: String = ""   # minigame_type of the live _minigame_box
+var _npc_menu: Control = null
+var _npc_menu_callback: Callable
 
 const PHRASE_BUILDER_SCENE := preload("res://scenes/ui/phrase_builder.tscn")
 const QUIZ_PANEL_SCENE := preload("res://scenes/ui/quiz_panel.tscn")
+const NPC_INTERACTION_MENU_SCRIPT := preload("res://scripts/ui/npc_interaction_menu.gd")
 ## minigame_type -> panel script. Hardcoded (no dir scan: DirAccess is unreliable
 ## in exported Android builds, TDD 9.1). New minigame = add one entry here.
 const MINIGAME_SCRIPTS := {
@@ -50,7 +53,79 @@ func show_choices(choices: Array, component) -> void:
 	if _choice_box:
 		_choice_box.show_choices(choices, component)
 
+
+## Show the NPC action menu after the NPC script has ruled out a cutscene trigger.
+## The callback receives "talk", "review", or "goodbye".
+func show_npc_interaction_menu(npc_display_name: String, callback: Callable) -> void:
+	if _root == null:
+		push_error("DialogueUI: no root registered, cannot show NPC interaction menu")
+		return
+	if _npc_menu == null or not is_instance_valid(_npc_menu):
+		_npc_menu = NPC_INTERACTION_MENU_SCRIPT.new()
+		_root.get_parent().add_child(_npc_menu)
+		_npc_menu.choice_selected.connect(_on_npc_interaction_choice)
+	_npc_menu_callback = callback
+	_npc_menu.open(npc_display_name)
+
+
+func _on_npc_interaction_choice(choice: String) -> void:
+	if _npc_menu and is_instance_valid(_npc_menu):
+		_npc_menu.close()
+	var callback := _npc_menu_callback
+	_npc_menu_callback = Callable()
+	if callback.is_valid():
+		callback.call(choice)
+
+
+## Opens the existing dynamic vocabulary quiz as a standalone review session.
+## Prefer exposed words; use full word bank only for a brand-new learner.
+func show_review_quiz() -> void:
+	if _root == null:
+		push_error("DialogueUI: no root registered, cannot show review quiz")
+		return
+	if _quiz_box == null or not is_instance_valid(_quiz_box):
+		_quiz_box = QUIZ_PANEL_SCENE.instantiate()
+		_root.get_parent().add_child(_quiz_box)
+
+	for conn in _quiz_box.resolved.get_connections():
+		_quiz_box.resolved.disconnect(conn["callable"])
+
+	var word_pool: Array = GameState.word_exposures.keys()
+	if word_pool.is_empty():
+		word_pool = WordBank.words.keys()
+	var choices: Array = WordBank.words.keys()
+	if word_pool.is_empty() or choices.is_empty():
+		push_warning("DialogueUI: cannot start review quiz because word bank is empty")
+		return
+
+	var review_line := {
+		"type": "quiz",
+		"quiz_type": "dynamic",
+		"questions": [],
+		"word_pool": word_pool,
+		"choices": choices,
+		"question_count": 5,
+		"question_templates": [
+			"What does \"[word]\" mean?",
+			"What Akeanon word means \"[gloss]\"?"
+		],
+		"question_template_choice_displays": ["gloss", "word"],
+		"choice_display": "gloss",
+		"pass_ratio": 0.5
+	}
+	_current_component = null
+	_quiz_box.resolved.connect(_on_review_quiz_resolved, CONNECT_ONE_SHOT)
+	_quiz_box.open(review_line)
+
+
+func _on_review_quiz_resolved(_passed: bool) -> void:
+	# Review has no story branch; close overlays and return control to exploration.
+	hide()
+
 func hide() -> void:
+	if _npc_menu and is_instance_valid(_npc_menu):
+		_npc_menu.close()
+	_npc_menu_callback = Callable()
 	if _phrase_box and is_instance_valid(_phrase_box):
 		_phrase_box.close()
 	if _quiz_box and is_instance_valid(_quiz_box):
@@ -153,4 +228,10 @@ func player_pressed_advance() -> void:
 
 ## True while dialogue box is visible; HUD uses this to hide gameplay controls.
 func is_active() -> bool:
-	return _root != null and _root.visible
+	# Include modal panels because quiz/phrase-builder intentionally hide DialogueRoot.
+	if _root != null and _root.visible:
+		return true
+	for overlay in [_npc_menu, _phrase_box, _quiz_box, _minigame_box]:
+		if overlay != null and is_instance_valid(overlay) and overlay.visible:
+			return true
+	return false
