@@ -26,6 +26,10 @@ func _ready() -> void:
 
 func show_box() -> void:
 	visible = true
+	refresh_layout()
+
+## Recalculate panel height after dialogue text or choice visibility changes.
+func refresh_layout() -> void:
 	_fit_to_content.call_deferred()
 
 func hide_box() -> void:
@@ -37,10 +41,15 @@ func _fit_to_content() -> void:
 		return
 
 	var minimum_choice_height := 3.0 * MIN_CHOICE_HEIGHT + 2.0 * CHOICE_SEPARATION
-	var visible_choice_height := choice_box.get_combined_minimum_size().y
-	var choice_height := maxf(minimum_choice_height, visible_choice_height)
+	# Hidden ChoiceBox must not reserve three rows or stretch into a blank panel.
+	var choice_height := 0.0
+	var column_separation := 0.0
+	if choice_box.visible:
+		var visible_choice_height := choice_box.get_combined_minimum_size().y
+		choice_height = maxf(minimum_choice_height, visible_choice_height)
+		column_separation = COLUMN_SEPARATION
 	var dialogue_height := dialogue_box.get_combined_minimum_size().y
-	var panel_height := dialogue_height + COLUMN_SEPARATION + choice_height + PANEL_VERTICAL_MARGINS
+	var panel_height := dialogue_height + column_separation + choice_height + PANEL_VERTICAL_MARGINS
 
 	# Custom minimum affects only vertical sizing; horizontal anchors remain full-screen.
 	dialogue_panel.custom_minimum_size.y = panel_height
