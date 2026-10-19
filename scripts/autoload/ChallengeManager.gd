@@ -67,20 +67,31 @@ func attempt(challenge_id: String, answer_idx: int) -> Dictionary:
 	challenge_failed.emit(challenge_id, attempt_count)
 	return {"correct": false, "first_try": false, "hint": data.get("hint_on_wrong", "")}
 
-## Rose Hint Token spend — eliminates one wrong choice. Returns the removed
-## choice index, or -1 if no token available or challenge has <=2 choices left.
-## Actual "already-removed" tracking lives in puzzle_panel.gd's render state,
-## not here — this only authorizes the spend and picks which index to remove.
-func remove_wrong_option(challenge_id: String) -> int:
-	if not GameState.spend_hint_token():
+## Rose Hint Token spend — eliminates one random wrong choice not already in
+## `removed` (original indices, tracked by puzzle_panel.gd's render state).
+## Returns the removed index, or -1 without spending if no token is available
+## or removing one would leave fewer than 2 choices on screen.
+func remove_wrong_option(challenge_id: String, removed: Array = []) -> int:
+	var candidates := _removable_wrong_options(challenge_id, removed)
+	if candidates.is_empty() or not GameState.spend_hint_token():
 		return -1
+	return candidates.pick_random()
+
+## True if a hint token could eliminate another choice right now.
+func can_remove_wrong_option(challenge_id: String, removed: Array = []) -> bool:
+	return GameState.rose_hint_tokens > 0 \
+			and not _removable_wrong_options(challenge_id, removed).is_empty()
+
+## Wrong, not-yet-removed indices, or [] once only one wrong choice remains
+## (the correct answer plus one wrong is the floor).
+func _removable_wrong_options(challenge_id: String, removed: Array) -> Array:
 	var data: Dictionary = challenges.get(challenge_id, {})
 	var correct_index: int = data.get("correct_index", -1)
-	var choices: Array = data.get("choices", [])
-	for i in choices.size():
-		if i != correct_index:
-			return i
-	return -1
+	var remaining: Array = []
+	for i in data.get("choices", []).size():
+		if i != correct_index and not removed.has(i):
+			remaining.append(i)
+	return remaining if remaining.size() > 1 else []
 
 ## Mastery feeds adaptive word selection only (GDD 6.8). Never touches rewards,
 ## rapport or patience -- no-punishment rule (GDD 7) holds. No-op while a

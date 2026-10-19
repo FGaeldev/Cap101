@@ -205,7 +205,7 @@ shape = SubResource("RectangleShape2D_1y6ve")
 debug_color = Color(0.7230673, 0.2464309, 1, 0.41960785)
 
 [node name="InteractableComponent" parent="." unique_id=1024773738 instance=ExtResource("3_w1wr4")]
-position = Vector2(8, -29)
+position = Vector2(8, -8)
 
 [node name="DialogueComponent" parent="." unique_id=1621841028 instance=ExtResource("4_gc4kh")]
 

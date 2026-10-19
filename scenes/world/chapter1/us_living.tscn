@@ -108,7 +108,7 @@ flip_h = true
 frame = 1
 
 [node name="NpcLolaJonabel" parent="." unique_id=300000001 instance=ExtResource("8_lola")]
-position = Vector2(102, 80)
+position = Vector2(96, 80)
 spawn_direction = 2
 
 [node name="PulsingLight" parent="." unique_id=359865099 instance=ExtResource("9_336a2")]

@@ -101,43 +101,43 @@ func show_npc_interaction_menu(npc_display_name: String, callback: Callable) -> 
 	_root.refresh_layout()
 
 
-## Build actions inside existing DialogueRoot. Talk stays disabled while idle_pool is reworked.
+## Build actions inside existing DialogueRoot. Styled like the dialogue choice
+## list (same button theme, height, spacing) so the menu reads as a normal prompt.
+## Talk routes back to the NPC script's story/idle dialogue path.
 func _build_npc_interaction_menu() -> void:
+	_npc_menu.add_theme_constant_override("separation", 3)
+
+	# Same look as DialogueBox's speaker label: left aligned, emphasis color.
 	var title := Label.new()
 	title.name = "NpcName"
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	title.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_L)
+	title.add_theme_color_override("font_color", UIThemeApplier.TEXT_EMPHASIS)
 	_npc_menu.add_child(title)
 
-	var talk_button := Button.new()
-	talk_button.text = "Talk"
-	talk_button.disabled = true
-	talk_button.custom_minimum_size.y = 36.0
-	UIThemeApplier.apply_button_theme(talk_button, "secondary")
+	var talk_button := _make_npc_menu_button("Talk", "secondary")
+	talk_button.pressed.connect(_on_npc_interaction_choice.bind("talk"))
 	_npc_menu.add_child(talk_button)
 
-	var note := Label.new()
-	note.text = "disabled as reworking idle_pool system (10/19/2026)"
-	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	note.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XS)
-	note.add_theme_color_override("font_color", UIThemeApplier.TEXT_DISABLED)
-	_npc_menu.add_child(note)
-
-	var review_button := Button.new()
-	review_button.text = "Review"
-	review_button.custom_minimum_size.y = 36.0
-	UIThemeApplier.apply_button_theme(review_button, "primary")
+	var review_button := _make_npc_menu_button("Review", "secondary")
 	review_button.pressed.connect(_on_npc_interaction_choice.bind("review"))
 	_npc_menu.add_child(review_button)
 
-	var goodbye_button := Button.new()
-	goodbye_button.text = "Goodbye"
-	goodbye_button.custom_minimum_size.y = 36.0
-	UIThemeApplier.apply_button_theme(goodbye_button, "secondary")
+	var goodbye_button := _make_npc_menu_button("Goodbye", "secondary")
 	goodbye_button.pressed.connect(_on_npc_interaction_choice.bind("goodbye"))
 	_npc_menu.add_child(goodbye_button)
+
+
+## Button matching choice_box.gd rows: left aligned, wrapped, 24px min height.
+func _make_npc_menu_button(label: String, variant: String) -> Button:
+	var btn := Button.new()
+	btn.text = label
+	btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	btn.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	btn.custom_minimum_size = Vector2(0, 24.0)
+	UIThemeApplier.apply_button_theme(btn, variant)
+	btn.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_M)
+	return btn
 
 
 func _on_npc_interaction_choice(choice: String) -> void:

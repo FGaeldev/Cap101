@@ -5,74 +5,16 @@
 		"scene": "scene_4_vocabulary_practice_round_family_pronouns_numbers"
 	},
 	{
-		"type": "parallel",
-		"actions": [
-			{
-				"type": "sequence",
-				"actions": [
-					{
-						"type": "move_npc",
-						"actor": "Rose",
-						"direction": "left",
-						"tiles": 27,
-						"speed": 40
-					}
-				]
-			},
-			{
-				"type": "sequence",
-				"actions": [
-					{
-						"type": "wait",
-						"seconds": 0.6
-					},
-					{
-						"type": "move_npc",
-						"actor": "Lola Susan",
-						"direction": "left",
-						"tiles": 25,
-						"speed": 40
-					}
-				]
-			},
-			{
-				"type": "sequence",
-				"actions": [
-					{
-						"type": "wait",
-						"seconds": 1.2
-					},
-					{
-						"type": "move_npc",
-						"actor": "Lola Jonabel",
-						"direction": "left",
-						"tiles": 16,
-						"speed": 40
-					}
-				]
-			},
-			{
-				"type": "sequence",
-				"actions": [
-					{
-						"type": "wait",
-						"seconds": 1.8
-					},
-					{
-						"type": "move_npc",
-						"actor": "Papa Jobert",
-						"direction": "left",
-						"tiles": 17,
-						"speed": 40
-					}
-				]
-			}
-		]
-	},
-	{
-		"type": "fade",
-		"direction": "out",
-		"duration": 0.6
+		"type": "conga",
+		"leader": "Rose",
+		"followers": ["Lola Susan", "Lola Jonabel", "Papa Jobert", "player"],
+		"waypoints": [[-640, 320]],
+		"order": "yx",
+		"queue_direction": "right",
+		"gap": 1,
+		"speed": 48,
+		"despawn": true,
+		"hold_at": [-432, 320]
 	},
 	{
 		"type": "set_flag",
@@ -88,6 +30,11 @@
 		"type": "set_flag",
 		"flag": "chapter1_complete",
 		"value": true
+	},
+	{
+		"type": "fade",
+		"direction": "out",
+		"duration": 0.6
 	},
 	{
 		"type": "load_scene",

@@ -31,7 +31,30 @@ func show_box() -> void:
 
 ## Recalculate panel height after dialogue text or choice visibility changes.
 func refresh_layout() -> void:
-	_fit_to_content.call_deferred()
+	_settle_layout()
+
+## Autowrap Labels/Buttons report min height for their CURRENT width, and that
+## width (and the re-measured min height) only updates after container sorts
+## run on later frames. One pass reads stale ~1px widths and inflates height
+## (2000px+ with 3 choices). Re-fit across a few frames until stable.
+## Token cancels an older settle loop when a newer refresh starts.
+var _settle_token: int = 0
+const SETTLE_FRAMES: int = 3
+
+func _settle_layout() -> void:
+	_settle_token += 1
+	var token := _settle_token
+	# Hide the transient stale-width frames; restored once measurements settle.
+	modulate.a = 0.0
+	_fit_to_content()
+	for i in SETTLE_FRAMES:
+		await get_tree().process_frame
+		if not is_inside_tree():
+			return
+		if token != _settle_token:
+			return # newer settle owns modulate restore
+		_fit_to_content()
+	modulate.a = 1.0
 
 func hide_box() -> void:
 	visible = false
@@ -69,6 +92,13 @@ func _fit_to_content() -> void:
 	if portrait_row.visible:
 		required_height += LAYOUT_SEPARATION
 
+	# Safety clamp: never let stale-width measurements push the panel past the
+	# viewport (it was reaching 2000px+ for one frame before widths settled).
+	var max_height := get_viewport_rect().size.y
+	if required_height > max_height:
+		required_height = max_height
+		panel_height = max(0.0, required_height - (portrait_height + (LAYOUT_SEPARATION if portrait_row.visible else 0.0)))
+
 	# Explicitly size the bottom-anchored root and its panel. Never let the
 	# full-rect VBoxContainer or a hidden/expand child dictate viewport height.
 	dialogue_panel.custom_minimum_size.y = panel_height
@@ -88,4 +118,4 @@ func set_portrait(tex: Texture2D, speaker: String) -> void:
 		var is_player := speaker.strip_edges().to_lower() == "[player]"
 		left_spacer.visible = not is_player
 		right_spacer.visible = is_player
-	_fit_to_content.call_deferred()
+	refresh_layout()

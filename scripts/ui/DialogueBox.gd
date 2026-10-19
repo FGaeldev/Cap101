@@ -21,6 +21,9 @@ func _apply_style() -> void:
 	speaker_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_EMPHASIS)
 	text_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 	text_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	# Hidden (not yet typed) chars must still be shaped, else wrapped height
+	# grows while typing and the panel resizes mid-line.
+	text_label.visible_characters_behavior = TextServer.VC_CHARS_AFTER_SHAPING
 
 ## Display source text and optional translation with the existing typewriter.
 func display(speaker: String, text: String, translation: String = "") -> void:
@@ -36,10 +39,14 @@ func display(speaker: String, text: String, translation: String = "") -> void:
 		# missing its text field. Log the bad line and keep UI visibly diagnosable.
 		push_warning("DialogueBox.display received an empty dialogue line for speaker '%s'." % speaker)
 		_typing = false
+		text_label.visible_characters = -1
 		text_label.text = "…"
 	else:
 		_typing = true
-		text_label.text = ""
+		# Full text set up front so label min height is final; reveal via
+		# visible_characters. Setting text per-char made the panel grow mid-type.
+		text_label.text = _full_text
+		text_label.visible_characters = 0
 	if DialogueUI._root != null:
 		DialogueUI._root.refresh_layout()
 
@@ -50,11 +57,10 @@ func _process(delta: float) -> void:
 	if _type_timer >= _type_speed:
 		_type_timer = 0.0
 		_shown_chars += 1
-		text_label.text = _full_text.left(_shown_chars)
+		text_label.visible_characters = _shown_chars
 		if _shown_chars >= _full_text.length():
 			_typing = false
-			if DialogueUI._root != null:
-				DialogueUI._root.refresh_layout()
+			text_label.visible_characters = -1
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_visible_in_tree():
@@ -73,7 +79,7 @@ func _dialogue_input() -> void:
 
 	if _typing:
 		_typing = false
-		text_label.text = _full_text
+		text_label.visible_characters = -1
 	else:
 		DialogueUI.player_pressed_advance()
 	get_viewport().set_input_as_handled()

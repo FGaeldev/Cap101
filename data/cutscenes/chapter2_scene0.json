@@ -1,0 +1,34 @@
+[
+	{"type": "spawn_npc", "actor": "Rose", "scene": "res://scenes/entities/npc_Rose.tscn", "at": [32, 112]},
+	{"type": "spawn_npc", "actor": "Lola Susan", "scene": "res://scenes/entities/npc_LolaSusan.tscn", "at": [32, 128]},
+	{"type": "spawn_npc", "actor": "Lola Jonabel", "scene": "res://scenes/entities/npc_LolaJonabel.tscn", "at": [32, 144]},
+	{"type": "spawn_npc", "actor": "Papa Jobert", "scene": "res://scenes/entities/npc_PapaJobert.tscn", "at": [32, 160]},
+	{"type": "move_npc", "actor": "player", "from": [32, 176], "direction": "up", "tiles": 0},
+	{
+		"type": "parallel",
+		"actions": [
+			{"type": "fade", "direction": "in", "duration": 0.6},
+			{
+				"type": "conga",
+				"leader": "Rose",
+				"followers": ["Lola Susan", "Lola Jonabel", "Papa Jobert", "player"],
+				"waypoints": [[192, 96]],
+				"order": "yx",
+				"queue_direction": "down",
+				"gap": 1,
+				"speed": 48,
+				"despawn": false
+			}
+		]
+	},
+	{
+		"type": "dialogue",
+		"chapter": "chapter2",
+		"scene": "scene_0_home_atlast"
+	},
+	{
+		"type": "set_flag",
+		"flag": "seen_chapter2_scene0",
+		"value": true
+	}
+]
