@@ -78,7 +78,8 @@ func show_npc_interaction_menu(npc_display_name: String, callback: Callable) -> 
 		_npc_menu = VBoxContainer.new()
 		_npc_menu.name = "NPCInteractionMenu"
 		_npc_menu.add_theme_constant_override("separation", 6)
-		var text_column := _root.get_node_or_null("Layout/DialoguePanel/Margin/TextColumn")
+		# get_node_or_null() returns Node; declare type explicitly for Godot's static analyzer.
+		var text_column: Node = _root.get_node_or_null("Layout/DialoguePanel/Margin/TextColumn")
 		if text_column == null:
 			push_error("DialogueUI: DialogueRoot text column not found")
 			_npc_menu.queue_free()
