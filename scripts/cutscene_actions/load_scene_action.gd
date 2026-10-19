@@ -27,5 +27,5 @@ func execute(step: Dictionary, mgr: Node) -> void:
 		return
 
 	GameState.current_level_path = scene_path
+	game.load_level(scene_path)  # sets GameState.current_area
 	GameState.save_game()
-	game.load_level(scene_path)

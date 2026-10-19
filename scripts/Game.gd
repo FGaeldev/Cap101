@@ -25,7 +25,9 @@ func _ready() -> void:
 	# Team_Changes/roadmap notes; game now boots straight into us_bedroom).
 	# Runs once per app launch here instead of once per scene01 (re)load,
 	# which also fixes the old latent re-trigger-on-revisit behavior.
-	GameState.current_area = "village"
+	# current_area is NOT set here: load_level() above already derived it
+	# from the loaded level, and overwriting it broke area-gated quests
+	# after Continue.
 	AudioManager.play_bgm("village")
 	await FadeManager.fade_in(3)
 	await get_tree().create_timer(1.5).timeout
@@ -55,6 +57,17 @@ func load_level(path: String, spawn_id: String = "DefaultSpawn") -> void:
 	player.reparent(level, false)
 	player = player.get_parent().get_node("Player")
 	_place_player_at_spawn(level, spawn_id)
+	_update_current_area(path)
+
+## Every level swap (boot, door, map travel, cutscene load_scene, dev skip)
+## passes through load_level(), so the area is derived here from the level
+## itself instead of being hard-coded by whichever caller loaded it.
+func _update_current_area(path: String) -> void:
+	var area := MapManager.area_for_scene(path)
+	if area.is_empty():
+		push_warning("Game: no area for '%s' (add it to data/map_data/level_areas.json); keeping '%s'" % [path, GameState.current_area])
+		return
+	GameState.current_area = area
 
 func _place_player_at_spawn(level: Node, spawn_id: String) -> void:
 	var spawn := level.get_node_or_null(spawn_id)

@@ -35,7 +35,6 @@ const PAPA: Dictionary = {"scene": "res://scenes/entities/npc_PapaJobert.tscn", 
 const LOT_ACTOR_IDS: Array[String] = ["Lola Susan", "Rose", "Lola Jonabel", "Papa Jobert"]
 
 func _ready() -> void:
-	GameState.current_area = "village"  # TODO: update once scene2 has its own area id
 	AudioManager.play_bgm("village")     # TODO: swap if scene2 needs its own track
 	FadeManager.fade_in(0.6)
 	GameState.flag_changed.connect(_on_flag_changed)

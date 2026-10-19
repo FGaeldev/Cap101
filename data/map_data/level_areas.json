@@ -1,0 +1,10 @@
+{
+	"res://scenes/world/chapter1/us_bedroom.tscn": "landing",
+	"res://scenes/world/chapter1/us_living.tscn": "village",
+	"res://scenes/world/chapter1/airport_arival.tscn": "airport",
+	"res://scenes/world/chapter1/airport_ourdoors.tscn": "airport",
+	"res://scenes/world/chapter2/aklan_living.tscn": "aklan_home",
+	"res://scenes/world/bakhawan/bakhawan_outdoors.tscn": "bakhawan_ecopark",
+	"res://scenes/world/bakhawan/bakhawan_indoors.tscn": "bakhawan_ecopark",
+	"res://scenes/world/bakhawan/bakhawan_tree.tscn": "bakhawan_ecopark"
+}

@@ -15,6 +15,9 @@ extends Node
 ## note). -- J.Gumban --
 
 const REGION_DATA_PATH := "res://data/map_data/regions.json"
+## level scene path -> area id. Covers every level, including ones no map
+## region points at (doors, cutscene loads). See area_for_scene().
+const LEVEL_AREA_DATA_PATH := "res://data/map_data/level_areas.json"
 
 ## True from the moment a warp/travel starts (fade-out) until its fade-in
 ## finishes. Player.get_input_dir() reads this to zero movement input during
@@ -29,8 +32,37 @@ var is_transitioning: bool = false
 ## -> Dictionary { display_name: String, scene_path: String, unlocked: bool }
 var regions: Dictionary = {}
 
+## scene_path (String) -> area id (String), from LEVEL_AREA_DATA_PATH.
+var level_areas: Dictionary = {}
+
 func _ready() -> void:
 	_load_regions()
+	_load_level_areas()
+
+func _load_level_areas() -> void:
+	var file := FileAccess.open(LEVEL_AREA_DATA_PATH, FileAccess.READ)
+	if file == null:
+		push_error("MapManager: failed to open %s" % LEVEL_AREA_DATA_PATH)
+		return
+
+	var parsed: Variant = JSON.parse_string(file.get_as_text())
+	if typeof(parsed) != TYPE_DICTIONARY:
+		push_error("MapManager: level_areas.json malformed, expected a top-level Dictionary")
+		return
+
+	level_areas = parsed
+
+## Area id a level scene belongs to. level_areas.json wins; otherwise the id
+## of any region whose scene_path matches; "" if the scene is unknown.
+## Game.gd::load_level() writes this to GameState.current_area on every level
+## swap, so quests with an "area" field see the level the player is really in.
+func area_for_scene(scene_path: String) -> String:
+	if level_areas.has(scene_path):
+		return str(level_areas[scene_path])
+	for region_id in regions:
+		if regions[region_id].get("scene_path", "") == scene_path:
+			return str(regions[region_id].get("id", region_id))
+	return ""
 
 func _load_regions() -> void:
 	var file := FileAccess.open(REGION_DATA_PATH, FileAccess.READ)
@@ -98,11 +130,9 @@ func travel_to_region(region_id: String) -> void:
 	is_transitioning = true
 	await FadeManager.fade_out()
 
-	GameState.current_area = region.get("id", region_id)
 	GameState.current_level_path = scene_path
+	game.load_level(scene_path)  # sets GameState.current_area
 	GameState.save_game()
-
-	game.load_level(scene_path)
 
 	await FadeManager.fade_in()
 	is_transitioning = false
@@ -138,9 +168,8 @@ func warp_to_scene(scene_path: String, spawn_id: String = "DefaultSpawn") -> voi
 	await FadeManager.fade_out()
 
 	GameState.current_level_path = scene_path
+	game.load_level(scene_path, spawn_id)  # sets GameState.current_area
 	GameState.save_game()
-
-	game.load_level(scene_path, spawn_id)
 
 	await FadeManager.fade_in()
 	is_transitioning = false
