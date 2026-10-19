@@ -41,28 +41,41 @@ func _fit_to_content() -> void:
 	if not is_node_ready():
 		return
 
-	var minimum_choice_height := 3.0 * MIN_CHOICE_HEIGHT + 2.0 * CHOICE_SEPARATION
-	# Hidden ChoiceBox must not reserve three rows or stretch into a blank panel.
-	var choice_height := 0.0
-	var column_separation := 0.0
-	if choice_box.visible:
-		var visible_choice_height := choice_box.get_combined_minimum_size().y
-		choice_height = maxf(minimum_choice_height, visible_choice_height)
-		column_separation = COLUMN_SEPARATION
-	var dialogue_height := dialogue_box.get_combined_minimum_size().y
-	var panel_height := dialogue_height + column_separation + choice_height + PANEL_VERTICAL_MARGINS
+	# Measure the visible children actually rendered in TextColumn. NPC action
+	# menus are inserted dynamically, so measuring only DialogueBox/ChoiceBox
+	# misses their minimum height and can leave the panel/root at stale sizes.
+	var column_height := 0.0
+	for child in $Layout/DialoguePanel/Margin/TextColumn.get_children():
+		if child is Control and child.visible:
+			column_height += child.get_combined_minimum_size().y
 
-	# Custom minimum affects only vertical sizing; horizontal anchors remain full-screen.
-	dialogue_panel.custom_minimum_size.y = panel_height
-	# Do not use Layout's combined minimum: its expand-fill choice child can
-	# report the old full-height minimum even after it is hidden. That pins the
-	# root to its scene's 200px fallback and leaves a huge empty dialogue panel.
+	var visible_controls := 0
+	for child in $Layout/DialoguePanel/Margin/TextColumn.get_children():
+		if child is Control and child.visible:
+			visible_controls += 1
+	if visible_controls > 1:
+		column_height += COLUMN_SEPARATION * float(visible_controls - 1)
+
+	# Include the PanelContainer/MarginContainer theme margins in measured height.
+	var panel_style := dialogue_panel.get_theme_stylebox("panel")
+	var panel_vertical_margins := panel_style.get_minimum_size().y if panel_style else 0.0
+	var margin_container := $Layout/DialoguePanel/Margin as MarginContainer
+	var margin_vertical := float(margin_container.get_theme_constant("margin_top")) + float(margin_container.get_theme_constant("margin_bottom"))
+	var panel_height := column_height + panel_vertical_margins + margin_vertical
+
+	# Portrait occupies its own row only when actual portrait art exists.
 	var portrait_height := portrait_row.get_combined_minimum_size().y if portrait_row.visible else 0.0
 	var required_height := portrait_height + panel_height
 	if portrait_row.visible:
 		required_height += LAYOUT_SEPARATION
+
+	# Explicitly size the bottom-anchored root and its panel. Never let the
+	# full-rect VBoxContainer or a hidden/expand child dictate viewport height.
+	dialogue_panel.custom_minimum_size.y = panel_height
 	custom_minimum_size.y = required_height
 	offset_top = -required_height
+	layout.offset_top = 0.0
+	layout.offset_bottom = 0.0
 
 ## Hide portrait when speaker has no portrait; otherwise align by speaker role.
 func set_portrait(tex: Texture2D, speaker: String) -> void:
