@@ -3,9 +3,9 @@
 [ext_resource type="Texture2D" uid="uid://b1h57pcaslyfc" path="res://assets/tilesets/Aklan_Home_Indoors.png" id="1_141df"]
 [ext_resource type="Texture2D" uid="uid://4y5qmudjoij" path="res://assets/tilesets/edge.png" id="2_icnut"]
 [ext_resource type="PackedScene" uid="uid://de6nkx7tf7u8d" path="res://scenes/entities/furniture/warp_area.tscn" id="3_4qq2q"]
-[ext_resource type="Script" path="res://scripts/game_scenes/aklan_living.gd" id="5_aklanlv"]
+[ext_resource type="Script" uid="uid://v8cvabyx3h5" path="res://scripts/game_scenes/aklan_living.gd" id="5_aklanlv"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_srenv"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_141df"]
 texture = ExtResource("1_141df")
 1:1/0 = 0
 1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -626,9 +626,9 @@ texture = ExtResource("1_141df")
 
 [sub_resource type="TileSet" id="TileSet_7n77a"]
 physics_layer_0/collision_layer = 1
-sources/0 = SubResource("TileSetAtlasSource_srenv")
+sources/0 = SubResource("TileSetAtlasSource_141df")
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hhrgh"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_icnut"]
 texture = ExtResource("2_icnut")
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -659,7 +659,7 @@ texture = ExtResource("2_icnut")
 
 [sub_resource type="TileSet" id="TileSet_eid25"]
 physics_layer_0/collision_layer = 1
-sources/0 = SubResource("TileSetAtlasSource_hhrgh")
+sources/0 = SubResource("TileSetAtlasSource_icnut")
 
 [node name="AklanLiving" type="Node2D" unique_id=2113732261]
 script = ExtResource("5_aklanlv")
@@ -680,37 +680,40 @@ tile_set = SubResource("TileSet_7n77a")
 tile_map_data = PackedByteArray("AAD/////AAAAAAAAAAAJAP//AAABAAAAAAD//wgAAAAAAAIAAAAAAAYAAAABAAIAAAABAAYAAAABAAIAAAACAAYAAAABAAIAAAADAAYAAAABAAIAAAAEAAYAAAABAAIAAAAFAAYAAAABAAIAAAAGAAYAAAABAAIAAAAHAAYAAAABAAIAAAAIAAYAAAABAAIAAAAJAAYAAAABAAIAAAAKAAYAAAABAAIAAAALAAYAAAABAAIAAAAMAAYAAAABAAIAAAANAAYAAAABAAIAAAAOAAYAAAABAAIAAAAPAAYAAAABAAIAAAAQAAYAAAABAAIAAAARAAYAAAABAAIAAAASAAYAAAABAAIAAAATAAYAAAABAAIAAAAUAAYAAAABAAIAAAAVAAYAAAACAAIAAAD//wYAAAAAAAIAAAD//wQAAAAAAAEAAAD//wMAAAAAAAEAAAD//wIAAAAAAAEAAAD//wEAAAAAAAEAAAAAAAAAAAABAAAAAAABAAAAAAABAAAAAAACAAAAAAADAAAAAAACAP//AAAAAAAAAAADAP//AAABAAAAAAAEAP//AAABAAAAAAAFAP//AAABAAAAAAAGAP//AAABAAAAAAAHAP//AAABAAAAAAAIAP//AAABAAAAAAAKAP//AAABAAAAAAALAP//AAABAAAAAAAMAP//AAABAAAAAAANAP//AAABAAAAAAAOAP//AAABAAAAAAAPAP//AAABAAAAAAAQAP//AAABAAAAAAARAP//AAABAAAAAAASAP//AAABAAAAAAATAP//AAABAAAAAAAUAP//AAABAAAAAAAVAP//AAACAAAAAAAVAAAAAAACAAEAAAAVAAEAAAACAAEAAAAVAAIAAAACAAEAAAAVAAMAAAACAAEAAAAVAAQAAAACAAEAAAAVAAUAAAACAAEAAAD//wUAAAAAAAEAAAD//wAAAAAAAAAAAAA=")
 tile_set = SubResource("TileSet_eid25")
 
-[node name="WarpArea" parent="." unique_id=1965068349 instance=ExtResource("3_4qq2q")]
-position = Vector2(24, 56)
+[node name="Warps" type="Node2D" parent="." unique_id=1471999368]
 
-[node name="WarpArea2" parent="." unique_id=1748375599 instance=ExtResource("3_4qq2q")]
+[node name="WarpArea" parent="Warps" unique_id=1965068349 instance=ExtResource("3_4qq2q")]
+position = Vector2(24, 56)
+target_scene = "res://scenes/world/chapter2/aklan_hallway.tscn"
+target_spawn_id = "Living"
+
+[node name="WarpArea2" parent="Warps" unique_id=1748375599 instance=ExtResource("3_4qq2q")]
 position = Vector2(72, 40)
 
-[node name="WarpArea3" parent="." unique_id=520688551 instance=ExtResource("3_4qq2q")]
+[node name="WarpArea3" parent="Warps" unique_id=520688551 instance=ExtResource("3_4qq2q")]
 position = Vector2(184, 40)
 
-[node name="WarpArea4" parent="." unique_id=1885739539 instance=ExtResource("3_4qq2q")]
+[node name="WarpArea4" parent="Warps" unique_id=1885739539 instance=ExtResource("3_4qq2q")]
 position = Vector2(296, 40)
 
-[node name="WarpArea5" parent="." unique_id=1148822164 instance=ExtResource("3_4qq2q")]
+[node name="WarpArea5" parent="Warps" unique_id=1148822164 instance=ExtResource("3_4qq2q")]
 position = Vector2(48, 88)
 trigger_direction = 1
 door_width = 2
 
-[node name="Spawn_Outdoors" type="Marker2D" parent="." unique_id=438100194]
-position = Vector2(32, 96)
+[node name="Spawns" type="Node2D" parent="." unique_id=141127280]
 
-[node name="Spawn_2Floor" type="Marker2D" parent="." unique_id=325780301]
-position = Vector2(16, 64)
+[node name="Stairs" type="Marker2D" parent="Spawns" unique_id=325780301]
+position = Vector2(32, 64)
 
-[node name="Spawn_BR_Rose" type="Marker2D" parent="." unique_id=1513260454]
+[node name="BR_Rose" type="Marker2D" parent="Spawns" unique_id=1513260454]
 position = Vector2(64, 48)
 
-[node name="Spawn_BR_Susan" type="Marker2D" parent="." unique_id=370428876]
+[node name="BR_Susan" type="Marker2D" parent="Spawns" unique_id=370428876]
 position = Vector2(176, 48)
 
-[node name="Spawn_CR" type="Marker2D" parent="." unique_id=1404093165]
+[node name="CR" type="Marker2D" parent="Spawns" unique_id=1404093165]
 position = Vector2(288, 48)
 
-[node name="DefaultSpawn" type="Marker2D" parent="." unique_id=793070144]
-position = Vector2(32, 96)
+[node name="DefaultSpawn" type="Marker2D" parent="Spawns" unique_id=793070144]
+position = Vector2(48, 96)
