@@ -82,6 +82,7 @@ func show_npc_interaction_menu(npc_display_name: String, callback: Callable) -> 
 	if _choice_box:
 		_choice_box.hide()
 	_npc_menu.show()
+	_root.refresh_content_size()
 
 
 ## Build actions inside existing DialogueRoot. Talk stays disabled while idle_pool is reworked.
