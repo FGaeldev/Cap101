@@ -83,15 +83,18 @@ func execute(step: Dictionary, mgr: Node) -> void:
 	var legs: Array[Vector2] = _build_legs(start, target,
 			String(step.get("order", "xy")))
 
+	var run: int = mgr.current_run()
 	var last_dir: Vector2 = Vector2.ZERO
 	for leg_end in legs:
 		var dir: Vector2 = (leg_end - actor.global_position).normalized()
 		last_dir = dir
 		_set_anim(actor, "walk", dir)
 		var duration: float = actor.global_position.distance_to(leg_end) / speed
-		var tween := actor.create_tween()
+		var tween: Tween = mgr.track_tween(actor.create_tween())
 		tween.tween_property(actor, "global_position", leg_end, duration)
 		await tween.finished
+		if not mgr.is_run_current(run) or not is_instance_valid(actor):
+			return  # aborted: no further legs, leave the actor where it stopped
 
 	# Leave the actor idle facing its last movement direction.
 	_set_anim(actor, "idle", last_dir)

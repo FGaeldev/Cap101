@@ -24,7 +24,7 @@ func execute(step: Dictionary, mgr: Node) -> void:
 		"focus":
 			var to: Array = step.get("to", [0, 0])
 			cam.top_level = true
-			var tween := cam.create_tween()
+			var tween: Tween = mgr.track_tween(cam.create_tween())
 			tween.tween_property(cam, "global_position", Vector2(to[0], to[1]), duration)
 			await tween.finished
 		"focus_actor":
@@ -32,7 +32,7 @@ func execute(step: Dictionary, mgr: Node) -> void:
 			if target == null:
 				return
 			cam.top_level = true
-			var tween := cam.create_tween()
+			var tween: Tween = mgr.track_tween(cam.create_tween())
 			tween.tween_property(cam, "global_position", target.global_position, duration)
 			await tween.finished
 		"follow":
@@ -43,12 +43,15 @@ func execute(step: Dictionary, mgr: Node) -> void:
 			# no await -- sequence continues immediately, camera keeps tracking in background
 		"zoom":
 			var to_zoom: Array = step.get("to", [1.5, 1.5])
-			var tween := cam.create_tween()
+			var tween: Tween = mgr.track_tween(cam.create_tween())
 			tween.tween_property(cam, "zoom", Vector2(to_zoom[0], to_zoom[1]), duration)
 			await tween.finished
 		"release":
+			var run: int = mgr.current_run()
 			mgr.camera_release()
 			await mgr.get_tree().create_timer(duration, false).timeout
+			if not mgr.is_run_current(run):
+				return  # aborted: abort() already snapped the camera back
 			var cam2: Camera2D = mgr.get_actor("camera")
 			var player: Node2D = mgr.get_actor("player")
 			if cam2 and player:

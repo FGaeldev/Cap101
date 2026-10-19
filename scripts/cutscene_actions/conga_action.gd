@@ -73,6 +73,9 @@ func execute(step: Dictionary, mgr: Node) -> void:
 	var leader: Node2D = mgr.get_actor(leader_id)
 	if leader == null:
 		return
+	# Checked after every await below: an abort kills the tweens, and without
+	# this the lockstep loop would skip its waits and keep walking actors.
+	var run: int = mgr.current_run()
 
 	# Missing followers are skipped, not fatal -- a cast member that already
 	# despawned should not stall the whole cutscene.
@@ -164,8 +167,10 @@ func execute(step: Dictionary, mgr: Node) -> void:
 	for a in range(1, actors.size()):
 		var tween: Tween = _walk_to(actors[a], trail[indices[a]], speed, order, first_dir)
 		if tween != null:
-			gather_tweens.append(tween)
+			gather_tweens.append(mgr.track_tween(tween))
 	await _await_all(gather_tweens)
+	if not mgr.is_run_current(run):
+		return
 
 	# --- phase 2: lockstep along the shared trail -----------------------------
 	var tick: float = float(TILE_SIZE) / speed
@@ -185,12 +190,14 @@ func execute(step: Dictionary, mgr: Node) -> void:
 			var actor: Node2D = actors[a]
 			var next_pos: Vector2 = trail[indices[a]]
 			_set_anim(actor, "walk", (next_pos - actor.global_position).normalized())
-			var tween: Tween = actor.create_tween()
+			var tween: Tween = mgr.track_tween(actor.create_tween())
 			tween.tween_property(actor, "global_position", next_pos, tick)
 			tweens.append(tween)
 		if tweens.is_empty():
 			break
 		await _await_all(tweens)
+		if not mgr.is_run_current(run):
+			return
 
 		for a in actors.size():
 			if not alive[a] or not is_instance_valid(actors[a]):
