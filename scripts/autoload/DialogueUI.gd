@@ -48,8 +48,10 @@ func show_line(
 	if _dialogue_box:
 		_dialogue_box.show()
 		_dialogue_box.display(speaker, text, translation)
+	# ChoiceBox expands to fill available panel height. Keep it hidden for
+	# ordinary lines; show_choices() reveals it only when choices exist.
 	if _choice_box:
-		_choice_box.show()
+		_choice_box.hide_choices()
 	if _root:
 		_root.show_box()
 		# Portrait is optional per-NPC art. Missing art hides cleanly.
@@ -57,7 +59,12 @@ func show_line(
 
 func show_choices(choices: Array, component) -> void:
 	if _choice_box:
-		_choice_box.show_choices(choices, component)
+		if choices.is_empty():
+			_choice_box.hide_choices()
+		else:
+			_choice_box.show_choices(choices, component)
+	if _root:
+		_root.refresh_layout()
 
 
 ## Show the NPC action menu after the NPC script has ruled out a cutscene trigger.
@@ -136,7 +143,7 @@ func _on_npc_interaction_choice(choice: String) -> void:
 	if _dialogue_box:
 		_dialogue_box.show()
 	if _choice_box:
-		_choice_box.show()
+		_choice_box.hide_choices()
 	if _root:
 		_root.hide_box()
 	var callback := _npc_menu_callback
@@ -196,7 +203,7 @@ func hide() -> void:
 	if _dialogue_box:
 		_dialogue_box.show()
 	if _choice_box:
-		_choice_box.show()
+		_choice_box.hide_choices()
 	_npc_menu_callback = Callable()
 	if _phrase_box and is_instance_valid(_phrase_box):
 		_phrase_box.close()
