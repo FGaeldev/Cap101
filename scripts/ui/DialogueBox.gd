@@ -40,7 +40,8 @@ func display(speaker: String, text: String, translation: String = "") -> void:
 	else:
 		_typing = true
 		text_label.text = ""
-	DialogueUI._root.refresh_layout() if DialogueUI._root != null else null
+	if DialogueUI._root != null:
+		DialogueUI._root.refresh_layout()
 
 func _process(delta: float) -> void:
 	if not _typing:
