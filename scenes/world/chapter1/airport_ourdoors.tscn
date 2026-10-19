@@ -283,6 +283,11 @@ position = Vector2(272, 144)
 
 [node name="SceneMarkers" type="Node2D" parent="." unique_id=381007296]
 
+[node name="S2" type="Node2D" parent="SceneMarkers" unique_id=2064730470]
+
+[node name="Arrival" type="Marker2D" parent="SceneMarkers/S2" unique_id=1224768649]
+position = Vector2(272, 160)
+
 [node name="S3" type="Node2D" parent="SceneMarkers" unique_id=1173867808]
 
 [node name="Susan" type="Marker2D" parent="SceneMarkers/S3" unique_id=1613906900]
@@ -298,7 +303,10 @@ position = Vector2(208, 288)
 position = Vector2(-16, 560)
 
 [node name="Player" type="Marker2D" parent="SceneMarkers/S3" unique_id=790061176]
-position = Vector2(192, 288)
+position = Vector2(-16, 512)
+
+[node name="RoadTurn" type="Marker2D" parent="SceneMarkers/S3" unique_id=1459503505]
+position = Vector2(288, 512)
 
 [node name="S4" type="Node2D" parent="SceneMarkers" unique_id=1242741419]
 
@@ -316,6 +324,12 @@ position = Vector2(240, 320)
 
 [node name="Player" type="Marker2D" parent="SceneMarkers/S4" unique_id=1900113902]
 position = Vector2(224, 320)
+
+[node name="Exit" type="Marker2D" parent="SceneMarkers/S4" unique_id=422894038]
+position = Vector2(-640, 320)
+
+[node name="Hold" type="Marker2D" parent="SceneMarkers/S4" unique_id=1028929038]
+position = Vector2(-432, 320)
 
 [node name="WarpAreas" type="Node2D" parent="." unique_id=426153827]
 
@@ -350,6 +364,5 @@ trigger_direction = 2
 span_tiles_override = 6
 hold_delay = 0.0
 target_scene = "res://scenes/world/chapter2/aklan_living.tscn"
-target_spawn_id = "Spawn_Outdoors"
 required_flag = "chapter1_complete"
 blocked_message = "I should stay with everyone for now."

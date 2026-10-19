@@ -42,6 +42,10 @@ const DEV_WARP_TARGETS := [
 #   flags_on     — prerequisites (earlier story beats) forced true
 #   flags_off    — this cutscene's own seen/story flags + every LATER beat's
 #                  flags in the same room, forced false so spawns match
+#   spawn        — optional marker the player is placed on (MarkerUtil ref,
+#                  e.g. "S3/Player" -> SceneMarkers/S3/Player); omitted =
+#                  DefaultSpawn. Matches where the player stands when that
+#                  cutscene fires in normal play.
 #   auto_play    — true if the host room plays it itself on _ready() once
 #                  its seen flag is false; false = menu calls play() itself.
 #                  Never both, or play() gets called twice.
@@ -60,6 +64,7 @@ const DEV_CUTSCENES := [
 		"scene_path": "res://scenes/world/chapter1/airport_arival.tscn",
 		"flags_on": [],
 		"flags_off": ["seen_chapter1_scene1_5"],
+		"spawn": "S1_5/Gate",
 		"auto_play": true,   # airport_arival.gd plays it when SEEN_FLAG is false
 	},
 	{
@@ -71,6 +76,7 @@ const DEV_CUTSCENES := [
 			"seen_chapter1_scene2", "seen_chapter1_scene3", "seen_chapter1_scene4",
 			"story_done_scene_3_reunion", "story_done_scene_4_rose", "chapter1_complete",
 		],
+		"spawn": "S2/Arrival",
 		"auto_play": true,   # scene_2.gd plays it when SCENE2_SEEN_FLAG is false
 	},
 	{
@@ -82,6 +88,7 @@ const DEV_CUTSCENES := [
 			"seen_chapter1_scene3", "seen_chapter1_scene4",
 			"story_done_scene_3_reunion", "story_done_scene_4_rose", "chapter1_complete",
 		],
+		"spawn": "S3/Player",
 		"auto_play": false,  # normally fired by interacting with Lola Susan
 	},
 	{
@@ -91,6 +98,7 @@ const DEV_CUTSCENES := [
 		# scene3 seen -> scene_2.gd spawns Jonabel + Papa, whom scene4 moves.
 		"flags_on": ["seen_chapter1_scene1_5", "seen_chapter1_scene2", "seen_chapter1_scene3", "story_done_scene_3_reunion"],
 		"flags_off": ["seen_chapter1_scene4", "story_done_scene_4_rose", "chapter1_complete"],
+		"spawn": "S4/Player",
 		"auto_play": false,  # normally fired by interacting with Rose
 	},
 ]
@@ -131,7 +139,7 @@ func _on_dev_cutscene_pressed(entry: Dictionary) -> void:
 		push_error("DevSkip: cutscene data not found: %s" % cutscene_path)
 		return
 
-	if not _dev_warp(entry["scene_path"], entry["flags_on"], entry["flags_off"]):
+	if not _dev_warp(entry["scene_path"], entry["flags_on"], entry["flags_off"], entry.get("spawn", "DefaultSpawn")):
 		return
 	if entry["auto_play"]:
 		return
@@ -152,9 +160,10 @@ func _on_dev_cutscene_pressed(entry: Dictionary) -> void:
 ##
 ## flags_on/flags_off are applied AFTER the onboarding skip so a cutscene
 ## entry can re-clear an onboarding flag (e.g. replaying chapter1_scene1
-## needs seen_chapter1_scene1 false). Returns false (state untouched) if the
+## needs seen_chapter1_scene1 false). spawn_id places the player (any marker
+## ref Game.load_level() accepts). Returns false (state untouched) if the
 ## warp can't happen.
-func _dev_warp(scene_path: String, flags_on: Array = [], flags_off: Array = []) -> bool:
+func _dev_warp(scene_path: String, flags_on: Array = [], flags_off: Array = [], spawn_id: String = "DefaultSpawn") -> bool:
 	if not ResourceLoader.exists(scene_path, "PackedScene"):
 		push_error("DevSkip: scene resource not found: %s" % scene_path)
 		return false
@@ -182,5 +191,5 @@ func _dev_warp(scene_path: String, flags_on: Array = [], flags_off: Array = []) 
 		GameState.set_flag(flag, false)
 
 	BookUI.close()
-	game.load_level(scene_path)
+	game.load_level(scene_path, spawn_id)
 	return true

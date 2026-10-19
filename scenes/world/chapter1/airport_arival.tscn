@@ -93,3 +93,10 @@ target_scene = "res://scenes/world/chapter1/airport_ourdoors.tscn"
 
 [node name="DefaultSpawn" type="Marker2D" parent="." unique_id=41428921]
 position = Vector2(-64, 48)
+
+[node name="SceneMarkers" type="Node2D" parent="." unique_id=27370587]
+
+[node name="S1_5" type="Node2D" parent="SceneMarkers" unique_id=501682763]
+
+[node name="Gate" type="Marker2D" parent="SceneMarkers/S1_5" unique_id=794003553]
+position = Vector2(-64, 48)

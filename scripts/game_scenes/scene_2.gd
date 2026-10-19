@@ -1,7 +1,9 @@
 # scene_2.gd -- root script for airport_ourdoors.tscn (Chapter 1, scenes 2-3).
-# Scene 2: arrival cutscene, plays once. Afterwards Lola Susan + Rose wait in
-# the parking lot (quest q003). Interacting with Lola Susan completes q003 and
-# plays scene 3 (chapter1_scene3 cutscene: Lola Jonabel + Papa Jobert walk in).
+# Scene 2: arrival cutscene, plays once, walking Lola Jonabel + Papa Jobert +
+# the player to their SceneMarkers/S3 spots. Lola Susan + Rose wait in the
+# parking lot (quest q003). Interacting with Lola Susan completes q003 and
+# plays scene 3 (chapter1_scene3: Susan, Rose and the player walk to their
+# SceneMarkers/S4 spots, ready for Rose's scene 4).
 # The whole lot cast despawns when the "chapter1_complete" flag is set.
 extends Node2D
 
@@ -24,12 +26,16 @@ const CHAPTER_DONE_FLAG: String = "chapter1_complete"
 ## Completed by interacting with Lola Susan ONLY.
 const FIND_QUEST_ID: String = "q003"
 
-## Level-local coords, lower parking lot. Jonabel/Papa spots MUST match the
-## "to" targets in data/cutscenes/chapter1_scene3.json.
-const SUSAN: Dictionary = {"scene": "res://scenes/entities/npc_LolaSusan.tscn", "marker": "S3_Susan", "at": Vector2(244, 520)}
-const ROSE: Dictionary = {"scene": "res://scenes/entities/npc_Rose.tscn", "marker": "S3_Rose", "at": Vector2(268, 520)}
-const JONABEL: Dictionary = {"scene": "res://scenes/entities/npc_LolaJonabel.tscn", "at": Vector2(250, 492)}
-const PAPA: Dictionary = {"scene": "res://scenes/entities/npc_PapaJobert.tscn", "at": Vector2(274, 492)}
+const MarkerUtil := preload("res://scripts/util/marker_util.gd")
+
+## Lot cast. Positions come from the level's SceneMarkers: "S3/<marker>" is
+## where everyone stands before scene 3 (where scene 2 leaves them), and
+## "S4/<marker>" before scene 4 (where scene 3 walks them). The cutscene JSON
+## targets the same markers, so moving a marker in the editor moves both.
+const SUSAN: Dictionary = {"scene": "res://scenes/entities/npc_LolaSusan.tscn", "actor": "Lola Susan", "marker": "Susan"}
+const ROSE: Dictionary = {"scene": "res://scenes/entities/npc_Rose.tscn", "actor": "Rose", "marker": "Rose"}
+const JONABEL: Dictionary = {"scene": "res://scenes/entities/npc_LolaJonabel.tscn", "actor": "Lola Jonabel", "marker": "Jonabel"}
+const PAPA: Dictionary = {"scene": "res://scenes/entities/npc_PapaJobert.tscn", "actor": "Papa Jobert", "marker": "Jobert"}
 
 ## actor_id values of every NPC this script may own (for chapter-end despawn).
 const LOT_ACTOR_IDS: Array[String] = ["Lola Susan", "Rose", "Lola Jonabel", "Papa Jobert"]
@@ -55,44 +61,47 @@ func _play_scene2_then_spawn() -> void:
 		return
 	_spawn_lot_cast()
 
-## Susan + Rose always; Jonabel + Papa only once scene 3 has played (during
-## scene 3 itself the cutscene spawns them and walks them in).
+## Whole cast, on the S3 markers until scene 3 has played, S4 after. Anyone a
+## cutscene already placed (scene 2 spawns Jonabel + Papa) is left alone.
 func _spawn_lot_cast() -> void:
-	var susan: Node2D = _spawn(SUSAN)
-	susan.quest_id = FIND_QUEST_ID                 # quest marker
-	susan.interact_quest_id = FIND_QUEST_ID        # completes on interact
-	susan.cutscene_id = "chapter1_scene3"
-	susan.cutscene_seen_flag = SCENE3_SEEN_FLAG
-	susan.dialogue_scene_key = ""                  # all story lives in the cutscene
-	susan.story_done_flag = STORY_DONE_FLAG
+	var group: String = "S4" if GameState.get_flag(SCENE3_SEEN_FLAG) else "S3"
+	_spawn(JONABEL, group)
+	_spawn(PAPA, group)
 
-	var rose: Node2D = _spawn(ROSE)
-	rose.unlock_flag = SCENE3_SEEN_FLAG            # silent until the reunion
-	rose.dialogue_scene_key = ""
-	rose.quest_id = PRACTICE_QUEST_ID              # quest marker
-	rose.interact_quest_id = PRACTICE_QUEST_ID     # completes on interact
-	rose.cutscene_id = "chapter1_scene4"
-	rose.cutscene_seen_flag = SCENE4_SEEN_FLAG
-	rose.story_done_flag = ROSE_STORY_DONE_FLAG
+	var susan: Node2D = _spawn(SUSAN, group)
+	if susan != null:
+		susan.quest_id = FIND_QUEST_ID                 # quest marker
+		susan.interact_quest_id = FIND_QUEST_ID        # completes on interact
+		susan.cutscene_id = "chapter1_scene3"
+		susan.cutscene_seen_flag = SCENE3_SEEN_FLAG
+		susan.dialogue_scene_key = ""                  # all story lives in the cutscene
+		susan.story_done_flag = STORY_DONE_FLAG
 
-	if GameState.get_flag(SCENE3_SEEN_FLAG):
-		_spawn(JONABEL)
-		_spawn(PAPA)
+	var rose: Node2D = _spawn(ROSE, group)
+	if rose != null:
+		rose.unlock_flag = SCENE3_SEEN_FLAG            # silent until the reunion
+		rose.dialogue_scene_key = ""
+		rose.quest_id = PRACTICE_QUEST_ID              # quest marker
+		rose.interact_quest_id = PRACTICE_QUEST_ID     # completes on interact
+		rose.cutscene_id = "chapter1_scene4"
+		rose.cutscene_seen_flag = SCENE4_SEEN_FLAG
+		rose.story_done_flag = ROSE_STORY_DONE_FLAG
 
-## Instantiates NPC under this y-sorted level root. Marker entries use authored
-## level markers; "at" remains a fallback for cast without a marker.
-func _spawn(entry: Dictionary) -> Node2D:
-	var spawn_position: Vector2 = entry.get("at", Vector2.ZERO)
-	var marker_name: String = entry.get("marker", "")
-	if not marker_name.is_empty():
-		var marker := get_node_or_null("NPCSpawn/" + marker_name) as Marker2D
-		if marker == null:
-			push_error("scene_2: NPC spawn marker 'NPCSpawn/%s' missing; using fallback position" % marker_name)
-		else:
-			spawn_position = to_local(marker.global_position)
+## Instantiates an NPC under this y-sorted level root at SceneMarkers/<group>/
+## <marker>. Returns null without spawning if that actor is already in the
+## level (placed by a cutscene) or its marker is missing.
+func _spawn(entry: Dictionary, group: String) -> Node2D:
+	var actor_id: String = entry["actor"]
+	if CutsceneManager.has_actor(actor_id):
+		return null
+	var marker_ref: String = "%s/%s" % [group, entry["marker"]]
+	var marker := MarkerUtil.find(self, marker_ref)
+	if marker == null:
+		push_error("scene_2: marker '%s' missing under SceneMarkers; '%s' not spawned" % [marker_ref, actor_id])
+		return null
 
 	var npc: Node2D = (load(entry["scene"]) as PackedScene).instantiate()
-	npc.position = spawn_position
+	npc.position = to_local(marker.global_position)
 	add_child(npc)
 	return npc
 
