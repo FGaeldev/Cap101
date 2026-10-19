@@ -17,7 +17,6 @@ var _npc_menu_callback: Callable
 
 const PHRASE_BUILDER_SCENE := preload("res://scenes/ui/phrase_builder.tscn")
 const QUIZ_PANEL_SCENE := preload("res://scenes/ui/quiz_panel.tscn")
-const NPC_INTERACTION_MENU_SCRIPT := preload("res://scripts/ui/npc_interaction_menu.gd")
 ## minigame_type -> panel script. Hardcoded (no dir scan: DirAccess is unreliable
 ## in exported Android builds, TDD 9.1). New minigame = add one entry here.
 const MINIGAME_SCRIPTS := {
@@ -57,20 +56,82 @@ func show_choices(choices: Array, component) -> void:
 ## Show the NPC action menu after the NPC script has ruled out a cutscene trigger.
 ## The callback receives "talk", "review", or "goodbye".
 func show_npc_interaction_menu(npc_display_name: String, callback: Callable) -> void:
+	# Reuse DialogueRoot's existing dialogue panel and theme instead of a separate overlay.
 	if _root == null:
 		push_error("DialogueUI: no root registered, cannot show NPC interaction menu")
 		return
 	if _npc_menu == null or not is_instance_valid(_npc_menu):
-		_npc_menu = NPC_INTERACTION_MENU_SCRIPT.new()
-		_root.get_parent().add_child(_npc_menu)
-		_npc_menu.choice_selected.connect(_on_npc_interaction_choice)
+		_npc_menu = VBoxContainer.new()
+		_npc_menu.name = "NPCInteractionMenu"
+		_npc_menu.add_theme_constant_override("separation", 6)
+		var text_column := _root.get_node_or_null("Layout/DialoguePanel/Margin/TextColumn")
+		if text_column == null:
+			push_error("DialogueUI: DialogueRoot text column not found")
+			_npc_menu.queue_free()
+			_npc_menu = null
+			return
+		text_column.add_child(_npc_menu)
+		_build_npc_interaction_menu()
 	_npc_menu_callback = callback
-	_npc_menu.open(npc_display_name)
+	var title := _npc_menu.get_node_or_null("NpcName") as Label
+	if title:
+		title.text = npc_display_name if not npc_display_name.is_empty() else "NPC"
+	_root.show_box()
+	if _dialogue_box:
+		_dialogue_box.hide()
+	if _choice_box:
+		_choice_box.hide()
+	_npc_menu.show()
+
+
+## Build actions inside existing DialogueRoot. Talk stays disabled while idle_pool is reworked.
+func _build_npc_interaction_menu() -> void:
+	var title := Label.new()
+	title.name = "NpcName"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	title.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_L)
+	_npc_menu.add_child(title)
+
+	var talk_button := Button.new()
+	talk_button.text = "Talk"
+	talk_button.disabled = true
+	talk_button.custom_minimum_size.y = 36.0
+	UIThemeApplier.apply_button_theme(talk_button, "secondary")
+	_npc_menu.add_child(talk_button)
+
+	var note := Label.new()
+	note.text = "disabled as reworking idle_pool system (10/19/2026)"
+	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	note.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XS)
+	note.add_theme_color_override("font_color", UIThemeApplier.TEXT_DISABLED)
+	_npc_menu.add_child(note)
+
+	var review_button := Button.new()
+	review_button.text = "Review"
+	review_button.custom_minimum_size.y = 36.0
+	UIThemeApplier.apply_button_theme(review_button, "primary")
+	review_button.pressed.connect(_on_npc_interaction_choice.bind("review"))
+	_npc_menu.add_child(review_button)
+
+	var goodbye_button := Button.new()
+	goodbye_button.text = "Goodbye"
+	goodbye_button.custom_minimum_size.y = 36.0
+	UIThemeApplier.apply_button_theme(goodbye_button, "secondary")
+	goodbye_button.pressed.connect(_on_npc_interaction_choice.bind("goodbye"))
+	_npc_menu.add_child(goodbye_button)
 
 
 func _on_npc_interaction_choice(choice: String) -> void:
 	if _npc_menu and is_instance_valid(_npc_menu):
-		_npc_menu.close()
+		_npc_menu.hide()
+	if _dialogue_box:
+		_dialogue_box.show()
+	if _choice_box:
+		_choice_box.show()
+	if _root:
+		_root.hide_box()
 	var callback := _npc_menu_callback
 	_npc_menu_callback = Callable()
 	if callback.is_valid():
@@ -124,7 +185,11 @@ func _on_review_quiz_resolved(_passed: bool) -> void:
 
 func hide() -> void:
 	if _npc_menu and is_instance_valid(_npc_menu):
-		_npc_menu.close()
+		_npc_menu.hide()
+	if _dialogue_box:
+		_dialogue_box.show()
+	if _choice_box:
+		_choice_box.show()
 	_npc_menu_callback = Callable()
 	if _phrase_box and is_instance_valid(_phrase_box):
 		_phrase_box.close()
