@@ -75,9 +75,29 @@ func _set_spawn_direction() -> void:
 			sprite.play("idle_side")
 
 func _on_interacted(_interactor: Node) -> void:
+	# Intro cutscene takes priority over the menu until its seen flag is set.
 	if not GameState.get_flag(seen_flag):
 		CutsceneManager.play(cutscene_id)
-	elif idle_pool_key.is_empty() or not GameState.get_flag(story_done_flag):
+		return
+	DialogueUI.show_npc_interaction_menu(
+		npc_id if not npc_id.is_empty() else name,
+		Callable(self, "_on_interaction_menu_choice")
+	)
+
+
+## Routes the menu selection while preserving the existing story/idle path.
+func _on_interaction_menu_choice(choice: String) -> void:
+	match choice:
+		"talk":
+			_start_dialogue_or_idle()
+		"review":
+			DialogueUI.show_review_quiz()
+		"goodbye":
+			return
+
+
+func _start_dialogue_or_idle() -> void:
+	if idle_pool_key.is_empty() or not GameState.get_flag(story_done_flag):
 		dialogue.dialogue_lines = ChapterLoader.get_scene_lines(dialogue_chapter, dialogue_scene_key)
 		dialogue.start_dialogue()
 	else:
