@@ -30,9 +30,17 @@ func display(speaker: String, text: String, translation: String = "") -> void:
 	if not clean_translation.is_empty():
 		_full_text += "\n" + clean_translation
 	_shown_chars = 0
-	_typing = true
 	_type_timer = 0.0
-	text_label.text = ""
+	if _full_text.strip_edges().is_empty():
+		# Never silently render an empty dialogue panel when authored data is
+		# missing its text field. Log the bad line and keep UI visibly diagnosable.
+		push_warning("DialogueBox.display received an empty dialogue line for speaker '%s'." % speaker)
+		_typing = false
+		text_label.text = "…"
+	else:
+		_typing = true
+		text_label.text = ""
+	DialogueUI._root.refresh_layout() if DialogueUI._root != null else null
 
 func _process(delta: float) -> void:
 	if not _typing:
@@ -44,6 +52,8 @@ func _process(delta: float) -> void:
 		text_label.text = _full_text.left(_shown_chars)
 		if _shown_chars >= _full_text.length():
 			_typing = false
+			if DialogueUI._root != null:
+				DialogueUI._root.refresh_layout()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_visible_in_tree():
