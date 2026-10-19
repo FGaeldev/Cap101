@@ -183,9 +183,22 @@ func _generate_question(
 		push_warning("QuizPanel: dynamic question needs word_pool and question_templates.")
 		return {}
 
-	var candidates: Array = pool.filter(func(id): return not used.has(id))
+	var t_idx: int = randi() % templates.size()
+	var display: String = str(displays[t_idx]) if t_idx < displays.size() else default_display
+
+	# Keep gloss-answer questions concise.
+	var eligible_pool: Array = pool
+	if display != "word":
+		eligible_pool = pool.filter(func(id: String) -> bool:
+			return _gloss_word_count(_gloss_of(WordBank.get_word(id))) <= 3
+		)
+	if eligible_pool.is_empty():
+		push_warning("QuizPanel: no eligible words for selected answer display.")
+		return {}
+
+	var candidates: Array = eligible_pool.filter(func(id): return not used.has(id))
 	if candidates.is_empty():
-		candidates = pool   # pool exhausted: allow repeats rather than drop the question
+		candidates = eligible_pool
 
 	var word_id: String = WordBank.get_weighted_review_word(candidates)
 	var word: Dictionary = WordBank.get_word(word_id)
@@ -194,19 +207,21 @@ func _generate_question(
 		return {}
 	used.append(word_id)
 
-	var t_idx: int = randi() % templates.size()
-	var display: String = str(displays[t_idx]) if t_idx < displays.size() else default_display
-	var prompt: String = str(templates[t_idx]) \
-		.replace("[word]", str(word.get("akeanon", "???"))) \
-		.replace("[gloss]", _gloss_of(word))
+	var prompt: String = str(templates[t_idx]).replace("[word]", str(word.get("akeanon", "???"))).replace("[gloss]", _gloss_of(word))
 	return {"answer": word_id, "prompt": prompt, "display": display}
 
 ## Options for one question: answer + option_pool, deduped, unknown ids dropped, shuffled.
 func _build_options(answer: String, option_pool: Array, display: String) -> Array:
 	var distractors: Array = []
 	for id in option_pool:
-		if id != answer and not distractors.has(id):
-			distractors.append(id)
+		if id == answer or distractors.has(id):
+			continue
+		var candidate_word: Dictionary = WordBank.get_word(id)
+		if candidate_word.is_empty():
+			continue
+		if display != "word" and _gloss_word_count(_gloss_of(candidate_word)) > 3:
+			continue
+		distractors.append(id)
 	distractors.shuffle()
 	var ids: Array = [answer]
 	ids.append_array(distractors.slice(0, MAX_OPTIONS - 1))
@@ -231,6 +246,12 @@ func _build_options(answer: String, option_pool: Array, display: String) -> Arra
 func _gloss_of(word: Dictionary) -> String:
 	var gloss: String = str(word.get("gloss", "")).strip_edges()
 	return gloss if not gloss.is_empty() else GLOSS_FALLBACK
+
+
+## Count words in a gloss to avoid unwieldy answer choices.
+func _gloss_word_count(gloss: String) -> int:
+	var normalized := gloss.strip_edges()
+	return 0 if normalized.is_empty() else normalized.split(" ", false).size()
 
 # --- layout ----------------------------------------------------------------------
 
