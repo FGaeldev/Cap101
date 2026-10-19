@@ -16,6 +16,7 @@ const LAYOUT_SEPARATION: float = 6.0
 @onready var dialogue_panel: PanelContainer = $Layout/DialoguePanel
 @onready var dialogue_box: PanelContainer = $Layout/DialoguePanel/Margin/TextColumn/DialogueBox
 @onready var choice_box: PanelContainer = $Layout/DialoguePanel/Margin/TextColumn/ChoiceBox
+@onready var text_column: VBoxContainer = $Layout/DialoguePanel/Margin/TextColumn
 
 func _ready() -> void:
 	dialogue_panel.add_theme_stylebox_override("panel", UIThemeApplier.make_dialogue_style())
@@ -31,22 +32,27 @@ func show_box() -> void:
 func hide_box() -> void:
 	visible = false
 
-## Keep full viewport width; calculate bottom-anchored height from content and a three-choice minimum.
+## Recalculate bottom-anchored panel height after dynamic dialogue/menu visibility changes.
+func refresh_content_size() -> void:
+	_fit_to_content.call_deferred()
+
+## Keep full viewport width; size panel for whichever dialogue content is visible.
 func _fit_to_content() -> void:
 	if not is_node_ready():
 		return
 
-	var minimum_choice_height := 3.0 * MIN_CHOICE_HEIGHT + 2.0 * CHOICE_SEPARATION
-	var visible_choice_height := choice_box.get_combined_minimum_size().y
-	var choice_height := maxf(minimum_choice_height, visible_choice_height)
-	var dialogue_height := dialogue_box.get_combined_minimum_size().y
-	var panel_height := dialogue_height + COLUMN_SEPARATION + choice_height + PANEL_VERTICAL_MARGINS
+	var menu := text_column.get_node_or_null("NPCInteractionMenu") as Control
+	var dialogue_height := dialogue_box.get_combined_minimum_size().y if dialogue_box.visible else 0.0
+	var choice_height := choice_box.get_combined_minimum_size().y if choice_box.visible else 0.0
+	var content_height := maxf(dialogue_height + COLUMN_SEPARATION + choice_height, 3.0 * MIN_CHOICE_HEIGHT + 2.0 * CHOICE_SEPARATION)
+	if menu != null and menu.visible:
+		content_height = maxf(content_height, menu.get_combined_minimum_size().y)
+	var panel_height := content_height + PANEL_VERTICAL_MARGINS
 
 	# Custom minimum affects only vertical sizing; horizontal anchors remain full-screen.
 	dialogue_panel.custom_minimum_size.y = panel_height
-	var content_height := portrait_row.get_combined_minimum_size().y + panel_height + LAYOUT_SEPARATION
-	var required_height := maxf(layout.get_combined_minimum_size().y, content_height)
-	offset_top = -required_height
+	var required_height := portrait_row.get_combined_minimum_size().y + panel_height + LAYOUT_SEPARATION
+	offset_top = -maxf(layout.get_combined_minimum_size().y, required_height)
 
 ## Hide portrait when speaker has no portrait; otherwise align by speaker role.
 func set_portrait(tex: Texture2D, speaker: String) -> void:
