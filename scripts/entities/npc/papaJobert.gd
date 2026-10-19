@@ -29,6 +29,24 @@ func _ready() -> void:
 	call_deferred("_register")
 
 func _on_interacted(_interactor: Node) -> void:
+	DialogueUI.show_npc_interaction_menu(
+		npc_id if not npc_id.is_empty() else name,
+		Callable(self, "_on_interaction_menu_choice")
+	)
+
+
+## Keeps the previous dialogue path available when Talk is re-enabled.
+func _on_interaction_menu_choice(choice: String) -> void:
+	match choice:
+		"talk":
+			_start_dialogue_or_idle()
+		"review":
+			DialogueUI.show_review_quiz()
+		"goodbye":
+			return
+
+
+func _start_dialogue_or_idle() -> void:
 	if idle_pool_key.is_empty() or not GameState.get_flag(story_done_flag):
 		dialogue.dialogue_lines = ChapterLoader.get_scene_lines(dialogue_chapter, dialogue_scene_key)
 		dialogue.start_dialogue()
