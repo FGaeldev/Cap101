@@ -53,14 +53,23 @@ func _fit_to_content() -> void:
 
 	# Custom minimum affects only vertical sizing; horizontal anchors remain full-screen.
 	dialogue_panel.custom_minimum_size.y = panel_height
-	var content_height := portrait_row.get_combined_minimum_size().y + panel_height + LAYOUT_SEPARATION
-	var required_height := maxf(layout.get_combined_minimum_size().y, content_height)
+	# Do not use Layout's combined minimum: its expand-fill choice child can
+	# report the old full-height minimum even after it is hidden. That pins the
+	# root to its scene's 200px fallback and leaves a huge empty dialogue panel.
+	var portrait_height := portrait_row.get_combined_minimum_size().y if portrait_row.visible else 0.0
+	var required_height := portrait_height + panel_height
+	if portrait_row.visible:
+		required_height += LAYOUT_SEPARATION
+	custom_minimum_size.y = required_height
 	offset_top = -required_height
 
 ## Hide portrait when speaker has no portrait; otherwise align by speaker role.
 func set_portrait(tex: Texture2D, speaker: String) -> void:
 	portrait.texture = tex
 	portrait.visible = tex != null
+	# Hide entire row when portrait art is absent; hidden TextureRect alone can
+	# still leave container sizing artifacts on some viewport/layout states.
+	portrait_row.visible = tex != null
 	if tex != null:
 		var is_player := speaker.strip_edges().to_lower() == "[player]"
 		left_spacer.visible = not is_player
