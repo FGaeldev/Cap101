@@ -685,9 +685,11 @@ target_scene = "res://scenes/world/chapter2/aklan_BR_Player.tscn"
 
 [node name="WarpArea3" parent="Warps" unique_id=1960219950 instance=ExtResource("4_6qgat")]
 position = Vector2(152, 56)
+target_scene = "res://scenes/world/chapter2/aklan_BR_Jonabel.tscn"
 
 [node name="WarpArea4" parent="Warps" unique_id=766483867 instance=ExtResource("4_6qgat")]
 position = Vector2(264, 56)
+target_scene = "res://scenes/world/chapter2/aklan_BR_Jobert.tscn"
 
 [node name="WarpArea2" parent="Warps" unique_id=1657116116 instance=ExtResource("4_6qgat")]
 position = Vector2(48, 72)
