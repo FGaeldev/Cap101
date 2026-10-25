@@ -279,14 +279,14 @@ tile_set = SubResource("TileSet_3ydn5")
 [node name="Rim" type="TileMapLayer" parent="." unique_id=2127257443]
 
 [node name="DefaultSpawn" type="Marker2D" parent="." unique_id=1461791157]
-position = Vector2(272, 144)
+position = Vector2(288, 144)
 
 [node name="SceneMarkers" type="Node2D" parent="." unique_id=381007296]
 
 [node name="S2" type="Node2D" parent="SceneMarkers" unique_id=2064730470]
 
 [node name="Arrival" type="Marker2D" parent="SceneMarkers/S2" unique_id=1224768649]
-position = Vector2(272, 160)
+position = Vector2(288, 160)
 
 [node name="S3" type="Node2D" parent="SceneMarkers" unique_id=1173867808]
 
@@ -303,7 +303,7 @@ position = Vector2(208, 288)
 position = Vector2(-16, 560)
 
 [node name="Player" type="Marker2D" parent="SceneMarkers/S3" unique_id=790061176]
-position = Vector2(-16, 512)
+position = Vector2(192, 288)
 
 [node name="RoadTurn" type="Marker2D" parent="SceneMarkers/S3" unique_id=1459503505]
 position = Vector2(288, 512)

@@ -12,8 +12,39 @@ const DATA_PATH := "res://data/achievements.json"
 
 var achievements: Array = []  # ordered, each {id, title, description, condition}
 
+## Emitted once when an achievement flips to unlocked during play (HUD toast).
+signal achievement_unlocked(ach: Dictionary)
+
+## ids already unlocked as of prime() or a later check. Session-only, like
+## everything else here: rebuilt by prime() on every Game boot, so loading a
+## save never announces achievements the player already had.
+var _known_unlocked: Dictionary = {}
+var _primed: bool = false
+
 func _ready() -> void:
 	_load()
+	GameState.word_learned.connect(func(_id, _a, _g): check_new_unlocks())
+	GameState.rapport_changed.connect(func(_npc, _v): check_new_unlocks())
+	QuestManager.quest_completed.connect(func(_qid): check_new_unlocks())
+
+## Snapshot of what's already unlocked, without announcing. Game.gd calls it
+## on boot, after the save has loaded.
+func prime() -> void:
+	_known_unlocked.clear()
+	for ach in achievements:
+		if is_unlocked(ach):
+			_known_unlocked[ach.get("id", "")] = true
+	_primed = true
+
+## Emits achievement_unlocked for each achievement unlocked since the last check.
+func check_new_unlocks() -> void:
+	if not _primed:
+		return
+	for ach in achievements:
+		var id: String = ach.get("id", "")
+		if not _known_unlocked.has(id) and is_unlocked(ach):
+			_known_unlocked[id] = true
+			achievement_unlocked.emit(ach)
 
 func _load() -> void:
 	var file := FileAccess.open(DATA_PATH, FileAccess.READ)

@@ -141,12 +141,16 @@ func advance() -> void:
 		return
 	_show_line()
 
-## Resolves the next line index, honoring patience_branch if present.
-## patience_branch: [{"min_patience": int, "next": int}, ...] — evaluates against
+## Resolves the next line index. check_flag wins first: if the named flag is
+## set, jump to "check_flag_next". Then patience_branch:
+## [{"min_patience": int, "next": int}, ...] — evaluates against
 ## the last-speaking NPC's current patience (read-only, reflects prior choices),
 ## picks the highest min_patience threshold met. Falls back to explicit "next",
 ## else sequential fallthrough.
 func _resolve_next(line: Dictionary):
+	var check_id := str(line.get("check_flag", "")).strip_edges()
+	if not check_id.is_empty() and line.has("check_flag_next") and GameState.get_flag(check_id):
+		return line["check_flag_next"]
 	if line.has("patience_branch") and not _last_speaker.is_empty():
 		var current_patience: int = GameState.get_patience(_last_speaker)
 		var best_next = null
@@ -204,6 +208,15 @@ func _show_line() -> void:
 	var flag_id := str(line.get("set_flag_on_enter", "")).strip_edges()
 	if not flag_id.is_empty():
 		GameState.set_flag(flag_id)
+	# set_flag: {"flag": id, "value": bool} -- like set_flag_on_enter, but can
+	# also clear a flag. A bare string is shorthand for value true.
+	var set_spec = line.get("set_flag", null)
+	if set_spec is Dictionary:
+		var set_id := str(set_spec.get("flag", "")).strip_edges()
+		if not set_id.is_empty():
+			GameState.set_flag(set_id, bool(set_spec.get("value", true)))
+	elif set_spec is String and not set_spec.strip_edges().is_empty():
+		GameState.set_flag(set_spec.strip_edges())
 
 	var portrait_tex = CharacterRegistry.get_portrait(
 		line.get("speaker", "")

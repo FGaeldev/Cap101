@@ -2,6 +2,7 @@
 	"quests": [
 		{
 			"id": "q002",
+			"category": "main",
 			"title": "Return to your room: open the book",
 			"required_exposures": 0,
 			"target_words": [],
@@ -11,6 +12,7 @@
 		},
 		{
 			"id": "q003",
+			"category": "main",
 			"title": "Find Lola Susan and Rose in the parking lot",
 			"required_exposures": 0,
 			"target_words": [],
@@ -20,6 +22,7 @@
 		},
 		{
 			"id": "q004",
+			"category": "main",
 			"title": "Practice words with Rose",
 			"required_exposures": 0,
 			"target_words": [],

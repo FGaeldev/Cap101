@@ -2,7 +2,7 @@
 	"scene_1_festival_grounds_morning": [
 		{
 			"start_index_if_flag": {
-				"default": 0
+				"default": 1
 			},
 			"type": "start_router"
 		},
@@ -27,7 +27,7 @@
 	"scene_2_parade_and_dance": [
 		{
 			"start_index_if_flag": {
-				"default": 0
+				"default": 1
 			},
 			"type": "start_router"
 		},
@@ -52,7 +52,7 @@
 	"scene_3_call_and_response": [
 		{
 			"start_index_if_flag": {
-				"default": 0
+				"default": 1
 			},
 			"type": "start_router"
 		},
@@ -100,7 +100,7 @@
 	"scene_4_vocabulary_practice_round_festival_words": [
 		{
 			"start_index_if_flag": {
-				"default": 0
+				"default": 1
 			},
 			"type": "start_router"
 		},
@@ -109,9 +109,10 @@
 			"text": "Saot — dance. Tamboe — drum. Pyesta — festival. Kasadyahan — joy.",
 			"next": 2,
 			"word_ids": [
-				"w128",
-				"w129",
-				"w130"
+				"w211",
+				"w220",
+				"w200",
+				"w108"
 			]
 		},
 		{
@@ -119,7 +120,9 @@
 			"text": "Balikbayan — returning from abroad. Bisita — visitor. Tawo — person.",
 			"next": 3,
 			"word_ids": [
-				"w131"
+				"w033",
+				"w042",
+				"w228"
 			]
 		},
 		{
@@ -136,7 +139,7 @@
 	"scene_5_reflection": [
 		{
 			"start_index_if_flag": {
-				"default": 0
+				"default": 1
 			},
 			"type": "start_router"
 		},
@@ -216,7 +219,7 @@
 				"speaker": "Rose",
 				"text": "Magtuon ka gid, ha. Indi lang basta-basta.",
 				"word_ids": [
-					"w129"
+					"w142"
 				]
 			},
 			{
@@ -238,7 +241,6 @@
 				"speaker": "Rose",
 				"text": "Magbulig ako sa imo, pero indi ako mangin madali. Deal pa rin 'yun.",
 				"word_ids": [
-					"w130"
 				]
 			},
 			{
@@ -343,14 +345,12 @@
 				"speaker": "Lola Susan",
 				"text": "Halong, apo — mainit gid diri sa Aklan, indi pareho sa America.",
 				"word_ids": [
-					"w128"
 				]
 			},
 			{
 				"speaker": "Lola Susan",
 				"text": "Kung gutom ka, sabihon mo lang. Damo pagkaon sa balay.",
 				"word_ids": [
-					"w006"
 				]
 			},
 			{

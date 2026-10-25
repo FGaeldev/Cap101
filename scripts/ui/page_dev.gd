@@ -56,6 +56,14 @@ const DEV_WARP_TARGETS := [
 	{"label": "Ch2 — Aklan - Susan's Room", "scene_path": "res://scenes/world/chapter2/aklan_BR_Susan.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
 	{"label": "Ch2 — Aklan - Jonabel's Room", "scene_path": "res://scenes/world/chapter2/aklan_BR_Jonabel.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
 	{"label": "Ch2 — Aklan - Jobert's Room", "scene_path": "res://scenes/world/chapter2/aklan_BR_Jobert.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
+	# {label, time}: jumps the day/night clock instead of warping.
+	{"label": "Time — Morning (08:00)", "time": 8.0},
+	{"label": "Time — Dusk (18:00)", "time": 18.0},
+	{"label": "Time — Night (22:00)", "time": 22.0},
+	{"label": "Time — Dawn (06:00)", "time": 6.0},
+	# {label, days}: moves the in-game date (calendar / HUD weekday).
+	{"label": "Date — Next day", "days": 1},
+	{"label": "Date — Next week", "days": 7},
 ]
 
 # Cutscenes are level-bound: their actors are spawned/registered by the host
@@ -193,6 +201,15 @@ func _render_page() -> void:
 			add_button(entry["label"], _on_dev_cutscene_pressed.bind(entry))
 
 func _on_dev_warp_pressed(target: Dictionary) -> void:
+	if target.has("time"):
+		DayNightManager.set_hour(target["time"])
+		BookUI.close()
+		return
+	if target.has("days"):
+		GameState.date_unix += int(target["days"]) * DayNightManager.SECONDS_PER_DAY
+		DayNightManager.day_changed.emit()
+		BookUI.close()
+		return
 	_dev_warp(target["scene_path"], target.get("flags_on", []), [], "DefaultSpawn", target.get("quests_done", []))
 
 ## Replays one DEV_CUTSCENES entry: onboarding skip (same as a warp) -> force

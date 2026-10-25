@@ -18,6 +18,14 @@ const MarkerUtil := preload("res://scripts/util/marker_util.gd")
 
 func _ready() -> void:
 	QuestManager.quest_started.connect(_on_quest_started)
+	# Day/night tint. A CanvasModulate tints only its own canvas layer (the
+	# world); UILayer and the other CanvasLayer UIs stay untouched.
+	var day_night := CanvasModulate.new()
+	day_night.name = "DayNightModulate"
+	add_child(day_night)
+	DayNightManager.register_canvas_modulate(day_night)
+	# Save is loaded by now: baseline achievements so only new ones get a toast.
+	AchievementManager.prime()
 	var level_path := GameState.current_level_path if GameState.current_level_path != "" else "res://scenes/world/chapter1/us_bedroom.tscn"
 	load_level(level_path)
 	# Tutorial start moved here (was after fade_in+timer) — fixes race where
@@ -59,6 +67,8 @@ func load_level(path: String, spawn_id: String = "DefaultSpawn") -> void:
 	player.reparent(level, false)
 	player = player.get_parent().get_node("Player")
 	_place_player_at_spawn(level, spawn_id)
+	# Per-level night strength (metadata on the level root, see DayNightManager).
+	DayNightManager.set_level_strength(float(level.get_meta("day_night_strength", 1.0)))
 	# Settle the view on the spawn now, while the screen is still black,
 	# instead of letting the smoothed camera glide in during the fade-in.
 	CutsceneManager.snap_camera()

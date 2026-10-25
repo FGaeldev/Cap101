@@ -35,6 +35,8 @@ var _filter_query: String = ""
 var _filter_category: String = ""  # "" = all categories
 var _filtered_entries: Array = []  # word_ids passing current filter
 var _offset: int = 0
+## Entry highlighted by focus_word(); cleared on the next refresh().
+var _focus_id: String = ""
 
 func _ready() -> void:
 	clip_contents = true
@@ -43,7 +45,20 @@ func _ready() -> void:
 ## start — GameState.word_exposures may be empty pre-Dictionary-unlock.
 func refresh() -> void:
 	_offset = 0
+	_focus_id = ""
 	_apply_filter_and_rebuild()
+
+## Jumps to the page holding word_id and highlights it. Returns false if the
+## current filters hide it (caller clears filters and retries) or it is not
+## in the player's Dictionary yet.
+func focus_word(word_id: String) -> bool:
+	var index: int = _filtered_entries.find(word_id)
+	if index == -1:
+		return false
+	_focus_id = word_id
+	_offset = index - index % WORDS_PER_PAGE
+	_render_page()
+	return true
 
 ## Called by page_dictionary_filter.gd via signal whenever search text
 ## or category dropdown changes.
@@ -109,6 +124,11 @@ func _add_entry(word_id: String, word_data: Dictionary) -> void:
 	word_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_EMPHASIS)
 	word_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XL)
 	word_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	if word_id == _focus_id:
+		var highlight := StyleBoxFlat.new()
+		highlight.bg_color = Color(UIThemeApplier.TEXT_EMPHASIS, 0.18)
+		highlight.set_corner_radius_all(2)
+		word_label.add_theme_stylebox_override("normal", highlight)
 	top_row.add_child(word_label)
 
 	var cat_label := Label.new()

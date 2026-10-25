@@ -2,7 +2,7 @@
 	"scene_1_caticlan_jetty_departure": [
 		{
 			"start_index_if_flag": {
-				"default": 0
+				"default": 1
 			},
 			"type": "start_router"
 		},
@@ -27,7 +27,7 @@
 	"scene_2_arrival_at_boracay_white_beach": [
 		{
 			"start_index_if_flag": {
-				"default": 0
+				"default": 1
 			},
 			"type": "start_router"
 		},
@@ -48,14 +48,14 @@
 			"next": null,
 			"translation": "You’re here to rest and enjoy the shore.",
 			"word_ids": [
-				"w128"
+				"w037"
 			]
 		}
 	],
 	"scene_3_tourism_lesson": [
 		{
 			"start_index_if_flag": {
-				"default": 0
+				"default": 1
 			},
 			"type": "start_router"
 		},
@@ -76,14 +76,14 @@
 			"next": null,
 			"translation": "Exactly. When you buy a craft, it’s not just a souvenir — it’s support for the person who made it.",
 			"word_ids": [
-				"w129"
+				"w031"
 			]
 		}
 	],
 	"scene_4_vocabulary_practice_round_tourism_and_travel": [
 		{
 			"start_index_if_flag": {
-				"default": 0
+				"default": 1
 			},
 			"type": "start_router"
 		},
@@ -92,9 +92,8 @@
 			"text": "Sakay — ride. Pahuway — rest. Eangoy — swim. Baybay — shore.",
 			"next": 2,
 			"word_ids": [
-				"w130",
-				"w131",
-				"w132"
+				"w060",
+				"w037"
 			]
 		},
 		{
@@ -102,9 +101,8 @@
 			"text": "Balik — return. Warang— travel. Bisita — visitor. Turista — tourist.",
 			"next": 3,
 			"word_ids": [
-				"w133",
-				"w134",
-				"w135"
+				"w245",
+				"w042"
 			]
 		},
 		{
@@ -121,7 +119,7 @@
 	"scene_5_finale_reflection": [
 		{
 			"start_index_if_flag": {
-				"default": 0
+				"default": 1
 			},
 			"type": "start_router"
 		},
@@ -343,14 +341,12 @@
 				"speaker": "Lola Susan",
 				"text": "Halong, apo — mainit gid diri sa Aklan, indi pareho sa America.",
 				"word_ids": [
-					"w128"
 				]
 			},
 			{
 				"speaker": "Lola Susan",
 				"text": "Kung gutom ka, sabihon mo lang. Damo pagkaon sa balay.",
 				"word_ids": [
-					"w006"
 				]
 			},
 			{
@@ -445,7 +441,7 @@
 				"speaker": "Rose",
 				"text": "Magtuon ka gid, ha. Indi lang basta-basta.",
 				"word_ids": [
-					"w129"
+					"w142"
 				]
 			},
 			{
@@ -467,7 +463,6 @@
 				"speaker": "Rose",
 				"text": "Magbulig ako sa imo, pero indi ako mangin madali. Deal pa rin 'yun.",
 				"word_ids": [
-					"w130"
 				]
 			},
 			{

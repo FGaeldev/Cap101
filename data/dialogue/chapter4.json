@@ -2,7 +2,7 @@
 	"scene_1_arrival_at_the_eco_park": [
 		{
 			"start_index_if_flag": {
-				"default": 0
+				"default": 1
 			},
 			"type": "start_router"
 		},
@@ -32,7 +32,7 @@
 	"scene_2_learning_about_mangroves": [
 		{
 			"start_index_if_flag": {
-				"default": 0
+				"default": 1
 			},
 			"type": "start_router"
 		},
@@ -62,7 +62,7 @@
 	"scene_3_fishing_lesson": [
 		{
 			"start_index_if_flag": {
-				"default": 0
+				"default": 1
 			},
 			"type": "start_router"
 		},
@@ -110,7 +110,7 @@
 	"scene_4_vocabulary_practice_round_nature_and_actions": [
 		{
 			"start_index_if_flag": {
-				"default": 0
+				"default": 1
 			},
 			"type": "start_router"
 		},
@@ -119,10 +119,10 @@
 			"text": "Tan-awa ru baybay — that’s “shore.” Tubi — water. eugta — soil. Baeas — sand.",
 			"next": 2,
 			"word_ids": [
-				"w128",
-				"w129",
-				"w130",
-				"w131"
+				"w037",
+				"w233",
+				"w062",
+				"w026"
 			]
 		},
 		{
@@ -130,10 +130,10 @@
 			"text": "Maisog — brave. Maeuya — weak. Malimpyo — clean. Mahigko — dirty.",
 			"next": 3,
 			"word_ids": [
-				"w132",
-				"w133",
-				"w134",
-				"w135"
+				"w144",
+				"w135",
+				"w149",
+				"w143"
 			]
 		},
 		{
@@ -141,9 +141,9 @@
 			"text": "tikang pa — keep walking. Pamati — listen. Pamunit — to fish. Tanom — plant.",
 			"next": 4,
 			"word_ids": [
-				"w026",
-				"w136",
-				"w137"
+				"w229",
+				"w187",
+				"w225"
 			]
 		},
 		{
@@ -160,7 +160,7 @@
 	"scene_5_reflection": [
 		{
 			"start_index_if_flag": {
-				"default": 0
+				"default": 1
 			},
 			"type": "start_router"
 		},
@@ -241,7 +241,7 @@
 				"speaker": "Rose",
 				"text": "Magtuon ka gid, ha. Indi lang basta-basta.",
 				"word_ids": [
-					"w129"
+					"w142"
 				]
 			},
 			{
@@ -263,7 +263,6 @@
 				"speaker": "Rose",
 				"text": "Magbulig ako sa imo, pero indi ako mangin madali. Deal pa rin 'yun.",
 				"word_ids": [
-					"w130"
 				]
 			},
 			{

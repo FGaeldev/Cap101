@@ -47,6 +47,13 @@ func _populate_categories() -> void:
 		category_dropdown.add_item(category.capitalize())
 	# Index 0 = All. WordBank normalizes categories before the UI reads them.
 
+## Clears search + category and re-emits filters_changed (e.g. so a word the
+## filters hide can be shown by BookUI.open_dictionary_entry()).
+func clear_filters() -> void:
+	search_box.text = ""
+	category_dropdown.select(0)
+	_on_filters_changed()
+
 func _on_filters_changed(_text: String = "") -> void:
 	var query := search_box.text
 	var idx := category_dropdown.selected

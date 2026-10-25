@@ -1,4 +1,4 @@
-# BookUI.gd — autoload. Single entry point for relationship/dictionary/journal/achievements/dev/settings/map.
+# BookUI.gd — autoload. Single entry point for relationship/dictionary/journal/achievements/dev/settings/map/calendar.
 extends CanvasLayer
 
 @export var page_left_path: NodePath = ^"Root/Spread/PageLeft"
@@ -24,6 +24,8 @@ const PageJournalScript := preload("res://scripts/ui/page_journal.gd")
 const PageJournalAchievementsScript := preload("res://scripts/ui/page_journal_achievements.gd")
 const PageDevScript := preload("res://scripts/ui/page_dev.gd")
 const PageMapScene := preload("res://scenes/ui/page_map.tscn")
+const PageCalendarScript := preload("res://scripts/ui/page_calendar.gd")
+const PageCalendarEventsScript := preload("res://scripts/ui/page_calendar_events.gd")
 
 const MARKER := preload("res://assets/ui/book/marker.png")
 const MARKER_SLICE_MARGIN := 3
@@ -58,8 +60,6 @@ const ARROW_PAGE_INSET := 6
 ## Fraction of page width the OUTER-edge arrow is pulled inward (left page:
 ## left arrow moves right; right page: right arrow moves left).
 const ARROW_OUTER_SHIFT := 0.10
-## Must match ArrowLeft/ArrowRight custom_minimum_size.x in book_ui.tscn.
-const ARROW_WIDTH := 16
 
 ## Per-side arrow bars. "page" = PageLeft's bar (the scene's BottomBar),
 ## "page_right" = PageRight's bar (runtime duplicate of BottomBar, built in
@@ -80,6 +80,8 @@ var _arrows: Dictionary = {}  # side key -> {"prev": Button, "next": Button}
 @onready var tab_achievements: Button = get_node(tab_achievements_path)
 @export var tab_dev_path: NodePath = ^"Root/TabBar/TabDev"
 @onready var tab_dev: Button = get_node(tab_dev_path)
+@export var tab_calendar_path: NodePath = ^"Root/TabBar/TabCalendar"
+@onready var tab_calendar: Button = get_node(tab_calendar_path)
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -163,6 +165,23 @@ func _ready() -> void:
 	page_map_host.visible = false  # host itself must be hidden too, not just its child — else it still eats mouse input over the pages rect while on other tabs
 	_tabs["map"]["page"] = map_page
 	_tabs["map"]["full_spread"] = true
+
+	# Calendar — month grid left (pages months with the left arrow bar),
+	# event list right. The grid drives the list through its signals.
+	_register_tab("calendar", tab_calendar, "CALENDAR")
+	var cal_grid := Control.new()
+	cal_grid.set_script(PageCalendarScript)
+	var cal_events := Control.new()
+	cal_events.set_script(PageCalendarEventsScript)
+	page_left.add_child(cal_grid)
+	page_right.add_child(cal_events)
+	cal_grid.visible = false
+	cal_events.visible = false
+	# String names: both are plain Controls to the analyzer until set_script.
+	cal_grid.connect("month_changed", Callable(cal_events, "show_month"))
+	cal_grid.connect("day_selected", Callable(cal_events, "show_day"))
+	_tabs["calendar"]["page"] = cal_grid
+	_tabs["calendar"]["page_right"] = cal_events
 
 	TutorialManager.register_target("book_settings", tab_settings)
 	TutorialManager.register_target("book_quest", tab_quest)
@@ -278,6 +297,20 @@ func open(tab_id: String = "settings") -> void:
 	refresh_dev_tab()
 	switch_tab(tab_id)
 
+## Opens the Dictionary on word_id's entry (page + highlight). Clears the
+## search/category filters first if they hide it. Used by the HUD's
+## new-word toast.
+func open_dictionary_entry(word_id: String) -> void:
+	open("dictionary")
+	if _current_tab != "dictionary":
+		return  # still locked (no words yet)
+	var filter = _tabs["dictionary"]["page"]
+	var list = _tabs["dictionary"]["page_right"]
+	if not list.focus_word(word_id):
+		filter.clear_filters()
+		list.focus_word(word_id)
+	_update_bottom_bar()
+
 func close() -> void:
 	AudioManager.play_sfx("menu_click")
 	visible = false
@@ -346,18 +379,30 @@ func _update_bottom_bar() -> void:
 		if not has_pages:
 			continue
 		var host: Control = page_left if side == "page" else page_right
-		var shift: float = host.size.x * ARROW_OUTER_SHIFT
 		var is_left: bool = side == "page"
-		var width: float = host.size.x - ARROW_PAGE_INSET * 2 - shift
+		# Page edges. PageLeft's rect runs under the spine, so its inner
+		# (seam) edge is clamped to where PageRight starts -- otherwise the
+		# left page's next arrow sits on the spine instead of mirroring the
+		# right page's prev arrow.
+		var left_edge: float = host.global_position.x
+		var right_edge: float = left_edge + host.size.x
+		if is_left:
+			right_edge = minf(right_edge, page_right.global_position.x)
+		var shift: float = (right_edge - left_edge) * ARROW_OUTER_SHIFT
+		# Outer arrow shifts inward by `shift`; inner arrow sits ARROW_PAGE_INSET
+		# off the seam. Left page: outer = prev. Right page: outer = next.
+		var start_x: float = left_edge + ARROW_PAGE_INSET + (shift if is_left else 0.0)
+		var end_x: float = right_edge - ARROW_PAGE_INSET - (0.0 if is_left else shift)
+		var width: float = end_x - start_x
+		var prev_w: float = _arrows[side]["prev"].get_combined_minimum_size().x
+		var next_w: float = _arrows[side]["next"].get_combined_minimum_size().x
 		# Separation MUST be set before size: the scene's baked-in separation
 		# (428) sets the HBox minimum width and would clamp size.x otherwise.
+		# Real button widths so the bar never outgrows `width`.
 		bar.add_theme_constant_override(
-			"separation", maxi(0, int(width) - ARROW_WIDTH * 2))
+			"separation", maxi(0, int(width - prev_w - next_w)))
 		bar.size = Vector2(width, bar.size.y)
-		# Left page: bar starts further right (left arrow shifts in).
-		# Right page: bar starts at normal inset, ends sooner (right arrow shifts in).
-		var x_offset: float = ARROW_PAGE_INSET + (shift if is_left else 0.0)
-		bar.global_position.x = host.global_position.x + x_offset
+		bar.global_position.x = start_x
 		_arrows[side]["prev"].disabled = not page.has_prev_page()
 		_arrows[side]["next"].disabled = not page.has_next_page()
 

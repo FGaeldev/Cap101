@@ -1,0 +1,14 @@
+{
+	"events": [
+		{"id": "new_year", "title": "New Year's Day", "month": 1, "day": 1, "description": "The family stays up for the countdown."},
+		{"id": "ati_atihan", "title": "Ati-Atihan Festival", "month": 1, "nth": 3, "weekday": 0, "description": "Kalibo's big festival: drums, dancing and painted faces in the streets."},
+		{"id": "araw_ng_kagitingan", "title": "Day of Valor", "month": 4, "day": 9, "description": "Araw ng Kagitingan, a national holiday."},
+		{"id": "labor_day", "title": "Labor Day", "month": 5, "day": 1, "description": "A national holiday."},
+		{"id": "independence_day", "title": "Independence Day", "month": 6, "day": 12, "description": "Philippine Independence Day."},
+		{"id": "national_heroes_day", "title": "National Heroes Day", "month": 8, "nth": -1, "weekday": 1, "description": "A national holiday on the last Monday of August."},
+		{"id": "all_saints_day", "title": "All Saints' Day", "month": 11, "day": 1, "description": "Families visit and tidy their relatives' graves."},
+		{"id": "bonifacio_day", "title": "Bonifacio Day", "month": 11, "day": 30, "description": "A national holiday."},
+		{"id": "christmas", "title": "Christmas Day", "month": 12, "day": 25, "description": "Noche Buena with the whole family."},
+		{"id": "rizal_day", "title": "Rizal Day", "month": 12, "day": 30, "description": "A national holiday."}
+	]
+}

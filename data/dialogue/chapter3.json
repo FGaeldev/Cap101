@@ -2,7 +2,7 @@
 	"scene_1_arrival_at_the_loom_house": [
 		{
 			"start_index_if_flag": {
-				"default": 0
+				"default": 1
 			},
 			"type": "start_router"
 		},
@@ -12,7 +12,6 @@
 			"next": 2,
 			"translation": "Welcome, visitors. Here, look at our weaving.",
 			"word_ids": [
-				"w128"
 			]
 		},
 		{
@@ -37,8 +36,8 @@
 			"next": 6,
 			"translation": "This comes from the farm — from the piña plant. A lot of work before it becomes cloth.",
 			"word_ids": [
-				"w129",
-				"w130"
+				"w072",
+				"w194"
 			]
 		},
 		{
@@ -85,7 +84,7 @@
 	"scene_2_trying_the_loom": [
 		{
 			"start_index_if_flag": {
-				"default": 0
+				"default": 1
 			},
 			"type": "start_router"
 		},
@@ -105,7 +104,7 @@
 			"next": 4,
 			"translation": "Slowly. This isn’t about whose faster.",
 			"word_ids": [
-				"w001"
+				"w079"
 			]
 		},
 		{
@@ -152,7 +151,7 @@
 	"scene_3_closing_gift": [
 		{
 			"start_index_if_flag": {
-				"default": 0
+				"default": 1
 			},
 			"type": "start_router"
 		},
@@ -182,7 +181,7 @@
 	"scene_4_vocabulary_practice_round_verbs_and_pace_words": [
 		{
 			"start_index_if_flag": {
-				"default": 0
+				"default": 1
 			},
 			"type": "start_router"
 		},
@@ -191,8 +190,7 @@
 			"text": "Tan-awa sanda. panaw — to walk... wait, save that one. Bangon — to get up, like when you fall.",
 			"next": 2,
 			"word_ids": [
-				"w131",
-				"w022"
+				"w034"
 			]
 		},
 		{
@@ -205,7 +203,7 @@
 			"text": "That’s the point. agto iya— come here. agto idto — go there. Dayon — then, or “continue.”",
 			"next": 4,
 			"word_ids": [
-				"w016"
+				"w053"
 			]
 		},
 		{
@@ -213,11 +211,10 @@
 			"text": "Bakae — to buy. Baligya — to sell. Tan-aw — to look, to see. Hambae — to speak. Sabát — to answer.",
 			"next": 5,
 			"word_ids": [
-				"w132",
-				"w030",
-				"w025",
-				"w133",
-				"w028"
+				"w031",
+				"w032",
+				"w073",
+				"w205"
 			]
 		},
 		{
@@ -259,10 +256,10 @@
 			"text": "Taas — tall, or long. Naba — short. Paspas — fast. Hinay — slow, base word of “hinay-hinay” that Anang taught you.",
 			"next": 10,
 			"word_ids": [
-				"w033",
-				"w034",
-				"w047",
-				"w048"
+				"w218",
+				"w170",
+				"w192",
+				"w079"
 			]
 		},
 		{
@@ -270,8 +267,8 @@
 			"text": "Bug-at — heavy. Maugan — light, not bug-at.  — small words, but you’ll need them everywhere.",
 			"next": 11,
 			"word_ids": [
-				"w049",
-				"w134"
+				"w044",
+				"w161"
 			]
 		},
 		{
@@ -279,7 +276,7 @@
 			"text": "Kuntra naman — “against.” Rarely used, but good to know.",
 			"next": 12,
 			"word_ids": [
-				"w135"
+				"w120"
 			]
 		},
 		{
@@ -353,7 +350,7 @@
 				"speaker": "Rose",
 				"text": "Magtuon ka gid, ha. Indi lang basta-basta.",
 				"word_ids": [
-					"w129"
+					"w142"
 				]
 			},
 			{
@@ -375,7 +372,6 @@
 				"speaker": "Rose",
 				"text": "Magbulig ako sa imo, pero indi ako mangin madali. Deal pa rin 'yun.",
 				"word_ids": [
-					"w130"
 				]
 			}
 		],

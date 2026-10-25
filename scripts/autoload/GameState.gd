@@ -17,6 +17,19 @@ var current_area: String = "village"
 var completed_quests: Array = []
 var current_level_path: String = "res://scenes/world/chapter1/us_bedroom.tscn"
 
+## In-game clock in hours (0..24, fractional), advanced by DayNightManager.
+const DEFAULT_TIME_OF_DAY: float = 8.0
+var time_of_day: float = DEFAULT_TIME_OF_DAY
+## In-game date: unix seconds at 00:00 (UTC) of the current in-game day.
+## DayNightManager adds a day each time the clock passes midnight. New games
+## (and saves from before this field) start on START_DATE.
+const START_DATE := {"year": 2026, "month": 11, "day": 15}
+var date_unix: int = start_date_unix()
+
+## Unix seconds at 00:00 of START_DATE.
+static func start_date_unix() -> int:
+	return Time.get_unix_time_from_datetime_dict({"year": START_DATE["year"], "month": START_DATE["month"], "day": START_DATE["day"], "hour": 0, "minute": 0, "second": 0})
+
 ## Player-chosen display name. Empty until name entry completes (new game) or
 ## when loading a pre-name-entry save. TextUtil substitutes a fallback when empty.
 var player_name: String = ""
@@ -203,6 +216,8 @@ func reset_game_state() -> void:
 	current_area = "village"
 	completed_quests.clear()
 	current_level_path = "res://scenes/world/chapter1/us_bedroom.tscn"
+	time_of_day = DEFAULT_TIME_OF_DAY
+	date_unix = start_date_unix()
 	player_name = ""
 	rapport.clear()
 	patience.clear()
@@ -230,6 +245,8 @@ func save_game() -> bool:
 		"current_area": current_area,
 		"completed_quests": completed_quests,
 		"current_level_path": current_level_path,
+		"time_of_day": time_of_day,
+		"date_unix": date_unix,
 		"player_name": player_name,
 		"rapport": rapport,
 		"patience": patience,
@@ -272,6 +289,8 @@ func load_game() -> void:
 	current_area = data.get("current_area", "village")
 	completed_quests = data.get("completed_quests", [])
 	current_level_path = data.get("current_level_path")
+	time_of_day = data.get("time_of_day", DEFAULT_TIME_OF_DAY)  # additive field, old saves -> morning
+	date_unix = data.get("date_unix", start_date_unix())  # additive field, old saves -> START_DATE
 	player_name = data.get("player_name", "")  # additive field, old saves -> ""
 	rapport = data.get("rapport", {})
 	patience = data.get("patience", {})

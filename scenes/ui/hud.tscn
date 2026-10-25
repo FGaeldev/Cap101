@@ -15,24 +15,63 @@ offset_right = 125.0
 offset_bottom = -95.0
 grow_vertical = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=377005514]
+[node name="QuestColumn" type="VBoxContainer" parent="." unique_id=377005514]
 offset_left = 22.0
 offset_top = 14.0
-offset_right = 79.0
+offset_right = 202.0
 offset_bottom = 54.0
+theme_override_constants/separation = 4
 
-[node name="MenuButton" type="Button" parent="." unique_id=1114267016]
-custom_minimum_size = Vector2(18, 18)
-custom_maximum_size = Vector2(18, 18)
+[node name="MainQuest" type="PanelContainer" parent="QuestColumn"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="VBox" type="VBoxContainer" parent="QuestColumn/MainQuest"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="QuestColumn/MainQuest/VBox"]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+autowrap_mode = 3
+
+[node name="SubQuests" type="VBoxContainer" parent="QuestColumn"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="TopRight" type="CanvasLayer" parent="."]
+layer = 89
+
+[node name="RightColumn" type="VBoxContainer" parent="TopRight" unique_id=1114267017]
 anchors_preset = -1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -40.0
+offset_left = -182.0
 offset_top = 14.0
 offset_right = -22.0
-offset_bottom = 32.0
+offset_bottom = 54.0
 grow_horizontal = 0
+theme_override_constants/separation = 4
+
+[node name="Clock" type="PanelContainer" parent="TopRight/RightColumn"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Label" type="Label" parent="TopRight/RightColumn/Clock"]
+layout_mode = 2
+horizontal_alignment = 2
+
+[node name="MenuButton" type="Button" parent="TopRight/RightColumn" unique_id=1114267016]
+custom_minimum_size = Vector2(18, 18)
+custom_maximum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_horizontal = 8
 expand_icon = true
+
+[node name="Toasts" type="VBoxContainer" parent="TopRight/RightColumn"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/separation = 4
 
 [node name="InteractButton" type="Button" parent="." unique_id=1082605464]
 custom_minimum_size = Vector2(48, 48)

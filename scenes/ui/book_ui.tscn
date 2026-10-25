@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://ijbu0mmes24m" path="res://scenes/ui/confirm_popup.tscn" id="15_5x655"]
 [ext_resource type="Texture2D" uid="uid://dgfxk5bhhf1ap" path="res://assets/ui/book/star_icon.png" id="16_star"]
 [ext_resource type="Texture2D" uid="uid://bmdrvpnihik0v" path="res://assets/ui/book/tick_icon.png" id="17_tick"]
+[ext_resource type="Texture2D" uid="uid://c0q4lrua5n7bl" path="res://assets/ui/book/calendar_icon.png" id="18_calendar"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xrivr"]
 texture = ExtResource("1_danvl")
@@ -50,6 +51,7 @@ texture_margin_bottom = 7.0
 [node name="BookUI" type="CanvasLayer" unique_id=465866522]
 process_mode = 3
 layer = 100
+visible = false
 script = ExtResource("1_ue6pm")
 page_left_path = NodePath("Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/Control/Spread/PageLeft")
 page_right_path = NodePath("Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/Control/Spread/PageRight")
@@ -68,6 +70,7 @@ tab_dictionary_path = NodePath("Root/CoverPage/MarginContainer/VBoxContainer/VBo
 tab_map_path = NodePath("Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/TabBar/TabMap")
 tab_achievements_path = NodePath("Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/TabBar/TabAchievements")
 tab_dev_path = NodePath("Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/TabBar/TabDev")
+tab_calendar_path = NodePath("Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/TabBar/TabCalendar")
 
 [node name="Root" type="Control" parent="." unique_id=343053056]
 layout_mode = 3
@@ -139,7 +142,7 @@ layout_mode = 2
 icon = ExtResource("5_76us2")
 expand_icon = true
 
-[node name="TabAchievements" type="Button" parent="Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/TabBar"]
+[node name="TabAchievements" type="Button" parent="Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/TabBar" unique_id=1227781201]
 custom_minimum_size = Vector2(20, 14)
 layout_mode = 2
 icon = ExtResource("16_star")
@@ -163,7 +166,13 @@ layout_mode = 2
 icon = ExtResource("8_jyi8r")
 expand_icon = true
 
-[node name="TabDev" type="Button" parent="Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/TabBar"]
+[node name="TabCalendar" type="Button" parent="Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/TabBar" unique_id=1729060244]
+custom_minimum_size = Vector2(20, 14)
+layout_mode = 2
+icon = ExtResource("18_calendar")
+expand_icon = true
+
+[node name="TabDev" type="Button" parent="Root/CoverPage/MarginContainer/VBoxContainer/VBoxContainer/TabBar" unique_id=1624204241]
 visible = false
 custom_minimum_size = Vector2(20, 14)
 layout_mode = 2

@@ -3,8 +3,6 @@
 [ext_resource type="PackedScene" uid="uid://c2srln36wq55q" path="res://scenes/ui/DialogueRoot.tscn" id="1_400sg"]
 [ext_resource type="Script" uid="uid://8ky1eqankt4x" path="res://scripts/Game.gd" id="1_g4kob"]
 [ext_resource type="PackedScene" uid="uid://bj4xslm7prfgo" path="res://scenes/ui/hud.tscn" id="2_g4kob"]
-[ext_resource type="PackedScene" uid="uid://c6gceufnjpplb" path="res://scenes/ui/word_reveal.tscn" id="4_3xj3m"]
-[ext_resource type="PackedScene" uid="uid://iuwdr5jcimkk" path="res://scenes/ui/quest_complete_popup.tscn" id="5_mcffj"]
 [ext_resource type="PackedScene" uid="uid://dfqsw38bvduk2" path="res://scenes/ui/puzzle_panel.tscn" id="6_2rd6h"]
 [ext_resource type="PackedScene" uid="uid://bc5quroj66fh4" path="res://scenes/ui/ScreenFade.tscn" id="8_r7sob"]
 [ext_resource type="PackedScene" uid="uid://brd713x4jvfe8" path="res://scenes/entities/Player.tscn" id="9_player"]
@@ -21,11 +19,6 @@ script = ExtResource("1_g4kob")
 [node name="HUD" parent="UILayer" unique_id=488423917 instance=ExtResource("2_g4kob")]
 
 [node name="DialogueRoot" parent="UILayer" unique_id=106247297 instance=ExtResource("1_400sg")]
-
-[node name="WordReveal" parent="UILayer" unique_id=1509130754 instance=ExtResource("4_3xj3m")]
-layer = 99
-
-[node name="QuestCompletePopup" parent="UILayer" unique_id=913054677 instance=ExtResource("5_mcffj")]
 
 [node name="PuzzlePanel" parent="UILayer" unique_id=415094778 instance=ExtResource("6_2rd6h")]
 
