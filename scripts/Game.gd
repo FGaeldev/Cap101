@@ -59,6 +59,9 @@ func load_level(path: String, spawn_id: String = "DefaultSpawn") -> void:
 	player.reparent(level, false)
 	player = player.get_parent().get_node("Player")
 	_place_player_at_spawn(level, spawn_id)
+	# Settle the view on the spawn now, while the screen is still black,
+	# instead of letting the smoothed camera glide in during the fade-in.
+	CutsceneManager.snap_camera()
 	_update_current_area(path)
 
 ## Every level swap (boot, door, map travel, cutscene load_scene, dev skip)

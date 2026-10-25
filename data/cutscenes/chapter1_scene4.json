@@ -5,18 +5,6 @@
 		"scene": "scene_4_vocabulary_practice_round_family_pronouns_numbers"
 	},
 	{
-		"type": "conga",
-		"leader": "Rose",
-		"followers": ["Lola Susan", "Lola Jonabel", "Papa Jobert", "player"],
-		"waypoints": ["S4/Exit"],
-		"order": "yx",
-		"queue_direction": "right",
-		"gap": 1,
-		"speed": 48,
-		"despawn": true,
-		"hold_at": "S4/Hold"
-	},
-	{
 		"type": "set_flag",
 		"flag": "story_done_scene_4_rose",
 		"value": true
@@ -32,12 +20,15 @@
 		"value": true
 	},
 	{
-		"type": "fade",
-		"direction": "out",
-		"duration": 0.6
-	},
-	{
-		"type": "load_scene",
-		"scene_path": "res://scenes/world/chapter2/aklan_living.tscn"
+		"type": "conga",
+		"leader": "Rose",
+		"followers": ["Lola Susan", "Lola Jonabel", "Papa Jobert", "player"],
+		"waypoints": ["S4/Exit"],
+		"order": "yx",
+		"queue_direction": "right",
+		"gap": 1,
+		"speed": 48,
+		"despawn": true,
+		"hold_at": "S4/Hold"
 	}
 ]

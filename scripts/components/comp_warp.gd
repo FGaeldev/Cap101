@@ -78,6 +78,12 @@ const UNIT_WIDTH_PX: float = 16.0
 ## One-line player remark shown when the warp is blocked by required_flag.
 @export var blocked_message: String = "I should finish what I'm doing here first."
 
+## Fire as soon as a cutscene walks the player onto this area (no input needed),
+## e.g. Ch1 scene 4's exit conga carrying the player off the map edge. Still
+## honours required_flag (silently: no blocked message mid-cutscene). The warp
+## aborts the running cutscene, so any steps after the walk are skipped.
+@export var fire_during_cutscene: bool = false
+
 var _blocked_dialogue_active: bool = false
 
 ## Player currently overlapping this area, null if none.
@@ -106,6 +112,10 @@ func _ready() -> void:
 ## and Walk never starts.
 func _physics_process(delta: float) -> void:
 	if Engine.is_editor_hint() or _player == null or _fired:
+		return
+	if fire_during_cutscene and CutsceneManager.is_playing():
+		if required_flag.is_empty() or GameState.dev_mode or GameState.get_flag(required_flag):
+			_fire(_player)
 		return
 	var want: Vector2 = TRIGGER_VECTORS[trigger_direction]
 	if _player.get_input_dir() != want:

@@ -85,6 +85,19 @@ func complete_quest_silently(quest_id: String) -> void:
 	_refresh_active_quests()
 	quest_list_changed.emit()
 
+## Dev-skip helper: un-completes a quest (clears its completion flag) and
+## drops it from active_quests, then re-adds it only if its gate is met by the
+## current flags. No popup.
+func reset_quest_silently(quest_id: String) -> void:
+	var q: Dictionary = quests.get(quest_id, {})
+	if q.is_empty():
+		return
+	GameState.set_flag(q["completion_flag"], false)
+	GameState.completed_quests.erase(quest_id)
+	active_quests.erase(quest_id)
+	_refresh_active_quests()
+	quest_list_changed.emit()
+
 func complete_quest(quest_id: String) -> void:
 	var q = quests.get(quest_id, {})
 	if q.is_empty(): return

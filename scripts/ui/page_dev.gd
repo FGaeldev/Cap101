@@ -5,8 +5,8 @@
 # is independent and set by `column` before add_child():
 #   "warps"     (PageLeft)  — DEV_WARP_TARGETS, room warps
 #   "cutscenes" (PageRight) — DEV_CUTSCENES, replay any cutscene
-# Both lists fit one page each (<=5 buttons), so no pagination methods are
-# exposed and BookUI hides the arrow bars for this tab.
+# Each column pages ITEMS_PER_PAGE buttons at a time on its own arrow bar
+# (BookUI paginates each side independently; single-page columns hide it).
 #
 # Tab visibility/lock is owned by BookUI (refresh_dev_tab()), driven by the
 # Settings tab's DevModeToggle.
@@ -21,6 +21,26 @@ extends PageListColumn
 ## picks the right header.
 @export_enum("warps", "cutscenes") var column: String = "warps"
 
+## Every Chapter 1 story beat, forced true when skipping into Chapter 2.
+const CH1_DONE_FLAGS := [
+	"seen_chapter1_scene1_5", "seen_chapter1_scene2", "seen_chapter1_scene3", "seen_chapter1_scene4",
+	"story_done_scene_3_reunion", "story_done_scene_4_rose", "chapter1_complete",
+]
+## Ch2 room warps also mark the arrival cutscene seen, so aklan_living.gd
+## doesn't replay it (use the Ch2 S0 cutscene entry for that).
+const CH2_START_FLAGS := [
+	"seen_chapter1_scene1_5", "seen_chapter1_scene2", "seen_chapter1_scene3", "seen_chapter1_scene4",
+	"story_done_scene_3_reunion", "story_done_scene_4_rose", "chapter1_complete",
+	"seen_chapter2_scene0",
+]
+
+## Chapter 1 story quests, in story order. q002 is handled by the onboarding
+## skip in _dev_warp().
+const CH1_QUESTS := ["q003", "q004"]
+
+## Buttons per column page; more entries page with the book's arrow bars.
+const ITEMS_PER_PAGE := 5
+
 # {label, scene_path} — Player is a persistent Game.tscn sibling (not baked
 # per-scene, see Game.gd), so every room scene is a valid standalone warp
 # target on its own.
@@ -29,6 +49,13 @@ const DEV_WARP_TARGETS := [
 	{"label": "Ch1 — US Home - Living Room", "scene_path": "res://scenes/world/chapter1/us_living.tscn"},
 	{"label": "Ch1 — Airport - Indoors", "scene_path": "res://scenes/world/chapter1/airport_arival.tscn"},
 	{"label": "Ch1 — Airport - Outdoors", "scene_path": "res://scenes/world/chapter1/airport_ourdoors.tscn"},
+	{"label": "Ch2 — Aklan - Living Room", "scene_path": "res://scenes/world/chapter2/aklan_living.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
+	{"label": "Ch2 — Aklan - Hallway", "scene_path": "res://scenes/world/chapter2/aklan_hallway.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
+	{"label": "Ch2 — Aklan - Player's Room", "scene_path": "res://scenes/world/chapter2/aklan_BR_Player.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
+	{"label": "Ch2 — Aklan - Rose's Room", "scene_path": "res://scenes/world/chapter2/aklan_BR_Rose.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
+	{"label": "Ch2 — Aklan - Susan's Room", "scene_path": "res://scenes/world/chapter2/aklan_BR_Susan.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
+	{"label": "Ch2 — Aklan - Jonabel's Room", "scene_path": "res://scenes/world/chapter2/aklan_BR_Jonabel.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
+	{"label": "Ch2 — Aklan - Jobert's Room", "scene_path": "res://scenes/world/chapter2/aklan_BR_Jobert.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
 ]
 
 # Cutscenes are level-bound: their actors are spawned/registered by the host
@@ -46,6 +73,9 @@ const DEV_WARP_TARGETS := [
 #                  e.g. "S3/Player" -> SceneMarkers/S3/Player); omitted =
 #                  DefaultSpawn. Matches where the player stands when that
 #                  cutscene fires in normal play.
+#   quests_done  — optional; quests completed silently (earlier beats, plus
+#                  the quest whose interaction normally fires this cutscene)
+#   quests_reset — optional; quests un-completed (this or later beats)
 #   auto_play    — true if the host room plays it itself on _ready() once
 #                  its seen flag is false; false = menu calls play() itself.
 #                  Never both, or play() gets called twice.
@@ -56,6 +86,7 @@ const DEV_CUTSCENES := [
 		"scene_path": "res://scenes/world/chapter1/us_living.tscn",
 		"flags_on": [],
 		"flags_off": ["seen_chapter1_scene1"],
+		"quests_reset": CH1_QUESTS,
 		"auto_play": false,  # normally fired by interacting with Lola Jonabel
 	},
 	{
@@ -65,6 +96,7 @@ const DEV_CUTSCENES := [
 		"flags_on": [],
 		"flags_off": ["seen_chapter1_scene1_5"],
 		"spawn": "S1_5/Gate",
+		"quests_reset": CH1_QUESTS,
 		"auto_play": true,   # airport_arival.gd plays it when SEEN_FLAG is false
 	},
 	{
@@ -77,6 +109,7 @@ const DEV_CUTSCENES := [
 			"story_done_scene_3_reunion", "story_done_scene_4_rose", "chapter1_complete",
 		],
 		"spawn": "S2/Arrival",
+		"quests_reset": CH1_QUESTS,
 		"auto_play": true,   # scene_2.gd plays it when SCENE2_SEEN_FLAG is false
 	},
 	{
@@ -89,6 +122,8 @@ const DEV_CUTSCENES := [
 			"story_done_scene_3_reunion", "story_done_scene_4_rose", "chapter1_complete",
 		],
 		"spawn": "S3/Player",
+		"quests_done": ["q003"],     # interacting with Lola Susan completes it first
+		"quests_reset": ["q004"],
 		"auto_play": false,  # normally fired by interacting with Lola Susan
 	},
 	{
@@ -99,7 +134,17 @@ const DEV_CUTSCENES := [
 		"flags_on": ["seen_chapter1_scene1_5", "seen_chapter1_scene2", "seen_chapter1_scene3", "story_done_scene_3_reunion"],
 		"flags_off": ["seen_chapter1_scene4", "story_done_scene_4_rose", "chapter1_complete"],
 		"spawn": "S4/Player",
+		"quests_done": CH1_QUESTS,   # interacting with Rose completes q004 first
 		"auto_play": false,  # normally fired by interacting with Rose
+	},
+	{
+		"label": "Ch2 S0 — Home at last",
+		"cutscene_id": "chapter2_scene0",
+		"scene_path": "res://scenes/world/chapter2/aklan_living.tscn",
+		"flags_on": CH1_DONE_FLAGS,
+		"flags_off": ["seen_chapter2_scene0"],
+		"quests_done": CH1_QUESTS,
+		"auto_play": true,   # aklan_living.gd plays it when SEEN_FLAG is false
 	},
 ]
 
@@ -116,15 +161,39 @@ func _get_header_text() -> String:
 func refresh() -> void:
 	if list.get_child_count() > 0:
 		return
-	if column == "warps":
-		for target in DEV_WARP_TARGETS:
-			add_button(target["label"], _on_dev_warp_pressed.bind(target["scene_path"]))
-	else:
-		for entry in DEV_CUTSCENES:
+	_render_page()
+
+## Per-column paging (overrides the base's two-column spread paging). BookUI
+## queries each side independently, so each column gets its own arrow bar.
+func next_page() -> void:
+	if has_next_page():
+		_offset += ITEMS_PER_PAGE
+		_render_page()
+
+func prev_page() -> void:
+	if has_prev_page():
+		_offset = maxi(0, _offset - ITEMS_PER_PAGE)
+		_render_page()
+
+func has_next_page() -> bool:
+	return _offset + ITEMS_PER_PAGE < _entries().size()
+
+func has_prev_page() -> bool:
+	return _offset > 0
+
+func _entries() -> Array:
+	return DEV_WARP_TARGETS if column == "warps" else DEV_CUTSCENES
+
+func _render_page() -> void:
+	clear_list()
+	for entry in _entries().slice(_offset, _offset + ITEMS_PER_PAGE):
+		if column == "warps":
+			add_button(entry["label"], _on_dev_warp_pressed.bind(entry))
+		else:
 			add_button(entry["label"], _on_dev_cutscene_pressed.bind(entry))
 
-func _on_dev_warp_pressed(scene_path: String) -> void:
-	_dev_warp(scene_path)
+func _on_dev_warp_pressed(target: Dictionary) -> void:
+	_dev_warp(target["scene_path"], target.get("flags_on", []), [], "DefaultSpawn", target.get("quests_done", []))
 
 ## Replays one DEV_CUTSCENES entry: onboarding skip (same as a warp) -> force
 ## the entry's flag state -> warp to host room -> play unless the room
@@ -139,7 +208,8 @@ func _on_dev_cutscene_pressed(entry: Dictionary) -> void:
 		push_error("DevSkip: cutscene data not found: %s" % cutscene_path)
 		return
 
-	if not _dev_warp(entry["scene_path"], entry["flags_on"], entry["flags_off"], entry.get("spawn", "DefaultSpawn")):
+	if not _dev_warp(entry["scene_path"], entry["flags_on"], entry["flags_off"], entry.get("spawn", "DefaultSpawn"),
+			entry.get("quests_done", []), entry.get("quests_reset", [])):
 		return
 	if entry["auto_play"]:
 		return
@@ -160,10 +230,12 @@ func _on_dev_cutscene_pressed(entry: Dictionary) -> void:
 ##
 ## flags_on/flags_off are applied AFTER the onboarding skip so a cutscene
 ## entry can re-clear an onboarding flag (e.g. replaying chapter1_scene1
-## needs seen_chapter1_scene1 false). spawn_id places the player (any marker
+## needs seen_chapter1_scene1 false). quests_reset / quests_done then
+## un-complete / complete quests silently. spawn_id places the player (any marker
 ## ref Game.load_level() accepts). Returns false (state untouched) if the
 ## warp can't happen.
-func _dev_warp(scene_path: String, flags_on: Array = [], flags_off: Array = [], spawn_id: String = "DefaultSpawn") -> bool:
+func _dev_warp(scene_path: String, flags_on: Array = [], flags_off: Array = [], spawn_id: String = "DefaultSpawn",
+		quests_done: Array = [], quests_reset: Array = []) -> bool:
 	if not ResourceLoader.exists(scene_path, "PackedScene"):
 		push_error("DevSkip: scene resource not found: %s" % scene_path)
 		return false
@@ -189,6 +261,12 @@ func _dev_warp(scene_path: String, flags_on: Array = [], flags_off: Array = [], 
 		GameState.set_flag(flag, true)
 	for flag in flags_off:
 		GameState.set_flag(flag, false)
+	# After flags: quest gates (requires_flag) read them. Reset first so a
+	# re-cleared quest only reappears when its gate is met.
+	for quest_id in quests_reset:
+		QuestManager.reset_quest_silently(quest_id)
+	for quest_id in quests_done:
+		QuestManager.complete_quest_silently(quest_id)
 
 	BookUI.close()
 	game.load_level(scene_path, spawn_id)

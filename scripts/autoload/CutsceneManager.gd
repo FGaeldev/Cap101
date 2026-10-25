@@ -200,6 +200,10 @@ func abort() -> void:
 	_parallel_branch_done.emit()
 	var cam: Camera2D = get_actor("camera")
 	var player: Node2D = get_actor("player")
+	# A conga "reveal_at" may have hidden the persistent player; never leave
+	# it invisible after an abort.
+	if player:
+		player.visible = true
 	if cam and player:
 		cam.global_position = player.global_position
 		cam.top_level = false
@@ -222,6 +226,31 @@ func _process(_delta: float) -> void:
 		_cam_follow_target = null
 		return
 	cam.global_position = _cam_follow_target.global_position
+
+## Centers the camera on its follow target instantly: no smoothing glide, no
+## drag-margin offset. Call after teleporting the target (level load, a
+## cutscene "from" placement) so the view is settled before a fade-in ends.
+## With `only_for` set, does nothing unless that node is the follow target.
+func snap_camera(only_for: Node2D = null) -> void:
+	var cam: Camera2D = get_actor("camera")
+	if cam == null or not is_instance_valid(cam) or not cam.is_inside_tree():
+		return
+	var target: Node2D = _cam_follow_target
+	if target == null or not is_instance_valid(target):
+		target = get_actor("player")
+	if target == null or (only_for != null and only_for != target):
+		return
+	cam.global_position = target.global_position
+	# Drag margins would only pull the view far enough to fit the target in the
+	# margin box; disable them for the update so it lands centered.
+	var drag_h: bool = cam.drag_horizontal_enabled
+	var drag_v: bool = cam.drag_vertical_enabled
+	cam.drag_horizontal_enabled = false
+	cam.drag_vertical_enabled = false
+	cam.force_update_scroll()
+	cam.reset_smoothing()
+	cam.drag_horizontal_enabled = drag_h
+	cam.drag_vertical_enabled = drag_v
 
 func camera_follow(target: Node2D) -> void:
 	var cam: Camera2D = get_actor("camera")

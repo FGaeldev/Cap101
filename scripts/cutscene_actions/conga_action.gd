@@ -28,7 +28,15 @@
 #   	"speed": 40,                  # optional; px/sec (default 40)
 #   	"despawn": true,              # optional; free each actor at trail end / once off-screen
 #   	"keep": ["player"],           # optional; never despawned (player is ALWAYS kept)
-#   	"hold_at": [-432, 320]        # optional; tile ([x, y] or marker name) where kept actors stop
+#   	"hold_at": [-432, 320],       # optional; tile ([x, y] or marker name) where kept actors stop
+#   	"reveal_at": "DefaultSpawn",  # optional; tile on the leader route. Actors behind it start
+#   	                              # hidden and appear on arriving there (e.g. walking in a door)
+#   	"peel_at": "DefaultSpawn",    # optional; tile on the leader route where "targets" actors leave
+#   	                              # the line (default: trail end)
+#   	"targets": {                  # optional; actor id -> marker / [x, y] / {"to", "order", "face"}
+#   		"Rose": "S0/Rose",        # each listed actor walks there (L-shaped, "order" default "xy")
+#   		"player": {"to": "S0/Player", "face": "up"}   # on reaching peel_at, while the line continues;
+#   	}                             # then faces "face" (default "down")
 #   }
 #
 # The player can join like any follower (actor id "player"). It is never
@@ -151,10 +159,64 @@ func execute(step: Dictionary, mgr: Node) -> void:
 		if hold_index == -1:
 			push_warning("conga: hold_at %s is not on the leader route; kept actors stop at the end" % hold_tile)
 			hold_index = last
+	# Actors not yet past reveal_index are hidden until they step onto it.
+	# -1 = no reveal (everyone stays as-is).
+	var reveal_index: int = -1
+	if step.has("reveal_at"):
+		var reveal: Variant = MarkerUtil.resolve(level, step["reveal_at"], "conga 'reveal_at'")
+		if reveal == null:
+			return
+		var reveal_tile: Vector2 = _snap(reveal)
+		reveal_index = trail.find(reveal_tile, slot_count)
+		if reveal_index == -1:
+			push_warning("conga: reveal_at %s is not on the leader route; nobody is hidden" % reveal_tile)
+	if reveal_index != -1:
+		for a in actors.size():
+			if indices[a] < reveal_index:
+				actors[a].visible = false
+	# Per-actor peel-off: actor index -> {"pos", "order", "face"}. Each listed
+	# actor leaves the line on reaching peel_index and walks to its own target.
+	var peel_index: int = last
+	var targets: Dictionary = {}
+	if step.has("targets"):
+		if step.has("peel_at"):
+			var peel: Variant = MarkerUtil.resolve(level, step["peel_at"], "conga 'peel_at'")
+			if peel == null:
+				return
+			var peel_tile: Vector2 = _snap(peel)
+			peel_index = trail.find(peel_tile, slot_count)
+			if peel_index == -1:
+				push_warning("conga: peel_at %s is not on the leader route; actors peel off at the end" % peel_tile)
+				peel_index = last
+		var raw_targets: Dictionary = step["targets"]
+		for raw_id in raw_targets:
+			var a: int = actor_ids.find(String(raw_id))
+			if a == -1:
+				continue
+			var spec: Variant = raw_targets[raw_id]
+			var opts: Dictionary = spec if spec is Dictionary else {"to": spec}
+			var pos: Variant = MarkerUtil.resolve(level, opts.get("to"), "conga target '%s'" % raw_id)
+			if pos == null:
+				continue
+			var face_key: String = String(opts.get("face", "")).to_lower()
+			targets[a] = {
+				"pos": _snap(pos),
+				"order": String(opts.get("order", "xy")),
+				"speed": speed,
+				"face": DIRECTIONS.get(face_key, Vector2.ZERO),
+			}
+	var peeled: Array[bool] = []
+	var peel_tweens: Array[Tween] = []
 	var removable: Array[bool] = []
 	var stop_at: Array[int] = []
 	var kept_ahead: int = 0
 	for a in actors.size():
+		peeled.append(false)
+		if targets.has(a):
+			# Peeling actors vacate the tile, so they all stop on the same one.
+			removable.append(false)
+			stop_at.append(maxi(peel_index, indices[a]))
+			continue
 		var can_free: bool = despawn and actor_ids[a] != PLAYER_ID and not keep_ids.has(actor_ids[a])
 		removable.append(can_free)
 		if can_free:
@@ -204,12 +266,36 @@ func execute(step: Dictionary, mgr: Node) -> void:
 		for a in actors.size():
 			if not alive[a] or not is_instance_valid(actors[a]):
 				continue
+			if reveal_index != -1 and indices[a] >= reveal_index:
+				actors[a].visible = true
 			var stopped: bool = indices[a] >= stop_at[a]
 			if removable[a] and (stopped or (indices[a] > slot_count and _is_offscreen(actors[a]))):
 				_free_actor(mgr, actor_ids[a], actors[a])
 				alive[a] = false
+			elif stopped and targets.has(a) and not peeled[a]:
+				peeled[a] = true
+				var tween: Tween = _peel_off(actors[a], targets[a])
+				if tween != null:
+					peel_tweens.append(mgr.track_tween(tween))
 			elif stopped:
 				_set_anim(actors[a], "idle")
+
+	await _await_all(peel_tweens)
+	if not mgr.is_run_current(run):
+		return
+
+	# Kept actors that stopped short of reveal_at must not stay hidden.
+	for a in actors.size():
+		if alive[a] and is_instance_valid(actors[a]):
+			actors[a].visible = true
+
+## Walks a peeled actor from its trail tile to its target, then faces
+## target["face"] (default down). Returns null when no walk is needed.
+func _peel_off(actor: Node2D, target: Dictionary) -> Tween:
+	var face: Vector2 = target["face"]
+	if face == Vector2.ZERO:
+		face = Vector2.DOWN
+	return _walk_to(actor, target["pos"], target["speed"], target["order"], face)
 
 ## Tweens actor to target via up to two axis-aligned legs, then idles facing
 ## face_dir. Returns null when already on target (nothing to await).

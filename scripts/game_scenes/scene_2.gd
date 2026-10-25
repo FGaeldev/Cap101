@@ -106,7 +106,9 @@ func _spawn(entry: Dictionary, group: String) -> Node2D:
 	return npc
 
 func _on_flag_changed(flag_name: String, value: bool) -> void:
-	if flag_name == CHAPTER_DONE_FLAG and value:
+	# Scene 4 sets the flag before its exit conga (the edge-exit warp aborts the
+	# cutscene, skipping later steps); the conga frees the cast itself.
+	if flag_name == CHAPTER_DONE_FLAG and value and not CutsceneManager.is_playing():
 		_despawn_lot_cast()
 
 ## Frees every lot NPC (incl. cutscene-spawned Jonabel/Papa) and drops their

@@ -685,7 +685,7 @@ tile_set = SubResource("TileSet_32egk")
 position = Vector2(48, 120)
 trigger_direction = 1
 door_width = 2
-target_scene = "res://scenes/world/chapter2/aklan_living.tscn"
+target_scene = "res://scenes/world/chapter2/aklan_hallway.tscn"
 target_spawn_id = "BR_Player"
 
 [node name="Spawns" type="Node2D" parent="." unique_id=279499738]

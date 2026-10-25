@@ -12,12 +12,21 @@
 				"type": "conga",
 				"leader": "Rose",
 				"followers": ["Lola Susan", "Lola Jonabel", "Papa Jobert", "player"],
-				"waypoints": [[192, 96]],
+				"waypoints": ["DefaultSpawn"],
 				"order": "yx",
 				"queue_direction": "down",
 				"gap": 1,
 				"speed": 48,
-				"despawn": false
+				"despawn": false,
+				"reveal_at": "DefaultSpawn",
+				"peel_at": "DefaultSpawn",
+				"targets": {
+					"Rose": "S0/Rose",
+					"Lola Susan": "S0/Susan",
+					"Lola Jonabel": "S0/Jonabel",
+					"Papa Jobert": "S0/Jobert",
+					"player": "S0/Player"
+				}
 			}
 		]
 	},

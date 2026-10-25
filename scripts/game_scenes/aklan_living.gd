@@ -4,11 +4,13 @@
 # door (mirrors how Chapter 1 scene 4 walked them off the airport map), then
 # Lola Susan's welcome line.
 #
-# Normal entry: chapter1_scene4's final load_scene step. That step runs while
-# CutsceneManager is still playing scene 4, so play() here would be ignored by
-# its already-playing guard -- wait until scene 4 has fully returned first.
-# Other entries (MapManager warp/travel) own a fade; wait that out too.
-# Screen arrives black either way; the cutscene's own fade-in step reveals it.
+# Normal entry: the player walks into airport_ourdoors' EdgeExit_Ch2 warp after
+# chapter1_scene4 (MapManager.warp_to_scene). The level loads mid-warp while
+# the screen is still black, so the cutscene starts right away instead of
+# waiting for the warp's fade-in -- waiting would show the empty room first,
+# then the cutscene's own fade-in would snap back to black. Its fade-in and
+# the warp's overlap, so the reveal reads as one fade.
+# Still waits for any playing cutscene: play() ignores calls while one runs.
 extends Node2D
 
 const CUTSCENE_ID: String = "chapter2_scene0"
@@ -19,7 +21,7 @@ func _ready() -> void:
 	if GameState.get_flag(SEEN_FLAG):
 		return
 	await get_tree().process_frame
-	while CutsceneManager.is_playing() or MapManager.is_transitioning:
+	while CutsceneManager.is_playing():
 		await get_tree().process_frame
 	# Level may be swapped out while waiting (e.g. dev warp).
 	if not is_inside_tree() or GameState.get_flag(SEEN_FLAG):

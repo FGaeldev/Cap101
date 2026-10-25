@@ -366,3 +366,4 @@ hold_delay = 0.0
 target_scene = "res://scenes/world/chapter2/aklan_living.tscn"
 required_flag = "chapter1_complete"
 blocked_message = "I should stay with everyone for now."
+fire_during_cutscene = true

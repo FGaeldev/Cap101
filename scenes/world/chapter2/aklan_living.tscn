@@ -686,22 +686,27 @@ tile_set = SubResource("TileSet_eid25")
 position = Vector2(24, 56)
 target_scene = "res://scenes/world/chapter2/aklan_hallway.tscn"
 target_spawn_id = "Living"
+fire_during_cutscene = null
 
 [node name="WarpArea2" parent="Warps" unique_id=1748375599 instance=ExtResource("3_4qq2q")]
 position = Vector2(72, 40)
 target_scene = "res://scenes/world/chapter2/aklan_BR_Rose.tscn"
+fire_during_cutscene = null
 
 [node name="WarpArea3" parent="Warps" unique_id=520688551 instance=ExtResource("3_4qq2q")]
 position = Vector2(184, 40)
 target_scene = "res://scenes/world/chapter2/aklan_BR_Susan.tscn"
+fire_during_cutscene = null
 
 [node name="WarpArea4" parent="Warps" unique_id=1885739539 instance=ExtResource("3_4qq2q")]
 position = Vector2(296, 40)
+fire_during_cutscene = null
 
 [node name="WarpArea5" parent="Warps" unique_id=1148822164 instance=ExtResource("3_4qq2q")]
 position = Vector2(48, 88)
 trigger_direction = 1
 door_width = 2
+fire_during_cutscene = null
 
 [node name="Spawns" type="Node2D" parent="." unique_id=141127280]
 
@@ -718,4 +723,23 @@ position = Vector2(176, 48)
 position = Vector2(288, 48)
 
 [node name="DefaultSpawn" type="Marker2D" parent="Spawns" unique_id=793070144]
+position = Vector2(32, 96)
+
+[node name="SceneMarkers" type="Node2D" parent="." unique_id=1512766046]
+
+[node name="S0" type="Node2D" parent="SceneMarkers" unique_id=965675852]
+
+[node name="Rose" type="Marker2D" parent="SceneMarkers/S0" unique_id=2053102873]
+position = Vector2(32, 64)
+
+[node name="Susan" type="Marker2D" parent="SceneMarkers/S0" unique_id=828913219]
+position = Vector2(48, 64)
+
+[node name="Jobert" type="Marker2D" parent="SceneMarkers/S0" unique_id=1981202423]
+position = Vector2(0, 80)
+
+[node name="Jonabel" type="Marker2D" parent="SceneMarkers/S0" unique_id=1597500813]
+position = Vector2(48, 96)
+
+[node name="Player" type="Marker2D" parent="SceneMarkers/S0" unique_id=1006536757]
 position = Vector2(32, 96)

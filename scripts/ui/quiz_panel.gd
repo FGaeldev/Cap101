@@ -22,7 +22,9 @@
 #
 # Rules:
 #   * A "questions" entry with BOTH question and correct_answer set is used
-#     verbatim (works in either quiz_type). An entry with either blank is a
+#     verbatim (works in either quiz_type). It may set its own "choice_display"
+#     (overrides the line's, e.g. "word" for an "Akeanon word for X?" prompt).
+#     An entry with either blank is a
 #     placeholder: dynamic fills it from word_pool, static skips it.
 #   * Question count = len(questions) if non-empty, else question_count, else
 #     DEFAULT_QUESTION_COUNT.
@@ -151,7 +153,7 @@ func _build_questions(line: Dictionary) -> Array:
 		var q: Dictionary = authored[i] if i < authored.size() else {}
 		var answer: String = str(q.get("correct_answer", "")).strip_edges()
 		var prompt: String = str(q.get("question", "")).strip_edges()
-		var display: String = default_display
+		var display: String = str(q.get("choice_display", default_display))
 
 		if answer.is_empty() or prompt.is_empty():
 			if not is_dynamic:

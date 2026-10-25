@@ -52,6 +52,9 @@ func execute(step: Dictionary, mgr: Node) -> void:
 		if from == null:
 			return
 		actor.global_position = _snap(from)
+		# Teleporting the camera's target (e.g. the player at a cutscene's
+		# start) must not leave the smoothed camera gliding after it.
+		mgr.snap_camera(actor)
 
 	var start: Vector2 = _snap(actor.global_position)
 	if actor.global_position != start:
