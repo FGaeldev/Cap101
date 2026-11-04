@@ -2,7 +2,9 @@
 #
 # Driven by a line of minigame_type "word_search":
 #   { "type": "minigame_trigger", "minigame_type": "word_search",
-#     "word_pool": ["w090", "w054"] }  # word_ids, highest priority first (required)
+#     "word_pool": ["w090", "w054"],   # word_ids, highest priority first (required)
+#     "word_count": 5,                 # optional
+#     "progress": {} }                 # optional, kept on Quit and resumed from
 #
 # Press on a word's first or last letter and drag to the other end; the selection
 # snaps to a straight line. Letting go checks it: a remaining word is found (+1
@@ -16,7 +18,7 @@ extends PanelContainer
 ## Emitted once: true when all words are found, false when quit.
 signal resolved(passed: bool)
 
-const WORD_COUNT: int = 5
+const DEFAULT_WORD_COUNT: int = 5
 const COLS: int = 12
 const ROWS: int = 9
 const CELL_SIZE: float = 32.0
@@ -68,7 +70,8 @@ var _drag_start: Vector2i = Vector2i.ZERO
 var _dragging: bool = false
 var _found_cells: Dictionary = {} # cell -> true
 var _wrong_cells: Array = []      # flashing red
-var _locked: bool = true          # true during flash / end / closed
+var _progress: Dictionary = {}    # the line's "progress", written on Quit
+var _locked: bool = true         # true during flash / end / closed
 var _session: int = 0             # bumped on open/close; stale timers bail
 
 var _grid: Grid
@@ -88,25 +91,24 @@ func _ready() -> void:
 ## Start the game for one word_search line. Safe to call repeatedly.
 func open(line: Dictionary) -> void:
 	_session += 1
-	var pool: Array = []
-	for raw in line.get("word_pool", []):
-		var letters: String = WordBank.puzzle_letters(str(raw))
-		if not letters.is_empty() and letters.length() <= ROWS:
-			pool.append({"id": str(raw), "letters": letters})
+	_progress = line.get("progress", {})
+	var words: Array
+	if _progress.has("grid"):
+		_grid_letters = _progress["grid"]
+		_found_cells = _progress["found_cells"].duplicate()
+		words = _progress["words"]
+	else:
+		words = _generate_puzzle(line)
+		_found_cells.clear()
+		if words.is_empty():
+			push_error("WordSearch: no playable words in 'word_pool', auto-passing.")
+			call_deferred("_emit_resolved", true)
+			return
 
-	var picked: Array = WordSearchGenerator.pick_words(pool, WORD_COUNT)
-	var puzzle: Dictionary = WordSearchGenerator.generate(picked, COLS, ROWS) if not picked.is_empty() else {}
-	if puzzle.is_empty():
-		push_error("WordSearch: no playable words in 'word_pool', auto-passing.")
-		call_deferred("_emit_resolved", true)
-		return
-
-	_grid_letters = puzzle["grid"]
 	_selection.clear()
 	_dragging = false
-	_found_cells.clear()
 	_wrong_cells.clear()
-	_build_word_list(picked)
+	_build_word_list(words)
 	_status_label.text = "Drag across each word's letters."
 	_status_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 	_grid.queue_redraw()
@@ -122,20 +124,58 @@ func close() -> void:
 
 # --- setup -----------------------------------------------------------------------
 
-func _build_word_list(picked: Array) -> void:
+## Sets up a new grid and returns its words, or [] if none could be placed.
+func _generate_puzzle(line: Dictionary) -> Array:
+	var pool: Array = []
+	for raw in line.get("word_pool", []):
+		var letters: String = WordBank.puzzle_letters(str(raw))
+		if not letters.is_empty() and letters.length() <= ROWS:
+			pool.append({"id": str(raw), "letters": letters, "word": WordBank.puzzle_word(str(raw)), "found": false})
+	var picked: Array = WordSearchGenerator.pick_words(pool, int(line.get("word_count", DEFAULT_WORD_COUNT)))
+	var puzzle: Dictionary = WordSearchGenerator.generate(picked, COLS, ROWS) if not picked.is_empty() else {}
+	if puzzle.is_empty():
+		return []
+	_grid_letters = puzzle["grid"]
+	return picked
+
+## Keeps the grid and found words for the next open. Skips the labels, which
+## don't survive a save.
+func _save_progress() -> void:
+	var words: Array = []
+	for entry in _entries:
+		var copy: Dictionary = entry.duplicate()
+		copy.erase("label")
+		words.append(copy)
+	_progress["grid"] = _grid_letters
+	_progress["found_cells"] = _found_cells.duplicate()
+	_progress["words"] = words
+
+## words: [{id, word, letters, found}]
+func _build_word_list(words: Array) -> void:
 	for child in _word_list.get_children():
 		_word_list.remove_child(child)   # remove before free: avoids stale-cell layout
 		child.queue_free()
 	_entries.clear()
-	for entry in picked:
-		var word: String = WordBank.puzzle_word(entry["id"])
+	for source in words:
+		var entry: Dictionary = source.duplicate()
 		var label := Label.new()
-		label.text = word
 		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		_word_list.add_child(label)
+		entry["label"] = label
+		_entries.append(entry)
+		_show_entry(entry)
+
+## Plain word until found, then green with its gloss.
+func _show_entry(entry: Dictionary) -> void:
+	var label: Label = entry["label"]
+	if entry["found"]:
+		label.text = "%s = %s" % [entry["word"], WordBank.get_word(entry["id"]).get("gloss", "")]
+		label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
+		label.add_theme_color_override("font_color", UIThemeApplier.COLOR_SUCCESS)
+	else:
+		label.text = entry["word"]
 		label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_M)
 		label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
-		_word_list.add_child(label)
-		_entries.append({"id": entry["id"], "word": word, "letters": entry["letters"], "found": false, "label": label})
 
 func _build_layout() -> void:
 	var hbox := HBoxContainer.new()
@@ -266,10 +306,7 @@ func _on_word_found(entry: Dictionary) -> void:
 	for cell in _selection:
 		_found_cells[cell] = true
 	_selection.clear()
-	var gloss: String = WordBank.get_word(entry["id"]).get("gloss", "")
-	entry["label"].text = "%s = %s" % [entry["word"], gloss]
-	entry["label"].add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
-	entry["label"].add_theme_color_override("font_color", UIThemeApplier.COLOR_SUCCESS)
+	_show_entry(entry)
 	if _entries.all(func(e): return e["found"]):
 		_end_game()
 
@@ -301,6 +338,7 @@ func _quit() -> void:
 	_session += 1   # cancels a pending flash or end hold
 	_locked = true
 	_dragging = false
+	_save_progress()
 	_emit_resolved(false)
 
 func _emit_resolved(passed: bool) -> void:

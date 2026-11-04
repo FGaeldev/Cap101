@@ -30,8 +30,9 @@ const NEWSPAPER_SCRIPT := preload("res://scripts/ui/newspaper_panel.gd")
 
 ## Relative chance of each activity when the player asks an NPC to review.
 const REVIEW_WEIGHTS := {"quiz": 50, "hangman": 25, "memory_match": 25}
-## Pair count for review memory match; also the fewest known words it needs.
-const REVIEW_MEMORY_PAIRS: int = 4
+## Fewest known words review memory match needs. Pairs scale with the difficulty
+## tier (GameState.get_minigame_word_count), limited by the words known.
+const REVIEW_MEMORY_MIN_WORDS: int = 4
 ## Word lengths hangman can show comfortably.
 const HANGMAN_MIN_LENGTH: int = 3
 const HANGMAN_MAX_LENGTH: int = 12
@@ -178,7 +179,7 @@ func show_review() -> void:
 	var weights: Dictionary = {"quiz": REVIEW_WEIGHTS["quiz"]}
 	if not hangman_pool.is_empty():
 		weights["hangman"] = REVIEW_WEIGHTS["hangman"]
-	if memory_pool.size() >= REVIEW_MEMORY_PAIRS:
+	if memory_pool.size() >= REVIEW_MEMORY_MIN_WORDS:
 		weights["memory_match"] = REVIEW_WEIGHTS["memory_match"]
 
 	_current_component = null
@@ -187,7 +188,7 @@ func show_review() -> void:
 			show_standalone_minigame({"minigame_type": "hangman", "word_pool": hangman_pool}, _on_review_quiz_resolved)
 		"memory_match":
 			show_standalone_minigame({"minigame_type": "memory_match", "word_pool": memory_pool,
-					"pair_count": REVIEW_MEMORY_PAIRS}, _on_review_quiz_resolved)
+					"pair_count": GameState.get_minigame_word_count()}, _on_review_quiz_resolved)
 		_:
 			show_review_quiz()
 

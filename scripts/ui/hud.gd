@@ -41,6 +41,12 @@ const TOAST_FADE := 0.25
 @onready var main_quest: PanelContainer = $QuestColumn/MainQuest
 @onready var main_quest_title: Label = $QuestColumn/MainQuest/VBox/Title
 @onready var sub_quests: VBoxContainer = $QuestColumn/SubQuests
+## Top of the right column (hud.tscn), and its top during full-screen panels: toasts
+## sit below the panels' Quit and Check buttons.
+const DEFAULT_COLUMN_TOP: float = 14.0
+const FULLSCREEN_COLUMN_TOP: float = 38.0
+
+@onready var right_column: VBoxContainer = $TopRight/RightColumn
 @onready var clock_panel: PanelContainer = $TopRight/RightColumn/Clock
 @onready var clock_label: Label = $TopRight/RightColumn/Clock/Label
 @onready var menu_button: Button = $TopRight/RightColumn/MenuButton
@@ -71,7 +77,7 @@ func _ready() -> void:
 	_rebuild_quest_rows()
 	# This layer sits above every panel: the column's own empty area must not
 	# swallow clicks meant for what's under it. MenuButton still gets its own.
-	($TopRight/RightColumn as Control).mouse_filter = Control.MOUSE_FILTER_IGNORE
+	right_column.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	toasts.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	UIThemeApplier.apply_icon_button_theme(menu_button, "menu")
 	menu_button.pressed.connect(_on_menu_button_pressed)
@@ -95,6 +101,9 @@ func _process(_delta: float) -> void:
 	clock_panel.visible = not fullscreen
 	menu_button.visible = not fullscreen
 	quest_column.visible = not fullscreen
+	var column_top: float = FULLSCREEN_COLUMN_TOP if fullscreen else DEFAULT_COLUMN_TOP
+	if right_column.offset_top != column_top:
+		right_column.offset_top = column_top
 	var clock_text: String = DayNightManager.format_clock()
 	if clock_label.text != clock_text:
 		clock_label.text = clock_text

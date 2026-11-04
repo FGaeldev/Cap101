@@ -84,6 +84,8 @@ var word_mastery: Dictionary = {}    # word_id -> int, clamped 0..MASTERY_MAX
 var wotd_date: int = 0     # date_unix the word was picked on
 var wotd_id: String = ""
 var puzzle_solved_date: int = 0   # date_unix of the last solved daily puzzle
+# {date, ...panel state} of a quit daily puzzle; ignored once the date moves on.
+var puzzle_progress: Dictionary = {}
 
 ## One newspaper puzzle per in-game day.
 func is_puzzle_solved_today() -> bool:
@@ -97,6 +99,42 @@ func adjust_mastery(word_id: String, delta: int) -> void:
 
 func get_mastery(word_id: String) -> int:
 	return word_mastery.get(word_id, 0)
+
+# --- Difficulty tier (from total mastery) ---
+# Tier 2 is roughly Chapter 1's 39 words at 2 points each, tier 3 the 124 words
+# through Chapter 2 at 2 points each. Follows the live total, so it can drop.
+## Total mastery that starts tier 2 and tier 3.
+const DIFFICULTY_TIER_MASTERY: Array[int] = [75, 250]
+const MINIGAME_BASE_WORDS: int = 4
+const QUIZ_BASE_CHOICES: int = 5
+## Dynamic quizzes scale their choices once the player knows more words than this.
+const QUIZ_SCALE_MIN_KNOWN: int = 5
+
+func get_total_mastery() -> int:
+	var total: int = 0
+	for points in word_mastery.values():
+		total += int(points)
+	return total
+
+## 1, 2 or 3.
+func get_difficulty_tier() -> int:
+	var total: int = get_total_mastery()
+	var tier: int = 1
+	for threshold in DIFFICULTY_TIER_MASTERY:
+		if total >= threshold:
+			tier += 1
+	return tier
+
+## Words in a crossword or word search, pairs in review memory match.
+func get_minigame_word_count() -> int:
+	return MINIGAME_BASE_WORDS + get_difficulty_tier()
+
+## Choices per dynamic quiz question, or 0 while the player knows too few words
+## to scale (the quiz keeps its default).
+func get_quiz_choice_count() -> int:
+	if word_exposures.size() <= QUIZ_SCALE_MIN_KNOWN:
+		return 0
+	return QUIZ_BASE_CHOICES + get_difficulty_tier()
 
 func add_stars(amount: int) -> void:
 	akeanon_stars += amount
@@ -244,6 +282,7 @@ func reset_game_state() -> void:
 	wotd_date = 0
 	wotd_id = ""
 	puzzle_solved_date = 0
+	puzzle_progress = {}
 	# QuestManager is an autoload too; discard prior-run quest availability before rebuilding it.
 	QuestManager.active_quests.clear()
 	QuestManager.refresh_active_quests()
@@ -275,7 +314,8 @@ func save_game() -> bool:
 		"word_mastery": word_mastery,
 		"wotd_date": wotd_date,
 		"wotd_id": wotd_id,
-		"puzzle_solved_date": puzzle_solved_date
+		"puzzle_solved_date": puzzle_solved_date,
+		"puzzle_progress": puzzle_progress
 	}
 	# WRITE truncates the existing save. Check open/write errors so a failed
 	# overwrite cannot silently leave the previous run on disk.
@@ -323,6 +363,7 @@ func load_game() -> void:
 	wotd_date = data.get("wotd_date", 0)  # additive field, old saves -> 0
 	wotd_id = data.get("wotd_id", "")  # additive field, old saves -> ""
 	puzzle_solved_date = data.get("puzzle_solved_date", 0)  # additive field, old saves -> 0
+	puzzle_progress = data.get("puzzle_progress", {})  # additive field, old saves -> {}
 	# QuestManager built its active list at boot, before flags/exposures were
 	# loaded -- re-scan so flag-gated quests (requires_flag) show after Continue.
 	QuestManager.refresh_active_quests()

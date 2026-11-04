@@ -4,9 +4,10 @@
 # Opened by DialogueUI.show_newspaper() (scripts/entities/newspaper.gd). Reading
 # it exposes the word of the day, adding it to the Dictionary. The puzzle swaps
 # between crossword and word search with the in-game date, and is built from
-# known words with the fewest mastery points first. One solved puzzle per day:
-# quitting doesn't use it up. Everything refreshes when the date rolls over, even
-# with the paper open. Puzzles only ever change mastery (no-punishment rule, GDD 7).
+# known words with the fewest mastery points first, sized by the difficulty tier.
+# One solved puzzle per day: quitting keeps its progress to continue that day.
+# Everything refreshes when the date rolls over, even with the paper open. Puzzles
+# only ever change mastery (no-punishment rule, GDD 7).
 extends PanelContainer
 
 const CalendarUtil := preload("res://scripts/util/calendar_util.gd")
@@ -90,14 +91,20 @@ func _refresh_puzzle() -> void:
 	_pool = WordBank.get_known_puzzle_words(MIN_WORD_LENGTH, MAX_WORD_LENGTH).slice(0, PUZZLE_POOL_SIZE)
 	var name_text: String = "Crossword" if _puzzle_type == "crossword" else "Word Search"
 	var solved: bool = GameState.is_puzzle_solved_today()
-	var enough_words: bool = _pool.size() >= MIN_PUZZLE_WORDS
+	var started: bool = _has_progress_today()
+	var playable: bool = started or _pool.size() >= MIN_PUZZLE_WORDS
 	if solved:
 		_puzzle_label.text = "%s\nSolved! Come back tomorrow." % name_text
-	elif not enough_words:
+	elif not playable:
 		_puzzle_label.text = "%s\nLearn more words to play." % name_text
 	else:
 		_puzzle_label.text = name_text
-	_solve_button.disabled = solved or not enough_words
+	_solve_button.text = "Continue" if started and not solved else "Solve"
+	_solve_button.disabled = solved or not playable
+
+## True when a puzzle was quit earlier today (more saved than just its date).
+func _has_progress_today() -> bool:
+	return GameState.puzzle_progress.get("date", -1) == GameState.date_unix and GameState.puzzle_progress.size() > 1
 
 # --- setup -----------------------------------------------------------------------
 
@@ -213,13 +220,21 @@ func _on_day_changed() -> void:
 func _on_solve_pressed() -> void:
 	visible = false
 	_puzzle_date = GameState.date_unix
-	DialogueUI.show_standalone_minigame({"minigame_type": _puzzle_type, "word_pool": _pool}, _on_puzzle_resolved)
+	if GameState.puzzle_progress.get("date", -1) != _puzzle_date:
+		GameState.puzzle_progress = {"date": _puzzle_date}
+	DialogueUI.show_standalone_minigame({
+		"minigame_type": _puzzle_type,
+		"word_pool": _pool,
+		"word_count": GameState.get_minigame_word_count(),
+		"progress": GameState.puzzle_progress,
+	}, _on_puzzle_resolved)
 
 ## A puzzle finished past midnight counts for the day it was started, so the new
 ## day's puzzle is still open.
 func _on_puzzle_resolved(passed: bool) -> void:
 	if passed:
 		GameState.puzzle_solved_date = _puzzle_date
+		GameState.puzzle_progress = {}
 	GameState.save_game()
 	_refresh()
 	visible = true

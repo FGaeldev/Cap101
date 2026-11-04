@@ -14,11 +14,27 @@ const DOWN := Vector2i(0, 1)
 ## Score per crossing vs per cell of grid growth: prefers interlocked, compact grids.
 const CROSSING_SCORE: int = 10
 const ILLEGAL: int = -9999
+## How many different first words to try before accepting a short layout.
+const START_ATTEMPTS: int = 12
 
 ## entries: [{id, letters}], highest priority first.
 ## Returns {cols, rows, placements: [{id, letters, cell, dir, number}]}, or {}
-## if nothing could be placed.
+## if nothing could be placed. A greedy layout can box itself in short of the
+## target, so that retries with the next words starting the grid instead; the most
+## complete attempt wins.
 static func generate(entries: Array, max_cols: int, max_rows: int, target_words: int) -> Dictionary:
+	var best: Dictionary = {}
+	for start in range(mini(START_ATTEMPTS, entries.size())):
+		var order: Array = entries.duplicate()
+		order.push_front(order.pop_at(start))
+		var layout: Dictionary = _generate_from(order, max_cols, max_rows, target_words)
+		if layout.get("placements", []).size() > best.get("placements", []).size():
+			best = layout
+		if best.get("placements", []).size() >= target_words:
+			break
+	return best
+
+static func _generate_from(entries: Array, max_cols: int, max_rows: int, target_words: int) -> Dictionary:
 	var state := {"cells": {}, "dirs": {}, "placements": []}
 	var remaining: Array = entries.duplicate()
 	var placed_any: bool = true

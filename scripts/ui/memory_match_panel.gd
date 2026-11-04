@@ -4,7 +4,7 @@
 #   {
 #     "type": "minigame_trigger", "minigame_type": "memory_match",
 #     "word_pool": ["w090", "w054", "w227"],  # word_ids a pair may use (required)
-#     "pair_count": 4,                         # optional, default 4, max 6
+#     "pair_count": 4,                         # optional, default 4, max 7
 #     "max_mistakes": 8,                       # optional, default pair_count * 2
 #     "success": 21, "failure": 22
 #   }
@@ -30,7 +30,7 @@ signal resolved(passed: bool)
 ## Pair count when the line sets none.
 const DEFAULT_PAIR_COUNT: int = 4
 ## Hard cap: more cards than this stop fitting the dialogue-height footprint.
-const MAX_PAIR_COUNT: int = 6
+const MAX_PAIR_COUNT: int = 7
 ## Seconds a mismatched pair stays visible before flipping back.
 const MISMATCH_HOLD: float = 0.8
 ## Seconds the final win/lose message shows before resolving.

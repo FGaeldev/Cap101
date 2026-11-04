@@ -2,7 +2,9 @@
 #
 # Driven by a line of minigame_type "crossword":
 #   { "type": "minigame_trigger", "minigame_type": "crossword",
-#     "word_pool": ["w090", "w054"] }  # word_ids, highest priority first (required)
+#     "word_pool": ["w090", "w054"],   # word_ids, highest priority first (required)
+#     "word_count": 5,                 # optional
+#     "progress": {} }                 # optional, kept on Quit and resumed from
 #
 # Tap a cell to select its word (tap again to switch across/down), then type with
 # the on-screen or a physical keyboard. Nothing shows whether a word is right
@@ -20,7 +22,7 @@ signal resolved(passed: bool)
 
 const MAX_COLS: int = 13
 const MAX_ROWS: int = 9
-const TARGET_WORDS: int = 8
+const DEFAULT_WORD_COUNT: int = 5
 const CELL_SIZE: float = 22.0
 const END_HOLD: float = 1.5
 ## Height ratio of the keyboard row to the grid and clues row above it.
@@ -61,6 +63,8 @@ var _typed: Dictionary = {}       # cell -> typed letter
 var _good_cells: Dictionary = {}  # cell -> true, in a right word (Check on only)
 var _bad_cells: Dictionary = {}   # cell -> true, in a wrong word (Check on only)
 var _check_on: bool = false
+var _progress: Dictionary = {}    # the line's "progress", written on Quit
+var _grid_size: Vector2i = Vector2i.ZERO
 var _selected: int = -1           # index into _placements
 var _cursor: Vector2i = Vector2i.ZERO
 var _locked: bool = true          # true during the end hold / closed
@@ -85,20 +89,19 @@ func _ready() -> void:
 ## Start the game for one crossword line. Safe to call repeatedly.
 func open(line: Dictionary) -> void:
 	_session += 1
-	var entries: Array = []
-	for raw in line.get("word_pool", []):
-		var letters: String = WordBank.puzzle_letters(str(raw))
-		if not letters.is_empty():
-			entries.append({"id": str(raw), "letters": letters})
-
-	var layout: Dictionary = CrosswordGenerator.generate(entries, MAX_COLS, MAX_ROWS, TARGET_WORDS)
+	_progress = line.get("progress", {})
+	var layout: Dictionary = _progress["layout"].duplicate(true) if _progress.has("layout") else _generate_layout(line)
 	if layout.is_empty():
 		push_error("Crossword: no playable words in 'word_pool', auto-passing.")
 		call_deferred("_emit_resolved", true)
 		return
 
 	_load_layout(layout)
+	_typed = _progress.get("typed", {}).duplicate()
+	_refresh_checks()
 	_select(0, _placements[0]["cell"])
+	if _is_filled(_placements[0]):
+		_select_next_open()
 	_locked = false
 	visible = true
 
@@ -110,8 +113,28 @@ func close() -> void:
 
 # --- setup -----------------------------------------------------------------------
 
+func _generate_layout(line: Dictionary) -> Dictionary:
+	var entries: Array = []
+	for raw in line.get("word_pool", []):
+		var letters: String = WordBank.puzzle_letters(str(raw))
+		if not letters.is_empty():
+			entries.append({"id": str(raw), "letters": letters})
+	return CrosswordGenerator.generate(entries, MAX_COLS, MAX_ROWS, int(line.get("word_count", DEFAULT_WORD_COUNT)))
+
+## Keeps the grid, letters and scoring flags for the next open. Skips the clue
+## buttons, which don't survive a save.
+func _save_progress() -> void:
+	var placements: Array = []
+	for p in _placements:
+		var copy: Dictionary = p.duplicate()
+		copy.erase("clue_btn")
+		placements.append(copy)
+	_progress["layout"] = {"cols": _grid_size.x, "rows": _grid_size.y, "placements": placements}
+	_progress["typed"] = _typed.duplicate()
+
 func _load_layout(layout: Dictionary) -> void:
 	_placements = layout["placements"]
+	_grid_size = Vector2i(layout["cols"], layout["rows"])
 	_answers.clear()
 	_numbers.clear()
 	_typed.clear()
@@ -119,8 +142,8 @@ func _load_layout(layout: Dictionary) -> void:
 	_check_button.set_pressed_no_signal(false)
 	_check_button.text = "Check: Off"
 	for p in _placements:
-		p["credited"] = false
-		p["penalized"] = false
+		p["credited"] = p.get("credited", false)
+		p["penalized"] = p.get("penalized", false)
 		_numbers[p["cell"]] = p["number"]
 		var cells: Array = _word_cells(p)
 		for i in range(cells.size()):
@@ -410,6 +433,7 @@ func _quit() -> void:
 		return
 	_session += 1   # cancels a pending end hold
 	_locked = true
+	_save_progress()
 	_emit_resolved(false)
 
 func _emit_resolved(passed: bool) -> void:
