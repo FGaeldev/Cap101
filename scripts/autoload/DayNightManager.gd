@@ -128,6 +128,12 @@ func minutes_until_arrival(min_minutes: float, arrival_hour: float) -> float:
 	var earliest: float = GameState.time_of_day + min_minutes / 60.0
 	return min_minutes + fposmod(arrival_hour - earliest, 24.0) * 60.0
 
+## Jumps straight to a date and hour, forward or back (dev tools).
+func jump_to(year: int, month: int, day: int, hour: float) -> void:
+	GameState.date_unix = Time.get_unix_time_from_datetime_dict({"year": year, "month": month, "day": day, "hour": 0, "minute": 0, "second": 0})
+	day_changed.emit()
+	set_hour(hour)
+
 ## Moves the clock forward (e.g. warp travel time), rolling the date over
 ## for every midnight passed.
 func advance_minutes(minutes: float) -> void:

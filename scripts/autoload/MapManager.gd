@@ -19,6 +19,20 @@ const REGION_DATA_PATH := "res://data/map_data/regions.json"
 ## region points at (doors, cutscene loads). See area_for_scene().
 const LEVEL_AREA_DATA_PATH := "res://data/map_data/level_areas.json"
 
+const ActorPath := preload("res://scripts/util/actor_path.gd")
+## dev_skip_to_date(): where and when the player wakes up.
+const DEV_SKIP_WAKE_HOUR: float = 6.0
+const DEV_BEDROOM_AKLAN := "res://scenes/world/chapter2/aklan_BR_Player.tscn"
+const DEV_BEDROOM_US := "res://scenes/world/chapter1/us_bedroom.tscn"
+## Beside the bed, where the player stands after getting up.
+const DEV_GET_UP_OFFSET := Vector2(-16, 0)
+## A skip ends whatever trip with Rose was going on.
+const DEV_SKIP_CLEARED_FLAGS: Array[String] = [
+	"chapter2_with_rose", "chapter2_left_house", "chapter2_left_home", "chapter2_at_park",
+	"chapter2_at_market", "chapter2_from_market", "chapter2_leaving_market",
+	"chapter2_walking_home", "chapter2_mass_trip", "chapter2_mass_cathedral",
+]
+
 ## True from the moment a warp/travel starts (fade-out) until its fade-in
 ## finishes. Player.get_input_dir() reads this to zero movement input during
 ## the transition — without it, a held direction carries through the
@@ -136,6 +150,51 @@ func travel_to_region(region_id: String) -> void:
 
 	await FadeManager.fade_in()
 	is_transitioning = false
+
+## Dev tool (Calendar tab): jumps to 6 AM on a date, with the player waking up in
+## their own bed. Ends any trip with Rose, since the family is home in the morning.
+func dev_skip_to_date(year: int, month: int, day: int) -> void:
+	var game := get_tree().current_scene
+	if is_transitioning or game == null or not game.has_method("load_level"):
+		return
+	CutsceneManager.abort()
+	DialogueUI.hide()
+	BookUI.close()
+	is_transitioning = true
+	await FadeManager.fade_out()
+
+	var in_aklan: bool = GameState.get_flag("seen_chapter2_scene0")
+	if in_aklan:
+		GameState.set_flag("chapter2_slept")
+	for flag: String in DEV_SKIP_CLEARED_FLAGS:
+		GameState.set_flag(flag, false)
+	DayNightManager.jump_to(year, month, day, DEV_SKIP_WAKE_HOUR)
+	var bedroom: String = DEV_BEDROOM_AKLAN if in_aklan else DEV_BEDROOM_US
+	GameState.current_level_path = bedroom
+	game.load_level(bedroom)
+	await ActorPath.settle(get_tree())
+
+	var player: Node2D = CutsceneManager.get_actor("player")
+	var bed: Node = _player_bed(game.get_node("LevelContainer").get_child(-1))
+	if bed == null:
+		push_warning("MapManager: no usable bed in '%s'" % bedroom)
+	else:
+		var in_bed: Vector2 = bed.lay_down(player)
+		GameState.save_game()
+		await FadeManager.fade_in()
+		await bed.get_up(player, in_bed, in_bed + DEV_GET_UP_OFFSET)
+		is_transitioning = false
+		return
+	GameState.save_game()
+	await FadeManager.fade_in()
+	is_transitioning = false
+
+## The bed in this level the player can actually sleep in, or null.
+func _player_bed(level: Node) -> Node:
+	for bed: Node in level.find_children("BedroomBed", "", true, false):
+		if bed.get("sleepable"):
+			return bed
+	return null
 
 ## Opens the Map tab. Kept as the stable call site for gameplay code
 ## (stub_area.gd etc.) so nothing outside BookUI needs to know the map lives

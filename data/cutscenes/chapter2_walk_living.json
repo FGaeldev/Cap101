@@ -3,7 +3,7 @@
 	{"type": "set_visible", "actor": "player", "value": false},
 	{"type": "spawn_npc", "actor": "Rose", "scene": "res://scenes/entities/npc_Rose.tscn", "at_marker": "BR_Rose"},
 	{"type": "move_npc", "actor": "player", "from": "BR_Rose", "direction": "down", "tiles": 0},
-	{"type": "parallel", "actions": [{"type": "fade", "direction": "in", "duration": 0.6}, {"type": "conga", "join": "nearest_x", "leader": "Rose", "followers": ["player"], "path_to": "DefaultSpawn", "gap": 2, "speed": 48, "despawn": true}, {"type": "sequence", "actions": [{"type": "wait", "seconds": 0.5}, {"type": "set_visible", "actor": "player", "value": true}]}]},
+	{"type": "parallel", "actions": [{"type": "fade", "direction": "in", "duration": 0.6}, {"type": "conga", "join": "nearest_x", "leader": "Rose", "followers": ["player"], "path_to": "Warps/WarpArea5", "gap": 2, "speed": 48, "despawn": true}, {"type": "sequence", "actions": [{"type": "wait", "seconds": 0.5}, {"type": "set_visible", "actor": "player", "value": true}]}]},
 	{"type": "set_flag", "flag": "chapter2_left_house", "value": true},
 	{"type": "fade", "direction": "out", "duration": 0.6},
 	{"type": "load_scene", "scene_path": "res://scenes/world/chapter2/aklan_home_outdoors.tscn"}

@@ -37,8 +37,8 @@ FadeManager="*uid://c0icccy81uv0i"
 BackButtonBridge="*uid://lt2he54wt8hw"
 BookUI="*uid://dlteh42a4yxhi"
 DayNightManager="*res://scripts/autoload/DayNightManager.gd"
-TourGuide="*res://scripts/autoload/TourGuide.gd"
 NpcSchedule="*res://scripts/autoload/NpcSchedule.gd"
+TourGuide="*res://scripts/autoload/TourGuide.gd"
 
 [display]
 

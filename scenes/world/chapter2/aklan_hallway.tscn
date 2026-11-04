@@ -717,3 +717,6 @@ position = Vector2(144, 64)
 
 [node name="BR_Jobert" type="Marker2D" parent="Spawns" unique_id=884038717]
 position = Vector2(256, 64)
+
+[node name="Living" type="Marker2D" parent="Spawns" unique_id=410201200]
+position = Vector2(32, 80)
