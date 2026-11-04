@@ -41,6 +41,9 @@ var _player_ref: Node = null
 # static since this needs no autoload node, just shared data.
 static var _in_range_pool: Array[InteractableComponent] = []
 
+## True = ignores interaction and hides from the HUD button (e.g. a sleeping NPC).
+var disabled: bool = false
+
 func _ready() -> void:
 	_apply_area()
 	# @tool only so the area previews in the editor -- skip all runtime wiring
@@ -140,7 +143,7 @@ func _on_input_event(_viewport, event, _shape_idx):
 ## three paths get the exact same range/cutscene/visibility checks instead
 ## of the button needing its own copy of the guard logic.
 func try_interact() -> void:
-	if not _in_range or CutsceneManager.is_playing() or DialogueUI.is_active():
+	if disabled or not _in_range or CutsceneManager.is_playing() or DialogueUI.is_active():
 		return
 	if not get_parent().is_visible_in_tree():
 		return
@@ -171,7 +174,7 @@ static func get_nearest(from_pos: Vector2) -> InteractableComponent:
 	var nearest: InteractableComponent = null
 	var best_dist := INF
 	for ic in _in_range_pool:
-		if not is_instance_valid(ic):
+		if not is_instance_valid(ic) or ic.disabled:
 			continue
 		var d: float = ic.get_parent().global_position.distance_squared_to(from_pos)
 		if d < best_dist:

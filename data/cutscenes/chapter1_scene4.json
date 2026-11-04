@@ -21,14 +21,15 @@
 	},
 	{
 		"type": "conga",
+		"join": "nearest_x",
+		"join_last": ["player"],
 		"leader": "Rose",
 		"followers": ["Lola Susan", "Lola Jonabel", "Papa Jobert", "player"],
-		"waypoints": ["S4/Exit"],
-		"order": "yx",
-		"queue_direction": "right",
-		"gap": 1,
+		"waypoints": [[240, 336], "S4/Exit"],
+		"order": "xy",
+		"gap": 2,
 		"speed": 48,
 		"despawn": true,
-		"hold_at": "S4/Hold"
+		"hold_at": [-432, 336]
 	}
 ]

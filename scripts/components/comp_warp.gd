@@ -75,6 +75,11 @@ const UNIT_WIDTH_PX: float = 16.0
 ## E.g. 30 for a jeepney ride across town, 240 for a long road trip.
 @export_range(0, 4320, 5) var travel_minutes: int = 0
 
+## Hour the trip always lands at (e.g. 8.75 = 8:45 AM). travel_minutes then
+## becomes the minimum trip length, extended to the next time the clock reads
+## this hour. -1 = no fixed arrival (default): land after exactly travel_minutes.
+@export_range(-1.0, 23.75, 0.25) var arrival_hour: float = -1.0
+
 ## Optional GameState flag that must be true before this warp works (e.g.
 ## "quest_002_done" keeps the airport door shut until the book quest is done).
 ## Empty = always open (default, most doors). Bypassed in GameState.dev_mode.
@@ -180,10 +185,15 @@ func _fire(body: Node) -> void:
 	if MapManager.is_transitioning:
 		return
 	_fired = true
+	if TourGuide.intercept(self, body):
+		return
 	if not required_flag.is_empty() and not GameState.dev_mode and not GameState.get_flag(required_flag):
 		_show_blocked_message(body)
 		return
-	MapManager.warp_to_scene(target_scene, target_spawn_id, travel_minutes)
+	var minutes: float = travel_minutes
+	if arrival_hour >= 0.0:
+		minutes = DayNightManager.minutes_until_arrival(travel_minutes, arrival_hour)
+	MapManager.warp_to_scene(target_scene, target_spawn_id, minutes)
 
 ## Reuses the normal dialogue pipeline (tap to dismiss) via a throwaway
 ## DialogueComponent, same approach as us_bedroom.gd's opening line.

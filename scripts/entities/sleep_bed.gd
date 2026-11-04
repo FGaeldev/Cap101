@@ -3,6 +3,13 @@ extends StaticBody2D
 
 ## Sleeping always wakes the player at the next 6 AM.
 const WAKE_HOUR: float = 6.0
+## From the bed's position to where a sleeper lies, under the blanket. The cover
+## sprite sorts in front of this spot, the base behind it.
+const SLEEPER_OFFSET: Vector2 = Vector2(8, -18)
+## Seconds the player is shown in bed before getting up.
+const WAKE_PAUSE: float = 0.8
+
+const ActorPath := preload("res://scripts/util/actor_path.gd")
 
 @onready var interactable: InteractableComponent = $InteractableComponent
 
@@ -13,18 +20,21 @@ const WAKE_HOUR: float = 6.0
 @export var required_flag: String = ""
 @export var prompt_text: String = "Go to sleep?"
 @export var not_sleepy_text: String = "I'm not sleepy yet."
+## Optional GameState flag set after sleeping here (e.g. story beats waiting
+## on the player's first night). Empty = sets nothing.
+@export var sleep_flag: String = ""
 
 var _sleeping: bool = false
 
 func _ready() -> void:
 	interactable.interacted.connect(_on_interacted)
+	interactable.disabled = not sleepable
 
 func _on_interacted(interactor: Node) -> void:
 	if not sleepable or _sleeping or interactor == null \
 			or DialogueUI._current_component != null:
 		return
-	var gated := not required_flag.is_empty() and not GameState.get_flag(required_flag)
-	if gated or not DayNightManager.is_night():
+	if not required_flag.is_empty() and not GameState.get_flag(required_flag):
 		_say(not_sleepy_text)
 		return
 	_ask_to_sleep()
@@ -59,8 +69,8 @@ func _ask_to_sleep() -> void:
 			_sleep())
 	dialogue.start_dialogue()
 
-## Fade to black, jump the clock to the next 6 AM, save, fade back in.
-## The player stays where they are.
+## Fade to black, jump the clock to the next 6 AM, save, fade back in with the
+## player under the blanket, then they get up and walk back to where they stood.
 func _sleep() -> void:
 	_sleeping = true
 	# Same lock warps use: freezes player input (Player.get_input_dir) and
@@ -68,12 +78,34 @@ func _sleep() -> void:
 	MapManager.is_transitioning = true
 	await FadeManager.fade_out()
 
+	var player: Node2D = CutsceneManager.get_actor("player")
+	var stood_at: Vector2 = player.global_position
+	var in_bed: Vector2 = global_position + SLEEPER_OFFSET
+	player.global_position = in_bed
+	player.update_facing(Vector2.DOWN)
+	player.sprite.play("idle_down")
+	CutsceneManager.snap_camera()
 	DayNightManager.advance_minutes(_minutes_until(WAKE_HOUR))
+	if not sleep_flag.is_empty():
+		GameState.set_flag(sleep_flag)
 	GameState.save_game()
 
 	await FadeManager.fade_in()
+	await get_tree().create_timer(WAKE_PAUSE).timeout
+	await _walk_out_of_bed(player, in_bed, stood_at)
 	MapManager.is_transitioning = false
 	_sleeping = false
+
+func _walk_out_of_bed(player: Node2D, from: Vector2, to: Vector2) -> void:
+	var prev: Vector2 = from
+	for leg_end: Vector2 in ActorPath.around_actors(CutsceneManager, player, from, to):
+		player.update_facing((leg_end - prev).normalized())
+		player.sprite.play("walk_" + player.direction)
+		var tween := create_tween()
+		tween.tween_property(player, "global_position", leg_end, prev.distance_to(leg_end) / player.tile_size * player.step_time)
+		await tween.finished
+		prev = leg_end
+	player.sprite.play("idle_" + player.direction)
 
 ## Minutes from now until the next occurrence of `hour` (a full day if it's
 ## exactly that hour now), so advance_minutes() rolls the date correctly.

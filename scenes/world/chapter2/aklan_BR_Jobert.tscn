@@ -706,3 +706,9 @@ position = Vector2(32, 128)
 
 [node name="BedroomBed" parent="." unique_id=467436607 instance=ExtResource("4_5nmjc")]
 position = Vector2(72, 82)
+sleepable = false
+
+[node name="Schedule" type="Node2D" parent="." unique_id=410200400]
+
+[node name="Bed" type="Marker2D" parent="Schedule" unique_id=410200401]
+position = Vector2(80, 64)

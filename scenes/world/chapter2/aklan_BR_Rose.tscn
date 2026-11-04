@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://b1h57pcaslyfc" path="res://assets/tilesets/Aklan_Home_Indoors.png" id="1_errew"]
 [ext_resource type="Texture2D" uid="uid://4y5qmudjoij" path="res://assets/tilesets/edge.png" id="2_xvvb3"]
 [ext_resource type="PackedScene" uid="uid://de6nkx7tf7u8d" path="res://scenes/entities/furniture/warp_area.tscn" id="3_fkh7s"]
+[ext_resource type="PackedScene" uid="uid://ch1r4565fnl6q" path="res://scenes/entities/furniture/bedroom_bed.tscn" id="4_bed"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0ys0i"]
 texture = ExtResource("1_errew")
@@ -700,3 +701,15 @@ y_sort_enabled = true
 
 [node name="DefaultSpawn" type="Marker2D" parent="Spawns" unique_id=2035788019]
 position = Vector2(32, 128)
+
+[node name="Schedule" type="Node2D" parent="." unique_id=410200100]
+
+[node name="Bed" type="Marker2D" parent="Schedule" unique_id=410200101]
+position = Vector2(80, 64)
+
+[node name="Chair" type="Marker2D" parent="Schedule" unique_id=410200102]
+position = Vector2(16, 64)
+
+[node name="BedroomBed" parent="." unique_id=410200904 instance=ExtResource("4_bed")]
+position = Vector2(72, 82)
+sleepable = false

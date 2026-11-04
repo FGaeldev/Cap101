@@ -23,9 +23,9 @@ How to read it:
 | Ch | Title (working) | Location(s) | New cast | Vocabulary domain | Learning activities in the script |
 |---|---|---|---|---|---|
 | 1 | Homesick | US home → Kalibo Int'l Airport → parking lot | Lola Jonabel, Papa Jobert, Lola Susan, Rose | Greetings, pronouns, numbers 1–5 | phrase builder ×2, quiz ×2, memory match ×2 |
-| 2 | Kalibo Town | Aklan home, Pastrana Park, Public Market, Cathedral (+ souvenir shop) | Anong Pedring | Places, food, numbers 6–10, colors, size/age adjectives, demonstratives, "please" | **none** (choices only) |
-| 3 | Threads of Piña | Piña loom house | Manang/Anang Loleng | Verbs (buy, sell, speak, answer, rise), pace/size adjectives | **none** |
-| 4 | Roots of Bakhawan | Bakhawan Eco-Park | Manong/Anong Ambo | Nature (shore, water, soil, sand), qualities, nature verbs | **none** |
+| 2 | Kalibo Town | Aklan home, Pastrana Park, Public Market, Cathedral (+ souvenir shop) | Manong Pedring | Places, food, numbers 6–10, colors, size/age adjectives, demonstratives, "please" | **none** (choices only) |
+| 3 | Threads of Piña | Piña loom house | Manang Loleng | Verbs (buy, sell, speak, answer, rise), pace/size adjectives | **none** |
+| 4 | Roots of Bakhawan | Bakhawan Eco-Park | Manong/Manong Ambo | Nature (shore, water, soil, sand), qualities, nature verbs | **none** |
 | 5 | Hala Bira! (Ati-Atihan) | Festival grounds and parade route | Kapitan Julian | Festival words, people (person, visitor, balikbayan) | **none** |
 | 6 | Homeward | Caticlan jetty → boat → Boracay White Beach | Tita Beth | Travel and tourism | **none** |
 
@@ -79,14 +79,14 @@ Every chapter follows the same five-beat shape: **arrive → learn the place →
 | Where | Issue | Fix |
 |---|---|---|
 | scene 4 (`:512`, `:534`) | The vocab round happens "before leaving the cathedral grounds… walking toward the market", but the market was scene 2. Continuity break. | See decision **D4**. |
-| scene 1 | Rose calls him "Anong Pedring". The idle pools (Rose, Lola Susan) call him "Manong Pedring". | See decision **D3**. |
+| scene 1 | Rose calls him "Manong Pedring". The idle pools (Rose, Lola Susan) call him "Manong Pedring". | See decision **D3**. |
 | scene 0 | One line ("Welcome home everyone!"). There's no setup for tomorrow's town walk. | Expand (§6.2). |
 | all scenes | No learning activity. The chapter is pure reading. | Add the activities in §6.2. |
 
 **Chapter 3** (`data/dialogue/chapter3.json`)
 | Where | Issue | Fix |
 |---|---|---|
-| all | Speaker is `Manang Loleng` on line 1 and `Anang Loleng` everywhere else. That gives two portraits and two rapport keys. | **D3**. |
+| all | Speaker is `Manang Loleng` on line 1 and `Manang Loleng` everywhere else. That gives two portraits and two rapport keys. | **D3**. |
 | scene 1, idx 6 | The three reaction choices have no `rapport_delta`. | Add +2 / 0 / −2. |
 | scene 2, idx 4→8 | The player picks how to try weaving, and then line 8 praises a result that never happened. | Insert the weaving minigame between the choice and idx 8 (§5.4). |
 | scene 2, idx 6 | The "I'll just watch" branch → Rose's taunt → praise for weaving the player didn't do. | Route it through the minigame too (gently: "at least one row"). |
@@ -97,7 +97,7 @@ Every chapter follows the same five-beat shape: **arrive → learn the place →
 **Chapter 4** (`data/dialogue/chapter4.json`)
 | Where | Issue | Fix |
 |---|---|---|
-| all | `Manong Ambo` on scene 1 and in the idle pool, `Anong Ambo` everywhere else. | **D3**. |
+| all | `Manong Ambo` on scene 1 and in the idle pool, `Manong Ambo` everywhere else. | **D3**. |
 | scene 3, idx 2 | Choices 1 ("Yes") and 2 ("Maybe later, just watch") both go to idx 3 ("Mayad! sunod kakon"). Choice 3 goes to idx 4 ("Watching teaches too"). Idx 5 (Rose, "You'll miss out") can't be reached. | 1→3, 2→4, 3→5. Then add the fishing minigame (§5.4). |
 | scene 5 | Jonabel and Jobert speak, but nothing puts them at the eco-park. | Spawn them in the scene 5 cutscene. |
 | idle `manong_ambo.med[1]` (`:217`) | The translation field contains an editorial note: `[NEW-VERIFY: soft reference to Boracay…]`. | Remove it once verified. |
@@ -146,6 +146,14 @@ Every chapter follows the same five-beat shape: **arrive → learn the place →
 
 ## 4. Decisions to lock first
 
+**Decided 2026-11-05 (these override the table below where they differ):**
+- **D1:** `START_DATE` stays 2026-11-15. Ati-Atihan is a date-specific event on the 3rd Sunday of January (`CalendarUtil.is_event_on`). Chapter 5 plays on that date.
+- **D3:** Use **Manong / Manang** everywhere: Manong Pedring, Manong Ambo, Manang Loleng.
+- **Translations stay hidden** in dialogue. Keep authoring them in the `translation` field, but they are not shown on screen.
+- **Trips:** Chapter 2's first trip is led by Rose in order (park, market, cathedral, home). The player then asks Rose to go out, and she handles warps (`TourGuide`). First trip mornings only, later trips 6 AM to 6 PM, and Rose walks the player home after dark.
+- **Walks are never skipped.** Long walks play in full at higher game speed (`game_speed` cutscene step).
+- **Sunday mass** uses the same cathedral and market as the tour. A `cathedral_indoors` map may replace the exterior stop later.
+
 Each one blocks writing or level work. I've put my recommendation first.
 
 | # | Decision | Options | Recommendation |
@@ -192,7 +200,7 @@ Register each as a `minigame_trigger` type, next to `memory_match`. Each one res
 |---|---|---|---|
 | `market_order` | 2 | A phrase-builder variant: build "Pangabay, gusto ko it ___" by picking the item word from pictures of fish, chicken, eggs, rice and so on. Two or three orders. | pangabay, gusto, isda, manok, itlog, humay, tinapay |
 | `map_match` | 2 | Drag Kalibo place labels onto Rose's map (the cathedral, market and park the player has already visited, plus the next destinations). Completing it unlocks those regions on the Book Map page. | lugar, mapa, places |
-| `weaving` | 3 | A thread-colour sequence: Anang Loleng calls a colour **in Akeanon** (puti, puea, asul…), and the player taps the matching thread in rhythm. Three short rows that get faster (hinay → paspas). | Ch2 colours (spaced repetition) + hinay, paspas |
+| `weaving` | 3 | A thread-colour sequence: Manang Loleng calls a colour **in Akeanon** (puti, puea, asul…), and the player taps the matching thread in rhythm. Three short rows that get faster (hinay → paspas). | Ch2 colours (spaced repetition) + hinay, paspas |
 | `fishing` | 4 | Timing: wait for the bobber, tap. Each catch is named in Akeanon, and the player picks the right word (2–3 choices). Catch-and-release framing (conservation theme). | isda + Ch4 nature words |
 | `call_response` | 5 | A rhythm prompt: drum beats, Rose or Julian calls, the player taps or selects the response. Needs audio. If there's no audio budget, fall back to a phrase builder. | saot, tamboe, pyesta, kasadyahan |
 | `souvenir_shop` | 6 | Choose a handmade craft and say the buy phrase (bakae, from Ch3). It closes the "support the maker" lesson. | bakae, baligya, turista, bisita |
@@ -251,14 +259,14 @@ Work:
 
 ### 6.2 Chapter 2: Kalibo Town
 
-**Synopsis.** Home at last. The next morning Rose takes the player through town: Pastrana Park (meet Anong Pedring), the public market (first real request: _pangabay_), the cathedral (the family's history, Rose's map), and a souvenir-shop vocabulary round. Home in the evening.
+**Synopsis.** Home at last. The next morning Rose takes the player through town: Pastrana Park (meet Manong Pedring), the public market (first real request: _pangabay_), the cathedral (the family's history, Rose's map), and a souvenir-shop vocabulary round. Home in the evening.
 
 | # | Scene key | Location (level) | Trigger | Cast | Activity | Sets |
 |---|---|---|---|---|---|---|
 | 0 | `scene_0_home_atlast` | `chapter2/aklan_living` ✅ | arrival warp (exists) | family + Susan, Rose | — (expand: Susan shows the rooms; Rose: "Tomorrow. 7 AM. Don't be late, balikbayan.") | `seen_chapter2_scene0` ✅, `chapter2_day1_done` |
 | 0b | _new_ `scene_0b_first_night` | `chapter2/aklan_BR_Player` ✅ | player enters own room | — | examine notebook → journal; sleep (§5.2) | `chapter2_slept` |
 | 0c | _new_ `scene_0c_morning_brief` | `aklan_living` | wake up | Rose, Susan | — | `chapter2_started` → q005 |
-| 1 | `scene_1_pastrana_park_morning_walk` | **new** `chapter2/pastrana_park` | auto on arrival | Rose, Anong Pedring, townsfolk | 3-way choice (exists); **add:** phrase builder "Mayad nga agahon" to greet Pedring (reinforces Ch1) | `seen_chapter2_scene1`, `met_pedring` |
+| 1 | `scene_1_pastrana_park_morning_walk` | **new** `chapter2/pastrana_park` | auto on arrival | Rose, Manong Pedring, townsfolk | 3-way choice (exists); **add:** phrase builder "Mayad nga agahon" to greet Pedring (reinforces Ch1) | `seen_chapter2_scene1`, `met_pedring` |
 | 1b | _new, D4-A_ `scene_1b_food_words` | walking cutscene, park → market | after scene 1 | Rose | food-word lines moved here from scene 4 + a quick quiz | `seen_chapter2_scene1b` |
 | 2 | `scene_2_kalibo_public_market` | **new** `chapter2/kalibo_market` | auto on arrival | Pedring, Rose, vendors | **`market_order`** after "how do I say I want this?"; star-fruit choice (exists) | `seen_chapter2_scene2`, `bought_star_fruit` (optional) |
 | 2b | _optional_ world task | market | free | 3 vendors | `Comp_WorldTask`: greet three vendors with the right greeting | `task_market_greetings` |
@@ -267,7 +275,7 @@ Work:
 | 5 | _new_ `scene_5_evening_home` | `aklan_living` (evening) | travel home | family | reflection; Rose names tomorrow's trip (piña); sleep | `chapter2_complete` |
 
 **Levels to build:** `pastrana_park` (art started in `assets/pastrana/`), `kalibo_market`, `kalibo_cathedral` (+ souvenir shop). Add each to `level_areas.json` → area `kalibo_town`.
-**NPCs:** Anong Pedring (sprite + portrait, rapport-tracked, idle pool `idle_pool_anong_pedring`, **which doesn't exist yet, so write one**), and 4–6 townsfolk.
+**NPCs:** Manong Pedring (sprite + portrait, rapport-tracked, idle pool `idle_pool_anong_pedring`, **which doesn't exist yet, so write one**), and 4–6 townsfolk.
 **Cutscenes:** `chapter2_scene0b`, `0c`, `1`, `1b` (walk), `2`, `3`, `4`, `5`, plus travel (tricycle) ×2.
 **Quests:** q005 "Explore Kalibo with Rose" with steps park → market → cathedral → return home.
 **Vocab check:** w189 pangabay, w091/w152/w093/w080/w230/w107/w024 food, w017/w196/w244/w215/w178 numbers 6–10, w199/w094/w198/w021/w056/w038 colours, w145/w128/w163/w028/w047 adjectives, w052/w051 demonstratives. **Missing from the bank:** _haron_ ("that, near me"); "Daya/Haron/Dato" is tagged with only two ids.
@@ -277,12 +285,12 @@ Work:
 
 ### 6.3 Chapter 3: Threads of Piña
 
-**Synopsis.** A van ride out to a piña weaving community. Anang Loleng shows the loom and how piña goes from plant to cloth. The player tries a row (Rose bets against them), receives a piña bookmark, and Rose runs a verb round.
+**Synopsis.** A van ride out to a piña weaving community. Manang Loleng shows the loom and how piña goes from plant to cloth. The player tries a row (Rose bets against them), receives a piña bookmark, and Rose runs a verb round.
 
 | # | Scene key | Location | Cast | Activity | Sets |
 |---|---|---|---|---|---|
 | 0 | _new_ `scene_0_morning_brief` | `aklan_living` | Rose, Susan, Jonabel | — (Jonabel mentions her own lola wove: set up her idle lines) | `chapter3_started` → q006 |
-| 1 | `scene_1_arrival_at_the_loom_house` | **new** `chapter3/loom_house_exterior` → interior | Anang Loleng, Rose | reaction choice (**add rapport**); **add** quiz: "Halin ra sa ___" (from where?) | `seen_chapter3_scene1` |
+| 1 | `scene_1_arrival_at_the_loom_house` | **new** `chapter3/loom_house_exterior` → interior | Manang Loleng, Rose | reaction choice (**add rapport**); **add** quiz: "Halin ra sa ___" (from where?) | `seen_chapter3_scene1` |
 | 1b | _optional_ | piña plants beside the house | Loleng | examine objects: plant → stripping fibres → thread → loom (a 3–4 step world task that teaches the process) | `task_pina_process` |
 | 2 | `scene_2_trying_the_loom` | `loom_house_interior` | Loleng, Rose | **`weaving` minigame** inserted before idx 8 | `seen_chapter3_scene2`, `wove_first_row` |
 | 3 | `scene_3_closing_gift` | interior | Loleng, Rose | — | `got_pina_bookmark` (keepsake), `story_done_ch3_loleng` |
@@ -290,7 +298,7 @@ Work:
 | 5 | _new_ `scene_5_evening_home` | `aklan_living` | family | Jonabel holds the bookmark → her memory of her lola; sleep | `chapter3_complete` |
 
 **Script work:** fix the router; unify Loleng's name (D3); add `\` markers, the correct ids (§7.2), translations for every Akeanon line, rapport deltas, and the minigame insertion point; name the gift. Use a native review to check "Naabi abi gid namon…", "Uwat kaso" and "Hinay-hinay eang. bukon ra padasigan" (whose translation has the typo "whose faster").
-**Levels:** `loom_house_exterior`, `loom_house_interior` (area `pina_loom`). **NPC:** Anang Loleng + 2–3 weaver NPCs (ambient, at looms).
+**Levels:** `loom_house_exterior`, `loom_house_interior` (area `pina_loom`). **NPC:** Manang Loleng + 2–3 weaver NPCs (ambient, at looms).
 **Quest:** q006 "Visit the piña weavers".
 **Done when:** the weaving minigame works on touch and keyboard; the bookmark appears in the Journal; Jonabel's bookmark idle line is gated on `got_pina_bookmark` (not shown before).
 
@@ -298,12 +306,12 @@ Work:
 
 ### 6.4 Chapter 4: Roots of Bakhawan
 
-**Synopsis.** The Bakhawan Eco-Park. Anong Ambo, the caretaker, explains how mangrove roots protect the town from storms. Fishing lesson, nature words, and a quiet family reflection on the boardwalk.
+**Synopsis.** The Bakhawan Eco-Park. Manong Ambo, the caretaker, explains how mangrove roots protect the town from storms. Fishing lesson, nature words, and a quiet family reflection on the boardwalk.
 
 | # | Scene key | Location | Cast | Activity | Sets |
 |---|---|---|---|---|---|
 | 0 | _new_ `scene_0_morning_brief` | `aklan_living` | Rose, Jobert | — (Jobert: "I used to fish there") | `chapter4_started` → q007 |
-| 1 | `scene_1_arrival_at_the_eco_park` | `bakhawan/bakhawan_outdoors` (**fill the shell**) | Rose, Anong Ambo | **add** greeting phrase builder (Ambo greets: reply in kind) | `seen_chapter4_scene1` |
+| 1 | `scene_1_arrival_at_the_eco_park` | `bakhawan/bakhawan_outdoors` (**fill the shell**) | Rose, Manong Ambo | **add** greeting phrase builder (Ambo greets: reply in kind) | `seen_chapter4_scene1` |
 | 1b | gate | boardwalk entrance | — | **reuse `ch2_tutorial_field_notes` / `ch2_bakhawan_gate1/2`** challenges (rename to `ch4_*`), with `field_notes` placed along the boardwalk | `bakhawan_boardwalk` unlocked |
 | 2 | `scene_2_learning_about_mangroves` | boardwalk / `bakhawan_tree` | Ambo, Rose | examine roots (ugat w238), storm (bagyo w030); quiz | `seen_chapter4_scene2` |
 | 3 | `scene_3_fishing_lesson` | river edge | Ambo, Rose | **fix the branch** (§2.3) + **`fishing` minigame** | `seen_chapter4_scene3`, `went_fishing` |
@@ -422,8 +430,8 @@ Rules: flags are only ever added (saves are additive), never renamed after relea
 | Id | Title | Requires flag | Steps (objectives) | Completion flag |
 |---|---|---|---|---|
 | q005 | Explore Kalibo with Rose | `chapter2_started` | Pastrana Park → Market → Cathedral → Go home | `chapter2_complete` |
-| q006 | Visit the piña weavers | `chapter3_started` | Meet Anang Loleng → Try the loom → Go home | `chapter3_complete` |
-| q007 | Visit the Bakhawan Eco-Park | `chapter4_started` | Meet Anong Ambo → Cross the boardwalk → Go fishing → Go home | `chapter4_complete` |
+| q006 | Visit the piña weavers | `chapter3_started` | Meet Manang Loleng → Try the loom → Go home | `chapter3_complete` |
+| q007 | Visit the Bakhawan Eco-Park | `chapter4_started` | Meet Manong Ambo → Cross the boardwalk → Go fishing → Go home | `chapter4_complete` |
 | q008 | Join the Ati-Atihan | `chapter5_started` | Meet Kapitan Julian → Watch the parade → Join the cheer | `chapter5_complete` |
 | q009 | One last trip | `chapter6_started` | Board at Caticlan → Meet Tita Beth → Buy a souvenir → Say goodbye | `game_complete` |
 | q0x0 (side) | Go to bed | `chapterN_complete` | Sleep in your room | `chapterN+1_started` |
@@ -436,7 +444,7 @@ Add one achievement per chapter (`flag` condition type, SIP 4.2), plus "Bookworm
 
 | Type | Needed | Have |
 |---|---|---|
-| **Character sprites** (walk 4-dir) | Anong Pedring, Anang Loleng, Anong Ambo, Kapitan Julian, Tita Beth; townsfolk ×4–6; weavers ×2; dancers/drummers ×3–4 (palette swaps OK); tourists ×2–3 | player, Jonabel, Susan, Jobert, Rose |
+| **Character sprites** (walk 4-dir) | Manong Pedring, Manang Loleng, Manong Ambo, Kapitan Julian, Tita Beth; townsfolk ×4–6; weavers ×2; dancers/drummers ×3–4 (palette swaps OK); tourists ×2–3 | player, Jonabel, Susan, Jobert, Rose |
 | **Portraits** | Susan, Rose, + the five new NPCs | Jonabel, Jobert |
 | **Tilesets / maps** | Pastrana Park (started), market, cathedral + plaza, souvenir shop, loom house in/out, Bakhawan (tiles exist, maps empty), festival-dressed park, Caticlan jetty, boat vignette, White Beach + stalls | home, airport, Bakhawan tiles |
 | **Props** | market stalls, fruit/fish, loom, piña plants, fishing rod/bobber, mangrove seedling, drums, banners, boats, life vests, souvenirs | furniture set |

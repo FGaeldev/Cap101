@@ -88,6 +88,7 @@ func load_level(path: String, spawn_id: String = "DefaultSpawn") -> void:
 	# instead of letting the smoothed camera glide in during the fade-in.
 	CutsceneManager.snap_camera()
 	_update_current_area(path)
+	NpcSchedule.on_level_loaded(level, path)
 
 ## Union of every visible TileMapLayer except "Edge" (the border ring around the
 ## map, which the camera shouldn't show), so a new map is covered without

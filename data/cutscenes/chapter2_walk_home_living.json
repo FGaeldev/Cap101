@@ -1,0 +1,15 @@
+[
+	{"type": "spawn_npc", "actor": "Rose", "scene": "res://scenes/entities/npc_Rose.tscn", "at": [48, 96]},
+	{"type": "spawn_npc", "actor": "Lola Susan", "scene": "res://scenes/entities/npc_LolaSusan.tscn", "at": [64, 96], "if_flag": "chapter2_mass_trip"},
+	{"type": "move_npc", "actor": "player", "from": "DefaultSpawn", "direction": "up", "tiles": 0},
+	{"type": "set_flag", "flag": "chapter2_walking_home", "value": false},
+	{"type": "set_flag", "flag": "chapter2_at_park", "value": false},
+	{"type": "set_flag", "flag": "chapter2_at_market", "value": false},
+	{"type": "set_flag", "flag": "chapter2_from_market", "value": false},
+	{"type": "set_flag", "flag": "chapter2_left_home", "value": false},
+	{"type": "set_flag", "flag": "chapter2_left_house", "value": false},
+	{"type": "set_flag", "flag": "chapter2_mass_cathedral", "value": false},
+	{"type": "set_flag", "flag": "chapter2_mass_trip", "value": false},
+	{"type": "set_flag", "flag": "chapter2_with_rose", "value": false},
+	{"type": "fade", "direction": "in", "duration": 0.6}
+]

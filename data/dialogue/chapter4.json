@@ -19,13 +19,13 @@
 		},
 		{
 			"speaker": "Manong Ambo",
-			"text": "Mayad-ayad nga agahon , mga bisita. iya kamo para makita do aton nga mangroves?",
+			"text": "Mayad-ayad nga [DayPart] , mga bisita. iya kamo para makita do aton nga mangroves?",
 			"next": 4,
-			"translation": "Good morning, visitors. Are you here to see our coast and mangroves?"
+			"translation": "[GoodDay], visitors. Are you here to see our coast and mangroves?"
 		},
 		{
 			"speaker": "Rose",
-			"text": "Yes, Anong Ambo. He’s the caretaker here.",
+			"text": "Yes, Manong Ambo. He’s the caretaker here.",
 			"next": null
 		}
 	],
@@ -37,7 +37,7 @@
 			"type": "start_router"
 		},
 		{
-			"speaker": "Anong Ambo",
+			"speaker": "Manong Ambo",
 			"text": "ro mga ugat ru gakapyot sa eugta. kaya indi masamad bisan it bagyo.",
 			"next": 2,
 			"translation": "The roots hold the soil. It won’t collapse even during storms."
@@ -48,7 +48,7 @@
 			"next": 3
 		},
 		{
-			"speaker": "Anong Ambo",
+			"speaker": "Manong Ambo",
 			"text": "hara gid. Kung uwa ra, ro baeas ag tubi hay magatao it kaeainan",
 			"next": 4,
 			"translation": "Exactly. Without this, the sand and water would cause danger."
@@ -67,7 +67,7 @@
 			"type": "start_router"
 		},
 		{
-			"speaker": "Anong Ambo",
+			"speaker": "Manong Ambo",
 			"text": "Gusto ninyo magkantoguhan magpamunit? bukon eang para sa isda, kundi para sa pagtuon.",
 			"next": 2,
 			"translation": "Do you want to try fishing? Not just for fish, but for learning."
@@ -92,12 +92,12 @@
 			"next": null
 		},
 		{
-			"speaker": "Anong Ambo",
+			"speaker": "Manong Ambo",
 			"text": "Mayad! iya, sunod kakon.",
 			"next": null
 		},
 		{
-			"speaker": "Anong Ambo",
+			"speaker": "Manong Ambo",
 			"text": "bukon problema. Watching teaches too.",
 			"next": null
 		},
@@ -148,7 +148,7 @@
 		},
 		{
 			"speaker": "Player",
-			"text": "Okay, so pamunit is what Anong Ambo said earlier.",
+			"text": "Okay, so pamunit is what Manong Ambo said earlier.",
 			"next": 5
 		},
 		{

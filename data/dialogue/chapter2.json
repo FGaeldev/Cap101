@@ -43,9 +43,9 @@
 	},
 	{
 	  "speaker": "Rose",
-	  "text": "Ruyon, si Anong Pedring. \\Suki namon \\igto sa tindahan.",
+	  "text": "Ruyon, si Manong Pedring. \\Suki namon \\igto sa tindahan.",
 	  "next": 6,
-	  "translation": "That's Anong Pedring. He's our regular vendor at the market.",
+	  "translation": "That's Manong Pedring. He's our regular vendor at the market.",
 	  "word_ids": [
 		"w216",
         "w082"
@@ -54,10 +54,10 @@
 	},
 	{
 	  "speaker": "",
-	  "text": "Will you talk to Anong Pedring?",
+	  "text": "Will you talk to Manong Pedring?",
 	  "choices": [
 		{
-		  "label": "Good morning! I'm here with Jonabel's family.",
+		  "label": "[GoodDay]! I'm here with Jonabel's family.",
 		  "rapport_delta": 2,
 		  "next": 7
 		},
@@ -76,8 +76,8 @@
 	  "type": "dialogue"
 	},
 	{
-	  "speaker": "Anong Pedring",
-	  "text": "\\Mayad-ayad nga agahon! \\Apo gali ni Jonabel. \\Siin ka \\halin?",
+	  "speaker": "Manong Pedring",
+	  "text": "\\Mayad-ayad nga \\[DayPart]!\\Apo gali ni Jonabel. \\Siin ka \\halin?",
 	  "next": 10,
 	  "word_ids": [
 		"w164",
@@ -88,7 +88,7 @@
 	  "type": "dialogue"
 	},
 	{
-	  "speaker": "Anong Pedring",
+	  "speaker": "Manong Pedring",
 	  "text": "\\Indi \\baea. Slow only. Learning takes time, \\apo.",
 	  "next": 10,
 	  "word_ids": [
@@ -134,8 +134,8 @@
 	  "type": "dialogue"
 	},
 	{
-	  "speaker": "Anong Pedring",
-	  "text": "\\Alin ing \\gusto, \\apo? \\Abo iya nga \\humay, \\tubi, \\isda.",
+	  "speaker": "Manong Pedring",
+	  "text": "\\Alin ing \\gusto, \\apo? \\Abo iya nga \\humay, \\tubi, \\uga.",
 	  "next": 3,
 	  "translation": "What do you want, grandchild? There's plenty here — rice, water, fish.",
 	  "word_ids": [
@@ -145,7 +145,7 @@
 		"w001",
 		"w080",
 		"w233",
-        "w091"
+		"w249"
 	  ],
 	  "type": "dialogue"
 	},
@@ -187,7 +187,7 @@
 	  "type": "dialogue"
 	},
 	{
-	  "speaker": "Anong Pedring",
+	  "speaker": "Manong Pedring",
 	  "text": "Star fruit, \\apo. \\Matam-is \\gid.",
 	  "next": 9,
 	  "translation": "Star-shaped fruit — star fruit, grandchild. Very sweet.",
@@ -222,7 +222,7 @@
 	  "type": "dialogue"
 	},
 	{
-	  "speaker": "Anong Pedring",
+	  "speaker": "Manong Pedring",
 	  "text": "\\Mayad! \\Dahan sa \\pagkaon.",
 	  "next": 13,
 	  "word_ids": [
@@ -233,7 +233,7 @@
 	  "type": "dialogue"
 	},
 	{
-	  "speaker": "Anong Pedring",
+	  "speaker": "Manong Pedring",
 	  "text": "That's fine, my goods won't disappear quickly.",
 	  "next": 13,
 	  "word_ids": [],
@@ -247,7 +247,7 @@
 	  "type": "dialogue"
 	},
 	{
-	  "speaker": "Anong Pedring",
+	  "speaker": "Manong Pedring",
 	  "text": "\\Siin do \\masunod ninyo nga \\agtunan? Mag-simba?",
 	  "next": null,
 	  "translation": "Where are you headed next, to church?",
@@ -555,6 +555,178 @@
 	  "type": "dialogue",
 	  "speaker": "Lola Susan",
 	  "text": "Welcome home everyone!",
+	  "next": 2,
+	  "word_ids": []
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Lola Susan",
+	  "text": "That flight must have worn you all out. Go on upstairs and sleep in your rooms.",
+	  "next": 3,
+	  "word_ids": []
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Lola Susan",
+	  "text": "Look next to the doors. Yours is the one with the \\bituon.",
+	  "translation": "Yours is the one with the star.",
+	  "next": 4,
+	  "word_ids": ["w043"]
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Lola Susan",
+	  "text": "Jonabel has the \\buean, and Jobert has the \\adlaw.",
+	  "translation": "Jonabel has the moon, and Jobert has the sun.",
+	  "next": null,
+	  "word_ids": ["w250", "w003"]
+	}
+  ],
+  "scene_0b_ask_rose": [
+	{
+	  "type": "start_router",
+	  "start_index_if_flag": {
+		"default": 1
+	  }
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Lola Susan",
+	  "text": "There you are! Did you sleep well?",
+	  "next": 2,
+	  "word_ids": []
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Lola Susan",
+	  "text": "Whenever you want to look around, always ask Rose to go with you.",
+	  "next": null,
+	  "word_ids": []
+	}
+  ],
+  "scene_rose_walk_to_park": [
+	{
+	  "type": "start_router",
+	  "start_index_if_flag": {
+		"seen_chapter2_scene1": 3,
+		"default": 1
+	  }
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Rose",
+	  "text": "Need something, balikbayan?",
+	  "word_ids": [],
+	  "choices": [
+		{"label": "Can you show me around?", "next": 2},
+		{"label": "Not right now", "next": -1}
+	  ]
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Rose",
+	  "text": "Finally. Let's start with the park. Stay close.",
+	  "set_flag": "chapter2_with_rose",
+	  "next": null,
+	  "word_ids": []
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Rose",
+	  "text": "Need something, balikbayan?",
+	  "word_ids": [],
+	  "choices": [
+		{"label": "Can we go out again?", "next": 4},
+		{"label": "Not right now", "next": -1}
+	  ]
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Rose",
+	  "text": "Back to the park, then. Stay close.",
+	  "set_flag": "chapter2_with_rose",
+	  "next": null,
+	  "word_ids": []
+	}
+  ],
+  "scene_rose_not_now": [
+	{
+	  "type": "dialogue",
+	  "speaker": "Rose",
+	  "text": "Not now, balikbayan. Ask me in the morning.",
+	  "next": null,
+	  "word_ids": []
+	}
+  ],
+  "scene_mass_service": [
+	{
+	  "type": "dialogue",
+	  "speaker": "",
+	  "text": "The family goes in and hears Sunday mass together.",
+	  "next": 1,
+	  "word_ids": []
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Lola Susan",
+	  "text": "Now, the market. We still need a few things for lunch.",
+	  "next": null,
+	  "word_ids": []
+	}
+  ],
+  "scene_mass_market": [
+	{
+	  "type": "dialogue",
+	  "speaker": "Lola Susan",
+	  "text": "That's everything. Let's go home before the food gets cold.",
+	  "next": null,
+	  "word_ids": []
+	}
+  ],
+  "scene_sunday_mass_invite": [
+	{
+	  "type": "start_router",
+	  "start_index_if_flag": {
+		"default": 1
+	  }
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Lola Susan",
+	  "text": "It's Sunday! Rose and I are going to the cathedral for mass, then to the market after.",
+	  "next": 2,
+	  "word_ids": []
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Player",
+	  "text": "Come with us \\kampod",
+	  "next": 3,
+	  "word_ids": ["w251"],
+	  "choices": [{ "label": "Sure, I'll go with you.", "next": 4, "rapport_delta": 2, "patience_delta": 0 }, { "label": "Maybe another time.", "next": 5, "rapport_delta": -2, "patience_delta": 0 }]
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Lola Susan",
+	  "text": "So, are you coming?",
+	  "word_ids": [],
+	  "choices": [
+		{"label": "I'll come", "next": 4},
+		{"label": "Maybe next time", "next": 5}
+	  ]
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Lola Susan",
+	  "text": "Good! Let's go before all the seats are taken.",
+	  "set_flag": "chapter2_mass_went",
+	  "next": null,
+	  "word_ids": []
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Rose",
+	  "text": "Suit yourself. We'll be back by noon.",
 	  "next": null,
 	  "word_ids": []
 	}

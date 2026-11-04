@@ -1,0 +1,4 @@
+[
+	{"type": "dialogue", "chapter": "chapter2", "scene": "scene_0b_ask_rose"},
+	{"type": "set_flag", "flag": "seen_chapter2_scene0b", "value": true}
+]

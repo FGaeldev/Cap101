@@ -33,9 +33,9 @@
 		},
 		{
 			"speaker": "Tita Beth",
-			"text": "Mayad-ayad nga agahon, mga bisita! Welcome sa Boracay.",
+			"text": "Mayad-ayad nga [DayPart], mga bisita! Welcome sa Boracay.",
 			"next": 2,
-			"translation": "Good morning, visitors! Welcome to Boracay."
+			"translation": "[GoodDay], visitors! Welcome to Boracay."
 		},
 		{
 			"speaker": "Rose",

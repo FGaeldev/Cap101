@@ -1,5 +1,6 @@
 [gd_scene format=4 uid="uid://co6x8ec1n4245"]
 
+[ext_resource type="Script" path="res://scripts/game_scenes/aklan_home_outdoors.gd" id="9_story"]
 [ext_resource type="Texture2D" uid="uid://c5wos6iw1jsl8" path="res://assets/tilesets/Aklan_Home_Outdoors.png" id="1_d3eug"]
 [ext_resource type="Texture2D" uid="uid://4y5qmudjoij" path="res://assets/tilesets/edge.png" id="2_ea3w5"]
 [ext_resource type="PackedScene" uid="uid://de6nkx7tf7u8d" path="res://scenes/entities/furniture/warp_area.tscn" id="3_nsjhx"]
@@ -100,6 +101,7 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_lnjkx")
 
 [node name="AklanHomeOutdoors" type="Node2D" unique_id=949196231]
+script = ExtResource("9_story")
 y_sort_enabled = true
 
 [node name="Floor" type="TileMapLayer" parent="." unique_id=667541575]
@@ -122,6 +124,8 @@ tile_set = SubResource("TileSet_6325j")
 position = Vector2(-24, 256)
 trigger_direction = 2
 span_tiles_override = 8
+required_flag = "chapter2_with_rose"
+blocked_message = "Hmm, I should probably talk to Rose."
 
 [node name="WarpArea2" parent="Warps" unique_id=237112143 instance=ExtResource("3_nsjhx")]
 position = Vector2(584, 256)
@@ -129,6 +133,8 @@ trigger_direction = 3
 span_tiles_override = 8
 target_scene = "res://scenes/world/chapter2/pastrana_outdoors.tscn"
 target_spawn_id = "FromHome"
+required_flag = "chapter2_with_rose"
+blocked_message = "Hmm, I should probably talk to Rose."
 
 [node name="WarpArea3" parent="Warps" unique_id=456724200 instance=ExtResource("3_nsjhx")]
 position = Vector2(160, 200)
@@ -148,3 +154,11 @@ position = Vector2(576, 320)
 position = Vector2(144, 192)
 
 [node name="SceneMarkers" type="Node2D" parent="." unique_id=2029908631]
+
+[node name="Walk" type="Node2D" parent="SceneMarkers" unique_id=410200700]
+
+[node name="Rose" type="Marker2D" parent="SceneMarkers/Walk" unique_id=410200701]
+position = Vector2(144, 208)
+
+[node name="Exit" type="Marker2D" parent="SceneMarkers/Walk" unique_id=410200702]
+position = Vector2(560, 208)

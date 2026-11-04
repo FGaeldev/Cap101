@@ -25,13 +25,10 @@ func _apply_style() -> void:
 	# grows while typing and the panel resizes mid-line.
 	text_label.visible_characters_behavior = TextServer.VC_CHARS_AFTER_SHAPING
 
-## Display source text and optional translation with the existing typewriter.
-func display(speaker: String, text: String, translation: String = "") -> void:
+## Display source text with the existing typewriter.
+func display(speaker: String, text: String) -> void:
 	speaker_label.text = TextUtil.resolve_speaker(speaker)
 	_full_text = TextUtil.resolve(text)
-	var clean_translation := TextUtil.resolve(translation).strip_edges()
-	if not clean_translation.is_empty():
-		_full_text += "\n" + clean_translation
 	_shown_chars = 0
 	_type_timer = 0.0
 	if _full_text.strip_edges().is_empty():

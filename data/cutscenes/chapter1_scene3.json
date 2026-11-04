@@ -4,68 +4,24 @@
 		"chapter": "chapter1",
 		"scene": "scene_3_kalibo_town_proper_reunion"
 	},
+	{"type": "move_npc", "actor": "player", "to": [-16, 496], "avoid_actors": true, "speed": 56},
 	{
-		"type": "parallel",
-		"actions": [
-			{
-				"type": "sequence",
-				"actions": [
-					{
-						"type": "move_npc",
-						"actor": "player",
-						"to": "S3/RoadTurn",
-						"order": "yx",
-						"speed": 40
-					},
-					{
-						"type": "move_npc",
-						"actor": "player",
-						"to": "S4/Player",
-						"order": "yx",
-						"speed": 40
-					}
-				]
-			},
-			{
-				"type": "sequence",
-				"actions": [
-					{
-						"type": "move_npc",
-						"actor": "Rose",
-						"to": "S3/RoadTurn",
-						"order": "yx",
-						"speed": 40
-					},
-					{
-						"type": "move_npc",
-						"actor": "Rose",
-						"to": "S4/Rose",
-						"order": "yx",
-						"speed": 40
-					}
-				]
-			},
-			{
-				"type": "sequence",
-				"actions": [
-					{
-						"type": "move_npc",
-						"actor": "Lola Susan",
-						"to": "S3/RoadTurn",
-						"order": "yx",
-						"speed": 40
-					},
-					{
-						"type": "move_npc",
-						"actor": "Lola Susan",
-						"to": "S4/Susan",
-						"order": "yx",
-						"speed": 40
-					}
-				]
-			}
-		]
+		"type": "conga",
+		"leader": "Rose",
+		"followers": ["Lola Susan", "player"],
+		"waypoints": ["S3/RoadTurn"],
+		"order": "xy",
+		"queue_direction": "up",
+		"gap": 2,
+		"speed": 56,
+		"peel_at": "S3/RoadTurn",
+		"targets": {
+			"Rose": {"to": "S4/Rose", "order": "yx"},
+			"Lola Susan": {"to": "S4/Susan", "order": "yx"},
+			"player": {"to": [224, 336], "order": "yx"}
+		}
 	},
+	{"type": "move_npc", "actor": "player", "to": "S4/Player", "speed": 56},
 	{
 		"type": "set_flag",
 		"flag": "story_done_scene_3_reunion",

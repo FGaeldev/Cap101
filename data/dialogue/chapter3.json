@@ -16,11 +16,11 @@
 		},
 		{
 			"speaker": "Player",
-			"text": "Whoa. Amazing, Grandma — I mean, Anang. Sorry, it’s my first time seeing a loom like this.",
+			"text": "Whoa. Amazing, Grandma — I mean, Manang. Sorry, it’s my first time seeing a loom like this.",
 			"next": 3
 		},
 		{
-			"speaker": "Anang Loleng",
+			"speaker": "Manang Loleng",
 			"text": "Uwat kaso. Abo man nga bisita ro nangangawa iya .",
 			"next": 4,
 			"translation": "It’s alright. Many visitors are surprised here too."
@@ -31,7 +31,7 @@
 			"next": 5
 		},
 		{
-			"speaker": "Anang Loleng",
+			"speaker": "Manang Loleng",
 			"text": "Halin ra sa katamnan — sa tanum nga piña. . Kaabo nga ueubrahon bago mahimo nga eambong",
 			"next": 6,
 			"translation": "This comes from the farm — from the piña plant. A lot of work before it becomes cloth.",
@@ -45,7 +45,7 @@
 			"text": "What’s your reaction?",
 			"choices": [
 				{
-					"label": "This is beautiful work, Anang. I’d love to learn more.",
+					"label": "This is beautiful work, Manang. I’d love to learn more.",
 					"next": 7
 				},
 				{
@@ -60,22 +60,22 @@
 			"next": null
 		},
 		{
-			"speaker": "Anang Loleng",
+			"speaker": "Manang Loleng",
 			"text": "Saeamat, apo. Not many young ones say that anymore.",
 			"next": 9
 		},
 		{
-			"speaker": "Anang Loleng",
+			"speaker": "Manang Loleng",
 			"text": "Step by step. Even I took years.",
 			"next": 9
 		},
 		{
-			"speaker": "Anang Loleng",
+			"speaker": "Manang Loleng",
 			"text": "Machines can’t feel the thread the way a hand does. That’s the difference.",
 			"next": 10
 		},
 		{
-			"speaker": "Anang Loleng",
+			"speaker": "Manang Loleng",
 			"text": "Gusto mo ubrahon? iya, sunod ka kakon",
 			"next": null,
 			"translation": "Do you want to try? Here, follow me."
@@ -99,7 +99,7 @@
 			"next": 3
 		},
 		{
-			"speaker": "Anang Loleng",
+			"speaker": "Manang Loleng",
 			"text": "Hinay-hinay eang. bukon ra padasigan.",
 			"next": 4,
 			"translation": "Slowly. This isn’t about whose faster.",
@@ -112,7 +112,7 @@
 			"text": "Will you try weaving on your own?",
 			"choices": [
 				{
-					"label": "I’ll take it slow, Anang. Show me the first move again.",
+					"label": "I’ll take it slow, Manang. Show me the first move again.",
 					"next": 5
 				},
 				{
@@ -127,12 +127,12 @@
 			"next": null
 		},
 		{
-			"speaker": "Anang Loleng",
+			"speaker": "Manang Loleng",
 			"text": "That’s the spirit, apo. One thread at a time.",
 			"next": 7
 		},
 		{
-			"speaker": "Anang Loleng",
+			"speaker": "Manang Loleng",
 			"text": "Of course. Everyone starts guided.",
 			"next": 7
 		},
@@ -142,7 +142,7 @@
 			"next": 8
 		},
 		{
-			"speaker": "Anang Loleng",
+			"speaker": "Manang Loleng",
 			"text": "Ay, mayad  gid, apo! Para sa una nga ubra, bukon man maeain!",
 			"next": null,
 			"translation": "Oh, that’s good, grandchild! For your first time, not bad at all!"
@@ -156,18 +156,18 @@
 			"type": "start_router"
 		},
 		{
-			"speaker": "Anang Loleng",
+			"speaker": "Manang Loleng",
 			"text": "Hara, batuna, tanda halin sa amon nga komunidad.",
 			"next": 2,
 			"translation": "Here, take this. A token from our community."
 		},
 		{
 			"speaker": "Player",
-			"text": "Saeamat gid,  Anang. I’ll keep this.",
+			"text": "Saeamat gid,  Manang. I’ll keep this.",
 			"next": 3
 		},
 		{
-			"speaker": "Anang Loleng",
+			"speaker": "Manang Loleng",
 			"text": "mag dahan ka sa imong pagbiyahe. ag magbalik ka iya, ha, kung may tyempo ka.",
 			"next": 4,
 			"translation": "Take care on your journey. And come back here, okay, if you have time."
@@ -253,7 +253,7 @@
 		},
 		{
 			"speaker": "Rose",
-			"text": "Taas — tall, or long. Naba — short. Paspas — fast. Hinay — slow, base word of “hinay-hinay” that Anang taught you.",
+			"text": "Taas — tall, or long. Naba — short. Paspas — fast. Hinay — slow, base word of “hinay-hinay” that Manang taught you.",
 			"next": 10,
 			"word_ids": [
 				"w218",

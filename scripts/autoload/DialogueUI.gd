@@ -48,13 +48,12 @@ func register_choice_box(box: Control) -> void:
 func register_root(root: Control) -> void:
 	_root = root
 
-## Display dialogue text and its optional authored translation.
+## Display dialogue text.
 func show_line(
 	speaker: String,
 	text: String,
 	component,
-	portrait_tex,
-	translation: String = ""
+	portrait_tex
 ) -> void:
 	_current_component = component
 
@@ -63,7 +62,7 @@ func show_line(
 		_npc_menu.hide()
 	if _dialogue_box:
 		_dialogue_box.show()
-		_dialogue_box.display(speaker, text, translation)
+		_dialogue_box.display(speaker, text)
 	# ChoiceBox expands to fill available panel height. Keep it hidden for
 	# ordinary lines; show_choices() reveals it only when choices exist.
 	if _choice_box:

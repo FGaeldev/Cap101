@@ -23,6 +23,8 @@ const ACTION_SCRIPTS := [
 	"res://scripts/cutscene_actions/spawn_npc_action.gd",
 	"res://scripts/cutscene_actions/despawn_npc_action.gd",
 	"res://scripts/cutscene_actions/conga_action.gd",
+	"res://scripts/cutscene_actions/game_speed_action.gd",
+	"res://scripts/cutscene_actions/advance_clock_action.gd",
 ]
 
 var _actions: Dictionary = {}
@@ -102,6 +104,7 @@ func play(cutscene_id: String) -> void:
 		return  # aborted: abort() already reset state, a newer run may own it
 	_playing = false
 	_tweens.clear()
+	Engine.time_scale = 1.0  # a game_speed step never outlives its cutscene
 	cutscene_finished.emit(cutscene_id)
 
 func _run_sequence(steps: Array, run_id: int) -> void:
@@ -111,6 +114,9 @@ func _run_sequence(steps: Array, run_id: int) -> void:
 		await _run_step(step, run_id)
 
 func _run_step(step: Dictionary, run_id: int) -> Variant:
+	# Optional on any step: "if_flag" runs it only when that flag is set.
+	if step.has("if_flag") and not GameState.get_flag(step["if_flag"]):
+		return null
 	var type: String = step.get("type", "")
 	# "parallel" step be its own multi-step chain (per-actor conga timing).
 	if type == "parallel":
@@ -189,6 +195,7 @@ func abort() -> void:
 		return
 	_run_id += 1
 	_playing = false
+	Engine.time_scale = 1.0
 	for tween in _tweens:
 		if tween.is_valid():
 			tween.kill()

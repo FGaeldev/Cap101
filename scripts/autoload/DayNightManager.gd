@@ -122,6 +122,12 @@ func set_hour(hour: float) -> void:
 	hour_changed.emit(int(GameState.time_of_day))
 	_apply()
 
+## Minutes from now until the first arrival_hour that is at least min_minutes
+## away, so a long trip can land at a set time whenever it departs.
+func minutes_until_arrival(min_minutes: float, arrival_hour: float) -> float:
+	var earliest: float = GameState.time_of_day + min_minutes / 60.0
+	return min_minutes + fposmod(arrival_hour - earliest, 24.0) * 60.0
+
 ## Moves the clock forward (e.g. warp travel time), rolling the date over
 ## for every midnight passed.
 func advance_minutes(minutes: float) -> void:
