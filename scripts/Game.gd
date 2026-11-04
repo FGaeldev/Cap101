@@ -8,6 +8,13 @@ extends Node
 ## spawn_id lets doors/warps target a specific Marker2D; default reuses the
 ## scene's "DefaultSpawn" marker (falls back to Vector2.ZERO if scene has none).
 @onready var player: CharacterBody2D = $Player
+## Lives under Player (see Player.tscn), so it survives every level swap.
+@onready var camera: Camera2D = $Player/Camera2D
+
+## World-space area of the current level's tiles. Empty when it has none.
+var _map_bounds := Rect2()
+## camera.zoom the current limits were worked out for.
+var _limits_zoom := Vector2.ZERO
 
 ## quest_id -> tutorial started when that quest becomes active. Tutorial ids
 ## live in data/tutorials/tutorials.json.
@@ -43,6 +50,12 @@ func _ready() -> void:
 	await get_tree().create_timer(1.5).timeout
 
 
+## Cutscenes can tween the zoom, which changes how much of the map fits on screen.
+func _process(_delta: float) -> void:
+	if camera.zoom != _limits_zoom:
+		_update_camera_limits()
+
+
 ## Starts the tutorial mapped to a newly-active quest (QUEST_TUTORIALS).
 ## Waits out any tutorial still running (start() is a no-op while one is
 ## active). Step timing lives in tutorials.json ("auto_advance").
@@ -69,10 +82,50 @@ func load_level(path: String, spawn_id: String = "DefaultSpawn") -> void:
 	_place_player_at_spawn(level, spawn_id)
 	# Per-level night strength (metadata on the level root, see DayNightManager).
 	DayNightManager.set_level_strength(float(level.get_meta("day_night_strength", 1.0)))
+	_map_bounds = _get_map_bounds(level)
+	_update_camera_limits()
 	# Settle the view on the spawn now, while the screen is still black,
 	# instead of letting the smoothed camera glide in during the fade-in.
 	CutsceneManager.snap_camera()
 	_update_current_area(path)
+
+## Union of every visible TileMapLayer except "Edge" (the border ring around the
+## map, which the camera shouldn't show), so a new map is covered without
+## per-scene setup. Levels with no tiles return an empty Rect2.
+func _get_map_bounds(level: Node) -> Rect2:
+	var bounds := Rect2()
+	for layer: TileMapLayer in level.find_children("*", "TileMapLayer", true, false):
+		var used := layer.get_used_rect()
+		if layer.name == &"Edge" or not layer.visible or used.size == Vector2i.ZERO:
+			continue
+		var tile := Vector2(layer.tile_set.tile_size)
+		var rect: Rect2 = layer.get_global_transform() * Rect2(Vector2(used.position) * tile, Vector2(used.size) * tile)
+		bounds = bounds.merge(rect) if bounds.has_area() else rect
+	return bounds
+
+## Stops the camera from showing anything past the map edges. On an axis where
+## the map is smaller than the view (most indoor rooms), the map stays centered.
+func _update_camera_limits() -> void:
+	_limits_zoom = camera.zoom
+	if not _map_bounds.has_area():
+		# No tiles to measure: back to Camera2D's default, effectively unlimited.
+		camera.limit_left = -10000000
+		camera.limit_top = -10000000
+		camera.limit_right = 10000000
+		camera.limit_bottom = 10000000
+		return
+	var view: Vector2 = get_viewport().get_visible_rect().size / camera.zoom
+	# Camera2D pins the view to the top-left when its limits are narrower than
+	# the view, so widen them to the view's size around the map's center.
+	var pad: Vector2 = (view - _map_bounds.size).max(Vector2.ZERO) / 2.0
+	var limits: Rect2 = _map_bounds.grow_individual(pad.x, pad.y, pad.x, pad.y)
+	# Camera2D applies its offset after the limits, so cancel it out here or the
+	# view would still go past the map by that amount.
+	limits.position -= camera.offset
+	camera.limit_left = floori(limits.position.x)
+	camera.limit_top = floori(limits.position.y)
+	camera.limit_right = ceili(limits.end.x)
+	camera.limit_bottom = ceili(limits.end.y)
 
 ## Every level swap (boot, door, map travel, cutscene load_scene, dev skip)
 ## passes through load_level(), so the area is derived here from the level
