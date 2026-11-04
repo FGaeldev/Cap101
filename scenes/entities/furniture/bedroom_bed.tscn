@@ -1,16 +1,31 @@
 [gd_scene format=3 uid="uid://ch1r4565fnl6q"]
 
 [ext_resource type="Texture2D" uid="uid://bqafhxv87okrv" path="res://assets/bedroom/bedroom_bed.png" id="1_sv25s"]
+[ext_resource type="Script" uid="uid://c0rie17dqc84r" path="res://scripts/entities/sleep_bed.gd" id="2_sleep"]
+[ext_resource type="PackedScene" uid="uid://b8awiupnw1tue" path="res://scenes/components/interactable_component.tscn" id="3_inter"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6x8fo"]
-size = Vector2(32, 8)
+size = Vector2(16, 16)
 
 [node name="BedroomBed" type="StaticBody2D" unique_id=467436607]
+script = ExtResource("2_sleep")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1331326368]
-position = Vector2(16, -16)
+[node name="Bed_Base" type="Sprite2D" parent="." unique_id=1331326368]
+position = Vector2(16, -24)
 texture = ExtResource("1_sv25s")
+hframes = 2
+
+[node name="Bed_Cover" type="Sprite2D" parent="." unique_id=712339735]
+position = Vector2(16, -24)
+texture = ExtResource("1_sv25s")
+hframes = 2
+frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1280657354]
-position = Vector2(16, -12)
+position = Vector2(16, -24)
 shape = SubResource("RectangleShape2D_6x8fo")
+
+[node name="InteractableComponent" parent="." unique_id=1903327716 instance=ExtResource("3_inter")]
+position = Vector2(16, -24)
+interact_label = "Sleep"
+area_size = Vector2(40, 40)

@@ -56,11 +56,14 @@ const DEFAULT_CHOICE_DISPLAY: String = "gloss"
 const GLOSS_FALLBACK: String = "(meaning pending verification)"
 ## Option grid columns.
 const CHOICE_COLUMNS: int = 2
+## Option grid columns above MAX_OPTIONS, so all rows fit the panel height.
+const CHOICE_COLUMNS_MANY: int = 3
 ## Minimum option button height (px).
 const CHOICE_BTN_MIN_HEIGHT: float = 24.0
 ## Dynamic quizzes pad word_pool / choices up to this many ids with known words.
 const MIN_POOL_SIZE: int = 6
-## Hard cap on option buttons per question (answer + distractors).
+## Cap on option buttons per question (answer + distractors), unless a dynamic
+## quiz scales it with the difficulty tier (GameState.get_quiz_choice_count).
 const MAX_OPTIONS: int = 6
 
 var _questions: Array = []        # [{prompt, answer, options:[{id,text}]}]
@@ -128,9 +131,13 @@ func _build_questions(line: Dictionary) -> Array:
 
 	# Dynamic quizzes: pad thin pools with words the player already knows,
 	# lowest mastery first, so review never runs on 2-3 words.
+	var max_options: int = MAX_OPTIONS
 	if is_dynamic:
+		var scaled: int = GameState.get_quiz_choice_count()
+		if scaled > 0:
+			max_options = scaled
 		pool = WordBank.top_up_pool(pool, MIN_POOL_SIZE, true)
-		option_pool = WordBank.top_up_pool(option_pool, MIN_POOL_SIZE, true)
+		option_pool = WordBank.top_up_pool(option_pool, maxi(MIN_POOL_SIZE, max_options), true)
 
 	var templates: Array = line.get("question_templates", [])
 	if templates.is_empty() and line.has("question_template"):
@@ -173,7 +180,7 @@ func _build_questions(line: Dictionary) -> Array:
 		built.append({
 			"prompt": prompt,
 			"answer": answer,
-			"options": _build_options(answer, option_pool, display),
+			"options": _build_options(answer, option_pool, display, max_options),
 		})
 	return built
 
@@ -212,38 +219,34 @@ func _generate_question(
 	var prompt: String = str(templates[t_idx]).replace("[word]", str(word.get("akeanon", "???"))).replace("[gloss]", _gloss_of(word))
 	return {"answer": word_id, "prompt": prompt, "display": display}
 
-## Options for one question: answer + option_pool, deduped, unknown ids dropped, shuffled.
-func _build_options(answer: String, option_pool: Array, display: String) -> Array:
-	var distractors: Array = []
-	for id in option_pool:
-		if id == answer or distractors.has(id):
-			continue
-		var candidate_word: Dictionary = WordBank.get_word(id)
-		if candidate_word.is_empty():
-			continue
-		if display != "word" and _gloss_word_count(_gloss_of(candidate_word)) > 3:
-			continue
-		distractors.append(id)
+## Options for one question: the answer plus up to max_options - 1 distractors from
+## option_pool, shuffled. Unknown ids are dropped.
+func _build_options(answer: String, option_pool: Array, display: String, max_options: int) -> Array:
+	var options: Array = [_make_option(answer, display)]
+	var seen_text: Array = [options[0]["text"].to_lower()]
+	var distractors: Array = option_pool.duplicate()
 	distractors.shuffle()
-	var ids: Array = [answer]
-	ids.append_array(distractors.slice(0, MAX_OPTIONS - 1))
-	ids.shuffle()
-
-	var options: Array = []
-	var seen_text: Array = []
-	for id in ids:
+	for id in distractors:
+		if options.size() >= max_options:
+			break
 		var word: Dictionary = WordBank.get_word(id)
-		if word.is_empty():
-			push_warning("QuizPanel: unknown choice word id '%s', dropped." % id)
+		if id == answer or word.is_empty():
 			continue
-		var text: String = str(word.get("akeanon", "???")) if display == "word" else _gloss_of(word)
+		if display != "word" and _gloss_word_count(_gloss_of(word)) > 3:
+			continue
+		var option: Dictionary = _make_option(id, display)
 		# Two options with identical text (e.g. shared gloss) would make the
-		# question ambiguous -- drop the distractor, never the answer.
-		if id != answer and seen_text.has(text.to_lower()):
+		# question ambiguous -- skip the distractor, never the answer.
+		if seen_text.has(option["text"].to_lower()):
 			continue
-		seen_text.append(text.to_lower())
-		options.append({"id": id, "text": text})
+		seen_text.append(option["text"].to_lower())
+		options.append(option)
+	options.shuffle()
 	return options
+
+func _make_option(id: String, display: String) -> Dictionary:
+	var word: Dictionary = WordBank.get_word(id)
+	return {"id": id, "text": str(word.get("akeanon", "???")) if display == "word" else _gloss_of(word)}
 
 func _gloss_of(word: Dictionary) -> String:
 	var gloss: String = str(word.get("gloss", "")).strip_edges()
@@ -306,6 +309,7 @@ func _show_question() -> void:
 		child.queue_free()
 
 	var options: Array = q["options"]
+	_choice_grid.columns = CHOICE_COLUMNS_MANY if options.size() > MAX_OPTIONS else CHOICE_COLUMNS
 	for i in range(options.size()):
 		var btn := Button.new()
 		btn.text = options[i]["text"]

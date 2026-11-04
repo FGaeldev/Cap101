@@ -37,9 +37,16 @@ const TOAST_KIND_FONT_SIZE := 10
 const TOAST_HOLD := 3.0
 const TOAST_FADE := 0.25
 
+@onready var quest_column: VBoxContainer = $QuestColumn
 @onready var main_quest: PanelContainer = $QuestColumn/MainQuest
 @onready var main_quest_title: Label = $QuestColumn/MainQuest/VBox/Title
 @onready var sub_quests: VBoxContainer = $QuestColumn/SubQuests
+## Top of the right column (hud.tscn), and its top during full-screen panels: toasts
+## sit below the panels' Quit and Check buttons.
+const DEFAULT_COLUMN_TOP: float = 14.0
+const FULLSCREEN_COLUMN_TOP: float = 38.0
+
+@onready var right_column: VBoxContainer = $TopRight/RightColumn
 @onready var clock_panel: PanelContainer = $TopRight/RightColumn/Clock
 @onready var clock_label: Label = $TopRight/RightColumn/Clock/Label
 @onready var menu_button: Button = $TopRight/RightColumn/MenuButton
@@ -68,6 +75,10 @@ func _ready() -> void:
 	AchievementManager.achievement_unlocked.connect(_on_achievement_unlocked)
 	_apply_style()
 	_rebuild_quest_rows()
+	# This layer sits above every panel: the column's own empty area must not
+	# swallow clicks meant for what's under it. MenuButton still gets its own.
+	right_column.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	toasts.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	UIThemeApplier.apply_icon_button_theme(menu_button, "menu")
 	menu_button.pressed.connect(_on_menu_button_pressed)
 	UIThemeApplier.apply_icon_button_theme(interact_button, "dictionary")
@@ -84,6 +95,15 @@ func _process(_delta: float) -> void:
 	# reachable on touch devices (BookUI itself draws over it when open).
 	joystick.visible = not overlay
 	_update_interact_button(overlay)
+	# Full-screen panels (newspaper, crossword, word search) have their own exit
+	# and need the corners HUD draws in. Toasts stay, so new words still show.
+	var fullscreen: bool = DialogueUI.is_fullscreen_active()
+	clock_panel.visible = not fullscreen
+	menu_button.visible = not fullscreen
+	quest_column.visible = not fullscreen
+	var column_top: float = FULLSCREEN_COLUMN_TOP if fullscreen else DEFAULT_COLUMN_TOP
+	if right_column.offset_top != column_top:
+		right_column.offset_top = column_top
 	var clock_text: String = DayNightManager.format_clock()
 	if clock_label.text != clock_text:
 		clock_label.text = clock_text

@@ -60,7 +60,7 @@ func _on_interaction_menu_choice(choice: String) -> void:
 		"talk":
 			_start_dialogue_or_idle()
 		"review":
-			DialogueUI.show_review_quiz()
+			DialogueUI.show_review()
 		"goodbye":
 			return
 

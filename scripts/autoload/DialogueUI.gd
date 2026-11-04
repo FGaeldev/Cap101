@@ -21,7 +21,23 @@ const QUIZ_PANEL_SCENE := preload("res://scenes/ui/quiz_panel.tscn")
 ## in exported Android builds, TDD 9.1). New minigame = add one entry here.
 const MINIGAME_SCRIPTS := {
 	"memory_match": preload("res://scripts/ui/memory_match_panel.gd"),
+	"hangman": preload("res://scripts/ui/hangman_panel.gd"),
+	"crossword": preload("res://scripts/ui/crossword_panel.gd"),
+	"word_search": preload("res://scripts/ui/word_search_panel.gd"),
 }
+const FULLSCREEN_MINIGAMES: Array[String] = ["crossword", "word_search"]
+const NEWSPAPER_SCRIPT := preload("res://scripts/ui/newspaper_panel.gd")
+
+## Relative chance of each activity when the player asks an NPC to review.
+const REVIEW_WEIGHTS := {"quiz": 50, "hangman": 25, "memory_match": 25}
+## Fewest known words review memory match needs. Pairs scale with the difficulty
+## tier (GameState.get_minigame_word_count), limited by the words known.
+const REVIEW_MEMORY_MIN_WORDS: int = 4
+## Word lengths hangman can show comfortably.
+const HANGMAN_MIN_LENGTH: int = 3
+const HANGMAN_MAX_LENGTH: int = 12
+
+var _newspaper_box = null   # lazily instantiated newspaper_panel
 
 func register_box(box: Control) -> void:
 	_dialogue_box = box
@@ -155,6 +171,39 @@ func _on_npc_interaction_choice(choice: String) -> void:
 		callback.call(choice)
 
 
+## NPC menu "Review": rolls between the quiz and the review minigames, falling
+## back to the quiz when the player knows too few words for a minigame.
+func show_review() -> void:
+	var hangman_pool: Array = WordBank.get_known_puzzle_words(HANGMAN_MIN_LENGTH, HANGMAN_MAX_LENGTH)
+	var memory_pool: Array = WordBank.top_up_pool([], GameState.word_exposures.size(), true)
+	var weights: Dictionary = {"quiz": REVIEW_WEIGHTS["quiz"]}
+	if not hangman_pool.is_empty():
+		weights["hangman"] = REVIEW_WEIGHTS["hangman"]
+	if memory_pool.size() >= REVIEW_MEMORY_MIN_WORDS:
+		weights["memory_match"] = REVIEW_WEIGHTS["memory_match"]
+
+	_current_component = null
+	match WordBank._weighted_pick(weights):
+		"hangman":
+			show_standalone_minigame({"minigame_type": "hangman", "word_pool": hangman_pool}, _on_review_quiz_resolved)
+		"memory_match":
+			show_standalone_minigame({"minigame_type": "memory_match", "word_pool": memory_pool,
+					"pair_count": GameState.get_minigame_word_count()}, _on_review_quiz_resolved)
+		_:
+			show_review_quiz()
+
+
+## Shows the daily paper. Lazy-instantiated as a sibling of DialogueRoot.
+func show_newspaper() -> void:
+	if _root == null:
+		push_error("DialogueUI: no root registered, cannot show newspaper")
+		return
+	if _newspaper_box == null or not is_instance_valid(_newspaper_box):
+		_newspaper_box = NEWSPAPER_SCRIPT.new()
+		_root.get_parent().add_child(_newspaper_box)
+	_newspaper_box.open()
+
+
 ## Opens the existing dynamic vocabulary quiz as a standalone review session.
 ## Prefer exposed words; use full word bank only for a brand-new learner.
 func show_review_quiz() -> void:
@@ -214,6 +263,8 @@ func hide() -> void:
 		_quiz_box.close()
 	if _minigame_box and is_instance_valid(_minigame_box):
 		_minigame_box.close()
+	if _newspaper_box and is_instance_valid(_newspaper_box):
+		_newspaper_box.close()
 	_current_component = null
 	if _choice_box:
 		_choice_box.hide_choices()
@@ -283,6 +334,15 @@ func show_minigame(line: Dictionary, component) -> void:
 		push_error("DialogueUI: unknown minigame_type '%s', auto-passing." % mg_type)
 		component.call_deferred("resolve_minigame", true)
 		return
+	_open_minigame(line, component.resolve_minigame)
+
+## Same panels without a DialogueComponent (Review, the newspaper): the result
+## goes to `on_resolved(passed)` instead of a dialogue branch.
+func show_standalone_minigame(line: Dictionary, on_resolved: Callable) -> void:
+	_open_minigame(line, on_resolved)
+
+func _open_minigame(line: Dictionary, on_resolved: Callable) -> void:
+	var mg_type: String = str(line.get("minigame_type", ""))
 	if _root == null:
 		push_error("DialogueUI: no root registered, cannot show minigame")
 		return
@@ -300,7 +360,7 @@ func show_minigame(line: Dictionary, component) -> void:
 		_minigame_box.resolved.disconnect(conn["callable"])
 	_minigame_box.resolved.connect(func(passed: bool):
 		_minigame_box.close()
-		component.resolve_minigame(passed)
+		on_resolved.call(passed)
 	, CONNECT_ONE_SHOT)
 	_minigame_box.open(line)
 
@@ -308,12 +368,20 @@ func player_pressed_advance() -> void:
 	if _current_component:
 		_current_component.advance()
 
+## True while a panel that covers the whole screen is up; HUD hides itself so
+## its clock and buttons don't draw over the panel.
+func is_fullscreen_active() -> bool:
+	if _newspaper_box != null and is_instance_valid(_newspaper_box) and _newspaper_box.visible:
+		return true
+	return _minigame_box != null and is_instance_valid(_minigame_box) and _minigame_box.visible \
+			and FULLSCREEN_MINIGAMES.has(_minigame_type)
+
 ## True while dialogue box is visible; HUD uses this to hide gameplay controls.
 func is_active() -> bool:
 	# Include modal panels because quiz/phrase-builder intentionally hide DialogueRoot.
 	if _root != null and _root.visible:
 		return true
-	for overlay in [_npc_menu, _phrase_box, _quiz_box, _minigame_box]:
+	for overlay in [_npc_menu, _phrase_box, _quiz_box, _minigame_box, _newspaper_box]:
 		if overlay != null and is_instance_valid(overlay) and overlay.visible:
 			return true
 	return false

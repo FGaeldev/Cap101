@@ -4,7 +4,7 @@
 #   {
 #     "type": "minigame_trigger", "minigame_type": "memory_match",
 #     "word_pool": ["w090", "w054", "w227"],  # word_ids a pair may use (required)
-#     "pair_count": 4,                         # optional, default 4, max 6
+#     "pair_count": 4,                         # optional, default 4, max 7
 #     "max_mistakes": 8,                       # optional, default pair_count * 2
 #     "success": 21, "failure": 22
 #   }
@@ -12,8 +12,9 @@
 # Each pair = one card showing the akeanon word + one showing its English gloss.
 # Flip two: match stays face-up, mismatch counts as a mistake and flips back.
 # All pairs matched with mistakes <= max_mistakes -> success. Over the limit
-# -> failure (immediate). No rapport/patience/reward effects: no-punishment
-# rule (GDD 7), failure just routes to the authored "try again later" line.
+# -> failure (immediate). A matched pair is +1 mastery. No rapport/patience/reward
+# effects: no-punishment rule (GDD 7), failure just routes to the authored "try
+# again later" line.
 #
 # Pair words are drawn weighted by WordBank.get_weighted_review_word (GDD 6.8),
 # so low-exposure words show up more.
@@ -29,7 +30,7 @@ signal resolved(passed: bool)
 ## Pair count when the line sets none.
 const DEFAULT_PAIR_COUNT: int = 4
 ## Hard cap: more cards than this stop fitting the dialogue-height footprint.
-const MAX_PAIR_COUNT: int = 6
+const MAX_PAIR_COUNT: int = 7
 ## Seconds a mismatched pair stays visible before flipping back.
 const MISMATCH_HOLD: float = 0.8
 ## Seconds the final win/lose message shows before resolving.
@@ -196,6 +197,7 @@ func _on_card_pressed(idx: int) -> void:
 		_mark_matched(_flipped[1])
 		_flipped.clear()
 		_matched_pairs += 1
+		GameState.adjust_mastery(a["pair_id"], 1)
 		if _matched_pairs >= _pair_total:
 			_end_game(true)
 		else:

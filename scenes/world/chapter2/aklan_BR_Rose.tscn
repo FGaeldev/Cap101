@@ -116,6 +116,7 @@ texture = ExtResource("1_errew")
 19:4/0 = 0
 20:4/0 = 0
 1:5/0 = 0
+1:5/0/y_sort_origin = 32
 1:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 2:5/0 = 0
 3:5/0 = 0
@@ -137,6 +138,7 @@ texture = ExtResource("1_errew")
 19:5/0 = 0
 20:5/0 = 0
 1:6/0 = 0
+1:6/0/y_sort_origin = 16
 1:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 2:6/0 = 0
 3:6/0 = 0
@@ -662,16 +664,20 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_5jnv3")
 
 [node name="AklanBr" type="Node2D" unique_id=1261461754]
+y_sort_enabled = true
 
 [node name="Floor" type="TileMapLayer" parent="." unique_id=1343307373]
+z_index = -1
 tile_map_data = PackedByteArray("AAABAAMAAAABAAQAAAABAAQAAAABAAQAAAABAAUAAAABAAQAAAABAAYAAAABAAQAAAABAAcAAAABAAQAAAACAAMAAAABAAQAAAADAAMAAAAKAAMAAAAEAAMAAAALAAMAAAAFAAMAAAAMAAMAAAAGAAMAAAANAAMAAAADAAQAAAAKAAQAAAACAAQAAAACAAQAAAACAAUAAAACAAQAAAACAAYAAAACAAQAAAACAAcAAAACAAcAAAADAAcAAAADAAcAAAADAAYAAAAKAAQAAAADAAUAAAAKAAQAAAAEAAYAAAAKAAQAAAAFAAYAAAAKAAQAAAAGAAYAAAAKAAQAAAAEAAUAAAAKAAQAAAAEAAQAAAALAAQAAAAFAAUAAAAKAAQAAAAGAAUAAAAKAAQAAAAFAAQAAAAMAAQAAAAGAAQAAAANAAQAAAAEAAcAAAAFAAcAAAAFAAcAAAAFAAcAAAAGAAcAAAAFAAcAAAA=")
 tile_set = SubResource("TileSet_n1qoa")
 
 [node name="Walls" type="TileMapLayer" parent="." unique_id=1287250504]
+y_sort_enabled = true
 tile_map_data = PackedByteArray("AAABAAIAAAAIAAIAAAADAAIAAAAKAAIAAAAFAAIAAAAMAAIAAAACAAIAAAAJAAIAAAAEAAIAAAALAAIAAAAGAAIAAAANAAIAAAABAAEAAAABAAEAAAACAAEAAAACAAEAAAADAAEAAAADAAEAAAAEAAEAAAAEAAEAAAAFAAEAAAAFAAEAAAAGAAEAAAAGAAEAAAA=")
 tile_set = SubResource("TileSet_n1qoa")
 
 [node name="Objects" type="TileMapLayer" parent="." unique_id=1284164875]
+y_sort_enabled = true
 tile_map_data = PackedByteArray("AAAEAAQAAAALAAQAAAAFAAQAAAAMAAQAAAAGAAQAAAANAAQAAAAEAAMAAAALAAMAAAAFAAMAAAAMAAMAAAAGAAMAAAANAAMAAAABAAMAAAAIAAMAAAACAAMAAAAJAAMAAAABAAcAAAABAAcAAAABAAYAAAABAAYAAAABAAUAAAABAAUAAAA=")
 tile_set = SubResource("TileSet_n1qoa")
 
@@ -680,6 +686,7 @@ tile_map_data = PackedByteArray("AAABAAgAAAABAAIAAAACAAgAAAABAAIAAAADAAgAAAABAAI
 tile_set = SubResource("TileSet_32egk")
 
 [node name="Warps" type="Node2D" parent="." unique_id=949640245]
+y_sort_enabled = true
 
 [node name="WarpArea2" parent="Warps" unique_id=1965068349 instance=ExtResource("3_fkh7s")]
 position = Vector2(48, 120)
@@ -689,6 +696,7 @@ target_scene = "res://scenes/world/chapter2/aklan_living.tscn"
 target_spawn_id = "BR_Rose"
 
 [node name="Spawns" type="Node2D" parent="." unique_id=279499738]
+y_sort_enabled = true
 
 [node name="DefaultSpawn" type="Marker2D" parent="Spawns" unique_id=2035788019]
 position = Vector2(32, 128)
