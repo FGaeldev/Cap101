@@ -26,6 +26,8 @@ var _selected_day: int = -1
 
 var _header: Label
 var _grid: GridContainer
+## Only shown in dev mode, with a day selected.
+var _dev_skip_button: Button
 
 func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -72,6 +74,13 @@ func _ready() -> void:
 		btn.pressed.connect(_on_cell_pressed.bind(i))
 		_grid.add_child(btn)
 
+	_dev_skip_button = Button.new()
+	_dev_skip_button.text = "Dev: skip to this date"
+	_dev_skip_button.focus_mode = Control.FOCUS_NONE
+	_dev_skip_button.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XS)
+	_dev_skip_button.pressed.connect(_on_dev_skip_pressed)
+	vbox.add_child(_dev_skip_button)
+
 ## BookUI calls this every time the tab opens: jump back to today.
 func refresh() -> void:
 	var today: Dictionary = DayNightManager.get_date()
@@ -111,6 +120,7 @@ func _first_cell_offset() -> int:
 
 func _render() -> void:
 	_header.text = DayNightManager.MONTH_NAMES[_month - 1]
+	_dev_skip_button.visible = GameState.dev_mode and _selected_day > 0
 	var today: Dictionary = DayNightManager.get_date()
 	var event_days: Dictionary = {}
 	for entry in CalendarUtil.events_in_month(_year, _month):
@@ -154,3 +164,7 @@ func _on_cell_pressed(index: int) -> void:
 	_selected_day = day
 	_render()
 	day_selected.emit(_year, _month, day)
+
+func _on_dev_skip_pressed() -> void:
+	AudioManager.play_sfx("menu_click")
+	MapManager.dev_skip_to_date(_year, _month, _selected_day)

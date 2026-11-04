@@ -134,6 +134,9 @@ func execute(step: Dictionary, mgr: Node) -> void:
 		var path_to: Variant = MarkerUtil.resolve(level, step["path_to"], "conga 'path_to'")
 		if path_to == null:
 			return
+		# A warp's position is its center; actors stand by their bottom-left corner.
+		if MarkerUtil.find(level, step["path_to"]) is Area2D:
+			path_to += Vector2(-8, 8)
 		for corner in ActorPath.around_actors(mgr, leader, cursor, _snap(path_to)):
 			_append_tiles(route, corner)
 	if route.size() < 2:

@@ -80,23 +80,30 @@ func _sleep() -> void:
 
 	var player: Node2D = CutsceneManager.get_actor("player")
 	var stood_at: Vector2 = player.global_position
-	var in_bed: Vector2 = global_position + SLEEPER_OFFSET
-	player.global_position = in_bed
-	player.update_facing(Vector2.DOWN)
-	player.sprite.play("idle_down")
-	CutsceneManager.snap_camera()
+	var in_bed: Vector2 = lay_down(player)
 	DayNightManager.advance_minutes(_minutes_until(WAKE_HOUR))
 	if not sleep_flag.is_empty():
 		GameState.set_flag(sleep_flag)
 	GameState.save_game()
 
 	await FadeManager.fade_in()
-	await get_tree().create_timer(WAKE_PAUSE).timeout
-	await _walk_out_of_bed(player, in_bed, stood_at)
+	await get_up(player, in_bed, stood_at)
 	MapManager.is_transitioning = false
 	_sleeping = false
 
-func _walk_out_of_bed(player: Node2D, from: Vector2, to: Vector2) -> void:
+## Puts the player under the blanket. Do this while the screen is black. Returns
+## the spot they're lying on, for get_up().
+func lay_down(player: Node2D) -> Vector2:
+	var in_bed: Vector2 = global_position + SLEEPER_OFFSET
+	player.global_position = in_bed
+	player.update_facing(Vector2.DOWN)
+	player.sprite.play("idle_down")
+	CutsceneManager.snap_camera()
+	return in_bed
+
+## Holds a moment in bed, then walks the player out to `to`.
+func get_up(player: Node2D, from: Vector2, to: Vector2) -> void:
+	await get_tree().create_timer(WAKE_PAUSE).timeout
 	var prev: Vector2 = from
 	for leg_end: Vector2 in ActorPath.around_actors(CutsceneManager, player, from, to):
 		player.update_facing((leg_end - prev).normalized())

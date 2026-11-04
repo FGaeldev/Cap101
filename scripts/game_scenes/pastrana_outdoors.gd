@@ -1,9 +1,9 @@
 # pastrana_outdoors.gd -- root script for pastrana_outdoors.tscn. One stop of the
 # walks with Rose (see aklan_home_outdoors.gd). _next_cutscene() reads the flags
 # and picks the leg to play, so a save made partway picks it up on entry.
-#   First trip, Rose leads: scene 1 at the plaza -> market (market_outdoors.gd)
+#   First trip, Rose leads: scene 1 at the plaza -> market (market_indoors.gd)
 #     -> back here for scenes 3 and 4 at the cathedral -> home.
-#   Sunday mass: cathedral -> market -> back here -> home.
+#   Sunday mass: cathedral_indoors.gd -> market -> back here -> home.
 #   Later trips: walk to the plaza; Rose then waits for the player (TourGuide).
 extends Node2D
 
@@ -54,6 +54,8 @@ func _next_cutscene() -> String:
 	if GameState.get_flag(MASS_TRIP_FLAG):
 		if not GameState.get_flag(MASS_CATHEDRAL_FLAG):
 			return "chapter2_mass_to_cathedral"
+		if not GameState.get_flag(WALKING_HOME_FLAG):
+			return "chapter2_mass_to_market"
 		return "chapter2_walk_home_from_market"
 	if GameState.get_flag(WALKING_HOME_FLAG):
 		return "chapter2_walk_home_from_market" if GameState.get_flag(FROM_MARKET_FLAG) else "chapter2_walk_home_park"

@@ -1,6 +1,7 @@
 [
 	{"type": "game_speed", "scale": 2.0},
-	{"type": "conga", "join": "nearest_x", "leader": "Rose", "followers": ["player"], "path_to": "FromPark", "gap": 2, "speed": 48, "despawn": true},
+	{"type": "set_flag", "flag": "chapter2_leaving_market", "value": true},
+	{"type": "conga", "join": "nearest_x", "leader": "Rose", "followers": ["player"], "path_to": "Warp/WarpArea2", "gap": 2, "speed": 48, "despawn": true},
 	{"type": "fade", "direction": "out", "duration": 0.6},
-	{"type": "load_scene", "scene_path": "res://scenes/world/chapter2/pastrana_outdoors.tscn"}
+	{"type": "load_scene", "scene_path": "res://scenes/world/market/market_outdoors.tscn"}
 ]

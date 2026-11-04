@@ -2,7 +2,7 @@
 	{"type": "set_flag", "flag": "chapter2_with_rose", "value": true},
 	{"type": "set_flag", "flag": "chapter2_mass_trip", "value": true},
 	{"type": "game_speed", "scale": 2.0},
-	{"type": "conga", "join": "nearest_x", "leader": "Rose", "followers": ["Lola Susan", "player"], "path_to": "DefaultSpawn", "gap": 2, "speed": 48, "despawn": true},
+	{"type": "conga", "join": "nearest_x", "leader": "Rose", "followers": ["Lola Susan", "player"], "path_to": "Warps/WarpArea5", "gap": 2, "speed": 48, "despawn": true},
 	{"type": "set_flag", "flag": "chapter2_left_house", "value": true},
 	{"type": "fade", "direction": "out", "duration": 0.6},
 	{"type": "load_scene", "scene_path": "res://scenes/world/chapter2/aklan_home_outdoors.tscn"}

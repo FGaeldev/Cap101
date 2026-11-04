@@ -20,7 +20,7 @@ const STOPS: Dictionary = {
 		"home": "chapter2_walk_home_park",
 		"places": [{"label": "The market", "flag": "map_open_market", "cutscene": "chapter2_park_to_market"}],
 	},
-	"market_outdoors.tscn": {
+	"market_indoors.tscn": {
 		"home": "chapter2_walk_home_market",
 		"places": [{"label": "The park", "flag": "", "cutscene": "chapter2_market_to_park"}],
 	},

@@ -1,8 +1,8 @@
 [
 	{"type": "game_speed", "scale": 2.0},
 	{"type": "set_visible", "actor": "player", "value": false},
-	{"type": "spawn_npc", "actor": "Rose", "scene": "res://scenes/entities/npc_Rose.tscn", "at_marker": "MarketGate"},
-	{"type": "move_npc", "actor": "player", "from": "MarketGate", "direction": "left", "tiles": 0},
+	{"type": "spawn_npc", "actor": "Rose", "scene": "res://scenes/entities/npc_Rose.tscn", "at_marker": "FromMarket"},
+	{"type": "move_npc", "actor": "player", "from": "FromMarket", "direction": "left", "tiles": 0},
 	{"type": "parallel", "actions": [{"type": "fade", "direction": "in", "duration": 0.6}, {"type": "conga", "join": "nearest_x", "leader": "Rose", "followers": ["player"], "path_to": "S3/Rose", "gap": 2, "speed": 48, "despawn": false}, {"type": "sequence", "actions": [{"type": "wait", "seconds": 0.5}, {"type": "set_visible", "actor": "player", "value": true}]}]},
 	{"type": "game_speed", "scale": 1.0},
 	{"type": "dialogue", "chapter": "chapter2", "scene": "scene_3_kalibo_cathedral_midday"},
