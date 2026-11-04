@@ -186,7 +186,7 @@ func _guess(letter: String) -> void:
 func _end_game(passed: bool) -> void:
 	_locked = true
 	GameState.adjust_mastery(_word_id, 1 if passed else -1)
-	var word: String = WordBank.get_word(_word_id).get("akeanon", "")
+	var word: String = WordBank.puzzle_word(_word_id)
 	_clue_label.text = ("Insakto! " if passed else "The word was ") + word
 	_clue_label.add_theme_color_override("font_color",
 			UIThemeApplier.COLOR_SUCCESS if passed else UIThemeApplier.COLOR_ERROR)

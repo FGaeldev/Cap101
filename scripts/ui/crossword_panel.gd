@@ -5,9 +5,11 @@
 #     "word_pool": ["w090", "w054"] }  # word_ids, highest priority first (required)
 #
 # Tap a cell to select its word (tap again to switch across/down), then type with
-# the on-screen or a physical keyboard. A filled word is checked right away:
-# correct locks it green (+1 mastery), wrong flashes red and clears (-1 mastery).
-# No timer and no way to fail (no-punishment rule, GDD 7); Quit resolves false.
+# the on-screen or a physical keyboard. Nothing shows whether a word is right
+# unless the player turns on the Check toggle, which colors filled words green or
+# red. The puzzle ends when every word is right. Mastery is hidden and moves once
+# per word: +1 the first time it's filled correctly, -1 the first time it's filled
+# wrong. No timer and no way to fail (no-punishment rule, GDD 7); Quit resolves false.
 #
 # Ownership: renders and reports only, same contract as memory_match_panel.
 # Bad data never softlocks: reports and resolves as a pass.
@@ -16,12 +18,13 @@ extends PanelContainer
 ## Emitted once: true when solved, false when quit.
 signal resolved(passed: bool)
 
-const MAX_COLS: int = 12
-const MAX_ROWS: int = 11
+const MAX_COLS: int = 13
+const MAX_ROWS: int = 9
 const TARGET_WORDS: int = 8
-const CELL_SIZE: float = 27.0
-const WRONG_HOLD: float = 0.6
+const CELL_SIZE: float = 22.0
 const END_HOLD: float = 1.5
+## Height ratio of the keyboard row to the grid and clues row above it.
+const KEYBOARD_STRETCH: float = 0.66
 
 const COLOR_CELL := Color("f4ecd8")
 const COLOR_WORD := Color("e6d28f")
@@ -45,26 +48,28 @@ class Grid extends Control:
 			draw_rect(rect, panel._cell_color(cell))
 			draw_rect(rect, COLOR_LINE, false, 1.0)
 			if panel._numbers.has(cell):
-				draw_string(font, rect.position + Vector2(2, 9), str(panel._numbers[cell]),
-						HORIZONTAL_ALIGNMENT_LEFT, -1, 9, COLOR_LINE)
+				draw_string(font, rect.position + Vector2(2, 8), str(panel._numbers[cell]),
+						HORIZONTAL_ALIGNMENT_LEFT, -1, 8, COLOR_LINE)
 			if panel._typed.has(cell):
-				draw_string(font, rect.position + Vector2(0, 22), panel._typed[cell],
-						HORIZONTAL_ALIGNMENT_CENTER, CELL_SIZE, 17, COLOR_LINE)
+				draw_string(font, rect.position + Vector2(0, 18), panel._typed[cell],
+						HORIZONTAL_ALIGNMENT_CENTER, CELL_SIZE, 15, COLOR_LINE)
 
-var _placements: Array = []       # [{id, letters, cell, dir, number, solved, clue_btn}]
+var _placements: Array = []       # [{id, letters, cell, dir, number, credited, penalized, clue_btn}]
 var _answers: Dictionary = {}     # cell -> correct letter
 var _numbers: Dictionary = {}     # cell -> clue number
 var _typed: Dictionary = {}       # cell -> typed letter
-var _solved_cells: Dictionary = {}  # cell -> true, locked by a solved word
-var _wrong_cells: Dictionary = {}   # cell -> true, flashing red
+var _good_cells: Dictionary = {}  # cell -> true, in a right word (Check on only)
+var _bad_cells: Dictionary = {}   # cell -> true, in a wrong word (Check on only)
+var _check_on: bool = false
 var _selected: int = -1           # index into _placements
 var _cursor: Vector2i = Vector2i.ZERO
-var _locked: bool = true          # true during the wrong-word flash / end / closed
+var _locked: bool = true          # true during the end hold / closed
 var _session: int = 0             # bumped on open/close; stale timers bail
 
 var _grid: Grid
 var _clue_label: Label
 var _clue_list: VBoxContainer
+var _check_button: Button
 var _keyboard: LetterKeyboard
 
 func _ready() -> void:
@@ -110,10 +115,12 @@ func _load_layout(layout: Dictionary) -> void:
 	_answers.clear()
 	_numbers.clear()
 	_typed.clear()
-	_solved_cells.clear()
-	_wrong_cells.clear()
+	_check_on = false
+	_check_button.set_pressed_no_signal(false)
+	_check_button.text = "Check: Off"
 	for p in _placements:
-		p["solved"] = false
+		p["credited"] = false
+		p["penalized"] = false
 		_numbers[p["cell"]] = p["number"]
 		var cells: Array = _word_cells(p)
 		for i in range(cells.size()):
@@ -122,7 +129,7 @@ func _load_layout(layout: Dictionary) -> void:
 	_grid.custom_minimum_size = Vector2(layout["cols"], layout["rows"]) * CELL_SIZE
 	_grid.size = _grid.custom_minimum_size
 	_build_clues()
-	_grid.queue_redraw()
+	_refresh_checks()
 
 func _build_clues() -> void:
 	for child in _clue_list.get_children():
@@ -137,52 +144,67 @@ func _build_clues() -> void:
 		var indices: Array = range(_placements.size()).filter(func(i): return _placements[i]["dir"] == dir)
 		indices.sort_custom(func(a, b): return _placements[a]["number"] < _placements[b]["number"])
 		for i in indices:
+			var p: Dictionary = _placements[i]
 			var btn := Button.new()
-			btn.text = _clue_text(_placements[i])
+			btn.text = "%d. %s" % [p["number"], WordBank.get_word(p["id"]).get("gloss", "")]
 			btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
 			btn.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 			btn.focus_mode = Control.FOCUS_NONE
 			btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			UIThemeApplier.apply_button_theme(btn, "secondary")
 			btn.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XS)
-			btn.pressed.connect(func(): _select(i, _first_open_cell(_placements[i])))
+			btn.pressed.connect(func(): _select(i, _first_open_cell(p)))
 			_clue_list.add_child(btn)
-			_placements[i]["clue_btn"] = btn
+			p["clue_btn"] = btn
 
+## Grid and clues side by side on top, full-width keyboard below.
 func _build_layout() -> void:
-	var hbox := HBoxContainer.new()
-	hbox.add_theme_constant_override("separation", 8)
-	add_child(hbox)
+	var vbox := VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 4)
+	add_child(vbox)
+
+	var top := HBoxContainer.new()
+	top.add_theme_constant_override("separation", 6)
+	top.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	vbox.add_child(top)
 
 	var grid_holder := CenterContainer.new()
 	grid_holder.custom_minimum_size = Vector2(MAX_COLS, MAX_ROWS) * CELL_SIZE
-	hbox.add_child(grid_holder)
+	grid_holder.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	top.add_child(grid_holder)
 	_grid = Grid.new()
 	_grid.panel = self
 	_grid.cell_tapped.connect(_on_cell_tapped)
 	grid_holder.add_child(_grid)
 
+	top.add_child(VSeparator.new())
+
 	var side := VBoxContainer.new()
 	side.add_theme_constant_override("separation", 3)
 	side.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	hbox.add_child(side)
+	top.add_child(side)
 
-	var top := HBoxContainer.new()
-	side.add_child(top)
+	var header := HBoxContainer.new()
+	header.add_theme_constant_override("separation", 3)
+	side.add_child(header)
 	var title := Label.new()
 	title.text = "Crossword"
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_M)
 	title.add_theme_color_override("font_color", UIThemeApplier.TEXT_EMPHASIS)
-	top.add_child(title)
-	var quit := Button.new()
-	quit.text = "Quit"
-	quit.focus_mode = Control.FOCUS_NONE
-	quit.custom_minimum_size = Vector2(56, 24)
-	UIThemeApplier.apply_button_theme(quit, "secondary")
-	quit.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
+	header.add_child(title)
+	_check_button = _make_header_button("Check: Off", 84)
+	_check_button.toggle_mode = true
+	_check_button.toggled.connect(_on_check_toggled)
+	header.add_child(_check_button)
+	var quit := _make_header_button("Quit", 48)
 	quit.pressed.connect(_quit)
-	top.add_child(quit)
+	header.add_child(quit)
+
+	_clue_label = Label.new()
+	_clue_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_clue_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
+	side.add_child(_clue_label)
 
 	var scroll := ScrollContainer.new()
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -193,16 +215,23 @@ func _build_layout() -> void:
 	_clue_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.add_child(_clue_list)
 
-	_clue_label = Label.new()
-	_clue_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_clue_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
-	_clue_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
-	side.add_child(_clue_label)
+	vbox.add_child(HSeparator.new())
 
 	_keyboard = LetterKeyboard.new(true)
+	_keyboard.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_keyboard.size_flags_stretch_ratio = KEYBOARD_STRETCH
 	_keyboard.letter_pressed.connect(_type_letter)
 	_keyboard.erase_pressed.connect(_erase)
-	side.add_child(_keyboard)
+	vbox.add_child(_keyboard)
+
+func _make_header_button(text: String, width: float) -> Button:
+	var btn := Button.new()
+	btn.text = text
+	btn.focus_mode = Control.FOCUS_NONE
+	btn.custom_minimum_size = Vector2(width, 24)
+	UIThemeApplier.apply_button_theme(btn, "secondary")
+	btn.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
+	return btn
 
 # --- word helpers ----------------------------------------------------------------
 
@@ -212,12 +241,15 @@ func _word_cells(p: Dictionary) -> Array:
 		cells.append(p["cell"] + p["dir"] * i)
 	return cells
 
-func _clue_text(p: Dictionary) -> String:
-	return "%d. %s" % [p["number"], WordBank.get_word(p["id"]).get("gloss", "")]
-
 ## Indices of the words running through `cell`.
 func _words_at(cell: Vector2i) -> Array:
 	return range(_placements.size()).filter(func(i): return _word_cells(_placements[i]).has(cell))
+
+func _is_filled(p: Dictionary) -> bool:
+	return _word_cells(p).all(func(c): return _typed.has(c))
+
+func _is_correct(p: Dictionary) -> bool:
+	return _word_cells(p).all(func(c): return _typed.get(c, "") == _answers[c])
 
 func _first_open_cell(p: Dictionary) -> Vector2i:
 	for cell in _word_cells(p):
@@ -226,12 +258,12 @@ func _first_open_cell(p: Dictionary) -> Vector2i:
 	return p["cell"]
 
 func _cell_color(cell: Vector2i) -> Color:
-	if _wrong_cells.has(cell):
-		return UIThemeApplier.COLOR_ERROR
 	if _selected >= 0 and cell == _cursor:
 		return COLOR_CURSOR
-	if _solved_cells.has(cell):
+	if _good_cells.has(cell):
 		return UIThemeApplier.COLOR_SUCCESS
+	if _bad_cells.has(cell):
+		return UIThemeApplier.COLOR_ERROR
 	if _selected >= 0 and _word_cells(_placements[_selected]).has(cell):
 		return COLOR_WORD
 	return COLOR_CELL
@@ -280,94 +312,93 @@ func _select(index: int, cell: Vector2i) -> void:
 func _type_letter(letter: String) -> void:
 	if _locked or _selected < 0:
 		return
-	var p: Dictionary = _placements[_selected]
-	if p["solved"]:
-		return
-	if not _solved_cells.has(_cursor):
-		_typed[_cursor] = letter
-	_move_cursor(p, 1)
-	_grid.queue_redraw()
-	_check_words()
+	_typed[_cursor] = letter
+	# Only move on from the last letter, so a filled word can be typed over.
+	var at_end: bool = _cursor == _word_cells(_placements[_selected])[-1]
+	_move_cursor(1)
+	_after_edit()
+	if not _locked and at_end and _is_filled(_placements[_selected]):
+		_select_next_open()
 
 func _erase() -> void:
 	if _locked or _selected < 0:
 		return
-	var p: Dictionary = _placements[_selected]
-	if not _typed.has(_cursor) or _solved_cells.has(_cursor):
-		_move_cursor(p, -1)
-	if not _solved_cells.has(_cursor):
-		_typed.erase(_cursor)
-	_grid.queue_redraw()
+	if not _typed.has(_cursor):
+		_move_cursor(-1)
+	_typed.erase(_cursor)
+	_after_edit()
 
-## Steps along the word, stopping at its ends and hopping over locked letters.
-func _move_cursor(p: Dictionary, step: int) -> void:
-	var cells: Array = _word_cells(p)
+## Steps along the selected word, stopping at its ends.
+func _move_cursor(step: int) -> void:
+	var cells: Array = _word_cells(_placements[_selected])
 	var i: int = cells.find(_cursor) + step
-	while i >= 0 and i < cells.size():
-		if not _solved_cells.has(cells[i]):
-			_cursor = cells[i]
-			return
-		i += step
+	if i >= 0 and i < cells.size():
+		_cursor = cells[i]
 
-## Checks every completely filled word, since typing one can finish a crossing word.
-func _check_words() -> void:
-	for p in _placements:
-		if p["solved"]:
-			continue
-		var cells: Array = _word_cells(p)
-		if not cells.all(func(c): return _typed.has(c)):
-			continue
-		if cells.all(func(c): return _typed[c] == _answers[c]):
-			_solve_word(p, cells)
-		else:
-			_reject_word(p, cells)
-			return
-	if _placements.all(func(p): return p["solved"]):
+func _after_edit() -> void:
+	_score_filled_words()
+	_refresh_checks()
+	if _placements.all(_is_correct):
 		_end_game()
-	elif _placements[_selected]["solved"]:
-		_select_next_open()
-
-func _solve_word(p: Dictionary, cells: Array) -> void:
-	p["solved"] = true
-	GameState.adjust_mastery(p["id"], 1)
-	for cell in cells:
-		_solved_cells[cell] = true
-	var btn: Button = p["clue_btn"]
-	btn.disabled = true
-	btn.modulate = Color(UIThemeApplier.COLOR_SUCCESS, 0.7)
-	btn.text = "%s = %s" % [_clue_text(p), WordBank.get_word(p["id"]).get("akeanon", "")]
+	elif _answers.keys().all(func(c): return _typed.has(c)):
+		_clue_label.text = "Something isn't right yet. Try Check."
 	_grid.queue_redraw()
 
-## Red flash, then clears the word's unlocked letters and puts the cursor back.
-func _reject_word(p: Dictionary, cells: Array) -> void:
-	_locked = true
-	GameState.adjust_mastery(p["id"], -1)
-	for cell in cells:
-		if not _solved_cells.has(cell):
-			_wrong_cells[cell] = true
-	_grid.queue_redraw()
-	var session: int = _session
-	await get_tree().create_timer(WRONG_HOLD).timeout
-	if session != _session:
-		return
-	for cell in _wrong_cells.keys():
-		_typed.erase(cell)
-	_wrong_cells.clear()
-	_select(_placements.find(p), _first_open_cell(p))
-	_locked = false
+## Hidden mastery, once per word in each direction.
+func _score_filled_words() -> void:
+	for p in _placements:
+		if not _is_filled(p):
+			continue
+		if _is_correct(p):
+			if not p["credited"]:
+				p["credited"] = true
+				GameState.adjust_mastery(p["id"], 1)
+		elif not p["penalized"]:
+			p["penalized"] = true
+			GameState.adjust_mastery(p["id"], -1)
 
+## Rebuilds the Check coloring. Stays empty while Check is off, so nothing on
+## screen gives away whether a word is right.
+func _refresh_checks() -> void:
+	_good_cells.clear()
+	_bad_cells.clear()
+	for p in _placements:
+		var good: bool = _check_on and _is_correct(p)
+		var bad: bool = _check_on and _is_filled(p) and not good
+		for cell in _word_cells(p):
+			if good:
+				_good_cells[cell] = true
+			elif bad:
+				_bad_cells[cell] = true
+		var tint: Color = Color.WHITE
+		if good:
+			tint = Color(UIThemeApplier.COLOR_SUCCESS, 0.7)
+		elif bad:
+			tint = Color(UIThemeApplier.COLOR_ERROR, 0.7)
+		p["clue_btn"].modulate = tint
+
+func _on_check_toggled(on: bool) -> void:
+	_check_on = on
+	_check_button.text = "Check: On" if on else "Check: Off"
+	_refresh_checks()
+	_grid.queue_redraw()
+
+## The next word after the selected one that still has empty cells, if any.
 func _select_next_open() -> void:
-	for i in range(_placements.size()):
-		if not _placements[i]["solved"]:
+	var count: int = _placements.size()
+	for offset in range(1, count):
+		var i: int = (_selected + offset) % count
+		if not _is_filled(_placements[i]):
 			_select(i, _first_open_cell(_placements[i]))
 			return
 
 func _end_game() -> void:
 	_locked = true
 	_selected = -1
+	_check_on = true   # the finished grid shows green either way
+	_refresh_checks()
 	_clue_label.text = "Insakto! Crossword complete."
 	_clue_label.add_theme_color_override("font_color", UIThemeApplier.COLOR_SUCCESS)
-	_grid.queue_redraw()
 	var session: int = _session
 	await get_tree().create_timer(END_HOLD).timeout
 	if session != _session:
@@ -377,7 +408,7 @@ func _end_game() -> void:
 func _quit() -> void:
 	if not visible:
 		return
-	_session += 1   # cancels a pending flash or end hold
+	_session += 1   # cancels a pending end hold
 	_locked = true
 	_emit_resolved(false)
 

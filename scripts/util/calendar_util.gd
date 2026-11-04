@@ -76,3 +76,14 @@ static func events_in_month(year: int, month: int) -> Array:
 			out.append({"day": day, "event": event})
 	out.sort_custom(func(a, b): return a["day"] < b["day"])
 	return out
+
+## The first event on or after the given date, looking up to a year ahead, as
+## {year, month, day, event}. {} if the calendar has none.
+static func next_event(year: int, month: int, day: int) -> Dictionary:
+	for offset in range(13):
+		var m: int = posmod(month - 1 + offset, 12) + 1
+		var y: int = year + (month - 1 + offset) / 12
+		for entry in events_in_month(y, m):
+			if offset > 0 or entry["day"] >= day:
+				return {"year": y, "month": m, "day": entry["day"], "event": entry["event"]}
+	return {}

@@ -69,6 +69,10 @@ func _ready() -> void:
 	AchievementManager.achievement_unlocked.connect(_on_achievement_unlocked)
 	_apply_style()
 	_rebuild_quest_rows()
+	# This layer sits above every panel: the column's own empty area must not
+	# swallow clicks meant for what's under it. MenuButton still gets its own.
+	($TopRight/RightColumn as Control).mouse_filter = Control.MOUSE_FILTER_IGNORE
+	toasts.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	UIThemeApplier.apply_icon_button_theme(menu_button, "menu")
 	menu_button.pressed.connect(_on_menu_button_pressed)
 	UIThemeApplier.apply_icon_button_theme(interact_button, "dictionary")

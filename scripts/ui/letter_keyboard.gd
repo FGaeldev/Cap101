@@ -21,6 +21,7 @@ func _init(show_erase: bool = false) -> void:
 		var row := HBoxContainer.new()
 		row.add_theme_constant_override("separation", KEY_SEPARATION)
 		row.alignment = BoxContainer.ALIGNMENT_CENTER
+		row.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		add_child(row)
 		for letter in row_letters:
 			var key := _make_key(letter)

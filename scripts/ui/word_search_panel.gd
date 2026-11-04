@@ -1,15 +1,13 @@
-# word_search_panel.gd -- find hidden words by tapping their letters in a line.
+# word_search_panel.gd -- find hidden words by dragging across their letters.
 #
 # Driven by a line of minigame_type "word_search":
 #   { "type": "minigame_trigger", "minigame_type": "word_search",
 #     "word_pool": ["w090", "w054"] }  # word_ids, highest priority first (required)
 #
-# Tap a word's letters one after another: neighbours in one straight line, from
-# either end. Tap the last lit letter to undo it, any other lit letter to clear.
-# A letter off the line starts over from there. A line that can't become a
-# remaining word flashes red and clears. A found word is +1 mastery and reveals
-# its gloss. No timer and no way to fail (no-punishment rule, GDD 7); Quit
-# resolves false.
+# Press on a word's first or last letter and drag to the other end; the selection
+# snaps to a straight line. Letting go checks it: a remaining word is found (+1
+# mastery, reveals its gloss), any other line of 2+ letters flashes red. No timer
+# and no way to fail (no-punishment rule, GDD 7); Quit resolves false.
 #
 # Ownership: renders and reports only, same contract as memory_match_panel.
 # Bad data never softlocks: reports and resolves as a pass.
@@ -29,15 +27,27 @@ const COLOR_CELL := Color("f4ecd8")
 const COLOR_SELECTED := Color("d9a441")
 const COLOR_LINE := Color("39290f")
 
-## The letter grid. Draws from the panel's state, reports taps.
+## The letter grid. Draws from the panel's state, reports the drag. A Control
+## keeps receiving mouse events until release, even past its edge; emulated
+## touch (project default) arrives the same way.
 class Grid extends Control:
-	signal cell_tapped(cell: Vector2i)
+	signal drag_started(cell: Vector2i)
+	signal drag_moved(cell: Vector2i)
+	signal drag_ended
 
 	var panel: Node = null
 
 	func _gui_input(event: InputEvent) -> void:
-		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-			cell_tapped.emit(Vector2i(event.position / CELL_SIZE))
+		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+			if event.pressed:
+				drag_started.emit(_cell_at(event.position))
+			else:
+				drag_ended.emit()
+		elif event is InputEventMouseMotion:
+			drag_moved.emit(_cell_at(event.position))
+
+	func _cell_at(pos: Vector2) -> Vector2i:
+		return Vector2i(pos / CELL_SIZE).clamp(Vector2i.ZERO, Vector2i(COLS - 1, ROWS - 1))
 
 	func _draw() -> void:
 		var font: Font = UIThemeApplier.FONT_DISPLAY
@@ -53,8 +63,9 @@ class Grid extends Control:
 
 var _grid_letters: Array = []     # rows of letters
 var _entries: Array = []          # [{id, letters, found, label}]
-var _selection: Array = []        # lit cells, in tap order
-var _direction: Vector2i = Vector2i.ZERO   # set by the 2nd lit letter
+var _selection: Array = []        # cells of the line being dragged
+var _drag_start: Vector2i = Vector2i.ZERO
+var _dragging: bool = false
 var _found_cells: Dictionary = {} # cell -> true
 var _wrong_cells: Array = []      # flashing red
 var _locked: bool = true          # true during flash / end / closed
@@ -92,11 +103,11 @@ func open(line: Dictionary) -> void:
 
 	_grid_letters = puzzle["grid"]
 	_selection.clear()
-	_direction = Vector2i.ZERO
+	_dragging = false
 	_found_cells.clear()
 	_wrong_cells.clear()
 	_build_word_list(picked)
-	_status_label.text = "Tap each word's letters in a line."
+	_status_label.text = "Drag across each word's letters."
 	_status_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 	_grid.queue_redraw()
 	_locked = false
@@ -106,6 +117,7 @@ func open(line: Dictionary) -> void:
 func close() -> void:
 	_session += 1
 	_locked = true
+	_dragging = false
 	visible = false
 
 # --- setup -----------------------------------------------------------------------
@@ -116,13 +128,14 @@ func _build_word_list(picked: Array) -> void:
 		child.queue_free()
 	_entries.clear()
 	for entry in picked:
+		var word: String = WordBank.puzzle_word(entry["id"])
 		var label := Label.new()
-		label.text = WordBank.get_word(entry["id"]).get("akeanon", "")
+		label.text = word
 		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_M)
 		label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 		_word_list.add_child(label)
-		_entries.append({"id": entry["id"], "letters": entry["letters"], "found": false, "label": label})
+		_entries.append({"id": entry["id"], "word": word, "letters": entry["letters"], "found": false, "label": label})
 
 func _build_layout() -> void:
 	var hbox := HBoxContainer.new()
@@ -134,7 +147,9 @@ func _build_layout() -> void:
 	_grid = Grid.new()
 	_grid.panel = self
 	_grid.custom_minimum_size = Vector2(COLS, ROWS) * CELL_SIZE
-	_grid.cell_tapped.connect(_on_cell_tapped)
+	_grid.drag_started.connect(_on_drag_started)
+	_grid.drag_moved.connect(_on_drag_moved)
+	_grid.drag_ended.connect(_on_drag_ended)
 	grid_holder.add_child(_grid)
 
 	var side := VBoxContainer.new()
@@ -191,46 +206,57 @@ func _cell_color(cell: Vector2i) -> Color:
 		return UIThemeApplier.COLOR_SUCCESS
 	return COLOR_CELL
 
-func _on_cell_tapped(cell: Vector2i) -> void:
-	if _locked or cell.x >= COLS or cell.y >= ROWS:
+func _on_drag_started(cell: Vector2i) -> void:
+	if _locked:
 		return
-	var at: int = _selection.find(cell)
-	if at != -1:
-		if at == _selection.size() - 1:
-			_selection.pop_back()
-		else:
-			_selection.clear()
-		if _selection.size() < 2:
-			_direction = Vector2i.ZERO
-	elif _selection.size() == 1 and maxi(absi(cell.x - _selection[0].x), absi(cell.y - _selection[0].y)) == 1:
-		_direction = cell - _selection[0]
-		_selection.append(cell)
-	elif _selection.size() >= 2 and cell == _selection[-1] + _direction:
-		_selection.append(cell)
-	else:
-		_selection = [cell]
-		_direction = Vector2i.ZERO
+	_dragging = true
+	_drag_start = cell
+	_selection = [cell]
 	_grid.queue_redraw()
-	_check_selection()
 
-## Found, still possible, or wrong, read from either end of the line.
+func _on_drag_moved(cell: Vector2i) -> void:
+	if not _dragging:
+		return
+	_selection = _line_to(cell)
+	_grid.queue_redraw()
+
+func _on_drag_ended() -> void:
+	if not _dragging:
+		return
+	_dragging = false
+	_check_selection()
+	_grid.queue_redraw()
+
+## Cells from the drag start toward `cell`, snapped to the nearest of the 8
+## straight directions and cut off at the grid edge.
+func _line_to(cell: Vector2i) -> Array:
+	var delta: Vector2i = cell - _drag_start
+	var length: int = maxi(absi(delta.x), absi(delta.y))
+	if length == 0:
+		return [_drag_start]
+	var angle: float = snappedf(Vector2(delta).angle(), PI / 4.0)
+	var dir := Vector2i(roundi(cos(angle)), roundi(sin(angle)))
+	var line: Array = []
+	for i in range(length + 1):
+		var at: Vector2i = _drag_start + dir * i
+		if at.x < 0 or at.y < 0 or at.x >= COLS or at.y >= ROWS:
+			break
+		line.append(at)
+	return line
+
+## Found or wrong, read from either end of the line. A single cell is just a
+## tap or a change of mind.
 func _check_selection() -> void:
 	var typed: String = ""
 	for cell in _selection:
 		typed += _grid_letters[cell.y][cell.x]
+	if typed.length() < 2:
+		_selection.clear()
+		return
 	var reversed: String = typed.reverse()
-
 	for entry in _entries:
 		if not entry["found"] and (typed == entry["letters"] or reversed == entry["letters"]):
 			_on_word_found(entry)
-			return
-
-	if typed.length() < 2:
-		return
-	for entry in _entries:
-		if entry["found"]:
-			continue
-		if entry["letters"].begins_with(typed) or entry["letters"].reverse().begins_with(typed):
 			return
 	_flash_wrong()
 
@@ -240,12 +266,10 @@ func _on_word_found(entry: Dictionary) -> void:
 	for cell in _selection:
 		_found_cells[cell] = true
 	_selection.clear()
-	_direction = Vector2i.ZERO
-	var word: Dictionary = WordBank.get_word(entry["id"])
-	entry["label"].text = "%s = %s" % [word.get("akeanon", ""), word.get("gloss", "")]
+	var gloss: String = WordBank.get_word(entry["id"]).get("gloss", "")
+	entry["label"].text = "%s = %s" % [entry["word"], gloss]
 	entry["label"].add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
 	entry["label"].add_theme_color_override("font_color", UIThemeApplier.COLOR_SUCCESS)
-	_grid.queue_redraw()
 	if _entries.all(func(e): return e["found"]):
 		_end_game()
 
@@ -253,8 +277,6 @@ func _flash_wrong() -> void:
 	_locked = true
 	_wrong_cells = _selection.duplicate()
 	_selection.clear()
-	_direction = Vector2i.ZERO
-	_grid.queue_redraw()
 	var session: int = _session
 	await get_tree().create_timer(WRONG_HOLD).timeout
 	if session != _session:
@@ -278,6 +300,7 @@ func _quit() -> void:
 		return
 	_session += 1   # cancels a pending flash or end hold
 	_locked = true
+	_dragging = false
 	_emit_resolved(false)
 
 func _emit_resolved(passed: bool) -> void:

@@ -83,6 +83,11 @@ var word_mastery: Dictionary = {}    # word_id -> int, clamped 0..MASTERY_MAX
 # --- Word of the Day (newspaper, WordBank.get_word_of_the_day) ---
 var wotd_date: int = 0     # date_unix the word was picked on
 var wotd_id: String = ""
+var puzzle_solved_date: int = 0   # date_unix of the last solved daily puzzle
+
+## One newspaper puzzle per in-game day.
+func is_puzzle_solved_today() -> bool:
+	return puzzle_solved_date == date_unix
 
 ## Apply a mastery delta (+1 correct / -1 wrong). Ignores empty ids.
 func adjust_mastery(word_id: String, delta: int) -> void:
@@ -238,6 +243,7 @@ func reset_game_state() -> void:
 	word_mastery.clear()
 	wotd_date = 0
 	wotd_id = ""
+	puzzle_solved_date = 0
 	# QuestManager is an autoload too; discard prior-run quest availability before rebuilding it.
 	QuestManager.active_quests.clear()
 	QuestManager.refresh_active_quests()
@@ -268,7 +274,8 @@ func save_game() -> bool:
 		"completed_tasks": completed_tasks,
 		"word_mastery": word_mastery,
 		"wotd_date": wotd_date,
-		"wotd_id": wotd_id
+		"wotd_id": wotd_id,
+		"puzzle_solved_date": puzzle_solved_date
 	}
 	# WRITE truncates the existing save. Check open/write errors so a failed
 	# overwrite cannot silently leave the previous run on disk.
@@ -315,6 +322,7 @@ func load_game() -> void:
 	word_mastery = data.get("word_mastery", {})  # additive field, old saves -> {}
 	wotd_date = data.get("wotd_date", 0)  # additive field, old saves -> 0
 	wotd_id = data.get("wotd_id", "")  # additive field, old saves -> ""
+	puzzle_solved_date = data.get("puzzle_solved_date", 0)  # additive field, old saves -> 0
 	# QuestManager built its active list at boot, before flags/exposures were
 	# loaded -- re-scan so flag-gated quests (requires_flag) show after Continue.
 	QuestManager.refresh_active_quests()

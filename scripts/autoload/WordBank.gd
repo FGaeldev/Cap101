@@ -3,6 +3,7 @@ extends Node
 
 var words: Dictionary = {}  # Stable word ID -> normalized word record.
 var _form_index: Dictionary = {}  # lowercase akeanon form -> first word ID with that form.
+var _symbol_regex: RegEx = RegEx.create_from_string("[^\\p{L}\\s/-]")  # see clean_form()
 
 ## Minimum size dynamic quizzes / phrase banks are padded up to.
 const MIN_POOL_SIZE: int = 6
@@ -171,14 +172,26 @@ func pick_known_akeanon(exclude: Array, count: int) -> Array:
 func _gloss_key(word_id: String) -> String:
 	return str(words.get(word_id, {}).get("gloss", "")).strip_edges().to_lower()
 
-## Letters a word contributes to a letter-grid minigame: A-Z only, hyphens
-## dropped, Ñ -> N. "" when it can't be played: phrases, punctuation, or no gloss
-## to use as a clue.
-func puzzle_letters(word_id: String) -> String:
-	var record: Dictionary = get_word(word_id)
-	if record.is_empty() or _gloss_key(word_id).is_empty():
+## Akeanon form without stray symbols ("ginhabi (?)" -> "ginhabi"). Keeps letters,
+## spaces, hyphens and the / between alternate spellings.
+func clean_form(form: String) -> String:
+	return _symbol_regex.sub(form, "", true).strip_edges()
+
+## The spelling a letter-grid minigame uses. "adto/agto" means either: one is
+## picked per word per in-game day, so it stays the same across a whole puzzle.
+func puzzle_word(word_id: String) -> String:
+	var forms: PackedStringArray = clean_form(str(get_word(word_id).get("akeanon", ""))).split("/", false)
+	if forms.is_empty():
 		return ""
-	var letters: String = str(record["akeanon"]).to_upper().replace("-", "").replace("Ñ", "N")
+	return forms[hash(word_id + str(GameState.date_unix)) % forms.size()].strip_edges()
+
+## Letters puzzle_word() contributes to a grid: A-Z only, hyphens and spaces
+## dropped, Ñ -> N. "" when it can't be played: other letters or no gloss to use
+## as a clue.
+func puzzle_letters(word_id: String) -> String:
+	if _gloss_key(word_id).is_empty():
+		return ""
+	var letters: String = puzzle_word(word_id).to_upper().replace("-", "").replace(" ", "").replace("Ñ", "N")
 	for i in range(letters.length()):
 		var code: int = letters.unicode_at(i)
 		if code < 65 or code > 90:

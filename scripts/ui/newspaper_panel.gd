@@ -1,16 +1,20 @@
-# newspaper_panel.gd -- the daily paper: word of the day plus today's puzzle.
+# newspaper_panel.gd -- the daily paper: word of the day, next calendar event and
+# today's puzzle.
 #
 # Opened by DialogueUI.show_newspaper() (scripts/entities/newspaper.gd). Reading
 # it exposes the word of the day, adding it to the Dictionary. The puzzle swaps
 # between crossword and word search with the in-game date, and is built from
-# known words with the fewest mastery points first. Puzzles can be replayed;
-# they only ever change mastery (no-punishment rule, GDD 7).
+# known words with the fewest mastery points first. One solved puzzle per day:
+# quitting doesn't use it up. Everything refreshes when the date rolls over, even
+# with the paper open. Puzzles only ever change mastery (no-punishment rule, GDD 7).
 extends PanelContainer
+
+const CalendarUtil := preload("res://scripts/util/calendar_util.gd")
 
 const MASTHEAD: String = "The Aklan Daily"
 ## Fewest playable known words a puzzle can be built from.
 const MIN_PUZZLE_WORDS: int = 4
-## Longest word that fits both puzzle grids (word search has 9 rows).
+## Longest word that fits both puzzle grids (they have 9 rows).
 const MAX_WORD_LENGTH: int = 9
 const MIN_WORD_LENGTH: int = 3
 ## Puzzles are drawn from this many of the lowest-mastery words, giving the
@@ -20,55 +24,86 @@ const PUZZLE_POOL_SIZE: int = 40
 var _date_label: Label
 var _word_label: Label
 var _gloss_label: Label
+var _event_title_label: Label
+var _event_detail_label: Label
 var _puzzle_label: Label
 var _solve_button: Button
 var _puzzle_type: String = ""
+var _puzzle_date: int = 0         # the day the running puzzle belongs to
 var _pool: Array = []
 
 func _ready() -> void:
 	anchor_right = 1.0
 	anchor_bottom = 1.0
 	mouse_filter = Control.MOUSE_FILTER_STOP
-	add_theme_stylebox_override("panel", UIThemeApplier.make_puzzle_panel_style(14))
+	add_theme_stylebox_override("panel", UIThemeApplier.make_puzzle_panel_style(10))
 	_build_layout()
+	DayNightManager.day_changed.connect(_on_day_changed)
 	visible = false
 
 # --- public API ----------------------------------------------------------------
 
 func open() -> void:
-	var word_id: String = WordBank.get_word_of_the_day()
-	var word: Dictionary = WordBank.get_word(word_id)
-	_word_label.text = word.get("akeanon", "")
-	_gloss_label.text = word.get("gloss", "")
-	GameState.expose_word(word_id)
-
-	var date: Dictionary = DayNightManager.get_date()
-	_date_label.text = "%s, %s %d, %d" % [DayNightManager.WEEKDAY_SHORT[date["weekday"]],
-			DayNightManager.MONTH_NAMES[date["month"] - 1], date["day"], date["year"]]
-	_refresh_puzzle()
+	_refresh()
 	visible = true
 
 ## Hide without saving; DialogueUI calls this when overlays are torn down.
 func close() -> void:
 	visible = false
 
-# --- setup -----------------------------------------------------------------------
+# --- content ---------------------------------------------------------------------
 
 ## Even in-game days print a crossword, odd days a word search.
 static func puzzle_type_for(date_unix: int) -> String:
 	return "crossword" if (date_unix / DayNightManager.SECONDS_PER_DAY) % 2 == 0 else "word_search"
 
+func _refresh() -> void:
+	var date: Dictionary = DayNightManager.get_date()
+	_date_label.text = "%s, %s" % [DayNightManager.WEEKDAY_SHORT[date["weekday"]], _format_day(date["month"], date["day"])]
+	_refresh_word()
+	_refresh_event(date)
+	_refresh_puzzle()
+
+func _format_day(month: int, day: int) -> String:
+	return "%s %d" % [DayNightManager.MONTH_NAMES[month - 1], day]
+
+func _refresh_word() -> void:
+	var word_id: String = WordBank.get_word_of_the_day()
+	var word: Dictionary = WordBank.get_word(word_id)
+	_word_label.text = WordBank.clean_form(word.get("akeanon", ""))
+	_gloss_label.text = word.get("gloss", "")
+	if not GameState.is_in_dictionary(word_id):
+		GameState.expose_word(word_id)
+
+func _refresh_event(date: Dictionary) -> void:
+	var next: Dictionary = CalendarUtil.next_event(date["year"], date["month"], date["day"])
+	if next.is_empty():
+		_event_title_label.text = "Nothing coming up."
+		_event_detail_label.text = ""
+		return
+	var today: bool = next["month"] == date["month"] and next["day"] == date["day"]
+	_event_title_label.text = next["event"].get("title", "")
+	_event_detail_label.text = "Today" if today else _format_day(next["month"], next["day"])
+
 func _refresh_puzzle() -> void:
 	_puzzle_type = puzzle_type_for(GameState.date_unix)
 	_pool = WordBank.get_known_puzzle_words(MIN_WORD_LENGTH, MAX_WORD_LENGTH).slice(0, PUZZLE_POOL_SIZE)
-	var ready_to_play: bool = _pool.size() >= MIN_PUZZLE_WORDS
 	var name_text: String = "Crossword" if _puzzle_type == "crossword" else "Word Search"
-	_puzzle_label.text = name_text if ready_to_play else "%s\nLearn more words to play." % name_text
-	_solve_button.disabled = not ready_to_play
+	var solved: bool = GameState.is_puzzle_solved_today()
+	var enough_words: bool = _pool.size() >= MIN_PUZZLE_WORDS
+	if solved:
+		_puzzle_label.text = "%s\nSolved! Come back tomorrow." % name_text
+	elif not enough_words:
+		_puzzle_label.text = "%s\nLearn more words to play." % name_text
+	else:
+		_puzzle_label.text = name_text
+	_solve_button.disabled = solved or not enough_words
+
+# --- setup -----------------------------------------------------------------------
 
 func _build_layout() -> void:
 	var vbox := VBoxContainer.new()
-	vbox.add_theme_constant_override("separation", 6)
+	vbox.add_theme_constant_override("separation", 4)
 	add_child(vbox)
 
 	var masthead := Label.new()
@@ -85,39 +120,59 @@ func _build_layout() -> void:
 	vbox.add_child(HSeparator.new())
 
 	var columns := HBoxContainer.new()
-	columns.add_theme_constant_override("separation", 12)
+	columns.add_theme_constant_override("separation", 8)
 	columns.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	vbox.add_child(columns)
 
-	var word_col := _make_column(columns)
-	word_col.add_child(_make_heading("Word of the Day"))
+	# Left column: word of the day over the next calendar event, equal heights.
+	var left := VBoxContainer.new()
+	left.add_theme_constant_override("separation", 4)
+	left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	columns.add_child(left)
+
+	var word_section := _make_section(left)
+	word_section.add_child(_make_heading("Word of the Day"))
 	_word_label = _make_label(UIThemeApplier.FONT_SIZE_XL, UIThemeApplier.TEXT_EMPHASIS)
-	word_col.add_child(_word_label)
-	_gloss_label = _make_label(UIThemeApplier.FONT_SIZE_M, UIThemeApplier.TEXT_DEFAULT)
-	word_col.add_child(_gloss_label)
+	word_section.add_child(_word_label)
+	_gloss_label = _make_label(UIThemeApplier.FONT_SIZE_S, UIThemeApplier.TEXT_DEFAULT)
+	word_section.add_child(_gloss_label)
+
+	left.add_child(HSeparator.new())
+
+	var event_section := _make_section(left)
+	event_section.add_child(_make_heading("Coming Up"))
+	_event_title_label = _make_label(UIThemeApplier.FONT_SIZE_M, UIThemeApplier.TEXT_EMPHASIS)
+	event_section.add_child(_event_title_label)
+	_event_detail_label = _make_label(UIThemeApplier.FONT_SIZE_S, UIThemeApplier.TEXT_DEFAULT)
+	event_section.add_child(_event_detail_label)
 
 	columns.add_child(VSeparator.new())
 
-	var puzzle_col := _make_column(columns)
-	puzzle_col.add_child(_make_heading("Today's Puzzle"))
+	# Right column: the daily minigame.
+	var right := _make_section(columns)
+	right.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	right.add_child(_make_heading("Today's Puzzle"))
 	_puzzle_label = _make_label(UIThemeApplier.FONT_SIZE_M, UIThemeApplier.TEXT_DEFAULT)
-	puzzle_col.add_child(_puzzle_label)
+	right.add_child(_puzzle_label)
 	_solve_button = _make_button("Solve")
 	_solve_button.pressed.connect(_on_solve_pressed)
-	puzzle_col.add_child(_solve_button)
+	right.add_child(_solve_button)
+
+	var spacer := Control.new()
+	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	right.add_child(spacer)
 
 	var close_button := _make_button("Put it down")
 	close_button.size_flags_horizontal = Control.SIZE_SHRINK_END
 	close_button.pressed.connect(_put_down)
-	vbox.add_child(close_button)
+	right.add_child(close_button)
 
-func _make_column(parent: Control) -> VBoxContainer:
-	var col := VBoxContainer.new()
-	col.add_theme_constant_override("separation", 6)
-	col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	col.size_flags_stretch_ratio = 1.0
-	parent.add_child(col)
-	return col
+func _make_section(parent: Control) -> VBoxContainer:
+	var section := VBoxContainer.new()
+	section.add_theme_constant_override("separation", 4)
+	section.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	parent.add_child(section)
+	return section
 
 func _make_heading(text: String) -> Label:
 	var label := _make_label(UIThemeApplier.FONT_SIZE_S, UIThemeApplier.TEXT_DEFAULT)
@@ -151,14 +206,22 @@ func _input(event: InputEvent) -> void:
 	elif event is InputEventKey:
 		get_viewport().set_input_as_handled()
 
+func _on_day_changed() -> void:
+	if visible:
+		_refresh()
+
 func _on_solve_pressed() -> void:
 	visible = false
+	_puzzle_date = GameState.date_unix
 	DialogueUI.show_standalone_minigame({"minigame_type": _puzzle_type, "word_pool": _pool}, _on_puzzle_resolved)
 
-## Back to the paper, with the pool re-sorted by the mastery the puzzle just changed.
-func _on_puzzle_resolved(_passed: bool) -> void:
+## A puzzle finished past midnight counts for the day it was started, so the new
+## day's puzzle is still open.
+func _on_puzzle_resolved(passed: bool) -> void:
+	if passed:
+		GameState.puzzle_solved_date = _puzzle_date
 	GameState.save_game()
-	_refresh_puzzle()
+	_refresh()
 	visible = true
 
 func _put_down() -> void:
