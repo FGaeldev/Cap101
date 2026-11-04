@@ -101,5 +101,18 @@ tile_set = SubResource("TileSet_7n77a")
 [node name="Warp" type="Node2D" parent="." unique_id=942480874]
 
 [node name="WarpArea" parent="Warp" unique_id=1965068349 instance=ExtResource("2_8pgjo")]
+position = Vector2(112, 40)
+span_tiles_override = 2
+
+[node name="WarpArea2" parent="Warp" unique_id=239514056 instance=ExtResource("2_8pgjo")]
+position = Vector2(112, 200)
+trigger_direction = 1
+span_tiles_override = 2
 
 [node name="Spawn" type="Node2D" parent="." unique_id=909967789]
+
+[node name="Down" type="Marker2D" parent="Spawn" unique_id=539287589]
+position = Vector2(112, 192)
+
+[node name="Up" type="Marker2D" parent="Spawn" unique_id=447921376]
+position = Vector2(96, 64)
