@@ -720,6 +720,8 @@ trigger_direction = 1
 door_width = 2
 target_scene = "res://scenes/world/chapter2/aklan_home_outdoors.tscn"
 target_spawn_id = "FromIndoors"
+required_flag = "seen_chapter2_scene0b"
+blocked_message = "I should check in with Lola Susan first."
 
 [node name="Spawns" type="Node2D" parent="." unique_id=141127280]
 y_sort_enabled = true
@@ -761,3 +763,20 @@ position = Vector2(32, 96)
 
 [node name="Newspaper" parent="." instance=ExtResource("6_paper")]
 position = Vector2(256, 78)
+
+[node name="Schedule" type="Node2D" parent="." unique_id=410200500]
+
+[node name="SeatSusan" type="Marker2D" parent="Schedule" unique_id=410200501]
+position = Vector2(224, 64)
+
+[node name="SeatJonabel" type="Marker2D" parent="Schedule" unique_id=410200502]
+position = Vector2(272, 64)
+
+[node name="SeatJobert" type="Marker2D" parent="Schedule" unique_id=410200503]
+position = Vector2(224, 80)
+
+[node name="SeatRose" type="Marker2D" parent="Schedule" unique_id=410200504]
+position = Vector2(272, 80)
+
+[node name="Sofa" type="Marker2D" parent="Schedule" unique_id=410200505]
+position = Vector2(80, 64)

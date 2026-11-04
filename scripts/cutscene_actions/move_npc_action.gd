@@ -15,6 +15,7 @@ extends RefCounted
 const TILE_SIZE: int = 16
 
 const MarkerUtil := preload("res://scripts/util/marker_util.gd")
+const ActorPath := preload("res://scripts/util/actor_path.gd")
 
 ## Screen-space direction vectors; Godot's positive Y axis points down.
 const DIRECTIONS: Dictionary = {
@@ -39,6 +40,8 @@ func action_type() -> String:
 ## in the level scene instead of drifting out of sync with this JSON.
 ## Optional speed is measured in pixels per second. Legacy order controls which
 ## axis moves first when both coordinates change ("xy" by default, or "yx").
+## Optional "avoid_actors": true finds a route around walls, furniture and other
+## visible actors instead.
 func execute(step: Dictionary, mgr: Node) -> void:
 	var actor: Node2D = mgr.get_actor(step.get("actor", ""))
 	if actor == null:
@@ -91,8 +94,11 @@ func execute(step: Dictionary, mgr: Node) -> void:
 					% [step.get("actor", ""), raw_target, target])
 
 	var speed: float = max(float(step.get("speed", 40.0)), 1.0)
-	var legs: Array[Vector2] = _build_legs(start, target,
-			String(step.get("order", "xy")))
+	var legs: Array[Vector2]
+	if step.get("avoid_actors", false):
+		legs = ActorPath.around_actors(mgr, actor, start, target)
+	else:
+		legs = _build_legs(start, target, String(step.get("order", "xy")))
 
 	var run: int = mgr.current_run()
 	var last_dir: Vector2 = Vector2.ZERO

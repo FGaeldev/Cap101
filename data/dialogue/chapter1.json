@@ -142,13 +142,13 @@
 	},
 	{
 	  "speaker": "Lola Jonabel",
-	  "text": "\\Mayad \\nga \\agahon Aklan.",
+	  "text": "\\Mayad \\nga \\[DayPart] Aklan.",
 	  "next": 4,
-	  "translation": "Good morning in Aklan.",
+	  "translation": "[GoodDay] in Aklan.",
 	  "word_ids": [
 		"w163",
 		"w180",
-        "w006"
+        "[DayPart]"
 	  ],
 	  "type": "dialogue"
 	},
@@ -168,13 +168,13 @@
 	},
 	{
 	  "speaker": "Lola Jonabel",
-	  "text": "Just follow along. \\mayad \\nga \\agahon.",
+	  "text": "Just follow along. \\mayad \\nga \\[DayPart].",
 	  "next": 7,
 	  "type": "dialogue",
 	  "word_ids": [
 		"w163",
 		"w180",
-        "w006"
+        "[DayPart]"
 	  ]
 	},
 	{
@@ -183,13 +183,13 @@
 	  "choices": [
 		"mayad",
 		"nga",
-		"agahon",
+		"[DayPart]",
         "ikaw/ka"
 	  ],
 	  "answer": [
 		"mayad",
 		"nga",
-        "agahon"
+        "[DayPart]"
 	  ],
 	  "next": 6,
 	  "success": 8,
@@ -391,30 +391,30 @@
 	},
 	{
 	  "speaker": "Lola Susan",
-	  "text": "\\Mayad \\man \\nga \\agahon!",
+	  "text": "\\Mayad \\man \\nga \\[DayPart]!",
 	  "next": 19,
-	  "translation": "Good morning to you too!",
+	  "translation": "[GoodDay] to you too!",
 	  "type": "dialogue",
 	  "word_ids": [
 		"w163",
 		"w151",
 		"w180",
-        "w006"
+        "[DayPart]"
 	  ]
 	},
 	{
 	  "type": "phrase_builder",
-	  "prompt": "Say good morning",
+	  "prompt": "Say [good day]",
 	  "choices": [
 		"mayad",
 		"nga",
-		"agahon",
+		"[DayPart]",
         "eang"
 	  ],
 	  "answer": [
 		"mayad",
 		"nga",
-        "agahon"
+        "[DayPart]"
 	  ],
 	  "success": 17,
 	  "failure": 1

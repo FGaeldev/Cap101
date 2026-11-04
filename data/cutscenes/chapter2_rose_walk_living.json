@@ -1,0 +1,8 @@
+[
+	{"type": "dialogue", "chapter": "chapter2", "scene": "scene_rose_walk_to_park"},
+	{"type": "game_speed", "scale": 2.0, "if_flag": "chapter2_with_rose"},
+	{"type": "conga", "join": "nearest_x", "leader": "Rose", "followers": ["player"], "path_to": "DefaultSpawn", "gap": 2, "speed": 48, "despawn": true, "if_flag": "chapter2_with_rose"},
+	{"type": "set_flag", "flag": "chapter2_left_house", "value": true, "if_flag": "chapter2_with_rose"},
+	{"type": "fade", "direction": "out", "duration": 0.6, "if_flag": "chapter2_with_rose"},
+	{"type": "load_scene", "scene_path": "res://scenes/world/chapter2/aklan_home_outdoors.tscn", "if_flag": "chapter2_with_rose"}
+]

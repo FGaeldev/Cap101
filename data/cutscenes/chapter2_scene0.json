@@ -15,7 +15,7 @@
 				"waypoints": ["DefaultSpawn"],
 				"order": "yx",
 				"queue_direction": "down",
-				"gap": 1,
+				"gap": 2,
 				"speed": 48,
 				"despawn": false,
 				"reveal_at": "DefaultSpawn",

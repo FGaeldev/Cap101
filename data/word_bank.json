@@ -6,7 +6,7 @@
       "category": "Adjective (adj.)",
       "area": "chapter2",
       "gloss": "many",
-      "verified": false,
+      "verified": true,
       "source": ""
     },
     {
@@ -2221,6 +2221,51 @@
       "area": "chapter1",
       "gloss": "used to mark the topic of a sentence if its the name of a person or pet, denoting the singular",
       "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w249",
+      "akeanon": "uga",
+      "category": "Proper Noun (N)",
+      "area": "chapter2",
+      "gloss": "dried fish",
+      "verified": true,
+      "source": ""
+    },
+    {
+      "id": "w250",
+      "akeanon": "buean",
+      "category": "Noun (n)",
+      "area": "chapter2",
+      "gloss": "moon",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w253",
+      "akeanon": "hapon",
+      "category": "Noun (n)",
+      "area": "chapter1",
+      "gloss": "afternoon",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w252",
+      "akeanon": "gabie",
+      "category": "Noun (n)",
+      "area": "chapter1",
+      "gloss": "night, evening",
+      "verified": false,
+      "source": ""
+    },
+    {
+      "id": "w251",
+      "akeanon": "kampod",
+      "category": "Noun (n)",
+      "area": "chapter2",
+      "gloss": "cousin",
+      "verified": true,
       "source": ""
     }
   ]

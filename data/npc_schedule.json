@@ -1,0 +1,64 @@
+{
+	"rooms": {
+		"living": "res://scenes/world/chapter2/aklan_living.tscn",
+		"hallway": "res://scenes/world/chapter2/aklan_hallway.tscn",
+		"br_rose": "res://scenes/world/chapter2/aklan_BR_Rose.tscn",
+		"br_susan": "res://scenes/world/chapter2/aklan_BR_Susan.tscn",
+		"br_jonabel": "res://scenes/world/chapter2/aklan_BR_Jonabel.tscn",
+		"br_jobert": "res://scenes/world/chapter2/aklan_BR_Jobert.tscn"
+	},
+	"doors": {
+		"living": {"hallway": "Stairs", "br_rose": "BR_Rose", "br_susan": "BR_Susan", "outside": "DefaultSpawn"},
+		"hallway": {"living": "DefaultSpawn", "br_jonabel": "BR_Jonabel", "br_jobert": "BR_Jobert"},
+		"br_rose": {"living": "DefaultSpawn"},
+		"br_susan": {"living": "DefaultSpawn"},
+		"br_jonabel": {"hallway": "DefaultSpawn"},
+		"br_jobert": {"hallway": "DefaultSpawn"},
+		"outside": {"living": ""}
+	},
+	"npcs": {
+		"Lola Susan": {
+			"scene": "res://scenes/entities/npc_LolaSusan.tscn",
+			"blocks": [
+				{"when": "mass_trip", "away": true},
+				{"when": "first_day", "room": "living", "marker": "S0/Susan", "facing": "down"},
+				{"from": 19, "to": 6, "room": "br_susan", "marker": "Schedule/Bed", "facing": "down", "asleep": true, "in_bed": true},
+				{"days": [0], "from": 6, "to": 12, "when": "mass_pending", "room": "living", "marker": "S0/Susan", "facing": "down"},
+				{"days": [0], "from": 6, "to": 12, "when": "mass_skipped", "away": true},
+				{"from": 6, "to": 19, "room": "living", "marker": "Schedule/SeatSusan", "facing": "right"}
+			]
+		},
+		"Rose": {
+			"scene": "res://scenes/entities/npc_Rose.tscn",
+			"talk_cutscene": {"ids": {"br_rose": "chapter2_rose_walk_room", "living": "chapter2_rose_walk_living"}, "seen_flag": "chapter2_with_rose", "after_flag": "seen_chapter2_scene0b", "not_now": "chapter2_rose_not_now", "first_flag": "seen_chapter2_scene1", "first_hours": [6, 12], "later_hours": [6, 18]},
+			"blocks": [
+				{"when": "first_day", "room": "living", "marker": "S0/Rose", "facing": "down"},
+				{"when": "on_walk", "away": true},
+				{"from": 19, "to": 6, "room": "br_rose", "marker": "Schedule/Bed", "facing": "down", "asleep": true, "in_bed": true},
+				{"days": [0], "from": 6, "to": 12, "when": "mass_pending", "room": "living", "marker": "S0/Rose", "facing": "down"},
+				{"days": [0], "from": 6, "to": 12, "when": "mass_skipped", "away": true},
+				{"from": 12, "to": 13, "room": "living", "marker": "Schedule/SeatRose", "facing": "left"},
+				{"from": 18, "to": 19, "room": "living", "marker": "Schedule/SeatRose", "facing": "left"},
+				{"from": 6, "to": 19, "room": "br_rose", "marker": "Schedule/Chair", "facing": "up"}
+			]
+		},
+		"Lola Jonabel": {
+			"scene": "res://scenes/entities/npc_LolaJonabel.tscn",
+			"blocks": [
+				{"when": "first_day", "room": "br_jonabel", "marker": "Schedule/Bed", "facing": "down", "asleep": true, "in_bed": true},
+				{"from": 19, "to": 8, "room": "br_jonabel", "marker": "Schedule/Bed", "facing": "down", "asleep": true, "in_bed": true},
+				{"from": 8, "to": 19, "room": "living", "marker": "Schedule/SeatJonabel", "facing": "left"}
+			]
+		},
+		"Papa Jobert": {
+			"scene": "res://scenes/entities/npc_PapaJobert.tscn",
+			"blocks": [
+				{"when": "first_day", "room": "br_jobert", "marker": "Schedule/Bed", "facing": "down", "asleep": true, "in_bed": true},
+				{"from": 19, "to": 8, "room": "br_jobert", "marker": "Schedule/Bed", "facing": "down", "asleep": true, "in_bed": true},
+				{"from": 12, "to": 13, "room": "living", "marker": "Schedule/SeatJobert", "facing": "right"},
+				{"from": 18, "to": 19, "room": "living", "marker": "Schedule/SeatJobert", "facing": "right"},
+				{"from": 8, "to": 19, "room": "living", "marker": "Schedule/Sofa", "facing": "right"}
+			]
+		}
+	}
+}

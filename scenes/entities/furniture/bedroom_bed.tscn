@@ -8,6 +8,7 @@
 size = Vector2(16, 16)
 
 [node name="BedroomBed" type="StaticBody2D" unique_id=467436607]
+y_sort_enabled = true
 script = ExtResource("2_sleep")
 
 [node name="Bed_Base" type="Sprite2D" parent="." unique_id=1331326368]
@@ -16,7 +17,8 @@ texture = ExtResource("1_sv25s")
 hframes = 2
 
 [node name="Bed_Cover" type="Sprite2D" parent="." unique_id=712339735]
-position = Vector2(16, -24)
+position = Vector2(16, -8)
+offset = Vector2(0, -16)
 texture = ExtResource("1_sv25s")
 hframes = 2
 frame = 1

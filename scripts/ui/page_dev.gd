@@ -31,7 +31,7 @@ const CH1_DONE_FLAGS := [
 const CH2_START_FLAGS := [
 	"seen_chapter1_scene1_5", "seen_chapter1_scene2", "seen_chapter1_scene3", "seen_chapter1_scene4",
 	"story_done_scene_3_reunion", "story_done_scene_4_rose", "chapter1_complete",
-	"seen_chapter2_scene0",
+	"seen_chapter2_scene0", "chapter2_slept", "seen_chapter2_scene0b",
 ]
 
 ## Chapter 1 story quests, in story order. q002 is handled by the onboarding
@@ -150,9 +150,18 @@ const DEV_CUTSCENES := [
 		"cutscene_id": "chapter2_scene0",
 		"scene_path": "res://scenes/world/chapter2/aklan_living.tscn",
 		"flags_on": CH1_DONE_FLAGS,
-		"flags_off": ["seen_chapter2_scene0"],
+		"flags_off": ["seen_chapter2_scene0", "chapter2_slept", "seen_chapter2_scene0b"],
 		"quests_done": CH1_QUESTS,
 		"auto_play": true,   # aklan_living.gd plays it when SEEN_FLAG is false
+	},
+	{
+		"label": "Ch2 S1 — Walk to the park",
+		"cutscene_id": "chapter2_scene1",
+		"scene_path": "res://scenes/world/chapter2/pastrana_outdoors.tscn",
+		"flags_on": CH2_START_FLAGS + ["chapter2_with_rose", "chapter2_left_house", "chapter2_left_home"],
+		"flags_off": ["seen_chapter2_scene1", "chapter2_at_park", "chapter2_walking_home"],
+		"quests_done": CH1_QUESTS,
+		"auto_play": true,   # pastrana_outdoors.gd plays it when SEEN_FLAG is false
 	},
 ]
 

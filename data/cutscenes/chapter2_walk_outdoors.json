@@ -1,0 +1,10 @@
+[
+	{"type": "game_speed", "scale": 2.0},
+	{"type": "spawn_npc", "actor": "Rose", "scene": "res://scenes/entities/npc_Rose.tscn", "at_marker": "Walk/Rose"},
+	{"type": "spawn_npc", "actor": "Lola Susan", "scene": "res://scenes/entities/npc_LolaSusan.tscn", "at": [128, 208], "if_flag": "chapter2_mass_trip"},
+	{"type": "move_npc", "actor": "player", "from": "FromIndoors", "direction": "down", "tiles": 0},
+	{"type": "parallel", "actions": [{"type": "fade", "direction": "in", "duration": 0.6}, {"type": "conga", "join": "nearest_x", "leader": "Rose", "followers": ["Lola Susan", "player"], "waypoints": ["Walk/Exit"], "order": "xy", "gap": 2, "speed": 48, "despawn": true}]},
+	{"type": "set_flag", "flag": "chapter2_left_home", "value": true},
+	{"type": "fade", "direction": "out", "duration": 0.6},
+	{"type": "load_scene", "scene_path": "res://scenes/world/chapter2/pastrana_outdoors.tscn"}
+]

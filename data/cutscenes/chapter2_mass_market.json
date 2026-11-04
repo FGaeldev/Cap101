@@ -1,0 +1,16 @@
+[
+	{"type": "game_speed", "scale": 2.0},
+	{"type": "spawn_npc", "actor": "Rose", "scene": "res://scenes/entities/npc_Rose.tscn", "at": [80, 448]},
+	{"type": "spawn_npc", "actor": "Lola Susan", "scene": "res://scenes/entities/npc_LolaSusan.tscn", "at": [48, 448]},
+	{"type": "move_npc", "actor": "player", "from": "FromPark", "direction": "right", "tiles": 0},
+	{"type": "parallel", "actions": [{"type": "fade", "direction": "in", "duration": 0.6}, {"type": "conga", "leader": "Rose", "followers": ["Lola Susan", "player"], "waypoints": ["S2/Turn", "S2/Rose"], "order": "xy", "queue_direction": "left", "gap": 2, "speed": 48}]},
+	{"type": "game_speed", "scale": 1.0},
+	{"type": "dialogue", "chapter": "chapter2", "scene": "scene_mass_market"},
+	{"type": "advance_clock", "to_hour": 11.5},
+	{"type": "set_flag", "flag": "chapter2_walking_home", "value": true},
+	{"type": "set_flag", "flag": "chapter2_from_market", "value": true},
+	{"type": "game_speed", "scale": 2.0},
+	{"type": "conga", "join": "nearest_x", "leader": "Rose", "followers": ["Lola Susan", "player"], "path_to": "FromPark", "gap": 2, "speed": 48, "despawn": true},
+	{"type": "fade", "direction": "out", "duration": 0.6},
+	{"type": "load_scene", "scene_path": "res://scenes/world/chapter2/pastrana_outdoors.tscn"}
+]

@@ -225,7 +225,7 @@ func _show_line() -> void:
 	# Word exposure
 	if line.has("word_ids"):
 		for wid in line["word_ids"]:
-			var word_id := str(wid).strip_edges()
+			var word_id := TextUtil.resolve_word_id(str(wid).strip_edges())
 			if word_id.is_empty():
 				continue
 			if WordBank.get_word(word_id).is_empty():
@@ -238,14 +238,12 @@ func _show_line() -> void:
 	if not speaker.is_empty():
 		_last_speaker = speaker
 
-	var translation := str(line.get("translation", "")).strip_edges()
 	if line.has("choices") and not line["choices"].is_empty():
 		DialogueUI.show_line(
 			line.get("speaker", ""),
 			line.get("text", ""),
 			self,
-			portrait_tex,
-			translation
+			portrait_tex
 		)
 		DialogueUI.show_choices(line["choices"], self)
 	else:
@@ -253,15 +251,14 @@ func _show_line() -> void:
 			line.get("speaker", ""),
 			line.get("text", ""),
 			self,
-			portrait_tex,
-			translation
+			portrait_tex
 		)
 
 ## phrase_builder line: suspend normal line display, hand the line to the UI.
 ## Player stays input-locked because DialogueUI._current_component stays set.
 func _handle_phrase_builder(line: Dictionary) -> void:
 	DialogueUI.hide_box_only()
-	DialogueUI.show_phrase_builder(line, self)
+	DialogueUI.show_phrase_builder(TextUtil.resolve_builder_line(line), self)
 
 ## Called by DialogueUI when the builder resolves. Jumps to the line's
 ## "success" / "failure" index, falling back to "next", else ends dialogue.

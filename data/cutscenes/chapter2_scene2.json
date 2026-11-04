@@ -1,0 +1,10 @@
+[
+	{"type": "game_speed", "scale": 2.0},
+	{"type": "spawn_npc", "actor": "Rose", "scene": "res://scenes/entities/npc_Rose.tscn", "at_marker": "S2/RoseStart"},
+	{"type": "move_npc", "actor": "player", "from": "FromPark", "direction": "right", "tiles": 0},
+	{"type": "parallel", "actions": [{"type": "fade", "direction": "in", "duration": 0.6}, {"type": "conga", "leader": "Rose", "followers": ["player"], "waypoints": ["S2/Turn", "S2/Rose"], "order": "xy", "queue_direction": "left", "gap": 2, "speed": 48}]},
+	{"type": "game_speed", "scale": 1.0},
+	{"type": "dialogue", "chapter": "chapter2", "scene": "scene_2_kalibo_public_market"},
+	{"type": "set_flag", "flag": "seen_chapter2_scene2", "value": true},
+	{"type": "set_flag", "flag": "map_open_market", "value": true}
+]

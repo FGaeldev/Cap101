@@ -87,3 +87,11 @@ static func next_event(year: int, month: int, day: int) -> Dictionary:
 			if offset > 0 or entry["day"] >= day:
 				return {"year": y, "month": m, "day": entry["day"], "event": entry["event"]}
 	return {}
+
+## True if the event with this id falls on the given date. For events that only
+## happen on their date, such as the Ati-Atihan chapter.
+static func is_event_on(event_id: String, year: int, month: int, day: int) -> bool:
+	for entry in events_in_month(year, month):
+		if entry["day"] == day and entry["event"].get("id", "") == event_id:
+			return true
+	return false

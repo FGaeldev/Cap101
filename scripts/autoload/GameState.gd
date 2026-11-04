@@ -84,6 +84,7 @@ var word_mastery: Dictionary = {}    # word_id -> int, clamped 0..MASTERY_MAX
 var wotd_date: int = 0     # date_unix the word was picked on
 var wotd_id: String = ""
 var puzzle_solved_date: int = 0   # date_unix of the last solved daily puzzle
+var mass_invite_date: int = 0     # date_unix of the last Sunday mass invitation
 # {date, ...panel state} of a quit daily puzzle; ignored once the date moves on.
 var puzzle_progress: Dictionary = {}
 
@@ -282,6 +283,7 @@ func reset_game_state() -> void:
 	wotd_date = 0
 	wotd_id = ""
 	puzzle_solved_date = 0
+	mass_invite_date = 0
 	puzzle_progress = {}
 	# QuestManager is an autoload too; discard prior-run quest availability before rebuilding it.
 	QuestManager.active_quests.clear()
@@ -315,6 +317,7 @@ func save_game() -> bool:
 		"wotd_date": wotd_date,
 		"wotd_id": wotd_id,
 		"puzzle_solved_date": puzzle_solved_date,
+		"mass_invite_date": mass_invite_date,
 		"puzzle_progress": puzzle_progress
 	}
 	# WRITE truncates the existing save. Check open/write errors so a failed
@@ -363,6 +366,7 @@ func load_game() -> void:
 	wotd_date = data.get("wotd_date", 0)  # additive field, old saves -> 0
 	wotd_id = data.get("wotd_id", "")  # additive field, old saves -> ""
 	puzzle_solved_date = data.get("puzzle_solved_date", 0)  # additive field, old saves -> 0
+	mass_invite_date = data.get("mass_invite_date", 0)  # additive field, old saves -> 0
 	puzzle_progress = data.get("puzzle_progress", {})  # additive field, old saves -> {}
 	# QuestManager built its active list at boot, before flags/exposures were
 	# loaded -- re-scan so flag-gated quests (requires_flag) show after Continue.

@@ -1,5 +1,6 @@
 [gd_scene format=4 uid="uid://3nfb2sysrhrh"]
 
+[ext_resource type="Script" path="res://scripts/game_scenes/pastrana_outdoors.gd" id="9_story"]
 [ext_resource type="Texture2D" uid="uid://dbhy4oimu58g1" path="res://assets/pastrana/pastrana_outdoors.png" id="1_o0t7k"]
 [ext_resource type="Texture2D" uid="uid://4y5qmudjoij" path="res://assets/tilesets/edge.png" id="2_k25hg"]
 [ext_resource type="PackedScene" uid="uid://de6nkx7tf7u8d" path="res://scenes/entities/furniture/warp_area.tscn" id="3_5go0w"]
@@ -644,6 +645,7 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_icnut")
 
 [node name="PastranaOutdoors" type="Node2D" unique_id=976542820]
+script = ExtResource("9_story")
 y_sort_enabled = true
 
 [node name="Floor" type="TileMapLayer" parent="." unique_id=690609212]
@@ -690,22 +692,35 @@ position = Vector2(1200, 1320)
 trigger_direction = 1
 span_tiles_override = 8
 target_scene = "res://scenes/world/market/market_outdoors.tscn"
+target_spawn_id = "FromPark"
+required_flag = "map_open_market"
+blocked_message = "I should stick with Rose for now."
 
 [node name="WarpArea4" parent="Warps" unique_id=1388918134 instance=ExtResource("3_5go0w")]
 position = Vector2(80, 1320)
 trigger_direction = 1
 span_tiles_override = 8
 target_scene = "res://scenes/world/habuean/habuean_outdoors.tscn"
+required_flag = "map_open_habuean"
+blocked_message = "I should stick with Rose for now."
 
 [node name="WarpArea5" parent="Warps" unique_id=228873762 instance=ExtResource("3_5go0w")]
 position = Vector2(80, -360)
 span_tiles_override = 8
 target_scene = "res://scenes/world/caticlan/caticlan_outdoors.tscn"
+required_flag = "map_open_caticlan"
+blocked_message = "I should stick with Rose for now."
 
 [node name="WarpArea6" parent="Warps" unique_id=1609056711 instance=ExtResource("3_5go0w")]
 position = Vector2(1664, -360)
 span_tiles_override = 8
 target_scene = "res://scenes/world/bakhawan/bakhawan_outdoors.tscn"
+required_flag = "map_open_bakhawan"
+blocked_message = "I should stick with Rose for now."
+
+[node name="WarpArea7" parent="Warps" unique_id=1127747124 instance=ExtResource("3_5go0w")]
+position = Vector2(1072, -56)
+span_tiles_override = 2
 
 [node name="Spawns" type="Node2D" parent="." unique_id=1050872701]
 
@@ -719,3 +734,36 @@ position = Vector2(1712, 224)
 visible = false
 position = Vector2(1072, -205)
 texture = ExtResource("4_lef3s")
+
+[node name="SceneMarkers" type="Node2D" parent="." unique_id=410200800]
+
+[node name="S1" type="Node2D" parent="SceneMarkers" unique_id=410200801]
+
+[node name="RoseStart" type="Marker2D" parent="SceneMarkers/S1" unique_id=410200802]
+position = Vector2(48, 320)
+
+[node name="PlayerStart" type="Marker2D" parent="SceneMarkers/S1" unique_id=410200803]
+position = Vector2(16, 320)
+
+[node name="ParkGate" type="Marker2D" parent="SceneMarkers/S1" unique_id=410200804]
+position = Vector2(1008, 320)
+
+[node name="PlazaEdge" type="Marker2D" parent="SceneMarkers/S1" unique_id=410200805]
+position = Vector2(1008, 480)
+
+[node name="PlazaTop" type="Marker2D" parent="SceneMarkers/S1" unique_id=410200806]
+position = Vector2(944, 480)
+
+[node name="Rose" type="Marker2D" parent="SceneMarkers/S1" unique_id=410200807]
+position = Vector2(944, 592)
+
+[node name="HomeExit" type="Marker2D" parent="SceneMarkers/S1" unique_id=410200808]
+position = Vector2(16, 320)
+
+[node name="MarketGate" type="Marker2D" parent="Spawns" unique_id=410200810]
+position = Vector2(1200, 1296)
+
+[node name="S3" type="Node2D" parent="SceneMarkers" unique_id=410200811]
+
+[node name="Rose" type="Marker2D" parent="SceneMarkers/S3" unique_id=410200812]
+position = Vector2(1072, -32)

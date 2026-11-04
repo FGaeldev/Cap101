@@ -39,6 +39,14 @@
 #   	}                             # then faces "face" (default "down")
 #   }
 #
+# Joining on the move ("join": "nearest_x"): there's no gather. The leader sets
+# off at once and followers wait where they stand. One at a time, whoever is
+# closest to the leader on the x-axis walks to the nearest tile of the route, as
+# soon as the end of the line is "gap" tiles past it, and joins the end. Uses
+# leader, followers, waypoints, order, gap, speed, despawn, keep and hold_at.
+# Spacing can end up wider than "gap", since the line doesn't wait for anyone.
+# "join_last": [actor ids] holds those back until everyone else has joined.
+#
 # The player can join like any follower (actor id "player"). It is never
 # freed -- it is the persistent Game.tscn player -- even if "keep" omits it.
 #
@@ -59,6 +67,7 @@ extends RefCounted
 const TILE_SIZE: int = 16
 
 const MarkerUtil := preload("res://scripts/util/marker_util.gd")
+const ActorPath := preload("res://scripts/util/actor_path.gd")
 
 ## Extra pixels past the viewport edge before an actor counts as off-screen,
 ## so sprites are fully out of view (not half-clipped) when freed.
@@ -93,7 +102,7 @@ func execute(step: Dictionary, mgr: Node) -> void:
 	var actor_ids: Array[String] = [leader_id]
 	for raw_id in step.get("followers", []):
 		var id: String = String(raw_id)
-		var node: Node2D = mgr.get_actor(id)
+		var node: Node2D = mgr.get_actor(id) if mgr.has_actor(id) else null
 		if node == null:
 			push_warning("conga: follower '%s' not registered, skipped" % id)
 			continue
@@ -119,8 +128,20 @@ func execute(step: Dictionary, mgr: Node) -> void:
 		for corner in _build_legs(cursor, target, order):
 			_append_tiles(route, corner)
 		cursor = target
+	# "path_to": a tile or marker to find a clear way to, around walls, furniture
+	# and other actors, for leaders whose start isn't known in advance.
+	if step.has("path_to"):
+		var path_to: Variant = MarkerUtil.resolve(level, step["path_to"], "conga 'path_to'")
+		if path_to == null:
+			return
+		for corner in ActorPath.around_actors(mgr, leader, cursor, _snap(path_to)):
+			_append_tiles(route, corner)
 	if route.size() < 2:
 		push_warning("conga: leader '%s' route is empty, nothing to do" % leader_id)
+		return
+
+	if step.get("join", "") == "nearest_x":
+		await _run_joining_line(step, mgr, actors, actor_ids, route, speed, gap, despawn, run)
 		return
 
 	var first_dir: Vector2 = route[1] - route[0]
@@ -289,6 +310,128 @@ func execute(step: Dictionary, mgr: Node) -> void:
 		if alive[a] and is_instance_valid(actors[a]):
 			actors[a].visible = true
 
+## "join": "nearest_x" -- see the header. actors[0] is the leader. `indices` holds
+## each actor's tile on the route, `line` the joined actors from front to back.
+func _run_joining_line(step: Dictionary, mgr: Node, actors: Array[Node2D], actor_ids: Array[String],
+		route: Array[Vector2], speed: float, gap: int, despawn: bool, run: int) -> void:
+	var last: int = route.size() - 1
+	var hold_index: int = last
+	if step.has("hold_at"):
+		var hold: Variant = MarkerUtil.resolve(actors[0].get_parent(), step["hold_at"], "conga 'hold_at'")
+		if hold != null and route.has(_snap(hold)):
+			hold_index = route.find(_snap(hold))
+	var keep_ids: Array = step.get("keep", [])
+	var removable: Array[bool] = []
+	var alive: Array[bool] = []
+	var indices: Array[int] = []
+	var join_at: Array[int] = []
+	var waiting: Array[int] = []
+	for a in actors.size():
+		removable.append(despawn and actor_ids[a] != PLAYER_ID and not keep_ids.has(actor_ids[a]))
+		alive.append(true)
+		indices.append(0 if a == 0 else -1)
+		join_at.append(_nearest_route_index(route, _snap(actors[a].global_position)))
+		if a > 0:
+			waiting.append(a)
+	var line: Array[int] = [0]
+	var next_up: int = -1
+	var joining: int = -1
+	var join_tween: Tween = null
+	var tick: float = float(TILE_SIZE) / speed
+
+	while true:
+		if joining != -1 and (join_tween == null or not join_tween.is_running()):
+			indices[joining] = join_at[joining]
+			line.append(joining)
+			joining = -1
+		if joining == -1:
+			if next_up == -1 and not waiting.is_empty():
+				next_up = _closest_on_x(actors, _join_order(waiting, actor_ids, step.get("join_last", [])), alive, route[indices[0]], route)
+			var tail: int = line.back()
+			var tail_stopped: bool = not alive[tail] or indices[tail] >= (last if removable[tail] else hold_index)
+			if next_up != -1 and tail_stopped:
+				join_at[next_up] = mini(join_at[next_up], indices[tail] - gap) if alive[tail] else join_at[next_up]
+			if next_up != -1 and (tail_stopped or join_at[next_up] <= indices[tail] - gap):
+				joining = next_up
+				next_up = -1
+				waiting.erase(joining)
+				join_tween = _join_walk(mgr, actors[joining], route[join_at[joining]], speed)
+
+		var tweens: Array[Tween] = []
+		for i in line.size():
+			var a: int = line[i]
+			if not alive[a]:
+				continue
+			var stop: int = last if removable[a] else hold_index
+			var ahead: int = line[i - 1] if i > 0 else -1
+			var too_close: bool = ahead != -1 and alive[ahead] and indices[a] + gap >= indices[ahead]
+			if indices[a] >= stop or too_close:
+				_set_anim(actors[a], "idle")
+				continue
+			indices[a] += 1
+			_set_anim(actors[a], "walk", (route[indices[a]] - actors[a].global_position).normalized())
+			var tween: Tween = mgr.track_tween(actors[a].create_tween())
+			tween.tween_property(actors[a], "global_position", route[indices[a]], tick)
+			tweens.append(tween)
+
+		if tweens.is_empty():
+			if joining == -1 and waiting.is_empty():
+				break
+			await mgr.get_tree().create_timer(tick).timeout
+		else:
+			await _await_all(tweens)
+		if not mgr.is_run_current(run):
+			return
+
+		for a: int in line:
+			if alive[a] and removable[a] and (indices[a] >= last or _is_offscreen(actors[a])):
+				_free_actor(mgr, actor_ids[a], actors[a])
+				alive[a] = false
+
+## Route tile nearest `pos`, the furthest along when several tie.
+func _nearest_route_index(route: Array[Vector2], pos: Vector2) -> int:
+	var best: int = 0
+	var best_dist: float = INF
+	for i in route.size():
+		var dist: float = absf(route[i].x - pos.x) + absf(route[i].y - pos.y)
+		if dist <= best_dist:
+			best = i
+			best_dist = dist
+	return best
+
+## The waiting actor closest to the leader's tile on the x-axis. Ties go to the
+## one closest on y, then to the one ahead of the leader in its walking direction.
+func _closest_on_x(actors: Array[Node2D], waiting: Array[int], alive: Array[bool],
+		leader_tile: Vector2, route: Array[Vector2]) -> int:
+	var walking_dir: float = sign(route.back().x - route[0].x)
+	var best: int = -1
+	var best_score := Vector3(INF, INF, INF)
+	for a: int in waiting:
+		if not alive[a]:
+			continue
+		var pos: Vector2 = actors[a].global_position
+		var behind: float = 0.0 if (pos.x - leader_tile.x) * walking_dir > 0.0 else 1.0
+		var score := Vector3(absf(pos.x - leader_tile.x), absf(pos.y - leader_tile.y), behind)
+		if score < best_score:
+			best = a
+			best_score = score
+	return best
+
+## Walks a follower to its joining tile, around anyone in the way. Null when
+## already there.
+func _join_walk(mgr: Node, actor: Node2D, tile: Vector2, speed: float) -> Tween:
+	var from: Vector2 = _snap(actor.global_position)
+	var legs: Array[Vector2] = ActorPath.around_actors(mgr, actor, from, tile)
+	if legs.is_empty():
+		return null
+	var tween: Tween = mgr.track_tween(actor.create_tween())
+	var prev: Vector2 = from
+	for leg_end in legs:
+		tween.tween_callback(_set_anim.bind(actor, "walk", (leg_end - prev).normalized()))
+		tween.tween_property(actor, "global_position", leg_end, prev.distance_to(leg_end) / speed)
+		prev = leg_end
+	return tween
+
 ## Walks a peeled actor from its trail tile to its target, then faces
 ## target["face"] (default down). Returns null when no walk is needed.
 func _peel_off(actor: Node2D, target: Dictionary) -> Tween:
@@ -369,3 +512,12 @@ func _set_anim(actor: Node, state_name: String, dir: Vector2 = Vector2.ZERO) -> 
 	var anim = actor.get_node_or_null("CutsceneAnimComponent")
 	if anim:
 		anim.set_cutscene_anim_state(state_name, dir)
+
+## Who may join next: everyone waiting except "join_last" actors, until they're
+## the only ones left.
+func _join_order(waiting: Array[int], actor_ids: Array[String], join_last: Array) -> Array[int]:
+	var first: Array[int] = []
+	for a: int in waiting:
+		if not join_last.has(actor_ids[a]):
+			first.append(a)
+	return first if not first.is_empty() else waiting

@@ -19,9 +19,9 @@
 		},
 		{
 			"speaker": "Kapitan Julian",
-			"text": "Mayad-ayad nga agahon sa atung mga bisita! Welcome sa atong pyesta.",
+			"text": "Mayad-ayad nga [DayPart] sa atung mga bisita! Welcome sa atong pyesta.",
 			"next": null,
-			"translation": "Good morning, visitors! Welcome to our festival."
+			"translation": "[GoodDay], visitors! Welcome to our festival."
 		}
 	],
 	"scene_2_parade_and_dance": [
