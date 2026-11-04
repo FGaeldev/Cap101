@@ -5,4 +5,5 @@
 [node name="Chair" type="Sprite2D" unique_id=1565517522]
 texture = ExtResource("1_feqqa")
 centered = false
+offset = Vector2(0, -16)
 vframes = 2

@@ -149,7 +149,9 @@ func open_map() -> void:
 ## softlock safety (TDD §9 item 8) and save consistency stay in one place
 ## instead of duplicated per warp path. spawn_id is forwarded to
 ## Game.gd::load_level() to position the persistent Player (see Game.gd).
-func warp_to_scene(scene_path: String, spawn_id: String = "DefaultSpawn") -> void:
+## travel_minutes advances the in-game clock while the screen is black
+## (Comp_Warp.travel_minutes), before the save so the new time persists.
+func warp_to_scene(scene_path: String, spawn_id: String = "DefaultSpawn", travel_minutes: float = 0.0) -> void:
 	if scene_path.is_empty():
 		push_error("MapManager: warp_to_scene called with empty scene_path")
 		return
@@ -167,6 +169,7 @@ func warp_to_scene(scene_path: String, spawn_id: String = "DefaultSpawn") -> voi
 	is_transitioning = true
 	await FadeManager.fade_out()
 
+	DayNightManager.advance_minutes(travel_minutes)
 	GameState.current_level_path = scene_path
 	game.load_level(scene_path, spawn_id)  # sets GameState.current_area
 	GameState.save_game()

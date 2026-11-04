@@ -1,0 +1,15 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/bedroom/newspaper.png" id="1_paper"]
+[ext_resource type="Script" path="res://scripts/entities/newspaper.gd" id="2_paper"]
+[ext_resource type="PackedScene" uid="uid://b8awiupnw1tue" path="res://scenes/components/interactable_component.tscn" id="3_paper"]
+
+[node name="Newspaper" type="Sprite2D"]
+texture = ExtResource("1_paper")
+offset = Vector2(0, -14)
+script = ExtResource("2_paper")
+
+[node name="InteractableComponent" parent="." instance=ExtResource("3_paper")]
+position = Vector2(0, -14)
+interact_label = "Read"
+area_size = Vector2(64, 64)

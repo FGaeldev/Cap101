@@ -1,3 +1,4 @@
+@tool
 class_name InteractableComponent
 extends Node2D
 
@@ -11,6 +12,21 @@ signal interacted(interactor: Node)
 ## Optional. If set, fires QuestManager.complete_quests_with_trigger(trigger_on_enter)
 ## once when player enters this InteractArea. Empty = no trigger (default, most NPCs).
 @export var trigger_on_enter: String = ""
+
+## Size (px) of the InteractArea trigger box. Set per instance in the
+## inspector; the box updates live in the editor (@tool). Default matches
+## interactable_component.tscn's original 20x20 shape.
+@export var area_size: Vector2 = Vector2(20, 20):
+	set(value):
+		area_size = value
+		_apply_area()
+## Offset of the trigger box from this component's origin.
+@export var area_offset: Vector2 = Vector2.ZERO:
+	set(value):
+		area_offset = value
+		_apply_area()
+
+var _area_shape_unique: bool = false
 var _in_range: bool = false
 var _player_ref: Node = null
 
@@ -26,6 +42,12 @@ var _player_ref: Node = null
 static var _in_range_pool: Array[InteractableComponent] = []
 
 func _ready() -> void:
+	_apply_area()
+	# @tool only so the area previews in the editor -- skip all runtime wiring
+	# (autoloads, input) there.
+	if Engine.is_editor_hint():
+		set_process_unhandled_input(false)
+		return
 	QuestManager.quest_started.connect(_on_quest_signal)
 	QuestManager.quest_completed.connect(_on_quest_signal)
 	TaskManager.task_started.connect(_on_task_signal)
@@ -38,6 +60,20 @@ func _ready() -> void:
 		area.body_entered.connect(_on_body_entered)
 		area.body_exited.connect(_on_body_exited)
 		area.input_event.connect(_on_input_event)
+
+## Pushes area_size/area_offset onto InteractArea's rectangle. The shape is
+## duplicated first because the packed scene's sub-resource is shared by every
+## instance -- resizing it in place would resize all interactables at once.
+## No-op for legacy scenes without an InteractArea under this node.
+func _apply_area() -> void:
+	var cs := get_node_or_null("InteractArea/CollisionShape2D") as CollisionShape2D
+	if cs == null or not cs.shape is RectangleShape2D:
+		return
+	if not _area_shape_unique:
+		cs.shape = cs.shape.duplicate()
+		_area_shape_unique = true
+	(cs.shape as RectangleShape2D).size = area_size
+	cs.position = area_offset
 
 ## Shows/hides the existing indicator from the parent object's quest/task
 ## link. Falls back to is_active when the parent sets no link.
@@ -104,7 +140,7 @@ func _on_input_event(_viewport, event, _shape_idx):
 ## three paths get the exact same range/cutscene/visibility checks instead
 ## of the button needing its own copy of the guard logic.
 func try_interact() -> void:
-	if not _in_range or CutsceneManager.is_playing():
+	if not _in_range or CutsceneManager.is_playing() or DialogueUI.is_active():
 		return
 	if not get_parent().is_visible_in_tree():
 		return

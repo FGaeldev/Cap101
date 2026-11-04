@@ -171,6 +171,54 @@ func pick_known_akeanon(exclude: Array, count: int) -> Array:
 func _gloss_key(word_id: String) -> String:
 	return str(words.get(word_id, {}).get("gloss", "")).strip_edges().to_lower()
 
+## Letters a word contributes to a letter-grid minigame: A-Z only, hyphens
+## dropped, Ñ -> N. "" when it can't be played: phrases, punctuation, or no gloss
+## to use as a clue.
+func puzzle_letters(word_id: String) -> String:
+	var record: Dictionary = get_word(word_id)
+	if record.is_empty() or _gloss_key(word_id).is_empty():
+		return ""
+	var letters: String = str(record["akeanon"]).to_upper().replace("-", "").replace("Ñ", "N")
+	for i in range(letters.length()):
+		var code: int = letters.unicode_at(i)
+		if code < 65 or code > 90:
+			return ""
+	return letters
+
+## Known words (GameState.word_exposures) playable in a letter-grid minigame,
+## lowest mastery first and shuffled within each mastery score, so callers that
+## take from the front prioritize the words with the fewest points. Words
+## spelling the same letters as an earlier one are dropped.
+func get_known_puzzle_words(min_length: int, max_length: int) -> Array:
+	var ids: Array = GameState.word_exposures.keys()
+	ids.shuffle()
+	var result: Array = []
+	var seen: Dictionary = {}
+	for mastery in range(GameState.MASTERY_MAX + 1):
+		for raw_id in ids:
+			var id := str(raw_id)
+			if GameState.get_mastery(id) != mastery:
+				continue
+			var letters := puzzle_letters(id)
+			if letters.length() < min_length or letters.length() > max_length or seen.has(letters):
+				continue
+			seen[letters] = true
+			result.append(id)
+	return result
+
+## This in-game day's word: a random word the player hasn't met, kept for the
+## whole day (GameState.wotd_date/wotd_id) even after reading it makes it known.
+## Once every word is known, falls back to a weak known word.
+func get_word_of_the_day() -> String:
+	if GameState.wotd_date == GameState.date_unix and words.has(GameState.wotd_id):
+		return GameState.wotd_id
+	var unknown: Array = words.keys().filter(func(id):
+		return not GameState.is_in_dictionary(id) and not _gloss_key(id).is_empty())
+	GameState.wotd_date = GameState.date_unix
+	GameState.wotd_id = unknown.pick_random() if not unknown.is_empty() \
+			else get_weighted_review_word(words.keys())
+	return GameState.wotd_id
+
 func get_words_for_area(area: String) -> Array:
 	return words.values().filter(
 		func(w): return w.get("area", "all") == area or w.get("area", "all") == "all"

@@ -203,7 +203,7 @@ position = Vector2(8, -8)
 shape = SubResource("RectangleShape2D_42ui7")
 
 [node name="InteractableComponent" parent="." unique_id=1233591827 instance=ExtResource("3_rqx83")]
-position = Vector2(8, -30)
+position = Vector2(8, -8)
 
 [node name="DialogueComponent" type="Node" parent="." unique_id=1621841028]
 script = ExtResource("3_v4qet")

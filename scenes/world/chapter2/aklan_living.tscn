@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://4y5qmudjoij" path="res://assets/tilesets/edge.png" id="2_icnut"]
 [ext_resource type="PackedScene" uid="uid://de6nkx7tf7u8d" path="res://scenes/entities/furniture/warp_area.tscn" id="3_4qq2q"]
 [ext_resource type="Script" uid="uid://v8cvabyx3h5" path="res://scripts/game_scenes/aklan_living.gd" id="5_aklanlv"]
+[ext_resource type="PackedScene" path="res://scenes/entities/furniture/newspaper.tscn" id="6_paper"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_141df"]
 texture = ExtResource("1_141df")
@@ -456,8 +457,12 @@ texture = ExtResource("1_141df")
 5:20/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 6:20/0 = 0
 6:20/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+7:20/next_alternative_id = 2
 7:20/0 = 0
 7:20/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+7:20/1 = 1
+7:20/1/y_sort_origin = 64
+7:20/1/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 8:20/0 = 0
 8:20/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 9:20/0 = 0
@@ -520,8 +525,12 @@ texture = ExtResource("1_141df")
 16:21/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 17:21/0 = 0
 17:21/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+18:21/next_alternative_id = 2
 18:21/0 = 0
 18:21/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+18:21/1 = 1
+18:21/1/y_sort_origin = 48
+18:21/1/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 19:21/0 = 0
 19:21/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 20:21/0 = 0
@@ -540,6 +549,7 @@ texture = ExtResource("1_141df")
 7:22/0 = 0
 8:22/0 = 0
 9:22/0 = 0
+9:22/0/y_sort_origin = 32
 10:22/0 = 0
 11:22/0 = 0
 12:22/0 = 0
@@ -561,6 +571,7 @@ texture = ExtResource("1_141df")
 7:23/0 = 0
 8:23/0 = 0
 9:23/0 = 0
+9:23/0/y_sort_origin = 16
 9:23/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 10:23/0 = 0
 11:23/0 = 0
@@ -662,17 +673,21 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_icnut")
 
 [node name="AklanLiving" type="Node2D" unique_id=2113732261]
+y_sort_enabled = true
 script = ExtResource("5_aklanlv")
 
 [node name="Floor" type="TileMapLayer" parent="." unique_id=279817292]
+z_index = -1
 tile_map_data = PackedByteArray("AAADAAIAAAAEABYAAAADAAMAAAAEABcAAAAEAAIAAAAEABcAAAAFAAIAAAAEABcAAAAGAAIAAAAEABcAAAAHAAIAAAAEABcAAAAIAAIAAAAEABcAAAAJAAIAAAAEABcAAAAKAAIAAAAEABcAAAALAAIAAAAEABcAAAAMAAIAAAAEABcAAAANAAIAAAAEABcAAAAOAAIAAAAEABcAAAAPAAIAAAAEABcAAAAQAAIAAAAEABcAAAARAAIAAAAEABcAAAASAAIAAAAEABcAAAATAAIAAAAEABcAAAACAAMAAAACABcAAAABAAMAAAACABcAAAAAAAMAAAABABcAAAAAAAQAAAABABcAAAAAAAUAAAABABcAAAABAAQAAAACABgAAAACAAQAAAACABgAAAADAAQAAAACABgAAAAEAAQAAAAFABgAAAABAAUAAAACABgAAAACAAUAAAADABkAAAADAAUAAAAEABkAAAAEAAUAAAAFABkAAAAEAAMAAAAFABcAAAAFAAMAAAABABoAAAAGAAMAAAAHABcAAAAHAAMAAAAIABcAAAAIAAMAAAABABoAAAAJAAMAAAAKABcAAAAKAAMAAAACABgAAAALAAMAAAACABgAAAAMAAMAAAACABgAAAANAAMAAAACABgAAAAOAAMAAAABABgAAAAPAAMAAAABABgAAAAQAAMAAAABABgAAAARAAMAAAABABgAAAASAAMAAAATABcAAAATAAMAAAACABgAAAATAAQAAAACABgAAAASAAQAAAATABgAAAARAAQAAAABABgAAAAQAAQAAAABABgAAAAPAAQAAAABABgAAAAOAAQAAAABABgAAAANAAQAAAACABgAAAAMAAQAAAACABgAAAALAAQAAAACABgAAAAKAAQAAAACABgAAAAJAAQAAAAKABgAAAAIAAQAAAAAABoAAAAHAAQAAAAIABgAAAAGAAQAAAAHABgAAAAFAAQAAAAAABoAAAAFAAUAAAAGABkAAAAGAAUAAAAHABkAAAAHAAUAAAAIABkAAAAIAAUAAAAJABkAAAAJAAUAAAAKABkAAAAKAAUAAAACABgAAAALAAUAAAACABgAAAAMAAUAAAACABgAAAANAAUAAAACABgAAAAOAAUAAAAPABkAAAAPAAUAAAAQABkAAAAQAAUAAAAQABkAAAARAAUAAAAQABkAAAASAAUAAAATABkAAAATAAUAAAACABgAAAAUAAIAAAAVABYAAAAUAAMAAAAVABcAAAAUAAQAAAAVABcAAAAUAAUAAAAVABcAAAA=")
 tile_set = SubResource("TileSet_7n77a")
 
 [node name="Walls" type="TileMapLayer" parent="." unique_id=1180337219]
-tile_map_data = PackedByteArray("AAAAAAEAAAABABUAAAABAAEAAAACABUAAAACAAEAAAADABUAAAAAAAIAAAABABYAAAABAAIAAAACABYAAAACAAIAAAADABYAAAADAAAAAAAEABQAAAAEAAAAAAAFABQAAAAFAAAAAAAGABQAAAAGAAAAAAAHABQAAAAHAAAAAAAHABQAAAAIAAAAAAAHABQAAAAJAAAAAAAHABQAAAAKAAAAAAALABQAAAALAAAAAAAMABQAAAAMAAAAAAANABQAAAANAAAAAAAOABQAAAAOAAAAAAAOABQAAAAPAAAAAAAOABQAAAAQAAAAAAAOABQAAAARAAAAAAATABQAAAASAAAAAAAUABQAAAATAAAAAAAVABQAAAASAAEAAAAUABUAAAATAAEAAAAVABUAAAARAAEAAAATABUAAAAKAAEAAAATABUAAAADAAEAAAATABUAAAAGAAEAAAASABUAAAAHAAEAAAASABUAAAAIAAEAAAASABUAAAAJAAEAAAASABUAAAANAAEAAAASABUAAAAOAAEAAAASABUAAAAPAAEAAAASABUAAAAQAAEAAAASABUAAAAMAAEAAAANABUAAAAFAAEAAAANABUAAAALAAEAAAAMABUAAAAEAAEAAAAMABUAAAAUAAEAAAASABUAAAAUAAAAAAASABQAAAA=")
+y_sort_enabled = true
+tile_map_data = PackedByteArray("AAAAAAEAAAABABUAAAABAAEAAAACABUAAAACAAEAAAADABUAAAAAAAIAAAABABYAAAABAAIAAAACABYAAAACAAIAAAADABYAAAADAAAAAAAEABQAAAAEAAAAAAAFABQAAAAFAAAAAAAGABQAAAAGAAAAAAAHABQAAAAHAAAAAAAHABQAAAAIAAAAAAAHABQAAQAJAAAAAAAHABQAAAAKAAAAAAALABQAAAALAAAAAAAMABQAAAAMAAAAAAANABQAAAANAAAAAAAOABQAAAAOAAAAAAAOABQAAAAPAAAAAAAOABQAAAAQAAAAAAAOABQAAAARAAAAAAATABQAAAASAAAAAAAUABQAAAATAAAAAAAVABQAAAASAAEAAAAUABUAAAATAAEAAAAVABUAAAARAAEAAAATABUAAAAKAAEAAAATABUAAAADAAEAAAATABUAAAAGAAEAAAASABUAAAAHAAEAAAASABUAAAAIAAEAAAASABUAAQAJAAEAAAASABUAAAANAAEAAAASABUAAAAOAAEAAAASABUAAAAPAAEAAAASABUAAAAQAAEAAAASABUAAAAMAAEAAAANABUAAAAFAAEAAAANABUAAAALAAEAAAAMABUAAAAEAAEAAAAMABUAAAAUAAEAAAASABUAAAAUAAAAAAASABQAAAA=")
 tile_set = SubResource("TileSet_7n77a")
 
 [node name="Objects" type="TileMapLayer" parent="." unique_id=1868604996]
+y_sort_enabled = true
 tile_map_data = PackedByteArray("AAAFAAQAAAAGABgAAAAFAAMAAAAGABcAAAAIAAQAAAAJABgAAAAIAAMAAAAJABcAAAAIAAIAAAAJABYAAAAOAAMAAAAPABcAAAAOAAQAAAAPABgAAAARAAMAAAASABcAAAARAAQAAAASABgAAAAPAAQAAAAQABgAAAAQAAQAAAARABgAAAAPAAMAAAAQABcAAAAQAAMAAAARABcAAAA=")
 tile_set = SubResource("TileSet_7n77a")
 
@@ -681,34 +696,33 @@ tile_map_data = PackedByteArray("AAD/////AAAAAAAAAAAJAP//AAABAAAAAAAAAAYAAAABAAI
 tile_set = SubResource("TileSet_eid25")
 
 [node name="Warps" type="Node2D" parent="." unique_id=1471999368]
+y_sort_enabled = true
 
 [node name="WarpArea" parent="Warps" unique_id=1965068349 instance=ExtResource("3_4qq2q")]
 position = Vector2(24, 56)
 target_scene = "res://scenes/world/chapter2/aklan_hallway.tscn"
 target_spawn_id = "Living"
-fire_during_cutscene = null
 
 [node name="WarpArea2" parent="Warps" unique_id=1748375599 instance=ExtResource("3_4qq2q")]
 position = Vector2(72, 40)
 target_scene = "res://scenes/world/chapter2/aklan_BR_Rose.tscn"
-fire_during_cutscene = null
 
 [node name="WarpArea3" parent="Warps" unique_id=520688551 instance=ExtResource("3_4qq2q")]
 position = Vector2(184, 40)
 target_scene = "res://scenes/world/chapter2/aklan_BR_Susan.tscn"
-fire_during_cutscene = null
 
 [node name="WarpArea4" parent="Warps" unique_id=1885739539 instance=ExtResource("3_4qq2q")]
 position = Vector2(296, 40)
-fire_during_cutscene = null
 
 [node name="WarpArea5" parent="Warps" unique_id=1148822164 instance=ExtResource("3_4qq2q")]
 position = Vector2(48, 88)
 trigger_direction = 1
 door_width = 2
-fire_during_cutscene = null
+target_scene = "res://scenes/world/chapter2/aklan_home_outdoors.tscn"
+target_spawn_id = "FromIndoors"
 
 [node name="Spawns" type="Node2D" parent="." unique_id=141127280]
+y_sort_enabled = true
 
 [node name="Stairs" type="Marker2D" parent="Spawns" unique_id=325780301]
 position = Vector2(16, 64)
@@ -726,6 +740,7 @@ position = Vector2(288, 48)
 position = Vector2(32, 96)
 
 [node name="SceneMarkers" type="Node2D" parent="." unique_id=1512766046]
+y_sort_enabled = true
 
 [node name="S0" type="Node2D" parent="SceneMarkers" unique_id=965675852]
 
@@ -743,3 +758,6 @@ position = Vector2(48, 96)
 
 [node name="Player" type="Marker2D" parent="SceneMarkers/S0" unique_id=1006536757]
 position = Vector2(32, 96)
+
+[node name="Newspaper" parent="." instance=ExtResource("6_paper")]
+position = Vector2(256, 78)

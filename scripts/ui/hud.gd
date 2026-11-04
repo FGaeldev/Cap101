@@ -37,6 +37,7 @@ const TOAST_KIND_FONT_SIZE := 10
 const TOAST_HOLD := 3.0
 const TOAST_FADE := 0.25
 
+@onready var quest_column: VBoxContainer = $QuestColumn
 @onready var main_quest: PanelContainer = $QuestColumn/MainQuest
 @onready var main_quest_title: Label = $QuestColumn/MainQuest/VBox/Title
 @onready var sub_quests: VBoxContainer = $QuestColumn/SubQuests
@@ -84,6 +85,12 @@ func _process(_delta: float) -> void:
 	# reachable on touch devices (BookUI itself draws over it when open).
 	joystick.visible = not overlay
 	_update_interact_button(overlay)
+	# Full-screen panels (newspaper, crossword, word search) have their own exit
+	# and need the corners HUD draws in. Toasts stay, so new words still show.
+	var fullscreen: bool = DialogueUI.is_fullscreen_active()
+	clock_panel.visible = not fullscreen
+	menu_button.visible = not fullscreen
+	quest_column.visible = not fullscreen
 	var clock_text: String = DayNightManager.format_clock()
 	if clock_label.text != clock_text:
 		clock_label.text = clock_text

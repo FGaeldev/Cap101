@@ -31,6 +31,7 @@ func _ready() -> void:
 ## way an unlocked warp transition can.
 func get_input_dir() -> Vector2:
 	if DialogueUI._current_component != null \
+			or DialogueUI.is_active() \
 			or MapManager.is_transitioning \
 			or CutsceneManager.is_playing():
 		return Vector2.ZERO

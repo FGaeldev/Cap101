@@ -12,8 +12,9 @@
 # Each pair = one card showing the akeanon word + one showing its English gloss.
 # Flip two: match stays face-up, mismatch counts as a mistake and flips back.
 # All pairs matched with mistakes <= max_mistakes -> success. Over the limit
-# -> failure (immediate). No rapport/patience/reward effects: no-punishment
-# rule (GDD 7), failure just routes to the authored "try again later" line.
+# -> failure (immediate). A matched pair is +1 mastery. No rapport/patience/reward
+# effects: no-punishment rule (GDD 7), failure just routes to the authored "try
+# again later" line.
 #
 # Pair words are drawn weighted by WordBank.get_weighted_review_word (GDD 6.8),
 # so low-exposure words show up more.
@@ -196,6 +197,7 @@ func _on_card_pressed(idx: int) -> void:
 		_mark_matched(_flipped[1])
 		_flipped.clear()
 		_matched_pairs += 1
+		GameState.adjust_mastery(a["pair_id"], 1)
 		if _matched_pairs >= _pair_total:
 			_end_game(true)
 		else:

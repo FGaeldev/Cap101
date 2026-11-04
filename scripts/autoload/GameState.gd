@@ -18,7 +18,7 @@ var completed_quests: Array = []
 var current_level_path: String = "res://scenes/world/chapter1/us_bedroom.tscn"
 
 ## In-game clock in hours (0..24, fractional), advanced by DayNightManager.
-const DEFAULT_TIME_OF_DAY: float = 8.0
+const DEFAULT_TIME_OF_DAY: float = 21.0  # 9 PM: the game opens at night
 var time_of_day: float = DEFAULT_TIME_OF_DAY
 ## In-game date: unix seconds at 00:00 (UTC) of the current in-game day.
 ## DayNightManager adds a day each time the clock passes midnight. New games
@@ -79,6 +79,10 @@ var completed_tasks: Dictionary = {} # task_id -> bool
 # rewards, rapport or patience, so the no-punishment rule (GDD 7) holds.
 const MASTERY_MAX := 10
 var word_mastery: Dictionary = {}    # word_id -> int, clamped 0..MASTERY_MAX
+
+# --- Word of the Day (newspaper, WordBank.get_word_of_the_day) ---
+var wotd_date: int = 0     # date_unix the word was picked on
+var wotd_id: String = ""
 
 ## Apply a mastery delta (+1 correct / -1 wrong). Ignores empty ids.
 func adjust_mastery(word_id: String, delta: int) -> void:
@@ -232,6 +236,8 @@ func reset_game_state() -> void:
 	active_tasks.clear()
 	completed_tasks.clear()
 	word_mastery.clear()
+	wotd_date = 0
+	wotd_id = ""
 	# QuestManager is an autoload too; discard prior-run quest availability before rebuilding it.
 	QuestManager.active_quests.clear()
 	QuestManager.refresh_active_quests()
@@ -260,7 +266,9 @@ func save_game() -> bool:
 		"challenge_attempts": challenge_attempts,
 		"active_tasks": active_tasks,
 		"completed_tasks": completed_tasks,
-		"word_mastery": word_mastery
+		"word_mastery": word_mastery,
+		"wotd_date": wotd_date,
+		"wotd_id": wotd_id
 	}
 	# WRITE truncates the existing save. Check open/write errors so a failed
 	# overwrite cannot silently leave the previous run on disk.
@@ -289,7 +297,7 @@ func load_game() -> void:
 	current_area = data.get("current_area", "village")
 	completed_quests = data.get("completed_quests", [])
 	current_level_path = data.get("current_level_path")
-	time_of_day = data.get("time_of_day", DEFAULT_TIME_OF_DAY)  # additive field, old saves -> morning
+	time_of_day = data.get("time_of_day", DEFAULT_TIME_OF_DAY)  # additive field, old saves -> 9 PM
 	date_unix = data.get("date_unix", start_date_unix())  # additive field, old saves -> START_DATE
 	player_name = data.get("player_name", "")  # additive field, old saves -> ""
 	rapport = data.get("rapport", {})
@@ -305,6 +313,8 @@ func load_game() -> void:
 	active_tasks = data.get("active_tasks", {})
 	completed_tasks = data.get("completed_tasks", {})
 	word_mastery = data.get("word_mastery", {})  # additive field, old saves -> {}
+	wotd_date = data.get("wotd_date", 0)  # additive field, old saves -> 0
+	wotd_id = data.get("wotd_id", "")  # additive field, old saves -> ""
 	# QuestManager built its active list at boot, before flags/exposures were
 	# loaded -- re-scan so flag-gated quests (requires_flag) show after Continue.
 	QuestManager.refresh_active_quests()

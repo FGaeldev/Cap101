@@ -122,6 +122,22 @@ func set_hour(hour: float) -> void:
 	hour_changed.emit(int(GameState.time_of_day))
 	_apply()
 
+## Moves the clock forward (e.g. warp travel time), rolling the date over
+## for every midnight passed.
+func advance_minutes(minutes: float) -> void:
+	if minutes <= 0.0:
+		return
+	var before: int = int(GameState.time_of_day)
+	var total: float = GameState.time_of_day + minutes / 60.0
+	var days: int = int(floor(total / 24.0))
+	GameState.time_of_day = fposmod(total, 24.0)
+	if days > 0:
+		GameState.date_unix += days * SECONDS_PER_DAY
+		day_changed.emit()
+	if int(GameState.time_of_day) != before or days > 0:
+		hour_changed.emit(int(GameState.time_of_day))
+	_apply()
+
 func is_night() -> bool:
 	return light_factor >= 0.5
 

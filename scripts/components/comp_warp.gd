@@ -70,6 +70,11 @@ const UNIT_WIDTH_PX: float = 16.0
 ## Falls back to "DefaultSpawn" if left blank or not found there.
 @export var target_spawn_id: String = "DefaultSpawn"
 
+## In-game minutes that pass while travelling through this warp (the
+## day/night clock jumps forward during the fade). 0 = instant (doors).
+## E.g. 30 for a jeepney ride across town, 240 for a long road trip.
+@export_range(0, 4320, 5) var travel_minutes: int = 0
+
 ## Optional GameState flag that must be true before this warp works (e.g.
 ## "quest_002_done" keeps the airport door shut until the book quest is done).
 ## Empty = always open (default, most doors). Bypassed in GameState.dev_mode.
@@ -178,7 +183,7 @@ func _fire(body: Node) -> void:
 	if not required_flag.is_empty() and not GameState.dev_mode and not GameState.get_flag(required_flag):
 		_show_blocked_message(body)
 		return
-	MapManager.warp_to_scene(target_scene, target_spawn_id)
+	MapManager.warp_to_scene(target_scene, target_spawn_id, travel_minutes)
 
 ## Reuses the normal dialogue pipeline (tap to dismiss) via a throwaway
 ## DialogueComponent, same approach as us_bedroom.gd's opening line.
