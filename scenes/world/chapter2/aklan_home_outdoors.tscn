@@ -133,7 +133,7 @@ target_spawn_id = "FromHome"
 [node name="WarpArea3" parent="Warps" unique_id=456724200 instance=ExtResource("3_nsjhx")]
 position = Vector2(160, 200)
 span_tiles_override = 2
-target_scene = "Warps/WarpArea3"
+target_scene = "res://scenes/world/chapter2/aklan_living.tscn"
 
 [node name="Spawns" type="Node2D" parent="." unique_id=661623670]
 y_sort_enabled = true

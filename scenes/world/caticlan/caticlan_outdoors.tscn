@@ -1,0 +1,4 @@
+[gd_scene format=3]
+
+[node name="CaticlanOutdoors" type="Node2D" unique_id=131860742]
+y_sort_enabled = true

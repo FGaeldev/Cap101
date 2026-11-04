@@ -1,0 +1,4 @@
+[gd_scene format=3]
+
+[node name="HabueanOutdoors" type="Node2D" unique_id=1537197933]
+y_sort_enabled = true
