@@ -4,6 +4,11 @@
 [ext_resource type="PackedScene" uid="uid://de6nkx7tf7u8d" path="res://scenes/entities/furniture/warp_area.tscn" id="2_8pgjo"]
 [ext_resource type="Texture2D" uid="uid://4y5qmudjoij" path="res://assets/tilesets/edge.png" id="3_8pgjo"]
 [ext_resource type="Script" uid="uid://vglearl5uho" path="res://scripts/game_scenes/market_indoors.gd" id="9_story"]
+[ext_resource type="Script" uid="uid://dlkrsatlaij6c" path="res://scripts/game_scenes/stall_vendors.gd" id="10_vendors"]
+[ext_resource type="PackedScene" uid="uid://cvqh0spi5t1xj" path="res://scenes/entities/npc_RandomGuy1.tscn" id="11_guy1"]
+[ext_resource type="PackedScene" uid="uid://dyidv17ldaynb" path="res://scenes/entities/npc_RandomGuy2.tscn" id="12_guy2"]
+[ext_resource type="PackedScene" uid="uid://dxcbcue6862ey" path="res://scenes/entities/npc_RandomGuy3.tscn" id="13_guy3"]
+[ext_resource type="PackedScene" uid="uid://cypxp6fsq706j" path="res://scenes/entities/npc_Pedring.tscn" id="14_pedring"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sxouo"]
 texture = ExtResource("1_asxv8")
@@ -199,6 +204,9 @@ target_spawn_id = "FromHall"
 
 [node name="Spawn" type="Node2D" parent="." unique_id=909967789]
 
+[node name="DefaultSpawn" type="Marker2D" parent="Spawn"]
+position = Vector2(96, 64)
+
 [node name="Down" type="Marker2D" parent="Spawn" unique_id=539287589]
 position = Vector2(112, 192)
 
@@ -215,3 +223,34 @@ tile_set = SubResource("TileSet_k0t7e")
 
 [node name="Rose" type="Marker2D" parent="SceneMarkers/S2" unique_id=410201002]
 position = Vector2(96, 128)
+
+[node name="Pedring" type="Marker2D" parent="SceneMarkers/S2" unique_id=744084528]
+position = Vector2(64, 112)
+
+[node name="Vendors" type="Node2D" parent="SceneMarkers" unique_id=1903178563]
+
+[node name="CounterTopLeft" type="Marker2D" parent="SceneMarkers/Vendors" unique_id=1609312602]
+position = Vector2(32, 64)
+
+[node name="CounterTopRight" type="Marker2D" parent="SceneMarkers/Vendors" unique_id=98637070]
+position = Vector2(176, 64)
+
+[node name="CounterMidLeft" type="Marker2D" parent="SceneMarkers/Vendors" unique_id=1264117472]
+position = Vector2(16, 112)
+
+[node name="StallUpperLeft" type="Marker2D" parent="SceneMarkers/Vendors" unique_id=1986592141]
+position = Vector2(144, 112)
+
+[node name="StallUpperRight" type="Marker2D" parent="SceneMarkers/Vendors" unique_id=1197413283]
+position = Vector2(192, 112)
+
+[node name="StallLowerLeft" type="Marker2D" parent="SceneMarkers/Vendors" unique_id=96655757]
+position = Vector2(144, 160)
+
+[node name="StallLowerRight" type="Marker2D" parent="SceneMarkers/Vendors" unique_id=1437443167]
+position = Vector2(192, 160)
+
+[node name="StallVendors" type="Node2D" parent="." unique_id=1920006430]
+script = ExtResource("10_vendors")
+npc_scenes = Array[PackedScene]([ExtResource("11_guy1"), ExtResource("12_guy2"), ExtResource("13_guy3")])
+named_scene = ExtResource("14_pedring")

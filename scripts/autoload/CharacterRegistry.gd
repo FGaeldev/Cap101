@@ -4,6 +4,7 @@
 extends Node
 
 const DATA_PATH := "res://data/characters/character_portraits.tres"
+const PLAYER_ID := "Player"
 
 var _portraits: Dictionary = {}  # speaker_id (lowercase) -> Texture2D
 var _speaker_ids: Array[String] = []  # original-case, in registry order
@@ -15,10 +16,13 @@ func _ready() -> void:
 		return
 	for entry in data.entries:
 		_portraits[entry.speaker_id.to_lower()] = entry.portrait
-		_speaker_ids.append(entry.speaker_id)
+		# The player has a portrait but no relationship row.
+		if entry.speaker_id != PLAYER_ID:
+			_speaker_ids.append(entry.speaker_id)
 
+## The name token "[Player]" and "Player" share a portrait.
 func get_portrait(speaker_id: String) -> Texture2D:
-	return _portraits.get(speaker_id.to_lower(), null)
+	return _portraits.get(speaker_id.to_lower().trim_prefix("[").trim_suffix("]"), null)
 
 ## Full roster of registered speakers, in original-case form (Lola Jonabel,
 ## not lola jonabel) — used by the Relationship page's NPC list.

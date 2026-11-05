@@ -39,6 +39,7 @@ BookUI="*uid://dlteh42a4yxhi"
 DayNightManager="*res://scripts/autoload/DayNightManager.gd"
 NpcSchedule="*res://scripts/autoload/NpcSchedule.gd"
 TourGuide="*res://scripts/autoload/TourGuide.gd"
+UIScale="*res://scripts/autoload/UIScale.gd"
 
 [display]
 

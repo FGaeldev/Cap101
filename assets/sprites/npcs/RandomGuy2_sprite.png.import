@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://j2s5irk85ik4"
-path="res://.godot/imported/npc_portrait_lola_jonabel.png-2d5bb7c64f2c0bcc05ea136fce510966.ctex"
+uid="uid://b2umyqnvr2i1n"
+path="res://.godot/imported/RandomGuy2_sprite.png-9b7cc40abda9faf89c8fdc4ba99a6a66.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/npc_portrait_lola_jonabel.png"
-dest_files=["res://.godot/imported/npc_portrait_lola_jonabel.png-2d5bb7c64f2c0bcc05ea136fce510966.ctex"]
+source_file="res://assets/sprites/npcs/RandomGuy2_sprite.png"
+dest_files=["res://.godot/imported/RandomGuy2_sprite.png-9b7cc40abda9faf89c8fdc4ba99a6a66.ctex"]
 
 [params]
 

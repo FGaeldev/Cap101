@@ -84,6 +84,8 @@ var word_mastery: Dictionary = {}    # word_id -> int, clamped 0..MASTERY_MAX
 var wotd_date: int = 0     # date_unix the word was picked on
 var wotd_id: String = ""
 var puzzle_solved_date: int = 0   # date_unix of the last solved daily puzzle
+var word_taught_date: int = 0   # date_unix of the last extra word an NPC taught (IdleTalk)
+var idle_steps: Dictionary = {}   # npc_id -> {date, step}: how far today's idle talk got (IdleTalk)
 var mass_invite_date: int = 0     # date_unix of the last Sunday mass invitation
 # {date, ...panel state} of a quit daily puzzle; ignored once the date moves on.
 var puzzle_progress: Dictionary = {}
@@ -92,11 +94,22 @@ var puzzle_progress: Dictionary = {}
 func is_puzzle_solved_today() -> bool:
 	return puzzle_solved_date == date_unix
 
+## One extra word from an NPC per in-game day.
+func is_word_taught_today() -> bool:
+	return word_taught_date == date_unix
+
+func mark_word_taught() -> void:
+	word_taught_date = date_unix
+
+## Total mastery changed (HUD tier bar).
+signal mastery_changed
+
 ## Apply a mastery delta (+1 correct / -1 wrong). Ignores empty ids.
 func adjust_mastery(word_id: String, delta: int) -> void:
 	if word_id.is_empty():
 		return
 	word_mastery[word_id] = clampi(word_mastery.get(word_id, 0) + delta, 0, MASTERY_MAX)
+	mastery_changed.emit()
 
 func get_mastery(word_id: String) -> int:
 	return word_mastery.get(word_id, 0)
@@ -125,6 +138,14 @@ func get_difficulty_tier() -> int:
 		if total >= threshold:
 			tier += 1
 	return tier
+
+## How far through the current tier, 0..1. The last tier always reads full.
+func get_tier_progress() -> float:
+	var tier: int = get_difficulty_tier()
+	if tier > DIFFICULTY_TIER_MASTERY.size():
+		return 1.0
+	var start: int = DIFFICULTY_TIER_MASTERY[tier - 2] if tier > 1 else 0
+	return float(get_total_mastery() - start) / float(DIFFICULTY_TIER_MASTERY[tier - 1] - start)
 
 ## Words in a crossword or word search, pairs in review memory match.
 func get_minigame_word_count() -> int:
@@ -283,6 +304,8 @@ func reset_game_state() -> void:
 	wotd_date = 0
 	wotd_id = ""
 	puzzle_solved_date = 0
+	word_taught_date = 0
+	idle_steps = {}
 	mass_invite_date = 0
 	puzzle_progress = {}
 	# QuestManager is an autoload too; discard prior-run quest availability before rebuilding it.
@@ -317,6 +340,8 @@ func save_game() -> bool:
 		"wotd_date": wotd_date,
 		"wotd_id": wotd_id,
 		"puzzle_solved_date": puzzle_solved_date,
+		"word_taught_date": word_taught_date,
+		"idle_steps": idle_steps,
 		"mass_invite_date": mass_invite_date,
 		"puzzle_progress": puzzle_progress
 	}
@@ -366,6 +391,8 @@ func load_game() -> void:
 	wotd_date = data.get("wotd_date", 0)  # additive field, old saves -> 0
 	wotd_id = data.get("wotd_id", "")  # additive field, old saves -> ""
 	puzzle_solved_date = data.get("puzzle_solved_date", 0)  # additive field, old saves -> 0
+	word_taught_date = data.get("word_taught_date", 0)  # additive field, old saves -> 0
+	idle_steps = data.get("idle_steps", {})  # additive field, old saves -> {}
 	mass_invite_date = data.get("mass_invite_date", 0)  # additive field, old saves -> 0
 	puzzle_progress = data.get("puzzle_progress", {})  # additive field, old saves -> {}
 	# QuestManager built its active list at boot, before flags/exposures were

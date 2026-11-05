@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://nqwmp2kii62"
-path="res://.godot/imported/pedring_sprite.png-96b6d14a21defb742e6d9da1bae8285f.ctex"
+uid="uid://dwraqqgnoqbhc"
+path="res://.godot/imported/beth_art.png-0ae342d498006f136e7ec8b6201832eb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/pedring_sprite.png"
-dest_files=["res://.godot/imported/pedring_sprite.png-96b6d14a21defb742e6d9da1bae8285f.ctex"]
+source_file="res://assets/sprites/portraits/beth_art.png"
+dest_files=["res://.godot/imported/beth_art.png-0ae342d498006f136e7ec8b6201832eb.ctex"]
 
 [params]
 

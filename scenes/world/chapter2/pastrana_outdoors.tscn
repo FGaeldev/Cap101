@@ -3,8 +3,11 @@
 [ext_resource type="Texture2D" uid="uid://dbhy4oimu58g1" path="res://assets/pastrana/pastrana_outdoors.png" id="1_o0t7k"]
 [ext_resource type="Texture2D" uid="uid://4y5qmudjoij" path="res://assets/tilesets/edge.png" id="2_k25hg"]
 [ext_resource type="PackedScene" uid="uid://de6nkx7tf7u8d" path="res://scenes/entities/furniture/warp_area.tscn" id="3_5go0w"]
-[ext_resource type="Texture2D" uid="uid://tmkyscghj02j" path="res://assets/pastrana/pastrana_cathedral.png" id="4_lef3s"]
 [ext_resource type="Script" uid="uid://b52f88fxixy0t" path="res://scripts/game_scenes/pastrana_outdoors.gd" id="9_story"]
+[ext_resource type="Script" uid="uid://4nlq46b6di5u" path="res://scripts/game_scenes/random_npc_spawner.gd" id="10_spawner"]
+[ext_resource type="PackedScene" uid="uid://cvqh0spi5t1xj" path="res://scenes/entities/npc_RandomGuy1.tscn" id="11_guy1"]
+[ext_resource type="PackedScene" uid="uid://dyidv17ldaynb" path="res://scenes/entities/npc_RandomGuy2.tscn" id="12_guy2"]
+[ext_resource type="PackedScene" uid="uid://dxcbcue6862ey" path="res://scenes/entities/npc_RandomGuy3.tscn" id="13_guy3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5go0w"]
 texture = ExtResource("1_o0t7k")
@@ -721,6 +724,7 @@ blocked_message = "I should stick with Rose for now."
 position = Vector2(1664, -360)
 span_tiles_override = 8
 target_scene = "res://scenes/world/bakhawan/bakhawan_outdoors.tscn"
+target_spawn_id = "FromPark"
 required_flag = "map_open_bakhawan"
 blocked_message = "I should stick with Rose for now."
 
@@ -736,15 +740,16 @@ target_spawn_id = "FromPlaza"
 position = Vector2(16, 320)
 
 [node name="FromMarket" type="Marker2D" parent="Spawns" unique_id=996840286]
-position = Vector2(1264, 1312)
+position = Vector2(1248, 1312)
 
 [node name="FromCathedral" type="Marker2D" parent="Spawns" unique_id=410200813]
 position = Vector2(1056, -32)
 
-[node name="PastranaCathedral" type="Sprite2D" parent="." unique_id=1027624757]
-visible = false
-position = Vector2(1072, -205)
-texture = ExtResource("4_lef3s")
+[node name="FromBakhawan" type="Marker2D" parent="Spawns" unique_id=448432428]
+position = Vector2(1664, -336)
+
+[node name="DefaultSpawn" type="Marker2D" parent="Spawns" unique_id=1645984576]
+position = Vector2(16, 320)
 
 [node name="SceneMarkers" type="Node2D" parent="." unique_id=410200800]
 
@@ -752,6 +757,9 @@ texture = ExtResource("4_lef3s")
 
 [node name="RoseStart" type="Marker2D" parent="SceneMarkers/S1" unique_id=410200802]
 position = Vector2(48, 320)
+
+[node name="Pedring Start" type="Marker2D" parent="SceneMarkers/S1" unique_id=716814332]
+position = Vector2(1088, -32)
 
 [node name="PlayerStart" type="Marker2D" parent="SceneMarkers/S1" unique_id=410200803]
 position = Vector2(16, 320)
@@ -768,6 +776,9 @@ position = Vector2(944, 480)
 [node name="Rose" type="Marker2D" parent="SceneMarkers/S1" unique_id=410200807]
 position = Vector2(944, 592)
 
+[node name="PedringStand" type="Marker2D" parent="SceneMarkers/S1" unique_id=2046043679]
+position = Vector2(976, 592)
+
 [node name="HomeExit" type="Marker2D" parent="SceneMarkers/S1" unique_id=410200808]
 position = Vector2(16, 320)
 
@@ -775,3 +786,36 @@ position = Vector2(16, 320)
 
 [node name="Rose" type="Marker2D" parent="SceneMarkers/S3" unique_id=410200812]
 position = Vector2(1072, -32)
+
+[node name="RandomNPC" type="Node2D" parent="SceneMarkers" unique_id=867415343]
+
+[node name="ParkTopLeft" type="Marker2D" parent="SceneMarkers/RandomNPC" unique_id=816158591]
+position = Vector2(112, 304)
+
+[node name="ParkTopMid" type="Marker2D" parent="SceneMarkers/RandomNPC" unique_id=942374465]
+position = Vector2(768, 304)
+
+[node name="ParkTopRight" type="Marker2D" parent="SceneMarkers/RandomNPC" unique_id=1446758852]
+position = Vector2(1632, 304)
+
+[node name="ParkMidRight" type="Marker2D" parent="SceneMarkers/RandomNPC" unique_id=1094932093]
+position = Vector2(1632, 680)
+
+[node name="ParkBotRight" type="Marker2D" parent="SceneMarkers/RandomNPC" unique_id=74595823]
+position = Vector2(1632, 1216)
+
+[node name="ParkBotMid" type="Marker2D" parent="SceneMarkers/RandomNPC" unique_id=664890437]
+position = Vector2(736, 1216)
+
+[node name="ParkBotLeft" type="Marker2D" parent="SceneMarkers/RandomNPC" unique_id=1988104823]
+position = Vector2(112, 1216)
+
+[node name="ParkMidLeft" type="Marker2D" parent="SceneMarkers/RandomNPC" unique_id=902768552]
+position = Vector2(112, 864)
+
+[node name="ParkMidMid" type="Marker2D" parent="SceneMarkers/RandomNPC" unique_id=2000952752]
+position = Vector2(736, 800)
+
+[node name="RandomNpcSpawner" type="Node2D" parent="." unique_id=1586247291]
+script = ExtResource("10_spawner")
+npc_scenes = Array[PackedScene]([ExtResource("11_guy1"), ExtResource("12_guy2"), ExtResource("13_guy3")])

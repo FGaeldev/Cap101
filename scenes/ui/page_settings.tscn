@@ -20,40 +20,55 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_qasqg")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=330086476]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="Scroll" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
 
-[node name="MasterVolumeLabel" type="Label" parent="VBoxContainer" unique_id=186037545]
+[node name="VBoxContainer" type="VBoxContainer" parent="Scroll" unique_id=330086476]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MasterVolumeLabel" type="Label" parent="Scroll/VBoxContainer" unique_id=186037545]
 layout_mode = 2
 text = "Master Volume"
 
-[node name="MasterVolumeSlider" type="HSlider" parent="VBoxContainer" unique_id=1519490596]
+[node name="MasterVolumeSlider" type="HSlider" parent="Scroll/VBoxContainer" unique_id=1519490596]
 layout_mode = 2
 theme_override_styles/slider = SubResource("StyleBoxTexture_4yft2")
 
-[node name="MusicLabel" type="Label" parent="VBoxContainer" unique_id=337713816]
+[node name="MusicLabel" type="Label" parent="Scroll/VBoxContainer" unique_id=337713816]
 layout_mode = 2
 text = "Music"
 
-[node name="MusicToggle" type="CheckButton" parent="VBoxContainer" unique_id=1950065061]
+[node name="MusicToggle" type="CheckButton" parent="Scroll/VBoxContainer" unique_id=1950065061]
 layout_mode = 2
 
-[node name="SFXLabel" type="Label" parent="VBoxContainer" unique_id=1206925624]
+[node name="SFXLabel" type="Label" parent="Scroll/VBoxContainer" unique_id=1206925624]
 layout_mode = 2
 text = "Sound Effects"
 
-[node name="SFXToggle" type="CheckButton" parent="VBoxContainer" unique_id=32790922]
+[node name="SFXToggle" type="CheckButton" parent="Scroll/VBoxContainer" unique_id=32790922]
 layout_mode = 2
 
-[node name="DevModeLabel" type="Label" parent="VBoxContainer" unique_id=803804968]
+[node name="UIScaleLabel" type="Label" parent="Scroll/VBoxContainer"]
+layout_mode = 2
+text = "UI Scale"
+
+[node name="UIScaleRow" type="HBoxContainer" parent="Scroll/VBoxContainer"]
+layout_mode = 2
+
+[node name="DevModeLabel" type="Label" parent="Scroll/VBoxContainer" unique_id=803804968]
 layout_mode = 2
 text = "Dev: Chapter/Scene Skip Menu"
 
-[node name="DevModeToggle" type="CheckButton" parent="VBoxContainer" unique_id=458634400]
+[node name="DevModeToggle" type="CheckButton" parent="Scroll/VBoxContainer" unique_id=458634400]
 layout_mode = 2
 
-[node name="QuitBtn" type="Button" parent="VBoxContainer" unique_id=3928410501]
+[node name="QuitBtn" type="Button" parent="Scroll/VBoxContainer" unique_id=3928410501]
 layout_mode = 2
 text = "Return to Menu"

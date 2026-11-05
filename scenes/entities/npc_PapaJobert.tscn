@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c061vwko5ij8i"]
 
-[ext_resource type="Texture2D" uid="uid://dlqi03meddd1e" path="res://assets/sprites/papaJobert_sprite.png" id="1_e6f3q"]
+[ext_resource type="Texture2D" uid="uid://ybpiwv8q51qk" path="res://assets/sprites/npcs/papaJobert_sprite.png" id="1_e6f3q"]
 [ext_resource type="Script" uid="uid://ctxdxrvjpmc7u" path="res://scripts/entities/npc/papaJobert.gd" id="1_uyf7i"]
 [ext_resource type="PackedScene" uid="uid://b8awiupnw1tue" path="res://scenes/components/interactable_component.tscn" id="3_rqx83"]
 [ext_resource type="Script" uid="uid://rdfwcbfe3lh3" path="res://scripts/components/Comp_Dialogue.gd" id="3_v4qet"]

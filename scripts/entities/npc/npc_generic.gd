@@ -1,9 +1,8 @@
 # npc_generic.gd
 ## Data-driven NPC shell. Story dialogue plays until it finishes once, then
-## idle pool takes over on re-interact. All per-NPC values are exports --
+## generated idle talk takes over on re-interact. All per-NPC values are exports --
 ## override on the scene root, do not fork this script per NPC.
-## Missing dialogue key / idle pool is safe: story path ends immediately,
-## idle path no-ops (see ChapterLoader + Comp_Dialogue).
+## A missing dialogue key is safe: goes straight to idle talk.
 extends CharacterBody2D
 
 ## CutsceneManager registry id. Empty = not cutscene-controllable.
@@ -14,9 +13,7 @@ extends CharacterBody2D
 ## ChapterLoader lookup: data/dialogue/<dialogue_chapter>.json -> dialogue_scene_key.
 @export var dialogue_chapter: String = "chapter1"
 @export var dialogue_scene_key: String = ""
-## Sibling key in dialogue_chapter JSON. Empty = story dialogue replays every interact.
-@export var idle_pool_key: String = ""
-## Set when story dialogue completes once; flips interact to idle pool.
+## Set when story dialogue completes once; flips interact to generated idle talk (IdleTalk).
 @export var story_done_flag: String = ""
 ## Optional quest link. While this quest is active, Comp_Interactable shows
 ## the quest marker over the NPC (read via get() on the parent).
@@ -70,11 +67,11 @@ func _start_dialogue_or_idle() -> void:
 	# No authored story lines -> go straight to idle instead of closing silently.
 	var story_pending: bool = not story_lines.is_empty() \
 			and (story_done_flag.is_empty() or not GameState.get_flag(story_done_flag))
-	if idle_pool_key.is_empty() or story_pending:
+	if story_pending:
 		dialogue.dialogue_lines = story_lines
 		dialogue.start_dialogue()
 	else:
-		dialogue.start_idle_dialogue(ChapterLoader.get_idle_pool(dialogue_chapter, idle_pool_key))
+		dialogue.start_idle_dialogue()
 
 func _on_dialogue_ended() -> void:
 	if not story_done_flag.is_empty() and not GameState.get_flag(story_done_flag):

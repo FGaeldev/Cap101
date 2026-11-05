@@ -1,23 +1,79 @@
 [gd_resource type="Resource" script_class="CharacterRegistryData" format=3 uid="uid://cbi74gq000cyv"]
 
 [ext_resource type="Script" uid="uid://bu1yqorghhsta" path="res://scripts/resources/CharacterPortraitEntry.gd" id="1_y6j3n"]
-[ext_resource type="Texture2D" uid="uid://j2s5irk85ik4" path="res://assets/sprites/npc_portrait_lola_jonabel.png" id="2_btn85"]
 [ext_resource type="Script" uid="uid://bd65kv0i44i11" path="res://scripts/resources/CharacterRegistryData.gd" id="2_l7uik"]
-[ext_resource type="Texture2D" uid="uid://cpdfr15wqt5in" path="res://assets/sprites/npc_portrait_papaJobertl.png" id="3_btn85"]
+[ext_resource type="Texture2D" uid="uid://ye1mpuwqj6fw" path="res://assets/sprites/portraits/jonabel_art.png" id="3_jonabel"]
+[ext_resource type="Texture2D" uid="uid://gm75gojwyjq2" path="res://assets/sprites/portraits/jobert_art.png" id="4_jobert"]
+[ext_resource type="Texture2D" uid="uid://cffe1w8xiowrg" path="res://assets/sprites/portraits/susan_art.png" id="5_susan"]
+[ext_resource type="Texture2D" uid="uid://807cgk7l7dqr" path="res://assets/sprites/portraits/rose_art.png" id="6_rose"]
+[ext_resource type="Texture2D" uid="uid://dkp27i186q5nd" path="res://assets/sprites/portraits/pedring_art.png" id="7_pedring"]
+[ext_resource type="Texture2D" uid="uid://bpmfict0q131k" path="res://assets/sprites/portraits/loleng_art.png" id="8_loleng"]
+[ext_resource type="Texture2D" uid="uid://bq0j5addh4a6e" path="res://assets/sprites/portraits/ambo_art.png" id="9_ambo"]
+[ext_resource type="Texture2D" uid="uid://c11ygqmvobyp7" path="res://assets/sprites/portraits/Julian_art.png" id="10_julian"]
+[ext_resource type="Texture2D" uid="uid://dwraqqgnoqbhc" path="res://assets/sprites/portraits/beth_art.png" id="11_beth"]
+[ext_resource type="Texture2D" uid="uid://d0gpn52oc07cu" path="res://assets/sprites/portraits/player_art.png" id="12_player"]
 
-[sub_resource type="Resource" id="Resource_btn85"]
+[sub_resource type="Resource" id="Resource_p1"]
 script = ExtResource("1_y6j3n")
 speaker_id = "Lola Jonabel"
-portrait = ExtResource("2_btn85")
+portrait = ExtResource("3_jonabel")
 metadata/_custom_type_script = "uid://bu1yqorghhsta"
 
-[sub_resource type="Resource" id="Resource_xrivr"]
+[sub_resource type="Resource" id="Resource_p2"]
 script = ExtResource("1_y6j3n")
 speaker_id = "Papa Jobert"
-portrait = ExtResource("3_btn85")
+portrait = ExtResource("4_jobert")
+metadata/_custom_type_script = "uid://bu1yqorghhsta"
+
+[sub_resource type="Resource" id="Resource_p3"]
+script = ExtResource("1_y6j3n")
+speaker_id = "Lola Susan"
+portrait = ExtResource("5_susan")
+metadata/_custom_type_script = "uid://bu1yqorghhsta"
+
+[sub_resource type="Resource" id="Resource_p4"]
+script = ExtResource("1_y6j3n")
+speaker_id = "Rose"
+portrait = ExtResource("6_rose")
+metadata/_custom_type_script = "uid://bu1yqorghhsta"
+
+[sub_resource type="Resource" id="Resource_p5"]
+script = ExtResource("1_y6j3n")
+speaker_id = "Anong Pedring"
+portrait = ExtResource("7_pedring")
+metadata/_custom_type_script = "uid://bu1yqorghhsta"
+
+[sub_resource type="Resource" id="Resource_p6"]
+script = ExtResource("1_y6j3n")
+speaker_id = "Manang Loleng"
+portrait = ExtResource("8_loleng")
+metadata/_custom_type_script = "uid://bu1yqorghhsta"
+
+[sub_resource type="Resource" id="Resource_p7"]
+script = ExtResource("1_y6j3n")
+speaker_id = "Manong Ambo"
+portrait = ExtResource("9_ambo")
+metadata/_custom_type_script = "uid://bu1yqorghhsta"
+
+[sub_resource type="Resource" id="Resource_p8"]
+script = ExtResource("1_y6j3n")
+speaker_id = "Kapitan Julian"
+portrait = ExtResource("10_julian")
+metadata/_custom_type_script = "uid://bu1yqorghhsta"
+
+[sub_resource type="Resource" id="Resource_p9"]
+script = ExtResource("1_y6j3n")
+speaker_id = "Tita Beth"
+portrait = ExtResource("11_beth")
+metadata/_custom_type_script = "uid://bu1yqorghhsta"
+
+[sub_resource type="Resource" id="Resource_p10"]
+script = ExtResource("1_y6j3n")
+speaker_id = "Player"
+portrait = ExtResource("12_player")
 metadata/_custom_type_script = "uid://bu1yqorghhsta"
 
 [resource]
 script = ExtResource("2_l7uik")
-entries = Array[ExtResource("1_y6j3n")]([SubResource("Resource_btn85"), SubResource("Resource_xrivr")])
+entries = Array[ExtResource("1_y6j3n")]([SubResource("Resource_p1"), SubResource("Resource_p2"), SubResource("Resource_p3"), SubResource("Resource_p4"), SubResource("Resource_p5"), SubResource("Resource_p6"), SubResource("Resource_p7"), SubResource("Resource_p8"), SubResource("Resource_p9"), SubResource("Resource_p10")])
 metadata/_custom_type_script = "uid://bd65kv0i44i11"

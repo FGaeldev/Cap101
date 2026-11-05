@@ -85,6 +85,7 @@ func show_choices(choices: Array, component) -> void:
 ## Show the NPC action menu after the NPC script has ruled out a cutscene trigger.
 ## The callback receives "talk", "review", or "goodbye".
 func show_npc_interaction_menu(npc_display_name: String, callback: Callable) -> void:
+	TutorialManager.start("npc_menu")
 	# Reuse DialogueRoot's existing dialogue panel and theme instead of a separate overlay.
 	if _root == null:
 		push_error("DialogueUI: no root registered, cannot show NPC interaction menu")

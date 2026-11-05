@@ -56,6 +56,10 @@ const DEV_WARP_TARGETS := [
 	{"label": "Ch2 — Aklan - Susan's Room", "scene_path": "res://scenes/world/chapter2/aklan_BR_Susan.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
 	{"label": "Ch2 — Aklan - Jonabel's Room", "scene_path": "res://scenes/world/chapter2/aklan_BR_Jonabel.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
 	{"label": "Ch2 — Aklan - Jobert's Room", "scene_path": "res://scenes/world/chapter2/aklan_BR_Jobert.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
+	{"label": "Ch2 — Pastrana Park", "scene_path": "res://scenes/world/chapter2/pastrana_outdoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
+	{"label": "Ch2 — Market - Indoors", "scene_path": "res://scenes/world/market/market_indoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
+	{"label": "Ch2 — Cathedral - Indoors", "scene_path": "res://scenes/world/chapter2/cathedral_indoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
+	{"label": "Ch4 — Bakhawan", "scene_path": "res://scenes/world/bakhawan/bakhawan_outdoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
 	# {label, time}: jumps the day/night clock instead of warping.
 	{"label": "Time — Morning (08:00)", "time": 8.0},
 	{"label": "Time — Dusk (18:00)", "time": 18.0},
@@ -159,7 +163,7 @@ const DEV_CUTSCENES := [
 		"cutscene_id": "chapter2_scene1",
 		"scene_path": "res://scenes/world/chapter2/pastrana_outdoors.tscn",
 		"flags_on": CH2_START_FLAGS + ["chapter2_with_rose", "chapter2_left_house", "chapter2_left_home"],
-		"flags_off": ["seen_chapter2_scene1", "chapter2_at_park", "chapter2_walking_home"],
+		"flags_off": ["seen_chapter2_scene1", "chapter2_arrived_park", "chapter2_at_park", "chapter2_walking_home"],
 		"quests_done": CH1_QUESTS,
 		"auto_play": true,   # pastrana_outdoors.gd plays it when SEEN_FLAG is false
 	},

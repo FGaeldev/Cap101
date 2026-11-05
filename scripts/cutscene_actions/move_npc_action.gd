@@ -40,6 +40,8 @@ func action_type() -> String:
 ## in the level scene instead of drifting out of sync with this JSON.
 ## Optional speed is measured in pixels per second. Legacy order controls which
 ## axis moves first when both coordinates change ("xy" by default, or "yx").
+## Optional "face" (up/down/left/right) turns the actor that way at the end, even
+## with "tiles": 0.
 ## Optional "avoid_actors": true finds a route around walls, furniture and other
 ## visible actors instead.
 func execute(step: Dictionary, mgr: Node) -> void:
@@ -114,7 +116,7 @@ func execute(step: Dictionary, mgr: Node) -> void:
 			return  # aborted: no further legs, leave the actor where it stopped
 
 	# Leave the actor idle facing its last movement direction.
-	_set_anim(actor, "idle", last_dir)
+	_set_anim(actor, "idle", DIRECTIONS.get(String(step.get("face", "")).to_lower(), last_dir))
 
 ## Round position to the nearest tile multiple.
 func _snap(pos: Vector2) -> Vector2:

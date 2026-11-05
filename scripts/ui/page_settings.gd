@@ -1,17 +1,19 @@
 extends Control
 
-@onready var master_volume_label: Label = $VBoxContainer/MasterVolumeLabel
-@onready var volume_slider: HSlider = $VBoxContainer/MasterVolumeSlider
-@onready var music_label: Label = $VBoxContainer/MusicLabel
-@onready var music_toggle: CheckButton = $VBoxContainer/MusicToggle
-@onready var sfx_label: Label = $VBoxContainer/SFXLabel
-@onready var sfx_toggle: CheckButton = $VBoxContainer/SFXToggle
-@onready var dev_mode_label: Label = $VBoxContainer/DevModeLabel
-@onready var dev_mode_toggle: CheckButton = $VBoxContainer/DevModeToggle
-@onready var quit_btn: Button = $VBoxContainer/QuitBtn
+@onready var master_volume_label: Label = $Scroll/VBoxContainer/MasterVolumeLabel
+@onready var volume_slider: HSlider = $Scroll/VBoxContainer/MasterVolumeSlider
+@onready var music_label: Label = $Scroll/VBoxContainer/MusicLabel
+@onready var music_toggle: CheckButton = $Scroll/VBoxContainer/MusicToggle
+@onready var sfx_label: Label = $Scroll/VBoxContainer/SFXLabel
+@onready var sfx_toggle: CheckButton = $Scroll/VBoxContainer/SFXToggle
+@onready var ui_scale_label: Label = $Scroll/VBoxContainer/UIScaleLabel
+@onready var ui_scale_row: HBoxContainer = $Scroll/VBoxContainer/UIScaleRow
+@onready var dev_mode_label: Label = $Scroll/VBoxContainer/DevModeLabel
+@onready var dev_mode_toggle: CheckButton = $Scroll/VBoxContainer/DevModeToggle
+@onready var quit_btn: Button = $Scroll/VBoxContainer/QuitBtn
 
 func _ready() -> void:
-	for lbl in [master_volume_label, music_label, sfx_label, dev_mode_label]:
+	for lbl in [master_volume_label, music_label, sfx_label, ui_scale_label, dev_mode_label]:
 		lbl.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 		lbl.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_M)
 	
@@ -20,6 +22,7 @@ func _ready() -> void:
 	music_toggle.toggled.connect(_on_music_toggled)
 	sfx_toggle.toggled.connect(_on_sfx_toggled)
 	dev_mode_toggle.toggled.connect(_on_dev_mode_toggled)
+	_build_ui_scale_row()
 	UIThemeApplier.apply_button_theme(quit_btn, "danger")
 	quit_btn.pressed.connect(func(): BookUI.confirm_exit_to_menu())
 	
@@ -37,7 +40,10 @@ func _ready() -> void:
 ## when opened from MainMenu itself, same guard BookUI.open() used to apply
 ## to the tab-bar button (no active session there, nothing sane to return to).
 func refresh() -> void:
+	TutorialManager.start("ui_scale")
 	dev_mode_toggle.set_pressed_no_signal(GameState.dev_mode)
+	for i in UIScale.OPTIONS.size():
+		ui_scale_row.get_child(i).set_pressed_no_signal(UIScale.OPTIONS[i] == UIScale.value)
 	quit_btn.visible = not BookUI.is_main_menu_context()
 
 func _on_volume_changed(value: float) -> void:
@@ -57,3 +63,17 @@ func _on_dev_mode_toggled(enabled: bool) -> void:
 	GameState.set_flag("story_done_papa_jobert_scene1")
 	GameState.set_flag("seen_chapter1_scene1")
 	GameState.set_flag("story_done_lola_jonabel_scene1")
+
+## One radio button per UIScale option. Applies on press.
+func _build_ui_scale_row() -> void:
+	var group := ButtonGroup.new()
+	for option: float in UIScale.OPTIONS:
+		var btn := Button.new()
+		btn.text = "%sx" % String.num(option).trim_suffix(".0")
+		btn.toggle_mode = true
+		btn.button_group = group
+		btn.custom_minimum_size = Vector2(36, 24)
+		UIThemeApplier.apply_button_theme(btn, "primary")
+		btn.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
+		btn.pressed.connect(UIScale.set_value.bind(option))
+		ui_scale_row.add_child(btn)

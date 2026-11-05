@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dlqi03meddd1e"
-path="res://.godot/imported/papaJobert_sprite.png-08bae522752c3dd7ce53f8a5e69c9342.ctex"
+uid="uid://ckyts3bwgc8i2"
+path="res://.godot/imported/nestor_art.png-8c19b15926f1a82d8d74ecdafb713cfe.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/papaJobert_sprite.png"
-dest_files=["res://.godot/imported/papaJobert_sprite.png-08bae522752c3dd7ce53f8a5e69c9342.ctex"]
+source_file="res://assets/sprites/portraits/nestor_art.png"
+dest_files=["res://.godot/imported/nestor_art.png-8c19b15926f1a82d8d74ecdafb713cfe.ctex"]
 
 [params]
 

@@ -23,6 +23,8 @@ const PUZZLE_PANEL_SLICE_MARGIN := 8
 # Thin single-line readout strip (HUD quest label, top-left). 
 const HEADER := preload("res://assets/ui/book/quest.png")
 const HEADER_SLICE_MARGIN := 8
+# Same strip with its tab on the right, for readouts on the right of the screen.
+const HEADER_RIGHT := preload("res://assets/ui/book/quest_right.png")
 
 # Display face — HERO/XXL sizes only (main menu title, modal headers).
 # Body text uses the project-wide default font (Project Settings > GUI >
@@ -200,3 +202,7 @@ func make_puzzle_panel_style(content_margin: int = 14) -> StyleBoxTexture:
 ## header.png was old placeholder.
 func make_header_style() -> StyleBoxTexture:
 	return _make_panel_style(HEADER, HEADER_SLICE_MARGIN, 0, 10, 4)
+
+## make_header_style() for the right side of the screen (HUD clock, toasts).
+func make_header_right_style() -> StyleBoxTexture:
+	return _make_panel_style(HEADER_RIGHT, HEADER_SLICE_MARGIN, 0, 10, 4)

@@ -115,7 +115,7 @@ func set_portrait(tex: Texture2D, speaker: String) -> void:
 	# still leave container sizing artifacts on some viewport/layout states.
 	portrait_row.visible = tex != null
 	if tex != null:
-		var is_player := speaker.strip_edges().to_lower() == "[player]"
+		var is_player := speaker.strip_edges().to_lower() in ["player", "[player]"]
 		left_spacer.visible = not is_player
 		right_spacer.visible = is_player
 	refresh_layout()

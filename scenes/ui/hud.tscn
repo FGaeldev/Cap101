@@ -39,6 +39,35 @@ autowrap_mode = 3
 layout_mode = 2
 theme_override_constants/separation = 2
 
+[node name="TierBar" type="PanelContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -62.0
+offset_top = 6.0
+offset_right = 62.0
+offset_bottom = 30.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="Row" type="HBoxContainer" parent="TierBar"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="Label" type="Label" parent="TierBar/Row"]
+layout_mode = 2
+
+[node name="Fill" type="ProgressBar" parent="TierBar/Row"]
+custom_minimum_size = Vector2(60, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+max_value = 1.0
+step = 0.0
+show_percentage = false
+
 [node name="TopRight" type="CanvasLayer" parent="."]
 layer = 89
 

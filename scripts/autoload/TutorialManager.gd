@@ -31,9 +31,9 @@ const OVERLAY_LAYER: int = 90
 ## Tutorials flagged "above_book": true in JSON (e.g. book_ui) explain the Book
 ## itself, so their panel must draw OVER BookUI (100) instead of hiding under it.
 const ABOVE_BOOK_LAYER: int = 101
-## Steps whose text is wider than this wrap instead of stretching the panel
-## past the 512px viewport.
-const MAX_TEXT_WIDTH: float = 240.0
+## Top of the panel: under the HUD tier bar, or at the very top over the Book.
+const PANEL_TOP: float = 34.0
+const PANEL_TOP_ABOVE_BOOK: float = 8.0
 ## Seconds per half-cycle (dim -> bright). Full flash = 2x. Raise to slow down.
 const PULSE_TIME: float = 1.0
 ## Brightening pulse. Deliberately NOT a new palette color (UI Style Guide §2:
@@ -86,7 +86,9 @@ func start(tutorial_id: String) -> void:
 		push_warning("TutorialManager: unknown tutorial '%s'" % tutorial_id)
 		return
 	_active_id = tutorial_id
-	layer = ABOVE_BOOK_LAYER if bool(_tutorials[tutorial_id].get("above_book", false)) else OVERLAY_LAYER
+	var above_book: bool = bool(_tutorials[tutorial_id].get("above_book", false))
+	layer = ABOVE_BOOK_LAYER if above_book else OVERLAY_LAYER
+	_panel.position.y = PANEL_TOP_ABOVE_BOOK if above_book else PANEL_TOP
 	tutorial_started.emit(tutorial_id)
 	_go_to_step(0)
 
@@ -178,14 +180,9 @@ func _auto_advance(seconds: float, serial: int) -> void:
 		_go_to_step(_step_index + 1)
 
 
-## Short text keeps the panel shrink-wrapped; long text wraps at MAX_TEXT_WIDTH.
+## Tutorial text stays one line (keep it short in tutorials.json), so it never wraps.
 func _fit_label_width() -> void:
-	var text_w: float = _label.get_theme_font("font").get_string_size(
-		_label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, UIThemeApplier.FONT_SIZE_M
-	).x
-	var needs_wrap: bool = text_w > MAX_TEXT_WIDTH
-	_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART if needs_wrap else TextServer.AUTOWRAP_OFF
-	_label.custom_minimum_size.x = MAX_TEXT_WIDTH if needs_wrap else 0.0
+	_label.autowrap_mode = TextServer.AUTOWRAP_OFF
 
 
 func _finish() -> void:
@@ -199,11 +196,12 @@ func _finish() -> void:
 func _apply_highlight(target_id: String) -> void:
 	if target_id == "" or not _targets.has(target_id):
 		return
-	var node: CanvasItem = _targets[target_id]
+	var target: Variant = _targets[target_id]
 	# Target may have been freed on scene change.
-	if not is_instance_valid(node):
+	if not is_instance_valid(target):
 		_targets.erase(target_id)
 		return
+	var node: CanvasItem = target
 	_highlighted = node
 	_highlight_base_scale = node.get("scale")
 	# Controls scale around pivot_offset (top-left by default) -> center it so
@@ -214,7 +212,8 @@ func _apply_highlight(target_id: String) -> void:
 	var peak: Vector2 = _highlight_base_scale * HIGHLIGHT_SCALE
 	# Sine easing = soft breathing instead of a linear blink. Flash and scale
 	# tweeners are chained with .parallel() so both share the same half-cycle.
-	_pulse_tween = create_tween().set_loops()
+	# Bound to the node: it stops by itself if the node is freed (back to the menu).
+	_pulse_tween = node.create_tween().set_loops()
 	_pulse_tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	_pulse_tween.tween_property(node, "self_modulate", HIGHLIGHT_MODULATE, PULSE_TIME)
 	_pulse_tween.parallel().tween_property(node, "scale", peak, PULSE_TIME)
@@ -253,7 +252,7 @@ func _build_overlay() -> void:
 	# Top-center; keeps clear of bottom dialogue box + joystick.
 	_panel.set_anchors_preset(Control.PRESET_CENTER_TOP)
 	_panel.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	_panel.position.y = 8
+	_panel.position.y = PANEL_TOP
 
 	_label = Label.new()
 	_label.mouse_filter = Control.MOUSE_FILTER_IGNORE

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b3hfkdbyijbfp"]
 
-[ext_resource type="Texture2D" uid="uid://btrsikgc6ro6i" path="res://assets/sprites/rose_sprite.png" id="1_tex"]
+[ext_resource type="Texture2D" uid="uid://derij6uxma5xf" path="res://assets/sprites/npcs/rose_sprite.png" id="1_tex"]
 [ext_resource type="Script" uid="uid://il6nt77p6sdq" path="res://scripts/entities/npc/npc_generic.gd" id="2_scr"]
 [ext_resource type="PackedScene" uid="uid://b8awiupnw1tue" path="res://scenes/components/interactable_component.tscn" id="3_int"]
 [ext_resource type="PackedScene" uid="uid://cdxx55olbkhhv" path="res://scenes/components/dialogue_component.tscn" id="4_dlg"]
@@ -194,7 +194,6 @@ script = ExtResource("2_scr")
 actor_id = "Rose"
 npc_id = "Rose"
 dialogue_scene_key = "scene_rose"
-idle_pool_key = "idle_pool_rose"
 story_done_flag = "story_done_rose"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=913573483]

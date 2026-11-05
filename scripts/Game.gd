@@ -25,6 +25,9 @@ const MarkerUtil := preload("res://scripts/util/marker_util.gd")
 
 func _ready() -> void:
 	QuestManager.quest_started.connect(_on_quest_started)
+	# UI scale must not change how much of the world is on screen.
+	camera.zoom /= UIScale.factor
+	UIScale.changed.connect(_on_ui_scale_changed)
 	# Day/night tint. A CanvasModulate tints only its own canvas layer (the
 	# world); UILayer and the other CanvasLayer UIs stay untouched.
 	var day_night := CanvasModulate.new()
@@ -55,6 +58,9 @@ func _process(_delta: float) -> void:
 	if camera.zoom != _limits_zoom:
 		_update_camera_limits()
 
+
+func _on_ui_scale_changed(previous: float, current: float) -> void:
+	camera.zoom *= previous / current
 
 ## Starts the tutorial mapped to a newly-active quest (QUEST_TUTORIALS).
 ## Waits out any tutorial still running (start() is a no-op while one is
