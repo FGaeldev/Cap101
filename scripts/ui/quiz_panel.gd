@@ -32,6 +32,13 @@
 #   * Words already used this quiz (incl. authored answers) are not drawn
 #     again until the pool runs out.
 #   * Word pick is weighted by WordBank.get_weighted_review_word (GDD 6.8).
+#   * "fixed_pool": true stops dynamic quizzes padding their pools with other
+#     known words, so a numbers quiz only ever asks about numbers.
+#   * Color quizzes set "word_colors": {"w198": "d32f2f"} (word_id -> hex). Then
+#     a template containing [swatch] shows the answer's color beside the prompt,
+#     and choice display "color" makes each option a color instead of text. In
+#     color blind mode swatches also name their color, which keeps the quiz
+#     playable: it then tests the word's meaning instead of its hue.
 #
 # Ownership: renders and reports only. Emits `resolved(passed)`; DialogueUI
 # forwards it to the owning DialogueComponent, which jumps to success/failure.
@@ -65,8 +72,19 @@ const MIN_POOL_SIZE: int = 6
 ## Cap on option buttons per question (answer + distractors), unless a dynamic
 ## quiz scales it with the difficulty tier (GameState.get_quiz_choice_count).
 const MAX_OPTIONS: int = 6
+## Token in a question template: show the answer's color beside the prompt.
+const SWATCH_TOKEN: String = "[swatch]"
+## Choice display: options are colors (see "word_colors").
+const DISPLAY_COLOR: String = "color"
+const SWATCH_SIZE := Vector2(72, 26)
+## Keeps white and black swatches visible on the parchment panel.
+const SWATCH_BORDER: int = 2
+## How far a wrong color fades once the answer is revealed. Fading is a cue that
+## doesn't depend on seeing the hue.
+const WRONG_SWATCH_ALPHA: float = 0.35
 
-var _questions: Array = []        # [{prompt, answer, options:[{id,text}]}]
+var _questions: Array = []        # [{prompt, answer, swatch, options:[{id,text,color}]}]
+var _word_colors: Dictionary = {} # word_id -> hex, this quiz's "word_colors"
 var _index: int = 0               # current question
 var _correct_count: int = 0
 var _pass_ratio: float = DEFAULT_PASS_RATIO
@@ -75,6 +93,8 @@ var _session: int = 0             # bumped on open/close; stale feedback timers 
 
 var _progress_label: Label
 var _prompt_label: Label
+var _prompt_swatch: PanelContainer
+var _prompt_swatch_label: Label
 var _choice_grid: GridContainer
 var _feedback_label: Label
 
@@ -92,6 +112,7 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	add_theme_stylebox_override("panel", UIThemeApplier.make_dialogue_style())
 	_build_layout()
+	HelpButton.pin(self, "quiz")
 	visible = false
 
 # --- public API ----------------------------------------------------------------
@@ -102,6 +123,7 @@ func open(line: Dictionary) -> void:
 	_index = 0
 	_correct_count = 0
 	_pass_ratio = float(line.get("pass_ratio", DEFAULT_PASS_RATIO))
+	_word_colors = line.get("word_colors", {})
 	_questions = _build_questions(line)
 
 	if _questions.is_empty():
@@ -136,8 +158,9 @@ func _build_questions(line: Dictionary) -> Array:
 		var scaled: int = GameState.get_quiz_choice_count()
 		if scaled > 0:
 			max_options = scaled
-		pool = WordBank.top_up_pool(pool, MIN_POOL_SIZE, true)
-		option_pool = WordBank.top_up_pool(option_pool, maxi(MIN_POOL_SIZE, max_options), true)
+		if not line.get("fixed_pool", false):
+			pool = WordBank.top_up_pool(pool, MIN_POOL_SIZE, true)
+			option_pool = WordBank.top_up_pool(option_pool, maxi(MIN_POOL_SIZE, max_options), true)
 
 	var templates: Array = line.get("question_templates", [])
 	if templates.is_empty() and line.has("question_template"):
@@ -178,8 +201,9 @@ func _build_questions(line: Dictionary) -> Array:
 			continue
 
 		built.append({
-			"prompt": prompt,
+			"prompt": prompt.replace(SWATCH_TOKEN, "").strip_edges(),
 			"answer": answer,
+			"swatch": str(_word_colors.get(answer, "")) if prompt.contains(SWATCH_TOKEN) else "",
 			"options": _build_options(answer, option_pool, display, max_options),
 		})
 	return built
@@ -246,7 +270,11 @@ func _build_options(answer: String, option_pool: Array, display: String, max_opt
 
 func _make_option(id: String, display: String) -> Dictionary:
 	var word: Dictionary = WordBank.get_word(id)
-	return {"id": id, "text": str(word.get("akeanon", "???")) if display == "word" else _gloss_of(word)}
+	var option: Dictionary = {"id": id, "text": str(word.get("akeanon", "???")) if display == "word" else _gloss_of(word)}
+	if display == DISPLAY_COLOR:
+		option["color"] = str(_word_colors.get(id, ""))
+		option["akeanon"] = str(word.get("akeanon", "???"))
+	return option
 
 func _gloss_of(word: Dictionary) -> String:
 	var gloss: String = str(word.get("gloss", "")).strip_edges()
@@ -279,7 +307,22 @@ func _build_layout() -> void:
 	_prompt_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_prompt_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_M)
 	_prompt_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_EMPHASIS)
-	vbox.add_child(_prompt_label)
+	_prompt_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+
+	# Beside the prompt, not above it: full option grids use the panel's height.
+	var prompt_row := HBoxContainer.new()
+	prompt_row.add_theme_constant_override("separation", 6)
+	vbox.add_child(prompt_row)
+	prompt_row.add_child(_prompt_label)
+
+	_prompt_swatch = PanelContainer.new()
+	_prompt_swatch.custom_minimum_size = SWATCH_SIZE
+	_prompt_swatch_label = Label.new()
+	_prompt_swatch_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_prompt_swatch_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_prompt_swatch_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
+	_prompt_swatch.add_child(_prompt_swatch_label)
+	prompt_row.add_child(_prompt_swatch)
 
 	_choice_grid = GridContainer.new()
 	_choice_grid.columns = CHOICE_COLUMNS
@@ -301,6 +344,7 @@ func _show_question() -> void:
 	_progress_label.text = "%d / %d" % [_index + 1, _questions.size()]
 	_prompt_label.text = q["prompt"]
 	_feedback_label.text = ""
+	_show_prompt_swatch(q)
 
 	# remove_child before free: queue_free alone leaves the old buttons in the
 	# grid for a frame and the new row lays out against stale cells.
@@ -319,8 +363,52 @@ func _show_question() -> void:
 		btn.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		UIThemeApplier.apply_button_theme(btn, "primary")
 		btn.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
+		if not str(options[i].get("color", "")).is_empty():
+			_style_color_option(btn, options[i])
 		btn.pressed.connect(_on_option_pressed.bind(i, btn))
 		_choice_grid.add_child(btn)
+
+func _show_prompt_swatch(q: Dictionary) -> void:
+	var hex: String = q.get("swatch", "")
+	_prompt_swatch.visible = not hex.is_empty()
+	if hex.is_empty():
+		return
+	var color := Color(hex)
+	_prompt_swatch.add_theme_stylebox_override("panel", _make_swatch_style(color))
+	_prompt_swatch_label.add_theme_color_override("font_color", _readable_on(color))
+	_prompt_swatch_label.text = _gloss_of(WordBank.get_word(q["answer"])) if Accessibility.color_blind else ""
+
+## Turns an option button into a color. The color name only shows in color blind
+## mode; everyone gets the Akeanon word once the answer is revealed.
+func _style_color_option(btn: Button, option: Dictionary) -> void:
+	var color := Color(str(option["color"]))
+	var style := _make_swatch_style(color)
+	for state in ["normal", "hover", "pressed", "disabled", "focus"]:
+		btn.add_theme_stylebox_override(state, style)
+	var text_color := _readable_on(color)
+	for key in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_disabled_color"]:
+		btn.add_theme_color_override(key, text_color)
+	btn.text = option["text"] if Accessibility.color_blind else ""
+
+func _make_swatch_style(color: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = color
+	style.border_color = UIThemeApplier.TEXT_EMPHASIS
+	style.set_border_width_all(SWATCH_BORDER)
+	style.set_corner_radius_all(2)
+	return style
+
+func _readable_on(color: Color) -> Color:
+	return Color.BLACK if color.get_luminance() > 0.5 else Color.WHITE
+
+## After an answer: color options reveal their Akeanon word and the wrong ones
+## fade. Tinting them, like text options, would change the color being tested.
+func _reveal_color_options(options: Array, answer: String) -> void:
+	for i in range(options.size()):
+		var btn: Button = _choice_grid.get_child(i)
+		btn.text = options[i]["akeanon"]
+		if options[i]["id"] != answer:
+			btn.modulate.a = WRONG_SWATCH_ALPHA
 
 func _on_option_pressed(option_idx: int, btn: Button) -> void:
 	if _locked:
@@ -332,19 +420,24 @@ func _on_option_pressed(option_idx: int, btn: Button) -> void:
 	var correct: bool = options[option_idx]["id"] == q["answer"]
 	GameState.adjust_mastery(q["answer"], 1 if correct else -1)
 
+	var is_color_question: bool = not str(options[option_idx].get("color", "")).is_empty()
 	if correct:
 		_correct_count += 1
-		_flash_btn(btn, UIThemeApplier.COLOR_SUCCESS)
 		_feedback_label.text = "Insakto"
-		_feedback_label.add_theme_color_override("font_color", UIThemeApplier.COLOR_SUCCESS)
+		_feedback_label.add_theme_color_override("font_color", Accessibility.success_color())
 	else:
-		_flash_btn(btn, UIThemeApplier.COLOR_ERROR)
 		_feedback_label.text = "Not quite"
-		_feedback_label.add_theme_color_override("font_color", UIThemeApplier.COLOR_ERROR)
+		_feedback_label.add_theme_color_override("font_color", Accessibility.error_color())
+	if is_color_question:
+		_reveal_color_options(options, q["answer"])
+	else:
+		_flash_btn(btn, Accessibility.success_color() if correct else Accessibility.error_color())
 		# Reveal the right answer so a miss still teaches (no punishment).
 		for i in range(options.size()):
-			if options[i]["id"] == q["answer"]:
-				_flash_btn(_choice_grid.get_child(i), UIThemeApplier.COLOR_SUCCESS)
+			if not correct and options[i]["id"] == q["answer"]:
+				_flash_btn(_choice_grid.get_child(i), Accessibility.success_color())
+		if Accessibility.color_blind:
+			_label_result(options, q["answer"], btn)
 	for b in _choice_grid.get_children():
 		b.disabled = true
 
@@ -367,6 +460,15 @@ func _finish() -> void:
 
 func _emit_resolved(passed: bool) -> void:
 	resolved.emit(passed)
+
+## Color blind mode: says in words which answer was right and which was picked.
+func _label_result(options: Array, answer: String, picked: Button) -> void:
+	for i in range(options.size()):
+		var btn: Button = _choice_grid.get_child(i)
+		if options[i]["id"] == answer:
+			btn.text = "%s (correct)" % btn.text
+		elif btn == picked:
+			btn.text = "%s (wrong)" % btn.text
 
 ## Tint only, never swap the button texture (same approach as puzzle_panel).
 func _flash_btn(btn: Button, color: Color) -> void:

@@ -29,6 +29,7 @@ func _ready() -> void:
 	_popup.layer = 101  # must render above BookUI's CanvasLayer (layer 100) or it opens invisibly behind the book
 	add_child(_popup)
 	_wire_markers()
+	HelpButton.pin(self, "map")
 
 ## Called by BookUI._show_page() right before the tab becomes visible —
 ## re-syncs unlock state, since unlocks can change after markers are built

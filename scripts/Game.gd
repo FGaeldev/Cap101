@@ -36,6 +36,10 @@ func _ready() -> void:
 	DayNightManager.register_canvas_modulate(day_night)
 	# Save is loaded by now: baseline achievements so only new ones get a toast.
 	AchievementManager.prime()
+	# Before the level loads, so the bedroom's opening dialogue waits for it.
+	# Saves already past the opening never get this card.
+	if not GameState.get_flag("seen_chapter1_scene1"):
+		await ChapterCard.show_if_new("chapter1")
 	var level_path := GameState.current_level_path if GameState.current_level_path != "" else "res://scenes/world/chapter1/us_bedroom.tscn"
 	load_level(level_path)
 	# Tutorial start moved here (was after fade_in+timer) — fixes race where

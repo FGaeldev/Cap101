@@ -23,6 +23,9 @@ const FALLBACK_NAME: String = "Traveler"
 const PLAYER_SPEAKER_ID: String = "Player"
 ## Single backslash character (GDScript escape).
 const AKEANON_MARKER: String = "\\"
+## A marker and the word after it. Hyphens and apostrophes stay in the word.
+const MARKED_WORD_PATTERN: String = "\\\\([\\p{L}\\p{M}0-9'’-]+)"
+static var _marked_word: RegEx
 ## Longest name accepted by name entry.
 const MAX_NAME_LENGTH: int = 12
 const DAY_PART_TOKEN: String = "[DayPart]"
@@ -73,10 +76,28 @@ static func resolve_day_part(raw: String) -> String:
 
 ## Returns `raw` with the player token substituted and Akeanon markers removed.
 static func resolve(raw: String) -> String:
+	return _fill_tokens(raw).replace(AKEANON_MARKER, "")
+
+
+## BBCode version of resolve() for RichTextLabel: each marked word gets the
+## Akeanon color (and an underline in color blind mode).
+static func resolve_rich(raw: String) -> String:
+	if _marked_word == null:
+		_marked_word = RegEx.create_from_string(MARKED_WORD_PATTERN)
+	var open: String = "[color=#%s]" % Accessibility.akeanon_color().to_html(false)
+	var close: String = "[/color]"
+	if Accessibility.color_blind:
+		open += "[u]"
+		close = "[/u]" + close
+	var escaped: String = _fill_tokens(raw).replace("[", "[lb]")
+	return _marked_word.sub(escaped, open + "$1" + close, true).replace(AKEANON_MARKER, "")
+
+
+static func _fill_tokens(raw: String) -> String:
 	var name_out: String = GameState.player_name.strip_edges()
 	if name_out.is_empty():
 		name_out = FALLBACK_NAME
-	return resolve_day_part(raw).replace(PLAYER_TOKEN, name_out).replace(AKEANON_MARKER, "")
+	return resolve_day_part(raw).replace(PLAYER_TOKEN, name_out)
 
 
 ## Resolves a speaker id for display. Data uses the literal speaker id

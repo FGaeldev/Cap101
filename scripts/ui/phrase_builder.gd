@@ -68,6 +68,7 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	add_theme_stylebox_override("panel", UIThemeApplier.make_dialogue_style())
 	_build_layout()
+	HelpButton.pin(self, "phrase_builder")
 	visible = false
 
 # --- public API ----------------------------------------------------------------

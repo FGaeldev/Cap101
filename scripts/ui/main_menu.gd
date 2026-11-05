@@ -5,12 +5,14 @@ extends Control
 @onready var sub_label:     Label  = $BookPanel/Spread/LeftSide/CenterContainer/VBoxContainer/SubLabel
 @onready var start_btn:    Button = $BookPanel/Spread/RightPage/CenterContainer/Buttons/StartBtn
 @onready var continue_btn: Button = $BookPanel/Spread/RightPage/CenterContainer/Buttons/ContinueBtn
+@onready var instructions_btn: Button = $BookPanel/Spread/RightPage/CenterContainer/Buttons/InstructionsBtn
 @onready var settings_btn: Button = $BookPanel/Spread/RightPage/CenterContainer/Buttons/SettingsBtn
 @onready var quit_btn:     Button = $BookPanel/Spread/RightPage/CenterContainer/Buttons/QuitBtn
 
 const MAIN = "res://scenes/Game.tscn"
 ## New-game name prompt; hands off to MAIN once a name is confirmed.
 const NAME_ENTRY = "res://scenes/ui/name_entry.tscn"
+const InstructionsPanel := preload("res://scripts/ui/instructions_panel.gd")
 
 func _ready() -> void:
 	_apply_bg()
@@ -18,6 +20,10 @@ func _ready() -> void:
 	_check_save()
 	start_btn.pressed.connect(_on_start)
 	continue_btn.pressed.connect(_on_continue)
+	instructions_btn.pressed.connect(func():
+		AudioManager.play_sfx("menu_click")
+		InstructionsPanel.open(get_tree())
+	)
 	settings_btn.pressed.connect(_on_settings)
 	quit_btn.pressed.connect(func():
 		AudioManager.play_sfx("menu_click")
@@ -75,6 +81,7 @@ func _apply_style() -> void:
 	# Buttons
 	_style_btn(start_btn, "secondary")
 	_style_btn(continue_btn, "secondary")
+	_style_btn(instructions_btn, "secondary")
 	_style_btn(settings_btn, "secondary")
 	_style_btn(quit_btn, "danger")
 

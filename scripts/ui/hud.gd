@@ -27,6 +27,8 @@ const OVERLAY_SIBLINGS := ["PuzzlePanel", "ChallengePanel"]
 ## Quests with "category": "main" in quest_data.json feed the MainQuest panel;
 ## anything else (or a missing category) is a sub quest.
 const MAIN_CATEGORY := "main"
+## How far the joystick ring reaches past the control, for the tutorial arrow.
+const JOYSTICK_RING_MARGIN: float = 42.0
 ## Sub-quest rows shown before collapsing the rest into "+N more".
 const MAX_SUB_ROWS := 3
 
@@ -91,7 +93,10 @@ func _ready() -> void:
 	menu_button.pressed.connect(_on_menu_button_pressed)
 	UIThemeApplier.apply_icon_button_theme(interact_button, "dictionary")
 	interact_button.pressed.connect(_on_interact_button_pressed)
+	TutorialManager.register_target("quest_hud", main_quest)
 	TutorialManager.register_target("tier_bar", tier_bar)
+	# The joystick draws its ring well outside its small control rect.
+	joystick.set_meta("tutorial_arrow_margin", JOYSTICK_RING_MARGIN)
 	TutorialManager.register_target("joystick", joystick)
 	TutorialManager.register_target("interact_button", interact_button)
 

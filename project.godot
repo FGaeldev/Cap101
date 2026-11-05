@@ -40,6 +40,8 @@ DayNightManager="*res://scripts/autoload/DayNightManager.gd"
 NpcSchedule="*res://scripts/autoload/NpcSchedule.gd"
 TourGuide="*res://scripts/autoload/TourGuide.gd"
 UIScale="*res://scripts/autoload/UIScale.gd"
+Accessibility="*res://scripts/autoload/Accessibility.gd"
+ChapterCard="*res://scripts/autoload/ChapterCard.gd"
 
 [display]
 

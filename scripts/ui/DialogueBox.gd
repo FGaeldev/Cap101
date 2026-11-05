@@ -2,10 +2,12 @@
 extends PanelContainer
 
 @onready var speaker_label: Label = $VBoxContainer/SpeakerLabel
-@onready var text_label:    Label = $VBoxContainer/TextLabel
+## RichTextLabel so Akeanon words can have their own color (TextUtil.resolve_rich).
+@onready var text_label:    RichTextLabel = $VBoxContainer/TextLabel
 
 # --- Typewriter ---
-var _full_text: String    = ""
+## Length without BBCode tags: the typewriter counts visible characters.
+var _visible_length: int  = 0
 var _shown_chars: int     = 0
 var _typing: bool         = false
 var _type_speed: float    = 0.03
@@ -19,7 +21,7 @@ func _apply_style() -> void:
 	# DialogueRoot paints the background; keep this panel transparent.
 	$".".add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 	speaker_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_EMPHASIS)
-	text_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
+	text_label.add_theme_color_override("default_color", UIThemeApplier.TEXT_DEFAULT)
 	text_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	# Hidden (not yet typed) chars must still be shaped, else wrapped height
 	# grows while typing and the panel resizes mid-line.
@@ -28,10 +30,11 @@ func _apply_style() -> void:
 ## Display source text with the existing typewriter.
 func display(speaker: String, text: String) -> void:
 	speaker_label.text = TextUtil.resolve_speaker(speaker)
-	_full_text = TextUtil.resolve(text)
+	var plain_text: String = TextUtil.resolve(text)
+	_visible_length = plain_text.length()
 	_shown_chars = 0
 	_type_timer = 0.0
-	if _full_text.strip_edges().is_empty():
+	if plain_text.strip_edges().is_empty():
 		# Never silently render an empty dialogue panel when authored data is
 		# missing its text field. Log the bad line and keep UI visibly diagnosable.
 		push_warning("DialogueBox.display received an empty dialogue line for speaker '%s'." % speaker)
@@ -42,7 +45,7 @@ func display(speaker: String, text: String) -> void:
 		_typing = true
 		# Full text set up front so label min height is final; reveal via
 		# visible_characters. Setting text per-char made the panel grow mid-type.
-		text_label.text = _full_text
+		text_label.text = TextUtil.resolve_rich(text)
 		text_label.visible_characters = 0
 	if DialogueUI._root != null:
 		DialogueUI._root.refresh_layout()
@@ -55,7 +58,7 @@ func _process(delta: float) -> void:
 		_type_timer = 0.0
 		_shown_chars += 1
 		text_label.visible_characters = _shown_chars
-		if _shown_chars >= _full_text.length():
+		if _shown_chars >= _visible_length:
 			_typing = false
 			text_label.visible_characters = -1
 

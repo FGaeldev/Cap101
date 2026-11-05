@@ -12,7 +12,7 @@ var facing_left: bool = false
 ## Grid step size in px. Multiples of 8 only (base 16). Match active tilemap.
 @export_range(8, 64, 8) var tile_size: int = 16
 ## Seconds per tile step. ~0.2 = brisk, 0.25 = GBA feel.
-@export var step_time: float = 0.3
+@export var step_time: float = 0.22
 ## Last facing as raw 4-dir vector. Used by Idle turn-in-place check.
 var facing_vec: Vector2 = Vector2.DOWN
 

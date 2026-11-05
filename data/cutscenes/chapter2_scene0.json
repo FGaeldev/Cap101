@@ -1,4 +1,5 @@
 [
+	{"type": "chapter_card", "chapter": "chapter2"},
 	{"type": "spawn_npc", "actor": "Rose", "scene": "res://scenes/entities/npc_Rose.tscn", "at": [32, 112]},
 	{"type": "spawn_npc", "actor": "Lola Susan", "scene": "res://scenes/entities/npc_LolaSusan.tscn", "at": [32, 128]},
 	{"type": "spawn_npc", "actor": "Lola Jonabel", "scene": "res://scenes/entities/npc_LolaJonabel.tscn", "at": [32, 144]},

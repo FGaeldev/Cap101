@@ -13,8 +13,12 @@ layout_mode = 2
 [node name="SpeakerLabel" type="Label" parent="VBoxContainer" unique_id=2004947677]
 layout_mode = 2
 
-[node name="TextLabel" type="Label" parent="VBoxContainer" unique_id=980381807]
+[node name="TextLabel" type="RichTextLabel" parent="VBoxContainer" unique_id=980381807]
 layout_mode = 2
+mouse_filter = 2
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
 autowrap_mode = 3
 
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]
