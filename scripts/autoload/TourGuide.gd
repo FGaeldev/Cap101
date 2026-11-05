@@ -10,6 +10,9 @@ const ROSE_ID := "Rose"
 ## Pace of Rose's walk over to the player. Same game speed as the long walks.
 const APPROACH_SPEED: float = 48.0
 const APPROACH_GAME_SPEED: float = 2.0
+## First trip: set on reaching a stop, where the player roams until they talk to Rose
+## (the level scripts). Cleared if she takes them home first, so the stop starts over.
+const ARRIVAL_FLAGS: Array[String] = ["chapter2_arrived_park", "chapter2_arrived_market", "chapter2_arrived_cathedral"]
 ## Rose takes the player home from this hour until morning.
 const HOME_BY_HOUR: int = 18
 const MORNING_HOUR: int = 6
@@ -19,6 +22,10 @@ const STOPS: Dictionary = {
 	"pastrana_outdoors.tscn": {
 		"home": "chapter2_walk_home_park",
 		"places": [{"label": "The market", "flag": "map_open_market", "cutscene": "chapter2_park_to_market"}],
+	},
+	"bakhawan_outdoors.tscn": {
+		"home": "chapter2_walk_home_bakhawan",
+		"places": [],
 	},
 	"market_indoors.tscn": {
 		"home": "chapter2_walk_home_market",
@@ -35,6 +42,9 @@ func _ready() -> void:
 func intercept(warp: Node, player: Node2D) -> bool:
 	if GameState.dev_mode or _rose_nearby(player) == null:
 		return false
+	if _is_waiting_to_resume(_rose_nearby(player)):
+		_tell_to_stay(_rose_nearby(player), player, warp)
+		return true
 	_approach_then(_rose_nearby(player), player, _ask, warp)
 	return true
 
@@ -104,7 +114,24 @@ func _say_getting_late(rose: Node2D) -> void:
 		_play_home(rose))
 	dialogue.start_dialogue()
 
+## First trip stop: talking to her continues the tour (npc_generic.gd cutscene_id).
+func _is_waiting_to_resume(rose: Node2D) -> bool:
+	return not rose.cutscene_id.is_empty() and not GameState.get_flag(rose.cutscene_seen_flag)
+
+func _tell_to_stay(rose: Node2D, player: Node2D, warp: Node) -> void:
+	MapManager.is_transitioning = true
+	warp._walk_player_back(player)
+	await get_tree().create_timer(player.step_time).timeout
+	MapManager.is_transitioning = false
+	var dialogue := DialogueComponent.new()
+	dialogue.dialogue_lines = [{"speaker": "Rose", "text": "Not yet, balikbayan. Talk to me when you are ready to keep going.", "next": null}]
+	rose.add_child(dialogue)
+	dialogue.dialogue_ended.connect(dialogue.queue_free)
+	dialogue.start_dialogue()
+
 func _play_home(rose: Node2D) -> void:
+	for flag: String in ARRIVAL_FLAGS:
+		GameState.set_flag(flag, false)
 	var home: String = _stop_for(rose).get("home", "")
 	if not home.is_empty():
 		CutsceneManager.play(home)

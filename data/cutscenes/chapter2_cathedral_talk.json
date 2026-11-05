@@ -1,0 +1,6 @@
+[
+	{"type": "dialogue", "chapter": "chapter2", "scene": "scene_3_cathedral_talk"},
+	{"type": "set_flag", "flag": "seen_chapter2_scene3", "value": true},
+	{"type": "dialogue", "chapter": "chapter2", "scene": "scene_4_vocabulary_practice_round_numbers_colors_market_goods"},
+	{"type": "set_flag", "flag": "seen_chapter2_scene4", "value": true}
+]

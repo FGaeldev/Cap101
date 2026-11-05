@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d3atpex7gk7e4"
-path="res://.godot/imported/lolaSusan_sprite.png-6fc320aa5acf9dcf8e01d249f9a64aca.ctex"
+uid="uid://c11ygqmvobyp7"
+path="res://.godot/imported/Julian_art.png-5d867d4eaf1453a8f057ab72d00ca76c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/lolaSusan_sprite.png"
-dest_files=["res://.godot/imported/lolaSusan_sprite.png-6fc320aa5acf9dcf8e01d249f9a64aca.ctex"]
+source_file="res://assets/sprites/portraits/Julian_art.png"
+dest_files=["res://.godot/imported/Julian_art.png-5d867d4eaf1453a8f057ab72d00ca76c.ctex"]
 
 [params]
 

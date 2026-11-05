@@ -1,6 +1,7 @@
 # HUD.gd
 extends CanvasLayer
 # Layout (hud.tscn):
+#   top-mid   TierBar: learning tier and progress to the next one (GameState)
 #   top-left  QuestColumn: MainQuest panel (current story objective) +
 #             SubQuests rows (other active quests + world tasks)
 #   top-right TopRight/RightColumn: Clock ("Mon 8:10 AM"), MenuButton, Toasts.
@@ -51,6 +52,9 @@ const FULLSCREEN_COLUMN_TOP: float = 38.0
 @onready var clock_label: Label = $TopRight/RightColumn/Clock/Label
 @onready var menu_button: Button = $TopRight/RightColumn/MenuButton
 @onready var toasts: VBoxContainer = $TopRight/RightColumn/Toasts
+@onready var tier_bar: PanelContainer = $TierBar
+@onready var tier_label: Label = $TierBar/Row/Label
+@onready var tier_fill: ProgressBar = $TierBar/Row/Fill
 @onready var joystick: Control = $VirtualJoystick
 @onready var interact_button: Button = $InteractButton
 
@@ -58,6 +62,8 @@ var _nearest_interactable: InteractableComponent = null
 ## Pending toasts: [{kind: String, text: String}].
 var _toast_queue: Array = []
 var _toasts_showing: int = 0
+## Tier the bar shows, for spotting a tier up.
+var _shown_tier: int = 0
 ## Toast body width: the widest Akeanon word in the word bank. Measured once.
 var _toast_width: float = -1.0
 
@@ -71,9 +77,11 @@ func _ready() -> void:
 	TaskManager.task_started.connect(func(_tid): _rebuild_quest_rows())
 	TaskManager.task_step_advanced.connect(func(_tid, _step): _rebuild_quest_rows())
 	TaskManager.task_completed.connect(func(_tid): _rebuild_quest_rows())
+	GameState.mastery_changed.connect(_on_mastery_changed)
 	GameState.word_learned.connect(_on_word_learned)
 	AchievementManager.achievement_unlocked.connect(_on_achievement_unlocked)
 	_apply_style()
+	_refresh_tier()
 	_rebuild_quest_rows()
 	# This layer sits above every panel: the column's own empty area must not
 	# swallow clicks meant for what's under it. MenuButton still gets its own.
@@ -83,6 +91,7 @@ func _ready() -> void:
 	menu_button.pressed.connect(_on_menu_button_pressed)
 	UIThemeApplier.apply_icon_button_theme(interact_button, "dictionary")
 	interact_button.pressed.connect(_on_interact_button_pressed)
+	TutorialManager.register_target("tier_bar", tier_bar)
 	TutorialManager.register_target("joystick", joystick)
 	TutorialManager.register_target("interact_button", interact_button)
 
@@ -101,6 +110,7 @@ func _process(_delta: float) -> void:
 	clock_panel.visible = not fullscreen
 	menu_button.visible = not fullscreen
 	quest_column.visible = not fullscreen
+	tier_bar.visible = not fullscreen
 	var column_top: float = FULLSCREEN_COLUMN_TOP if fullscreen else DEFAULT_COLUMN_TOP
 	if right_column.offset_top != column_top:
 		right_column.offset_top = column_top
@@ -109,8 +119,13 @@ func _process(_delta: float) -> void:
 		clock_label.text = clock_text
 
 func _apply_style() -> void:
-	for panel in [main_quest, clock_panel]:
-		panel.add_theme_stylebox_override("panel", UIThemeApplier.make_header_style())
+	main_quest.add_theme_stylebox_override("panel", UIThemeApplier.make_header_style())
+	clock_panel.add_theme_stylebox_override("panel", UIThemeApplier.make_header_right_style())
+	tier_bar.add_theme_stylebox_override("panel", UIThemeApplier.make_header_style())
+	tier_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_EMPHASIS)
+	tier_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XS)
+	tier_fill.add_theme_stylebox_override("background", _make_tier_style(UIThemeApplier.TEXT_EMPHASIS))
+	tier_fill.add_theme_stylebox_override("fill", _make_tier_style(UIThemeApplier.COLOR_SUCCESS))
 	main_quest_title.add_theme_color_override("font_color", UIThemeApplier.TEXT_EMPHASIS)
 	main_quest_title.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
 	clock_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_EMPHASIS)
@@ -249,7 +264,7 @@ func _show_toast(entry: Dictionary) -> void:
 	_toasts_showing += 1
 	var panel := PanelContainer.new()
 	panel.size_flags_horizontal = Control.SIZE_SHRINK_END
-	panel.add_theme_stylebox_override("panel", UIThemeApplier.make_header_style())
+	panel.add_theme_stylebox_override("panel", UIThemeApplier.make_header_right_style())
 	var vbox := VBoxContainer.new()
 	vbox.add_theme_constant_override("separation", -2)
 	panel.add_child(vbox)
@@ -318,3 +333,22 @@ func _get_toast_width() -> float:
 		_toast_width = TOAST_FALLBACK_WIDTH
 	_toast_width = ceilf(_toast_width)
 	return _toast_width
+
+# --- Tier bar ---------------------------------------------------------------
+
+func _make_tier_style(color: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = color
+	return style
+
+func _on_mastery_changed() -> void:
+	_refresh_tier()
+	TutorialManager.start("tier_bar")
+
+func _refresh_tier() -> void:
+	var tier: int = GameState.get_difficulty_tier()
+	tier_label.text = "Tier %d" % tier
+	tier_fill.value = GameState.get_tier_progress()
+	if _shown_tier > 0 and tier > _shown_tier:
+		push_toast("Tier Up", "Tier %d" % tier)
+	_shown_tier = tier

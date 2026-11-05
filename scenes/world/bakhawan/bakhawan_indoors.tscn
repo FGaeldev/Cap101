@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://dj8y7kon2p5qf"]
+[gd_scene format=3 uid="uid://d4b0317pxwp4a"]
 
-[node name="BakhawanIndoors" type="Node2D" unique_id=599495054]
+[node name="BakhawanOutdoors" type="Node2D" unique_id=1376067596]
 y_sort_enabled = true

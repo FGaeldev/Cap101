@@ -225,12 +225,16 @@ func get_known_puzzle_words(min_length: int, max_length: int) -> Array:
 func get_word_of_the_day() -> String:
 	if GameState.wotd_date == GameState.date_unix and words.has(GameState.wotd_id):
 		return GameState.wotd_id
-	var unknown: Array = words.keys().filter(func(id):
-		return not GameState.is_in_dictionary(id) and not _gloss_key(id).is_empty())
+	var unknown: Array = get_unknown_word_ids()
 	GameState.wotd_date = GameState.date_unix
 	GameState.wotd_id = unknown.pick_random() if not unknown.is_empty() \
 			else get_weighted_review_word(words.keys())
 	return GameState.wotd_id
+
+## Words with a meaning to show that the player has not met yet.
+func get_unknown_word_ids() -> Array:
+	return words.keys().filter(func(id):
+		return not GameState.is_in_dictionary(id) and not _gloss_key(id).is_empty())
 
 func get_words_for_area(area: String) -> Array:
 	return words.values().filter(

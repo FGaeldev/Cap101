@@ -35,40 +35,42 @@
 	  "type": "dialogue"
 	},
 	{
-	  "speaker": "",
-	  "text": "An old man selling dried fish smiles and waves at Rose.",
-	  "next": 5,
+	  "speaker": "Rose",
+	  "text": "Look around first, balikbayan. Talk to me when you want to keep going.",
+	  "next": null,
 	  "word_ids": [],
 	  "type": "dialogue"
-	},
+	}
+  ],
+  "scene_1_meet_pedring": [
 	{
 	  "speaker": "Rose",
-	  "text": "Ruyon, si Manong Pedring. \\Suki namon \\igto sa tindahan.",
-	  "next": 6,
-	  "translation": "That's Manong Pedring. He's our regular vendor at the market.",
+	  "text": "Ruyon, si Anong Pedring. \\Suki namon \\igto sa tindahan.",
+	  "next": 1,
+	  "translation": "That's Anong Pedring. He's our regular vendor at the market.",
 	  "word_ids": [
 		"w216",
-        "w082"
+		"w082"
 	  ],
 	  "type": "dialogue"
 	},
 	{
 	  "speaker": "",
-	  "text": "Will you talk to Manong Pedring?",
+	  "text": "Will you talk to Anong Pedring?",
 	  "choices": [
 		{
-		  "label": "[GoodDay]! I'm here with Jonabel's family.",
+		  "label": "Good morning! I'm here with Jonabel's family.",
 		  "rapport_delta": 2,
-		  "next": 7
+		  "next": 2
 		},
 		{
 		  "label": "Uh, hi. Sorry, I'm still nervous speaking Akeanon.",
-		  "next": 8
+		  "next": 3
 		},
 		{
 		  "label": "I'll just wait here, you go ahead.",
 		  "rapport_delta": -2,
-		  "next": 9
+		  "next": 4
 		}
 	  ],
 	  "next": null,
@@ -76,33 +78,30 @@
 	  "type": "dialogue"
 	},
 	{
-	  "speaker": "Manong Pedring",
-	  "text": "\\Mayad-ayad nga \\[DayPart]!\\Apo gali ni Jonabel. \\Siin ka \\halin?",
-	  "next": 10,
-	  "word_ids": [
-		"w164",
-		"w019",
-		"w214",
-        "w072"
-	  ],
+	  "speaker": "Anong Pedring",
+	  "text": "\\Mayad-ayad nga agahon! \\Apo gali ni Jonabel. \\Siin ka \\halin?",
+	  "next": 5,
+	  "word_ids": ["w164", "w019", "w214", "w072"],
 	  "type": "dialogue"
 	},
 	{
-	  "speaker": "Manong Pedring",
+	  "speaker": "Anong Pedring",
 	  "text": "\\Indi \\baea. Slow only. Learning takes time, \\apo.",
-	  "next": 10,
+	  "next": 5,
 	  "word_ids": [
 		"w086",
 		"w025",
-        "w019"
+		"w019"
 	  ],
 	  "type": "dialogue"
 	},
 	{
 	  "speaker": "Rose",
 	  "text": "Suit yourself. But you'll have to talk to people eventually.",
-	  "next": 10,
-	  "word_ids": [],
+	  "next": 5,
+	  "word_ids": [
+		
+	  ],
 	  "type": "dialogue"
 	},
 	{
@@ -134,9 +133,18 @@
 	  "type": "dialogue"
 	},
 	{
-	  "speaker": "Manong Pedring",
+	  "speaker": "Rose",
+	  "text": "Go on, look around. Talk to me when you are done.",
+	  "next": null,
+	  "word_ids": [],
+	  "type": "dialogue"
+	}
+  ],
+  "scene_2_market_talk": [
+	{
+	  "speaker": "Anong Pedring",
 	  "text": "\\Alin ing \\gusto, \\apo? \\Abo iya nga \\humay, \\tubi, \\uga.",
-	  "next": 3,
+	  "next": 1,
 	  "translation": "What do you want, grandchild? There's plenty here — rice, water, fish.",
 	  "word_ids": [
 		"w012",
@@ -152,21 +160,21 @@
 	{
 	  "speaker": "Player",
 	  "text": "Everything smells so good.",
-	  "next": 4,
+	  "next": 2,
 	  "word_ids": [],
 	  "type": "dialogue"
 	},
 	{
 	  "speaker": "Player",
 	  "text": "Rose, how do I say I want this?",
-	  "next": 5,
+	  "next": 3,
 	  "word_ids": [],
 	  "type": "dialogue"
 	},
 	{
 	  "speaker": "Rose",
 	  "text": "Say \"\\pangabay\" first. Means please. Basic manners, balikbayan.",
-	  "next": 6,
+	  "next": 4,
 	  "word_ids": [
         "w189"
 	  ],
@@ -175,21 +183,21 @@
 	{
 	  "speaker": "",
 	  "text": "Player points at a round fruit, unfamiliar.",
-	  "next": 7,
+	  "next": 5,
 	  "word_ids": [],
 	  "type": "dialogue"
 	},
 	{
 	  "speaker": "Player",
 	  "text": "Pangabay, what's that?",
-	  "next": 8,
+	  "next": 6,
 	  "word_ids": [],
 	  "type": "dialogue"
 	},
 	{
-	  "speaker": "Manong Pedring",
+	  "speaker": "Anong Pedring",
 	  "text": "Star fruit, \\apo. \\Matam-is \\gid.",
-	  "next": 9,
+	  "next": 7,
 	  "translation": "Star-shaped fruit — star fruit, grandchild. Very sweet.",
 	  "word_ids": [
 		"w019",
@@ -205,16 +213,16 @@
 		{
 		  "label": "Yes, pangabay, I'd like to try it.",
 		  "rapport_delta": 2,
-		  "next": 10
+		  "next": 8
 		},
 		{
 		  "label": "Maybe later, let me look around first.",
-		  "next": 11
+		  "next": 9
 		},
 		{
 		  "label": "I'm okay, I'm not a fan of exotic fruits, sorry.",
 		  "rapport_delta": -2,
-		  "next": 12
+		  "next": 10
 		}
 	  ],
 	  "next": null,
@@ -222,9 +230,9 @@
 	  "type": "dialogue"
 	},
 	{
-	  "speaker": "Manong Pedring",
+	  "speaker": "Anong Pedring",
 	  "text": "\\Mayad! \\Dahan sa \\pagkaon.",
-	  "next": 13,
+	  "next": 11,
 	  "word_ids": [
 		"w163",
 		"w049",
@@ -233,21 +241,21 @@
 	  "type": "dialogue"
 	},
 	{
-	  "speaker": "Manong Pedring",
+	  "speaker": "Anong Pedring",
 	  "text": "That's fine, my goods won't disappear quickly.",
-	  "next": 13,
+	  "next": 11,
 	  "word_ids": [],
 	  "type": "dialogue"
 	},
 	{
 	  "speaker": "Rose",
 	  "text": "Your loss. This is literally one of the best things here.",
-	  "next": 13,
+	  "next": 11,
 	  "word_ids": [],
 	  "type": "dialogue"
 	},
 	{
-	  "speaker": "Manong Pedring",
+	  "speaker": "Anong Pedring",
 	  "text": "\\Siin do \\masunod ninyo nga \\agtunan? Mag-simba?",
 	  "next": null,
 	  "translation": "Where are you headed next, to church?",
@@ -274,9 +282,18 @@
 	  "type": "dialogue"
 	},
 	{
+	  "speaker": "Rose",
+	  "text": "Take your time, balikbayan. Talk to me when you are ready.",
+	  "next": null,
+	  "word_ids": [],
+	  "type": "dialogue"
+	}
+  ],
+  "scene_3_cathedral_talk": [
+	{
 	  "speaker": "Lola Susan",
 	  "text": "Iya \\kami \\tanan gasimba. Inyo nga \\Lola Jonabel \\gid, pinakamasueundun.",
-	  "next": 3,
+	  "next": 1,
 	  "translation": "This is where we all used to go to church. Your Lola Jonabel especially, she was the most devout.",
 	  "word_ids": [
 		"w101",
@@ -289,7 +306,7 @@
 	{
 	  "speaker": "Lola Jonabel",
 	  "text": "(laughs) Don't believe her, \\Apo. We were all equally naughty back then.",
-	  "next": 4,
+	  "next": 2,
 	  "word_ids": [
         "w019"
 	  ],
@@ -298,14 +315,14 @@
 	{
 	  "speaker": "",
 	  "text": "The group sits outside the church, Rose holding a town map.",
-	  "next": 5,
+	  "next": 3,
 	  "word_ids": [],
 	  "type": "dialogue"
 	},
 	{
 	  "speaker": "Rose",
 	  "text": "\\Hara, tan-awa. \\Mapa it Kalibo. Kon \\magtuon ka it mga \\lugar, mas \\madali ka \\makaagto bisan siin.",
-	  "next": 6,
+	  "next": 4,
 	  "translation": "Here, look at this. Map of Kalibo. If you learn the places, you'll find your way anywhere more easily.",
 	  "word_ids": [
 		"w075",
@@ -324,16 +341,16 @@
 		{
 		  "label": "This is actually really helpful. Saeamat, Rose.",
 		  "rapport_delta": 2,
-		  "next": 7
+		  "next": 5
 		},
 		{
 		  "label": "I'll try to remember the names, no promises though.",
-		  "next": 8
+		  "next": 6
 		},
 		{
 		  "label": "A physical map? Can't I just use my phone?",
 		  "rapport_delta": -2,
-		  "next": 9
+		  "next": 7
 		}
 	  ],
 	  "next": null,
@@ -343,21 +360,21 @@
 	{
 	  "speaker": "Rose",
 	  "text": "See, not completely hopeless after all.",
-	  "next": 10,
+	  "next": 8,
 	  "word_ids": [],
 	  "type": "dialogue"
 	},
 	{
 	  "speaker": "Rose",
 	  "text": "That's more effort than I expected, honestly.",
-	  "next": 10,
+	  "next": 8,
 	  "word_ids": [],
 	  "type": "dialogue"
 	},
 	{
 	  "speaker": "Rose",
 	  "text": "Sure, and when your phone dies, then what, balikbayan?",
-	  "next": 10,
+	  "next": 8,
 	  "word_ids": [],
 	  "type": "dialogue"
 	},
@@ -604,85 +621,6 @@
 	  "word_ids": []
 	}
   ],
-  "scene_rose_walk_to_park": [
-	{
-	  "type": "start_router",
-	  "start_index_if_flag": {
-		"seen_chapter2_scene1": 3,
-		"default": 1
-	  }
-	},
-	{
-	  "type": "dialogue",
-	  "speaker": "Rose",
-	  "text": "Need something, balikbayan?",
-	  "word_ids": [],
-	  "choices": [
-		{"label": "Can you show me around?", "next": 2},
-		{"label": "Not right now", "next": -1}
-	  ]
-	},
-	{
-	  "type": "dialogue",
-	  "speaker": "Rose",
-	  "text": "Finally. Let's start with the park. Stay close.",
-	  "set_flag": "chapter2_with_rose",
-	  "next": null,
-	  "word_ids": []
-	},
-	{
-	  "type": "dialogue",
-	  "speaker": "Rose",
-	  "text": "Need something, balikbayan?",
-	  "word_ids": [],
-	  "choices": [
-		{"label": "Can we go out again?", "next": 4},
-		{"label": "Not right now", "next": -1}
-	  ]
-	},
-	{
-	  "type": "dialogue",
-	  "speaker": "Rose",
-	  "text": "Back to the park, then. Stay close.",
-	  "set_flag": "chapter2_with_rose",
-	  "next": null,
-	  "word_ids": []
-	}
-  ],
-  "scene_rose_not_now": [
-	{
-	  "type": "dialogue",
-	  "speaker": "Rose",
-	  "text": "Not now, balikbayan. Ask me in the morning.",
-	  "next": null,
-	  "word_ids": []
-	}
-  ],
-  "scene_mass_service": [
-	{
-	  "type": "dialogue",
-	  "speaker": "",
-	  "text": "The family goes in and hears Sunday mass together.",
-	  "next": 1,
-	  "word_ids": []
-	},
-	{
-	  "type": "dialogue",
-	  "speaker": "Lola Susan",
-	  "text": "Now, the market. We still need a few things for lunch.",
-	  "next": null,
-	  "word_ids": []
-	}
-  ],
-  "scene_mass_market": [
-	{
-	  "type": "dialogue",
-	  "speaker": "Lola Susan",
-	  "text": "That's everything. Let's go home before the food gets cold.",
-	  "next": null,
-	  "word_ids": []
-	}
-  ],
   "scene_sunday_mass_invite": [
 	{
 	  "type": "start_router",
@@ -727,6 +665,90 @@
 	  "type": "dialogue",
 	  "speaker": "Rose",
 	  "text": "Suit yourself. We'll be back by noon.",
+	  "next": null,
+	  "word_ids": []
+	}
+  ],
+  "scene_rose_walk_to_park": [
+	{
+	  "type": "start_router",
+	  "start_index_if_flag": {
+		"chapter2_tour_done": 5,
+		"seen_chapter2_scene1": 3,
+		"default": 1
+	  }
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Rose",
+	  "text": "Need something, balikbayan?",
+	  "word_ids": [],
+	  "choices": [
+		{"label": "Can you show me around?", "next": 2},
+		{"label": "Not right now", "next": -1}
+	  ]
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Rose",
+	  "text": "Finally. Let's start with the park. Stay close.",
+	  "set_flag": "chapter2_with_rose",
+	  "next": null,
+	  "word_ids": []
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Rose",
+	  "text": "Need something, balikbayan?",
+	  "word_ids": [],
+	  "choices": [
+		{"label": "Can we go out again?", "next": 4},
+		{"label": "Not right now", "next": -1}
+	  ]
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Rose",
+	  "text": "Back to the park, then. Stay close.",
+	  "set_flag": "chapter2_with_rose",
+	  "next": null,
+	  "word_ids": []
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Rose",
+	  "text": "Need something, balikbayan?",
+	  "word_ids": [],
+	  "choices": [
+		{"label": "Can we go out again?", "next": 4},
+		{"label": "Can we go to Bakhawan?", "next": 6},
+		{"label": "Not right now", "next": -1}
+	  ]
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Rose",
+	  "text": "Bakhawan it is. Stay close.",
+	  "set_flag": "chapter2_with_rose",
+	  "set_flag_on_enter": "chapter2_going_bakhawan",
+	  "next": null,
+	  "word_ids": []
+	}
+  ],
+  "scene_rose_not_now": [
+	{
+	  "type": "dialogue",
+	  "speaker": "Rose",
+	  "text": "Not now, balikbayan. Ask me in the morning.",
+	  "next": null,
+	  "word_ids": []
+	}
+  ],
+  "scene_mass_market": [
+	{
+	  "type": "dialogue",
+	  "speaker": "Lola Susan",
+	  "text": "That's everything. Let's go home before the food gets cold.",
 	  "next": null,
 	  "word_ids": []
 	}

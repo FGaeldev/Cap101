@@ -44,7 +44,7 @@ func execute(step: Dictionary, mgr: Node) -> void:
 		"zoom":
 			var to_zoom: Array = step.get("to", [1.5, 1.5])
 			var tween: Tween = mgr.track_tween(cam.create_tween())
-			tween.tween_property(cam, "zoom", Vector2(to_zoom[0], to_zoom[1]), duration)
+			tween.tween_property(cam, "zoom", Vector2(to_zoom[0], to_zoom[1]) / UIScale.factor, duration)
 			await tween.finished
 		"release":
 			var run: int = mgr.current_run()

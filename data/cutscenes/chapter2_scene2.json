@@ -6,6 +6,5 @@
 	{"type": "parallel", "actions": [{"type": "fade", "direction": "in", "duration": 0.6}, {"type": "conga", "join": "nearest_x", "leader": "Rose", "followers": ["player"], "path_to": "S2/Rose", "gap": 2, "speed": 48, "despawn": false}, {"type": "sequence", "actions": [{"type": "wait", "seconds": 0.5}, {"type": "set_visible", "actor": "player", "value": true}]}]},
 	{"type": "game_speed", "scale": 1.0},
 	{"type": "dialogue", "chapter": "chapter2", "scene": "scene_2_kalibo_public_market"},
-	{"type": "set_flag", "flag": "seen_chapter2_scene2", "value": true},
-	{"type": "set_flag", "flag": "map_open_market", "value": true}
+	{"type": "set_flag", "flag": "chapter2_arrived_market", "value": true}
 ]

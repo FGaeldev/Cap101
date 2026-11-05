@@ -597,6 +597,9 @@ blocked_message = "I should stick with Rose for now."
 
 [node name="Spawns" type="Node2D" parent="." unique_id=410200820]
 
+[node name="DefaultSpawn" type="Marker2D" parent="Spawns"]
+position = Vector2(176, 240)
+
 [node name="FromHall" type="Marker2D" parent="Spawns" unique_id=410200821]
 position = Vector2(176, 240)
 

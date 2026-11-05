@@ -2,7 +2,7 @@
 	"ch1_basics": {
 		"steps": [
 			{
-				"text": "Tap the screen to continue the conversation.",
+				"text": "Tap the screen to continue.",
 				"event": "dialogue_advanced"
 			},
 			{
@@ -12,7 +12,7 @@
 				"highlight": "joystick"
 			},
 			{
-				"text": "Walk to the living room and talk to Grandma.",
+				"text": "Go to the living room, talk to Grandma.",
 				"event": "interactable_in_range"
 			},
 			{
@@ -25,11 +25,11 @@
 	"ch1_quest_hud": {
 		"steps": [
 			{
-				"text": "New quest! Your active quests appear at the top left of the screen.",
+				"text": "Your quests show at the top left.",
 				"auto_advance": 4.0
 			},
 			{
-				"text": "Head back to your bedroom and interact with the book.",
+				"text": "Go to your bedroom, open the book.",
 				"auto_advance": 4.0
 			}
 		]
@@ -38,7 +38,7 @@
 		"above_book": true,
 		"steps": [
 			{
-				"text": "This is your Book. It keeps track of your journey.",
+				"text": "This Book tracks your journey.",
 				"auto_advance": 4.5
 			},
 			{
@@ -47,7 +47,7 @@
 				"highlight": "book_settings"
 			},
 			{
-				"text": "Settings lets you adjust music, sound effects, and other options.",
+				"text": "Change sound and UI size here.",
 				"auto_advance": 4.5
 			},
 			{
@@ -56,7 +56,7 @@
 				"highlight": "book_quest"
 			},
 			{
-				"text": "The Journal shows your current quests and achievements.",
+				"text": "See quests and achievements here.",
 				"auto_advance": 4.5
 			},
 			{
@@ -65,7 +65,7 @@
 				"highlight": "book_rapport"
 			},
 			{
-				"text": "Relationship shows how well you know the people you meet.",
+				"text": "See how close you are with people.",
 				"auto_advance": 4.5
 			},
 			{
@@ -74,7 +74,7 @@
 				"highlight": "book_dictionary"
 			},
 			{
-				"text": "The Dictionary keeps every word you have discovered.",
+				"text": "Every word you find is saved here.",
 				"auto_advance": 4.5
 			},
 			{
@@ -83,13 +83,100 @@
 				"highlight": "book_map"
 			},
 			{
-				"text": "The Map shows the places you have discovered.",
+				"text": "See the places you have found.",
 				"auto_advance": 4.5
 			},
 			{
-				"text": "Tap the X button to close the Book.",
+				"text": "The Calendar tab shows upcoming events.",
+				"auto_advance": 4.5
+			},
+			{
+				"text": "Tap the X to close the Book.",
 				"event": "book_tutorial_finished",
 				"highlight": "book_close"
+			}
+		]
+	},
+	"ui_scale": {
+		"above_book": true,
+		"steps": [
+			{
+				"text": "UI Scale makes the screen bigger or smaller.",
+				"auto_advance": 4.5
+			}
+		]
+	},
+	"tier_bar": {
+		"steps": [
+			{
+				"text": "This bar shows your word tier.",
+				"auto_advance": 4.0,
+				"highlight": "tier_bar"
+			},
+			{
+				"text": "Practice words to fill it up.",
+				"auto_advance": 4.0,
+				"highlight": "tier_bar"
+			}
+		]
+	},
+	"npc_menu": {
+		"steps": [
+			{
+				"text": "Talk to chat. Review to practice words.",
+				"auto_advance": 4.5
+			}
+		]
+	},
+	"idle_talk": {
+		"steps": [
+			{
+				"text": "Talk again to hear more from them.",
+				"auto_advance": 4.0
+			}
+		]
+	},
+	"word_lesson": {
+		"steps": [
+			{
+				"text": "Say yes to learn one extra word a day.",
+				"auto_advance": 4.5
+			}
+		]
+	},
+	"tour_roam": {
+		"steps": [
+			{
+				"text": "Explore, then talk to Rose to go on.",
+				"auto_advance": 5.0
+			}
+		]
+	},
+	"newspaper": {
+		"steps": [
+			{
+				"text": "Read the word of the day here.",
+				"auto_advance": 4.0
+			},
+			{
+				"text": "Solve one puzzle every day.",
+				"auto_advance": 4.0
+			}
+		]
+	},
+	"sleep": {
+		"steps": [
+			{
+				"text": "Sleep in a bed to start a new day.",
+				"auto_advance": 4.0
+			}
+		]
+	},
+	"bakhawan_trip": {
+		"steps": [
+			{
+				"text": "Rose can now take you to Bakhawan.",
+				"auto_advance": 5.0
 			}
 		]
 	}

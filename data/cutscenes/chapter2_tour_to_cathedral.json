@@ -6,7 +6,5 @@
 	{"type": "parallel", "actions": [{"type": "fade", "direction": "in", "duration": 0.6}, {"type": "conga", "join": "nearest_x", "leader": "Rose", "followers": ["player"], "path_to": "S3/Rose", "gap": 2, "speed": 48, "despawn": false}, {"type": "sequence", "actions": [{"type": "wait", "seconds": 0.5}, {"type": "set_visible", "actor": "player", "value": true}]}]},
 	{"type": "game_speed", "scale": 1.0},
 	{"type": "dialogue", "chapter": "chapter2", "scene": "scene_3_kalibo_cathedral_midday"},
-	{"type": "set_flag", "flag": "seen_chapter2_scene3", "value": true},
-	{"type": "dialogue", "chapter": "chapter2", "scene": "scene_4_vocabulary_practice_round_numbers_colors_market_goods"},
-	{"type": "set_flag", "flag": "seen_chapter2_scene4", "value": true}
+	{"type": "set_flag", "flag": "chapter2_arrived_cathedral", "value": true}
 ]

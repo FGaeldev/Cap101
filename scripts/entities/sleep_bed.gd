@@ -29,6 +29,8 @@ var _sleeping: bool = false
 func _ready() -> void:
 	interactable.interacted.connect(_on_interacted)
 	interactable.disabled = not sleepable
+	if sleepable and (required_flag.is_empty() or GameState.get_flag(required_flag)):
+		TutorialManager.start("sleep")
 
 func _on_interacted(interactor: Node) -> void:
 	if not sleepable or _sleeping or interactor == null \

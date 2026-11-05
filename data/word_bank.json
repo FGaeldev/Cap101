@@ -680,7 +680,7 @@
       "akeanon": "hay",
       "category": "",
       "area": "chapter4",
-      "gloss": "(?) / because",
+      "gloss": "is / because",
       "verified": false,
       "source": ""
     },
@@ -689,7 +689,7 @@
       "akeanon": "hay",
       "category": "",
       "area": "chapter5",
-      "gloss": "(?) / because",
+      "gloss": "is / because",
       "verified": false,
       "source": ""
     },
@@ -1616,7 +1616,7 @@
       "akeanon": "nga",
       "category": "",
       "area": "chapter2",
-      "gloss": "? / Of",
+      "gloss": "that / of",
       "verified": false,
       "source": ""
     },
@@ -2265,6 +2265,24 @@
       "category": "Noun (n)",
       "area": "chapter2",
       "gloss": "cousin",
+      "verified": true,
+      "source": ""
+    },
+    {
+      "id": "w254",
+      "akeanon": "bisaea",
+      "category": "Noun (n)",
+      "area": "all",
+      "gloss": "word",
+      "verified": true,
+      "source": ""
+    },
+    {
+      "id": "w255",
+      "akeanon": "bueot-hambaeon",
+      "category": "Noun (n)",
+      "area": "all",
+      "gloss": "meaning",
       "verified": true,
       "source": ""
     }

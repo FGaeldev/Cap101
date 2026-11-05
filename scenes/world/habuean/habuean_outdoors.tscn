@@ -1,4 +1,9 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://de0yv1jetm61h"]
+
+[sub_resource type="TileSet" id="TileSet_7n77a"]
 
 [node name="HabueanOutdoors" type="Node2D" unique_id=1537197933]
 y_sort_enabled = true
+
+[node name="Floor" type="TileMapLayer" parent="." unique_id=204083775]
+tile_set = SubResource("TileSet_7n77a")

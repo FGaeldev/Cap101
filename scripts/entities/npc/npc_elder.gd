@@ -20,12 +20,8 @@ extends CharacterBody2D
 ## GameState flag checked/set by the cutscene's own set_flag step -- must match
 ## the "flag" value inside data/cutscenes/<cutscene_id>.json exactly.
 @export var seen_flag: String = "seen_chapter1_scene1"
-## Idle pool key (ChapterLoader.get_idle_pool), sibling key in dialogue_chapter's
-## JSON. Empty = no idle content yet, repeat dialogue plays every interact
-## (old behavior, safe fallback).
-@export var idle_pool_key: String = "idle_pool_lola_jonabel"
 ## Set once the post-cutscene repeat dialogue has played to completion once.
-## Subsequent interacts draw from idle_pool_key instead of replaying it.
+## Subsequent interacts use generated idle talk instead of replaying it.
 @export var story_done_flag: String = "story_done_lola_jonabel_scene1"
 
 enum FacingDirection {
@@ -39,7 +35,7 @@ enum FacingDirection {
 
 ## Rapport/patience key AND dialogue "speaker" string match this exactly
 ## (GameState.rapport is keyed by speaker name, see Comp_Dialogue._last_speaker).
-## Was previously never set anywhere -- idle pool rapport-tier lookup was
+## Was previously never set anywhere -- rapport lookups were
 ## silently reading rapport for "" the whole time.
 @export var npc_id: String = "Lola Jonabel"
 
@@ -100,11 +96,11 @@ func _start_dialogue_or_idle() -> void:
 	var story_lines: Array = ChapterLoader.get_scene_lines(dialogue_chapter, dialogue_scene_key)
 	# No authored story lines -> go straight to idle instead of closing silently.
 	var story_pending: bool = not story_lines.is_empty() and not GameState.get_flag(story_done_flag)
-	if idle_pool_key.is_empty() or story_pending:
+	if story_pending:
 		dialogue.dialogue_lines = story_lines
 		dialogue.start_dialogue()
 	else:
-		dialogue.start_idle_dialogue(ChapterLoader.get_idle_pool(dialogue_chapter, idle_pool_key))
+		dialogue.start_idle_dialogue()
 
 ## Only the post-cutscene repeat dialogue should ever set story_done_flag --
 ## idle dialogue also fires dialogue_ended, but story_done_flag is already

@@ -14,6 +14,7 @@ func _ready() -> void:
 func _on_interacted(_interactor: Node) -> void:
 	if not DialogueUI.is_active():
 		DialogueUI.show_newspaper()
+		TutorialManager.start("newspaper")
 
 func _refresh_marker() -> void:
 	interactable.is_active = not GameState.is_puzzle_solved_today()

@@ -5,5 +5,5 @@
 	{"type": "parallel", "actions": [{"type": "fade", "direction": "in", "duration": 0.6}, {"type": "conga", "leader": "Rose", "followers": ["player"], "waypoints": ["S1/ParkGate", "S1/PlazaEdge", "S1/PlazaTop", "S1/Rose"], "order": "xy", "queue_direction": "left", "gap": 2, "speed": 48}]},
 	{"type": "game_speed", "scale": 1.0},
 	{"type": "dialogue", "chapter": "chapter2", "scene": "scene_1_pastrana_park_morning_walk"},
-	{"type": "set_flag", "flag": "seen_chapter2_scene1", "value": true}
+	{"type": "set_flag", "flag": "chapter2_arrived_park", "value": true}
 ]

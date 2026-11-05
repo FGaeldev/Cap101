@@ -1,0 +1,8 @@
+[
+	{"type": "game_speed", "scale": 2.0},
+	{"type": "spawn_npc", "actor": "Anong Pedring", "scene": "res://scenes/entities/npc_Pedring.tscn", "at_marker": "S1/Pedring Start"},
+	{"type": "move_npc", "actor": "Anong Pedring", "to": "S1/PedringStand", "avoid_actors": true, "speed": 48},
+	{"type": "game_speed", "scale": 1.0},
+	{"type": "dialogue", "chapter": "chapter2", "scene": "scene_1_meet_pedring"},
+	{"type": "set_flag", "flag": "seen_chapter2_scene1", "value": true}
+]
