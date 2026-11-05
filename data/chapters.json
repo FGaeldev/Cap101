@@ -1,0 +1,50 @@
+[
+	{
+		"id": "chapter1",
+		"number": 1,
+		"title": "Homesick",
+		"available": true,
+		"description": "Lola Jonabel misses Aklan, so you fly home with her and Papa Jobert. At Kalibo Airport you meet Lola Susan and your cousin Rose, who agrees to teach you Akeanon.",
+		"learn": "Greetings, pronouns, and numbers 1 to 5"
+	},
+	{
+		"id": "chapter2",
+		"number": 2,
+		"title": "Kalibo Town",
+		"available": true,
+		"description": "Home at last. Rose walks you through Kalibo: Pastrana Park, the public market, and the cathedral. Once the tour is done, ask her whenever you want to go out again.",
+		"learn": "Places, food, numbers 6 to 10, colors, and size words"
+	},
+	{
+		"id": "chapter3",
+		"number": 3,
+		"title": "Threads of Piña",
+		"available": false,
+		"description": "Visit a piña weaving community. Manang Loleng shows you how pineapple fiber becomes cloth, and you try the loom yourself.",
+		"learn": "Action words and words for speed and size"
+	},
+	{
+		"id": "chapter4",
+		"number": 4,
+		"title": "Roots of Bakhawan",
+		"available": false,
+		"description": "Explore the Bakhawan Eco-Park with its caretaker, Manong Ambo. Learn how mangrove roots protect the town from storms, then try fishing.",
+		"learn": "Nature words and action words"
+	},
+	{
+		"id": "chapter5",
+		"number": 5,
+		"title": "Hala Bira!",
+		"available": false,
+		"description": "The Ati-Atihan festival fills Kalibo with drums. Kapitan Julian welcomes your family, and you join the street cheer.",
+		"learn": "Festival words and words for people"
+	},
+	{
+		"id": "chapter6",
+		"number": 6,
+		"title": "Homeward",
+		"available": false,
+		"description": "One last trip, from the Caticlan jetty to Boracay. Tita Beth explains how tourism supports local people before it is time to say goodbye.",
+		"learn": "Travel and tourism words"
+	}
+]

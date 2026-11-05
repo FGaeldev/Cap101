@@ -188,6 +188,7 @@ func _ready() -> void:
 	TutorialManager.register_target("book_rapport", tab_rapport)
 	TutorialManager.register_target("book_dictionary", tab_dictionary)
 	TutorialManager.register_target("book_map", tab_map)
+	TutorialManager.register_target("book_calendar", tab_calendar)
 	TutorialManager.register_target("book_close", close_btn)
 	
 	

@@ -141,6 +141,8 @@ func _build_npc_interaction_menu() -> void:
 	var goodbye_button := _make_npc_menu_button("Goodbye", "secondary")
 	goodbye_button.pressed.connect(_on_npc_interaction_choice.bind("goodbye"))
 	_npc_menu.add_child(goodbye_button)
+	# Up beside the name, so it clears the Talk button below.
+	HelpButton.pin(_npc_menu, "npc_menu", Vector2(0, -9))
 
 
 ## Button matching choice_box.gd rows: left aligned, wrapped, 24px min height.

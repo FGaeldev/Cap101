@@ -62,6 +62,22 @@ text = "UI Scale"
 [node name="UIScaleRow" type="HBoxContainer" parent="Scroll/VBoxContainer"]
 layout_mode = 2
 
+[node name="AccessibilityLabel" type="Label" parent="Scroll/VBoxContainer" unique_id=803804971]
+layout_mode = 2
+text = "Accessibility"
+
+[node name="ColorBlindLabel" type="Label" parent="Scroll/VBoxContainer" unique_id=803804972]
+layout_mode = 2
+text = "Color Blind Mode"
+
+[node name="ColorBlindHint" type="Label" parent="Scroll/VBoxContainer" unique_id=803804973]
+layout_mode = 2
+text = "Names colors in quizzes, underlines Akeanon words, and changes right and wrong answer colors."
+autowrap_mode = 3
+
+[node name="ColorBlindToggle" type="CheckButton" parent="Scroll/VBoxContainer" unique_id=803804974]
+layout_mode = 2
+
 [node name="DevModeLabel" type="Label" parent="Scroll/VBoxContainer" unique_id=803804968]
 layout_mode = 2
 text = "Dev: Chapter/Scene Skip Menu"

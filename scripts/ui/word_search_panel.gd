@@ -205,6 +205,7 @@ func _build_layout() -> void:
 	title.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_M)
 	title.add_theme_color_override("font_color", UIThemeApplier.TEXT_EMPHASIS)
 	top.add_child(title)
+	top.add_child(HelpButton.new("word_search"))
 	var quit := Button.new()
 	quit.text = "Quit"
 	quit.focus_mode = Control.FOCUS_NONE

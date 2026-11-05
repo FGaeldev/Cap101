@@ -114,6 +114,10 @@ text = "Start"
 layout_mode = 2
 text = "Continue"
 
+[node name="InstructionsBtn" type="Button" parent="BookPanel/Spread/RightPage/CenterContainer/Buttons" unique_id=1288475379]
+layout_mode = 2
+text = "Instructions"
+
 [node name="SettingsBtn" type="Button" parent="BookPanel/Spread/RightPage/CenterContainer/Buttons" unique_id=-1253010077]
 layout_mode = 2
 text = "Settings"

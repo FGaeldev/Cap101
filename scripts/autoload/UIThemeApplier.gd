@@ -61,6 +61,7 @@ const TEXT_EMPHASIS := Color("39290F")  # book-cover red, pops against tan butto
 const TEXT_DISABLED := Color("332B24")  # muted tan-gray, low contrast on purpose
 const COLOR_SUCCESS := Color("50ac61ff")  # correct-answer feedback, challenge/puzzle panels
 const COLOR_ERROR   := Color("ab3838ff")  # wrong-answer feedback, challenge/puzzle panels
+const COLOR_POINTER := Color("f2c14e")  # tutorial arrow, visible on both the world and the Book
 
 # Font size scale
 const FONT_SIZE_HERO    := 38  # full-screen display text — main menu title only

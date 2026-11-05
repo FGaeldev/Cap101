@@ -216,6 +216,7 @@ func _build_layout() -> void:
 	title.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_M)
 	title.add_theme_color_override("font_color", UIThemeApplier.TEXT_EMPHASIS)
 	header.add_child(title)
+	header.add_child(HelpButton.new("crossword"))
 	_check_button = _make_header_button("Check: Off", 84)
 	_check_button.toggle_mode = true
 	_check_button.toggled.connect(_on_check_toggled)

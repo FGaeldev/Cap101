@@ -51,6 +51,7 @@ func _ready() -> void:
 		_choice_btns.append(btn)
 	_apply_style()
 	hint_button.pressed.connect(_on_hint_button_pressed)
+	HelpButton.pin(panel, "puzzle")
 	# Register-on-ready, call-through-autoload (TDD §2 pattern) — this panel
 	# is the "whatever owns puzzle_panel" the challenge_gate doc comment in
 	# Comp_Dialogue.gd points at.

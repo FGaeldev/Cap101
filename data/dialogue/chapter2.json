@@ -411,7 +411,7 @@
 	},
 	{
 	  "speaker": "Rose",
-	  "text": "Round two. An-om, pito, waeo, siyam, napueo — six through ten. Finish counting to ten this time.",
+	  "text": "Round two. \\An-om, \\pito, \\waeo, \\siyam, \\napueo — six through ten. Finish counting to ten this time.",
 	  "next": 3,
 	  "word_ids": [
 		"w017",
@@ -424,21 +424,21 @@
 	},
 	{
 	  "speaker": "Player",
-	  "text": "Isaea, daywa, tatlo, ap-at, lima, an-om, pito, waeo, siyam, napueo. Ten! I did it.",
-	  "next": 4,
+	  "text": "\\Isaea, \\daywa, \\tatlo, \\ap-at, \\lima, \\an-om, \\pito, \\waeo, \\siyam, \\napueo. Ten! I did it.",
+	  "next": 17,
 	  "word_ids": [],
 	  "type": "dialogue"
 	},
 	{
 	  "speaker": "Rose",
-	  "text": "Not bad. Now, colors — look at the fabrics there.",
+	  "text": "Now, colors — look at the fabrics there.",
 	  "next": 5,
 	  "word_ids": [],
 	  "type": "dialogue"
 	},
 	{
 	  "speaker": "Rose",
-	  "text": "Puti — white. Itom — black. Puea — red. Asul — blue. Dueaw — yellow. Berdi — green.",
+	  "text": "\\Puti — white. \\Itom — black. \\Puea — red. \\Asul — blue. \\Dueaw — yellow. \\Berdi — green.",
 	  "next": 6,
 	  "word_ids": [
 		"w199",
@@ -476,21 +476,21 @@
 	{
 	  "speaker": "Rose",
 	  "text": "Good eye. Bold color for a bold first attempt at counting.",
-	  "next": 10,
+	  "next": 21,
 	  "word_ids": [],
 	  "type": "dialogue"
 	},
 	{
 	  "speaker": "Rose",
 	  "text": "Safe choice. That works too.",
-	  "next": 10,
+	  "next": 21,
 	  "word_ids": [],
 	  "type": "dialogue"
 	},
 	{
 	  "speaker": "Rose",
 	  "text": "They'll stick eventually. Nobody gets it all at once.",
-	  "next": 10,
+	  "next": 21,
 	  "word_ids": [],
 	  "type": "dialogue"
 	},
@@ -503,7 +503,7 @@
 	},
 	{
 	  "speaker": "Rose",
-	  "text": "Maisot — small. Mabahoe — big. Mayad — good. Bag-o — new. Daan — old.",
+	  "text": "\\Maisot — small. \\Mabahoe — big. \\Mayad — good. \\Bag-o — new. \\Daan — old.",
 	  "next": 12,
 	  "word_ids": [
 		"w145",
@@ -516,7 +516,7 @@
 	},
 	{
 	  "speaker": "Rose",
-	  "text": "Daya — \"this.\" Haron — \"that,\" closer to me. Dato — \"that,\" farther away. Point when you say it, it's easier.",
+	  "text": "\\Daya — \"this.\" \\Haron — \"that,\" closer to me. \\Dato — \"that,\" farther away. Point when you say it, it's easier.",
 	  "next": 13,
 	  "word_ids": [
 		"w052",
@@ -533,7 +533,7 @@
 	},
 	{
 	  "speaker": "Rose",
-	  "text": "Isda — fish. Manok — chicken. Itlog — egg. Humay — rice. Tinapay — bread. Karne — meat. Baboy — pig.",
+	  "text": "\\Isda — fish. \\Manok — chicken. \\Itlog — egg. \\Humay — rice. \\Tinapay — bread. \\Karne — meat. \\Baboy — pig.",
 	  "next": 15,
 	  "word_ids": [
 		"w091",
@@ -557,6 +557,92 @@
 	  "speaker": "Rose",
 	  "text": "Exactly why I taught them now. Use it or lose it, balikbayan.",
 	  "next": null,
+	  "word_ids": [],
+	  "type": "dialogue"
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Not so fast. Let's see if you know what they mean.",
+	  "next": 18,
+	  "word_ids": [],
+	  "type": "dialogue"
+	},
+	{
+	  "type": "quiz",
+	  "quiz_type": "dynamic",
+	  "fixed_pool": true,
+	  "questions": [],
+	  "question_count": 3,
+	  "word_pool": ["w017", "w196", "w244", "w215", "w178"],
+	  "choices": ["w090", "w054", "w227", "w018", "w123", "w017", "w196", "w244", "w215", "w178"],
+	  "question_templates": [
+		"What does \"[word]\" mean?",
+		"What Akeanon word means \"[gloss]\"?"
+	  ],
+	  "question_template_choice_displays": ["gloss", "word"],
+	  "choice_display": "gloss",
+	  "pass_ratio": 0.5,
+	  "success": 19,
+	  "failure": 20
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Not bad. You were listening.",
+	  "next": 4,
+	  "word_ids": [],
+	  "type": "dialogue"
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Almost. Say them again on the way home.",
+	  "next": 4,
+	  "word_ids": [],
+	  "type": "dialogue"
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Now let's test your eyes. Look at each color and tell me its name.",
+	  "next": 22,
+	  "word_ids": [],
+	  "type": "dialogue"
+	},
+	{
+	  "type": "quiz",
+	  "quiz_type": "dynamic",
+	  "fixed_pool": true,
+	  "questions": [],
+	  "question_count": 4,
+	  "word_pool": ["w199", "w094", "w198", "w021", "w056", "w038"],
+	  "choices": ["w199", "w094", "w198", "w021", "w056", "w038"],
+	  "word_colors": {
+		"w199": "ffffff",
+		"w094": "1a1a1a",
+		"w198": "d32f2f",
+		"w021": "1e5fd0",
+		"w056": "f5d000",
+		"w038": "2e9e44"
+	  },
+	  "question_templates": [
+		"[swatch]What is this color in Akeanon?",
+		"Which color is \"[word]\"?"
+	  ],
+	  "question_template_choice_displays": ["word", "color"],
+	  "choice_display": "word",
+	  "pass_ratio": 0.5,
+	  "success": 23,
+	  "failure": 24
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Good. You know your colors now.",
+	  "next": 10,
+	  "word_ids": [],
+	  "type": "dialogue"
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Not bad for a first try. Look at the fabrics again later.",
+	  "next": 10,
 	  "word_ids": [],
 	  "type": "dialogue"
 	}

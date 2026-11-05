@@ -26,7 +26,8 @@
 		"steps": [
 			{
 				"text": "Your quests show at the top left.",
-				"auto_advance": 4.0
+				"auto_advance": 4.0,
+				"highlight": "quest_hud"
 			},
 			{
 				"text": "Go to your bedroom, open the book.",
@@ -88,7 +89,8 @@
 			},
 			{
 				"text": "The Calendar tab shows upcoming events.",
-				"auto_advance": 4.5
+				"auto_advance": 4.5,
+				"highlight": "book_calendar"
 			},
 			{
 				"text": "Tap the X to close the Book.",

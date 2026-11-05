@@ -42,6 +42,19 @@ const HIGHLIGHT_MODULATE: Color = Color(1.6, 1.5, 1.0)
 ## Peak scale of the "breathe" (expand/contract), synced to the flash: expands
 ## while brightening, contracts while dimming. 1.0 = no size change.
 const HIGHLIGHT_SCALE: float = 1.1
+## Arrow pointing at the highlighted control. Tip is at the local origin and the
+## shape points down; it is rotated to point up at targets near the screen's top.
+const ARROW_POINTS: PackedVector2Array = [
+	Vector2(0, 0), Vector2(10, -11), Vector2(4, -11), Vector2(4, -22),
+	Vector2(-4, -22), Vector2(-4, -11), Vector2(-10, -11),
+]
+const ARROW_LENGTH: float = 22.0
+const ARROW_HALF_WIDTH: float = 10.0
+## Space between the arrow's tip and the target, and how far the arrow bobs.
+const ARROW_GAP: float = 3.0
+const ARROW_BOB: float = 3.0
+## Radians per second of the bob. Matches the highlight pulse's full cycle.
+const ARROW_BOB_SPEED: float = PI / PULSE_TIME
 
 ## tutorial_id -> { "steps": Array }
 var _tutorials: Dictionary = {}
@@ -64,6 +77,10 @@ var _highlighted: CanvasItem
 ## breathe never leaves a HUD control permanently resized or off-pivot.
 var _highlight_base_scale: Vector2 = Vector2.ONE
 var _highlight_base_pivot: Vector2 = Vector2.ZERO
+var _arrow: Node2D
+var _arrow_time: float = 0.0
+## Where the panel sits unless an arrow needs that space.
+var _panel_top: float = PANEL_TOP
 
 
 func _ready() -> void:
@@ -73,6 +90,13 @@ func _ready() -> void:
 	_load_data()
 	_build_overlay()
 	_panel.hide()
+	set_process(false)
+
+
+## Only runs while a target is highlighted (see _apply_highlight).
+func _process(delta: float) -> void:
+	_arrow_time += delta
+	_update_arrow()
 
 
 # ── Public API ──────────────────────────────────────────────────────────────
@@ -88,7 +112,8 @@ func start(tutorial_id: String) -> void:
 	_active_id = tutorial_id
 	var above_book: bool = bool(_tutorials[tutorial_id].get("above_book", false))
 	layer = ABOVE_BOOK_LAYER if above_book else OVERLAY_LAYER
-	_panel.position.y = PANEL_TOP_ABOVE_BOOK if above_book else PANEL_TOP
+	_panel_top = PANEL_TOP_ABOVE_BOOK if above_book else PANEL_TOP
+	_panel.position.y = _panel_top
 	tutorial_started.emit(tutorial_id)
 	_go_to_step(0)
 
@@ -219,9 +244,52 @@ func _apply_highlight(target_id: String) -> void:
 	_pulse_tween.parallel().tween_property(node, "scale", peak, PULSE_TIME)
 	_pulse_tween.tween_property(node, "self_modulate", Color.WHITE, PULSE_TIME)
 	_pulse_tween.parallel().tween_property(node, "scale", _highlight_base_scale, PULSE_TIME)
+	_arrow_time = 0.0
+	set_process(true)
+	_update_arrow()
+
+
+## Follows the target each frame: it can move, scale, or hide (the joystick hides
+## during dialogue). Points down at targets in the lower half of the screen, and
+## up at the rest, so the arrow always has room.
+func _update_arrow() -> void:
+	if not is_instance_valid(_highlighted) or not _highlighted.is_visible_in_tree() or not _highlighted is Control:
+		_arrow.hide()
+		_panel.position.y = _panel_top
+		return
+	var target: Control = _highlighted
+	var rect: Rect2 = target.get_global_transform_with_canvas() * Rect2(Vector2.ZERO, target.size)
+	# Targets that draw outside their rect say how far (see hud.gd).
+	rect = rect.grow(float(target.get_meta("tutorial_arrow_margin", 0.0)))
+	var view: Vector2 = get_viewport().get_visible_rect().size
+	var points_down: bool = rect.get_center().y > view.y / 2.0
+	var bob: float = ARROW_GAP + ARROW_BOB * (0.5 - 0.5 * cos(_arrow_time * ARROW_BOB_SPEED))
+	var x: float = clampf(rect.get_center().x, ARROW_HALF_WIDTH + 2.0, view.x - ARROW_HALF_WIDTH - 2.0)
+	_arrow.rotation = 0.0 if points_down else PI
+	_arrow.position = Vector2(x, rect.position.y - bob if points_down else rect.end.y + bob)
+	_arrow.show()
+	_panel.position.y = _panel_top
+	if not points_down:
+		_move_panel_below_arrow(rect.end.y)
+
+
+## An upward arrow can land on the panel at the top of the screen (tier bar, Book
+## tabs). Keeps the instruction readable by moving the panel below the arrow.
+func _move_panel_below_arrow(target_bottom: float) -> void:
+	var arrow_bottom: float = target_bottom + ARROW_GAP + ARROW_BOB + ARROW_LENGTH
+	var panel_rect: Rect2 = _panel.get_rect()
+	var overlaps_x: bool = absf(_arrow.position.x - panel_rect.get_center().x) < panel_rect.size.x / 2.0 + ARROW_HALF_WIDTH
+	var overlaps_y: bool = target_bottom < panel_rect.end.y and arrow_bottom > _panel_top
+	if overlaps_x and overlaps_y:
+		_panel.position.y = arrow_bottom + 2.0
 
 
 func _clear_highlight() -> void:
+	set_process(false)
+	if _arrow:
+		_arrow.hide()
+	if _panel:
+		_panel.position.y = _panel_top
 	if _pulse_tween:
 		_pulse_tween.kill()
 		_pulse_tween = null
@@ -261,3 +329,17 @@ func _build_overlay() -> void:
 	_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 	_panel.add_child(_label)
 	add_child(_panel)
+
+	_arrow = Node2D.new()
+	var fill := Polygon2D.new()
+	fill.polygon = ARROW_POINTS
+	fill.color = UIThemeApplier.COLOR_POINTER
+	_arrow.add_child(fill)
+	var outline := Line2D.new()
+	outline.points = ARROW_POINTS
+	outline.closed = true
+	outline.width = 2.0
+	outline.default_color = UIThemeApplier.TEXT_EMPHASIS
+	_arrow.add_child(outline)
+	_arrow.hide()
+	add_child(_arrow)

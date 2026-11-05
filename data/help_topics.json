@@ -1,0 +1,147 @@
+{
+	"quiz": {
+		"title": "Quiz",
+		"goal": "Answer multiple-choice questions about Akeanon words.",
+		"steps": [
+			"Read the question at the top of the panel.",
+			"Tap the answer you think is right.",
+			"If you are right, you will see \"Insakto\". If not, you will see \"Not quite\" and the right answer is shown.",
+			"The next question opens by itself. The count at the top left shows how far along you are."
+		],
+		"tips": [
+			"You usually need about half of the answers right to pass.",
+			"Some questions show a color and ask for its Akeanon word. Others name a word and ask you to tap its color.",
+			"In Color Blind Mode, each color also shows its name. Turn it on under Accessibility in Settings.",
+			"Right answers raise how well you know a word, and wrong answers lower it. Words you know less come up more often."
+		]
+	},
+	"phrase_builder": {
+		"title": "Phrase Builder",
+		"goal": "Build an Akeanon phrase by putting its words in the right order.",
+		"steps": [
+			"Read the prompt at the top of the panel.",
+			"Tap words from the word bank in the order you want them. Each one moves to the answer line.",
+			"Tap a word on the answer line to send it back, or tap Clear to start over.",
+			"When you have placed enough words, tap Check to see if you are right."
+		],
+		"tips": [
+			"Some words in the bank do not belong in the phrase, so you will not use them all.",
+			"The order matters. The right words in the wrong order will not pass."
+		]
+	},
+	"memory_match": {
+		"title": "Memory Match",
+		"goal": "Match each Akeanon word with its English meaning.",
+		"steps": [
+			"Tap a card to turn it over, then tap a second card.",
+			"If the word and meaning match, both cards stay face up.",
+			"If they do not match, it counts as a miss and both cards turn back over.",
+			"Match every pair to win."
+		],
+		"tips": [
+			"The top of the panel shows your pairs and misses, and how many misses you are allowed.",
+			"Going over the miss limit ends the game right away.",
+			"Each pair you match raises how well you know that word."
+		]
+	},
+	"hangman": {
+		"title": "Hangman",
+		"goal": "Guess the hidden Akeanon word one letter at a time.",
+		"steps": [
+			"Read the clue, which is the word's English meaning.",
+			"Tap a letter, or type it on a keyboard.",
+			"A right letter appears in the word. A wrong letter adds a part to the figure.",
+			"Fill in the whole word before the figure is finished."
+		],
+		"tips": [
+			"You can usually make 6 wrong guesses.",
+			"If you run out of guesses, the word is shown so you can learn it.",
+			"Winning raises how well you know the word, and losing lowers it."
+		]
+	},
+	"crossword": {
+		"title": "Crossword",
+		"goal": "Fill the grid with Akeanon words, using their English meanings as clues.",
+		"steps": [
+			"Tap a cell to select its word, or tap a clue in the list.",
+			"Tap the same cell again to switch between across and down.",
+			"Type with the on-screen keyboard or a physical keyboard. Use Del to fix a letter.",
+			"The puzzle ends when every word is right."
+		],
+		"tips": [
+			"Nothing shows whether a word is right until you turn on Check. Then filled words turn green or red.",
+			"There is no timer, and you cannot fail.",
+			"If this is the newspaper's puzzle, Quit keeps your progress so you can continue that day."
+		]
+	},
+	"word_search": {
+		"title": "Word Search",
+		"goal": "Find the hidden Akeanon words in the letter grid.",
+		"steps": [
+			"Press on the first or last letter of a word.",
+			"Drag to the other end of the word. Your selection snaps to a straight line.",
+			"Let go to check it. A word from the list counts as found, and any other line flashes red.",
+			"Find every word to finish."
+		],
+		"tips": [
+			"The list beside the grid shows the words to find.",
+			"There is no timer, and you cannot fail.",
+			"If this is the newspaper's puzzle, Quit keeps your progress so you can continue that day."
+		]
+	},
+	"newspaper": {
+		"title": "The Newspaper",
+		"goal": "Learn a new word each day and solve the daily puzzle.",
+		"steps": [
+			"Read the Word of the Day. Reading it adds the word to your Dictionary.",
+			"Check Coming Up to see the next event on the calendar.",
+			"Tap Solve to play today's puzzle, which is a crossword or a word search.",
+			"Tap Put it down when you are done reading."
+		],
+		"tips": [
+			"You can solve one puzzle per day. Sleep in a bed to start a new day.",
+			"If you quit a puzzle, its button changes to Continue so you can finish it that day.",
+			"Puzzles are built from words you already know, so you may need to learn more words first."
+		]
+	},
+	"puzzle": {
+		"title": "Word Puzzle",
+		"goal": "Choose the right word to answer the question or fill in the blank.",
+		"steps": [
+			"Read the sentence or question.",
+			"Tap the word you think is right.",
+			"If you are wrong, you can try again. The choices move to new positions each time.",
+			"When you are right, tap Close to continue."
+		],
+		"tips": [
+			"Some puzzles let you spend a Rose Hint Token to remove a wrong choice.",
+			"If you miss a challenge twice, the Dictionary opens so you can look the word up."
+		]
+	},
+	"npc_menu": {
+		"title": "Talking to People",
+		"goal": "Chat with people and practice the words you have learned.",
+		"steps": [
+			"Walk up to someone, then tap the button at the bottom right or press E.",
+			"Choose Talk to chat with them.",
+			"Choose Review to practice words. You will get a quiz, hangman, or memory match at random.",
+			"Choose Goodbye to leave."
+		],
+		"tips": [
+			"Talk to someone again to hear more from them.",
+			"Practice fills the word tier bar at the top of the screen."
+		]
+	},
+	"map": {
+		"title": "The Map",
+		"goal": "See the places in Aklan and travel to the ones you can reach.",
+		"steps": [
+			"Open the Book and go to the Map tab.",
+			"Tap a place on the map.",
+			"Choose Mag-adto to go there, or Balik to stay where you are."
+		],
+		"tips": [
+			"Bright places are open. Dim places are not available yet and show Coming Soon."
+		]
+	}
+}
