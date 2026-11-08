@@ -19,12 +19,16 @@ var _limits_zoom := Vector2.ZERO
 ## quest_id -> tutorial started when that quest becomes active. Tutorial ids
 ## live in data/tutorials/tutorials.json.
 const QUEST_TUTORIALS := {"q002": "ch1_quest_hud"}
+## Tutorial id -> quest it completes. The separated-menus walkthrough is taught
+## on the HUD, so it can finish in any room (the bedroom book handles book_ui).
+const TUTORIAL_QUESTS := {"menus_ui": "q002"}
 
 const MarkerUtil := preload("res://scripts/util/marker_util.gd")
 
 
 func _ready() -> void:
 	QuestManager.quest_started.connect(_on_quest_started)
+	TutorialManager.tutorial_completed.connect(_on_tutorial_completed)
 	# UI scale must not change how much of the world is on screen.
 	camera.zoom /= UIScale.factor
 	UIScale.changed.connect(_on_ui_scale_changed)
@@ -162,3 +166,9 @@ func _place_player_at_spawn(level: Node, spawn_id: String) -> void:
 ## an organizing node (e.g. "Spawns/Stairs"); MarkerUtil finds either.
 func _find_spawn(level: Node, spawn_id: String) -> Node2D:
 	return MarkerUtil.find(level, spawn_id)
+
+
+func _on_tutorial_completed(tutorial_id: String) -> void:
+	var quest_id: String = TUTORIAL_QUESTS.get(tutorial_id, "")
+	if quest_id in QuestManager.active_quests:
+		QuestManager.complete_quest(quest_id)

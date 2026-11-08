@@ -264,6 +264,14 @@ func _update_arrow() -> void:
 	var view: Vector2 = get_viewport().get_visible_rect().size
 	var points_down: bool = rect.get_center().y > view.y / 2.0
 	var bob: float = ARROW_GAP + ARROW_BOB * (0.5 - 0.5 * cos(_arrow_time * ARROW_BOB_SPEED))
+	# Targets with controls right below them (the HUD clock above the menu
+	# buttons) ask for the arrow on their left instead, pointing right.
+	if target.get_meta("tutorial_arrow_side", "") == "left":
+		_arrow.rotation = -PI / 2.0
+		_arrow.position = Vector2(rect.position.x - bob, rect.get_center().y)
+		_arrow.show()
+		_panel.position.y = _panel_top
+		return
 	var x: float = clampf(rect.get_center().x, ARROW_HALF_WIDTH + 2.0, view.x - ARROW_HALF_WIDTH - 2.0)
 	_arrow.rotation = 0.0 if points_down else PI
 	_arrow.position = Vector2(x, rect.position.y - bob if points_down else rect.end.y + bob)

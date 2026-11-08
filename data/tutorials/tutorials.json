@@ -99,6 +99,57 @@
 			}
 		]
 	},
+	"menus_ui": {
+		"above_book": true,
+		"steps": [
+			{
+				"text": "Tap the Map button.",
+				"event": "menus_map",
+				"highlight": "hud_map"
+			},
+			{
+				"text": "See the places you have found. Tap back.",
+				"event": "menus_closed"
+			},
+			{
+				"text": "Tap the Dictionary button.",
+				"event": "menus_dictionary",
+				"highlight": "hud_dictionary"
+			},
+			{
+				"text": "Every word you find is saved here. Tap back.",
+				"event": "menus_closed"
+			},
+			{
+				"text": "Tap the clock to open the calendar.",
+				"event": "menus_calendar",
+				"highlight": "hud_clock"
+			},
+			{
+				"text": "Upcoming events show here. Tap back.",
+				"event": "menus_closed"
+			},
+			{
+				"text": "Tap your quest to see all quests.",
+				"event": "menus_quests",
+				"highlight": "quest_hud"
+			},
+			{
+				"text": "Active and finished quests are here. Tap back.",
+				"event": "menus_closed"
+			},
+			{
+				"text": "Tap the menu button.",
+				"event": "menus_pause",
+				"highlight": "hud_pause"
+			},
+			{
+				"text": "Settings and achievements are here. Tap Continue.",
+				"event": "menus_closed",
+				"highlight": "pause_continue"
+			}
+		]
+	},
 	"ui_scale": {
 		"above_book": true,
 		"steps": [
@@ -111,7 +162,7 @@
 	"tier_bar": {
 		"steps": [
 			{
-				"text": "This bar shows your word tier.",
+				"text": "This shows your word tier.",
 				"auto_advance": 4.0,
 				"highlight": "tier_bar"
 			},

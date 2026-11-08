@@ -45,15 +45,17 @@ theme_override_styles/slider = SubResource("StyleBoxTexture_4yft2")
 layout_mode = 2
 text = "Music"
 
-[node name="MusicToggle" type="CheckButton" parent="Scroll/VBoxContainer" unique_id=1950065061]
+[node name="MusicSlider" type="HSlider" parent="Scroll/VBoxContainer" unique_id=1950065061]
 layout_mode = 2
+theme_override_styles/slider = SubResource("StyleBoxTexture_4yft2")
 
 [node name="SFXLabel" type="Label" parent="Scroll/VBoxContainer" unique_id=1206925624]
 layout_mode = 2
 text = "Sound Effects"
 
-[node name="SFXToggle" type="CheckButton" parent="Scroll/VBoxContainer" unique_id=32790922]
+[node name="SFXSlider" type="HSlider" parent="Scroll/VBoxContainer" unique_id=32790922]
 layout_mode = 2
+theme_override_styles/slider = SubResource("StyleBoxTexture_4yft2")
 
 [node name="UIScaleLabel" type="Label" parent="Scroll/VBoxContainer"]
 layout_mode = 2
