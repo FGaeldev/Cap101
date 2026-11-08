@@ -2285,6 +2285,15 @@
       "gloss": "meaning",
       "verified": true,
       "source": ""
+    },
+    {
+      "id": "w256",
+      "akeanon": "haron",
+      "category": "Pronoun (pro)",
+      "area": "chapter2",
+      "gloss": "that(closer to the speaker)",
+      "verified": false,
+      "source": ""
     }
   ]
 }
