@@ -81,6 +81,21 @@ func _ready() -> void:
 	_dev_skip_button.pressed.connect(_on_dev_skip_pressed)
 	vbox.add_child(_dev_skip_button)
 
+## Separated menus: puts prev/next buttons either side of the month name. The
+## book keeps its own arrow bar and never calls this.
+func add_month_arrows(prev_btn: Button, next_btn: Button) -> void:
+	var row := HBoxContainer.new()
+	var vbox: Node = _header.get_parent()
+	vbox.add_child(row)
+	vbox.move_child(row, _header.get_index())
+	vbox.remove_child(_header)
+	_header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(prev_btn)
+	row.add_child(_header)
+	row.add_child(next_btn)
+	prev_btn.pressed.connect(func(): AudioManager.play_sfx("menu_click"); prev_page())
+	next_btn.pressed.connect(func(): AudioManager.play_sfx("menu_click"); next_page())
+
 ## BookUI calls this every time the tab opens: jump back to today.
 func refresh() -> void:
 	var today: Dictionary = DayNightManager.get_date()
@@ -135,7 +150,7 @@ func _render() -> void:
 		btn.text = str(day) if in_month else ""
 		btn.disabled = not in_month
 		var is_today: bool = in_month and day == today["day"] and _month == today["month"] and _year == today["year"]
-		_style_cell(btn, in_month, is_today, event_days.has(day), day == _selected_day)
+		_style_cell(btn, in_month, is_today, event_days.has(day), in_month and day == _selected_day)
 
 ## Today = filled, selected = outlined, event day = underlined accent.
 func _style_cell(btn: Button, in_month: bool, is_today: bool, has_event: bool, selected: bool) -> void:

@@ -3,6 +3,8 @@
 # Flow (data-driven pieces live elsewhere, this script is only the glue):
 #   1. Scene 1 cutscene sets "seen_chapter1_scene1" -> QuestManager unlocks q002.
 #   2. Player interacts with the book; "book_ui" tutorial starts and BookUI opens.
+#      With the separated menus on, "menus_ui" starts instead (HUD walkthrough;
+#      nothing opens) and Game.gd completes q002 when it finishes.
 #   3. Only after the tutorial finishes does q002 complete and show its popup.
 #
 # The book stays inert until scene 1 is done and q002 is active or completed.
@@ -15,6 +17,9 @@ const BOOK_QUEST_ID: String = "q002"
 ## Must match "completion_flag" of BOOK_QUEST_ID in data/quest_data.json.
 const BOOK_QUEST_DONE_FLAG: String = "quest_002_done"
 const BOOK_TUTORIAL_ID: String = "book_ui"
+## With the separated menus on, the book teaches those instead (HUD buttons,
+## clock, quest panel, pause menu) and never opens.
+const MENUS_TUTORIAL_ID: String = "menus_ui"
 
 ## Quest/task this object is imperative to. Read by InteractableComponent.
 @export var quest_id: String = BOOK_QUEST_ID
@@ -52,6 +57,13 @@ func _on_interacted(_interactor: Node = null) -> void:
 	if not _is_available():
 		return
 
+	if BookUI.separate_menus:
+		if TutorialManager.is_done(MENUS_TUTORIAL_ID):
+			BookUI.open("settings")  # pause menu
+		else:
+			# Steps are taps on the HUD itself, so nothing opens here.
+			TutorialManager.start(MENUS_TUTORIAL_ID)
+		return
 	# Start tutorial before opening BookUI so tab notifications reach it.
 	TutorialManager.start(BOOK_TUTORIAL_ID)
 	BookUI.open(BOOK_START_TAB)
@@ -60,6 +72,7 @@ func _on_interacted(_interactor: Node = null) -> void:
 ## Complete the book quest only after the player finishes the full tutorial.
 ## Early close aborts the tutorial and leaves q002 active for the next attempt.
 func _on_tutorial_completed(tutorial_id: String) -> void:
+	# (menus_ui completes the quest in Game.gd: it can finish in any room.)
 	if tutorial_id != BOOK_TUTORIAL_ID:
 		return
 	if BOOK_QUEST_ID in QuestManager.active_quests:

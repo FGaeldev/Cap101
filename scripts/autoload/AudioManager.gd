@@ -6,6 +6,15 @@ extends Node
 const MUSIC_BUS := "Music"
 const SFX_BUS := "SFX"
 
+## Volumes are a device setting (like UIScale / Accessibility), not part of a
+## save slot: user://settings.cfg [audio], linear 0.0-1.0 per bus.
+const SETTINGS_PATH := "user://settings.cfg"
+const SETTINGS_SECTION := "audio"
+## First-launch volumes, by bus name (also the config keys).
+const DEFAULT_VOLUMES := {"Master": 0.5, MUSIC_BUS: 1.0, SFX_BUS: 1.0}
+## Slider drags change the volume every frame; write the file once they settle.
+const SAVE_DELAY := 0.5
+
 const SFX_LIBRARY := {
 	"advance":         "res://assets/audio/sfx/advance.wav",
 	"word_discovered": "res://assets/audio/sfx/word_discovered.wav",
@@ -20,10 +29,12 @@ const BGM_LIBRARY := {
 
 var _bgm_player: AudioStreamPlayer
 var _current_bgm_id: String = ""
+var _save_queued := false
 
 func _ready() -> void:
 	_ensure_bus(MUSIC_BUS)
 	_ensure_bus(SFX_BUS)
+	_load_volumes()
 
 	_bgm_player = AudioStreamPlayer.new()
 	_bgm_player.name = "BGMPlayer"
@@ -81,15 +92,43 @@ func stop_bgm() -> void:
 	_bgm_player.stop()
 	_current_bgm_id = ""
 
-## Bus volume, linear 0.0-1.0.
+## Bus volume, linear 0.0-1.0. Saved to settings.cfg shortly after.
 func set_master_volume(linear: float) -> void:
 	_set_bus_volume("Master", linear)
+	_queue_save()
 
 func set_music_volume(linear: float) -> void:
 	_set_bus_volume(MUSIC_BUS, linear)
+	_queue_save()
 
 func set_sfx_volume(linear: float) -> void:
 	_set_bus_volume(SFX_BUS, linear)
+	_queue_save()
+
+## Current volume of a bus, linear 0.0-1.0 (1.0 if the bus doesn't exist).
+func get_volume(bus_name: String) -> float:
+	var idx := AudioServer.get_bus_index(bus_name)
+	if idx == -1:
+		return 1.0
+	return db_to_linear(AudioServer.get_bus_volume_db(idx))
+
+func _load_volumes() -> void:
+	var config := ConfigFile.new()
+	config.load(SETTINGS_PATH)  # a missing file just means defaults
+	for bus_name: String in DEFAULT_VOLUMES:
+		_set_bus_volume(bus_name, float(config.get_value(SETTINGS_SECTION, bus_name, DEFAULT_VOLUMES[bus_name])))
+
+func _queue_save() -> void:
+	if _save_queued:
+		return
+	_save_queued = true
+	await get_tree().create_timer(SAVE_DELAY).timeout
+	_save_queued = false
+	var config := ConfigFile.new()
+	config.load(SETTINGS_PATH)  # keeps the other sections
+	for bus_name: String in DEFAULT_VOLUMES:
+		config.set_value(SETTINGS_SECTION, bus_name, snappedf(get_volume(bus_name), 0.01))
+	config.save(SETTINGS_PATH)
 
 func _set_bus_volume(bus_name: String, linear: float) -> void:
 	var idx := AudioServer.get_bus_index(bus_name)

@@ -1,5 +1,26 @@
 # BookUI.gd — autoload. Single entry point for relationship/dictionary/journal/achievements/dev/settings/map/calendar.
+#
+# Two looks behind the same API, picked by `separate_menus` (Dev menu switch,
+# saved in user://settings.cfg):
+#   off — the book (everything below, unchanged)
+#   on  — the separated menus: pause menu + full-screen panels
+#         (scripts/ui/menus/separated_menus.gd), a child of this CanvasLayer
+#         created on first use. open("<tab>") maps each tab to its panel.
+# To drop the separated menus for good: delete scripts/ui/menus/ and the
+# blocks marked "separated menus" here, in hud.gd, page_dev.gd,
+# page_settings.gd and bedroom book.gd.
 extends CanvasLayer
+
+# -- separated menus --
+const SeparatedMenusScript := preload("res://scripts/ui/menus/separated_menus.gd")
+const MENU_SETTINGS_PATH := "user://settings.cfg"
+const MENU_SETTINGS_SECTION := "dev"
+const MENU_SETTINGS_KEY := "separate_menus"
+## Emitted when the Dev menu switch flips (HUD swaps its buttons).
+signal separate_menus_changed(enabled: bool)
+## true = separated menus, false = the book. Defaults to on.
+var separate_menus: bool = true
+var _menus: Control = null
 
 @export var page_left_path: NodePath = ^"Root/Spread/PageLeft"
 @onready var page_left: Panel = get_node(page_left_path)
@@ -86,6 +107,7 @@ var _arrows: Dictionary = {}  # side key -> {"prev": Button, "next": Button}
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	visible = false
+	_load_menu_setting()
 	close_btn.pressed.connect(close)
 	# Duplicate BEFORE connecting signals so the copy doesn't inherit
 	# left-page connections.
@@ -233,6 +255,12 @@ func _animate_button(button: Button, target_scale: float) -> void:
 ## button) — this is just the shared confirm+abort sequence now, called from
 ## there instead of from a tab-bar button.
 func confirm_exit_to_menu() -> void:
+	# separated menus: the book's popup is hidden along with the book.
+	if _menus_showing():
+		_menus.confirm_popup.open("Save and return to the menu?")
+		if not _menus.confirm_popup.confirmed.is_connected(_on_return_confirmed):
+			_menus.confirm_popup.confirmed.connect(_on_return_confirmed)
+		return
 	confirm_popup.open("Return to menu?")
 	if not confirm_popup.confirmed.is_connected(_on_return_confirmed):
 		confirm_popup.confirmed.connect(_on_return_confirmed)
@@ -292,9 +320,20 @@ func set_tab_lock_condition(tab_id: String, is_unlocked: Callable) -> void:
 	if _tabs.has(tab_id):
 		_tabs[tab_id]["is_unlocked"] = is_unlocked
 
-func open(tab_id: String = "settings") -> void:
+## force_book: open the book even with the separated menus on. Nothing uses it
+## now (the bedroom book runs the "menus_ui" walkthrough instead); kept for
+## anything that must show the book itself.
+func open(tab_id: String = "settings", force_book: bool = false) -> void:
 	visible = true
 	get_tree().paused = true
+	# separated menus
+	if separate_menus and not force_book:
+		root.visible = false
+		_get_menus().open(tab_id)
+		return
+	root.visible = true
+	if _menus != null:
+		_menus.visible = false
 	refresh_dev_tab()
 	switch_tab(tab_id)
 
@@ -302,6 +341,12 @@ func open(tab_id: String = "settings") -> void:
 ## search/category filters first if they hide it. Used by the HUD's
 ## new-word toast.
 func open_dictionary_entry(word_id: String) -> void:
+	if separate_menus:
+		visible = true
+		get_tree().paused = true
+		root.visible = false
+		_get_menus().open_dictionary_entry(word_id)
+		return
 	open("dictionary")
 	if _current_tab != "dictionary":
 		return  # still locked (no words yet)
@@ -318,6 +363,9 @@ func close() -> void:
 	get_tree().paused = false
 	# Last step of the "book_ui" tutorial waits for the player to close the Book.
 	TutorialManager.notify("book_tutorial_finished")
+	# "menus_ui" tutorial: "...Tap back." steps wait for the menus to close.
+	if separate_menus:
+		TutorialManager.notify("menus_closed")
 	# Closed early = tutorial has no open Book left to act on. Drop it (NOT
 	# marked done) so the bedroom book restarts it from the top next time.
 	if TutorialManager.active_id() == BOOK_TUTORIAL_ID:
@@ -432,7 +480,41 @@ func _show_page(entry: Dictionary, key: String) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
-		if visible:
+		if _menus_showing():
+			_menus.back()  # panel -> pause menu -> closed
+		elif visible:
 			close()
 		else:
 			open("settings")
+
+# --- separated menus ----------------------------------------------------------
+
+func _get_menus() -> Control:
+	if _menus == null:
+		_menus = Control.new()
+		_menus.name = "SeparatedMenus"
+		_menus.set_script(SeparatedMenusScript)
+		add_child(_menus)
+	_menus.visible = true
+	return _menus
+
+func _menus_showing() -> bool:
+	return visible and _menus != null and _menus.visible
+
+func _load_menu_setting() -> void:
+	var config := ConfigFile.new()
+	if config.load(MENU_SETTINGS_PATH) == OK:
+		separate_menus = bool(config.get_value(MENU_SETTINGS_SECTION, MENU_SETTINGS_KEY, true))
+
+## Dev menu switch. Closes whatever is open; the next open uses the new look.
+func set_separate_menus(enabled: bool) -> void:
+	if enabled == separate_menus:
+		return
+	separate_menus = enabled
+	var config := ConfigFile.new()
+	config.load(MENU_SETTINGS_PATH)  # keeps other keys; a missing file is fine
+	config.set_value(MENU_SETTINGS_SECTION, MENU_SETTINGS_KEY, enabled)
+	config.save(MENU_SETTINGS_PATH)
+	if visible:
+		close()
+	separate_menus_changed.emit(enabled)

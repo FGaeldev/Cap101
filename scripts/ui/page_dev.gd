@@ -45,6 +45,9 @@ const ITEMS_PER_PAGE := 5
 # per-scene, see Game.gd), so every room scene is a valid standalone warp
 # target on its own.
 const DEV_WARP_TARGETS := [
+	# separated menus: switches between the book and the separated menus.
+	# Label is built in _render_page().
+	{"label": "", "toggle_menus": true},
 	{"label": "Ch1 — US Home - Bedroom", "scene_path": "res://scenes/world/chapter1/us_bedroom.tscn"},
 	{"label": "Ch1 — US Home - Living Room", "scene_path": "res://scenes/world/chapter1/us_living.tscn"},
 	{"label": "Ch1 — Airport - Indoors", "scene_path": "res://scenes/world/chapter1/airport_arival.tscn"},
@@ -208,7 +211,10 @@ func _entries() -> Array:
 func _render_page() -> void:
 	clear_list()
 	for entry in _entries().slice(_offset, _offset + ITEMS_PER_PAGE):
-		if column == "warps":
+		if entry.has("toggle_menus"):
+			add_button("Menus: %s (tap to switch)" % ("separate" if BookUI.separate_menus else "book"),
+					func(): BookUI.set_separate_menus(not BookUI.separate_menus))
+		elif column == "warps":
 			add_button(entry["label"], _on_dev_warp_pressed.bind(entry))
 		else:
 			add_button(entry["label"], _on_dev_cutscene_pressed.bind(entry))

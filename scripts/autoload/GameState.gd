@@ -87,6 +87,7 @@ var puzzle_solved_date: int = 0   # date_unix of the last solved daily puzzle
 var word_taught_date: int = 0   # date_unix of the last extra word an NPC taught (IdleTalk)
 var idle_steps: Dictionary = {}   # npc_id -> {date, step}: how far today's idle talk got (IdleTalk)
 var mass_invite_date: int = 0     # date_unix of the last Sunday mass invitation
+var event_reminder_date: int = 0  # date_unix of the last morning event-reminder check (HUD)
 # {date, ...panel state} of a quit daily puzzle; ignored once the date moves on.
 var puzzle_progress: Dictionary = {}
 
@@ -307,6 +308,7 @@ func reset_game_state() -> void:
 	word_taught_date = 0
 	idle_steps = {}
 	mass_invite_date = 0
+	event_reminder_date = 0
 	puzzle_progress = {}
 	# QuestManager is an autoload too; discard prior-run quest availability before rebuilding it.
 	QuestManager.active_quests.clear()
@@ -343,6 +345,7 @@ func save_game() -> bool:
 		"word_taught_date": word_taught_date,
 		"idle_steps": idle_steps,
 		"mass_invite_date": mass_invite_date,
+		"event_reminder_date": event_reminder_date,
 		"puzzle_progress": puzzle_progress
 	}
 	# WRITE truncates the existing save. Check open/write errors so a failed
@@ -394,6 +397,7 @@ func load_game() -> void:
 	word_taught_date = data.get("word_taught_date", 0)  # additive field, old saves -> 0
 	idle_steps = data.get("idle_steps", {})  # additive field, old saves -> {}
 	mass_invite_date = data.get("mass_invite_date", 0)  # additive field, old saves -> 0
+	event_reminder_date = data.get("event_reminder_date", 0)  # additive field, old saves -> 0
 	puzzle_progress = data.get("puzzle_progress", {})  # additive field, old saves -> {}
 	# QuestManager built its active list at boot, before flags/exposures were
 	# loaded -- re-scan so flag-gated quests (requires_flag) show after Continue.

@@ -5,9 +5,9 @@ const InstructionsPanel := preload("res://scripts/ui/instructions_panel.gd")
 @onready var master_volume_label: Label = $Scroll/VBoxContainer/MasterVolumeLabel
 @onready var volume_slider: HSlider = $Scroll/VBoxContainer/MasterVolumeSlider
 @onready var music_label: Label = $Scroll/VBoxContainer/MusicLabel
-@onready var music_toggle: CheckButton = $Scroll/VBoxContainer/MusicToggle
+@onready var music_slider: HSlider = $Scroll/VBoxContainer/MusicSlider
 @onready var sfx_label: Label = $Scroll/VBoxContainer/SFXLabel
-@onready var sfx_toggle: CheckButton = $Scroll/VBoxContainer/SFXToggle
+@onready var sfx_slider: HSlider = $Scroll/VBoxContainer/SFXSlider
 @onready var ui_scale_label: Label = $Scroll/VBoxContainer/UIScaleLabel
 @onready var ui_scale_row: HBoxContainer = $Scroll/VBoxContainer/UIScaleRow
 @onready var accessibility_label: Label = $Scroll/VBoxContainer/AccessibilityLabel
@@ -28,19 +28,19 @@ func _ready() -> void:
 	color_blind_hint.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XS)
 	color_blind_toggle.toggled.connect(Accessibility.set_color_blind)
 
-	volume_slider.value = db_to_linear(AudioServer.get_bus_volume_db(0)) * 100
+	# Start from the saved volumes (AudioManager loads them at boot).
+	volume_slider.set_value_no_signal(_bus_percent("Master"))
+	music_slider.set_value_no_signal(_bus_percent(AudioManager.MUSIC_BUS))
+	sfx_slider.set_value_no_signal(_bus_percent(AudioManager.SFX_BUS))
 	volume_slider.value_changed.connect(_on_volume_changed)
-	music_toggle.toggled.connect(_on_music_toggled)
-	sfx_toggle.toggled.connect(_on_sfx_toggled)
+	music_slider.value_changed.connect(func(v: float): AudioManager.set_music_volume(v / 100.0))
+	sfx_slider.value_changed.connect(func(v: float): AudioManager.set_sfx_volume(v / 100.0))
 	dev_mode_toggle.toggled.connect(_on_dev_mode_toggled)
 	_build_ui_scale_row()
 	UIThemeApplier.apply_button_theme(quit_btn, "danger")
 	quit_btn.pressed.connect(func(): BookUI.confirm_exit_to_menu())
 	_build_instructions_button()
 
-	music_toggle.button_pressed = true
-	sfx_toggle.button_pressed = true
-	volume_slider.value = 50
 
 ## BookUI pages are instantiated once and toggled via .visible on every
 ## subsequent open (TDD §8 page pattern) — _ready() never runs again after
@@ -55,18 +55,18 @@ func refresh() -> void:
 	TutorialManager.start("ui_scale")
 	dev_mode_toggle.set_pressed_no_signal(GameState.dev_mode)
 	color_blind_toggle.set_pressed_no_signal(Accessibility.color_blind)
+	# Read the buses, not this page's last values: the book and the separated
+	# menus each have their own copy of this page.
+	volume_slider.set_value_no_signal(_bus_percent("Master"))
+	music_slider.set_value_no_signal(_bus_percent(AudioManager.MUSIC_BUS))
+	sfx_slider.set_value_no_signal(_bus_percent(AudioManager.SFX_BUS))
 	for i in UIScale.OPTIONS.size():
 		ui_scale_row.get_child(i).set_pressed_no_signal(UIScale.OPTIONS[i] == UIScale.value)
-	quit_btn.visible = not BookUI.is_main_menu_context()
+	# separated menus: Exit to menu lives on the pause menu instead.
+	quit_btn.visible = not BookUI.is_main_menu_context() and not BookUI.separate_menus
 
 func _on_volume_changed(value: float) -> void:
-	AudioServer.set_bus_volume_db(0, linear_to_db(value / 100.0))
-
-func _on_music_toggled(muted: bool) -> void:
-	AudioManager.set_music_volume(1.0 if muted else 0.0)
-
-func _on_sfx_toggled(muted: bool) -> void:
-	AudioManager.set_sfx_volume(1.0 if muted else 0.0)
+	AudioManager.set_master_volume(value / 100.0)
 
 ## Dev-only: flips GameState.dev_mode, which shows/hides BookUI's Dev tab
 ## (warp + cutscene menu, page_dev.gd) immediately via refresh_dev_tab().
@@ -103,3 +103,7 @@ func _build_ui_scale_row() -> void:
 		btn.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
 		btn.pressed.connect(UIScale.set_value.bind(option))
 		ui_scale_row.add_child(btn)
+
+## A bus's volume as the sliders' 0-100.
+func _bus_percent(bus_name: String) -> float:
+	return AudioManager.get_volume(bus_name) * 100.0
