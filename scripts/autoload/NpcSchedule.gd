@@ -242,6 +242,8 @@ func _condition(name: String) -> bool:
 			return GameState.get_flag("chapter2_with_rose")
 		"mass_trip":
 			return GameState.get_flag("chapter2_mass_trip")
+		"tour_pending":
+			return not GameState.get_flag("chapter2_tour_done")
 	push_error("NpcSchedule: unknown condition '%s'" % name)
 	return false
 

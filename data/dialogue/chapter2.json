@@ -723,7 +723,7 @@
 	},
 	{
 	  "type": "dialogue",
-	  "speaker": "Player",
+	  "speaker": "Lola Susan",
 	  "text": "Come with us \\kampod",
 	  "next": 3,
 	  "word_ids": ["w251"],
