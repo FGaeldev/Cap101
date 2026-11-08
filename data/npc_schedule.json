@@ -37,6 +37,7 @@
 				{"from": 19, "to": 6, "room": "br_rose", "marker": "Schedule/Bed", "facing": "down", "asleep": true, "in_bed": true},
 				{"days": [0], "from": 6, "to": 12, "when": "mass_pending", "room": "living", "marker": "S0/Rose", "facing": "down"},
 				{"days": [0], "from": 6, "to": 12, "when": "mass_skipped", "away": true},
+				{"from": 6, "to": 12, "when": "tour_pending", "room": "living", "marker": "Schedule/SeatRose", "facing": "left"},
 				{"from": 12, "to": 13, "room": "living", "marker": "Schedule/SeatRose", "facing": "left"},
 				{"from": 18, "to": 19, "room": "living", "marker": "Schedule/SeatRose", "facing": "left"},
 				{"from": 6, "to": 19, "room": "br_rose", "marker": "Schedule/Chair", "facing": "up"}

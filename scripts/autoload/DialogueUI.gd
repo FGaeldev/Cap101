@@ -108,6 +108,8 @@ func show_npc_interaction_menu(npc_display_name: String, callback: Callable) -> 
 	if title:
 		title.text = npc_display_name if not npc_display_name.is_empty() else "NPC"
 	_root.show_box()
+	# DialogueRoot keeps the last speaker's portrait, so the menu must set its own.
+	_root.set_portrait(CharacterRegistry.get_portrait(npc_display_name), npc_display_name)
 	if _dialogue_box:
 		_dialogue_box.hide()
 	if _choice_box:
