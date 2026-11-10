@@ -1,9 +1,9 @@
 # Accessibility.gd -- the player's accessibility settings, saved in
 # user://settings.cfg (a setting of the device, not of a save file; see UIScale).
 #
-# Color blind mode never relies on hue alone: Akeanon words get an underline,
-# color quizzes name each color, and quiz feedback uses a blue/orange pair and
-# says which answer was right.
+# Color blind mode never relies on hue alone: Akeanon words turn blue (they're
+# always underlined), color quizzes name each color, and quiz feedback uses a
+# blue/orange pair and says which answer was right.
 extends Node
 
 signal changed
@@ -13,7 +13,7 @@ const SECTION := "accessibility"
 const KEY_COLOR_BLIND := "color_blind"
 
 ## Akeanon words in dialogue. Both read clearly on the parchment dialogue box.
-const AKEANON_COLOR := Color("0a6b5e")
+const AKEANON_COLOR := Color("b0123b")
 const AKEANON_COLOR_BLIND := Color("0b4fa8")
 ## Okabe-Ito pair, distinguishable with all common color vision deficiencies.
 const SUCCESS_COLOR_BLIND := Color("0072b2")

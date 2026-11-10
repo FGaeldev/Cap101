@@ -80,15 +80,12 @@ static func resolve(raw: String) -> String:
 
 
 ## BBCode version of resolve() for RichTextLabel: each marked word gets the
-## Akeanon color (and an underline in color blind mode).
+## Akeanon color and an underline.
 static func resolve_rich(raw: String) -> String:
 	if _marked_word == null:
 		_marked_word = RegEx.create_from_string(MARKED_WORD_PATTERN)
-	var open: String = "[color=#%s]" % Accessibility.akeanon_color().to_html(false)
-	var close: String = "[/color]"
-	if Accessibility.color_blind:
-		open += "[u]"
-		close = "[/u]" + close
+	var open: String = "[color=#%s][u]" % Accessibility.akeanon_color().to_html(false)
+	var close: String = "[/u][/color]"
 	var escaped: String = _fill_tokens(raw).replace("[", "[lb]")
 	return _marked_word.sub(escaped, open + "$1" + close, true).replace(AKEANON_MARKER, "")
 
