@@ -74,7 +74,7 @@ text = "Color Blind Mode"
 
 [node name="ColorBlindHint" type="Label" parent="Scroll/VBoxContainer" unique_id=803804973]
 layout_mode = 2
-text = "Names colors in quizzes, underlines Akeanon words, and changes right and wrong answer colors."
+text = "Names colors in quizzes, turns Akeanon words blue, and changes right and wrong answer colors."
 autowrap_mode = 3
 
 [node name="ColorBlindToggle" type="CheckButton" parent="Scroll/VBoxContainer" unique_id=803804974]

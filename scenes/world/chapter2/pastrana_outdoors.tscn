@@ -787,6 +787,18 @@ position = Vector2(16, 320)
 [node name="Rose" type="Marker2D" parent="SceneMarkers/S3" unique_id=410200812]
 position = Vector2(1072, -32)
 
+[node name="Susan" type="Marker2D" parent="SceneMarkers/S3" unique_id=410200814]
+position = Vector2(1040, -32)
+
+[node name="Jonabel" type="Marker2D" parent="SceneMarkers/S3" unique_id=410200815]
+position = Vector2(1104, -32)
+
+[node name="SusanEnter" type="Marker2D" parent="SceneMarkers/S3" unique_id=410200816]
+position = Vector2(1056, 144)
+
+[node name="JonabelEnter" type="Marker2D" parent="SceneMarkers/S3" unique_id=410200817]
+position = Vector2(1072, 144)
+
 [node name="RandomNPC" type="Node2D" parent="SceneMarkers" unique_id=867415343]
 
 [node name="ParkTopLeft" type="Marker2D" parent="SceneMarkers/RandomNPC" unique_id=816158591]

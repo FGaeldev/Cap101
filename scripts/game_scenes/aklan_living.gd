@@ -37,8 +37,11 @@ const LEFT_HOUSE_FLAG: String = "chapter2_left_house"
 const WALKING_HOME_FLAG: String = "chapter2_walking_home"
 const WALK_OUT_CUTSCENE_ID: String = "chapter2_walk_living"
 const WALK_HOME_CUTSCENE_ID: String = "chapter2_walk_home_living"
+const LEAVE_ALONE_CUTSCENE_ID: String = "chapter2_leave_alone"
 
 func _ready() -> void:
+	# Walks with Rose never reach this door's warp: they're cutscenes, or TourGuide stops them.
+	$Warps/WarpArea5.before_warp = func(): await CutsceneManager.play(LEAVE_ALONE_CUTSCENE_ID)
 	DayNightManager.hour_changed.connect(func(_hour: int): _check_beats())
 	CutsceneManager.cutscene_finished.connect(_on_cutscene_finished)
 	NpcSchedule.npc_arrived.connect(func(_actor_id: String): _check_beats())

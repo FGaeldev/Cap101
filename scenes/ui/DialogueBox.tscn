@@ -15,7 +15,7 @@ layout_mode = 2
 
 [node name="TextLabel" type="RichTextLabel" parent="VBoxContainer" unique_id=980381807]
 layout_mode = 2
-mouse_filter = 2
+mouse_filter = 1
 bbcode_enabled = true
 fit_content = true
 scroll_active = false

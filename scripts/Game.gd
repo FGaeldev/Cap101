@@ -24,6 +24,32 @@ const QUEST_TUTORIALS := {"q002": "ch1_quest_hud"}
 const TUTORIAL_QUESTS := {"menus_ui": "q002"}
 
 const MarkerUtil := preload("res://scripts/util/marker_util.gd")
+const ActorPath := preload("res://scripts/util/actor_path.gd")
+
+
+## Closing the window, or Android backgrounding the app (the last event a swiped
+## away app gets). APPLICATION_PAUSED never fires on desktop.
+func _notification(what: int) -> void:
+	if what != NOTIFICATION_WM_CLOSE_REQUEST and what != NOTIFICATION_APPLICATION_PAUSED:
+		return
+	if is_node_ready() and GameState.session_active:
+		remember_exit_spot()
+		GameState.save_game()
+
+
+## Records the tile the player is on for the next Continue; the caller saves.
+## Records nothing with no level loaded yet or during a warp, sleep or cutscene,
+## since those positions are scripted and the level sets its own on reload.
+func remember_exit_spot() -> void:
+	GameState.exit_spot = {}
+	if player.get_parent() == self or MapManager.is_transitioning or CutsceneManager.is_playing():
+		return
+	# Same rounding walk_state.gd uses, in case the player is exiting mid-step.
+	var tile := float(player.tile_size)
+	GameState.exit_spot = {
+		"level": GameState.current_level_path,
+		"position": (player.global_position / tile).round() * tile,
+	}
 
 
 func _ready() -> void:
@@ -45,6 +71,10 @@ func _ready() -> void:
 	if not GameState.get_flag("seen_chapter1_scene1"):
 		await ChapterCard.show_if_new("chapter1")
 	var level_path := GameState.current_level_path if GameState.current_level_path != "" else "res://scenes/world/chapter1/us_bedroom.tscn"
+	if not ResourceLoader.exists(level_path):
+		push_warning("Game: saved level '%s' is missing, starting at home" % level_path)
+		level_path = MapManager.home_level()
+		GameState.current_level_path = level_path
 	load_level(level_path)
 	# Tutorial start moved here (was after fade_in+timer) — fixes race where
 	# player could act mid-fade before tutorial hooks were armed.
@@ -94,6 +124,7 @@ func load_level(path: String, spawn_id: String = "DefaultSpawn") -> void:
 	player.reparent(level, false)
 	player = player.get_parent().get_node("Player")
 	_place_player_at_spawn(level, spawn_id)
+	_resume_exit_spot(path)
 	# Per-level night strength (metadata on the level root, see DayNightManager).
 	DayNightManager.set_level_strength(float(level.get_meta("day_night_strength", 1.0)))
 	_map_bounds = _get_map_bounds(level)
@@ -161,6 +192,32 @@ func _place_player_at_spawn(level: Node, spawn_id: String) -> void:
 		push_warning("Game: no spawn marker found in '%s', leaving Player at (0,0)" % level.name)
 		return
 	player.global_position = spawn.global_position
+
+## Puts the player back where they exited, if that was in this level. Falls back
+## to the spawn they were just placed at if the level opens with a cutscene (those
+## are authored to start there) or the tile is no longer free. Both are only known
+## once the level has settled, which is still behind the opening fade.
+func _resume_exit_spot(path: String) -> void:
+	var spot: Dictionary = GameState.exit_spot
+	GameState.exit_spot = {}
+	if spot.get("level", "") != path or CutsceneManager.is_playing():
+		return
+	var spawn_position := player.global_position
+	var return_to_spawn := func() -> void:
+		player.global_position = spawn_position
+		CutsceneManager.snap_camera()
+	player.global_position = spot["position"]
+	# Signal, not a check after the wait: the cutscene's first step must see the spawn.
+	var on_cutscene := return_to_spawn.unbind(1)
+	CutsceneManager.cutscene_started.connect(on_cutscene)
+	await ActorPath.settle(get_tree())
+	await get_tree().process_frame  # level scripts wait out settle() too, let them go first
+	CutsceneManager.cutscene_started.disconnect(on_cutscene)
+	if CutsceneManager.is_playing() or GameState.current_level_path != path:
+		return
+	var cell := NpcSchedule.cell_of(spot["position"])
+	if NpcSchedule.is_blocked(cell) or NpcSchedule.is_occupied(cell, player):
+		return_to_spawn.call()
 
 ## Spawn markers may sit directly under the level root or be grouped under
 ## an organizing node (e.g. "Spawns/Stairs"); MarkerUtil finds either.

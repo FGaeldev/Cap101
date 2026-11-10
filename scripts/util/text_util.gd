@@ -80,17 +80,44 @@ static func resolve(raw: String) -> String:
 
 
 ## BBCode version of resolve() for RichTextLabel: each marked word gets the
-## Akeanon color (and an underline in color blind mode).
-static func resolve_rich(raw: String) -> String:
+## Akeanon color and an underline. Words in the word bank become tappable links
+## whose meta is "<index>:<word>". active_word is the index of the selected one,
+## which loses its underline because DialogueBox draws a border around it.
+static func resolve_rich(raw: String, active_word: int = -1) -> String:
 	if _marked_word == null:
 		_marked_word = RegEx.create_from_string(MARKED_WORD_PATTERN)
-	var open: String = "[color=#%s]" % Accessibility.akeanon_color().to_html(false)
-	var close: String = "[/color]"
-	if Accessibility.color_blind:
-		open += "[u]"
-		close = "[/u]" + close
 	var escaped: String = _fill_tokens(raw).replace("[", "[lb]")
-	return _marked_word.sub(escaped, open + "$1" + close, true).replace(AKEANON_MARKER, "")
+	var out: String = ""
+	var last_end: int = 0
+	var index: int = 0
+	for found: RegExMatch in _marked_word.search_all(escaped):
+		out += escaped.substr(last_end, found.get_start() - last_end)
+		out += _rich_word(found.get_string(1), index, index == active_word)
+		last_end = found.get_end()
+		index += 1
+	return (out + escaped.substr(last_end)).replace(AKEANON_MARKER, "")
+
+
+static func _rich_word(word: String, index: int, active: bool) -> String:
+	var color: String = Accessibility.akeanon_color().to_html(false)
+	var text: String = word
+	if not WordBank.find_id_by_form(word).is_empty():
+		text = "[url=%d:%s]%s[/url]" % [index, word, word]
+	if active:
+		return "[color=#%s]%s[/color]" % [color, text]
+	return "[color=#%s][u]%s[/u][/color]" % [color, text]
+
+
+## Where marked word `index` sits in the displayed text: x = first character,
+## y = length. Vector2i(-1, 0) if the line has fewer marked words.
+static func marked_word_span(raw: String, index: int) -> Vector2i:
+	var filled: String = _fill_tokens(raw)
+	var matches: Array[RegExMatch] = _marked_word.search_all(filled)
+	if index < 0 or index >= matches.size():
+		return Vector2i(-1, 0)
+	var found: RegExMatch = matches[index]
+	var markers_before: int = filled.substr(0, found.get_start()).count(AKEANON_MARKER)
+	return Vector2i(found.get_start() - markers_before, found.get_string(1).length())
 
 
 static func _fill_tokens(raw: String) -> String:

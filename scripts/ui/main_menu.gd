@@ -31,7 +31,7 @@ func _ready() -> void:
 	)
 
 func _check_save() -> void:
-	continue_btn.disabled = not FileAccess.file_exists(GameState.SAVE_PATH)
+	continue_btn.disabled = not GameState.has_save()
 
 func _on_start() -> void:
 	AudioManager.play_sfx("menu_click")
@@ -40,7 +40,10 @@ func _on_start() -> void:
 
 func _on_continue() -> void:
 	AudioManager.play_sfx("menu_click")
-	GameState.load_game()
+	if not GameState.load_game():
+		continue_btn.text = "Save unreadable"
+		continue_btn.disabled = true
+		return
 	get_tree().change_scene_to_file(MAIN)
 
 func _on_settings() -> void:

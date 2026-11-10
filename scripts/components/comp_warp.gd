@@ -94,6 +94,10 @@ const UNIT_WIDTH_PX: float = 16.0
 ## aborts the running cutscene, so any steps after the walk are skipped.
 @export var fire_during_cutscene: bool = false
 
+## Awaited right before the warp, once the door is known to be open. Levels set
+## this for a door that needs a beat first, e.g. a goodbye at the front door.
+var before_warp: Callable
+
 var _blocked_dialogue_active: bool = false
 
 ## Player currently overlapping this area, null if none.
@@ -190,6 +194,10 @@ func _fire(body: Node) -> void:
 	if not required_flag.is_empty() and not GameState.dev_mode and not GameState.get_flag(required_flag):
 		_show_blocked_message(body)
 		return
+	if before_warp.is_valid():
+		await before_warp.call()
+		if not is_inside_tree():
+			return
 	var minutes: float = travel_minutes
 	if arrival_hour >= 0.0:
 		minutes = DayNightManager.minutes_until_arrival(travel_minutes, arrival_hour)

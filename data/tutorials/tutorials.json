@@ -197,6 +197,15 @@
 			}
 		]
 	},
+	"word_tap": {
+		"steps": [
+			{
+				"text": "Tap an underlined word to see its meaning.",
+				"event": "word_tapped",
+				"auto_advance": 7.0
+			}
+		]
+	},
 	"tour_roam": {
 		"steps": [
 			{

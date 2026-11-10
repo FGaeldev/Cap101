@@ -26,6 +26,12 @@ const DEV_BEDROOM_AKLAN := "res://scenes/world/chapter2/aklan_BR_Player.tscn"
 const DEV_BEDROOM_US := "res://scenes/world/chapter1/us_bedroom.tscn"
 ## Beside the bed, where the player stands after getting up.
 const DEV_GET_UP_OFFSET := Vector2(-16, 0)
+
+## The player's own bedroom for how far the story has got. Where a save goes if
+## the level it was in no longer exists.
+func home_level() -> String:
+	return DEV_BEDROOM_AKLAN if GameState.get_flag("seen_chapter2_scene0") else DEV_BEDROOM_US
+
 ## A skip ends whatever trip with Rose was going on.
 const DEV_SKIP_CLEARED_FLAGS: Array[String] = [
 	"chapter2_with_rose", "chapter2_left_house", "chapter2_left_home", "chapter2_at_park",
@@ -134,6 +140,9 @@ func travel_to_region(region_id: String) -> void:
 	if scene_path.is_empty():
 		push_error("MapManager: region '%s' is unlocked but has no scene_path set" % region_id)
 		return
+	if not ResourceLoader.exists(scene_path):
+		push_error("MapManager: region '%s' points to a missing scene: %s" % [region_id, scene_path])
+		return
 
 	var game := get_tree().current_scene
 	if game == null or not game.has_method("load_level"):
@@ -214,6 +223,9 @@ func open_map() -> void:
 func warp_to_scene(scene_path: String, spawn_id: String = "DefaultSpawn", travel_minutes: float = 0.0) -> void:
 	if scene_path.is_empty():
 		push_error("MapManager: warp_to_scene called with empty scene_path")
+		return
+	if not ResourceLoader.exists(scene_path):
+		push_error("MapManager: warp_to_scene called with a missing scene: %s" % scene_path)
 		return
 
 	if is_transitioning:

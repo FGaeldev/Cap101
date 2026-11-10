@@ -53,6 +53,12 @@ func _load() -> void:
 			push_error("WordBank: duplicate word ID '%s'; keeping first record." % word_id)
 			continue
 
+		# A meaning of "?" is a note that nobody knows it yet. Left out so players
+		# never see it; filling in the gloss brings the word back.
+		if str(record.get("gloss", "")).replace("(", "").replace(")", "").strip_edges() == "?":
+			push_warning("WordBank: skipping '%s' (%s) until it has a meaning." % [akeanon, word_id])
+			continue
+
 		var normalized: Dictionary = record.duplicate(true)
 		normalized["id"] = word_id
 		normalized["akeanon"] = akeanon
@@ -97,6 +103,16 @@ func get_word(id: String) -> Dictionary:
 ## Duplicate forms resolve to the first record loaded.
 func find_id_by_form(form: String) -> String:
 	return _form_index.get(form.strip_edges().to_lower(), "")
+
+## Every different meaning of a spelling, joined. A word like "akeanon" has
+## separate entries for each sense, and a dialogue line doesn't say which it means.
+func glosses_for_form(form: String) -> String:
+	var key := form.strip_edges().to_lower()
+	var glosses: PackedStringArray = []
+	for word: Dictionary in words.values():
+		if word["akeanon"].to_lower() == key and not glosses.has(word["gloss"]):
+			glosses.append(word["gloss"])
+	return "; ".join(glosses)
 
 ## Pads `pool` (word IDs) up to `min_size` with words the player already knows
 ## (present in GameState.word_exposures), lowest mastery first. Returns a new

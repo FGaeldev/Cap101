@@ -755,6 +755,26 @@
 	  "word_ids": []
 	}
   ],
+  "scene_house_farewell": [
+	{
+	  "type": "dialogue",
+	  "speaker": "",
+	  "text": "Mag \\dahan \\kamo ha.",
+	  "translation": "You guys be careful.",
+	  "next": null,
+	  "word_ids": ["w049", "w102"]
+	}
+  ],
+  "scene_house_farewell_solo": [
+	{
+	  "type": "dialogue",
+	  "speaker": "",
+	  "text": "Mag \\dahan \\ka ha.",
+	  "translation": "You be careful.",
+	  "next": null,
+	  "word_ids": ["w049", "w083"]
+	}
+  ],
   "scene_rose_walk_to_park": [
 	{
 	  "type": "start_router",
