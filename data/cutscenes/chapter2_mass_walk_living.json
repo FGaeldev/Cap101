@@ -1,6 +1,7 @@
 [
 	{"type": "set_flag", "flag": "chapter2_with_rose", "value": true},
 	{"type": "set_flag", "flag": "chapter2_mass_trip", "value": true},
+	{"type": "dialogue", "chapter": "chapter2", "scene": "scene_house_farewell", "said_by_npc_here": true},
 	{"type": "game_speed", "scale": 2.0},
 	{"type": "conga", "join": "nearest_x", "leader": "Rose", "followers": ["Lola Susan", "player"], "path_to": "Warps/WarpArea5", "gap": 2, "speed": 48, "despawn": true},
 	{"type": "set_flag", "flag": "chapter2_left_house", "value": true},

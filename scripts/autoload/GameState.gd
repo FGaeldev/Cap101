@@ -16,6 +16,14 @@ var word_exposures: Dictionary = {} # word_id -> exposure count (doubles as Dict
 var current_area: String = "village"
 var completed_quests: Array = []
 var current_level_path: String = "res://scenes/world/chapter1/us_bedroom.tscn"
+## Where the player stood when they last exited: {level: scene path, position:
+## Vector2}. Empty when there's nothing to resume. Game.gd writes it on exit and
+## uses it up on the next level load, so doors and travel never see an old spot.
+var exit_spot: Dictionary = {}
+## True once this run holds a real game (loaded or freshly started). Only saves
+## triggered by closing the window check it: without it, launching Game.tscn on
+## its own would overwrite save.dat with blank state on close.
+var session_active: bool = false
 
 ## In-game clock in hours (0..24, fractional), advanced by DayNightManager.
 const DEFAULT_TIME_OF_DAY: float = 21.0  # 9 PM: the game opens at night
@@ -286,6 +294,8 @@ func reset_game_state() -> void:
 	current_area = "village"
 	completed_quests.clear()
 	current_level_path = "res://scenes/world/chapter1/us_bedroom.tscn"
+	exit_spot = {}
+	session_active = true
 	time_of_day = DEFAULT_TIME_OF_DAY
 	date_unix = start_date_unix()
 	player_name = ""
@@ -323,6 +333,7 @@ func save_game() -> bool:
 		"current_area": current_area,
 		"completed_quests": completed_quests,
 		"current_level_path": current_level_path,
+		"exit_spot": exit_spot,
 		"time_of_day": time_of_day,
 		"date_unix": date_unix,
 		"player_name": player_name,
@@ -375,6 +386,8 @@ func load_game() -> void:
 	current_area = data.get("current_area", "village")
 	completed_quests = data.get("completed_quests", [])
 	current_level_path = data.get("current_level_path")
+	exit_spot = data.get("exit_spot", {})  # additive field, old saves -> spawn as before
+	session_active = true
 	time_of_day = data.get("time_of_day", DEFAULT_TIME_OF_DAY)  # additive field, old saves -> 9 PM
 	date_unix = data.get("date_unix", start_date_unix())  # additive field, old saves -> START_DATE
 	player_name = data.get("player_name", "")  # additive field, old saves -> ""

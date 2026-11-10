@@ -268,6 +268,10 @@ func confirm_exit_to_menu() -> void:
 	
 func _on_return_confirmed() -> void:
 	AudioManager.play_sfx("menu_click")
+	# Before abort(): a cutscene in progress means there's no spot to keep.
+	var game := get_tree().current_scene
+	if game != null and game.has_method("remember_exit_spot"):
+		game.remember_exit_spot()
 	CutsceneManager.abort()
 	TutorialManager.abort()
 	GameState.save_game()

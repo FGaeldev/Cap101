@@ -194,6 +194,15 @@ func is_here(actor_id: String) -> bool:
 	return is_instance_valid(_level) and CutsceneManager.has_actor(actor_id) \
 			and _rooms.get(get_block(actor_id).get("room", ""), "") == _level_path
 
+## Scheduled NPCs in the loaded room. Anyone leaving with the player isn't one,
+## since the "on_walk" and "mass_trip" blocks put them away.
+func npcs_here() -> Array[String]:
+	var here: Array[String] = []
+	for actor_id: String in _npcs:
+		if is_here(actor_id):
+			here.append(actor_id)
+	return here
+
 ## True once this NPC has finished walking.
 func is_settled(actor_id: String) -> bool:
 	if _waiting_at_door.has(actor_id):
