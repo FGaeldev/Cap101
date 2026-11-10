@@ -13,7 +13,7 @@ const HOW_TO_PLAY: Array = [
 	["Talking and using things", "Walk up to a person or object, then tap the button at the bottom right or press E. Tap the screen or press E to continue a conversation."],
 	["Your goal", "Your current quest is shown at the top left. Follow it to move the story forward."],
 	["The Book", "Tap the menu button at the top right or press Esc. It holds your settings, journal, relationships, dictionary, map, and calendar."],
-	["Learning Akeanon", "Akeanon words have their own color in conversations. Every word you find is saved in the Dictionary. Choose Review when you talk to someone to practice words. Practice fills the word tier bar at the top of the screen."],
+	["Learning Akeanon", "Akeanon words are colored and underlined in conversations. Tap one to see what it means, and tap again to close it. Every word you find is saved in the Dictionary. Choose Review when you talk to someone to practice words. Practice fills the word tier bar at the top of the screen."],
 	["Days", "Read the newspaper for the word of the day and a daily puzzle. Sleep in a bed to start a new day."],
 	["Getting help", "Quizzes, minigames, and other activities have a ? button. Tap it to see how that activity works. You can also read them all under Activities on this screen."],
 	["Stopping and continuing", "The game saves as you play. To stop, open the Book, go to Settings, and choose Return to Menu. To keep playing later, choose Continue on the main menu."],

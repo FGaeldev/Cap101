@@ -276,6 +276,9 @@ func _on_return_confirmed() -> void:
 	TutorialManager.abort()
 	GameState.save_game()
 	close()
+	# Whatever set these is ending with the level, and would never get to undo them.
+	MapManager.is_transitioning = false
+	Engine.time_scale = 1.0
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://scenes/ui/MainMenu.tscn")
 
@@ -328,6 +331,9 @@ func set_tab_lock_condition(tab_id: String, is_unlocked: Callable) -> void:
 ## now (the bedroom book runs the "menus_ui" walkthrough instead); kept for
 ## anything that must show the book itself.
 func open(tab_id: String = "settings", force_book: bool = false) -> void:
+	# Pausing mid-warp or mid-walk can strand what's waiting on the fade or the walk.
+	if MapManager.is_transitioning:
+		return
 	visible = true
 	get_tree().paused = true
 	# separated menus
@@ -345,6 +351,8 @@ func open(tab_id: String = "settings", force_book: bool = false) -> void:
 ## search/category filters first if they hide it. Used by the HUD's
 ## new-word toast.
 func open_dictionary_entry(word_id: String) -> void:
+	if MapManager.is_transitioning:
+		return
 	if separate_menus:
 		visible = true
 		get_tree().paused = true

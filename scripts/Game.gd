@@ -71,6 +71,10 @@ func _ready() -> void:
 	if not GameState.get_flag("seen_chapter1_scene1"):
 		await ChapterCard.show_if_new("chapter1")
 	var level_path := GameState.current_level_path if GameState.current_level_path != "" else "res://scenes/world/chapter1/us_bedroom.tscn"
+	if not ResourceLoader.exists(level_path):
+		push_warning("Game: saved level '%s' is missing, starting at home" % level_path)
+		level_path = MapManager.home_level()
+		GameState.current_level_path = level_path
 	load_level(level_path)
 	# Tutorial start moved here (was after fade_in+timer) — fixes race where
 	# player could act mid-fade before tutorial hooks were armed.

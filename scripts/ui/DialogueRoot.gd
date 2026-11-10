@@ -24,6 +24,15 @@ func _ready() -> void:
 	portrait.visible = false
 	portrait_row.visible = false
 	_fit_to_content()
+	_let_taps_through(layout)
+
+## Only the text and the choices take taps. Everything else around them lets a
+## tap reach DialogueBox._unhandled_input, like a tap on the rest of the screen.
+func _let_taps_through(node: Control) -> void:
+	node.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	for child in node.get_children():
+		if child is Control and child != dialogue_box and child != choice_box:
+			_let_taps_through(child)
 
 func show_box() -> void:
 	visible = true

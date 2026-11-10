@@ -247,6 +247,11 @@ func _regen_patience(npc_id: String) -> void:
 	_patience_last_update[npc_id] = now
 
 const SAVE_PATH = "user://save.dat"
+## Each save is written here first, then swapped in, so a crash mid-write can't
+## damage the real file.
+const SAVE_TEMP_PATH = "user://save.tmp"
+## The previous save, used if the main file can't be read.
+const SAVE_BACKUP_PATH = "user://save.bak"
 
 # --- Flag System ---
 func set_flag(flag_name: String, value: bool = true) -> void:
@@ -359,11 +364,9 @@ func save_game() -> bool:
 		"event_reminder_date": event_reminder_date,
 		"puzzle_progress": puzzle_progress
 	}
-	# WRITE truncates the existing save. Check open/write errors so a failed
-	# overwrite cannot silently leave the previous run on disk.
-	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
+	var file := FileAccess.open(SAVE_TEMP_PATH, FileAccess.WRITE)
 	if file == null:
-		push_error("GameState.save_game: cannot open %s for writing (error %d)" % [SAVE_PATH, FileAccess.get_open_error()])
+		push_error("GameState.save_game: cannot open %s for writing (error %d)" % [SAVE_TEMP_PATH, FileAccess.get_open_error()])
 		return false
 
 	file.store_var(data)
@@ -371,16 +374,45 @@ func save_game() -> bool:
 	var write_error: Error = file.get_error()
 	file.close()
 	if write_error != OK:
-		push_error("GameState.save_game: failed writing %s (error %d)" % [SAVE_PATH, write_error])
+		push_error("GameState.save_game: failed writing %s (error %d)" % [SAVE_TEMP_PATH, write_error])
+		return false
+	return _swap_in_saved_file()
+
+## Keeps the current save as the backup and makes the finished temp file the save.
+func _swap_in_saved_file() -> bool:
+	if FileAccess.file_exists(SAVE_PATH):
+		if FileAccess.file_exists(SAVE_BACKUP_PATH):
+			DirAccess.remove_absolute(SAVE_BACKUP_PATH)
+		DirAccess.rename_absolute(SAVE_PATH, SAVE_BACKUP_PATH)
+	var error := DirAccess.rename_absolute(SAVE_TEMP_PATH, SAVE_PATH)
+	if error != OK:
+		push_error("GameState.save_game: could not replace %s (error %d)" % [SAVE_PATH, error])
 		return false
 	return true
 
-func load_game() -> void:
-	if not FileAccess.file_exists(SAVE_PATH):
-		return
-	var file = FileAccess.open(SAVE_PATH, FileAccess.READ)
-	var data = file.get_var()
+## True if there's anything Continue could try to load.
+func has_save() -> bool:
+	return FileAccess.file_exists(SAVE_PATH) or FileAccess.file_exists(SAVE_BACKUP_PATH)
+
+## The save at path, or null if it's missing, empty or damaged.
+func _read_save(path: String) -> Variant:
+	var file := FileAccess.open(path, FileAccess.READ)
+	if file == null or file.get_length() == 0:
+		return null
+	var data: Variant = file.get_var()
 	file.close()
+	return data if data is Dictionary and data.has("current_level_path") else null
+
+## Loads the save, falling back to the backup. False if neither can be read,
+## and then nothing in the current state has been touched.
+func load_game() -> bool:
+	var data: Variant = _read_save(SAVE_PATH)
+	if data == null:
+		data = _read_save(SAVE_BACKUP_PATH)
+		if data == null:
+			push_error("GameState.load_game: no readable save found")
+			return false
+		push_warning("GameState.load_game: main save unreadable, using the backup")
 	flags = data.get("flags", {})
 	word_exposures = data.get("word_exposures", {})
 	current_area = data.get("current_area", "village")
@@ -415,3 +447,4 @@ func load_game() -> void:
 	# QuestManager built its active list at boot, before flags/exposures were
 	# loaded -- re-scan so flag-gated quests (requires_flag) show after Continue.
 	QuestManager.refresh_active_quests()
+	return true

@@ -124,11 +124,13 @@
 		"steps": [
 			"Walk up to someone, then tap the button at the bottom right or press E.",
 			"Choose Talk to chat with them.",
+			"While they talk, tap an underlined word to see what it means.",
 			"Choose Review to practice words. You will get a quiz, hangman, or memory match at random.",
 			"Choose Goodbye to leave."
 		],
 		"tips": [
 			"Talk to someone again to hear more from them.",
+			"Tap the word again, or anywhere else, to close its meaning.",
 			"Practice fills the word tier bar at the top of the screen."
 		]
 	},
