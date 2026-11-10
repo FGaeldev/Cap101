@@ -1,3 +1,9 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+
+# Windows copies Godot makes while loading editor plugins
+addons/godot-git-plugin/windows/~*
+
+# Retired files, kept locally for now
+archived/
