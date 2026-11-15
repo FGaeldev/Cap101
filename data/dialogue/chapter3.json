@@ -113,7 +113,7 @@
 		{
 			"type": "dialogue",
 			"speaker": "Manang Loleng",
-			"text": "\\Halin \\ra \\igto sa \\taeamnan, sa \\tanum nga \\piña, \\abu-abo \\pa nga \\ro \\kinahangean nga \\ubrahon \\para \\magin \\eambong \\ra.",
+			"text": "\\Halin \\ra \\igto sa \\taeamnan, sa \\tanum nga \\piña, \\abo-abo \\pa nga \\ro \\kinahangean nga \\ubrahon \\para \\maging \\eambong \\ra.",
 			"translation": "This comes from over there, the farm, from the piña plant. There's still a lot of work needed before it becomes cloth.",
 			"next": 6,
 			"word_ids": ["w072", "w265", "w082", "w219", "w259", "w194", "w260", "w261", "w262", "w263", "w191", "w264", "w057"]
@@ -394,6 +394,8 @@
 		{
 			"type": "start_router",
 			"start_index_if_flag": {
+				"ch3_cafe_back_at_table": 23,
+				"ch3_cafe_at_counter": 6,
 				"default": 1
 			}
 		},
@@ -430,14 +432,14 @@
 			"type": "dialogue",
 			"speaker": "Rose",
 			"text": "\\Maliya — come here. \\Agto — go. \\Igto — there. \\Diritso — straight. \\Liko — turn. \\Tuo — right. \\Waea — left. \\Dayon — then, or “continue.”",
-			"next": 6,
+			"next": 22,
 			"word_ids": ["w150", "w004", "w082", "w272", "w273", "w274", "w275", "w053"]
 		},
 		{
 			"type": "dialogue",
 			"speaker": "Rose",
 			"text": "\\Bakae — to buy. \\Baligya — to sell. \\Tan-aw — to look, to see. \\Hambae — to speak. \\Sabát — to answer.",
-			"next": 7,
+			"next": 24,
 			"word_ids": ["w031", "w032", "w270", "w073", "w205"]
 		},
 		{
@@ -567,6 +569,56 @@
 			"text": "And \\panaw? To walk. Told you I'd save it. Let's \\panaw home, balikbayan.",
 			"next": null,
 			"word_ids": ["w271"]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "\\Agto \\igto sa counter, \\diritso kat \\sangkiri, tapos \\liko \\pa \\tuo.",
+			"translation": "Go there to the counter, straight for a little bit, then turn to the right.",
+			"next": null,
+			"word_ids": ["w004", "w082", "w272", "w290", "w273", "w261", "w274"]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "See? You didn't even need a map.",
+			"next": 7,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "\\Maliya! \\Liko sa \\waea, \\dayon \\diritso.",
+			"translation": "Come here! Turn left, then straight.",
+			"next": null,
+			"word_ids": ["w150", "w273", "w275", "w053", "w272"]
+		}
+	],
+	"scene_4_leg1_hint": [
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "\\Tuo! Your other right, balikbayan. Straight up a little, then turn right to the counter.",
+			"next": null,
+			"word_ids": ["w274"]
+		}
+	],
+	"scene_4_leg2_hint": [
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "\\Waea, balikbayan. Turn left, then straight down to the table.",
+			"next": null,
+			"word_ids": ["w275"]
+		}
+	],
+	"scene_cafe_barista": [
+		{
+			"type": "dialogue",
+			"speaker": "Barista",
+			"text": "Two coffees? Coming right up.",
+			"next": null,
+			"word_ids": []
 		}
 	],
 	"scene_5_the_sound_of_the_loom": [

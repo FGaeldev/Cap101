@@ -1,0 +1,10 @@
+[
+	{"type": "set_flag", "flag": "ch3_cafe_leg1", "value": false},
+	{"type": "move_npc", "actor": "player", "direction": "up", "tiles": 0, "face": "up"},
+	{"type": "move_npc", "actor": "Barista", "direction": "down", "tiles": 0, "face": "down"},
+	{"type": "dialogue", "chapter": "chapter3", "scene": "scene_cafe_barista"},
+	{"type": "set_flag", "flag": "ch3_cafe_at_counter", "value": true},
+	{"type": "dialogue", "chapter": "chapter3", "scene": "scene_4_vocabulary_practice_round_verbs_and_pace_words"},
+	{"type": "set_flag", "flag": "ch3_cafe_at_counter", "value": false},
+	{"type": "set_flag", "flag": "ch3_cafe_leg2", "value": true}
+]

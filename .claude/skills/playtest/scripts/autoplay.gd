@@ -566,6 +566,14 @@ func _act() -> void:
 	var player := _player()
 	if level == null or player == null:
 		return
+	# A level asking the player to walk somewhere (haboean_cafe.gd's directions
+	# walk): go straight there, the way warps are taken below.
+	if level.has_method("walk_goal"):
+		var goal: Vector2i = level.walk_goal()
+		if goal.x > -99:
+			_p("WALK to the level's goal tile %s" % goal)
+			player.global_position = level.global_position + Vector2(goal.x * 16, (goal.y + 1) * 16)
+			return
 	var GS = A.GameState
 	if _jump_sunday and not GS.get_flag("chapter2_with_rose"):
 		_jump_sunday = false

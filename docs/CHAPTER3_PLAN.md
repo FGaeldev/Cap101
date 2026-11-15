@@ -2,7 +2,22 @@
 
 Prepared 2026-11-15 from the current code (commit `7b452d0`) and `docs/STORY_ROADMAP.md` §6.3. The roadmap's build sheet is still the story target; this file maps it onto what's actually in the repo now and orders the work.
 
-## Where it stands
+## Status: complete (2026-11-16)
+
+Chapter 3 meets the "Done when" list below. Built on `feature/chapter3` (PR FGaeldev/Cap101#48). `/playtest full` from a new game finishes Chapters 1–3 with no new findings.
+
+**Built differently from this plan:**
+- **Loom minigame:** Habi-Habi (trace Loleng's colour word on a thread grid, 13/10/8 s per stage) instead of the colour-tapping `weaving` panel, which was built and removed. Also the replay at Loleng's loom.
+- **Quests:** three quests (q006 meet Loleng, q007 try the loom, q008 tell Jonabel) instead of one q006 with steps.
+- **End of Chapter 2:** completes on the first sleep after the tour and a mass (`chapter2_mass_attended`, set at the mass itself), not in the morning brief.
+- **Keepsake:** the piña bookmark shows in Achievements → Collections (`data/collections.json`), not the Journal.
+- **Jonabel's bookmark line:** story remarks in IdleTalk (`"remarks"` in the chapter JSON), not an idle pool. Susan and Pedring react too.
+- **Arrival outdoors:** Rose leads straight into the gallery; no free roaming outdoors on the story visit.
+- **Extra:** Rose's revisit trip, going out alone to visited places (8 PM curfew), dev Minigames & quizzes menu.
+
+**Left out (optional):** scene 1b exhibit walk, staging polish (camera pan, emotes, loom sound, Rose's silent beat), a real Loleng walk sprite (placeholder recolour), a "found" pop-up for keepsakes. Words w257–w275 still unverified.
+
+## Where it stood when planned
 
 | Piece | State | Notes |
 |---|---|---|
