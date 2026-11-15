@@ -127,6 +127,10 @@ func _exit_tree() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact"):
+		# Several can be in range at once (a row of chairs): only the nearest
+		# one fires, the same one the HUD button picks.
+		if _player_ref is Node2D and get_nearest((_player_ref as Node2D).global_position) != self:
+			return
 		try_interact()
 
 func _on_input_event(_viewport, event, _shape_idx):

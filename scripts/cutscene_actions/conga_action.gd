@@ -21,6 +21,7 @@
 #   	"type": "conga",
 #   	"leader": "Rose",
 #   	"followers": ["Lola Susan", "Lola Jonabel", "Papa Jobert"],
+#   	"optional": ["Lola Susan"],   # optional; followers that may be absent (no warning)
 #   	"waypoints": [[-464, 320]],   # [x, y] level-space px or marker names ("S4/Exit"), snapped to the 16px grid
 #   	"order": "yx",                # leg order per waypoint: "xy" (default) or "yx"
 #   	"queue_direction": "right",   # optional; default = opposite of first step
@@ -98,13 +99,17 @@ func execute(step: Dictionary, mgr: Node) -> void:
 
 	# Missing followers are skipped, not fatal -- a cast member that already
 	# despawned should not stall the whole cutscene.
+	# Followers listed in "optional" are skipped without a warning (e.g. an NPC
+	# whose spawn_npc step is gated by "if_flag").
+	var optional: Array = step.get("optional", [])
 	var actors: Array[Node2D] = [leader]
 	var actor_ids: Array[String] = [leader_id]
 	for raw_id in step.get("followers", []):
 		var id: String = String(raw_id)
 		var node: Node2D = mgr.get_actor(id) if mgr.has_actor(id) else null
 		if node == null:
-			push_warning("conga: follower '%s' not registered, skipped" % id)
+			if not optional.has(id):
+				push_warning("conga: follower '%s' not registered, skipped" % id)
 			continue
 		actors.append(node)
 		actor_ids.append(id)
@@ -135,7 +140,7 @@ func execute(step: Dictionary, mgr: Node) -> void:
 		if path_to == null:
 			return
 		# A warp's position is its center; actors stand by their bottom-left corner.
-		if MarkerUtil.find(level, step["path_to"]) is Area2D:
+		if step["path_to"] is String and MarkerUtil.find(level, step["path_to"]) is Area2D:
 			path_to += Vector2(-8, 8)
 		for corner in ActorPath.around_actors(mgr, leader, cursor, _snap(path_to)):
 			_append_tiles(route, corner)

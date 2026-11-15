@@ -4,5 +4,6 @@
 	{"type": "spawn_npc", "actor": "Rose", "scene": "res://scenes/entities/npc_Rose.tscn", "at_marker": "FromPark"},
 	{"type": "move_npc", "actor": "player", "from": "FromPark", "direction": "up", "tiles": 0},
 	{"type": "parallel", "actions": [{"type": "fade", "direction": "in", "duration": 0.6}, {"type": "conga", "join": "nearest_x", "leader": "Rose", "followers": ["player"], "path_to": "Trip/Rose", "gap": 2, "speed": 48, "despawn": false}, {"type": "sequence", "actions": [{"type": "wait", "seconds": 0.5}, {"type": "set_visible", "actor": "player", "value": true}]}]},
-	{"type": "set_flag", "flag": "chapter2_at_bakhawan", "value": true}
+	{"type": "set_flag", "flag": "chapter2_at_bakhawan", "value": true},
+	{"type": "set_flag", "flag": "map_open_bakhawan", "value": true}
 ]

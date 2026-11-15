@@ -31,6 +31,13 @@ const STOPS: Dictionary = {
 		"home": "chapter2_walk_home_market",
 		"places": [{"label": "The park", "flag": "", "cutscene": "chapter2_market_to_park"}],
 	},
+	# Later visits to the weavers: Rose waits on the plaza. The gallery and cafe
+	# doors stay open ("free_warps"); only the gate back to Pastrana asks.
+	"habuean_outdoors.tscn": {
+		"home": "chapter3_revisit_home",
+		"places": [],
+		"free_warps": ["ToGallery", "ToCafe"],
+	},
 }
 
 const ActorPath := preload("res://scripts/util/actor_path.gd")
@@ -41,6 +48,8 @@ func _ready() -> void:
 ## True if Rose took over this warp attempt.
 func intercept(warp: Node, player: Node2D) -> bool:
 	if GameState.dev_mode or _rose_nearby(player) == null:
+		return false
+	if _stop_for(_rose_nearby(player)).get("free_warps", []).has(String(warp.name)):
 		return false
 	if _is_waiting_to_resume(_rose_nearby(player)):
 		_tell_to_stay(_rose_nearby(player), player, warp)

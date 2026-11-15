@@ -9,8 +9,12 @@
 extends Node
 
 const DATA_PATH := "res://data/achievements.json"
+## Keepsakes shown in the Achievements tab's Collections section. Each is found
+## once its story "flag" is set (no state of its own, same as achievements).
+const COLLECTIONS_PATH := "res://data/collections.json"
 
 var achievements: Array = []  # ordered, each {id, title, description, condition}
+var collections: Array = []   # ordered, each {id, title, description, chapter, flag}
 
 ## Emitted once when an achievement flips to unlocked during play (HUD toast).
 signal achievement_unlocked(ach: Dictionary)
@@ -56,6 +60,26 @@ func _load() -> void:
 		push_error("AchievementManager: achievements.json malformed, expected {achievements: [...]}")
 		return
 	achievements = parsed["achievements"]
+	_load_collections()
+
+func _load_collections() -> void:
+	var file := FileAccess.open(COLLECTIONS_PATH, FileAccess.READ)
+	if file == null:
+		push_error("AchievementManager: failed to open %s" % COLLECTIONS_PATH)
+		return
+	var parsed: Variant = JSON.parse_string(file.get_as_text())
+	if typeof(parsed) != TYPE_DICTIONARY or not parsed.has("collections"):
+		push_error("AchievementManager: collections.json malformed, expected {collections: [...]}")
+		return
+	collections = parsed["collections"]
+
+## True once the item's story flag is set.
+func is_collected(item: Dictionary) -> bool:
+	var flag: String = str(item.get("flag", ""))
+	return not flag.is_empty() and GameState.get_flag(flag)
+
+func collected_count() -> int:
+	return collections.filter(func(item): return is_collected(item)).size()
 
 ## Recomputed live, not cached — cheap given achievement count stays small
 ## (stub scale). Add a dirty-flag/cache layer only if this list grows large

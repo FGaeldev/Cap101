@@ -44,6 +44,22 @@
 			"Each pair you match raises how well you know that word."
 		]
 	},
+	"habi_habi": {
+		"title": "Habi-Habi",
+		"goal": "Weave a piece of cloth by spelling the words Manang Loleng calls.",
+		"steps": [
+			"Manang Loleng calls an Akeanon word. Its meaning is shown under it.",
+			"Trace the word's letters on the thread grid. Letters connect in any direction, even diagonally.",
+			"Drag across the letters and let go, or tap them one by one and tap the last one again.",
+			"Each word you spell weaves a row of cloth. Its letters fall away and new ones drop in."
+		],
+		"tips": [
+			"The shuttle shows your time for each word: 13 seconds at first, then 10, then 8.",
+			"Run out of time and the row comes out crooked, and the letters light up so you can see the word.",
+			"Tap the letter before the last one to step back, or press Clear to start over.",
+			"On a keyboard, just type the word and press Enter."
+		]
+	},
 	"hangman": {
 		"title": "Hangman",
 		"goal": "Guess the hidden Akeanon word one letter at a time.",

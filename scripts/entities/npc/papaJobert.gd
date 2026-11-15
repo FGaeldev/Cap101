@@ -4,7 +4,7 @@ extends CharacterBody2D
 @export var actor_id: String = ""
 ## ChapterLoader lookup -- override per-scene instance, don't hardcode here.
 @export var dialogue_chapter: String = "chapter1"
-@export var dialogue_scene_key: String = "scene_1_grandma_s_terrace"
+@export var dialogue_scene_key: String = ""
 ## Set once dialogue_scene_key has played to completion once. Subsequent
 ## interacts use generated idle talk instead of replaying it.
 @export var story_done_flag: String = "story_done_papa_jobert_scene1"

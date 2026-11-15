@@ -1,0 +1,15 @@
+[
+	{"type": "game_speed", "scale": 2.0},
+	{"type": "set_visible", "actor": "player", "value": false},
+	{"type": "spawn_npc", "actor": "Rose", "scene": "res://scenes/entities/npc_Rose.tscn", "at_marker": "FromGallery"},
+	{"type": "move_npc", "actor": "player", "from": "FromGallery", "direction": "down", "tiles": 0},
+	{"type": "parallel", "actions": [
+		{"type": "fade", "direction": "in", "duration": 0.6},
+		{"type": "sit", "actor": "Rose", "pew": "Table1Right", "walk": true, "speed": 48},
+		{"type": "sequence", "actions": [{"type": "wait", "seconds": 0.5}, {"type": "set_visible", "actor": "player", "value": true}, {"type": "sit", "actor": "player", "pew": "Table1Left", "walk": true, "speed": 48}]}
+	]},
+	{"type": "game_speed", "scale": 1.0},
+	{"type": "dialogue", "chapter": "chapter3", "scene": "scene_4_vocabulary_practice_round_verbs_and_pace_words"},
+	{"type": "stand", "actor": "player"},
+	{"type": "set_flag", "flag": "ch3_cafe_leg1", "value": true}
+]

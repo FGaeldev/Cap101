@@ -19,7 +19,7 @@
 		"id": "chapter3",
 		"number": 3,
 		"title": "Threads of Piña",
-		"available": false,
+		"available": true,
 		"description": "Visit a piña weaving community. Manang Loleng shows you how pineapple fiber becomes cloth, and you try the loom yourself.",
 		"learn": "Action words and words for speed and size"
 	},

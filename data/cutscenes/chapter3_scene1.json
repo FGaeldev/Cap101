@@ -1,0 +1,17 @@
+[
+	{"type": "game_speed", "scale": 2.0},
+	{"type": "set_visible", "actor": "player", "value": false},
+	{"type": "spawn_npc", "actor": "Rose", "scene": "res://scenes/entities/npc_Rose.tscn", "at_marker": "FromOutdoors"},
+	{"type": "move_npc", "actor": "player", "from": "FromOutdoors", "direction": "up", "tiles": 0},
+	{"type": "parallel", "actions": [
+		{"type": "fade", "direction": "in", "duration": 0.6},
+		{"type": "move_npc", "actor": "Rose", "to": [48, 112], "avoid_actors": true, "speed": 48, "face": "up"},
+		{"type": "sequence", "actions": [{"type": "wait", "seconds": 0.5}, {"type": "set_visible", "actor": "player", "value": true}, {"type": "move_npc", "actor": "player", "to": [64, 112], "avoid_actors": true, "speed": 48, "face": "up"}]}
+	]},
+	{"type": "game_speed", "scale": 1.0},
+	{"type": "move_npc", "actor": "Manang Loleng", "direction": "down", "tiles": 0, "face": "down"},
+	{"type": "dialogue", "chapter": "chapter3", "scene": "scene_1_arrival_at_the_loom_house"},
+	{"type": "set_flag", "flag": "seen_chapter3_scene1", "value": true},
+	{"type": "set_flag", "flag": "map_open_habuean", "value": true},
+	{"type": "complete_quest", "quest_id": "q006"}
+]

@@ -15,6 +15,15 @@ extends RefCounted
 ##   TOMORROW  A new word tomorrow. Repeats for the rest of the day.
 ## Returns lines in the usual dialogue format (see Comp_Dialogue.gd), plus
 ## "on_enter", a Callable run when the line is shown.
+##
+## Before all of that, a pending STORY REMARK plays instead: a one-time reaction
+## to something that happened in the story (Jonabel and the piña bookmark).
+## Authored per chapter under "remarks" in data/dialogue/<chapter>.json:
+##   "remarks": {"jonabel_bookmark_kept": {"speaker": "Lola Jonabel",
+##       "requires": ["got_pina_bookmark"], "unless": [...], "lines": [ ... ]}}
+## A remark is pending while every "requires" flag is set, no "unless" flag is,
+## and its seen flag ("remark_<id>_seen") isn't. One per talk, newest chapter
+## first, then in authored order; the rest wait for later talks.
 
 enum Step { GREETING, PUZZLE, WORD, OFFER, TOMORROW }
 
@@ -33,7 +42,13 @@ const W_ADLAW: String = "w003"
 const W_HAY: String = "w076"
 const W_BUEOT_HAMBAEON: String = "w255"
 
+## Chapters searched for remarks, newest first.
+const REMARK_CHAPTERS: Array[String] = ["chapter6", "chapter5", "chapter4", "chapter3", "chapter2", "chapter1"]
+
 static func build(speaker: String) -> Array:
+	var remark: Array = _remark_lines(speaker)
+	if not remark.is_empty():
+		return remark
 	TutorialManager.start("idle_talk")
 	var step: Step = _next_step(speaker)
 	# An offer only counts as done once accepted, and that is what moves past it.
@@ -51,6 +66,36 @@ static func build(speaker: String) -> Array:
 		Step.OFFER:
 			return _offer_lines(speaker)
 	return [_line(speaker, "We'll teach you a new word tomorrow.")]
+
+## Lines of the first pending story remark for this speaker, or []. Marks it
+## seen as its first line shows, so closing the box early still counts.
+static func _remark_lines(speaker: String) -> Array:
+	for chapter_id: String in REMARK_CHAPTERS:
+		var remarks: Dictionary = ChapterLoader.get_remarks(chapter_id)
+		for remark_id: String in remarks:
+			var remark: Dictionary = remarks[remark_id]
+			if str(remark.get("speaker", "")) != speaker or not remark_pending(remark_id, remark):
+				continue
+			var lines: Array = remark.get("lines", []).duplicate(true)
+			if lines.is_empty():
+				continue
+			lines[0]["on_enter"] = GameState.set_flag.bind(remark_seen_flag(remark_id), true)
+			return lines
+	return []
+
+static func remark_pending(remark_id: String, remark: Dictionary) -> bool:
+	if GameState.get_flag(remark_seen_flag(remark_id)):
+		return false
+	for flag in remark.get("requires", []):
+		if not GameState.get_flag(str(flag)):
+			return false
+	for flag in remark.get("unless", []):
+		if GameState.get_flag(str(flag)):
+			return false
+	return true
+
+static func remark_seen_flag(remark_id: String) -> String:
+	return "remark_%s_seen" % remark_id
 
 ## The first step after the last one this NPC played today that applies now.
 static func _next_step(speaker: String) -> Step:

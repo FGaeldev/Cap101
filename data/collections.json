@@ -1,0 +1,18 @@
+{
+	"collections": [
+		{
+			"id": "col_pina_bookmark",
+			"title": "Piña bookmark",
+			"description": "Manang Loleng's gift: cream piña cloth with a red-and-blue woven band.",
+			"chapter": "chapter3",
+			"flag": "got_pina_bookmark"
+		},
+		{
+			"id": "col_habi_habi_cloth",
+			"title": "Clean piña cloth",
+			"description": "A Habi-Habi cloth woven with every row clean.",
+			"chapter": "chapter3",
+			"flag": "habi_habi_clean_cloth"
+		}
+	]
+}

@@ -24,8 +24,9 @@ const MINIGAME_SCRIPTS := {
 	"hangman": preload("res://scripts/ui/hangman_panel.gd"),
 	"crossword": preload("res://scripts/ui/crossword_panel.gd"),
 	"word_search": preload("res://scripts/ui/word_search_panel.gd"),
+	"habi_habi": preload("res://scripts/ui/habi_habi_panel.gd"),
 }
-const FULLSCREEN_MINIGAMES: Array[String] = ["crossword", "word_search"]
+const FULLSCREEN_MINIGAMES: Array[String] = ["crossword", "word_search", "habi_habi"]
 const NEWSPAPER_SCRIPT := preload("res://scripts/ui/newspaper_panel.gd")
 
 ## Relative chance of each activity when the player asks an NPC to review.
@@ -214,13 +215,6 @@ func show_review_quiz() -> void:
 	if _root == null:
 		push_error("DialogueUI: no root registered, cannot show review quiz")
 		return
-	if _quiz_box == null or not is_instance_valid(_quiz_box):
-		_quiz_box = QUIZ_PANEL_SCENE.instantiate()
-		_root.get_parent().add_child(_quiz_box)
-
-	for conn in _quiz_box.resolved.get_connections():
-		_quiz_box.resolved.disconnect(conn["callable"])
-
 	var word_pool: Array = GameState.word_exposures.keys()
 	if word_pool.is_empty():
 		word_pool = WordBank.words.keys()
@@ -244,9 +238,22 @@ func show_review_quiz() -> void:
 		"choice_display": "gloss",
 		"pass_ratio": 0.5
 	}
+	show_standalone_quiz(review_line, _on_review_quiz_resolved)
+
+## Opens a quiz line outside dialogue (NPC review, dev menu). on_resolved gets
+## the pass/fail result; nothing else happens afterwards.
+func show_standalone_quiz(line: Dictionary, on_resolved: Callable) -> void:
+	if _root == null:
+		push_error("DialogueUI: no root registered, cannot show quiz")
+		return
+	if _quiz_box == null or not is_instance_valid(_quiz_box):
+		_quiz_box = QUIZ_PANEL_SCENE.instantiate()
+		_root.get_parent().add_child(_quiz_box)
+	for conn in _quiz_box.resolved.get_connections():
+		_quiz_box.resolved.disconnect(conn["callable"])
 	_current_component = null
-	_quiz_box.resolved.connect(_on_review_quiz_resolved, CONNECT_ONE_SHOT)
-	_quiz_box.open(review_line)
+	_quiz_box.resolved.connect(on_resolved, CONNECT_ONE_SHOT)
+	_quiz_box.open(line)
 
 
 func _on_review_quiz_resolved(_passed: bool) -> void:

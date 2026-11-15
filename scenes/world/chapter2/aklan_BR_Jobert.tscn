@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://de6nkx7tf7u8d" path="res://scenes/entities/furniture/warp_area.tscn" id="3_ndc7x"]
 [ext_resource type="TileSet" uid="uid://dd261lq2dwfm8" path="res://assets/tilesets/edges.tres" id="3_wtnvs"]
 [ext_resource type="PackedScene" uid="uid://ch1r4565fnl6q" path="res://scenes/entities/furniture/bedroom_bed.tscn" id="4_5nmjc"]
+[ext_resource type="PackedScene" path="res://scenes/entities/furniture/seat.tscn" id="seat_scn"]
 
 [node name="AklanBr" type="Node2D" unique_id=1261461754]
 y_sort_enabled = true
@@ -16,6 +17,7 @@ tile_set = ExtResource("1_ndc7x")
 
 [node name="FloorDecals" type="TileMapLayer" parent="." unique_id=643702450]
 z_index = -2
+tile_map_data = PackedByteArray("AAACAAcAAAAIAAEAAAADAAcAAAAJAAEAAAA=")
 tile_set = ExtResource("1_ndc7x")
 
 [node name="Shadows" type="TileMapLayer" parent="." unique_id=1896324506]
@@ -61,3 +63,10 @@ sleepable = false
 
 [node name="Bed" type="Marker2D" parent="Schedule" unique_id=410200401]
 position = Vector2(80, 64)
+
+[node name="Seats" type="Node2D" parent="." unique_id=730100010]
+
+[node name="DeskChair" parent="Seats" unique_id=730100011 instance=ExtResource("seat_scn")]
+position = Vector2(16, 64)
+face = "up"
+stand_offset = Vector2(0, 16)

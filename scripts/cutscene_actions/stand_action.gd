@@ -1,4 +1,4 @@
-# stand_action.gd -- gets an actor up from the pew they're sitting on.
+# stand_action.gd -- gets an actor up from the pew or seat they're sitting on.
 #
 #   {"type": "stand", "actor": "Rose"}
 #

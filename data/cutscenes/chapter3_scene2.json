@@ -1,0 +1,21 @@
+[
+	{"type": "parallel", "actions": [
+		{"type": "sit", "actor": "player", "pew": "Loom1Stool", "walk": true, "speed": 48},
+		{"type": "move_npc", "actor": "Rose", "to": [16, 112], "avoid_actors": true, "speed": 48, "face": "right"},
+		{"type": "move_npc", "actor": "Manang Loleng", "to": [48, 96], "avoid_actors": true, "speed": 48, "face": "left"}
+	]},
+	{"type": "dialogue", "chapter": "chapter3", "scene": "scene_2_trying_the_loom"},
+	{"type": "set_flag", "flag": "wove_first_row", "value": true},
+	{"type": "set_flag", "flag": "seen_chapter3_scene2", "value": true},
+	{"type": "complete_quest", "quest_id": "q007"},
+	{"type": "stand", "actor": "player"},
+	{"type": "wait", "seconds": 0.3},
+	{"type": "dialogue", "chapter": "chapter3", "scene": "scene_3_closing_gift"},
+	{"type": "set_flag", "flag": "got_pina_bookmark", "value": true},
+	{"type": "set_flag", "flag": "story_done_ch3_loleng", "value": true},
+	{"type": "set_flag", "flag": "seen_chapter3_scene3", "value": true},
+	{"type": "game_speed", "scale": 2.0},
+	{"type": "conga", "join": "nearest_x", "leader": "Rose", "followers": ["player"], "path_to": "Warps/ToCafe", "gap": 2, "speed": 48, "despawn": true},
+	{"type": "fade", "direction": "out", "duration": 0.6},
+	{"type": "load_scene", "scene_path": "res://scenes/world/haboean/haboean_cafe.tscn"}
+]

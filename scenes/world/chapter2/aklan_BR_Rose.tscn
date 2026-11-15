@@ -5,6 +5,7 @@
 [ext_resource type="TileSet" uid="uid://dd261lq2dwfm8" path="res://assets/tilesets/edges.tres" id="3_edges"]
 [ext_resource type="PackedScene" uid="uid://de6nkx7tf7u8d" path="res://scenes/entities/furniture/warp_area.tscn" id="3_fkh7s"]
 [ext_resource type="PackedScene" uid="uid://ch1r4565fnl6q" path="res://scenes/entities/furniture/bedroom_bed.tscn" id="4_bed"]
+[ext_resource type="PackedScene" path="res://scenes/entities/furniture/seat.tscn" id="seat_scn"]
 
 [node name="AklanBr" type="Node2D" unique_id=1261461754]
 y_sort_enabled = true
@@ -65,3 +66,10 @@ position = Vector2(16, 64)
 [node name="BedroomBed" parent="." unique_id=410200904 instance=ExtResource("4_bed")]
 position = Vector2(72, 82)
 sleepable = false
+
+[node name="Seats" type="Node2D" parent="." unique_id=730100014]
+
+[node name="DeskChair" parent="Seats" unique_id=730100015 instance=ExtResource("seat_scn")]
+position = Vector2(16, 64)
+face = "up"
+stand_offset = Vector2(0, 16)

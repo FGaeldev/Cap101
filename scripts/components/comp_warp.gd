@@ -88,6 +88,13 @@ const UNIT_WIDTH_PX: float = 16.0
 ## One-line player remark shown when the warp is blocked by required_flag.
 @export var blocked_message: String = "I should finish what I'm doing here first."
 
+## Hour from which this warp is closed until 6 AM (e.g. 20.0: no going out
+## alone at night). -1 = never closes (default). Dev mode ignores it.
+@export_range(-1.0, 23.75, 0.25) var curfew_hour: float = -1.0
+const CURFEW_END_HOUR: float = 6.0
+## Player remark shown when the curfew closes the warp.
+@export var curfew_message: String = "It's late. I should stay home."
+
 ## Fire as soon as a cutscene walks the player onto this area (no input needed),
 ## e.g. Ch1 scene 4's exit conga carrying the player off the map edge. Still
 ## honours required_flag (silently: no blocked message mid-cutscene). The warp
@@ -194,6 +201,9 @@ func _fire(body: Node) -> void:
 	if not required_flag.is_empty() and not GameState.dev_mode and not GameState.get_flag(required_flag):
 		_show_blocked_message(body)
 		return
+	if _curfew_closed():
+		_show_blocked_message(body, curfew_message)
+		return
 	if before_warp.is_valid():
 		await before_warp.call()
 		if not is_inside_tree():
@@ -205,12 +215,12 @@ func _fire(body: Node) -> void:
 
 ## Reuses the normal dialogue pipeline (tap to dismiss) via a throwaway
 ## DialogueComponent, same approach as us_bedroom.gd's opening line.
-func _show_blocked_message(player) -> void:
+func _show_blocked_message(player, message: String = "") -> void:
 	if _blocked_dialogue_active or CutsceneManager.is_playing():
 		return
 	_blocked_dialogue_active = true
 	var dialogue := DialogueComponent.new()
-	dialogue.dialogue_lines = [{"speaker": "Player", "text": blocked_message, "next": null}]
+	dialogue.dialogue_lines = [{"speaker": "Player", "text": message if not message.is_empty() else blocked_message, "next": null}]
 	add_child(dialogue)
 	dialogue.dialogue_ended.connect(func():
 		_blocked_dialogue_active = false
@@ -219,6 +229,13 @@ func _show_blocked_message(player) -> void:
 	# After start_dialogue(): dialogue is now active, so player input is
 	# already locked (Player.get_input_dir) and can't fight the step-back tween.
 	_walk_player_back(player)
+
+## True while curfew_hour closes this warp (from curfew_hour until 6 AM).
+func _curfew_closed() -> bool:
+	if curfew_hour < 0.0 or GameState.dev_mode:
+		return false
+	var hour: float = DayNightManager.get_hour()
+	return hour >= curfew_hour or hour < CURFEW_END_HOUR
 
 ## Walks the player one tile back the way they came (opposite of facing),
 ## keeping their facing, so they don't stand inside the blocked doorway.

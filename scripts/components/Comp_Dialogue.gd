@@ -12,6 +12,7 @@ var _current_line: int = 0
 var _last_speaker: String = ""   # most recent non-blank speaker; choice deltas attribute to this NPC
 var _pending_gate_id: String = ""   # challenge_id this component is currently waiting on, "" if none
 var _pending_gate_next = null       # next_on_pass to jump to once _pending_gate_id passes
+var _line_on_screen: bool = false   # a line of this dialogue is showing in the box
 
 ## Emitted once dialogue reaches its end (linear falls off the end, a choice
 ## resolves to no next, or a challenge_gate's _end() path fires). Callers use
@@ -24,6 +25,7 @@ signal dialogue_ended
 func start_dialogue() -> void:
 	_current_line = 0
 	_last_speaker = ""
+	_line_on_screen = false
 	if dialogue_lines.is_empty():
 		_end()
 		return
@@ -137,6 +139,10 @@ func choose(choice: Dictionary) -> void:
 func _show_line() -> void:
 	var line: Dictionary = dialogue_lines[_current_line]
 
+	# Gates, quizzes, phrase builders and minigames take over the screen.
+	if line.get("type", "") in ["challenge_gate", "phrase_builder", "quiz", "minigame_trigger"]:
+		_line_on_screen = false
+
 	if line.get("type", "") == "challenge_gate":
 		_handle_challenge_gate(line)
 		return
@@ -190,12 +196,16 @@ func _show_line() -> void:
 		_last_speaker = speaker
 
 	if line.has("choices") and not line["choices"].is_empty():
-		DialogueUI.show_line(
-			line.get("speaker", ""),
-			line.get("text", ""),
-			self,
-			portrait_tex
-		)
+		# A choice line with no text keeps the previous line on screen as its
+		# prompt, instead of a placeholder "…" line.
+		var has_text: bool = not str(line.get("text", "")).strip_edges().is_empty()
+		if has_text or not _line_on_screen:
+			DialogueUI.show_line(
+				line.get("speaker", ""),
+				line.get("text", ""),
+				self,
+				portrait_tex
+			)
 		DialogueUI.show_choices(line["choices"], self)
 	else:
 		DialogueUI.show_line(
@@ -204,6 +214,7 @@ func _show_line() -> void:
 			self,
 			portrait_tex
 		)
+	_line_on_screen = true
 
 ## phrase_builder line: suspend normal line display, hand the line to the UI.
 ## Player stays input-locked because DialogueUI._current_component stays set.
