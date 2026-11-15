@@ -39,6 +39,11 @@ func get_input_dir() -> Vector2:
 		Input.get_axis("ui_left", "ui_right"),
 		Input.get_axis("ui_up", "ui_down")
 	)
+	# Seated on a pew (pew.gd): stay put; any direction gets up instead.
+	if has_meta("pew"):
+		if raw != Vector2.ZERO:
+			get_meta("pew").stand(self, raw)
+		return Vector2.ZERO
 	if raw == Vector2.ZERO:
 		return Vector2.ZERO
 	# Keep only dominant axis -> pure up/down/left/right, no diagonal.

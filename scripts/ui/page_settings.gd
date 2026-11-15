@@ -44,7 +44,7 @@ func _ready() -> void:
 
 ## BookUI pages are instantiated once and toggled via .visible on every
 ## subsequent open (TDD §8 page pattern) — _ready() never runs again after
-## the first open. dev_mode lives on GameState (session-only), not on this
+## the first open. dev_mode lives on GameState (saved in settings.cfg), not on this
 ## page — re-sync the checkbox to it every time Settings opens so it can
 ## never drift stale from whatever Journal's dev page is actually reading.
 ##
@@ -71,7 +71,7 @@ func _on_volume_changed(value: float) -> void:
 ## Dev-only: flips GameState.dev_mode, which shows/hides BookUI's Dev tab
 ## (warp + cutscene menu, page_dev.gd) immediately via refresh_dev_tab().
 func _on_dev_mode_toggled(enabled: bool) -> void:
-	GameState.dev_mode = enabled
+	GameState.set_dev_mode(enabled)
 	BookUI.refresh_dev_tab()
 	GameState.set_flag("story_done_papa_jobert_scene1")
 	GameState.set_flag("seen_chapter1_scene1")

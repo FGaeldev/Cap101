@@ -1,0 +1,28 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/entities/pew.gd" id="1_pew"]
+[ext_resource type="TileSet" uid="uid://boab7cv7y1o5x" path="res://assets/tilesets/indoors.tres" id="2_indoors"]
+[ext_resource type="PackedScene" uid="uid://b8awiupnw1tue" path="res://scenes/components/interactable_component.tscn" id="3_inter"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pew"]
+size = Vector2(48, 12)
+
+[node name="Pew" type="StaticBody2D"]
+y_sort_enabled = true
+script = ExtResource("1_pew")
+
+[node name="Art" type="Node2D" parent="."]
+position = Vector2(0, 24)
+
+[node name="Tiles" type="TileMapLayer" parent="Art"]
+position = Vector2(0, -24)
+tile_set = ExtResource("2_indoors")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(24, 9)
+shape = SubResource("RectangleShape2D_pew")
+
+[node name="InteractableComponent" parent="." instance=ExtResource("3_inter")]
+position = Vector2(24, 8)
+interact_label = "Sit"
+area_size = Vector2(48, 48)
