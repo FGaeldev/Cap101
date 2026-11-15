@@ -69,7 +69,7 @@ span_tiles_override = 8
 target_scene = "res://scenes/world/market/market_outdoors.tscn"
 target_spawn_id = "FromPark"
 required_flag = "map_open_market"
-blocked_message = "I should stick with Rose for now."
+blocked_message = "I haven't been there yet. I should ask Rose."
 
 [node name="WarpArea4" parent="Warps" unique_id=1388918134 instance=ExtResource("3_5go0w")]
 position = Vector2(80, 1320)
@@ -78,7 +78,7 @@ span_tiles_override = 8
 target_scene = "res://scenes/world/haboean/habuean_outdoors.tscn"
 target_spawn_id = "FromPastrana"
 required_flag = "map_open_habuean"
-blocked_message = "I should stick with Rose for now."
+blocked_message = "I haven't been there yet. I should ask Rose."
 
 [node name="WarpArea5" parent="Warps" unique_id=228873762 instance=ExtResource("3_5go0w")]
 position = Vector2(80, -360)
@@ -86,7 +86,7 @@ span_tiles_override = 8
 target_scene = "res://scenes/world/caticlan/caticlan_outdoors.tscn"
 target_spawn_id = "FromPastrana"
 required_flag = "map_open_caticlan"
-blocked_message = "I should stick with Rose for now."
+blocked_message = "I haven't been there yet. I should ask Rose."
 
 [node name="WarpArea6" parent="Warps" unique_id=1609056711 instance=ExtResource("3_5go0w")]
 position = Vector2(1664, -360)
@@ -94,7 +94,7 @@ span_tiles_override = 8
 target_scene = "res://scenes/world/bakhawan/bakhawan_outdoors.tscn"
 target_spawn_id = "FromPark"
 required_flag = "map_open_bakhawan"
-blocked_message = "I should stick with Rose for now."
+blocked_message = "I haven't been there yet. I should ask Rose."
 
 [node name="WarpArea7" parent="Warps" unique_id=1127747124 instance=ExtResource("3_5go0w")]
 position = Vector2(1072, -56)

@@ -275,6 +275,7 @@ func _check_dialogue() -> void:
 		if not data is Dictionary:
 			_issue("dialogue_bad_json", "%s does not parse" % path, {"file": path})
 			continue
+		_check_remarks(ch, path, data.get("remarks", {}))
 		for key in data:
 			var lines = data[key]
 			if not lines is Array:
@@ -338,3 +339,25 @@ func _check_npc_scenes(scenes: Array) -> void:
 		if key != null and str(key) != "" and CL.get_scene_lines(str(ch), str(key)).is_empty():
 			_issue("npc_missing_dialogue", "%s defaults to dialogue %s/%s, which doesn't exist" % [p.get_file(), ch, key], {"file": p})
 		inst.free()
+
+## Story remarks (IdleTalk): each needs a speaker and lines, its flags must be
+## set somewhere, and its lines' word ids must exist.
+func _check_remarks(ch: String, path: String, remarks) -> void:
+	if not remarks is Dictionary:
+		_issue("remark_bad_shape", "%s: \"remarks\" must be an object keyed by remark id" % ch, {"file": path})
+		return
+	var WB = root.get_node("WordBank")
+	for rid in remarks:
+		var r = remarks[rid]
+		var tag := "%s/remarks/%s" % [ch, rid]
+		var extra := {"file": path, "snippet": JSON.stringify(r, "  ")}
+		if not r is Dictionary or str(r.get("speaker", "")).is_empty() or not r.get("lines", []) is Array or r.get("lines", []).is_empty():
+			_issue("remark_bad_shape", "%s needs a speaker and at least one line" % tag, extra)
+			continue
+		for f in r.get("requires", []) + r.get("unless", []):
+			if not _flag_is_set_somewhere(str(f)):
+				_issue("remark_flag_never_set", "%s depends on flag '%s', which nothing sets" % [tag, f], extra)
+		for line in r["lines"]:
+			for wid in line.get("word_ids", []):
+				if WB.get_word(str(wid)).is_empty():
+					_issue("dialogue_unknown_word", "%s tags unknown word id '%s'" % [tag, wid], extra)

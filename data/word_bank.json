@@ -2310,9 +2310,23 @@
     {"id": "w269", "akeanon": "sing", "category": "Pronoun (pro)", "area": "chapter3", "gloss": "your (short for sa imo nga)", "verified": false, "source": "Ch3 storyboard review 2026-11-16"},
     {"id": "w270", "akeanon": "tan-aw", "category": "Verb (v)", "area": "chapter3", "gloss": "to look, to see", "verified": false, "source": "Ch3 storyboard review 2026-11-16"},
     {"id": "w271", "akeanon": "panaw", "category": "Verb (v)", "area": "chapter3", "gloss": "to walk", "verified": false, "source": "Ch3 storyboard review 2026-11-16"},
-    {"id": "w272", "akeanon": "diretso", "category": "Adverb (adv.)", "area": "chapter3", "gloss": "straight ahead", "verified": false, "source": "Ch3 storyboard review 2026-11-16 (spelling diretso/diresto still open)"},
+    {"id": "w272", "akeanon": "diritso", "category": "Adverb (adv.)", "area": "chapter3", "gloss": "straight ahead", "verified": true, "source": "Zorc dictionary spelling, confirmed by user 2026-11-16"},
     {"id": "w273", "akeanon": "liko", "category": "Verb (v)", "area": "chapter3", "gloss": "to turn", "verified": false, "source": "Ch3 storyboard review 2026-11-16"},
     {"id": "w274", "akeanon": "tuo", "category": "Noun (n)", "area": "chapter3", "gloss": "right (direction)", "verified": false, "source": "Ch3 storyboard review 2026-11-16"},
-    {"id": "w275", "akeanon": "waea", "category": "Noun (n)", "area": "chapter3", "gloss": "left (direction)", "verified": false, "source": "Ch3 storyboard review 2026-11-16"}
+    {"id": "w275", "akeanon": "waea", "category": "Noun (n)", "area": "chapter3", "gloss": "left (direction)", "verified": false, "source": "Ch3 storyboard review 2026-11-16"},
+    {"id": "w276", "akeanon": "pwede", "category": "", "area": "chapter3", "gloss": "can, may, possible; acceptable, qualified", "verified": true, "source": "Zorc dictionary; meanings confirmed by user 2026-11-16"},
+    {"id": "w277", "akeanon": "eon", "category": "Adverb (adv.)", "area": "chapter3", "gloss": "already, now", "verified": false, "source": "Zorc dictionary (marks a finished action)"},
+    {"id": "w278", "akeanon": "abah", "category": "", "area": "chapter3", "gloss": "oh! (surprise or praise)", "verified": false, "source": "Ch3 storyboard; not found in Zorc scan"},
+    {"id": "w279", "akeanon": "sayod", "category": "Verb (v)", "area": "chapter3", "gloss": "to know", "verified": false, "source": "Zorc dictionary"},
+    {"id": "w280", "akeanon": "bulok", "category": "Adjective (adj.)", "area": "chapter3", "gloss": "no good, worthless, of very poor quality, lousy", "verified": true, "source": "Zorc dictionary; meanings confirmed by user 2026-11-16"},
+    {"id": "w281", "akeanon": "karon", "category": "", "area": "chapter3", "gloss": "that; over there", "verified": true, "source": "Confirmed by user 2026-11-16"},
+    {"id": "w282", "akeanon": "komunidad", "category": "Noun (n)", "area": "chapter3", "gloss": "community", "verified": false, "source": "From Spanish; not in Zorc"},
+    {"id": "w283", "akeanon": "libro", "category": "Noun (n)", "area": "chapter3", "gloss": "book", "verified": false, "source": "Zorc dictionary (from Spanish)"},
+    {"id": "w284", "akeanon": "agod", "category": "Conjunction (conj.)", "area": "chapter3", "gloss": "so that", "verified": false, "source": "Zorc dictionary examples"},
+    {"id": "w285", "akeanon": "malipatan", "category": "Verb (v)", "area": "chapter3", "gloss": "to be forgotten (root lipat, to forget)", "verified": false, "source": "Zorc dictionary: lipat = to forget"},
+    {"id": "w286", "akeanon": "biyahe", "category": "Noun (n)", "area": "chapter3", "gloss": "travel, trip", "verified": true, "source": "Zorc dictionary; confirmed by user 2026-11-16"},
+    {"id": "w287", "akeanon": "balik", "category": "Verb (v)", "area": "chapter3", "gloss": "to return, come back", "verified": true, "source": "Zorc dictionary; confirmed by user 2026-11-16"},
+    {"id": "w288", "akeanon": "oras", "category": "Noun (n)", "area": "chapter3", "gloss": "time, hour", "verified": false, "source": "Zorc dictionary"},
+    {"id": "w289", "akeanon": "hinay-hinay", "category": "Adverb (adv.)", "area": "chapter3", "gloss": "little by little, slowly", "verified": false, "source": "Ch3 dialogue (Rose explains it in scene 4)"}
   ]
 }

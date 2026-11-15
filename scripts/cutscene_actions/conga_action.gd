@@ -140,7 +140,7 @@ func execute(step: Dictionary, mgr: Node) -> void:
 		if path_to == null:
 			return
 		# A warp's position is its center; actors stand by their bottom-left corner.
-		if MarkerUtil.find(level, step["path_to"]) is Area2D:
+		if step["path_to"] is String and MarkerUtil.find(level, step["path_to"]) is Area2D:
 			path_to += Vector2(-8, 8)
 		for corner in ActorPath.around_actors(mgr, leader, cursor, _snap(path_to)):
 			_append_tiles(route, corner)

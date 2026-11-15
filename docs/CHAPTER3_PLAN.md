@@ -37,7 +37,7 @@ Each step leaves the game playable. Steps 1–2 can go in parallel with 3.
    - Flag lines for a native-speaker check: "Naabi abi gid namon…", "Uwat kaso", "Hinay-hinay eang…".
 2. **Manang Loleng NPC**: walk sprite (asset needed; a palette swap of `grandma_sprite.png` will do for now) and `scenes/entities/npc_Loleng.tscn` on `npc_generic.gd`, like `npc_Pedring.tscn`. Plus 2–3 weaver NPCs at the `Looms` markers (random-guy sprites are fine to start).
 3. **Getting there**
-   - Set `map_open_habuean` in the morning brief (fixes that part of B5).
+   - Set `map_open_habuean` on the first arrival with Rose (scene 1), so the player can walk there alone afterwards (see "Going out alone" below).
    - Add a Haboean stop to `TourGuide.STOPS` (home cutscene + "The park" option) and a Rose menu option gated on `chapter3_started`.
    - Walk cutscenes: home → Pastrana → `habuean_outdoors`, and back home. Copy the `chapter2_walk_*bakhawan*` ones.
 4. **Level scripts** `scripts/game_scenes/haboean_*.gd`, following `market_indoors.gd`/`cathedral_indoors.gd`: arrival plays scene 1 at the Weaver marker. In the gallery, loom interactables play scene 2 then scene 3. In the café, Rose plays scene 4. Optional 1b: examine plant → fibre → thread → loom as a `Comp_WorldTask` (`task_pina_process`).
@@ -62,6 +62,15 @@ Built 2026-11-16 (`scripts/ui/habi_habi_panel.gd`, minigame type `habi_habi`). A
 - **Where:** in scene 2 at the loom (colour words), and once `story_done_ch3_loleng` is set, talking to Loleng in the gallery offers it (`scene_loleng_habi_habi`, replays every time). Getting back to Haboean after Chapter 3 still needs Rose's revisit menu.
 
 All numbers (stages, seconds, words, pass ratio, grid size, word pool and colours) live in the dialogue line, not the code.
+
+## Going out alone (built 2026-11-16)
+
+Once Rose has taken the player somewhere, they can walk there on their own.
+
+- **Street → Pastrana** opens when `chapter2_tour_done` is set (was `chapter2_with_rose`), with an 8 PM–6 AM curfew ("It's late. I should stay home."). Curfew is a new `curfew_hour` export on `comp_warp.gd`.
+- **Pastrana gates** keep their `map_open_*` flags, now each set on the first visit with Rose: market (market talk), Haboean (`chapter3_scene1`), Bakhawan (`chapter2_walk_into_bakhawan`). Blocked message: "I haven't been there yet. I should ask Rose."
+- Level scripts only play story when `chapter2_with_rose` is set, so solo visits never trigger or skip story. Loleng's Habi-Habi is reachable alone after Chapter 3.
+- Rose's revisit trip ("Can we go to the weavers?") stays as the escorted option.
 
 ## Flags (roadmap §8.1, adjusted)
 

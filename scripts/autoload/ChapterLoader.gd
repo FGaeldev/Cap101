@@ -11,6 +11,14 @@ func get_scene_lines(chapter_id: String, scene_key: String) -> Array:
 	return _cache.get(chapter_id, {}).get(scene_key, [])
 
 
+## The chapter's "remarks": {remark_id: {speaker, requires, unless, lines}}, the
+## one-time story reactions IdleTalk plays before normal idle talk. {} if none.
+func get_remarks(chapter_id: String) -> Dictionary:
+	if not _cache.has(chapter_id):
+		_load_chapter(chapter_id)
+	var remarks = _cache.get(chapter_id, {}).get("remarks", {})
+	return remarks if remarks is Dictionary else {}
+
 func _load_chapter(chapter_id: String) -> void:
 	var path = "res://data/dialogue/%s.json" % chapter_id
 	if not FileAccess.file_exists(path):

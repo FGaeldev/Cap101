@@ -157,8 +157,10 @@ trigger_direction = 3
 span_tiles_override = 8
 target_scene = "res://scenes/world/chapter2/pastrana_outdoors.tscn"
 target_spawn_id = "FromHome"
-required_flag = "chapter2_with_rose"
+required_flag = "chapter2_tour_done"
 blocked_message = "Hmm, I should probably talk to Rose."
+curfew_hour = 20.0
+curfew_message = "It's late. I should stay home."
 
 [node name="WarpArea3" parent="Warps" unique_id=456724200 instance=ExtResource("3_nsjhx")]
 position = Vector2(160, 200)

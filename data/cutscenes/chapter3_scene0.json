@@ -4,7 +4,6 @@
 	{"type": "set_flag", "flag": "seen_chapter3_scene0", "value": true},
 	{"type": "set_flag", "flag": "chapter2_complete", "value": true},
 	{"type": "set_flag", "flag": "chapter3_started", "value": true},
-	{"type": "set_flag", "flag": "map_open_habuean", "value": true},
 	{"type": "set_flag", "flag": "chapter3_going_haboean", "value": true},
 	{"type": "set_flag", "flag": "chapter2_with_rose", "value": true},
 	{"type": "dialogue", "chapter": "chapter2", "scene": "scene_house_farewell", "said_by_npc_here": true},

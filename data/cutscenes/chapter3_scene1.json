@@ -12,5 +12,6 @@
 	{"type": "move_npc", "actor": "Manang Loleng", "direction": "down", "tiles": 0, "face": "down"},
 	{"type": "dialogue", "chapter": "chapter3", "scene": "scene_1_arrival_at_the_loom_house"},
 	{"type": "set_flag", "flag": "seen_chapter3_scene1", "value": true},
+	{"type": "set_flag", "flag": "map_open_habuean", "value": true},
 	{"type": "complete_quest", "quest_id": "q006"}
 ]

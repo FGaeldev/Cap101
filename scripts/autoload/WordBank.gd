@@ -74,6 +74,37 @@ func _load() -> void:
 
 	if words.is_empty():
 		push_error("WordBank: no valid word records loaded from %s." % path)
+	_index_alternate_forms()
+
+## Second pass, so exact spellings always win: lets a marked word in dialogue
+## find its entry when the line spells it a little differently from the bank.
+## Each spelling of "adto/agto", accent-free and hyphen-free versions
+## ("sabát" -> sabat, "tan-awa" -> tanawa), and the single words of a phrase
+## entry ("uwat", "kaso" -> "uwat kaso") are indexed when nothing else uses them.
+func _index_alternate_forms() -> void:
+	for word_id: String in words:
+		var akeanon: String = words[word_id]["akeanon"].to_lower()
+		var forms: Array = []
+		for part: String in akeanon.split("/", false):
+			part = part.strip_edges()
+			forms.append(part)
+			if part.contains(" "):
+				for token: String in part.split(" ", false):
+					if token.length() >= 2:
+						forms.append(token)
+		for form: String in forms:
+			for key: String in [form, plain_form(form)]:
+				if not key.is_empty() and not _form_index.has(key):
+					_form_index[key] = word_id
+
+## Lower case, accents and hyphens removed: the loose key alternate lookups use.
+static func plain_form(form: String) -> String:
+	var out := form.strip_edges().to_lower().replace("-", "")
+	for pair: Array in [["á", "a"], ["à", "a"], ["â", "a"], ["é", "e"], ["è", "e"], ["ê", "e"],
+			["í", "i"], ["ì", "i"], ["î", "i"], ["ó", "o"], ["ò", "o"], ["ô", "o"],
+			["ú", "u"], ["ù", "u"], ["û", "u"]]:
+		out = out.replace(pair[0], pair[1])
+	return out
 
 ## Converts abbreviated and expanded part-of-speech labels to stable filter values.
 func _normalize_category(raw_category: String) -> String:
@@ -102,7 +133,8 @@ func get_word(id: String) -> Dictionary:
 ## Reverse lookup: akeanon surface form (case-insensitive) -> word ID, or "".
 ## Duplicate forms resolve to the first record loaded.
 func find_id_by_form(form: String) -> String:
-	return _form_index.get(form.strip_edges().to_lower(), "")
+	var exact: String = _form_index.get(form.strip_edges().to_lower(), "")
+	return exact if not exact.is_empty() else _form_index.get(plain_form(form), "")
 
 ## Every different meaning of a spelling, joined. A word like "akeanon" has
 ## separate entries for each sense, and a dialogue line doesn't say which it means.
@@ -112,6 +144,9 @@ func glosses_for_form(form: String) -> String:
 	for word: Dictionary in words.values():
 		if word["akeanon"].to_lower() == key and not glosses.has(word["gloss"]):
 			glosses.append(word["gloss"])
+	if glosses.is_empty():
+		# An alternate spelling (see _index_alternate_forms): its entry's meaning.
+		return str(get_word(find_id_by_form(form)).get("gloss", ""))
 	return "; ".join(glosses)
 
 ## Pads `pool` (word IDs) up to `min_size` with words the player already knows

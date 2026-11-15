@@ -423,6 +423,16 @@ func _read_save(path: String) -> Variant:
 
 ## Loads the save, falling back to the backup. False if neither can be read,
 ## and then nothing in the current state has been touched.
+## One-time fixes for flags added after a save was made. Safe to run on every load.
+func _migrate_flags() -> void:
+	# chapter2_mass_attended (added 2026-11-16) is what lets Chapter 2 end. Older
+	# saves only remember the last Sunday's answer, or being mid-mass-trip.
+	if not get_flag("chapter2_mass_attended"):
+		for evidence: String in ["chapter2_mass_went", "chapter2_mass_trip", "chapter2_mass_cathedral"]:
+			if get_flag(evidence):
+				flags["chapter2_mass_attended"] = true
+				break
+
 func load_game() -> bool:
 	var data: Variant = _read_save(SAVE_PATH)
 	if data == null:
@@ -462,6 +472,7 @@ func load_game() -> bool:
 	mass_invite_date = data.get("mass_invite_date", 0)  # additive field, old saves -> 0
 	event_reminder_date = data.get("event_reminder_date", 0)  # additive field, old saves -> 0
 	puzzle_progress = data.get("puzzle_progress", {})  # additive field, old saves -> {}
+	_migrate_flags()
 	# QuestManager built its active list at boot, before flags/exposures were
 	# loaded -- re-scan so flag-gated quests (requires_flag) show after Continue.
 	QuestManager.refresh_active_quests()

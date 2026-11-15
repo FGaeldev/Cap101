@@ -779,6 +779,7 @@
 	{
 	  "type": "start_router",
 	  "start_index_if_flag": {
+		"chapter3_complete": 7,
 		"chapter2_tour_done": 5,
 		"seen_chapter2_scene1": 3,
 		"default": 1
@@ -837,6 +838,27 @@
 	  "text": "Bakhawan it is. Stay close.",
 	  "set_flag": "chapter2_with_rose",
 	  "set_flag_on_enter": "chapter2_going_bakhawan",
+	  "next": null,
+	  "word_ids": []
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Rose",
+	  "text": "Need something, balikbayan?",
+	  "word_ids": [],
+	  "choices": [
+		{"label": "Can we go out again?", "next": 4},
+		{"label": "Can we go to Bakhawan?", "next": 6},
+		{"label": "Can we go to the weavers?", "next": 8},
+		{"label": "Not right now", "next": -1}
+	  ]
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Rose",
+	  "text": "Back to Manang Loleng's. She'll put you to work again. Stay close.",
+	  "set_flag": "chapter2_with_rose",
+	  "set_flag_on_enter": "chapter3_going_haboean",
 	  "next": null,
 	  "word_ids": []
 	}
