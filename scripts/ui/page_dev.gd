@@ -63,6 +63,9 @@ const DEV_WARP_TARGETS := [
 	{"label": "Ch2 — Market - Indoors", "scene_path": "res://scenes/world/market/market_indoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
 	{"label": "Ch2 — Cathedral - Indoors", "scene_path": "res://scenes/world/chapter2/cathedral_indoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
 	{"label": "Ch4 — Bakhawan", "scene_path": "res://scenes/world/bakhawan/bakhawan_outdoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
+	{"label": "Haboean — Outdoors", "scene_path": "res://scenes/world/habuean/habuean_outdoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
+	{"label": "Haboean — Café (L0)", "scene_path": "res://scenes/world/habuean/haboean_cafe.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
+	{"label": "Haboean — Gallery + Loft (L1)", "scene_path": "res://scenes/world/habuean/haboean_gallery.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
 	# {label, time}: jumps the day/night clock instead of warping.
 	{"label": "Time — Morning (08:00)", "time": 8.0},
 	{"label": "Time — Dusk (18:00)", "time": 18.0},
@@ -305,5 +308,19 @@ func _dev_warp(scene_path: String, flags_on: Array = [], flags_off: Array = [], 
 		QuestManager.complete_quest_silently(quest_id)
 
 	BookUI.close()
+	# Same as doors and cutscene loads: load_level() doesn't record the level.
+	GameState.current_level_path = scene_path
 	game.load_level(scene_path, spawn_id)
+	_save_after_load(game)
 	return true
+
+## Saves once the skipped-to level has loaded, so Continue comes back here with
+## the skip's flags and quests. Waits a frame first so the level's own _ready()
+## code (spawning the cast, setting flags, moving the player) is in the save.
+## Not awaited by _dev_warp(): a cutscene entry carries on meanwhile.
+func _save_after_load(game: Node) -> void:
+	await get_tree().process_frame
+	if not is_instance_valid(game):
+		return
+	game.remember_exit_spot()
+	GameState.save_game()

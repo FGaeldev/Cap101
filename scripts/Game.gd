@@ -46,9 +46,14 @@ func remember_exit_spot() -> void:
 		return
 	# Same rounding walk_state.gd uses, in case the player is exiting mid-step.
 	var tile := float(player.tile_size)
+	var at: Vector2 = player.global_position
+	# Seated on a pew (pew.gd): the seat is half a tile off the grid and inside
+	# the bench, so come back standing in the row behind it.
+	if player.has_meta("pew"):
+		at = player.get_meta("pew").standing_spot(player)
 	GameState.exit_spot = {
 		"level": GameState.current_level_path,
-		"position": (player.global_position / tile).round() * tile,
+		"position": (at / tile).round() * tile,
 	}
 
 

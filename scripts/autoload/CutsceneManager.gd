@@ -26,6 +26,8 @@ const ACTION_SCRIPTS := [
 	"res://scripts/cutscene_actions/game_speed_action.gd",
 	"res://scripts/cutscene_actions/advance_clock_action.gd",
 	"res://scripts/cutscene_actions/chapter_card_action.gd",
+	"res://scripts/cutscene_actions/sit_action.gd",
+	"res://scripts/cutscene_actions/stand_action.gd",
 ]
 
 var _actions: Dictionary = {}

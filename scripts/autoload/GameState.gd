@@ -43,9 +43,27 @@ static func start_date_unix() -> int:
 var player_name: String = ""
 
 ## Dev-only chapter/scene skip menu toggle (Settings tab). Deliberately NOT
-## in save_game()/load_game() -- session-only, must never leak into a saved
-## game or ship "on" by default from a stale save file.
+## in save_game()/load_game(), so it never leaks into a saved game: it's a
+## device setting, kept in user://settings.cfg [dev] like the menu-style switch.
+## Change it with set_dev_mode() so it's remembered.
 var dev_mode: bool = false
+
+const DEV_SETTINGS_PATH := "user://settings.cfg"
+const DEV_SETTINGS_SECTION := "dev"
+const DEV_SETTINGS_KEY := "dev_mode"
+
+func _ready() -> void:
+	var config := ConfigFile.new()
+	if config.load(DEV_SETTINGS_PATH) == OK:
+		dev_mode = bool(config.get_value(DEV_SETTINGS_SECTION, DEV_SETTINGS_KEY, false))
+
+## Turns dev mode on/off and remembers it across restarts.
+func set_dev_mode(enabled: bool) -> void:
+	dev_mode = enabled
+	var config := ConfigFile.new()
+	config.load(DEV_SETTINGS_PATH)  # keeps other keys; a missing file is fine
+	config.set_value(DEV_SETTINGS_SECTION, DEV_SETTINGS_KEY, enabled)
+	config.save(DEV_SETTINGS_PATH)
 
 # --- Rapport / Patience ---
 # "Rapport regains around half per day"
