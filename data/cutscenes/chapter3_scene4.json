@@ -1,0 +1,23 @@
+[
+	{"type": "game_speed", "scale": 2.0},
+	{"type": "set_visible", "actor": "player", "value": false},
+	{"type": "spawn_npc", "actor": "Rose", "scene": "res://scenes/entities/npc_Rose.tscn", "at_marker": "FromGallery"},
+	{"type": "move_npc", "actor": "player", "from": "FromGallery", "direction": "down", "tiles": 0},
+	{"type": "parallel", "actions": [
+		{"type": "fade", "direction": "in", "duration": 0.6},
+		{"type": "sit", "actor": "Rose", "pew": "Table1Right", "walk": true, "speed": 48},
+		{"type": "sequence", "actions": [{"type": "wait", "seconds": 0.5}, {"type": "set_visible", "actor": "player", "value": true}, {"type": "sit", "actor": "player", "pew": "Table1Left", "walk": true, "speed": 48}]}
+	]},
+	{"type": "game_speed", "scale": 1.0},
+	{"type": "dialogue", "chapter": "chapter3", "scene": "scene_4_vocabulary_practice_round_verbs_and_pace_words"},
+	{"type": "set_flag", "flag": "seen_chapter3_scene4", "value": true},
+	{"type": "stand", "actor": "Rose"},
+	{"type": "stand", "actor": "player"},
+	{"type": "wait", "seconds": 0.3},
+	{"type": "advance_clock", "to_hour": 17.0},
+	{"type": "set_flag", "flag": "chapter2_walking_home", "value": true},
+	{"type": "game_speed", "scale": 2.0},
+	{"type": "conga", "join": "nearest_x", "leader": "Rose", "followers": ["player"], "path_to": "Warps/ToOutdoors", "gap": 2, "speed": 48, "despawn": true},
+	{"type": "fade", "direction": "out", "duration": 0.6},
+	{"type": "load_scene", "scene_path": "res://scenes/world/haboean/habuean_outdoors.tscn"}
+]

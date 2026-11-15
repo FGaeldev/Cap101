@@ -1,0 +1,214 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://il6nt77p6sdq" path="res://scripts/entities/npc/npc_generic.gd" id="1_a4sf3"]
+[ext_resource type="Texture2D" uid="uid://cnb3qtd05omah" path="res://assets/sprites/npcs/loleng_sprite.png" id="2_a4sf3"]
+[ext_resource type="PackedScene" uid="uid://b8awiupnw1tue" path="res://scenes/components/interactable_component.tscn" id="3_w1wr4"]
+[ext_resource type="PackedScene" uid="uid://cdxx55olbkhhv" path="res://scenes/components/dialogue_component.tscn" id="4_gc4kh"]
+[ext_resource type="PackedScene" uid="uid://bbk8t0y83k7ib" path="res://scenes/components/CutsceneAnimComponent.tscn" id="5_gc4kh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a4sf3"]
+atlas = ExtResource("2_a4sf3")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7kb6q"]
+atlas = ExtResource("2_a4sf3")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x8r32"]
+atlas = ExtResource("2_a4sf3")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bxmox"]
+atlas = ExtResource("2_a4sf3")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fbmhk"]
+atlas = ExtResource("2_a4sf3")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_snmq0"]
+atlas = ExtResource("2_a4sf3")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gt8hv"]
+atlas = ExtResource("2_a4sf3")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jnfob"]
+atlas = ExtResource("2_a4sf3")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4xd44"]
+atlas = ExtResource("2_a4sf3")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iiufv"]
+atlas = ExtResource("2_a4sf3")
+region = Rect2(96, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pu6ur"]
+atlas = ExtResource("2_a4sf3")
+region = Rect2(128, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m2a5t"]
+atlas = ExtResource("2_a4sf3")
+region = Rect2(160, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lrear"]
+atlas = ExtResource("2_a4sf3")
+region = Rect2(0, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lrmp0"]
+atlas = ExtResource("2_a4sf3")
+region = Rect2(32, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c3wh5"]
+atlas = ExtResource("2_a4sf3")
+region = Rect2(64, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_83c7m"]
+atlas = ExtResource("2_a4sf3")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mgj0y"]
+atlas = ExtResource("2_a4sf3")
+region = Rect2(128, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_foclt"]
+atlas = ExtResource("2_a4sf3")
+region = Rect2(160, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i6jif"]
+atlas = ExtResource("2_a4sf3")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xo653"]
+atlas = ExtResource("2_a4sf3")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7xcal"]
+atlas = ExtResource("2_a4sf3")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h4uhj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a4sf3")
+}],
+"loop": 1,
+"name": &"idle_down",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7kb6q")
+}],
+"loop": 1,
+"name": &"idle_side",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x8r32")
+}],
+"loop": 1,
+"name": &"idle_up",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bxmox")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fbmhk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_snmq0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gt8hv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jnfob")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4xd44")
+}],
+"loop": 1,
+"name": &"walk_down",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iiufv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pu6ur")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m2a5t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lrear")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lrmp0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c3wh5")
+}],
+"loop": 1,
+"name": &"walk_side",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_83c7m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mgj0y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_foclt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i6jif")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xo653")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7xcal")
+}],
+"loop": 1,
+"name": &"walk_up",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1y6ve"]
+size = Vector2(14, 14)
+
+[node name="NPC_Loleng" type="CharacterBody2D" unique_id=12182990 groups=["npc"]]
+script = ExtResource("1_a4sf3")
+actor_id = "Manang Loleng"
+npc_id = "Manang Loleng"
+dialogue_chapter = "chapter3"
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=2126335115]
+position = Vector2(8, -11)
+sprite_frames = SubResource("SpriteFrames_h4uhj")
+animation = &"idle_down"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=80002803]
+position = Vector2(8, -8)
+shape = SubResource("RectangleShape2D_1y6ve")
+debug_color = Color(0.7230673, 0.2464309, 1, 0.41960785)
+
+[node name="InteractableComponent" parent="." unique_id=1024773738 instance=ExtResource("3_w1wr4")]
+position = Vector2(8, -8)
+
+[node name="DialogueComponent" parent="." unique_id=1621841028 instance=ExtResource("4_gc4kh")]
+
+[node name="CutsceneAnimComponent" parent="." unique_id=217645047 node_paths=PackedStringArray("sprite") instance=ExtResource("5_gc4kh")]
+sprite = NodePath("../Sprite2D")

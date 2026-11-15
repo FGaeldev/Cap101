@@ -1,5 +1,6 @@
 [gd_scene format=4 uid="uid://de0yv1jetm61h"]
 
+[ext_resource type="Script" path="res://scripts/game_scenes/haboean_outdoors.gd" id="lvl_script"]
 [ext_resource type="TileSet" path="res://assets/tilesets/outdoors.tres" id="1_ccri1"]
 [ext_resource type="TileSet" path="res://assets/tilesets/shadows.tres" id="2_b05x1"]
 [ext_resource type="TileSet" path="res://assets/tilesets/edges.tres" id="3_xf1wj"]
@@ -11,6 +12,7 @@
 [ext_resource type="PackedScene" path="res://scenes/entities/npc_RandomGuy3.tscn" id="9_v0n6g"]
 
 [node name="HabueanOutdoors" type="Node2D" unique_id=1472934734]
+script = ExtResource("lvl_script")
 y_sort_enabled = true
 
 [node name="Floor" type="TileMapLayer" parent="." unique_id=230269861]

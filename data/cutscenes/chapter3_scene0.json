@@ -1,0 +1,16 @@
+[
+	{"type": "chapter_card", "chapter": "chapter3"},
+	{"type": "dialogue", "chapter": "chapter3", "scene": "scene_0_morning_brief"},
+	{"type": "set_flag", "flag": "seen_chapter3_scene0", "value": true},
+	{"type": "set_flag", "flag": "chapter2_complete", "value": true},
+	{"type": "set_flag", "flag": "chapter3_started", "value": true},
+	{"type": "set_flag", "flag": "map_open_habuean", "value": true},
+	{"type": "set_flag", "flag": "chapter3_going_haboean", "value": true},
+	{"type": "set_flag", "flag": "chapter2_with_rose", "value": true},
+	{"type": "dialogue", "chapter": "chapter2", "scene": "scene_house_farewell", "said_by_npc_here": true},
+	{"type": "game_speed", "scale": 2.0},
+	{"type": "conga", "join": "nearest_x", "leader": "Rose", "followers": ["player"], "path_to": "Warps/WarpArea5", "gap": 2, "speed": 48, "despawn": true},
+	{"type": "set_flag", "flag": "chapter2_left_house", "value": true},
+	{"type": "fade", "direction": "out", "duration": 0.6},
+	{"type": "load_scene", "scene_path": "res://scenes/world/chapter2/aklan_home_outdoors.tscn"}
+]

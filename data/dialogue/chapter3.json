@@ -1,118 +1,238 @@
 {
-	"scene_1_arrival_at_the_loom_house": [
+	"scene_0_morning_brief": [
 		{
+			"type": "start_router",
 			"start_index_if_flag": {
 				"default": 1
-			},
-			"type": "start_router"
+			}
 		},
 		{
-			"speaker": "Manang Loleng",
-			"text": "Naabi abi gid namon inyong pag abot it atong mga bisita. Maliya ag tanawon ro among mga ginhabi .",
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "Finally. I said seven, balikbayan.",
 			"next": 2,
-			"translation": "Welcome, visitors. Here, look at our weaving.",
-			"word_ids": [
-			]
+			"word_ids": []
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Player",
-			"text": "Whoa. Amazing, Grandma — I mean, Manang. Sorry, it’s my first time seeing a loom like this.",
-			"next": 3
+			"text": "It is seven.",
+			"next": 3,
+			"word_ids": []
 		},
 		{
-			"speaker": "Manang Loleng",
-			"text": "Uwat kaso. Abo man nga bisita ro nangangawa iya .",
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "Seven means ready at seven. We're going out of town today. The weavers.",
 			"next": 4,
-			"translation": "It’s alright. Many visitors are surprised here too."
+			"word_ids": []
 		},
 		{
+			"type": "dialogue",
+			"speaker": "Lola Susan",
+			"text": "Manang Loleng is expecting you. Be polite, and don't touch the looms unless she says.",
+			"next": 5,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Lola Jonabel",
+			"text": "\\Piña… My lola used to weave, you know. Every afternoon, under the house. The sound of it put me to sleep.",
+			"next": 6,
+			"word_ids": ["w194"]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Player",
+			"text": "You never told me that.",
+			"next": 7,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Lola Jonabel",
+			"text": "I'd forgotten I remembered. Go. Tell me everything tonight.",
+			"next": 8,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "\\Hinay-hinay, Lola. We'll be back before dark. Stay close, balikbayan.",
+			"translation": "Take it slow, Lola. We'll be back before dark. Stay close, balikbayan.",
+			"next": null,
+			"word_ids": ["w079"]
+		}
+	],
+	"scene_1_hear_the_looms": [
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "Hear that? That's the looms. Come on, inside.",
+			"next": null,
+			"word_ids": []
+		}
+	],
+	"scene_1_arrival_at_the_loom_house": [
+		{
+			"type": "start_router",
+			"start_index_if_flag": {
+				"default": 1
+			}
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Manang Loleng",
+			"text": "\\Maliya, mga \\bisita! \\Tanawa \\ro \\amon nga \\ginhaboe.",
+			"translation": "Come in, visitors! Look at our weaving.",
+			"next": 2,
+			"word_ids": ["w150", "w042", "w223", "w202", "w016", "w257"]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Player",
+			"text": "Whoa. Amazing, Grandma — I mean, Manang. Sorry, it's my first time seeing a loom like this.",
+			"next": 3,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Manang Loleng",
+			"text": "\\Uwat \\kaso. \\Abo man nga \\bisita \\ro \\nangangawa \\iya.",
+			"translation": "No problem. Many visitors are amazed here too.",
+			"next": 4,
+			"word_ids": ["w258", "w001", "w042", "w202", "w177", "w095"]
+		},
+		{
+			"type": "dialogue",
 			"speaker": "Rose",
 			"text": "This whole community weaves piña cloth. Been doing it for generations — older than any of us.",
-			"next": 5
+			"next": 5,
+			"word_ids": []
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Manang Loleng",
-			"text": "Halin ra sa katamnan — sa tanum nga piña. . Kaabo nga ueubrahon bago mahimo nga eambong",
+			"text": "\\Halin \\ra \\igto sa \\taeamnan, sa \\tanum nga \\piña, \\abu-abo \\pa nga \\ro \\kinahangean nga \\ubrahon \\para \\magin \\eambong \\ra.",
+			"translation": "This comes from over there, the farm, from the piña plant. There's still a lot of work needed before it becomes cloth.",
 			"next": 6,
-			"translation": "This comes from the farm — from the piña plant. A lot of work before it becomes cloth.",
-			"word_ids": [
-				"w072",
-				"w194"
-			]
+			"word_ids": ["w072", "w265", "w082", "w219", "w259", "w194", "w260", "w261", "w262", "w263", "w191", "w264", "w057"]
 		},
 		{
-			"speaker": "",
-			"text": "What’s your reaction?",
+			"type": "quiz",
+			"quiz_type": "static",
+			"questions": [
+				{"question": "\"Halin ra igto sa taeamnan.\" What is \"taeamnan\"?", "correct_answer": "w219"}
+			],
+			"choices": ["w219", "w037", "w216"],
+			"choice_display": "gloss",
+			"success": 7,
+			"failure": 8
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "Look at you, listening.",
+			"next": 9,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "\\Taeamnan. Farm. Keep up, balikbayan.",
+			"next": 9,
+			"word_ids": ["w219"]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Manang Loleng",
+			"text": "So, apo? What do you think of it?",
 			"choices": [
 				{
-					"label": "This is beautiful work, Manang. I’d love to learn more.",
-					"next": 7
+					"label": "This is beautiful work, Manang. I'd love to learn more.",
+					"rapport_delta": 2,
+					"next": 10
 				},
 				{
-					"label": "It’s really intricate, kind of hard to understand all at once.",
-					"next": 7
+					"label": "It's really intricate, kind of hard to understand all at once.",
+					"next": 10
 				},
 				{
-					"label": "This looks like it takes forever, isn’t a machine faster?",
-					"next": 8
+					"label": "This looks like it takes forever, isn't a machine faster?",
+					"rapport_delta": -2,
+					"next": 11
 				}
 			],
-			"next": null
+			"next": null,
+			"word_ids": []
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Manang Loleng",
-			"text": "Saeamat, apo. Not many young ones say that anymore.",
-			"next": 9
+			"text": "\\Saeamat, \\apo. Not many young ones say that anymore.",
+			"next": 12,
+			"word_ids": ["w206", "w019"]
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Manang Loleng",
 			"text": "Step by step. Even I took years.",
-			"next": 9
+			"next": 12,
+			"word_ids": []
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Manang Loleng",
-			"text": "Machines can’t feel the thread the way a hand does. That’s the difference.",
-			"next": 10
+			"text": "Machines can't feel the thread the way a hand does. That's the difference.",
+			"next": 13,
+			"word_ids": []
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Manang Loleng",
-			"text": "Gusto mo ubrahon? iya, sunod ka kakon",
+			"text": "\\Gusto \\mo \\samitan mag \\ubra? \\Iya, \\sunod \\ka \\kakon.",
+			"translation": "Do you want to try making it? Here, follow me.",
 			"next": null,
-			"translation": "Do you want to try? Here, follow me."
+			"word_ids": ["w068", "w168", "w266", "w236", "w095", "w217", "w083", "w099"]
 		}
 	],
 	"scene_2_trying_the_loom": [
 		{
+			"type": "start_router",
 			"start_index_if_flag": {
 				"default": 1
-			},
-			"type": "start_router"
+			}
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Rose",
 			"text": "Oh, this I have to see. Balikbayan versus loom. Place your bets.",
-			"next": 2
+			"next": 2,
+			"word_ids": []
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Player",
 			"text": "Gee, thanks for the confidence, Rose.",
-			"next": 3
+			"next": 3,
+			"word_ids": []
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Manang Loleng",
-			"text": "Hinay-hinay eang. bukon ra padasigan.",
+			"text": "\\Hinayi \\eang. \\Bukon \\ra \\padasigan.",
+			"translation": "Slower, that's all. This isn't a race.",
 			"next": 4,
-			"translation": "Slowly. This isn’t about whose faster.",
-			"word_ids": [
-				"w079"
-			]
+			"word_ids": ["w267", "w059", "w045", "w265", "w268"]
 		},
 		{
+			"type": "dialogue",
 			"speaker": "",
 			"text": "Will you try weaving on your own?",
 			"choices": [
 				{
-					"label": "I’ll take it slow, Manang. Show me the first move again.",
+					"label": "I'll take it slow, Manang. Show me the first move again.",
+					"rapport_delta": 2,
 					"next": 5
 				},
 				{
@@ -120,174 +240,525 @@
 					"next": 5
 				},
 				{
-					"label": "Maybe I’ll just watch, this looks too hard for me.",
+					"label": "Maybe I'll just watch, this looks too hard for me.",
+					"rapport_delta": -2,
 					"next": 6
 				}
 			],
-			"next": null
+			"next": null,
+			"word_ids": []
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Manang Loleng",
-			"text": "That’s the spirit, apo. One thread at a time.",
-			"next": 7
+			"text": "That's the spirit, \\apo. One thread at a time.",
+			"next": 8,
+			"word_ids": ["w019"]
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Manang Loleng",
 			"text": "Of course. Everyone starts guided.",
-			"next": 7
+			"next": 7,
+			"word_ids": []
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Rose",
-			"text": "Come on, at least try one row. I’ll laugh either way, might as well earn it.",
-			"next": 8
+			"text": "Come on, at least try one row. I'll laugh either way, might as well earn it.",
+			"next": 8,
+			"word_ids": []
 		},
 		{
+			"type": "dialogue",
+			"speaker": "",
+			"text": "Manang Loleng calls out a thread colour. Trace its letters on the loom before the shuttle crosses.",
+			"next": 9,
+			"word_ids": []
+		},
+		{
+			"type": "minigame_trigger",
+			"minigame_type": "habi_habi",
+			"word_pool": ["w199", "w094", "w198", "w021", "w056", "w038"],
+			"word_colors": {
+				"w199": "ffffff",
+				"w094": "1a1a1a",
+				"w198": "d32f2f",
+				"w021": "1e5fd0",
+				"w056": "f5d000",
+				"w038": "2e9e44"
+			},
+			"stages": [
+				{"name": "hinay", "seconds": 13, "words": 3},
+				{"name": "", "seconds": 10, "words": 3},
+				{"name": "paspas", "seconds": 8, "words": 3}
+			],
+			"between_stages": ["Dasigi it sangkiri.", "Paspas!"],
+			"pass_ratio": 0.6,
+			"success": 10,
+			"failure": 12
+		},
+		{
+			"type": "dialogue",
 			"speaker": "Manang Loleng",
-			"text": "Ay, mayad  gid, apo! Para sa una nga ubra, bukon man maeain!",
+			"text": "\\Abah, \\mayad ah, \\para sa \\una nga \\ubra pwede eon.",
+			"translation": "Oh, good! For a first piece of work, that'll do.",
+			"set_flag_on_enter": "wove_first_row",
+			"set_flag": "ch3_loom_passed",
+			"next": 11,
+			"word_ids": ["w163", "w191", "w240", "w236"]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "…Okay. I lost the bet. Don't let it go to your head.",
 			"next": null,
-			"translation": "Oh, that’s good, grandchild! For your first time, not bad at all!"
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Manang Loleng",
+			"text": "Sayod \\mo, \\ro akong \\una nga \\ginhaboe, \\mas bulok \\pa karon.",
+			"translation": "You know, my first weaving was worse than that.",
+			"set_flag_on_enter": "wove_first_row",
+			"next": 13,
+			"word_ids": ["w168", "w202", "w240", "w257", "w155", "w261"]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "I'd have laughed, but… honestly, mine was worse too. Want another go?",
+			"choices": [
+				{
+					"label": "One more row.",
+					"next": 8
+				},
+				{
+					"label": "That's enough for today.",
+					"next": -1
+				}
+			],
+			"next": null,
+			"word_ids": []
 		}
 	],
 	"scene_3_closing_gift": [
 		{
+			"type": "start_router",
 			"start_index_if_flag": {
 				"default": 1
-			},
-			"type": "start_router"
+			}
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Manang Loleng",
-			"text": "Hara, batuna, tanda halin sa amon nga komunidad.",
+			"text": "\\Hara, \\batuna, \\tanda \\halin sa \\amon nga komunidad.",
+			"translation": "Here, take this. A token from our community.",
 			"next": 2,
-			"translation": "Here, take this. A token from our community."
+			"word_ids": ["w075", "w035", "w224", "w072", "w016"]
 		},
 		{
-			"speaker": "Player",
-			"text": "Saeamat gid,  Manang. I’ll keep this.",
-			"next": 3
-		},
-		{
+			"type": "dialogue",
 			"speaker": "Manang Loleng",
-			"text": "mag dahan ka sa imong pagbiyahe. ag magbalik ka iya, ha, kung may tyempo ka.",
-			"next": 4,
-			"translation": "Take care on your journey. And come back here, okay, if you have time."
+			"text": "\\Para \\sing mga libro, \\ag agod \\indi \\mo \\kami malipatan.",
+			"translation": "For your books, and so that you won't forget us.",
+			"set_flag": "got_pina_bookmark",
+			"next": 3,
+			"word_ids": ["w191", "w269", "w005", "w086", "w168", "w101"]
 		},
 		{
+			"type": "dialogue",
+			"speaker": "Player",
+			"text": "\\Saeamat \\gid, Manang. I'll keep this.",
+			"next": 4,
+			"word_ids": ["w206", "w066"]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Manang Loleng",
+			"text": "Mag-\\dahan \\kamo sa biyahe. Balik \\kamo \\kung \\may oras.",
+			"translation": "Take care on your trip. Come back when you have time.",
+			"next": 5,
+			"word_ids": ["w049", "w102", "w119", "w162"]
+		},
+		{
+			"type": "dialogue",
 			"speaker": "Rose",
-			"text": "Not bad for your first field trip, balikbayan. Two down, more to go.",
-			"next": null
+			"text": "Not bad for a field trip, balikbayan. Two down, more to go.",
+			"set_flag": "story_done_ch3_loleng",
+			"next": null,
+			"word_ids": []
 		}
 	],
 	"scene_4_vocabulary_practice_round_verbs_and_pace_words": [
 		{
+			"type": "start_router",
 			"start_index_if_flag": {
 				"default": 1
-			},
-			"type": "start_router"
+			}
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Rose",
-			"text": "Tan-awa sanda. panaw — to walk... wait, save that one. Bangon — to get up, like when you fall.",
+			"text": "\\Tan-awa \\sanda. \\Panaw — to walk… wait, save that one. \\Bangon — to get up, like when you fall.",
+			"translation": "Look at them. Panaw — to walk… wait, save that one. Bangon — to get up, like when you fall.",
 			"next": 2,
-			"word_ids": [
-				"w034"
-			]
+			"word_ids": ["w223", "w210", "w271", "w034"]
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Player",
 			"text": "These make sense with the actions right in front of us.",
-			"next": 3
+			"next": 3,
+			"word_ids": []
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Rose",
-			"text": "That’s the point. agto iya— come here. agto idto — go there. Dayon — then, or “continue.”",
+			"text": "That's the point. Now, getting around.",
 			"next": 4,
-			"word_ids": [
-				"w053"
-			]
+			"word_ids": []
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Rose",
-			"text": "Bakae — to buy. Baligya — to sell. Tan-aw — to look, to see. Hambae — to speak. Sabát — to answer.",
+			"text": "Refill. Your treat, balikbayan. First, words.",
 			"next": 5,
-			"word_ids": [
-				"w031",
-				"w032",
-				"w073",
-				"w205"
-			]
+			"word_ids": []
 		},
 		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "\\Maliya — come here. \\Agto — go. \\Igto — there. \\Diretso — straight. \\Liko — turn. \\Tuo — right. \\Waea — left. \\Dayon — then, or “continue.”",
+			"next": 6,
+			"word_ids": ["w150", "w004", "w082", "w272", "w273", "w274", "w275", "w053"]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "\\Bakae — to buy. \\Baligya — to sell. \\Tan-aw — to look, to see. \\Hambae — to speak. \\Sabát — to answer.",
+			"next": 7,
+			"word_ids": ["w031", "w032", "w270", "w073", "w205"]
+		},
+		{
+			"type": "dialogue",
 			"speaker": "",
 			"text": "Will you try using the new words?",
 			"choices": [
 				{
-					"label": "I’ll try — “Gusto ko mag bakae,” I want to buy? Something like that?",
-					"next": 6
+					"label": "I'll try — “Gusto ko mag bakae,” I want to buy? Something like that?",
+					"rapport_delta": 2,
+					"next": 8
 				},
 				{
-					"label": "I get the meanings, but it’s still hard to use them correctly.",
-					"next": 6
+					"label": "I get the meanings, but it's still hard to use them correctly.",
+					"next": 8
 				},
 				{
-					"label": "There are too many verbs now, I’m losing track.",
-					"next": 7
+					"label": "There are too many verbs now, I'm losing track.",
+					"rapport_delta": -2,
+					"next": 9
 				}
 			],
-			"next": null
+			"next": null,
+			"word_ids": []
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Rose",
-			"text": "Close enough! You’re building sentences now, not just words.",
-			"next": 8
-		},
-		{
-			"speaker": "Rose",
-			"text": "That’s normal. Meaning first, grammar later.",
-			"next": 8
-		},
-		{
-			"speaker": "Rose",
-			"text": "Deep breath. We’ll circle back to these. No rush.",
-			"next": 9
-		},
-		{
-			"speaker": "Rose",
-			"text": "Taas — tall, or long. Naba — short. Paspas — fast. Hinay — slow, base word of “hinay-hinay” that Manang taught you.",
+			"text": "Close enough! You're building sentences now, not just words.",
 			"next": 10,
-			"word_ids": [
-				"w218",
-				"w170",
-				"w192",
-				"w079"
-			]
+			"word_ids": []
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Rose",
-			"text": "Bug-at — heavy. Maugan — light, not bug-at.  — small words, but you’ll need them everywhere.",
+			"text": "That's normal. Meaning first, grammar later.",
+			"next": 10,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "Deep breath. We'll circle back to these. No rush.",
 			"next": 11,
-			"word_ids": [
-				"w044",
-				"w161"
-			]
+			"word_ids": []
 		},
 		{
+			"type": "quiz",
+			"quiz_type": "static",
+			"questions": [
+				{"question": "The visitor gives money for a coffee. What are they doing?", "correct_answer": "w031"},
+				{"question": "The barista hands over the cup for money. What is she doing?", "correct_answer": "w032"},
+				{"question": "Rose asks you something. What do you do?", "correct_answer": "w205"}
+			],
+			"choices": ["w031", "w032", "w073", "w205"],
+			"choice_display": "word",
+			"success": 12,
+			"failure": 13
+		},
+		{
+			"type": "dialogue",
 			"speaker": "Rose",
-			"text": "Kuntra naman — “against.” Rarely used, but good to know.",
-			"next": 12,
-			"word_ids": [
-				"w120"
-			]
+			"text": "Not bad. You were watching.",
+			"next": 14,
+			"word_ids": []
 		},
 		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "Almost. Watch the counter: someone's always doing \\bakae or \\baligya there.",
+			"next": 14,
+			"word_ids": ["w031", "w032"]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "\\Taas — tall, or long. \\Naba — short. \\Paspas — fast. \\Hinay — slow. Manang's “\\hinayi” means slower, and “\\hinay-hinay” means little by little.",
+			"next": 15,
+			"word_ids": ["w218", "w170", "w192", "w079", "w267"]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "\\Bug-at — heavy. \\Maugan — light, not bug-at. Small words, but you'll need them everywhere.",
+			"next": 16,
+			"word_ids": ["w044", "w161"]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "\\Kuntra naman — “against.” Rarely used, but good to know.",
+			"next": 17,
+			"word_ids": ["w120"]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "Okay, match them up. Word to meaning.",
+			"next": 18,
+			"word_ids": []
+		},
+		{
+			"type": "minigame_trigger",
+			"minigame_type": "memory_match",
+			"word_pool": ["w218", "w170", "w192", "w079", "w044", "w161"],
+			"pair_count": 6,
+			"success": 19,
+			"failure": 19
+		},
+		{
+			"type": "dialogue",
 			"speaker": "Player",
-			"text": "My head’s kind of full now, but I think I actually get most of it.",
-			"next": 13
+			"text": "My head's kind of full now, but I think I actually get most of it.",
+			"next": 20,
+			"word_ids": []
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Rose",
-			"text": "That’s the goal. Not perfect. Just moving forward.",
-			"next": null
+			"text": "That's the goal. Not perfect. Just moving forward.",
+			"next": 21,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "And \\panaw? To walk. Told you I'd save it. Let's \\panaw home, balikbayan.",
+			"next": null,
+			"word_ids": ["w271"]
+		}
+	],
+	"scene_5_the_sound_of_the_loom": [
+		{
+			"type": "start_router",
+			"start_index_if_flag": {
+				"default": 1
+			}
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Lola Susan",
+			"text": "There they are. Did you behave, Rose?",
+			"next": 2,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "I always behave. Ask the balikbayan how the loom went.",
+			"next": 3,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Lola Jonabel",
+			"text": "Well? Tell me everything.",
+			"check_flag": "ch3_loom_passed",
+			"check_flag_next": 6,
+			"next": 4,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Player",
+			"text": "I wove a row. A very crooked row.",
+			"next": 5,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "It was crooked.",
+			"next": 8,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Player",
+			"text": "I wove a whole row. Rose lost a bet.",
+			"next": 7,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "It was… fine.",
+			"next": 8,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Player",
+			"text": "Manang Loleng gave me this. I thought you should see it.",
+			"next": 9,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Lola Jonabel",
+			"text": "My lola made one just like this for my missal. I lost it when we moved to America. Fifty years ago.",
+			"next": 10,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "",
+			"text": "Lola Jonabel holds the bookmark out to give it back.",
+			"choices": [
+				{
+					"label": "Keep it, Lola. It's yours now.",
+					"rapport_delta": 2,
+					"next": 11
+				},
+				{
+					"label": "Can we share it? I'll leave it in your missal.",
+					"rapport_delta": 1,
+					"next": 11
+				},
+				{
+					"label": "(Take it back.)",
+					"next": 12
+				}
+			],
+			"next": null,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Lola Jonabel",
+			"text": "\\Saeamat, \\apo. Now I'll hear the loom when I read.",
+			"set_flag": "ch3_bookmark_to_jonabel",
+			"next": 13,
+			"word_ids": ["w206", "w019"]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Lola Jonabel",
+			"text": "Good. Use it. And go back and see her one day.",
+			"next": 13,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "Okay, that's enough feelings for one day. Sleep, balikbayan. Tomorrow's mud.",
+			"next": null,
+			"word_ids": []
+		}
+	],
+	"scene_loleng_habi_habi": [
+		{
+			"type": "dialogue",
+			"speaker": "Manang Loleng",
+			"text": "Back at the loom, \\apo? I call the words, you weave them. \\Hinay-hinay first, then \\paspas.",
+			"choices": [
+				{
+					"label": "Let's weave.",
+					"next": 1
+				},
+				{
+					"label": "Not today, Manang.",
+					"next": -1
+				}
+			],
+			"next": null,
+			"word_ids": ["w019", "w079", "w192"]
+		},
+		{
+			"type": "minigame_trigger",
+			"minigame_type": "habi_habi",
+			"word_pool": ["w199", "w094", "w198", "w021", "w056", "w038", "w031", "w032", "w271", "w034", "w073", "w205", "w218", "w170", "w079", "w192", "w161"],
+			"word_colors": {
+				"w199": "ffffff",
+				"w094": "1a1a1a",
+				"w198": "d32f2f",
+				"w021": "1e5fd0",
+				"w056": "f5d000",
+				"w038": "2e9e44"
+			},
+			"stages": [
+				{"name": "hinay", "seconds": 13, "words": 3},
+				{"name": "", "seconds": 10, "words": 3},
+				{"name": "paspas", "seconds": 8, "words": 3}
+			],
+			"between_stages": ["Dasigi it sangkiri.", "Paspas!"],
+			"pass_ratio": 0.6,
+			"success": 2,
+			"failure": 3
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Manang Loleng",
+			"text": "\\Mayad! That's real cloth, \\apo.",
+			"next": null,
+			"word_ids": ["w163", "w019"]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Manang Loleng",
+			"text": "\\Hinay-hinay, \\apo. The loom will wait for you.",
+			"next": null,
+			"word_ids": ["w079", "w019"]
+		}
+	],
+	"scene_weaver_1": [
+		{
+			"type": "dialogue",
+			"speaker": "Weaver",
+			"text": "\\Hinay-hinay \\eang.",
+			"translation": "Little by little, that's all.",
+			"next": null,
+			"word_ids": ["w079", "w059"]
+		}
+	],
+	"scene_weaver_2": [
+		{
+			"type": "dialogue",
+			"speaker": "Weaver",
+			"text": "Mm. Busy, \\apo.",
+			"next": null,
+			"word_ids": ["w019"]
 		}
 	]
 }

@@ -28,6 +28,7 @@ const ACTION_SCRIPTS := [
 	"res://scripts/cutscene_actions/chapter_card_action.gd",
 	"res://scripts/cutscene_actions/sit_action.gd",
 	"res://scripts/cutscene_actions/stand_action.gd",
+	"res://scripts/cutscene_actions/complete_quest_action.gd",
 ]
 
 var _actions: Dictionary = {}

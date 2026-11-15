@@ -29,6 +29,36 @@
 			"requires_flag": "seen_chapter1_scene3",
 			"completion_flag": "quest_004_done",
 			"show_popup": true
+		},
+		{
+			"id": "q006",
+			"category": "main",
+			"title": "Visit the piña weavers: meet Manang Loleng",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "chapter3_started",
+			"completion_flag": "quest_006_done",
+			"show_popup": true
+		},
+		{
+			"id": "q007",
+			"category": "main",
+			"title": "Try the loom with Manang Loleng",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "quest_006_done",
+			"completion_flag": "quest_007_done",
+			"show_popup": true
+		},
+		{
+			"id": "q008",
+			"category": "main",
+			"title": "Go home and tell Lola Jonabel about the loom",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "quest_007_done",
+			"completion_flag": "quest_008_done",
+			"show_popup": true
 		}
 	]
 }

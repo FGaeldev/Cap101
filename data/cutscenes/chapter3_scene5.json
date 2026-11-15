@@ -1,0 +1,6 @@
+[
+	{"type": "dialogue", "chapter": "chapter3", "scene": "scene_5_the_sound_of_the_loom"},
+	{"type": "set_flag", "flag": "seen_chapter3_scene5", "value": true},
+	{"type": "complete_quest", "quest_id": "q008"},
+	{"type": "set_flag", "flag": "chapter3_complete", "value": true}
+]

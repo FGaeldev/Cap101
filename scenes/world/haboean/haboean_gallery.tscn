@@ -1,5 +1,6 @@
 [gd_scene format=4 uid="uid://c33j0c8emy3y8"]
 
+[ext_resource type="Script" path="res://scripts/game_scenes/haboean_gallery.gd" id="lvl_script"]
 [ext_resource type="TileSet" uid="uid://boab7cv7y1o5x" path="res://assets/tilesets/indoors.tres" id="1_qw5ts"]
 [ext_resource type="TileSet" uid="uid://c5vsev44bkm1e" path="res://assets/tilesets/shadows.tres" id="2_jojsb"]
 [ext_resource type="TileSet" uid="uid://dd261lq2dwfm8" path="res://assets/tilesets/edges.tres" id="3_d0v0s"]
@@ -11,6 +12,7 @@
 [ext_resource type="PackedScene" path="res://scenes/entities/furniture/seat.tscn" id="seat_scn"]
 
 [node name="HaboeanGallery" type="Node2D" unique_id=1363352484]
+script = ExtResource("lvl_script")
 y_sort_enabled = true
 
 [node name="Floor" type="TileMapLayer" parent="." unique_id=1643185214]

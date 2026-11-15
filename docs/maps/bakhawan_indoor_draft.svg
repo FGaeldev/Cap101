@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -2 15 16" width="600" height="640" font-family="sans-serif">
+  <!-- 1 unit = 1 tile. 12 x 11 room based on Bakawan_indoor_2.aseprite (drawn 9 x 11, widened by 3 for the souvenir/info corner). -->
+  <defs><pattern id="g" width="1" height="1" patternUnits="userSpaceOnUse"><path d="M1 0H0V1" fill="none" stroke="#000" stroke-opacity=".15" stroke-width=".03"/></pattern></defs>
+  <rect x="-1" y="-2" width="15" height="16" fill="#1b1b1b"/>
+  <text x="6" y="-1" font-size=".55" fill="#fff" text-anchor="middle">Bakhawan Visitor Center — indoor draft</text>
+  <!-- back wall -->
+  <rect x="0" y="0" width="12" height="2" fill="#c7d6f0"/>
+  <rect x="0" y="1.4" width="12" height=".6" fill="#555"/>
+  <!-- floor -->
+  <rect x="0" y="2" width="12" height="9" fill="#c9a45a"/>
+  <rect x="1.5" y="3" width="7" height="5" fill="#d6a63a" opacity=".7"/>
+  <text x="5" y="7.7" font-size=".38" text-anchor="middle" fill="#5a3d1e">rug / darker plank area</text>
+  <!-- side + bottom walls -->
+  <rect x="-.3" y="0" width=".3" height="11" fill="#444"/><rect x="12" y="0" width=".3" height="11" fill="#444"/>
+  <rect x="-.3" y="11" width="12.6" height=".3" fill="#444"/>
+  <!-- wall items -->
+  <g font-size=".32" text-anchor="middle">
+    <rect x=".2" y=".2" width="2.6" height="1.6" fill="#7a5aa8" stroke="#222" stroke-width=".05"/><text x="1.5" y="1.1" fill="#fff">souvenir shelf</text>
+    <rect x="3" y=".6" width="1" height="1.4" fill="#8aa0b0" stroke="#222" stroke-width=".05"/><text x="3.5" y="-.15" fill="#fff">cabinet</text>
+    <rect x="1" y=".05" width="4" height=".4" fill="#8a9a40"/>
+    <rect x="5.5" y=".05" width="4" height=".5" fill="#8a9a40"/><text x="7.5" y=".4" fill="#fff">KASAMA history board</text>
+    <rect x="5.6" y=".7" width="3" height=".9" fill="#e8d090" stroke="#222" stroke-width=".05"/><text x="7.1" y="1.3">bench</text>
+    <rect x="9.6" y=".2" width="2" height="1.8" fill="#555" stroke="#222" stroke-width=".05"/><text x="10.6" y="1.2" fill="#fff">staff door</text><text x="10.6" y="1.6" fill="#fff">(locked)</text>
+  </g>
+  <!-- plants -->
+  <g fill="#3a9a40" stroke="#123" stroke-width=".05"><circle cx="4.5" cy="1.5" r=".4"/><circle cx="2" cy="4.5" r=".4"/><circle cx="7.6" cy="4.5" r=".4"/><circle cx=".5" cy="10.3" r=".4"/><circle cx="11.5" cy="3" r=".4"/></g>
+  <!-- desk -->
+  <path d="M2.8 3.2H3.5V4.6H6.2V3.2H6.9V5.6H2.8Z" fill="#e8cfc0" stroke="#333" stroke-width=".06"/>
+  <text x="4.85" y="5.25" font-size=".33" text-anchor="middle">reception / ticket desk</text>
+  <circle cx="4.85" cy="3.7" r=".3" fill="#ffd400" stroke="#000" stroke-width=".05"/><text x="4.85" y="3.1" font-size=".3" text-anchor="middle" fill="#000">Ambo (opt.)</text>
+  <!-- new: right corner -->
+  <g font-size=".32" text-anchor="middle">
+    <rect x="9.3" y="3.6" width="2.4" height="2" fill="#6fae8a" stroke="#222" stroke-width=".05"/><text x="10.5" y="4.5">trail map</text><text x="10.5" y="4.9">board</text><text x="10.5" y="5.3">(examine)</text>
+    <rect x="9.3" y="7" width="2.4" height="1.4" fill="#7a5a3a" stroke="#222" stroke-width=".05"/><text x="10.5" y="7.6" fill="#fff">propagule</text><text x="10.5" y="8" fill="#fff">display</text>
+    <rect x="1" y="8.6" width="2.5" height=".8" fill="#e8d090" stroke="#222" stroke-width=".05"/><text x="2.25" y="9.15">guestbook stand</text>
+  </g>
+  <!-- doors -->
+  <rect x="6.5" y="10.9" width="2" height=".5" fill="#e04848"/><text x="7.5" y="12.2" font-size=".38" text-anchor="middle" fill="#fff">front door → outdoor FromIndoors (15,15)</text>
+  <rect x="11.9" y="5.8" width=".5" height="1.2" fill="#e04848"/><text x="12.6" y="6.6" font-size=".33" fill="#fff">back door</text><text x="12.6" y="7" font-size=".33" fill="#fff">→ trail</text><text x="12.6" y="7.4" font-size=".33" fill="#fff">gate</text>
+  <circle cx="7.5" cy="10.2" r=".25" fill="#3070ff"/><text x="7.9" y="10.3" font-size=".3" fill="#000">spawn</text>
+  <rect x="0" y="0" width="12" height="11" fill="url(#g)"/>
+</svg>

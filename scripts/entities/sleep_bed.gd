@@ -86,6 +86,10 @@ func _sleep() -> void:
 	DayNightManager.advance_minutes(_minutes_until(WAKE_HOUR))
 	if not sleep_flag.is_empty():
 		GameState.set_flag(sleep_flag)
+	# Chapter 2 ends on the first night after the tour and a Sunday mass; the
+	# next morning plays Chapter 3's brief (aklan_living.gd).
+	if GameState.get_flag("chapter2_tour_done") and GameState.get_flag("chapter2_mass_attended"):
+		GameState.set_flag("chapter2_complete")
 	GameState.save_game()
 
 	await FadeManager.fade_in()

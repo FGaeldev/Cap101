@@ -2294,6 +2294,25 @@
       "gloss": "that(closer to the speaker)",
       "verified": false,
       "source": ""
-    }
+    },
+    {"id": "w257", "akeanon": "ginhaboe", "category": "Noun (n)", "area": "chapter3", "gloss": "woven work, weaving", "verified": false, "source": "Ch3 storyboard review 2026-11-16"},
+    {"id": "w258", "akeanon": "uwat kaso", "category": "", "area": "chapter3", "gloss": "no problem (lit. there's no case)", "verified": false, "source": "Ch3 storyboard review 2026-11-16"},
+    {"id": "w259", "akeanon": "tanum", "category": "Noun (n)", "area": "chapter3", "gloss": "plant", "verified": false, "source": "Ch3 storyboard review 2026-11-16"},
+    {"id": "w260", "akeanon": "abu-abo", "category": "Adjective (adj.)", "area": "chapter3", "gloss": "a lot, plenty", "verified": false, "source": "Ch3 storyboard review 2026-11-16"},
+    {"id": "w261", "akeanon": "pa", "category": "Adverb (adv.)", "area": "chapter3", "gloss": "still, more", "verified": false, "source": "Ch3 storyboard review 2026-11-16"},
+    {"id": "w262", "akeanon": "kinahangean", "category": "", "area": "chapter3", "gloss": "need, needed", "verified": false, "source": "Ch3 storyboard review 2026-11-16"},
+    {"id": "w263", "akeanon": "ubrahon", "category": "Verb (v)", "area": "chapter3", "gloss": "to be worked on, to make", "verified": false, "source": "Ch3 storyboard review 2026-11-16"},
+    {"id": "w264", "akeanon": "magin", "category": "Verb (v)", "area": "chapter3", "gloss": "to become", "verified": false, "source": "Ch3 storyboard review 2026-11-16"},
+    {"id": "w265", "akeanon": "ra", "category": "Pronoun (pro)", "area": "chapter3", "gloss": "it, this", "verified": false, "source": "Ch3 storyboard review 2026-11-16"},
+    {"id": "w266", "akeanon": "samitan", "category": "Verb (v)", "area": "chapter3", "gloss": "to try, to taste (root samit)", "verified": false, "source": "Ch3 storyboard review 2026-11-16"},
+    {"id": "w267", "akeanon": "hinayi", "category": "Verb (v)", "area": "chapter3", "gloss": "go slower, slow down", "verified": false, "source": "Ch3 storyboard review 2026-11-16"},
+    {"id": "w268", "akeanon": "padasigan", "category": "Noun (n)", "area": "chapter3", "gloss": "a race, a contest of speed (root dasig)", "verified": false, "source": "Ch3 storyboard review 2026-11-16"},
+    {"id": "w269", "akeanon": "sing", "category": "Pronoun (pro)", "area": "chapter3", "gloss": "your (short for sa imo nga)", "verified": false, "source": "Ch3 storyboard review 2026-11-16"},
+    {"id": "w270", "akeanon": "tan-aw", "category": "Verb (v)", "area": "chapter3", "gloss": "to look, to see", "verified": false, "source": "Ch3 storyboard review 2026-11-16"},
+    {"id": "w271", "akeanon": "panaw", "category": "Verb (v)", "area": "chapter3", "gloss": "to walk", "verified": false, "source": "Ch3 storyboard review 2026-11-16"},
+    {"id": "w272", "akeanon": "diretso", "category": "Adverb (adv.)", "area": "chapter3", "gloss": "straight ahead", "verified": false, "source": "Ch3 storyboard review 2026-11-16 (spelling diretso/diresto still open)"},
+    {"id": "w273", "akeanon": "liko", "category": "Verb (v)", "area": "chapter3", "gloss": "to turn", "verified": false, "source": "Ch3 storyboard review 2026-11-16"},
+    {"id": "w274", "akeanon": "tuo", "category": "Noun (n)", "area": "chapter3", "gloss": "right (direction)", "verified": false, "source": "Ch3 storyboard review 2026-11-16"},
+    {"id": "w275", "akeanon": "waea", "category": "Noun (n)", "area": "chapter3", "gloss": "left (direction)", "verified": false, "source": "Ch3 storyboard review 2026-11-16"}
   ]
 }

@@ -1,0 +1,670 @@
+extends SceneTree
+# Procedural sample art for the Bakhawan Eco-Park art request.
+# godot --headless --path . --script gen_bakhawan.gd -- <indoor_drawing_png> <out_dir>
+# Writes <out_dir>/bakhawan_sprites_template.png (1x sheet) and layout.json (rects + labels).
+
+var rng := RandomNumberGenerator.new()
+
+# palette (sampled from pastrana_outdoors.png where possible)
+var OL := Color("45283c")
+var G0 := Color("2f785e"); var G1 := Color("2a9d6d"); var G2 := Color("49cf98"); var G3 := Color("8ae0bc")
+var TH0 := Color("342c16"); var TH1 := Color("524b24"); var TH2 := Color("8a6f30"); var TH3 := Color("b39249")
+var MUD0 := Color("4a3a28"); var MUD1 := Color("5f4b33"); var MUD2 := Color("735c3f"); var MUD3 := Color("8d7653")
+var W0 := Color("2b5d8c"); var W1 := Color("3a78b0"); var W2 := Color("5d9bd1"); var W3 := Color("cfe6f5")
+var S0 := Color("c9ac6e"); var S1 := Color("e2c98f"); var S2 := Color("efdcab"); var S3 := Color("f8eed2")
+var B0 := Color("6e5222"); var B1 := Color("9a7a3a"); var B2 := Color("c9a55a"); var B3 := Color("e6cd8a")
+var WD0 := Color("3d2a1c"); var WD1 := Color("5e4029"); var WD2 := Color("7f5a38"); var WD3 := Color("a57a4d")
+var LF0 := Color("1f5a2e"); var LF1 := Color("2e7d3c"); var LF2 := Color("4aa34f"); var LF3 := Color("86cf6a")
+var CREAM := Color("f3ead2"); var BLACK := Color("2a2430"); var CLEAR := Color(0, 0, 0, 0)
+
+var items: Array = []   # {section, name, img, note}
+
+func _initialize() -> void:
+	rng.seed = 4242
+	var a := OS.get_cmdline_user_args()
+	var drawing := Image.load_from_file(a[0])
+	var out: String = a[1]
+
+	# ---------------- OUTDOOR: ground ----------------
+	add("out", "Mud fill A / B", hcat([mud_tile(), mud_tile()]), "1x1 each, repeatable")
+	add("out", "Mud patch in grass (9-slice)", nine_slice_mud(), "corners/edges = grass to mud")
+	add("out", "River (9-slice, mud banks)", nine_slice_river(), "")
+	add("out", "Water anim (4 frames)", hcat([water_tile(0), water_tile(1), water_tile(2), water_tile(3)]), "1x1, river + sea")
+	add("out", "Sand fill A / B", hcat([sand_tile(), sand_tile()]), "baybay / baeas")
+	add("out", "Shoreline (2 frames)", hcat([shore_tile(0), shore_tile(1)]), "water top, foam, sand")
+	add("out", "Sand to mud edge", sand_mud_edge(), "1x1, mud above")
+	add("out", "Root decals x3", hcat([roots_decal(0), roots_decal(1), roots_decal(2)]), "FloorDecals layer")
+	add("out", "Seedlings x2", hcat([seedling(0), seedling(1)]), "propagules in mud")
+
+	# boardwalk set, 2x2 each
+	add("out", "Boardwalk: vertical / horizontal", hcat([boardwalk(true, false, true, false), boardwalk(false, true, false, true)]), "2 tiles wide, bamboo")
+	add("out", "Boardwalk corners NE / NW / SE / SW", hcat([boardwalk(true, true, false, false), boardwalk(true, false, false, true), boardwalk(false, true, true, false), boardwalk(false, false, true, true)]), "")
+	add("out", "Boardwalk T-joints / end cap", hcat([boardwalk(true, true, true, false), boardwalk(true, false, true, true), boardwalk(false, false, true, false)]), "")
+	add("out", "Bamboo bridge (over river)", bridge(), "2x3")
+	add("out", "Fishing pier end + piles", pier(), "2x3, S3 spot")
+	add("out", "Clam stakes x2", hcat([clam_stake(0), clam_stake(1)]), "on water")
+
+	# structures
+	add("out", "Nipa cottage (sea-facing)", cottage(), "4x3")
+	add("out", "Picnic hut", picnic_hut(), "3x3")
+	add("out", "Watchtower", watchtower(), "4x6")
+	add("out", "Kiosk: canteen", kiosk(Color("e08a3c"), 0), "4x3")
+	add("out", "Kiosk: souvenir", kiosk(Color("c8649a"), 1), "4x3")
+	add("out", "Nursery shade rack", nursery_rack(), "3x2")
+	add("out", "Seedling bags (row tile)", seedling_bags(), "1x1, repeatable")
+	add("out", "Trail sign post", sign_post(), "1x2")
+	add("out", "Info board / KASAMA plaque", info_board(), "2x2")
+	add("out", "Bamboo gate (trail entrance)", gate(), "4x3")
+	add("out", "Young mangrove", young_mangrove(), "1x2")
+
+	# ---------------- INDOOR: cut from teammate drawing + new ----------------
+	var d := drawing
+	var floor_keys := key_colors(d, [Rect2i(145, 99, 16, 16), Rect2i(56, 99, 16, 16), Rect2i(150, 160, 10, 10)])
+	add("in", "Plank floor light / dark", hcat([d.get_region(Rect2i(145, 101, 16, 16)), d.get_region(Rect2i(57, 101, 16, 16))]), "from Bakawan_indoor_2")
+	add("in", "Reception U-desk", keyed(d, Rect2i(74, 72, 44, 24), floor_keys), "from drawing, floor keyed out")
+	add("in", "Bookshelf / souvenir shelf", d.get_region(Rect2i(42, 34, 31, 24)), "from drawing")
+	add("in", "Cabinet", d.get_region(Rect2i(73, 38, 16, 20)), "from drawing")
+	add("in", "Potted plant", keyed(d, Rect2i(41, 120, 12, 15), floor_keys), "from drawing")
+	add("in", "Long bench", d.get_region(Rect2i(100, 44, 35, 12)), "from drawing")
+	add("in", "Wall board (green)", d.get_region(Rect2i(47, 32, 43, 7)), "from drawing; relabel KASAMA")
+	add("in", "Staff doorway", d.get_region(Rect2i(142, 32, 27, 18)), "from drawing")
+	add("in", "Trail map board", trail_map_board(), "2x2 NEW")
+	add("in", "Propagule display", propagule_display(), "2x1 NEW")
+	add("in", "Guestbook stand", guestbook(), "1x2 NEW")
+
+	layout_and_save(out)
+	mockup(out, Image.load_from_file(a[2]))
+	quit()
+
+func stamp(dst: Image, src: Image, x: int, y: int) -> void:
+	dst.blend_rect(src, Rect2i(Vector2i.ZERO, src.get_size()), Vector2i(x, y))
+
+func mockup(out: String, trees: Image) -> void:
+	var TW := 24; var TH := 20
+	var m := new_img(TW * 16, TH * 16)
+	for ty in TH:
+		for tx in TW:
+			var t: Image
+			if ty < 2: t = water_tile(tx % 4)
+			elif ty < 4: t = null
+			elif ty < 9: t = sand_tile()
+			elif ty == 9: t = sand_mud_edge()
+			elif ty == 14 or ty == 15: t = water_tile((tx + ty) % 4)
+			elif ty >= 18: t = new_img(16, 16); t.fill(G2); speckle(t, 0, 0, 16, 16, [G3, G1], 0.08)
+			else: t = mud_tile()
+			if t: stamp(m, t, tx * 16, ty * 16)
+	for tx in TW: stamp(m, shore_tile(tx % 2), tx * 16, 32)
+	# river banks
+	for tx in TW: rect(m, tx * 16, 14 * 16, 16, 1, MUD3); rect(m, tx * 16, 16 * 16 - 1, 16, 1, W0)
+	# decals
+	for p in [[2, 11], [6, 12], [14, 10], [20, 12], [4, 16], [16, 17], [22, 16]]: stamp(m, roots_decal(rng.randi() % 3), p[0] * 16, p[1] * 16)
+	for p in [[3, 8], [6, 9], [15, 9], [21, 8]]: stamp(m, seedling(rng.randi() % 2), p[0] * 16, p[1] * 16)
+	for p in [[16, 0], [18, 1], [20, 0]]: stamp(m, clam_stake(rng.randi() % 2), p[0] * 16, p[1] * 16)
+	# boardwalk column x=10..11 from row 18 to row 0, bridge rows 14-16, end cap at the sea
+	var bx := 10 * 16
+	stamp(m, boardwalk(false, false, true, false), bx, 0)
+	for ty in range(2, 6, 2): stamp(m, boardwalk(true, false, true, false), bx, ty * 16)
+	stamp(m, boardwalk(true, true, true, false), bx, 6 * 16)   # T to the cottage
+	stamp(m, boardwalk(false, true, false, true), bx + 32, 6 * 16)
+	for ty in range(8, 14, 2): stamp(m, boardwalk(true, false, true, false), bx, ty * 16)
+	stamp(m, bridge(), bx, 14 * 16)
+	stamp(m, boardwalk(true, false, true, false), bx, 17 * 16)
+	# objects, back to front
+	stamp(m, cottage(), 2 * 16, 4 * 16)
+	stamp(m, cottage(), 14 * 16, 4 * 16)
+	var tree_l := trees.get_region(Rect2i(0, 0, 32, 48)); var tree_r := trees.get_region(Rect2i(32, 0, 32, 48))
+	var tspots := [[0, 9, tree_r], [3, 10, tree_r], [6, 9, tree_l], [13, 9, tree_r], [16, 10, tree_r], [22, 9, tree_r], [1, 15, tree_r], [5, 15, tree_l], [14, 15, tree_r], [18, 15, tree_r], [21, 15, tree_l]]
+	for s in tspots: stamp(m, s[2], s[0] * 16, s[1] * 16)
+	stamp(m, watchtower(), 19 * 16, 8 * 16 - 32)
+	stamp(m, young_mangrove(), 8 * 16, 12 * 16)
+	stamp(m, young_mangrove(), 13 * 16, 12 * 16)
+	stamp(m, info_board(), 7 * 16, 16 * 16)
+	stamp(m, gate(), 9 * 16 - 8, 17 * 16)
+	stamp(m, picnic_hut(), 1 * 16, 17 * 16)
+	stamp(m, kiosk(Color("e08a3c"), 0), 17 * 16, 17 * 16)
+	m.save_png(out + "/mockup_1x.png")
+	m.resize(m.get_width() * 3, m.get_height() * 3, Image.INTERPOLATE_NEAREST)
+	m.save_png(out + "/mockup_3x.png")
+
+# ======================= helpers =======================
+func new_img(w: int, h: int) -> Image:
+	return Image.create(w, h, false, Image.FORMAT_RGBA8)
+
+func add(section: String, name: String, img: Image, note: String) -> void:
+	items.append({"section": section, "name": name, "img": img, "note": note})
+
+func hcat(list: Array) -> Image:
+	var w := 0; var h := 0
+	for i in list: w += i.get_width(); h = max(h, i.get_height())
+	var o := new_img(w, h); var x := 0
+	for i in list:
+		o.blend_rect(i, Rect2i(Vector2i.ZERO, i.get_size()), Vector2i(x, 0)); x += i.get_width()
+	return o
+
+func px(img: Image, x: int, y: int, c: Color) -> void:
+	if x >= 0 and y >= 0 and x < img.get_width() and y < img.get_height():
+		if c.a < 1.0: img.set_pixel(x, y, img.get_pixel(x, y).blend(c))
+		else: img.set_pixel(x, y, c)
+
+func rect(img: Image, x: int, y: int, w: int, h: int, c: Color) -> void:
+	for yy in range(y, y + h):
+		for xx in range(x, x + w): px(img, xx, yy, c)
+
+func box(img: Image, x: int, y: int, w: int, h: int, fill: Color, line: Color) -> void:
+	rect(img, x, y, w, h, line); rect(img, x + 1, y + 1, w - 2, h - 2, fill)
+
+func speckle(img: Image, x: int, y: int, w: int, h: int, cols: Array, chance: float) -> void:
+	for yy in range(y, y + h):
+		for xx in range(x, x + w):
+			if rng.randf() < chance: px(img, xx, yy, cols[rng.randi() % cols.size()])
+
+func ellipse(img: Image, cx: float, cy: float, rx: float, ry: float, c: Color) -> void:
+	for yy in range(int(cy - ry) - 1, int(cy + ry) + 2):
+		for xx in range(int(cx - rx) - 1, int(cx + rx) + 2):
+			var dx := (xx + 0.5 - cx) / rx; var dy := (yy + 0.5 - cy) / ry
+			if dx * dx + dy * dy <= 1.0: px(img, xx, yy, c)
+
+func outline(img: Image, c: Color) -> void:
+	# 1px outline around opaque pixels (outside)
+	var src := img.duplicate() as Image
+	for y in img.get_height():
+		for x in img.get_width():
+			if src.get_pixel(x, y).a > 0.5: continue
+			for o in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+				var q: Vector2i = Vector2i(x, y) + o
+				if q.x >= 0 and q.y >= 0 and q.x < img.get_width() and q.y < img.get_height() and src.get_pixel(q.x, q.y).a > 0.5:
+					img.set_pixel(x, y, c); break
+
+func thatch(img: Image, x: int, y: int, w: int, h: int, band: int) -> void:
+	for yy in range(y, y + h):
+		for xx in range(x, x + w):
+			var c := TH1 if (xx + (yy / 3)) % 3 != 0 else TH2
+			if (yy - y) % band == band - 1: c = TH0
+			elif (yy - y) % band == 0: c = TH2 if xx % 2 == 0 else TH3
+			if rng.randf() < 0.06: c = TH0
+			px(img, xx, yy, c)
+
+func bamboo_v(img: Image, x: int, y: int, h: int, w: int = 2) -> void:
+	for yy in range(y, y + h):
+		var node := (yy - y) % 7 == 6
+		px(img, x, yy, B3 if not node else B0)
+		for i in range(1, w): px(img, x + i, yy, (B1 if i == w - 1 else B2) if not node else B0)
+
+func bamboo_h(img: Image, x: int, y: int, w: int, h: int = 2) -> void:
+	for xx in range(x, x + w):
+		var node := (xx - x) % 8 == 7
+		px(img, xx, y, B3 if not node else B0)
+		for i in range(1, h): px(img, xx, y + i, (B1 if i == h - 1 else B2) if not node else B0)
+
+# ======================= ground =======================
+func mud_tile() -> Image:
+	var t := new_img(16, 16); rect(t, 0, 0, 16, 16, MUD1)
+	speckle(t, 0, 0, 16, 16, [MUD0, MUD2], 0.22); speckle(t, 0, 0, 16, 16, [MUD3], 0.04)
+	if rng.randf() < 0.7:  # little wet puddle
+		var cx := rng.randi_range(4, 11); var cy := rng.randi_range(4, 11)
+		rect(t, cx, cy, 3, 1, MUD0); px(t, cx, cy, Color("9c8e78"))
+	return t
+
+func grass_px(x: int, y: int) -> Color:
+	var r := rng.randf()
+	return G2 if r > 0.12 else (G3 if r > 0.05 else G1)
+
+func nine_slice_mud() -> Image:
+	var t := new_img(48, 48)
+	for y in 48:
+		for x in 48:
+			var d: int = min(min(x, 47 - x), min(y, 47 - y))
+			var edge := 5 + int(1.5 * sin(x * 0.9) + 1.2 * cos(y * 1.3))
+			if d < edge: px(t, x, y, grass_px(x, y))
+			elif d == edge: px(t, x, y, G1 if rng.randf() < 0.6 else G0)
+			else:
+				var c := MUD1
+				var r := rng.randf()
+				if r < 0.12: c = MUD0
+				elif r < 0.22: c = MUD2
+				px(t, x, y, c)
+	return t
+
+func water_px(x: int, y: int, f: int) -> Color:
+	var v := sin((x + f * 2) * 0.55 + y * 0.9) + sin(y * 0.4 - f * 0.8)
+	if v > 1.55: return W3
+	if v > 1.1: return W2
+	if v < -1.3: return W0
+	return W1
+
+func water_tile(f: int) -> Image:
+	var t := new_img(16, 16)
+	for y in 16:
+		for x in 16: px(t, x, y, water_px(x, y, f))
+	return t
+
+func nine_slice_river() -> Image:
+	var t := new_img(48, 48)
+	for y in 48:
+		for x in 48:
+			var d: int = min(min(x, 47 - x), min(y, 47 - y))
+			var edge := 6 + int(1.3 * sin(x * 0.7 + y * 0.3))
+			if d < edge - 1: px(t, x, y, MUD1 if rng.randf() > 0.2 else MUD0)
+			elif d == edge - 1: px(t, x, y, MUD3)
+			elif d == edge: px(t, x, y, W0)
+			else: px(t, x, y, water_px(x, y, 0))
+	return t
+
+func sand_tile() -> Image:
+	var t := new_img(16, 16); rect(t, 0, 0, 16, 16, S1)
+	speckle(t, 0, 0, 16, 16, [S0, S2], 0.25); speckle(t, 0, 0, 16, 16, [S3], 0.03)
+	if rng.randf() < 0.5:
+		var cx := rng.randi_range(3, 12); var cy := rng.randi_range(3, 12)
+		px(t, cx, cy, CREAM); px(t, cx + 1, cy, S0)  # shell
+	return t
+
+func shore_tile(f: int) -> Image:
+	var t := new_img(16, 32)
+	for y in 32:
+		for x in 16:
+			var line := 13 + int(1.5 * sin((x + f * 3) * 0.6))
+			if y < line: px(t, x, y, water_px(x, y, f))
+			elif y < line + 2: px(t, x, y, W3 if (x + f) % 5 != 0 else CREAM)
+			elif y < line + 4: px(t, x, y, S0)
+			else: px(t, x, y, S1 if rng.randf() > 0.2 else S2)
+	return t
+
+func sand_mud_edge() -> Image:
+	var t := new_img(16, 16)
+	for y in 16:
+		for x in 16:
+			var line := 7 + int(1.5 * sin(x * 0.8))
+			if y < line: px(t, x, y, MUD1 if rng.randf() > 0.2 else MUD0)
+			elif y == line: px(t, x, y, MUD2)
+			else: px(t, x, y, S1 if rng.randf() > 0.25 else S0)
+	return t
+
+func roots_decal(v: int) -> Image:
+	var t := new_img(16, 16)
+	var arcs := [[2, 13, 7, 6], [7, 14, 6, 8], [10, 12, 5, 5]]
+	if v == 1: arcs = [[1, 14, 8, 9], [9, 13, 6, 6]]
+	if v == 2: arcs = [[3, 12, 4, 4], [6, 14, 7, 7], [11, 13, 4, 5]]
+	for a in arcs:
+		for i in 20:
+			var tt := float(i) / 19.0
+			var x := int(a[0] + a[2] * tt); var y := int(a[1] - a[3] * sin(tt * PI))
+			px(t, x, y, WD2); px(t, x, y + 1, WD0)
+	return t
+
+func seedling(v: int) -> Image:
+	var t := new_img(16, 16)
+	for s in ([[5, 0], [10, 2]] if v == 0 else [[8, 1]]):
+		var x: int = s[0]; var top: int = 4 + s[1]
+		rect(t, x, top, 1, 10 - s[1], Color("5d7a2e")); px(t, x, top + 9 - s[1], WD1)
+		px(t, x - 1, top, LF2); px(t, x + 1, top, LF2); px(t, x - 2, top - 1, LF3); px(t, x + 2, top - 1, LF1)
+		rect(t, x - 1, 14, 3, 1, MUD0)
+	return t
+
+# ======================= boardwalk =======================
+func boardwalk(n: bool, e: bool, s: bool, w: bool) -> Image:
+	var t := new_img(32, 32)
+	var vertical := (n or s)
+	# deck
+	for y in 32:
+		for x in 32:
+			var k := (y if vertical else x) % 4
+			var c := B2 if k == 1 or k == 2 else (B3 if k == 0 else B0)
+			if rng.randf() < 0.05: c = B1
+			px(t, x, y, c)
+	# open (unconnected) sides: dark edge, bamboo hand-rail, darker wooden posts
+	if not w:
+		rect(t, 0, 0, 4, 32, CLEAR); rect(t, 3, 0, 1, 32, B0)
+		bamboo_v(t, 0, 0, 32, 3); rect(t, 0, 0, 1, 32, OL)
+		for py in [2, 18]: post(t, 0, py)
+	if not e:
+		rect(t, 28, 0, 4, 32, CLEAR); rect(t, 28, 0, 1, 32, B0)
+		bamboo_v(t, 29, 0, 32, 3); rect(t, 31, 0, 1, 32, OL)
+		for py in [2, 18]: post(t, 29, py)
+	if not n:
+		rect(t, 0, 0, 32, 4, CLEAR); bamboo_h(t, 0, 1, 32, 2); rect(t, 0, 0, 32, 1, OL); rect(t, 0, 3, 32, 1, B0)
+		for qx in [0, 14, 29]: post(t, qx, 0)
+	if not s:
+		# front: rail across, deck lip, shadow + piles below
+		rect(t, 0, 25, 32, 7, CLEAR)
+		rect(t, 0, 25, 32, 2, B1); rect(t, 0, 27, 32, 1, OL)
+		bamboo_h(t, 0, 21, 32, 2); rect(t, 0, 23, 32, 1, B0)
+		for qx in [0, 14, 29]: post(t, qx, 20); rect(t, qx, 23, 3, 2, WD1)
+		rect(t, 0, 28, 32, 2, Color(0, 0, 0, 0.35))
+		for qx in [4, 26]: rect(t, qx, 28, 2, 4, WD1); px(t, qx, 28, WD3)
+	# corner posts where two rails meet
+	if not n and not w: post(t, 0, 0)
+	if not n and not e: post(t, 29, 0)
+	if not s and not w: post(t, 0, 20)
+	if not s and not e: post(t, 29, 20)
+	return t
+
+func post(t: Image, x: int, y: int) -> void:
+	rect(t, x, y, 3, 4, WD1); rect(t, x, y, 3, 1, WD3); px(t, x, y + 1, WD2); px(t, x + 2, y + 3, WD0)
+
+func bridge() -> Image:
+	var t := new_img(32, 48)
+	for y in 48:
+		for x in 32: px(t, x, y, water_px(x, y, 1))
+	for y in 48:
+		for x in range(4, 28):
+			var k := y % 4
+			px(t, x, y, B2 if k == 1 or k == 2 else (B3 if k == 0 else B0))
+	for side in [1, 27]:
+		bamboo_v(t, side, 0, 48, 3)
+		for py in [2, 18, 34]:
+			rect(t, side, py, 3, 4, B0)
+		# X brace over water
+		for i in 14:
+			px(t, side + (1 if side < 10 else 1), 4 + i, B1)
+	# shadow on water beside deck
+	rect(t, 28 + 2, 0, 2, 48, Color(0, 0, 0, 0.25))
+	return t
+
+func pier() -> Image:
+	var t := new_img(32, 48)
+	for y in 48:
+		for x in 32: px(t, x, y, water_px(x, y, 2))
+	var deck := boardwalk(true, false, false, false)
+	t.blend_rect(deck, Rect2i(0, 0, 32, 32), Vector2i(0, 0))
+	# piles into water
+	for qx in [3, 14, 26]:
+		rect(t, qx, 30, 3, 8, WD1); rect(t, qx, 30, 1, 8, WD3)
+		rect(t, qx - 1, 38, 5, 1, W3)
+	# top: continues from walkway
+	return t
+
+func clam_stake(v: int) -> Image:
+	var t := new_img(16, 16)
+	var x := 7 if v == 0 else 5
+	ellipse(t, x + 1, 13, 4, 1.5, W2); ellipse(t, x + 1, 13, 2.5, 0.8, W1)
+	bamboo_v(t, x, 1, 12, 2)
+	if v == 1: bamboo_v(t, 11, 4, 9, 2); ellipse(t, 12, 13, 3, 1, W2)
+	return t
+
+# ======================= structures =======================
+func roof_eave(t: Image, x: int, y: int, w: int) -> void:
+	rect(t, x, y, w, 1, TH0)
+	for xx in range(x, x + w, 2): px(t, xx, y + 1, TH1)
+
+func cottage() -> Image:
+	var t := new_img(64, 48)
+	# stilts
+	for qx in [5, 30, 56]: rect(t, qx, 38, 3, 10, WD1); px(t, qx, 38, WD3)
+	# floor + back wall (open front, sea-facing)
+	rect(t, 3, 24, 58, 14, Color("6b5233"))
+	for x in range(3, 61, 3): rect(t, x, 24, 1, 14, Color("5a432a"))
+	rect(t, 3, 34, 58, 4, B2); bamboo_h(t, 3, 34, 58, 2); rect(t, 3, 37, 58, 1, B0)
+	# bench inside
+	rect(t, 10, 30, 18, 3, WD2); rect(t, 10, 30, 18, 1, WD3)
+	rect(t, 36, 30, 18, 3, WD2); rect(t, 36, 30, 18, 1, WD3)
+	# posts
+	for qx in [3, 30, 58]: bamboo_v(t, qx, 18, 20, 3)
+	# ladder
+	for yy in range(39, 48, 3): rect(t, 26, yy, 12, 1, B1)
+	rect(t, 26, 38, 1, 10, B0); rect(t, 37, 38, 1, 10, B0)
+	# roof
+	var roof := new_img(64, 22)
+	for y in 22:
+		var inset := int(max(0, 8 - y * 0.6))
+		for x in range(inset, 64 - inset): px(roof, x, y, CLEAR)
+	thatch(roof, 0, 0, 64, 22, 7)
+	for y in 22:
+		var inset := int(max(0, 9 - y * 0.75))
+		for x in range(0, inset): roof.set_pixel(x, y, CLEAR); roof.set_pixel(63 - x, y, CLEAR)
+	t.blend_rect(roof, Rect2i(0, 0, 64, 22), Vector2i(0, 0))
+	roof_eave(t, 0, 21, 64)
+	rect(t, 0, 23, 64, 1, Color(0, 0, 0, 0.3))
+	outline_rect(t, Rect2i(0, 0, 64, 48))
+	return t
+
+func outline_rect(t: Image, r: Rect2i) -> void:
+	var sub := t.get_region(r)
+	var big := new_img(r.size.x, r.size.y); big.blend_rect(sub, Rect2i(Vector2i.ZERO, r.size), Vector2i.ZERO)
+	# draw outline only where transparent next to opaque, on the edge band
+	outline(big, OL)
+	t.blit_rect(big, Rect2i(Vector2i.ZERO, r.size), r.position)
+
+func picnic_hut() -> Image:
+	var t := new_img(48, 48)
+	ellipse(t, 24, 42, 17, 4, Color(0, 0, 0, 0.25))
+	# benches + table
+	rect(t, 8, 33, 32, 3, WD2); rect(t, 8, 33, 32, 1, WD3)
+	rect(t, 11, 28, 26, 5, WD2); rect(t, 11, 28, 26, 1, WD3); rect(t, 11, 33, 2, 6, WD1); rect(t, 35, 33, 2, 6, WD1)
+	rect(t, 8, 39, 32, 3, WD2); rect(t, 8, 39, 32, 1, WD3); rect(t, 9, 42, 2, 3, WD1); rect(t, 37, 42, 2, 3, WD1)
+	bamboo_v(t, 23, 14, 15, 3)
+	# conical nipa roof
+	var roof := new_img(48, 22)
+	thatch(roof, 0, 0, 48, 22, 6)
+	for y in 22:
+		var half := int(4 + y * 1.0)
+		for x in 48:
+			if abs(x - 24) > half: roof.set_pixel(x, y, CLEAR)
+	t.blend_rect(roof, Rect2i(0, 0, 48, 22), Vector2i(0, 0))
+	roof_eave(t, 0, 21, 48)
+	rect(t, 22, 0, 4, 2, TH0)
+	outline_rect(t, Rect2i(0, 0, 48, 48))
+	return t
+
+func watchtower() -> Image:
+	var t := new_img(64, 96)
+	ellipse(t, 32, 90, 26, 5, Color(0, 0, 0, 0.25))
+	# back legs (lighter/thinner)
+	for qx in [14, 47]: bamboo_v(t, qx, 40, 50, 2)
+	# front legs
+	for qx in [6, 55]: bamboo_v(t, qx, 40, 52, 4)
+	# braces
+	for i in 40:
+		var y := 48 + i
+		px(t, 10 + i, y, B1); px(t, 54 - i, y, B1)
+	rect(t, 8, 68, 48, 2, B1)
+	# ladder
+	rect(t, 27, 40, 1, 52, B0); rect(t, 36, 40, 1, 52, B0)
+	for yy in range(42, 92, 4): rect(t, 27, yy, 10, 1, B2)
+	# platform
+	rect(t, 3, 36, 58, 5, B2); rect(t, 3, 40, 58, 1, B0); bamboo_h(t, 3, 36, 58, 2)
+	# railing
+	bamboo_h(t, 3, 27, 58, 2)
+	for qx in [3, 17, 31, 45, 58]: bamboo_v(t, qx, 22, 15, 2)
+	for x in range(5, 58, 3): rect(t, x, 29, 1, 7, B1)
+	# roof
+	var roof := new_img(64, 20)
+	thatch(roof, 0, 0, 64, 20, 6)
+	for y in 20:
+		var half := int(10 + y * 1.2)
+		for x in 64:
+			if abs(x - 32) > half: roof.set_pixel(x, y, CLEAR)
+	t.blend_rect(roof, Rect2i(0, 0, 64, 20), Vector2i(0, 0))
+	roof_eave(t, 8, 19, 48)
+	for qx in [8, 54]: bamboo_v(t, qx, 20, 8, 2)
+	outline_rect(t, Rect2i(0, 0, 64, 96))
+	return t
+
+func kiosk(sign_col: Color, v: int) -> Image:
+	var t := new_img(64, 48)
+	ellipse(t, 32, 45, 30, 3, Color(0, 0, 0, 0.25))
+	# back wall
+	rect(t, 4, 18, 56, 16, Color("6b5233"))
+	for x in range(4, 60, 4): rect(t, x, 18, 1, 16, Color("5a432a"))
+	# shelf items
+	for i in 6:
+		var c: Color = [Color("d9533b"), Color("f0c04a"), Color("5aa0d8"), CREAM, LF2, Color("c8649a")][(i + v * 2) % 6]
+		rect(t, 8 + i * 8, 24, 5, 4, c); rect(t, 8 + i * 8, 24, 5, 1, c.lightened(0.3))
+	rect(t, 6, 28, 52, 1, WD1)
+	# counter (bamboo slats)
+	rect(t, 2, 34, 60, 12, B2)
+	for x in range(2, 62, 3): rect(t, x, 36, 1, 10, B0)
+	rect(t, 2, 33, 60, 3, WD2); rect(t, 2, 33, 60, 1, WD3)
+	# counter goods
+	if v == 0:
+		for i in 3: ellipse(t, 14 + i * 14, 32, 3, 1.5, CREAM); ellipse(t, 14 + i * 14, 31.5, 2, 0.8, Color("c9874a"))
+	else:
+		for i in 4: rect(t, 10 + i * 12, 29, 6, 4, [Color("5aa0d8"), Color("f0c04a"), LF2, CREAM][i]); rect(t, 10 + i * 12, 29, 6, 1, WD0)
+	# posts
+	for qx in [1, 60]: bamboo_v(t, qx, 14, 32, 3)
+	# roof
+	var roof := new_img(64, 16)
+	thatch(roof, 0, 0, 64, 16, 6)
+	for y in 16:
+		var inset := int(max(0, 6 - y * 0.5))
+		for x in inset: roof.set_pixel(x, y, CLEAR); roof.set_pixel(63 - x, y, CLEAR)
+	t.blend_rect(roof, Rect2i(0, 0, 64, 16), Vector2i(0, 0))
+	roof_eave(t, 0, 15, 64)
+	# sign band
+	box(t, 18, 9, 28, 7, sign_col, OL)
+	for i in 6: rect(t, 21 + i * 4, 11, 2, 3, CREAM)
+	outline_rect(t, Rect2i(0, 0, 64, 48))
+	return t
+
+func nursery_rack() -> Image:
+	var t := new_img(48, 32)
+	# bags rows
+	for row in 2:
+		for i in 7:
+			var x := 4 + i * 6; var y := 18 + row * 6
+			rect(t, x, y + 2, 4, 3, BLACK); rect(t, x, y + 2, 4, 1, Color("4a4452"))
+			rect(t, x + 2, y - 3, 1, 5, Color("5d7a2e")); px(t, x + 1, y - 3, LF3); px(t, x + 3, y - 4, LF2)
+	# frame
+	for qx in [1, 23, 45]: rect(t, qx, 6, 2, 26, WD2); rect(t, qx, 6, 1, 26, WD3)
+	# shade net (translucent green)
+	rect(t, 0, 2, 48, 6, Color(0.15, 0.45, 0.25, 0.85))
+	for x in range(0, 48, 2): px(t, x, 3, Color(0.3, 0.6, 0.35)); px(t, x + 1, 6, Color(0.1, 0.3, 0.18))
+	rect(t, 0, 8, 48, 1, Color(0, 0, 0, 0.25))
+	outline_rect(t, Rect2i(0, 0, 48, 32))
+	return t
+
+func seedling_bags() -> Image:
+	var t := new_img(16, 16)
+	for p in [Vector2i(2, 4), Vector2i(9, 4), Vector2i(2, 11), Vector2i(9, 11)]:
+		rect(t, p.x, p.y + 1, 5, 3, BLACK); rect(t, p.x, p.y + 1, 5, 1, Color("4a4452"))
+		rect(t, p.x + 2, p.y - 3, 1, 4, Color("5d7a2e")); px(t, p.x + 1, p.y - 3, LF3); px(t, p.x + 3, p.y - 4, LF2)
+	return t
+
+func sign_post() -> Image:
+	var t := new_img(16, 32)
+	rect(t, 7, 12, 2, 18, WD1); rect(t, 7, 12, 1, 18, WD3)
+	box(t, 1, 3, 14, 10, WD2, OL); rect(t, 2, 4, 12, 1, WD3)
+	for i in 3: rect(t, 3, 6 + i * 2, 4 + (i * 3) % 6, 1, CREAM)
+	# arrow
+	rect(t, 9, 7, 3, 1, CREAM); px(t, 11, 6, CREAM); px(t, 11, 8, CREAM)
+	ellipse(t, 8, 30, 4, 1.2, Color(0, 0, 0, 0.25))
+	return t
+
+func info_board() -> Image:
+	var t := new_img(32, 32)
+	ellipse(t, 16, 30, 13, 1.5, Color(0, 0, 0, 0.25))
+	for qx in [4, 26]: rect(t, qx, 18, 2, 12, WD1); rect(t, qx, 18, 1, 12, WD3)
+	box(t, 1, 2, 30, 19, WD2, OL)
+	rect(t, 3, 4, 26, 15, CREAM)
+	rect(t, 3, 4, 26, 4, LF1)
+	for i in 6: rect(t, 5 + i * 4, 5, 2, 2, CREAM)
+	for i in 4: rect(t, 5, 10 + i * 2, 12 + (i * 5) % 9, 1, Color("8a8070"))
+	ellipse(t, 23, 13, 3, 3, LF2); rect(t, 23, 13, 1, 4, WD1)
+	return t
+
+func gate() -> Image:
+	var t := new_img(64, 48)
+	ellipse(t, 32, 45, 30, 3, Color(0, 0, 0, 0.2))
+	for qx in [4, 56]: bamboo_v(t, qx, 10, 36, 4)
+	# side fences
+	for qx in [0, 60]:
+		pass
+	# beam + thatch cap
+	var roof := new_img(64, 9); thatch(roof, 0, 0, 64, 9, 5)
+	t.blend_rect(roof, Rect2i(0, 0, 64, 9), Vector2i(0, 2))
+	roof_eave(t, 0, 10, 64)
+	bamboo_h(t, 2, 12, 60, 3)
+	# hanging sign
+	rect(t, 22, 15, 1, 3, B0); rect(t, 41, 15, 1, 3, B0)
+	box(t, 16, 18, 32, 9, Color("2e7d3c"), OL)
+	for i in 7: rect(t, 19 + i * 4, 21, 2, 3, CREAM)
+	outline_rect(t, Rect2i(0, 0, 64, 48))
+	return t
+
+func young_mangrove() -> Image:
+	var t := new_img(16, 32)
+	ellipse(t, 8, 30, 6, 1.5, Color(0, 0, 0, 0.25))
+	for a in [[3, 30, 5], [8, 30, 7], [13, 30, 5]]:
+		for i in 8:
+			var tt := float(i) / 7.0
+			px(t, int(lerp(float(a[0]), 8.0, tt)), int(a[1] - a[2] * tt), WD1)
+	rect(t, 7, 14, 2, 10, WD1); px(t, 7, 14, WD3)
+	ellipse(t, 8, 10, 7, 6, LF1); ellipse(t, 7, 8, 5, 4, LF2); ellipse(t, 6, 7, 2, 2, LF3)
+	speckle(t, 2, 5, 12, 10, [LF0], 0.05)
+	outline_rect(t, Rect2i(0, 0, 16, 32))
+	return t
+
+# ======================= indoor (new) =======================
+func trail_map_board() -> Image:
+	var t := new_img(32, 32)
+	for qx in [5, 25]: rect(t, qx, 22, 2, 9, WD1)
+	box(t, 1, 1, 30, 23, WD2, OL)
+	rect(t, 3, 3, 26, 19, Color("7fc79a"))
+	rect(t, 3, 3, 26, 4, W1); rect(t, 3, 7, 26, 2, S1)
+	rect(t, 3, 11, 26, 2, W2)
+	speckle(t, 3, 9, 26, 10, [LF1], 0.25)
+	for y in range(8, 22, 2): px(t, 15, y, Color("c9a55a")); px(t, 15, y + 1, CLEAR)
+	px(t, 15, 21, Color("e04848")); px(t, 16, 21, Color("e04848"))
+	return t
+
+func propagule_display() -> Image:
+	var t := new_img(32, 16)
+	box(t, 1, 8, 30, 7, WD2, OL); rect(t, 2, 9, 28, 1, WD3)
+	for i in 6:
+		var x := 4 + i * 4
+		rect(t, x, 1 + (i % 2), 1, 8 - (i % 2), Color("4f7a2a")); px(t, x, 1 + (i % 2), Color("8a4a2a"))
+	rect(t, 3, 12, 10, 1, CREAM)
+	return t
+
+func guestbook() -> Image:
+	var t := new_img(16, 32)
+	rect(t, 7, 14, 2, 15, WD1); rect(t, 4, 28, 8, 2, WD1)
+	box(t, 1, 6, 14, 9, WD2, OL)
+	rect(t, 2, 7, 6, 6, CREAM); rect(t, 8, 7, 6, 6, Color("e8dcc0")); rect(t, 7, 7, 1, 6, WD0)
+	for i in 3: rect(t, 3, 8 + i * 2, 4, 1, Color("8a8070")); rect(t, 9, 8 + i * 2, 4, 1, Color("8a8070"))
+	rect(t, 12, 3, 1, 5, Color("2a2430"))
+	return t
+
+# ======================= indoor crops =======================
+func key_colors(img: Image, rects: Array) -> Dictionary:
+	var k := {}
+	for r in rects:
+		for y in range(r.position.y, r.end.y):
+			for x in range(r.position.x, r.end.x): k[img.get_pixel(x, y).to_html()] = true
+	return k
+
+func keyed(img: Image, r: Rect2i, keys: Dictionary) -> Image:
+	var o := img.get_region(r)
+	for y in o.get_height():
+		for x in o.get_width():
+			if keys.has(o.get_pixel(x, y).to_html()): o.set_pixel(x, y, CLEAR)
+	return o
+
+# ======================= layout =======================
+func layout_and_save(out: String) -> void:
+	var W := 640; var gap := 16; var label_h := 32
+	var placed: Array = []
+	var y := 0
+	for section in ["in", "out"]:
+		y += 16  # section header room
+		var x := 16; var row_h := 0
+		for it in items:
+			if it.section != section: continue
+			var s: Vector2i = it.img.get_size()
+			var cw := int(ceil(s.x / 16.0)) * 16; var ch := int(ceil(s.y / 16.0)) * 16
+			if x + cw > W - 16: x = 16; y += row_h + label_h; row_h = 0
+			placed.append({"it": it, "x": x, "y": y + 16})
+			x += cw + gap + max(0, 48 - cw)  # leave room for labels
+			row_h = max(row_h, ch + 16)
+		y += row_h + label_h
+	var H := y + 16
+	var sheet := new_img(W, H)
+	var meta := []
+	for p in placed:
+		var img: Image = p.it.img
+		sheet.blend_rect(img, Rect2i(Vector2i.ZERO, img.get_size()), Vector2i(p.x, p.y))
+		meta.append({"section": p.it.section, "name": p.it.name, "note": p.it.note, "x": p.x, "y": p.y, "w": img.get_width(), "h": img.get_height()})
+	sheet.save_png(out + "/bakhawan_sprites_template.png")
+	var f := FileAccess.open(out + "/layout.json", FileAccess.WRITE)
+	f.store_string(JSON.stringify({"w": W, "h": H, "items": meta}))
+	f.close()
+	print("sheet ", W, "x", H, " items ", meta.size())

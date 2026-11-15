@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -40 46 66" width="736" height="1056" font-family="sans-serif">
+  <!-- 1 unit = 1 tile (16px). Coordinates are the real TileMapLayer cells of bakhawan_outdoors.tscn.
+       Rows 0..24 already exist; rows -1..-37 are the proposed extension north. -->
+  <rect x="-2" y="-40" width="46" height="66" fill="#1b1b1b"/>
+  <!-- grid -->
+  <defs>
+    <pattern id="g" width="1" height="1" patternUnits="userSpaceOnUse"><path d="M1 0H0V1" fill="none" stroke="#000" stroke-opacity=".12" stroke-width=".04"/></pattern>
+    <pattern id="mud" width="2" height="2" patternUnits="userSpaceOnUse"><rect width="2" height="2" fill="#6b5a3e"/><circle cx=".5" cy=".5" r=".15" fill="#5a4a32"/><circle cx="1.5" cy="1.4" r=".12" fill="#7a6849"/></pattern>
+  </defs>
+
+  <!-- SEA (Kalibo bay) -->
+  <rect x="-1" y="-37" width="43" height="4" fill="#3d7fb8"/>
+  <text x="8" y="-35" font-size="1" fill="#fff" text-anchor="middle">SEA — Kalibo bay (collision, animated water)</text>
+  <!-- BEACH -->
+  <rect x="-1" y="-33" width="43" height="6" fill="#e7d39a"/>
+  <path d="M-1 -33 Q5 -32.2 10 -33 T20 -33 T30 -33 T42 -33" fill="none" stroke="#fff" stroke-width=".35"/>
+  <text x="1" y="-28" font-size=".8" fill="#6b5a3e">BEACH / baybay (baeas sand)</text>
+  <!-- cottages facing sea -->
+  <g fill="#b98a4a" stroke="#5a3d1e" stroke-width=".15">
+    <rect x="2" y="-32" width="4" height="3"/><rect x="7" y="-32" width="4" height="3"/>
+    <rect x="31" y="-32" width="4" height="3"/><rect x="36" y="-32" width="4" height="3"/>
+  </g>
+  <text x="6.5" y="-29.6" font-size=".65" text-anchor="middle" fill="#3a2810">cottages (face sea)</text>
+  <text x="35.5" y="-29.6" font-size=".65" text-anchor="middle" fill="#3a2810">cottages — S5 family</text>
+  <!-- clam farm stakes -->
+  <g fill="#4b3520"><rect x="30" y="-36.5" width=".25" height=".8"/><rect x="32" y="-36" width=".25" height=".8"/><rect x="34" y="-36.5" width=".25" height=".8"/><rect x="36" y="-36" width=".25" height=".8"/><rect x="38" y="-36.5" width=".25" height=".8"/></g>
+  <text x="34" y="-37.3" font-size=".65" fill="#fff" text-anchor="middle">clam farm stakes</text>
+
+  <!-- MANGROVE FOREST -->
+  <rect x="-1" y="-27" width="43" height="23" fill="url(#mud)"/>
+  <!-- river channel crossing E-W -->
+  <path d="M-1 -19 C8 -21 14 -17 22 -19 S36 -21 42 -19 L42 -16 C34 -18 28 -14 22 -16 S8 -18 -1 -16 Z" fill="#4a8bb0"/>
+  <text x="3" y="-17.6" font-size=".7" fill="#fff">river channel (tubi)</text>
+  <!-- mangrove trees -->
+  <g fill="#2f7a3a" stroke="#1d4d24" stroke-width=".1">
+    <circle cx="2" cy="-25" r="1.6"/><circle cx="6" cy="-24" r="1.6"/><circle cx="10" cy="-26" r="1.6"/><circle cx="25" cy="-25" r="1.6"/><circle cx="34" cy="-25" r="1.6"/><circle cx="39" cy="-24" r="1.6"/>
+    <circle cx="3" cy="-21" r="1.6"/><circle cx="9" cy="-22" r="1.4"/><circle cx="29" cy="-22" r="1.6"/><circle cx="36" cy="-22" r="1.6"/>
+    <circle cx="2" cy="-13" r="1.6"/><circle cx="6" cy="-11" r="1.6"/><circle cx="10" cy="-13" r="1.4"/><circle cx="21" cy="-12" r="1.6"/><circle cx="25" cy="-9" r="1.6"/><circle cx="33" cy="-12" r="1.6"/><circle cx="38" cy="-10" r="1.6"/><circle cx="37" cy="-14" r="1.4"/>
+    <circle cx="3" cy="-7" r="1.4"/><circle cx="28" cy="-6" r="1.4"/><circle cx="40" cy="-6" r="1.4"/>
+  </g>
+  <text x="39" y="-26.4" font-size=".65" fill="#e7f5e0" text-anchor="end">dense mangroves (Bakhawan_tree)</text>
+
+  <!-- picnic huts on grass edge -->
+  <rect x="-1" y="-4" width="43" height="4" fill="#57b87a" opacity=".9"/>
+  <g fill="#c9a060" stroke="#5a3d1e" stroke-width=".15"><rect x="30" y="-3.5" width="3" height="3"/><rect x="35" y="-3.5" width="3" height="3"/></g>
+  <text x="34.5" y="-.4" font-size=".65" text-anchor="middle" fill="#123">picnic huts</text>
+
+  <!-- EXISTING AREA rows 0..24 -->
+  <rect x="-1" y="0" width="43" height="25" fill="#57c49a"/>
+  <rect x="-1" y="13" width="43" height="12" fill="#b9c3c8"/>
+  <path d="M1 18H40V22H8V25H3V18Z" fill="#706a78"/>
+  <path d="M21 9H40V18H21Z" fill="#706a78" opacity=".55"/>
+  <!-- visitor center -->
+  <rect x="7.5" y="7" width="10" height="7.5" fill="#8a6a2a" stroke="#333" stroke-width=".15"/>
+  <text x="12.5" y="10.6" font-size=".8" fill="#fff" text-anchor="middle">VISITOR CENTER</text>
+  <text x="12.5" y="11.7" font-size=".6" fill="#fff" text-anchor="middle">(existing)</text>
+  <rect x="14.5" y="13.5" width="2" height="1" fill="#e04848"/>
+  <text x="15.5" y="16.2" font-size=".6" text-anchor="middle" fill="#222">door → indoor (existing warp 15,14)</text>
+  <!-- nursery -->
+  <rect x="0" y="2" width="6" height="8" fill="#7fb45c" stroke="#3b6b2a" stroke-width=".15"/>
+  <g fill="#3b2a1a"><rect x=".6" y="3" width="4.8" height=".6"/><rect x=".6" y="4.6" width="4.8" height=".6"/><rect x=".6" y="6.2" width="4.8" height=".6"/><rect x=".6" y="7.8" width="4.8" height=".6"/></g>
+  <text x="3" y="11" font-size=".65" text-anchor="middle">nursery (propagules)</text>
+  <!-- canteen + souvenir -->
+  <rect x="24" y="2" width="6" height="4" fill="#d58f5a" stroke="#333" stroke-width=".15"/><text x="27" y="4.3" font-size=".65" text-anchor="middle">canteen</text>
+  <rect x="32" y="2" width="6" height="4" fill="#c86fa0" stroke="#333" stroke-width=".15"/><text x="35" y="4.3" font-size=".65" text-anchor="middle">souvenir</text>
+  <!-- tables -->
+  <g fill="#8a6a3a"><rect x="25" y="7" width="1.5" height="1"/><rect x="28" y="7" width="1.5" height="1"/></g>
+  <!-- entrance arch -->
+  <rect x="18.5" y="4" width="3" height="1" fill="#b98a4a" stroke="#5a3d1e" stroke-width=".15"/>
+  <text x="20" y="3.6" font-size=".6" text-anchor="middle">bamboo gate + trail sign</text>
+
+  <!-- BOARDWALK (2 tiles wide) -->
+  <path d="M20 7 V-1 H14 V-8 H18 V-14 H14 V-21 H22 V-26 H18 V-31" fill="none" stroke="#d9b56a" stroke-width="2" stroke-linejoin="miter"/>
+  <path d="M20 7 V-1 H14 V-8 H18 V-14 H14 V-21 H22 V-26 H18 V-31" fill="none" stroke="#7a5a2a" stroke-width=".1" stroke-dasharray=".3 .3"/>
+  <!-- rest platform S2 -->
+  <rect x="11" y="-12" width="5" height="4" fill="#d9b56a" stroke="#7a5a2a" stroke-width=".15"/>
+  <!-- watchtower spur -->
+  <path d="M22 -24 H27" stroke="#d9b56a" stroke-width="2"/>
+  <rect x="27" y="-26" width="4" height="4" fill="#9a7440" stroke="#3a2810" stroke-width=".2"/>
+  <text x="29" y="-23.7" font-size=".6" text-anchor="middle" fill="#fff">watch-</text><text x="29" y="-23" font-size=".6" text-anchor="middle" fill="#fff">tower</text>
+  <!-- fishing pier -->
+  <rect x="16" y="-37" width="4" height="6" fill="#d9b56a" stroke="#7a5a2a" stroke-width=".15"/>
+
+  <!-- story markers -->
+  <g font-size=".7" font-weight="bold">
+    <circle cx="20" cy="5.5" r=".7" fill="#ffd400" stroke="#000" stroke-width=".1"/><text x="21" y="6.6" fill="#000">S1 Ambo greets at gate</text>
+    <circle cx="13.5" cy="-10" r=".7" fill="#ffd400" stroke="#000" stroke-width=".1"/><text x="9" y="-14.5" fill="#fff">S2 roots lesson (platform)</text>
+    <circle cx="18" cy="-35" r=".7" fill="#ffd400" stroke="#000" stroke-width=".1"/><text x="20.5" y="-34.2" fill="#fff">S3 fishing</text>
+    <circle cx="23" cy="-30" r=".7" fill="#ffd400" stroke="#000" stroke-width=".1"/><text x="24" y="-30.6" fill="#3a2810">S4 vocab on the shore</text>
+    <circle cx="35.5" cy="-28" r=".7" fill="#ffd400" stroke="#000" stroke-width=".1"/>
+  </g>
+  <text x="18" y="-20.5" font-size=".6" text-anchor="middle" fill="#3a2810">bamboo bridge</text>
+  <!-- existing markers -->
+  <g font-size=".6" fill="#000">
+    <circle cx="4.5" cy="22.5" r=".5" fill="#e04848"/><text x="5.3" y="24.4">warp to park (existing)</text>
+    <circle cx="6.5" cy="19.5" r=".4" fill="#3070ff"/><text x="7.2" y="19.8">Trip/Rose</text>
+  </g>
+  <rect x="-1" y="-37" width="43" height="62" fill="url(#g)"/>
+  <line x1="-1.5" y1="0" x2="42.5" y2="0" stroke="#fff" stroke-width=".12" stroke-dasharray=".5 .3"/>
+  <text x="-1.6" y=".3" font-size=".6" fill="#fff" text-anchor="end">y0</text>
+  <text x="-1.6" y="-36.7" font-size=".6" fill="#fff" text-anchor="end">-37</text>
+  <text x="-1.6" y="24.7" font-size=".6" fill="#fff" text-anchor="end">24</text>
+  <text x="20.5" y="-38.6" font-size="1" fill="#fff" text-anchor="middle">Bakhawan Eco-Park — outdoor draft (1 cell = 1 tile)</text>
+</svg>

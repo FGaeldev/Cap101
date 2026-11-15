@@ -29,6 +29,7 @@ const LOG_TAIL := 25
 const CHAPTERS := {
 	1: {"start_level": "res://scenes/world/chapter1/us_bedroom.tscn", "setup": "_setup_ch1", "done": "_done_ch1"},
 	2: {"start_level": "res://scenes/world/chapter2/aklan_living.tscn", "setup": "_setup_ch2", "done": "_done_ch2"},
+	3: {"start_level": "res://scenes/world/chapter2/aklan_living.tscn", "setup": "_setup_ch3", "done": "_done_ch3"},
 }
 
 var opts := {"mode": "full", "chapter": 1, "out": "", "budget": 0.0, "speed": 3.0, "fast_calendar": true}
@@ -276,7 +277,7 @@ func _current_chapter() -> int:
 func _on_flag(flag: String, value: bool) -> void:
 	_p("FLAG %s = %s" % [flag, value])
 	_progress()
-	if flag == "chapter2_tour_done" and value and opts.fast_calendar:
+	if flag == "chapter2_tour_done" and value and opts.fast_calendar and _current_chapter() == 2:
 		_jump_sunday = true
 	if flag == "chapter2_mass_cathedral" and value:
 		_want_bakhawan = true
@@ -319,6 +320,25 @@ func _done_ch2() -> bool:
 	var GS = A.GameState
 	return GS.get_flag("chapter2_tour_done") and _mass_done and _bakhawan_went \
 		and not GS.get_flag("chapter2_with_rose") and not A.CutsceneManager.is_playing()
+
+## The morning after Chapter 2 ended (tour + a mass, then a night's sleep), on a
+## weekday at 7:00 so the morning brief plays instead of the Sunday mass invite.
+func _setup_ch3() -> void:
+	_setup_ch2()
+	var GS = A.GameState
+	for f in ["chapter_card_chapter2_seen", "seen_chapter2_scene0", "chapter2_slept", "seen_chapter2_scene0b",
+			"seen_chapter2_scene1", "seen_chapter2_scene2", "seen_chapter2_scene3", "seen_chapter2_scene4",
+			"chapter2_tour_done", "map_open_market", "chapter2_mass_attended", "chapter2_complete"]:
+		GS.set_flag(f)
+	var DN = root.get_node("DayNightManager")
+	if DN.get_date()["weekday"] == 0:
+		GS.date_unix += 86400
+	DN.set_hour(7.0)
+	GS.mass_invite_date = GS.date_unix
+
+## Evening scene with Jonabel played.
+func _done_ch3() -> bool:
+	return A.GameState.get_flag("chapter3_complete") and not A.CutsceneManager.is_playing()
 
 # --- driving ------------------------------------------------------------------
 func _game() -> Node:

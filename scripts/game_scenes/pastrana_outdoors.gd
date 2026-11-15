@@ -7,6 +7,7 @@
 #   Sunday mass: cathedral_indoors.gd -> market -> back here -> home.
 #   Later trips: walk to the plaza; Rose then waits for the player (TourGuide).
 #   Bakhawan trip: straight through this map, both ways (bakhawan_outdoors.gd).
+#   Chapter 3 Haboean trip: the same, to habuean_outdoors (haboean_gallery.gd).
 extends Node2D
 
 const ActorPath := preload("res://scripts/util/actor_path.gd")
@@ -20,6 +21,8 @@ const MASS_CATHEDRAL_FLAG: String = "chapter2_mass_cathedral"
 const AT_PARK_FLAG: String = "chapter2_at_park"
 const TOUR_DONE_FLAG: String = "chapter2_tour_done"
 const GOING_BAKHAWAN_FLAG: String = "chapter2_going_bakhawan"
+## Chapter 3's trip to the weavers: straight through this map, both ways (haboean_gallery.gd).
+const GOING_HABOEAN_FLAG: String = "chapter3_going_haboean"
 const ARRIVED_FLAG: String = "chapter2_arrived_park"
 const ARRIVED_CATHEDRAL_FLAG: String = "chapter2_arrived_cathedral"
 const ROSE_SCENE: String = "res://scenes/entities/npc_Rose.tscn"
@@ -63,6 +66,8 @@ func _next_cutscene() -> String:
 		if not GameState.get_flag(WALKING_HOME_FLAG):
 			return "chapter2_mass_to_market"
 		return "chapter2_walk_home_from_market"
+	if GameState.get_flag(GOING_HABOEAN_FLAG):
+		return "chapter3_walk_home_from_haboean" if GameState.get_flag(WALKING_HOME_FLAG) else "chapter3_walk_to_haboean"
 	if GameState.get_flag(GOING_BAKHAWAN_FLAG):
 		return "chapter2_walk_home_from_bakhawan" if GameState.get_flag(WALKING_HOME_FLAG) else "chapter2_walk_to_bakhawan"
 	if GameState.get_flag(WALKING_HOME_FLAG):

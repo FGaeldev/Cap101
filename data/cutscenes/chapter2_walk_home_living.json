@@ -7,6 +7,7 @@
 	{"type": "set_flag", "flag": "chapter2_at_market", "value": false},
 	{"type": "set_flag", "flag": "chapter2_at_bakhawan", "value": false},
 	{"type": "set_flag", "flag": "chapter2_going_bakhawan", "value": false},
+	{"type": "set_flag", "flag": "chapter3_going_haboean", "value": false},
 	{"type": "set_flag", "flag": "chapter2_from_market", "value": false},
 	{"type": "set_flag", "flag": "chapter2_left_home", "value": false},
 	{"type": "set_flag", "flag": "chapter2_left_house", "value": false},

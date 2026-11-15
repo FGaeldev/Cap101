@@ -1,0 +1,4 @@
+[
+	{"type": "fade", "direction": "out", "duration": 0.6},
+	{"type": "load_scene", "scene_path": "res://scenes/world/haboean/haboean_cafe.tscn"}
+]

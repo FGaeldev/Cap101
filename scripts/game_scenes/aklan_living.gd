@@ -38,6 +38,14 @@ const WALKING_HOME_FLAG: String = "chapter2_walking_home"
 const WALK_OUT_CUTSCENE_ID: String = "chapter2_walk_living"
 const WALK_HOME_CUTSCENE_ID: String = "chapter2_walk_home_living"
 const LEAVE_ALONE_CUTSCENE_ID: String = "chapter2_leave_alone"
+## Chapter 3 (see docs/CHAPTER3_PLAN.md): the morning brief that starts the trip
+## to Haboean, and the evening scene once the player is back from the cafe.
+const CH2_COMPLETE_FLAG: String = "chapter2_complete"
+const CH3_BRIEF_CUTSCENE_ID: String = "chapter3_scene0"
+const CH3_BRIEF_SEEN_FLAG: String = "seen_chapter3_scene0"
+const CH3_CAFE_SEEN_FLAG: String = "seen_chapter3_scene4"
+const CH3_EVENING_CUTSCENE_ID: String = "chapter3_scene5"
+const CH3_EVENING_SEEN_FLAG: String = "seen_chapter3_scene5"
 
 func _ready() -> void:
 	# Walks with Rose never reach this door's warp: they're cutscenes, or TourGuide stops them.
@@ -81,6 +89,9 @@ func _check_beats() -> void:
 		return
 	if not GameState.get_flag(SEEN_FLAG) or not GameState.get_flag(SLEPT_FLAG):
 		return
+	# A walk home with Rose ends with its own cutscene (_ready); beats wait for it.
+	if GameState.get_flag(WALKING_HOME_FLAG):
+		return
 	if not GameState.get_flag(WAKE_SEEN_FLAG):
 		if NpcSchedule.is_here("Lola Susan"):
 			CutsceneManager.play(WAKE_CUTSCENE_ID)
@@ -88,4 +99,26 @@ func _check_beats() -> void:
 	if NpcSchedule.is_mass_pending():
 		GameState.set_flag(MASS_WENT_FLAG, false)  # last Sunday's answer
 		CutsceneManager.play(MASS_CUTSCENE_ID)
+		return
+	if _ch3_brief_due():
+		CutsceneManager.play(CH3_BRIEF_CUTSCENE_ID)
+		return
+	if GameState.get_flag(CH3_CAFE_SEEN_FLAG) and not GameState.get_flag(CH3_EVENING_SEEN_FLAG) \
+			and _all_here_and_settled(["Lola Jonabel", "Lola Susan"]):
+		CutsceneManager.play(CH3_EVENING_CUTSCENE_ID)
+
+## Chapter 3's morning brief: the first morning after Chapter 2 is complete,
+## once Rose, Susan and Jonabel are at their brief spots (npc_schedule.json).
+func _ch3_brief_due() -> bool:
+	if GameState.get_flag(CH3_BRIEF_SEEN_FLAG) or not GameState.get_flag(CH2_COMPLETE_FLAG):
+		return false
+	if NpcSchedule.get_block("Rose").get("when", "") != "ch3_brief_pending":
+		return false
+	return _all_here_and_settled(["Rose", "Lola Susan", "Lola Jonabel"])
+
+func _all_here_and_settled(actor_ids: Array) -> bool:
+	for actor_id: String in actor_ids:
+		if not NpcSchedule.is_here(actor_id) or not NpcSchedule.is_settled(actor_id):
+			return false
+	return true
 

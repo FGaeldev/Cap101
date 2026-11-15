@@ -7,6 +7,7 @@
 #       + Ch2   ...
 #   + Time      Morning (08:00), ...
 #   + Date      Next day, Next week
+#   + Minigames & quizzes   Quiz: meanings (all words), Habi-Habi, ...
 #   + Play cutscene
 #       + Ch1   S1 — Lola Jonabel intro, ...
 #
@@ -59,6 +60,7 @@ func _init() -> void:
 	_add_group(_list, "Skip to scene", 0, _subgroups.bind(warps, _warps))
 	_add_group(_list, "Time", 0, _items.bind(times, _warps, 1))
 	_add_group(_list, "Date", 0, _items.bind(dates, _warps, 1))
+	_add_group(_list, "Minigames & quizzes", 0, _items.bind(PageDevScript.DEV_MINIGAMES, _cutscenes, 1))
 	_add_group(_list, "Play cutscene", 0, _subgroups.bind(PageDevScript.DEV_CUTSCENES, _cutscenes))
 
 func _menus_label() -> String:
@@ -98,7 +100,9 @@ func _items(body: VBoxContainer, entries: Array, column: Control, depth: int) ->
 		# "Ch1 S3 — Reunion" keeps "S3 — Reunion"; "Ch2 — Hallway" keeps "Hallway".
 		var rest: String = parts[0].substr(parts[0].find(" ") + 1) + LABEL_SEPARATOR + parts[1] \
 				if parts[0].contains(" ") else parts[1]
-		var handler := Callable(column, "_on_dev_warp_pressed" if column == _warps else "_on_dev_cutscene_pressed")
+		var method: String = "_on_dev_warp_pressed" if column == _warps \
+				else ("_on_dev_minigame_pressed" if entry.has("kind") else "_on_dev_cutscene_pressed")
+		var handler := Callable(column, method)
 		body.add_child(_item_button(rest, depth, handler.bind(entry)))
 
 ## [before, after] the first " — " (after = whole label when there is none).

@@ -4,7 +4,8 @@
 # PageListColumn, but does NOT use its two-column pagination — each column
 # is independent and set by `column` before add_child():
 #   "warps"     (PageLeft)  — DEV_WARP_TARGETS, room warps
-#   "cutscenes" (PageRight) — DEV_CUTSCENES, replay any cutscene
+#   "cutscenes" (PageRight) — DEV_MINIGAMES (open any minigame or quiz with
+#                             every bank word), then DEV_CUTSCENES
 # Each column pages ITEMS_PER_PAGE buttons at a time on its own arrow bar
 # (BookUI paginates each side independently; single-page columns hide it).
 #
@@ -32,6 +33,13 @@ const CH2_START_FLAGS := [
 	"seen_chapter1_scene1_5", "seen_chapter1_scene2", "seen_chapter1_scene3", "seen_chapter1_scene4",
 	"story_done_scene_3_reunion", "story_done_scene_4_rose", "chapter1_complete",
 	"seen_chapter2_scene0", "chapter2_slept", "seen_chapter2_scene0b",
+]
+
+## Chapter 2 finished (tour + mass + a night's sleep): the living room then plays
+## Chapter 3's morning brief between 6:00 and 12:00.
+const CH3_START_FLAGS := CH2_START_FLAGS + [
+	"seen_chapter2_scene1", "seen_chapter2_scene2", "seen_chapter2_scene3", "seen_chapter2_scene4",
+	"chapter2_tour_done", "map_open_market", "chapter2_mass_attended", "chapter2_complete",
 ]
 
 ## Chapter 1 story quests, in story order. q002 is handled by the onboarding
@@ -63,6 +71,7 @@ const DEV_WARP_TARGETS := [
 	{"label": "Ch2 — Market - Indoors", "scene_path": "res://scenes/world/market/market_indoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
 	{"label": "Ch2 — Cathedral - Indoors", "scene_path": "res://scenes/world/chapter2/cathedral_indoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
 	{"label": "Ch4 — Bakhawan", "scene_path": "res://scenes/world/bakhawan/bakhawan_outdoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
+	{"label": "Ch3 — Morning brief (Living Room)", "scene_path": "res://scenes/world/chapter2/aklan_living.tscn", "flags_on": CH3_START_FLAGS, "quests_done": CH1_QUESTS},
 	{"label": "Haboean — Outdoors", "scene_path": "res://scenes/world/haboean/habuean_outdoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
 	{"label": "Haboean — Café (L0)", "scene_path": "res://scenes/world/haboean/haboean_cafe.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
 	{"label": "Haboean — Gallery + Loft (L1)", "scene_path": "res://scenes/world/haboean/haboean_gallery.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
@@ -175,13 +184,44 @@ const DEV_CUTSCENES := [
 	},
 ]
 
+## Minigames and quizzes, opened on the spot (no warp) for quick testing.
+##   kind         quiz | minigame
+##   line         the dialogue line to open; "word_pool": "ALL" (and "choices":
+##                "ALL") is filled with every word in the bank, or every bank
+##                word the letter-grid games can spell ("ALL_GRID", with
+##                min_len/max_len)
+##   from         optional {chapter, scene, minigame_type}: copy the authored
+##                line from the dialogue JSON, then apply "line" on top
+const DEV_MINIGAMES := [
+	{"label": "Game — Quiz: meanings (all words)", "kind": "quiz", "line": {
+		"type": "quiz", "quiz_type": "dynamic", "fixed_pool": true, "questions": [],
+		"word_pool": "ALL", "choices": "ALL", "question_count": 5,
+		"question_templates": ["What does \"[word]\" mean?", "What Akeanon word means \"[gloss]\"?"],
+		"question_template_choice_displays": ["gloss", "word"], "choice_display": "gloss", "pass_ratio": 0.5}},
+	{"label": "Game — Quiz: colours (Ch2)", "kind": "quiz",
+		"from": {"chapter": "chapter2", "scene": "scene_4_vocabulary_practice_round_numbers_colors_market_goods", "has": "word_colors"}, "line": {}},
+	{"label": "Game — Memory match (all words)", "kind": "minigame",
+		"line": {"minigame_type": "memory_match", "word_pool": "ALL", "pair_count": 6}},
+	{"label": "Game — Hangman (all words)", "kind": "minigame",
+		"line": {"minigame_type": "hangman", "word_pool": "ALL_GRID", "min_len": 3, "max_len": 12}},
+	{"label": "Game — Crossword (all words)", "kind": "minigame",
+		"line": {"minigame_type": "crossword", "word_pool": "ALL_GRID", "min_len": 3, "max_len": 9, "word_count": 6}},
+	{"label": "Game — Word search (all words)", "kind": "minigame",
+		"line": {"minigame_type": "word_search", "word_pool": "ALL_GRID", "min_len": 3, "max_len": 8, "word_count": 6}},
+	{"label": "Game — Habi-Habi: story loom (Ch3 colours)", "kind": "minigame",
+		"from": {"chapter": "chapter3", "scene": "scene_2_trying_the_loom", "minigame_type": "habi_habi"}, "line": {}},
+	{"label": "Game — Habi-Habi (all words)", "kind": "minigame",
+		"from": {"chapter": "chapter3", "scene": "scene_loleng_habi_habi", "minigame_type": "habi_habi"},
+		"line": {"word_pool": "ALL_GRID", "min_len": 3, "max_len": 8}},
+]
+
 ## Frames to wait after load_level() before calling play() on a manual
 ## (auto_play = false) cutscene — lets host-room _ready() spawns and NPC
 ## register_actor() calls settle (scene_2.gd defers its own play by 1 frame).
 const DEV_CUTSCENE_SETTLE_FRAMES := 2
 
 func _get_header_text() -> String:
-	return "DEV: Skip to Scene" if column == "warps" else "DEV: Play Cutscene"
+	return "DEV: Skip to Scene" if column == "warps" else "DEV: Games & Cutscenes"
 
 ## Overrides the base two-column refresh — each dev column builds itself.
 ## Buttons never change at runtime, so build once and reuse on later opens.
@@ -209,7 +249,7 @@ func has_prev_page() -> bool:
 	return _offset > 0
 
 func _entries() -> Array:
-	return DEV_WARP_TARGETS if column == "warps" else DEV_CUTSCENES
+	return DEV_WARP_TARGETS if column == "warps" else DEV_MINIGAMES + DEV_CUTSCENES
 
 func _render_page() -> void:
 	clear_list()
@@ -219,6 +259,8 @@ func _render_page() -> void:
 					func(): BookUI.set_separate_menus(not BookUI.separate_menus))
 		elif column == "warps":
 			add_button(entry["label"], _on_dev_warp_pressed.bind(entry))
+		elif entry.has("kind"):
+			add_button(entry["label"], _on_dev_minigame_pressed.bind(entry))
 		else:
 			add_button(entry["label"], _on_dev_cutscene_pressed.bind(entry))
 
@@ -233,6 +275,73 @@ func _on_dev_warp_pressed(target: Dictionary) -> void:
 		BookUI.close()
 		return
 	_dev_warp(target["scene_path"], target.get("flags_on", []), [], "DefaultSpawn", target.get("quests_done", []))
+
+## Opens one DEV_MINIGAMES entry right where the player is. Needs a loaded level
+## (DialogueUI's root lives in Game.tscn). The result shows as a short line.
+func _on_dev_minigame_pressed(entry: Dictionary) -> void:
+	var line: Dictionary = dev_minigame_line(entry)
+	if line.is_empty():
+		return
+	BookUI.close()
+	CutsceneManager.abort()
+	DialogueUI.hide()
+	await get_tree().process_frame
+	var report := func(passed: bool):
+		DialogueUI.hide()
+		print("DEV minigame %s -> %s" % [entry["label"], "pass" if passed else "fail"])
+		_say_result(entry["label"], passed)
+	if entry["kind"] == "quiz":
+		DialogueUI.show_standalone_quiz(line, report)
+	else:
+		DialogueUI.show_standalone_minigame(line, report)
+
+## The line a DEV_MINIGAMES entry opens, with ALL / ALL_GRID pools filled in.
+## Static so tests and dev_panel.gd can use it. {} if the entry can't be built.
+static func dev_minigame_line(entry: Dictionary) -> Dictionary:
+	var line: Dictionary = {}
+	var from: Dictionary = entry.get("from", {})
+	if not from.is_empty():
+		for l in ChapterLoader.get_scene_lines(from["chapter"], from["scene"]):
+			if (from.has("minigame_type") and l.get("minigame_type", "") == from["minigame_type"]) \
+					or (from.has("has") and l.has(from["has"])):
+				line = l.duplicate(true)
+				break
+		if line.is_empty():
+			push_error("DevMinigame: no matching line in %s/%s" % [from["chapter"], from["scene"]])
+			return {}
+	line.merge(entry["line"].duplicate(true), true)
+	if not line.has("type"):
+		line["type"] = "minigame_trigger" if entry["kind"] == "minigame" else "quiz"
+	for key in ["word_pool", "choices"]:
+		match line.get(key, null):
+			"ALL":
+				line[key] = WordBank.words.keys()
+			"ALL_GRID":
+				line[key] = _grid_words(int(line.get("min_len", 3)), int(line.get("max_len", 8)))
+	return line
+
+## Every bank word a letter-grid game can spell, one id per spelling.
+static func _grid_words(min_len: int, max_len: int) -> Array:
+	var seen: Dictionary = {}
+	var out: Array = []
+	for id: String in WordBank.words:
+		var letters: String = WordBank.puzzle_letters(id)
+		if letters.length() < min_len or letters.length() > max_len or seen.has(letters):
+			continue
+		seen[letters] = true
+		out.append(id)
+	out.shuffle()
+	return out
+
+func _say_result(label: String, passed: bool) -> void:
+	var host: Node = get_tree().current_scene
+	if host == null:
+		return
+	var dialogue := DialogueComponent.new()
+	dialogue.dialogue_lines = [{"speaker": "", "text": "DEV: %s → %s" % [label.get_slice("— ", 1), "pass" if passed else "fail"], "next": null}]
+	host.add_child(dialogue)
+	dialogue.dialogue_ended.connect(dialogue.queue_free)
+	dialogue.start_dialogue()
 
 ## Replays one DEV_CUTSCENES entry: onboarding skip (same as a warp) -> force
 ## the entry's flag state -> warp to host room -> play unless the room

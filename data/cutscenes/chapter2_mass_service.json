@@ -14,6 +14,7 @@
 	{"type": "wait", "seconds": 0.5},
 	{"type": "fade", "direction": "in", "duration": 0.6},
 	{"type": "set_flag", "flag": "chapter2_mass_cathedral", "value": true},
+	{"type": "set_flag", "flag": "chapter2_mass_attended", "value": true},
 	{"type": "stand", "actor": "Rose"},
 	{"type": "stand", "actor": "Lola Susan"},
 	{"type": "stand", "actor": "player"},
