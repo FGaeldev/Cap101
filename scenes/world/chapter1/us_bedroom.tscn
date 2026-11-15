@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://c0pbt2t43xx31" path="res://scenes/entities/furniture/pulsing_light.tscn" id="12_wcsil"]
 [ext_resource type="PackedScene" uid="uid://de6nkx7tf7u8d" path="res://scenes/entities/furniture/warp_area.tscn" id="13_6bimx"]
 [ext_resource type="Texture2D" uid="uid://ch2ck87nxihyr" path="res://assets/airport/door_down_wide.png" id="14_r7sd8"]
+[ext_resource type="PackedScene" path="res://scenes/entities/furniture/seat.tscn" id="seat_scn"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_f5kqj"]
 texture = ExtResource("1_342nr")
@@ -151,3 +152,10 @@ position = Vector2(24, 121)
 trigger_direction = 1
 target_scene = "res://scenes/world/chapter1/us_living.tscn"
 target_spawn_id = "from_bedroom"
+
+[node name="Seats" type="Node2D" parent="." unique_id=730100001]
+
+[node name="DeskChair" parent="Seats" unique_id=730100002 instance=ExtResource("seat_scn")]
+position = Vector2(112, 48)
+face = "up"
+stand_offset = Vector2(0, 16)

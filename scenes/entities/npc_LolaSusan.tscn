@@ -193,7 +193,6 @@ size = Vector2(14, 14)
 script = ExtResource("2_scr")
 actor_id = "Lola Susan"
 npc_id = "Lola Susan"
-dialogue_scene_key = "scene_lola_susan"
 story_done_flag = "story_done_lola_susan"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=244444341]

@@ -16,10 +16,11 @@ func _ready() -> void:
 	visible = false
 
 func show_choices(choices: Array, component: DialogueComponent) -> void:
-	# Clear old buttons
+	# Clear old buttons. queue_free, not free: when a choice leads straight to
+	# another choice, the pressed button is still emitting its signal and is locked.
 	for child in choice_list.get_children():
 		choice_list.remove_child(child)
-		child.free()
+		child.queue_free()
 
 	for c in choices:
 		var btn = Button.new()

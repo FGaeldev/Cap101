@@ -16,7 +16,7 @@ extends CharacterBody2D
 @export var cutscene_id: String = "chapter1_scene1"
 ## ChapterLoader lookup for repeat-visit (post-cutscene) dialogue.
 @export var dialogue_chapter: String = "chapter1"
-@export var dialogue_scene_key: String = "scene_1_part1"
+@export var dialogue_scene_key: String = ""
 ## GameState flag checked/set by the cutscene's own set_flag step -- must match
 ## the "flag" value inside data/cutscenes/<cutscene_id>.json exactly.
 @export var seen_flag: String = "seen_chapter1_scene1"

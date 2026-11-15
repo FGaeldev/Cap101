@@ -58,14 +58,14 @@ target_spawn_id = "FromHabuean"
 position = Vector2(112, 280)
 script = ExtResource("5_sf2l4")
 span_tiles_override = 2
-target_scene = "res://scenes/world/habuean/haboean_gallery.tscn"
+target_scene = "res://scenes/world/haboean/haboean_gallery.tscn"
 target_spawn_id = "FromOutdoors"
 
 [node name="ToCafe" type="Area2D" parent="Warps" unique_id=42223622 instance=ExtResource("4_7bld6")]
 position = Vector2(208, 216)
 script = ExtResource("5_sf2l4")
 span_tiles_override = 2
-target_scene = "res://scenes/world/habuean/haboean_cafe.tscn"
+target_scene = "res://scenes/world/haboean/haboean_cafe.tscn"
 target_spawn_id = "FromOutdoors"
 
 [node name="Spawns" type="Node2D" parent="." unique_id=277488942]

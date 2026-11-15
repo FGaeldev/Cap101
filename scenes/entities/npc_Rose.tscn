@@ -193,7 +193,6 @@ size = Vector2(14, 14)
 script = ExtResource("2_scr")
 actor_id = "Rose"
 npc_id = "Rose"
-dialogue_scene_key = "scene_rose"
 story_done_flag = "story_done_rose"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=913573483]

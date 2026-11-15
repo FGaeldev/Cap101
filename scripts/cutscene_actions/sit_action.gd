@@ -1,10 +1,10 @@
-# sit_action.gd -- seats an actor on a pew (scenes/entities/furniture/pew.tscn).
+# sit_action.gd -- seats an actor on a pew (pew.tscn) or a seat (seat.tscn).
 #
 #   {"type": "sit", "actor": "Rose", "pew": "Pews/LeftB5", "seat": 0}
 #   {"type": "sit", "actor": "player", "pew": "Pews/LeftB5", "walk": true, "speed": 48}
 #
-# "pew" is a node path from the level root, or just the pew's node name.
-# "seat" is 0-based from the left; leave it out for the first free seat.
+# "pew" is a node path from the level root, or just the pew's or seat's node name.
+# "seat" is 0-based from the left; leave it out for the first free seat. Seats have one seat.
 # "walk": true walks the actor around obstacles to the row behind the seat and
 # steps them in; otherwise they're placed instantly. Seated actors face the
 # pew's "face" (up by default) with their sprite lifted 1px.

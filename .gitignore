@@ -7,3 +7,6 @@ addons/godot-git-plugin/windows/~*
 
 # Retired files, kept locally for now
 archived/
+
+# Playtest skill output (screenshots, logs)
+playtest_reports/

@@ -63,9 +63,9 @@ const DEV_WARP_TARGETS := [
 	{"label": "Ch2 — Market - Indoors", "scene_path": "res://scenes/world/market/market_indoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
 	{"label": "Ch2 — Cathedral - Indoors", "scene_path": "res://scenes/world/chapter2/cathedral_indoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
 	{"label": "Ch4 — Bakhawan", "scene_path": "res://scenes/world/bakhawan/bakhawan_outdoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
-	{"label": "Haboean — Outdoors", "scene_path": "res://scenes/world/habuean/habuean_outdoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
-	{"label": "Haboean — Café (L0)", "scene_path": "res://scenes/world/habuean/haboean_cafe.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
-	{"label": "Haboean — Gallery + Loft (L1)", "scene_path": "res://scenes/world/habuean/haboean_gallery.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
+	{"label": "Haboean — Outdoors", "scene_path": "res://scenes/world/haboean/habuean_outdoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
+	{"label": "Haboean — Café (L0)", "scene_path": "res://scenes/world/haboean/haboean_cafe.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
+	{"label": "Haboean — Gallery + Loft (L1)", "scene_path": "res://scenes/world/haboean/haboean_gallery.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
 	# {label, time}: jumps the day/night clock instead of warping.
 	{"label": "Time — Morning (08:00)", "time": 8.0},
 	{"label": "Time — Dusk (18:00)", "time": 18.0},

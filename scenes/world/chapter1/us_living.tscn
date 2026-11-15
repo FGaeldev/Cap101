@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://de6nkx7tf7u8d" path="res://scenes/entities/furniture/warp_area.tscn" id="9_vhn7c"]
 [ext_resource type="Texture2D" uid="uid://ch2ck87nxihyr" path="res://assets/airport/door_down_wide.png" id="10_ss0yx"]
 [ext_resource type="Texture2D" uid="uid://ctp3m3xrtfj3p" path="res://assets/airport/door_up_wide.png" id="11_iyp1j"]
+[ext_resource type="PackedScene" path="res://scenes/entities/furniture/seat.tscn" id="seat_scn"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_rinov"]
 load_path = "res://.godot/imported/bedroom_tiles.png-00e17e7450d7752517e41bd3628fcaad.ctex"
@@ -142,3 +143,25 @@ vframes = 2
 [node name="DoorUpWide" type="Sprite2D" parent="." unique_id=1409158581]
 position = Vector2(24, 16)
 texture = ExtResource("11_iyp1j")
+
+[node name="Seats" type="Node2D" parent="." unique_id=730100003]
+
+[node name="DiningRightTop" parent="Seats" unique_id=730100004 instance=ExtResource("seat_scn")]
+position = Vector2(96, 80)
+face = "left"
+stand_offset = Vector2(16, 0)
+
+[node name="DiningRightBottom" parent="Seats" unique_id=730100005 instance=ExtResource("seat_scn")]
+position = Vector2(96, 96)
+face = "left"
+stand_offset = Vector2(16, 0)
+
+[node name="DiningLeftTop" parent="Seats" unique_id=730100006 instance=ExtResource("seat_scn")]
+position = Vector2(48, 80)
+face = "right"
+stand_offset = Vector2(-16, 0)
+
+[node name="DiningLeftBottom" parent="Seats" unique_id=730100007 instance=ExtResource("seat_scn")]
+position = Vector2(48, 96)
+face = "right"
+stand_offset = Vector2(-16, 0)
