@@ -62,6 +62,9 @@ var _tutorials: Dictionary = {}
 var _targets: Dictionary = {}
 
 var _active_id: String = ""
+## Tutorials waiting for the running one to end (see start()). Not saved: a
+## quest objective, not a tutorial, is what must survive a quit.
+var _queue: Array[String] = []
 var _step_index: int = -1
 ## notify() hits still required for the current step (step "count").
 var _remaining: int = 0
@@ -101,14 +104,30 @@ func _process(delta: float) -> void:
 
 # ── Public API ──────────────────────────────────────────────────────────────
 
-## Starts a tutorial. Idempotent: no-op if already done, another is running,
-## or id is unknown. Skipped entirely in dev mode.
-func start(tutorial_id: String) -> void:
-	if GameState.dev_mode or is_done(tutorial_id) or _active_id != "":
+## Starts a tutorial, or queues it if another is running: it starts when that
+## one ends, so chained tutorials can't silently drop. Idempotent: no-op if it's
+## done, running, already queued, or unknown. Skipped entirely in dev mode.
+## interrupt: the player just did the thing this tutorial is about (e.g. tapped
+## the bedroom book), so the running one is marked done and this starts now.
+func start(tutorial_id: String, interrupt: bool = false) -> void:
+	if GameState.dev_mode or is_done(tutorial_id) or _active_id == tutorial_id:
 		return
 	if not _tutorials.has(tutorial_id):
 		push_warning("TutorialManager: unknown tutorial '%s'" % tutorial_id)
 		return
+	if _active_id != "":
+		_queue.erase(tutorial_id)
+		if interrupt:
+			_queue.push_front(tutorial_id)
+			skip()  # _finish() starts the queue's front
+		else:
+			_queue.append(tutorial_id)
+		return
+	_queue.erase(tutorial_id)
+	_begin(tutorial_id)
+
+
+func _begin(tutorial_id: String) -> void:
 	_active_id = tutorial_id
 	var above_book: bool = bool(_tutorials[tutorial_id].get("above_book", false))
 	layer = ABOVE_BOOK_LAYER if above_book else OVERLAY_LAYER
@@ -158,13 +177,26 @@ func skip() -> void:
 
 ## Hides overlay and drops active state WITHOUT marking done. Call on every
 ## "leave the game" path (BookUI return-to-menu) so the tutorial resumes next
-## session instead of leaving _active_id stuck.
-func abort() -> void:
+## session instead of leaving _active_id stuck; that also empties the queue.
+## keep_queue: only this tutorial is dropped, and the next queued one starts.
+func abort(keep_queue: bool = false) -> void:
 	_clear_highlight()
 	_panel.hide()
 	_active_id = ""
 	_step_index = -1
 	layer = OVERLAY_LAYER
+	if keep_queue:
+		_start_next()
+	else:
+		_queue.clear()
+
+
+## Starts the oldest queued tutorial that can still run.
+func _start_next() -> void:
+	while _active_id == "" and not _queue.is_empty():
+		var next_id: String = _queue.pop_front()
+		if not is_done(next_id) and not GameState.dev_mode:
+			_begin(next_id)
 
 
 # ── Internals ───────────────────────────────────────────────────────────────
@@ -213,9 +245,14 @@ func _fit_label_width() -> void:
 func _finish() -> void:
 	var done_id: String = _active_id
 	GameState.set_flag(FLAG_PREFIX + done_id + FLAG_SUFFIX, true)
-	abort()
+	_clear_highlight()
+	_panel.hide()
+	_active_id = ""
+	_step_index = -1
+	layer = OVERLAY_LAYER
 	GameState.save_game()
 	tutorial_completed.emit(done_id)
+	_start_next()
 
 
 func _apply_highlight(target_id: String) -> void:

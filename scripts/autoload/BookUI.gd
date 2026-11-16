@@ -328,7 +328,7 @@ func set_tab_lock_condition(tab_id: String, is_unlocked: Callable) -> void:
 		_tabs[tab_id]["is_unlocked"] = is_unlocked
 
 ## force_book: open the book even with the separated menus on. Nothing uses it
-## now (the bedroom book runs the "menus_ui" walkthrough instead); kept for
+## now (the bedroom book opens the pause menu in that mode); kept for
 ## anything that must show the book itself.
 func open(tab_id: String = "settings", force_book: bool = false) -> void:
 	# Pausing mid-warp or mid-walk can strand what's waiting on the fade or the walk.
@@ -375,13 +375,13 @@ func close() -> void:
 	get_tree().paused = false
 	# Last step of the "book_ui" tutorial waits for the player to close the Book.
 	TutorialManager.notify("book_tutorial_finished")
-	# "menus_ui" tutorial: "...Tap back." steps wait for the menus to close.
+	# Separated-menus tutorials: "...Tap back." steps wait for the menus to close.
 	if separate_menus:
 		TutorialManager.notify("menus_closed")
 	# Closed early = tutorial has no open Book left to act on. Drop it (NOT
 	# marked done) so the bedroom book restarts it from the top next time.
 	if TutorialManager.active_id() == BOOK_TUTORIAL_ID:
-		TutorialManager.abort()
+		TutorialManager.abort(true)
 
 func switch_tab(tab_id: String) -> void:
 	if not _tabs.has(tab_id):

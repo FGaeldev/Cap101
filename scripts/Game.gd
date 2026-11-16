@@ -18,10 +18,19 @@ var _limits_zoom := Vector2.ZERO
 
 ## quest_id -> tutorial started when that quest becomes active. Tutorial ids
 ## live in data/tutorials/tutorials.json.
-const QUEST_TUTORIALS := {"q002": "ch1_quest_hud"}
-## Tutorial id -> quest it completes. The separated-menus walkthrough is taught
-## on the HUD, so it can finish in any room (the bedroom book handles book_ui).
-const TUTORIAL_QUESTS := {"menus_ui": "q002"}
+const QUEST_TUTORIALS := {"q002": "ch1_quest_hud", "q010": "sleep"}
+## Same, with the separated menus on. Chapter 1's chain there: full quest list
+## (q002 starts) -> bedroom book opens the Dictionary (book.gd) -> sleep (q010)
+## -> calendar + pause menu on waking (QUEST_DONE_TUTORIALS_SEPARATE_MENUS).
+## Each quest completes on the action itself, never on its tutorial.
+const QUEST_TUTORIALS_SEPARATE_MENUS := {"q002": "ch1_quests", "q010": "sleep"}
+## quest_id -> tutorial started when that quest completes (separated menus).
+const QUEST_DONE_TUTORIALS_SEPARATE_MENUS := {"q010": "ch1_morning"}
+## Chapter 2: Rose hands over her map at the cathedral (chapter2.json sets the
+## flag on her line); the HUD's Map button appears then (hud.gd) and this
+## tutorial points at it once the cutscene is over.
+const MAP_FLAG := "got_kalibo_map"
+const MAP_TUTORIAL := "ch2_map"
 
 const MarkerUtil := preload("res://scripts/util/marker_util.gd")
 const ActorPath := preload("res://scripts/util/actor_path.gd")
@@ -59,7 +68,8 @@ func remember_exit_spot() -> void:
 
 func _ready() -> void:
 	QuestManager.quest_started.connect(_on_quest_started)
-	TutorialManager.tutorial_completed.connect(_on_tutorial_completed)
+	QuestManager.quest_completed.connect(_on_quest_completed)
+	GameState.flag_changed.connect(_on_flag_changed)
 	# UI scale must not change how much of the world is on screen.
 	camera.zoom /= UIScale.factor
 	UIScale.changed.connect(_on_ui_scale_changed)
@@ -105,16 +115,33 @@ func _process(_delta: float) -> void:
 func _on_ui_scale_changed(previous: float, current: float) -> void:
 	camera.zoom *= previous / current
 
-## Starts the tutorial mapped to a newly-active quest (QUEST_TUTORIALS).
-## Waits out any tutorial still running (start() is a no-op while one is
-## active). Step timing lives in tutorials.json ("auto_advance").
+## Starts the tutorial mapped to a newly-active quest (QUEST_TUTORIALS). If
+## another is running, TutorialManager queues it. Step timing lives in
+## tutorials.json ("auto_advance").
 func _on_quest_started(quest_id: String) -> void:
-	var tutorial_id: String = QUEST_TUTORIALS.get(quest_id, "")
-	if tutorial_id.is_empty():
+	var map: Dictionary = QUEST_TUTORIALS_SEPARATE_MENUS if BookUI.separate_menus else QUEST_TUTORIALS
+	var tutorial_id: String = map.get(quest_id, "")
+	if not tutorial_id.is_empty():
+		TutorialManager.start(tutorial_id)
+
+
+func _on_quest_completed(quest_id: String) -> void:
+	if not BookUI.separate_menus:
 		return
-	if TutorialManager.is_running():
-		await TutorialManager.tutorial_completed
-	TutorialManager.start(tutorial_id)
+	var tutorial_id: String = QUEST_DONE_TUTORIALS_SEPARATE_MENUS.get(quest_id, "")
+	if not tutorial_id.is_empty():
+		TutorialManager.start(tutorial_id)
+
+
+## The map tutorial waits for the cutscene that hands the map over to end, so
+## "Tap the Map button" never shows while the HUD is hidden.
+func _on_flag_changed(flag_name: String, value: bool) -> void:
+	if flag_name != MAP_FLAG or not value or not BookUI.separate_menus:
+		return
+	while CutsceneManager.is_playing():
+		await CutsceneManager.cutscene_finished
+	if is_inside_tree():
+		TutorialManager.start(MAP_TUTORIAL)
 
 
 func load_level(path: String, spawn_id: String = "DefaultSpawn") -> void:
@@ -228,9 +255,3 @@ func _resume_exit_spot(path: String) -> void:
 ## an organizing node (e.g. "Spawns/Stairs"); MarkerUtil finds either.
 func _find_spawn(level: Node, spawn_id: String) -> Node2D:
 	return MarkerUtil.find(level, spawn_id)
-
-
-func _on_tutorial_completed(tutorial_id: String) -> void:
-	var quest_id: String = TUTORIAL_QUESTS.get(tutorial_id, "")
-	if quest_id in QuestManager.active_quests:
-		QuestManager.complete_quest(quest_id)

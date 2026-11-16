@@ -49,7 +49,7 @@ func _collect_entries() -> Array:
 			continue
 		var entry := {
 			"key": "quest:" + qid,
-			"title": q.get("title", qid),
+			"title": QuestManager.get_title(qid),
 			"main": q.get("category", "") == MAIN_CATEGORY,
 			"done": completed,
 			"description": q.get("description", ""),

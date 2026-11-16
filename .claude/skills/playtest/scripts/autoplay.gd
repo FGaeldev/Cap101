@@ -308,11 +308,12 @@ func _done_ch1() -> bool:
 func _setup_ch2() -> void:
 	var GS = A.GameState
 	for f in ["chapter_card_chapter1_seen", "tutorial_ch1_basics_done", "tutorial_ch1_quest_hud_done",
-			"tutorial_menus_ui_done", "tutorial_npc_menu_done", "seen_chapter1_scene1", "story_done_papa_jobert_scene1",
+			"tutorial_ch1_quests_done", "tutorial_ch1_dictionary_done", "tutorial_ch1_morning_done", "chapter1_slept",
+			"tutorial_npc_menu_done", "seen_chapter1_scene1", "story_done_papa_jobert_scene1",
 			"story_done_lola_jonabel_scene1", "seen_chapter1_scene1_5", "seen_chapter1_scene2", "seen_chapter1_scene3",
 			"seen_chapter1_scene4", "story_done_scene_3_reunion", "story_done_scene_4_rose", "chapter1_complete"]:
 		GS.set_flag(f)
-	for q in ["q002", "q003", "q004"]:
+	for q in ["q002", "q010", "q003", "q004"]:
 		A.QuestManager.complete_quest_silently(q)
 
 ## Tour, Sunday mass and the Bakhawan trip all done, and home again.
@@ -328,7 +329,8 @@ func _setup_ch3() -> void:
 	var GS = A.GameState
 	for f in ["chapter_card_chapter2_seen", "seen_chapter2_scene0", "chapter2_slept", "seen_chapter2_scene0b",
 			"seen_chapter2_scene1", "seen_chapter2_scene2", "seen_chapter2_scene3", "seen_chapter2_scene4",
-			"chapter2_tour_done", "map_open_market", "chapter2_mass_attended", "chapter2_complete"]:
+			"chapter2_tour_done", "map_open_market", "chapter2_mass_attended", "chapter2_complete",
+			"got_kalibo_map", "tutorial_ch2_map_done"]:
 		GS.set_flag(f)
 	var DN = root.get_node("DayNightManager")
 	if DN.get_date()["weekday"] == 0:

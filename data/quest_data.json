@@ -4,10 +4,24 @@
 			"id": "q002",
 			"category": "main",
 			"title": "Return to your room: open the book",
+			"title_separate_menus": "Go to your room: check your notebook",
+			"completion_trigger": "dictionary_opened",
 			"required_exposures": 0,
 			"target_words": [],
 			"requires_flag": "seen_chapter1_scene1",
 			"completion_flag": "quest_002_done",
+			"show_popup": true
+		},
+		{
+			"id": "q010",
+			"category": "main",
+			"title": "Get some sleep: you fly out tomorrow",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "quest_002_done",
+			"unless_flag": "seen_chapter1_scene1_5",
+			"completion_trigger": "slept",
+			"completion_flag": "quest_010_done",
 			"show_popup": true
 		},
 		{

@@ -108,8 +108,11 @@ func _show(id: String) -> void:
 	AudioManager.play_sfx("menu_click")
 	confirm_popup.hide()
 	_current = id
-	# "menus_ui" tutorial steps wait for these ("menus_map", "menus_pause", ...).
+	# Tutorial steps wait for these ("menus_dictionary", ...).
 	TutorialManager.notify("menus_" + id)
+	# Chapter 1's first quest (q002) is opening the Dictionary in this mode.
+	if id == "dictionary":
+		QuestManager.complete_quests_with_trigger("dictionary_opened")
 	_pause.visible = id == "pause"
 	for pid in _panels:
 		_panels[pid].visible = pid == id

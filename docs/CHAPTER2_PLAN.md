@@ -16,6 +16,7 @@ Prepared 2026-11-16 from the working tree on `feature/chapter3` (last commit `41
 | End of chapter | `sleep_bed.gd` sets `chapter2_complete` on the first sleep after `chapter2_tour_done` + `chapter2_mass_attended` | **no evening beat after the tour**, no chapter close; Rose's cathedral line already names the piña trip days early |
 | Manong Pedring | `npc_Pedring.tscn`, sprite, portrait ✅ | speaker string is `Anong Pedring`; no idle remarks |
 | Activity | two quizzes in the vocab round | no hands-on activity at the market or the map (roadmap: `market_order`, `map_match`). Panels available: quiz, `phrase_builder`, memory match, hangman, crossword, word search, habi-habi |
+| Picture bubbles / emotes | none | the storyboard shows objects and feelings as picture bubbles over characters (decided 2026-11-16); the only bubble today is `word_popup.gd` (tapped words), and `RewardManager` pops up stars, badges, stamps and memory pages only |
 | Quest | none | quests jump q004 → q006; **q005 "Explore Kalibo with Rose" missing** |
 | Tooling | `autoplay.gd` `CHAPTERS[2]` ✅, `page_dev.gd` `CH2_START_FLAGS` + dev warps ✅ | |
 | Open tracker bugs here | **B4** four warps with no target (`aklan_living`, `aklan_home_outdoors`, `market_outdoors`), **B5** Pastrana exits need `map_open_caticlan` / `map_open_bakhawan` | B1, B3, B9 fixed |
@@ -24,9 +25,9 @@ Prepared 2026-11-16 from the working tree on `feature/chapter3` (last commit `41
 
 **Decided 2026-11-16:** 1 → move the food words to the park → market walk; 2 → add the dinner scene; 3 → phrase builder at Pedring's; 4 → q005 and Pedring's idle lines. 5 (Bakhawan) left open as before.
 
-1. **Fix the vocab-round continuity: move the food words to the park → market walk.** Recommended: a short beat inside `chapter2_park_to_market` (Rose names *isda, manok, itlog, humay…* as they pass stalls) so the market uses them. The souvenir-shop round keeps numbers, colours, size and pointing words. Cheaper alternative: rewrite the two narration lines to "on the way home, past the market" and leave the order.
+1. **Fix the vocab-round continuity: move the food words to the park → market walk.** Recommended: a short beat inside `chapter2_park_to_market` (Rose names *isda, manok, itlog, bugas…* as they pass stalls) so the market uses them. The souvenir-shop round keeps numbers, colours, size and pointing words. Cheaper alternative: rewrite the two narration lines to "on the way home, past the market" and leave the order.
 2. **Add an evening-home scene after the tour (`scene_5_evening_home`).** Recommended: dinner in `aklan_living` when the tour walk home ends. Jonabel asks what the player saw, Susan mentions Sunday mass, Rose keeps the piña trip as a tease ("another day"). Moves Rose's "next place is the piña weavers" line out of the cathedral talk, so Ch3's brief owns it. Sets `chapter2_evening_seen`.
-3. **One hands-on activity at the market: `phrase_builder` "Pangabay, gusto ko it daya".** Recommended: after Rose teaches *pangabay*, the player builds the request to Pedring (pass → he hands the star fruit; fail → Rose whispers it, Pedring smiles, story continues). Uses an existing panel, no new code. `map_match` (roadmap) stays a later, optional step.
+3. **One hands-on activity at the market: `phrase_builder` "Pangabay it daya, Nong, ho" (corrected in the review).** Recommended: after Rose teaches *pangabay*, the player builds the request to Pedring (pass → he hands the star fruit; fail → Rose whispers it, Pedring smiles, story continues). Uses an existing panel, no new code. `map_match` (roadmap) stays a later, optional step.
 4. **Quest q005 and Pedring's idle lines.** Recommended: add q005 "Explore Kalibo with Rose" (Park → Market → Cathedral → Go home → Sunday mass) and a `remarks` block for Pedring (3–4 lines, gated by `seen_chapter2_scene2`). Alternative: skip the quest; the Rose menu already guides the player.
 5. **Bakhawan during Chapter 2.** Leave it open for now (recommended, the autoplay run and Ch4 plan rely on it) or gate it behind `chapter3_complete`. Not part of the storyboard either way.
 
@@ -36,15 +37,24 @@ Each step leaves the game playable.
 
 1. **Script pass on `chapter2.json`** (after the line review)
    - Apply the storyboard's corrected Akeanon; add missing `translation`s (Pedring 2, 3, 8; Susan cathedral line already has one).
-   - Speaker name per the review (`Anong Pedring` vs `Manong Pedring`), everywhere incl. `npc_Pedring.tscn` and `character_portraits.tres`.
+   - Final lines are in `docs/CHAPTER2_STORYBOARD.md` ("Lines to confirm", all decided 2026-11-16).
+   - Speaker `Anong Pedring` → `Nong Pedring` everywhere: `chapter2.json` (10), `chapter3.json` (2), `npc_Pedring.tscn`, `character_portraits.tres`, cutscene actor ids.
+   - Chapter 3 follow-ons from the review: Loleng's "Mag-dahan kamo sa biyahe" → "Magdahan…", "samitan mag ubra" → "mag-ubra".
+   - Days-of-the-week beat at dinner (storyboard 5.12a–g) with its own quiz.
    - Vocab round: cut the food block (idx 13–16) per decision 1; fix narration idx 1 ("before leaving the cathedral grounds" stays).
    - Cathedral talk idx 8: move the piña line to scene 5 / Ch3.
-2. **Food-words walk** (decision 1): new `scene_1b_food_words` dialogue + a dialogue step in `chapter2_park_to_market.json`, with a 3-question quiz (pass and fail both continue).
-3. **Market activity** (decision 3): `phrase_builder` line in `scene_2_market_talk` between idx 3 and idx 4; pass/fail lines.
-4. **Evening home** (decision 2): `chapter2_scene5.json` + `scene_5_evening_home`; trigger in `aklan_living.gd._check_beats()` on `chapter2_tour_done` and not `chapter2_evening_seen`, once Jonabel and Susan are home (same pattern as `chapter3_scene5`).
-5. **Quest + remarks** (decision 4): q005 in `data/quest_data.json`; `remarks.pedring_*` in `chapter2.json`.
-6. **Bugs** B4 and B5 (targets or remove; set `map_open_bakhawan` where the Bakhawan walk starts).
-7. **Word bank** additions/fixes from the review; then `/playtest chapter 2` and `/playtest full`.
+2. **Picture bubbles** (storyboard section "Picture bubbles")
+   - Code: a `bubble` field on dialogue lines (one icon, or a list that advances with each `\` word as the typewriter reaches it), `bubble_on` to put it over another actor, and a `bubble` cutscene action (`actor`, `icon`, `seconds`) for silent beats. Style it like `word_popup.gd` (dialogue-box texture and tail).
+   - Test first with one icon: does a 24 px drawing read on a phone over 16 px sprites? If not, 32 px or 2× scale.
+   - Art: `assets/ui/bubble_icons.png` + an id → cell map. Chapter 2 needs 23 icons: star, moon, sun, map, bell, calendar, star fruit; fish, chicken, egg, rice sack, bread, meat, pig; swatch (tinted from `word_colors`), small basket, big basket, thumbs up, shiny keychain, faded keychain; `!`, `?`, `zzz`.
+   - Optional: an `icon` field on word-bank entries, for reuse in the dictionary, Journal and picture quizzes later.
+   - Without it everything still plays; only the pictures are missing. So it can land before or after steps 3–6.
+3. **Food-words walk** (decision 1): new `scene_1b_food_words` dialogue + a dialogue step in `chapter2_park_to_market.json`, with a 3-question quiz (pass and fail both continue).
+4. **Market activity** (decision 3): `phrase_builder` line in `scene_2_market_talk` between idx 3 and idx 4; pass/fail lines.
+5. **Evening home** (decision 2): `chapter2_scene5.json` + `scene_5_evening_home`; trigger in `aklan_living.gd._check_beats()` on `chapter2_tour_done` and not `chapter2_evening_seen`, once Jonabel and Susan are home (same pattern as `chapter3_scene5`).
+6. **Quest + remarks** (decision 4): q005 in `data/quest_data.json`; `remarks.pedring_*` in `chapter2.json`.
+7. **Bugs** B4 and B5 (targets or remove; set `map_open_bakhawan` where the Bakhawan walk starts).
+8. **Word bank** additions/fixes from the review; then `/playtest chapter 2` and `/playtest full`.
 
 ## Flags
 

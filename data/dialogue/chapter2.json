@@ -323,6 +323,7 @@
 	  "speaker": "Rose",
 	  "text": "\\Hara, tan-awa. \\Mapa it Kalibo. Kon \\magtuon ka it mga \\lugar, mas \\madali ka \\makaagto bisan siin.",
 	  "next": 4,
+	  "set_flag_on_enter": "got_kalibo_map",
 	  "translation": "Here, look at this. Map of Kalibo. If you learn the places, you'll find your way anywhere more easily.",
 	  "word_ids": [
 		"w075",

@@ -128,7 +128,11 @@ position = Vector2(96, 32)
 
 [node name="BedroomBed" parent="Furniture" unique_id=467436607 instance=ExtResource("3_7q6f3")]
 position = Vector2(112, 104)
-script = null
+required_flag = "quest_002_done"
+not_sleepy_text = "I should check my notebook first."
+sleep_flag = "chapter1_slept"
+only_once = true
+awake_text = "I'm wide awake. Time to head to the airport."
 
 [node name="BedroomTable" parent="Furniture" unique_id=18623984 instance=ExtResource("5_7q6f3")]
 position = Vector2(48, 32)
