@@ -1,5 +1,5 @@
 {
-	"_note": "Picture-bubble icons (scripts/autoload/PictureBubbles.gd). One row of 16x16 cells in this order. The current sheet is placeholder art drawn by script on 2026-11-18; replace it cell for cell.",
+	"_note": "Picture-bubble icons (scripts/autoload/PictureBubbles.gd). One row of 16x16 cells in this order. The sheet is built by art_requests/tools/make_bubble_icons.js from pixel maps (shared palette, auto outline #45283c, light from the top left); edit the maps there and rerun it, or replace cells by hand in the same style.",
 	"sheet": "res://assets/ui/bubble_icons.png",
 	"cell": 16,
 	"icons": [

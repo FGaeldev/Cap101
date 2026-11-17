@@ -7,13 +7,26 @@
 #   "bubble": ["fish", "chicken", "egg"]    the picture changes each time the
 #                                           typewriter reaches the next \ word
 #   "bubble_on": "player"                   over someone else (actor id)
-# The bubble closes when the next line starts or the dialogue ends.
+# Timing: a picture appears only once its word has been typed out in full: the
+# n-th icon with the n-th \ word. A line with no \ word shows its picture when
+# the line finishes typing. Each picture fades in with a small bounce (a list
+# bounces again as it changes) and fades out HOLD_SECONDS after it last
+# appeared or changed, or sooner when the line ends.
 #
 # In a cutscene, for silent beats (bubble_action.gd):
 #   {"type": "bubble", "actor": "Lola Jonabel", "icon": "bell", "seconds": 2}
+# Same fade and bounce; "seconds" defaults to HOLD_SECONDS.
 #
 # Icons: data/bubble_icons.json names the cells of one sheet, left to right.
 extends Node
+
+## How long a picture stays up after it appears or changes.
+const HOLD_SECONDS: float = 1.5
+const FADE_IN_SECONDS: float = 0.15
+const FADE_OUT_SECONDS: float = 0.25
+## Bounce on entry: grows from START to OVERSHOOT, then settles at 1.
+const BOUNCE_START: float = 0.6
+const BOUNCE_OVERSHOOT: float = 1.15
 
 const ICONS_PATH: String = "res://data/bubble_icons.json"
 const PLAYER_SPEAKER: String = "Player"
@@ -36,8 +49,9 @@ var _sheet: Texture2D = null
 var _cell: int = 16
 var _cells: Dictionary = {}        # icon name -> cell index
 var _line_bubble: Node2D = null    # the bubble owned by the current dialogue line
+var _line_actor: String = ""       # who it goes over
 var _line_icons: Array = []        # its icons, in order of the line's \ words
-var _line_shown: int = -1
+var _line_shown: int = -1          # index of the icon last shown, -1 = none yet
 
 func _ready() -> void:
 	_load_icons()
@@ -65,8 +79,9 @@ func has_icon(icon: String) -> bool:
 
 # --- dialogue lines -------------------------------------------------------------
 
-## Called for every dialogue line as it appears. Lines without "bubble" just
-## close the previous line's bubble.
+## Called for every dialogue line as it appears. Notes the line's pictures;
+## they show as the typing reaches their words (on_typed). Lines without
+## "bubble" just fade out the previous line's bubble.
 func show_for_line(line: Dictionary) -> void:
 	clear_line()
 	var spec = line.get("bubble", null)
@@ -78,46 +93,61 @@ func show_for_line(line: Dictionary) -> void:
 	var actor_id: String = str(line.get("bubble_on", line.get("speaker", "")))
 	if actor_id == PLAYER_SPEAKER:
 		actor_id = PLAYER_ACTOR
-	_line_bubble = _make_bubble(actor_id, str(icons[0]))
-	if _line_bubble == null:
-		return
+	_line_actor = actor_id
 	_line_icons = icons
-	_line_shown = 0
 
-## The dialogue box reports how far it has typed. With a list of icons, the
-## picture follows the line's \ words: the n-th marked word shows the n-th icon.
-func on_typed(raw_text: String, shown_chars: int) -> void:
-	if _line_bubble == null or _line_icons.size() < 2:
+## The dialogue box reports how far it has typed (and finished = the whole line
+## is out, typed or skipped). Shows the icon for the last \ word typed in full.
+func on_typed(raw_text: String, shown_chars: int, finished: bool = false) -> void:
+	if _line_icons.is_empty():
 		return
-	var reached: int = 0
+	var target: int = -1
 	var index: int = 0
 	while index < _line_icons.size():
 		var span: Vector2i = TextUtil.marked_word_span(raw_text, index)
-		if span.x == -1 or span.x >= shown_chars:
+		if span.x == -1:
 			break
-		reached = index
+		if not finished and span.x + span.y > shown_chars:
+			break
+		target = index
 		index += 1
-	if reached != _line_shown:
-		_line_shown = reached
-		_set_icon(_line_bubble, str(_line_icons[reached]))
+	# No \ word for this picture (or none at all): it shows when the line is done.
+	if finished:
+		target = _line_icons.size() - 1 if index >= _line_icons.size() or index == 0 else maxi(target, 0)
+	if target <= _line_shown:
+		return
+	_line_shown = target
+	var icon: String = str(_line_icons[target])
+	if is_instance_valid(_line_bubble) and not _line_bubble.leaving:
+		_set_icon(_line_bubble, icon)
+		_line_bubble.bump()
+	else:
+		_line_bubble = _make_bubble(_line_actor, icon)
+		if _line_bubble == null:
+			return
+		_line_bubble.appear()
+	_line_bubble.hold(HOLD_SECONDS)
 
+## The line is over: fade its bubble out, if it's still up.
 func clear_line() -> void:
 	if is_instance_valid(_line_bubble):
-		_line_bubble.queue_free()
+		_line_bubble.fade_out()
 	_line_bubble = null
+	_line_actor = ""
 	_line_icons = []
 	_line_shown = -1
 
 # --- cutscenes ------------------------------------------------------------------
 
-## Shows a bubble for a while, then removes it. Awaitable.
-func pop(actor_id: String, icon: String, seconds: float) -> void:
+## Shows a bubble for a while, then fades it out. Awaitable: returns once the
+## hold is over (the fade-out runs on its own).
+func pop(actor_id: String, icon: String, seconds: float = HOLD_SECONDS) -> void:
 	var bubble: Node2D = _make_bubble(actor_id, icon)
 	if bubble == null:
 		return
+	bubble.appear()
+	bubble.hold(seconds)
 	await get_tree().create_timer(maxf(seconds, 0.1)).timeout
-	if is_instance_valid(bubble):
-		bubble.queue_free()
 
 # --- drawing --------------------------------------------------------------------
 
@@ -168,6 +198,54 @@ class _Bubble extends Node2D:
 	var texture: Texture2D
 	var cell: int = 16
 	var cell_index: int = 0
+	## True once it has started fading out; it can't be reused after that.
+	var leaving: bool = false
+	var _tween: Tween = null
+	## Bumped by every hold() and fade_out(): an older hold's timer does nothing.
+	var _serial: int = 0
+
+	## Fades in with a small bounce. Scales around the tail's tip (the origin).
+	func appear() -> void:
+		modulate.a = 0.0
+		scale = Vector2.ONE * PictureBubbles.BOUNCE_START
+		_restart_tween()
+		_tween.tween_property(self, "modulate:a", 1.0, PictureBubbles.FADE_IN_SECONDS)
+		_tween.tween_property(self, "scale", Vector2.ONE * PictureBubbles.BOUNCE_OVERSHOOT, 0.12) \
+				.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		_tween.chain().tween_property(self, "scale", Vector2.ONE, 0.1) \
+				.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
+	## A smaller bounce when the picture changes.
+	func bump() -> void:
+		modulate.a = 1.0
+		_restart_tween()
+		_tween.tween_property(self, "scale", Vector2.ONE * PictureBubbles.BOUNCE_OVERSHOOT, 0.08) \
+				.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		_tween.chain().tween_property(self, "scale", Vector2.ONE, 0.1) \
+				.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
+	## Fades out after `seconds`, unless something holds or fades it again first.
+	func hold(seconds: float) -> void:
+		_serial += 1
+		var mine: int = _serial
+		await get_tree().create_timer(seconds).timeout
+		if mine == _serial and is_inside_tree():
+			fade_out()
+
+	func fade_out() -> void:
+		if leaving:
+			return
+		leaving = true
+		_serial += 1
+		_restart_tween()
+		_tween.tween_property(self, "modulate:a", 0.0, PictureBubbles.FADE_OUT_SECONDS)
+		_tween.tween_property(self, "scale", Vector2.ONE * 0.9, PictureBubbles.FADE_OUT_SECONDS)
+		_tween.chain().tween_callback(queue_free)
+
+	func _restart_tween() -> void:
+		if _tween != null and _tween.is_valid():
+			_tween.kill()
+		_tween = create_tween().set_parallel(true)
 
 	func _draw() -> void:
 		var pad: float = PictureBubbles.PADDING
