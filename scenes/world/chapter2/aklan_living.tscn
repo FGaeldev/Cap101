@@ -59,6 +59,7 @@ target_scene = "res://scenes/world/chapter2/aklan_BR_Susan.tscn"
 
 [node name="WarpArea4" parent="Warps" unique_id=1885739539 instance=ExtResource("3_4qq2q")]
 position = Vector2(296, 40)
+closed_message = "Someone's in the CR. I'll come back later."
 
 [node name="WarpArea5" parent="Warps" unique_id=1148822164 instance=ExtResource("3_4qq2q")]
 position = Vector2(48, 88)
@@ -106,6 +107,11 @@ position = Vector2(48, 96)
 
 [node name="Player" type="Marker2D" parent="SceneMarkers/S0" unique_id=1006536757]
 position = Vector2(32, 96)
+
+[node name="S5" type="Node2D" parent="SceneMarkers" unique_id=965675900]
+
+[node name="Player" type="Marker2D" parent="SceneMarkers/S5" unique_id=965675901]
+position = Vector2(240, 96)
 
 [node name="Newspaper" parent="." unique_id=217837989 instance=ExtResource("6_paper")]
 position = Vector2(256, 78)

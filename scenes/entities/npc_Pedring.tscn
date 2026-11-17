@@ -191,8 +191,8 @@ size = Vector2(14, 14)
 
 [node name="NPC_Pedring" type="CharacterBody2D" unique_id=1356438045 groups=["npc"]]
 script = ExtResource("2_scr")
-actor_id = "Anong Pedring"
-npc_id = "Anong Pedring"
+actor_id = "Nong Pedring"
+npc_id = "Nong Pedring"
 dialogue_chapter = "chapter2"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=913573483]

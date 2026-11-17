@@ -39,7 +39,7 @@ metadata/_custom_type_script = "uid://bu1yqorghhsta"
 
 [sub_resource type="Resource" id="Resource_p5"]
 script = ExtResource("1_y6j3n")
-speaker_id = "Anong Pedring"
+speaker_id = "Nong Pedring"
 portrait = ExtResource("7_pedring")
 metadata/_custom_type_script = "uid://bu1yqorghhsta"
 

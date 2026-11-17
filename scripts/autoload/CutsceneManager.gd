@@ -29,6 +29,7 @@ const ACTION_SCRIPTS := [
 	"res://scripts/cutscene_actions/sit_action.gd",
 	"res://scripts/cutscene_actions/stand_action.gd",
 	"res://scripts/cutscene_actions/complete_quest_action.gd",
+	"res://scripts/cutscene_actions/bubble_action.gd",
 ]
 
 var _actions: Dictionary = {}
@@ -118,8 +119,11 @@ func _run_sequence(steps: Array, run_id: int) -> void:
 		await _run_step(step, run_id)
 
 func _run_step(step: Dictionary, run_id: int) -> Variant:
-	# Optional on any step: "if_flag" runs it only when that flag is set.
+	# Optional on any step: "if_flag" runs it only when that flag is set,
+	# "unless_flag" only when it isn't (one-time beats on a reused walk).
 	if step.has("if_flag") and not GameState.get_flag(step["if_flag"]):
+		return null
+	if step.has("unless_flag") and GameState.get_flag(step["unless_flag"]):
 		return null
 	var type: String = step.get("type", "")
 	# "parallel" step be its own multi-step chain (per-actor conga timing).

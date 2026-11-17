@@ -66,8 +66,7 @@ target_spawn_id = "Down"
 position = Vector2(344, 448)
 trigger_direction = 3
 span_tiles_override = 6
-required_flag = "map_open_market_east"
-blocked_message = "I should stick with Rose for now."
+closed_message = "I don't know that part of town yet. Better stay near the market."
 
 [node name="Spawns" type="Node2D" parent="." unique_id=410200820]
 y_sort_enabled = true

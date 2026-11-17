@@ -42,6 +42,7 @@ TourGuide="*res://scripts/autoload/TourGuide.gd"
 UIScale="*res://scripts/autoload/UIScale.gd"
 Accessibility="*res://scripts/autoload/Accessibility.gd"
 ChapterCard="*res://scripts/autoload/ChapterCard.gd"
+PictureBubbles="*res://scripts/autoload/PictureBubbles.gd"
 
 [display]
 

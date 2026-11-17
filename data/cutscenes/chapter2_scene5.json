@@ -1,0 +1,18 @@
+[
+	{"type": "fade", "direction": "out", "duration": 0.6},
+	{"type": "move_npc", "actor": "player", "from": "S5/Player", "direction": "up", "tiles": 0},
+	{"type": "sit", "actor": "Lola Susan", "pew": "Seats/DiningLeftTop"},
+	{"type": "sit", "actor": "Papa Jobert", "pew": "Seats/DiningLeftBottom"},
+	{"type": "sit", "actor": "Lola Jonabel", "pew": "Seats/DiningRightTop"},
+	{"type": "sit", "actor": "Rose", "pew": "Seats/DiningRightBottom"},
+	{"type": "fade", "direction": "in", "duration": 0.6},
+	{"type": "dialogue", "chapter": "chapter2", "scene": "scene_5_evening_home"},
+	{"type": "set_flag", "flag": "chapter2_evening_seen", "value": true},
+	{"type": "complete_quest", "quest_id": "q014"},
+	{"type": "fade", "direction": "out", "duration": 0.6},
+	{"type": "stand", "actor": "Lola Susan"},
+	{"type": "stand", "actor": "Papa Jobert"},
+	{"type": "stand", "actor": "Lola Jonabel"},
+	{"type": "stand", "actor": "Rose"},
+	{"type": "fade", "direction": "in", "duration": 0.6}
+]

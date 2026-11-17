@@ -72,6 +72,7 @@ var _warp_runs := {}
 var _explore_steps := 0
 var _want_sleep := false
 var _jump_sunday := false
+var _dinner_jumped := false
 var _want_bakhawan := false
 var _bakhawan_went := false
 var _mass_done := false
@@ -577,6 +578,19 @@ func _act() -> void:
 			player.global_position = level.global_position + Vector2(goal.x * 16, (goal.y + 1) * 16)
 			return
 	var GS = A.GameState
+	# Dinner after the tour (chapter2_scene5) plays at 6 PM in the living room:
+	# stop there on the tour day before skipping ahead to the weekend.
+	if _jump_sunday and not _dinner_jumped and not GS.get_flag("chapter2_with_rose") \
+			and not GS.get_flag("chapter2_evening_seen") \
+			and GS.current_level_path.ends_with("aklan_living.tscn") and A.DayNightManager.get_hour() < 18.0:
+		_dinner_jumped = true
+		var t: Dictionary = A.DayNightManager.get_date()
+		A.DayNightManager.jump_to(t["year"], t["month"], t["day"], 17.95)
+		_p("TEST: fast calendar -> dinner time %04d-%02d-%02d" % [t.year, t.month, t.day])
+		return
+	if _jump_sunday and _dinner_jumped and not GS.get_flag("chapter2_evening_seen") \
+			and A.DayNightManager.get_hour() < 19.0:
+		return  # wait at home for the dinner beat
 	if _jump_sunday and not GS.get_flag("chapter2_with_rose"):
 		_jump_sunday = false
 		var d: Dictionary = A.DayNightManager.get_date()
@@ -625,7 +639,9 @@ func _act() -> void:
 			continue
 		_touched_objects[wkey] = true
 		if str(w.target_scene) == "":
-			_add_finding("error", "warp %s in %s has no target_scene (walking into it does nothing)" % [level.get_path_to(w), lvl_path.get_file()])
+			# closed_message = closed on purpose (comp_warp.gd): a wall with a remark.
+			if str(w.get("closed_message")).is_empty():
+				_add_finding("error", "warp %s in %s has no target_scene and no closed_message" % [level.get_path_to(w), lvl_path.get_file()])
 		elif not ResourceLoader.exists(w.target_scene):
 			_add_finding("error", "warp %s in %s points at missing scene %s" % [level.get_path_to(w), lvl_path.get_file(), w.target_scene])
 	warps = warps.filter(func(w): return str(w.target_scene) != "" and ResourceLoader.exists(w.target_scene))

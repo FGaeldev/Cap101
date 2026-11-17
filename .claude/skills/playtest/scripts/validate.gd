@@ -187,7 +187,9 @@ func _check_levels() -> void:
 			var at: Vector2 = w.global_position
 			var label := "%s :: %s" % [p.get_file(), lvl.get_path_to(w)]
 			if str(ts) == "":
-				_issue("warp_no_target", "%s has no target_scene" % label, {"level": p, "pos": at})
+				# A closed_message marks a door that's closed on purpose (comp_warp.gd).
+				if str(w.get("closed_message")).is_empty():
+					_issue("warp_no_target", "%s has no target_scene" % label, {"level": p, "pos": at})
 				continue
 			if not ResourceLoader.exists(ts):
 				_issue("warp_missing_scene", "%s -> missing %s" % [label, ts], {"level": p, "pos": at})
@@ -311,6 +313,11 @@ func _check_dialogue() -> void:
 						_issue("dialogue_bad_index", "%s jumps to %s but the scene has %d lines" % [tag, t, n], extra)
 					else:
 						reachable[int(t)] = true
+				var bubble = line.get("bubble", null)
+				if bubble != null:
+					for icon in (bubble if bubble is Array else [bubble]):
+						if not root.get_node("PictureBubbles").has_icon(str(icon)):
+							_issue("dialogue_unknown_bubble", "%s shows bubble icon '%s', which data/bubble_icons.json doesn't have" % [tag, icon], extra)
 				var cf := str(line.get("check_flag", ""))
 				if cf != "" and not _flag_is_set_somewhere(cf):
 					_issue("dialogue_flag_never_set", "%s checks flag '%s', which nothing sets" % [tag, cf], extra)

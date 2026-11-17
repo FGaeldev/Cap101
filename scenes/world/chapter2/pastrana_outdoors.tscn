@@ -83,10 +83,7 @@ blocked_message = "I haven't been there yet. I should ask Rose."
 [node name="WarpArea5" parent="Warps" unique_id=228873762 instance=ExtResource("3_5go0w")]
 position = Vector2(80, -360)
 span_tiles_override = 8
-target_scene = "res://scenes/world/caticlan/caticlan_outdoors.tscn"
-target_spawn_id = "FromPastrana"
-required_flag = "map_open_caticlan"
-blocked_message = "I haven't been there yet. I should ask Rose."
+closed_message = "This road goes all the way to Caticlan. That's a trip for another day."
 
 [node name="WarpArea6" parent="Warps" unique_id=1609056711 instance=ExtResource("3_5go0w")]
 position = Vector2(1664, -360)

@@ -190,7 +190,7 @@
 		{
 			"type": "dialogue",
 			"speaker": "Manang Loleng",
-			"text": "\\Gusto \\mo \\samitan mag \\ubra? \\Iya, \\sunod \\ka \\kakon.",
+			"text": "\\Gusto \\mo \\samitan mag-\\ubra? \\Iya, \\sunod \\ka \\kakon.",
 			"translation": "Do you want to try making it? Here, follow me.",
 			"next": null,
 			"word_ids": ["w068", "w168", "w266", "w236", "w095", "w217", "w083", "w099"]
@@ -376,10 +376,10 @@
 		{
 			"type": "dialogue",
 			"speaker": "Manang Loleng",
-			"text": "Mag-\\dahan \\kamo sa \\biyahe. \\Balik \\kamo \\kung \\may \\oras.",
+			"text": "\\Magdahan \\kamo sa \\biyahe. \\Balik \\kamo \\kung \\may \\oras.",
 			"translation": "Take care on your trip. Come back when you have time.",
 			"next": 5,
-			"word_ids": ["w049", "w102", "w286", "w287", "w119", "w162", "w288"]
+			"word_ids": ["w320","w102", "w286", "w287", "w119", "w162", "w288"]
 		},
 		{
 			"type": "dialogue",
@@ -878,12 +878,12 @@
 			]
 		},
 		"pedring_weavers": {
-			"speaker": "Anong Pedring",
+			"speaker": "Nong Pedring",
 			"requires": ["seen_chapter3_scene5"],
 			"lines": [
 				{
 					"type": "dialogue",
-					"speaker": "Anong Pedring",
+					"speaker": "Nong Pedring",
 					"text": "You went to the weavers in Haboean, \\apo? Manang Loleng's \\piña is the best in all of Aklan.",
 					"next": null,
 					"word_ids": ["w019", "w194"]

@@ -89,6 +89,12 @@ const NO_TARGET_MESSAGE: String = "I don't need to go that way right now."
 ## One-line player remark shown when the warp is blocked by required_flag.
 @export var blocked_message: String = "I should finish what I'm doing here first."
 
+## A door to a place that isn't built (or isn't open) yet: with target_scene
+## empty, it acts as a wall and the player says this. Setting it marks the
+## door as closed on purpose (the playtest checker then stops flagging it).
+## Empty = NO_TARGET_MESSAGE.
+@export var closed_message: String = ""
+
 ## Hour from which this warp is closed until 6 AM (e.g. 20.0: no going out
 ## alone at night). -1 = never closes (default). Dev mode ignores it.
 @export_range(-1.0, 23.75, 0.25) var curfew_hour: float = -1.0
@@ -208,7 +214,7 @@ func _fire(body: Node) -> void:
 	# Doors whose destination isn't built yet act as a wall with a remark
 	# instead of silently doing nothing.
 	if target_scene.is_empty():
-		_show_blocked_message(body, NO_TARGET_MESSAGE)
+		_show_blocked_message(body, closed_message if not closed_message.is_empty() else NO_TARGET_MESSAGE)
 		return
 	if before_warp.is_valid():
 		await before_warp.call()
