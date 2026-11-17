@@ -3,6 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://cmt7aksr7jqyi" path="res://assets/sprites/npcs/RandomGuy1_sprite.png" id="1_tex"]
 [ext_resource type="Script" path="res://scripts/entities/npc/npc_wanderer.gd" id="2_scr"]
 [ext_resource type="PackedScene" uid="uid://bbk8t0y83k7ib" path="res://scenes/components/CutsceneAnimComponent.tscn" id="5_anim"]
+[ext_resource type="PackedScene" uid="uid://b8awiupnw1tue" path="res://scenes/components/interactable_component.tscn" id="3_int"]
+[ext_resource type="PackedScene" uid="uid://cdxx55olbkhhv" path="res://scenes/components/dialogue_component.tscn" id="4_dlg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rqx83"]
 atlas = ExtResource("1_tex")
@@ -201,3 +203,8 @@ shape = SubResource("RectangleShape2D_pte0q")
 
 [node name="CutsceneAnimComponent" parent="." unique_id=452285367 node_paths=PackedStringArray("sprite") instance=ExtResource("5_anim")]
 sprite = NodePath("../AnimatedSprite2D")
+
+[node name="InteractableComponent" parent="." unique_id=202181011 instance=ExtResource("3_int")]
+position = Vector2(8, -8)
+
+[node name="DialogueComponent" parent="." unique_id=175111012 instance=ExtResource("4_dlg")]

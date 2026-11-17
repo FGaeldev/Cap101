@@ -1,8 +1,14 @@
 # npc_wanderer.gd -- ambient crowd NPC, spawned and routed by random_npc_spawner.gd.
-# Walks its route a tile at a time and waits when someone stands in the way. Can't
-# be talked to. Freezes during dialogue like scheduled NPCs, but keeps walking
-# through cutscene walks so the park doesn't stop around the player.
+# Walks its route a tile at a time and waits when someone stands in the way.
+# Talking to one opens the usual NPC menu; "Talk" plays generated idle talk
+# (idle_talk.gd), since a passerby has no story lines. Freezes during dialogue like
+# scheduled NPCs, but keeps walking through cutscene walks so the park doesn't stop
+# around the player.
 extends CharacterBody2D
+
+## Dialogue speaker name, also the idle-talk and rapport key. Every passerby shares
+## it, so the crowd counts as one stranger for idle-talk progress.
+@export var npc_id: String = "Passerby"
 
 const TILE: float = 16.0
 const SPEED_MIN: float = 36.0
@@ -23,6 +29,27 @@ var _blocked: float = 0.0
 var _speed: float = SPEED_MAX
 
 @onready var _anim: CutsceneAnimComponent = $CutsceneAnimComponent
+@onready var _interactable: InteractableComponent = $InteractableComponent
+@onready var _dialogue: DialogueComponent = $DialogueComponent
+
+func _ready() -> void:
+	_dialogue.npc_id = npc_id
+	_interactable.interacted.connect(_on_interacted)
+
+func _on_interacted(interactor: Node) -> void:
+	# Turn to face whoever is talking (the step tween, if any, still finishes).
+	if interactor is Node2D:
+		var to_them: Vector2 = (interactor as Node2D).global_position - global_position
+		if to_them != Vector2.ZERO:
+			_anim.set_cutscene_anim_state("idle", to_them)
+	DialogueUI.show_npc_interaction_menu(npc_id, _on_menu_choice)
+
+func _on_menu_choice(choice: String) -> void:
+	match choice:
+		"talk":
+			_dialogue.start_idle_dialogue()
+		"review":
+			DialogueUI.show_review()
 
 func setup(spawner: Node, cell: Vector2i) -> void:
 	_spawner = spawner
