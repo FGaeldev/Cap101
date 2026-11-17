@@ -76,8 +76,11 @@ const MENU_BUTTON_SIZE := 32.0
 const BOOK_MENU_BUTTON_SIZE := 18.0
 ## Half the icon sheet's 24px, so the pixels stay even.
 const CLOCK_ICON_SIZE := 12
-## Separated-menus walkthrough, started by the bedroom book (book.gd).
-const MENUS_TUTORIAL_ID := "menus_ui"
+## completion_trigger of quests finished by opening the Dictionary (quest_data.json).
+const DICTIONARY_QUEST_TRIGGER := "dictionary_opened"
+## The Map button stays hidden until Rose hands over her map at the cathedral
+## (Chapter 2). The tour flag covers saves from before that flag existed.
+const MAP_UNLOCK_FLAGS: Array[String] = ["got_kalibo_map", "chapter2_tour_done"]
 ## Side-quest rows under the main quest with the separated menus.
 const SEPARATE_SUB_ROWS := 1
 ## Seconds the progress toast stays after the last change (longer on a new tier).
@@ -171,9 +174,10 @@ func _process(_delta: float) -> void:
 	tier_bar.visible = not fullscreen and not BookUI.separate_menus
 	if BookUI.separate_menus:
 		# Dictionary stays hidden until there's a first word, like the book's tab lock.
-		# (Also shown while the menus tutorial points at it.)
+		# (Also shown while a quest waits on opening it: q002 in Chapter 1.)
 		_dictionary_button.visible = not GameState.word_exposures.is_empty() \
-				or TutorialManager.active_id() == MENUS_TUTORIAL_ID
+				or QuestManager.has_active_trigger(DICTIONARY_QUEST_TRIGGER)
+		_map_button.visible = _map_unlocked()
 		_update_tier_toast()
 	var column_top: float = FULLSCREEN_COLUMN_TOP if fullscreen else DEFAULT_COLUMN_TOP
 	if right_column.offset_top != column_top:
@@ -253,14 +257,14 @@ func _on_quest_started(quest_id: String) -> void:
 	_rebuild_quest_rows()
 	var q: Dictionary = QuestManager.quests.get(quest_id, {})
 	if q.get("show_popup", true):
-		push_toast("New Quest", q.get("title", quest_id))
+		push_toast("New Quest", QuestManager.get_title(quest_id))
 
 ## Utility/tutorial quests opt out of toasts with "show_popup": false.
 func _on_quest_completed(quest_id: String) -> void:
 	_rebuild_quest_rows()
 	var q: Dictionary = QuestManager.quests.get(quest_id, {})
 	if q.get("show_popup", true):
-		push_toast("Quest Complete", q.get("title", quest_id))
+		push_toast("Quest Complete", QuestManager.get_title(quest_id))
 
 ## Main panel = first active "main" quest in quest_data.json order (the
 ## current story objective). Every other active quest, then each active world
@@ -275,7 +279,7 @@ func _rebuild_quest_rows() -> void:
 		if not qid in QuestManager.active_quests:
 			continue
 		var q: Dictionary = QuestManager.quests[qid]
-		var title: String = q.get("title", qid)
+		var title: String = QuestManager.get_title(qid)
 		if main_title.is_empty() and q.get("category", "") == MAIN_CATEGORY:
 			main_title = title
 		else:
@@ -478,7 +482,7 @@ func _build_separated_menu_controls() -> void:
 	clock_panel.gui_input.connect(_on_tap.bind(func(): BookUI.open("calendar")))
 	main_quest.gui_input.connect(_on_tap.bind(func(): BookUI.open("bucket_list")))
 
-	# Highlight targets for the "menus_ui" tutorial (data/tutorials/tutorials.json).
+	# Highlight targets for tutorials (data/tutorials/tutorials.json).
 	TutorialManager.register_target("hud_map", _map_button)
 	TutorialManager.register_target("hud_dictionary", _dictionary_button)
 	TutorialManager.register_target("hud_pause", _pause_button)
@@ -507,9 +511,17 @@ func _build_separated_menu_controls() -> void:
 	toasts.add_child(_tier_toast)
 	toasts.move_child(_tier_toast, 0)
 
+func _map_unlocked() -> bool:
+	if GameState.dev_mode:
+		return true
+	for flag: String in MAP_UNLOCK_FLAGS:
+		if GameState.get_flag(flag):
+			return true
+	return false
+
 ## Shows/hides everything that differs between book mode and separated menus.
 func _apply_menu_mode(enabled: bool) -> void:
-	_map_button.visible = enabled
+	_map_button.visible = enabled and _map_unlocked()
 	_dictionary_button.visible = enabled
 	_clock_period.visible = enabled
 	clock_label.text = ""  # next _process rewrites it with or without AM/PM

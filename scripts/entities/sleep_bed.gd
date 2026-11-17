@@ -23,6 +23,10 @@ const ActorPath := preload("res://scripts/util/actor_path.gd")
 ## Optional GameState flag set after sleeping here (e.g. story beats waiting
 ## on the player's first night). Empty = sets nothing.
 @export var sleep_flag: String = ""
+## Sleep here only once: after sleep_flag is set, the player says awake_text
+## instead (the US bed, the night before the flight).
+@export var only_once: bool = false
+@export var awake_text: String = "I'm wide awake. Time to get going."
 
 var _sleeping: bool = false
 
@@ -38,6 +42,11 @@ func _on_interacted(interactor: Node) -> void:
 		return
 	if not required_flag.is_empty() and not GameState.get_flag(required_flag):
 		_say(not_sleepy_text)
+		return
+	if only_once and not sleep_flag.is_empty() and GameState.get_flag(sleep_flag):
+		_say(awake_text)
+		# Quit mid get-up (flag saved, quest not done): finish it now.
+		QuestManager.complete_quests_with_trigger("slept")
 		return
 	_ask_to_sleep()
 
@@ -96,6 +105,9 @@ func _sleep() -> void:
 	await get_up(player, in_bed, stood_at)
 	MapManager.is_transitioning = false
 	_sleeping = false
+	# After getting up, so a quest's popup and follow-up tutorial (Chapter 1's
+	# night before the flight -> calendar) start with the player in control.
+	QuestManager.complete_quests_with_trigger("slept")
 
 ## Puts the player under the blanket. Do this while the screen is black. Returns
 ## the spot they're lying on, for get_up().

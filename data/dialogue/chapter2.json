@@ -8,14 +8,15 @@
 	},
 	{
 	  "speaker": "Rose",
-	  "text": "\\Raya do Pastrana Park. \\Tanan nag \\tawo ga \\tikang iya kon \\agahon.",
+	  "text": "\\Raya do Pastrana Park. \\Ga \\tikang \\iya ro mga \\tawo kon \\agahon.",
 	  "next": 2,
-	  "translation": "This is Pastrana Park. Everyone walks here in the morning.",
+	  "translation": "This is Pastrana Park. People walk here in the mornings.",
 	  "word_ids": [
 		"w201",
-		"w221",
-		"w228",
+		"w311",
 		"w229",
+		"w095",
+		"w228",
         "w006"
 	  ],
 	  "type": "dialogue"
@@ -45,21 +46,23 @@
   "scene_1_meet_pedring": [
 	{
 	  "speaker": "Rose",
-	  "text": "Ruyon, si Anong Pedring. \\Suki namon \\igto sa tindahan.",
+	  "text": "\\Ruyon, si Nong Pedring. \\Suki namon \\igto sa \\tindahan.",
 	  "next": 1,
-	  "translation": "That's Anong Pedring. He's our regular vendor at the market.",
+	  "translation": "That's Nong Pedring. He's our regular vendor at the market.",
 	  "word_ids": [
+		"w293",
 		"w216",
-		"w082"
+		"w082",
+		"w295"
 	  ],
 	  "type": "dialogue"
 	},
 	{
 	  "speaker": "",
-	  "text": "Will you talk to Anong Pedring?",
+	  "text": "Will you talk to Nong Pedring?",
 	  "choices": [
 		{
-		  "label": "Good morning! I'm here with Jonabel's family.",
+		  "label": "Mayad nga agahon! I'm Jonabel's grandchild.",
 		  "rapport_delta": 2,
 		  "next": 2
 		},
@@ -78,19 +81,21 @@
 	  "type": "dialogue"
 	},
 	{
-	  "speaker": "Anong Pedring",
-	  "text": "\\Mayad-ayad nga agahon! \\Apo gali ni Jonabel. \\Siin ka \\halin?",
-	  "next": 5,
-	  "word_ids": ["w164", "w019", "w214", "w072"],
+	  "speaker": "Nong Pedring",
+	  "text": "\\Mayad \\man nga \\agahon, \\apo ka \\gali \\ni Jonabel. \\Siin ka \\halin?",
+	  "next": 6,
+	  "translation": "Good morning to you too! So you're Jonabel's grandchild. Where are you from?",
+	  "word_ids": ["w163", "w151", "w006", "w019", "w064", "w310", "w214", "w072"],
 	  "type": "dialogue"
 	},
 	{
-	  "speaker": "Anong Pedring",
-	  "text": "\\Indi \\baea. Slow only. Learning takes time, \\apo.",
+	  "speaker": "Nong Pedring",
+	  "text": "\\Ayaw \\manirbyus. Slow only. Learning takes time, \\apo.",
 	  "next": 5,
+	  "translation": "Don't be nervous. Slow only. Learning takes time, apo.",
 	  "word_ids": [
-		"w086",
-		"w025",
+		"w023",
+		"w296",
 		"w019"
 	  ],
 	  "type": "dialogue"
@@ -105,16 +110,108 @@
 	  "type": "dialogue"
 	},
 	{
-	  "speaker": "Rose",
-	  "text": "\\Sunod \\kamo sa market. Iya kita \\magtuon it mga \\pangaean.",
-	  "next": null,
-	  "translation": "Follow us to the market. This is where we'll learn some names of things.",
+	  "speaker": "Nong Pedring",
+	  "text": "\\Sunod \\kamo sa \\tindahan.",
+	  "next": 8,
+	  "translation": "Come by the market, you two.",
 	  "word_ids": [
 		"w217",
 		"w102",
-		"w142",
-        "w190"
+		"w295"
 	  ],
+	  "type": "dialogue"
+	},
+	{
+	  "speaker": "Player",
+	  "text": "From the States. California.",
+	  "next": 7,
+	  "word_ids": [],
+	  "type": "dialogue"
+	},
+	{
+	  "speaker": "Nong Pedring",
+	  "text": "\\Abaw, abroad \\gid \\gali!",
+	  "next": 5,
+	  "translation": "Wow, all the way from abroad!",
+	  "word_ids": ["w297", "w066", "w064"],
+	  "type": "dialogue"
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "\\Idto \\kita \\magtuon it mga \\pangaean.",
+	  "next": null,
+	  "translation": "That's where we'll learn the names of things.",
+	  "word_ids": ["w319", "w113", "w142", "w190"],
+	  "type": "dialogue"
+	}
+  ],
+  "scene_1b_food_words": [
+	{
+	  "speaker": "Rose",
+	  "text": "Before we go in. You'll want these.",
+	  "next": 1,
+	  "word_ids": [],
+	  "type": "dialogue"
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "\\Isda — fish. \\Manok — chicken. \\Itlog — egg. \\Bugas — rice. \\Tinapay — bread. \\Karne — meat. \\Baboy — pig.",
+	  "next": 2,
+	  "word_ids": ["w091", "w152", "w093", "w291", "w230", "w107", "w024"],
+	  "bubble": ["fish", "chicken", "egg", "rice_sack", "bread", "meat", "pig"],
+	  "type": "dialogue"
+	},
+	{
+	  "speaker": "Player",
+	  "text": "Okay, that's a lot of food words. Good thing we're going in right now.",
+	  "next": 3,
+	  "word_ids": [],
+	  "type": "dialogue"
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Exactly why I taught them now. Use it or lose it, balikbayan.",
+	  "next": 4,
+	  "word_ids": [],
+	  "type": "dialogue"
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Quick check first.",
+	  "next": 5,
+	  "word_ids": [],
+	  "type": "dialogue"
+	},
+	{
+	  "type": "quiz",
+	  "quiz_type": "dynamic",
+	  "fixed_pool": true,
+	  "questions": [],
+	  "question_count": 3,
+	  "word_pool": ["w091", "w152", "w093", "w291", "w230", "w107", "w024"],
+	  "choices": ["w091", "w152", "w093", "w291", "w230", "w107", "w024"],
+	  "question_templates": [
+		"What does \"[word]\" mean?",
+		"What Akeanon word means \"[gloss]\"?"
+	  ],
+	  "question_template_choice_displays": ["gloss", "word"],
+	  "choice_display": "gloss",
+	  "pass_ratio": 0.5,
+	  "success": 6,
+	  "failure": 7
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Not bad. Now try them on a real vendor.",
+	  "next": null,
+	  "word_ids": [],
+	  "type": "dialogue"
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Close enough. You'll hear every one of them inside.",
+	  "next": null,
+	  "word_ids": [],
 	  "type": "dialogue"
 	}
   ],
@@ -142,16 +239,16 @@
   ],
   "scene_2_market_talk": [
 	{
-	  "speaker": "Anong Pedring",
-	  "text": "\\Alin ing \\gusto, \\apo? \\Abo iya nga \\humay, \\tubi, \\uga.",
+	  "speaker": "Nong Pedring",
+	  "text": "\\Ano ing \\gusto, \\apo? \\Abo iya nga \\bugas, \\tubi, \\uga.",
 	  "next": 1,
-	  "translation": "What do you want, grandchild? There's plenty here — rice, water, fish.",
+	  "translation": "What would you like, apo? There's plenty here: rice, water, dried fish.",
 	  "word_ids": [
-		"w012",
+		"w292",
 		"w068",
 		"w019",
 		"w001",
-		"w080",
+		"w291",
 		"w233",
 		"w249"
 	  ],
@@ -174,7 +271,7 @@
 	{
 	  "speaker": "Rose",
 	  "text": "Say \"\\pangabay\" first. Means please. Basic manners, balikbayan.",
-	  "next": 4,
+	  "next": 13,
 	  "word_ids": [
         "w189"
 	  ],
@@ -182,27 +279,29 @@
 	},
 	{
 	  "speaker": "",
-	  "text": "Player points at a round fruit, unfamiliar.",
-	  "next": 5,
+	  "text": "Player points at a round, ridged yellow fruit.",
+	  "next": 14,
 	  "word_ids": [],
 	  "type": "dialogue"
 	},
 	{
 	  "speaker": "Player",
-	  "text": "Pangabay, what's that?",
+	  "text": "...What is it, anyway?",
+	  "bubble": "question",
 	  "next": 6,
 	  "word_ids": [],
 	  "type": "dialogue"
 	},
 	{
-	  "speaker": "Anong Pedring",
-	  "text": "Star fruit, \\apo. \\Matam-is \\gid.",
+	  "speaker": "Nong Pedring",
+	  "text": "Star fruit, \\apo. \\Matam-is \\imaw.",
 	  "next": 7,
-	  "translation": "Star-shaped fruit — star fruit, grandchild. Very sweet.",
+	  "translation": "Star fruit, apo. It's sweet.",
+	  "bubble": "star_fruit",
 	  "word_ids": [
 		"w019",
 		"w159",
-        "w066"
+        "w084"
 	  ],
 	  "type": "dialogue"
 	},
@@ -230,18 +329,17 @@
 	  "type": "dialogue"
 	},
 	{
-	  "speaker": "Anong Pedring",
-	  "text": "\\Mayad! \\Dahan sa \\pagkaon.",
+	  "speaker": "Nong Pedring",
+	  "text": "Enjoy!",
+	  "bubble": "star_fruit",
+	  "bubble_on": "player",
 	  "next": 11,
-	  "word_ids": [
-		"w163",
-		"w049",
-        "w185"
-	  ],
+	  "set_flag": "bought_star_fruit",
+	  "word_ids": [],
 	  "type": "dialogue"
 	},
 	{
-	  "speaker": "Anong Pedring",
+	  "speaker": "Nong Pedring",
 	  "text": "That's fine, my goods won't disappear quickly.",
 	  "next": 11,
 	  "word_ids": [],
@@ -255,15 +353,57 @@
 	  "type": "dialogue"
 	},
 	{
-	  "speaker": "Anong Pedring",
-	  "text": "\\Siin do \\masunod ninyo nga \\agtunan? Mag-simba?",
-	  "next": null,
-	  "translation": "Where are you headed next, to church?",
+	  "speaker": "Nong Pedring",
+	  "text": "\\Siin do \\masunod \\ninyo nga \\agtunan? \\Magsimba?",
+	  "next": 12,
+	  "translation": "Where are you off to next? To church?",
 	  "word_ids": [
 		"w214",
 		"w158",
-        "w007"
+		"w309",
+		"w007",
+        "w308"
 	  ],
+	  "type": "dialogue"
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "The cathedral. Thanks, \\Nong.",
+	  "next": null,
+	  "word_ids": ["w300"],
+	  "type": "dialogue"
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "Then \"\\it \\daya\", this one. He's older, so add \"\\Nong\" and \"\\ho\". Point when you say it.",
+	  "next": 4,
+	  "word_ids": ["w092", "w052", "w300", "w299"],
+	  "type": "dialogue"
+	},
+	{
+	  "type": "phrase_builder",
+	  "prompt": "Ask Nong Pedring for the fruit.",
+	  "choices": ["pangabay", "it", "daya", "Nong", "ho", "gusto", "dato"],
+	  "answer": ["pangabay", "it", "daya", "Nong", "ho"],
+	  "next": 15,
+	  "success": 15,
+	  "failure": 16
+	},
+	{
+	  "speaker": "Nong Pedring",
+	  "text": "\\Abaw! \\Batian \\mo to, \\apo?",
+	  "bubble": "exclaim",
+	  "next": 5,
+	  "translation": "Wow! Did you hear that, apo?",
+	  "word_ids": ["w297", "w298", "w168", "w019"],
+	  "type": "dialogue"
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "\\Pangabay \\it \\daya, \\Nong, \\ho. Again, slowly.",
+	  "next": 5,
+	  "translation": "May I have this one, Nong, please. Again, slowly.",
+	  "word_ids": ["w189", "w092", "w052", "w300", "w299"],
 	  "type": "dialogue"
 	}
   ],
@@ -292,14 +432,22 @@
   "scene_3_cathedral_talk": [
 	{
 	  "speaker": "Lola Susan",
-	  "text": "Iya \\kami \\tanan gasimba. Inyo nga \\Lola Jonabel \\gid, pinakamasueundun.",
+	  "text": "\\Iya \\kami \\kato \\tanan \\pirme \\ga \\simba. \\Inyong \\Lola Jonabel \\gid ro \\pinaka \\masueundun.",
 	  "next": 1,
-	  "translation": "This is where we all used to go to church. Your Lola Jonabel especially, she was the most devout.",
+	  "translation": "Back then, we all always went to church here. Your Lola Jonabel most of all, she was the most devout.",
 	  "word_ids": [
+		"w095",
 		"w101",
+		"w303",
 		"w221",
+		"w304",
+		"w311",
+		"w307",
+		"w321",
 		"w126",
-        "w066"
+		"w066",
+		"w305",
+        "w306"
 	  ],
 	  "type": "dialogue"
 	},
@@ -315,6 +463,8 @@
 	{
 	  "speaker": "",
 	  "text": "The group sits outside the church, Rose holding a town map.",
+	  "bubble": "bell",
+	  "bubble_on": "Lola Jonabel",
 	  "next": 3,
 	  "word_ids": [],
 	  "type": "dialogue"
@@ -323,6 +473,8 @@
 	  "speaker": "Rose",
 	  "text": "\\Hara, tan-awa. \\Mapa it Kalibo. Kon \\magtuon ka it mga \\lugar, mas \\madali ka \\makaagto bisan siin.",
 	  "next": 4,
+	  "set_flag_on_enter": "got_kalibo_map",
+	  "bubble": "map",
 	  "translation": "Here, look at this. Map of Kalibo. If you learn the places, you'll find your way anywhere more easily.",
 	  "word_ids": [
 		"w075",
@@ -379,19 +531,10 @@
 	  "type": "dialogue"
 	},
 	{
-	  "speaker": "Rose",
-	  "text": "Ro sunod nga \\lugar nga aton agtunan hay medyo \\maeayo — ro manughaboe it \\piña fiber. Iya mo makita ro \\matuod nga \\ubra it mga \\Akeanon.",
+	  "speaker": "Lola Susan",
+	  "text": "We'll go ahead home. Don't keep them out too long, Rose.",
 	  "next": null,
-	  "translation": "Next place we'll go is a bit far — the piña weaving area. There you'll see real Aklanon craftsmanship.",
-	  "word_ids": [
-		"w127",
-		"w134",
-		"w194",
-		"w160",
-		"w236",
-		"w008",
-        "w009"
-	  ],
+	  "word_ids": [],
 	  "type": "dialogue"
 	}
   ],
@@ -425,8 +568,8 @@
 	{
 	  "speaker": "Player",
 	  "text": "\\Isaea, \\daywa, \\tatlo, \\ap-at, \\lima, \\an-om, \\pito, \\waeo, \\siyam, \\napueo. Ten! I did it.",
-	  "next": 17,
-	  "word_ids": [],
+	  "next": 13,
+	  "word_ids": ["w090", "w054", "w227", "w018", "w123", "w017", "w196", "w244", "w215", "w178"],
 	  "type": "dialogue"
 	},
 	{
@@ -438,7 +581,8 @@
 	},
 	{
 	  "speaker": "Rose",
-	  "text": "\\Puti — white. \\Itom — black. \\Puea — red. \\Asul — blue. \\Dueaw — yellow. \\Berdi — green.",
+	  "text": "\\Puti — white. \\Itom — black. \\Puea — red. \\Asul — blue. \\Dueaw — yellow. \\Berde — green.",
+	  "bubble": ["swatch_white", "swatch_black", "swatch_red", "swatch_blue", "swatch_yellow", "swatch_green"],
 	  "next": 6,
 	  "word_ids": [
 		"w199",
@@ -476,27 +620,27 @@
 	{
 	  "speaker": "Rose",
 	  "text": "Good eye. Bold color for a bold first attempt at counting.",
-	  "next": 21,
+	  "next": 17,
 	  "word_ids": [],
 	  "type": "dialogue"
 	},
 	{
 	  "speaker": "Rose",
 	  "text": "Safe choice. That works too.",
-	  "next": 21,
+	  "next": 17,
 	  "word_ids": [],
 	  "type": "dialogue"
 	},
 	{
 	  "speaker": "Rose",
 	  "text": "They'll stick eventually. Nobody gets it all at once.",
-	  "next": 21,
+	  "next": 17,
 	  "word_ids": [],
 	  "type": "dialogue"
 	},
 	{
 	  "speaker": "",
-	  "text": "Rose shows a small stone, then a big stone, for comparison.",
+	  "text": "Rose holds up a small basket, then a big one.",
 	  "next": 11,
 	  "word_ids": [],
 	  "type": "dialogue"
@@ -504,6 +648,7 @@
 	{
 	  "speaker": "Rose",
 	  "text": "\\Maisot — small. \\Mabahoe — big. \\Mayad — good. \\Bag-o — new. \\Daan — old.",
+	  "bubble": ["basket_small", "basket_big", "thumbs_up", "keychain_new", "keychain_old"],
 	  "next": 12,
 	  "word_ids": [
 		"w145",
@@ -516,54 +661,19 @@
 	},
 	{
 	  "speaker": "Rose",
-	  "text": "\\Daya — \"this.\" \\Haron — \"that,\" closer to me. \\Dato — \"that,\" farther away. Point when you say it, it's easier.",
-	  "next": 13,
+	  "text": "\\Daya — \"this.\" \\Duyon — \"that,\" near us both. \\Dato — \"that,\" farther away. Point when you say it, it's easier.",
+	  "next": 21,
 	  "word_ids": [
 		"w052",
+		"w294",
         "w051"
 	  ],
 	  "type": "dialogue"
 	},
 	{
-	  "speaker": "",
-	  "text": "While walking toward the market, Rose points at food items — fish, chicken, eggs, rice.",
-	  "next": 14,
-	  "word_ids": [],
-	  "type": "dialogue"
-	},
-	{
-	  "speaker": "Rose",
-	  "text": "\\Isda — fish. \\Manok — chicken. \\Itlog — egg. \\Humay — rice. \\Tinapay — bread. \\Karne — meat. \\Baboy — pig.",
-	  "next": 15,
-	  "word_ids": [
-		"w091",
-		"w152",
-		"w093",
-		"w080",
-		"w230",
-		"w107",
-        "w024"
-	  ],
-	  "type": "dialogue"
-	},
-	{
-	  "speaker": "Player",
-	  "text": "Okay, that's a lot of food words. Good thing we're heading to the market.",
-	  "next": 16,
-	  "word_ids": [],
-	  "type": "dialogue"
-	},
-	{
-	  "speaker": "Rose",
-	  "text": "Exactly why I taught them now. Use it or lose it, balikbayan.",
-	  "next": null,
-	  "word_ids": [],
-	  "type": "dialogue"
-	},
-	{
 	  "speaker": "Rose",
 	  "text": "Not so fast. Let's see if you know what they mean.",
-	  "next": 18,
+	  "next": 14,
 	  "word_ids": [],
 	  "type": "dialogue"
 	},
@@ -582,8 +692,8 @@
 	  "question_template_choice_displays": ["gloss", "word"],
 	  "choice_display": "gloss",
 	  "pass_ratio": 0.5,
-	  "success": 19,
-	  "failure": 20
+	  "success": 15,
+	  "failure": 16
 	},
 	{
 	  "speaker": "Rose",
@@ -602,7 +712,7 @@
 	{
 	  "speaker": "Rose",
 	  "text": "Now let's test your eyes. Look at each color and tell me its name.",
-	  "next": 22,
+	  "next": 18,
 	  "word_ids": [],
 	  "type": "dialogue"
 	},
@@ -629,8 +739,8 @@
 	  "question_template_choice_displays": ["word", "color"],
 	  "choice_display": "word",
 	  "pass_ratio": 0.5,
-	  "success": 23,
-	  "failure": 24
+	  "success": 19,
+	  "failure": 20
 	},
 	{
 	  "speaker": "Rose",
@@ -643,6 +753,13 @@
 	  "speaker": "Rose",
 	  "text": "Not bad for a first try. Look at the fabrics again later.",
 	  "next": 10,
+	  "word_ids": [],
+	  "type": "dialogue"
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "That's enough for one day. Let's go home, balikbayan.",
+	  "next": null,
 	  "word_ids": [],
 	  "type": "dialogue"
 	}
@@ -665,6 +782,8 @@
 	  "type": "dialogue",
 	  "speaker": "Lola Susan",
 	  "text": "That flight must have worn you all out. Go on upstairs and sleep in your rooms.",
+	  "bubble": "zzz",
+	  "bubble_on": "Papa Jobert",
 	  "next": 3,
 	  "word_ids": []
 	},
@@ -673,6 +792,7 @@
 	  "speaker": "Lola Susan",
 	  "text": "Look next to the doors. Yours is the one with the \\bituon.",
 	  "translation": "Yours is the one with the star.",
+	  "bubble": "star",
 	  "next": 4,
 	  "word_ids": ["w043"]
 	},
@@ -681,8 +801,170 @@
 	  "speaker": "Lola Susan",
 	  "text": "Jonabel has the \\buean, and Jobert has the \\adlaw.",
 	  "translation": "Jonabel has the moon, and Jobert has the sun.",
-	  "next": null,
+	  "bubble": ["moon", "sun"],
+	  "next": 5,
 	  "word_ids": ["w250", "w003"]
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Rose",
+	  "text": "Rest up, balikbayan. When you're up tomorrow, come find me. I'll show you the town.",
+	  "next": null,
+	  "word_ids": []
+	}
+  ],
+  "scene_5_evening_home": [
+	{
+	  "type": "start_router",
+	  "start_index_if_flag": {
+		"default": 1
+	  }
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Lola Susan",
+	  "text": "\\Kaon \\kita!",
+	  "translation": "Let's eat!",
+	  "next": 2,
+	  "word_ids": ["w105", "w113"]
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Lola Jonabel",
+	  "text": "So, \\apo. What did you see today?",
+	  "next": 3,
+	  "word_ids": ["w019"]
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "",
+	  "text": "What do you tell Lola Jonabel?",
+	  "word_ids": [],
+	  "choices": [
+		{"label": "The cathedral. Lola Susan says you were the most devout.", "rapport_delta": 2, "next": 4},
+		{"label": "The market. So much food.", "next": 5},
+		{"label": "Honestly? It was hot. I mostly wanted to sit down.", "rapport_delta": -2, "next": 6}
+	  ]
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Lola Jonabel",
+	  "text": "(laughs) Susan never forgets anything.",
+	  "next": 7,
+	  "word_ids": []
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Lola Susan",
+	  "text": "Wait until Sunday. After mass, the market is even busier.",
+	  "next": 7,
+	  "word_ids": []
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Rose",
+	  "text": "You sat on every bench in Kalibo, balikbayan. Every one.",
+	  "next": 7,
+	  "word_ids": []
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Lola Jonabel",
+	  "text": "I used to sit on those church steps after mass. I'd forgotten how loud the bells are.",
+	  "next": 8,
+	  "word_ids": []
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Lola Jonabel",
+	  "text": "There's one more place I'd like you to see. Another day.",
+	  "next": 9,
+	  "word_ids": []
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Rose",
+	  "text": "Another trip, another day. Don't get comfortable, balikbayan.",
+	  "next": 10,
+	  "word_ids": []
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Lola Susan",
+	  "text": "Sa \\Domingo, \\magsimba \\kita. All of us.",
+	  "translation": "On Sunday, we go to mass. All of us.",
+	  "next": 11,
+	  "word_ids": ["w318", "w308", "w113"]
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Papa Jobert",
+	  "text": "Mm. Mass. Good.",
+	  "bubble": "zzz",
+	  "next": 12,
+	  "word_ids": []
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Rose",
+	  "text": "You don't even know what day it is, do you, balikbayan?",
+	  "next": 13,
+	  "word_ids": []
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Rose",
+	  "text": "\\Lunes, \\Martes, \\Miyerkoles, \\Hwebes, \\Biyernes, \\Sabado, \\Domingo.",
+	  "translation": "Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday.",
+	  "bubble": "calendar",
+	  "next": 14,
+	  "word_ids": ["w312", "w313", "w314", "w315", "w316", "w317", "w318"]
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Player",
+	  "text": "Wait, those sound Spanish.",
+	  "next": 15,
+	  "word_ids": []
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Rose",
+	  "text": "They are. Free points for you. Now prove it.",
+	  "next": 16,
+	  "word_ids": []
+	},
+	{
+	  "type": "quiz",
+	  "quiz_type": "dynamic",
+	  "fixed_pool": true,
+	  "questions": [],
+	  "question_count": 3,
+	  "word_pool": ["w312", "w313", "w314", "w315", "w316", "w317", "w318"],
+	  "choices": ["w312", "w313", "w314", "w315", "w316", "w317", "w318"],
+	  "question_templates": [
+		"What does \"[word]\" mean?",
+		"What Akeanon word means \"[gloss]\"?"
+	  ],
+	  "question_template_choice_displays": ["gloss", "word"],
+	  "choice_display": "gloss",
+	  "pass_ratio": 0.5,
+	  "success": 17,
+	  "failure": 18
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Rose",
+	  "text": "Fine. Sa \\Domingo, then. Don't oversleep.",
+	  "next": null,
+	  "word_ids": ["w318"]
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Rose",
+	  "text": "You have until \\Domingo to learn them.",
+	  "next": null,
+	  "word_ids": ["w318"]
 	}
   ],
   "scene_0b_ask_rose": [
@@ -695,9 +977,10 @@
 	{
 	  "type": "dialogue",
 	  "speaker": "Lola Susan",
-	  "text": "There you are! Did you sleep well?",
+	  "text": "\\Mayad nga \\agahon! There you are! Did you sleep well?",
+	  "translation": "Good morning! There you are! Did you sleep well?",
 	  "next": 2,
-	  "word_ids": []
+	  "word_ids": ["w163", "w006"]
 	},
 	{
 	  "type": "dialogue",
@@ -724,20 +1007,10 @@
 	{
 	  "type": "dialogue",
 	  "speaker": "Rose",
-	  "text": "Come with us \\kampod",
-	  "next": 3,
+	  "text": "Come with us, \\kampod.",
+	  "translation": "Come with us, cousin.",
 	  "word_ids": ["w251"],
-	  "choices": [{ "label": "Sure, I'll go with you.", "next": 4, "rapport_delta": 2, "patience_delta": 0 }, { "label": "Maybe another time.", "next": 5, "rapport_delta": -2, "patience_delta": 0 }]
-	},
-	{
-	  "type": "dialogue",
-	  "speaker": "Lola Susan",
-	  "text": "So, are you coming?",
-	  "word_ids": [],
-	  "choices": [
-		{"label": "I'll come", "next": 4},
-		{"label": "Maybe next time", "next": 5}
-	  ]
+	  "choices": [{ "label": "Sure, I'll go with you.", "next": 3, "rapport_delta": 2, "patience_delta": 0 }, { "label": "Maybe another time.", "next": 4, "rapport_delta": -2, "patience_delta": 0 }]
 	},
 	{
 	  "type": "dialogue",
@@ -759,20 +1032,20 @@
 	{
 	  "type": "dialogue",
 	  "speaker": "",
-	  "text": "Mag \\dahan \\kamo ha.",
-	  "translation": "You guys be careful.",
+	  "text": "\\Magdahan \\kamo ha.",
+	  "translation": "You all be careful.",
 	  "next": null,
-	  "word_ids": ["w049", "w102"]
+	  "word_ids": ["w320", "w102"]
 	}
   ],
   "scene_house_farewell_solo": [
 	{
 	  "type": "dialogue",
 	  "speaker": "",
-	  "text": "Mag \\dahan \\ka ha.",
+	  "text": "\\Magdahan \\ka ha.",
 	  "translation": "You be careful.",
 	  "next": null,
-	  "word_ids": ["w049", "w083"]
+	  "word_ids": ["w320", "w083"]
 	}
   ],
   "scene_rose_walk_to_park": [
@@ -880,5 +1153,35 @@
 	  "next": null,
 	  "word_ids": []
 	}
-  ]
+  ],
+  "remarks": {
+	"pedring_hello": {
+	  "speaker": "Nong Pedring",
+	  "requires": ["seen_chapter2_scene2"],
+	  "lines": [
+		{"type": "dialogue", "speaker": "Nong Pedring", "text": "\\Hay, \\apo! \\Kamusta \\ka?", "translation": "Hey, apo! How are you?", "next": null, "word_ids": ["w301", "w019", "w103", "w083"]}
+	  ]
+	},
+	"pedring_fish": {
+	  "speaker": "Nong Pedring",
+	  "requires": ["seen_chapter2_scene2"],
+	  "lines": [
+		{"type": "dialogue", "speaker": "Nong Pedring", "text": "\\Bakae kat \\isda, \\apo, \\eab-as pa.", "translation": "Buy some fish, apo, it's still fresh.", "bubble": "fish", "next": null, "word_ids": ["w031", "w091", "w019", "w302"]}
+	  ]
+	},
+	"pedring_suki": {
+	  "speaker": "Nong Pedring",
+	  "requires": ["seen_chapter2_scene2"],
+	  "lines": [
+		{"type": "dialogue", "speaker": "Nong Pedring", "text": "Your Lola Susan has been my \\suki for thirty years. Don't tell her I said thirty.", "next": null, "word_ids": ["w216"]}
+	  ]
+	},
+	"pedring_star_fruit": {
+	  "speaker": "Nong Pedring",
+	  "requires": ["bought_star_fruit"],
+	  "lines": [
+		{"type": "dialogue", "speaker": "Nong Pedring", "text": "Another star fruit, \\apo? I kept the sweetest one for you.", "bubble": "star_fruit", "next": null, "word_ids": ["w019"]}
+	  ]
+	}
+  }
 }

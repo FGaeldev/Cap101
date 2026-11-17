@@ -81,12 +81,14 @@ func _process(delta: float) -> void:
 		_type_timer = 0.0
 		_shown_chars += 1
 		text_label.visible_characters = _shown_chars
+		PictureBubbles.on_typed(_raw_text, _shown_chars)
 		if _shown_chars >= _visible_length:
 			_finish_typing()
 
 func _finish_typing() -> void:
 	_typing = false
 	text_label.visible_characters = -1
+	PictureBubbles.on_typed(_raw_text, _visible_length, true)
 	if text_label.text.contains("[url="):
 		TutorialManager.start(WORD_TUTORIAL_ID)
 

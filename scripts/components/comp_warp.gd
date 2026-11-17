@@ -35,6 +35,7 @@ const TRIGGER_VECTORS: Dictionary = {
 enum DoorWidth { ONE = 1, TWO = 2 }
 
 const UNIT_WIDTH_PX: float = 16.0
+const NO_TARGET_MESSAGE: String = "I don't need to go that way right now."
 
 ## Walk direction that fires the warp. Set per door instance in the editor.
 ## Changing it re-lays the shape (UP/DOWN = horizontal span, LEFT/RIGHT = vertical).
@@ -81,12 +82,18 @@ const UNIT_WIDTH_PX: float = 16.0
 @export_range(-1.0, 23.75, 0.25) var arrival_hour: float = -1.0
 
 ## Optional GameState flag that must be true before this warp works (e.g.
-## "quest_002_done" keeps the airport door shut until the book quest is done).
+## "chapter1_slept" keeps the airport door shut until the night before the flight).
 ## Empty = always open (default, most doors). Bypassed in GameState.dev_mode.
 @export var required_flag: String = ""
 
 ## One-line player remark shown when the warp is blocked by required_flag.
 @export var blocked_message: String = "I should finish what I'm doing here first."
+
+## A door to a place that isn't built (or isn't open) yet: with target_scene
+## empty, it acts as a wall and the player says this. Setting it marks the
+## door as closed on purpose (the playtest checker then stops flagging it).
+## Empty = NO_TARGET_MESSAGE.
+@export var closed_message: String = ""
 
 ## Hour from which this warp is closed until 6 AM (e.g. 20.0: no going out
 ## alone at night). -1 = never closes (default). Dev mode ignores it.
@@ -203,6 +210,11 @@ func _fire(body: Node) -> void:
 		return
 	if _curfew_closed():
 		_show_blocked_message(body, curfew_message)
+		return
+	# Doors whose destination isn't built yet act as a wall with a remark
+	# instead of silently doing nothing.
+	if target_scene.is_empty():
+		_show_blocked_message(body, closed_message if not closed_message.is_empty() else NO_TARGET_MESSAGE)
 		return
 	if before_warp.is_valid():
 		await before_warp.call()

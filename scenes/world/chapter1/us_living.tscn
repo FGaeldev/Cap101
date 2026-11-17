@@ -133,7 +133,8 @@ trigger_direction = 1
 target_scene = "res://scenes/world/chapter1/airport_arival.tscn"
 travel_minutes = 1200
 arrival_hour = 8.75
-required_flag = "quest_002_done"
+required_flag = "chapter1_slept"
+blocked_message = "We fly out in the morning. I should get some sleep first."
 
 [node name="DoorDownWide" type="Sprite2D" parent="." unique_id=1649580381]
 position = Vector2(24, 120)

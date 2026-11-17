@@ -3,9 +3,12 @@
 # Flow (data-driven pieces live elsewhere, this script is only the glue):
 #   1. Scene 1 cutscene sets "seen_chapter1_scene1" -> QuestManager unlocks q002.
 #   2. Player interacts with the book; "book_ui" tutorial starts and BookUI opens.
-#      With the separated menus on, "menus_ui" starts instead (HUD walkthrough;
-#      nothing opens) and Game.gd completes q002 when it finishes.
 #   3. Only after the tutorial finishes does q002 complete and show its popup.
+#
+# With the separated menus on, the book is the player's notebook: it opens the
+# Dictionary, and q002 ("Go to your room: check your notebook") completes as the
+# Dictionary opens (separated_menus.gd), from here or the HUD button. The
+# "ch1_dictionary" tutorial explains the page. See Game.gd for the whole chain.
 #
 # The book stays inert until scene 1 is done and q002 is active or completed.
 # Connects sibling InteractableComponent and delegates state to autoloads.
@@ -17,9 +20,7 @@ const BOOK_QUEST_ID: String = "q002"
 ## Must match "completion_flag" of BOOK_QUEST_ID in data/quest_data.json.
 const BOOK_QUEST_DONE_FLAG: String = "quest_002_done"
 const BOOK_TUTORIAL_ID: String = "book_ui"
-## With the separated menus on, the book teaches those instead (HUD buttons,
-## clock, quest panel, pause menu) and never opens.
-const MENUS_TUTORIAL_ID: String = "menus_ui"
+const DICTIONARY_TUTORIAL_ID: String = "ch1_dictionary"
 
 ## Quest/task this object is imperative to. Read by InteractableComponent.
 @export var quest_id: String = BOOK_QUEST_ID
@@ -58,21 +59,37 @@ func _on_interacted(_interactor: Node = null) -> void:
 		return
 
 	if BookUI.separate_menus:
-		if TutorialManager.is_done(MENUS_TUTORIAL_ID):
-			BookUI.open("settings")  # pause menu
-		else:
-			# Steps are taps on the HUD itself, so nothing opens here.
-			TutorialManager.start(MENUS_TUTORIAL_ID)
+		# Before opening, so its panel is up as the page appears.
+		_start_tutorial(DICTIONARY_TUTORIAL_ID)
+		BookUI.open("dictionary")
 		return
 	# Start tutorial before opening BookUI so tab notifications reach it.
-	TutorialManager.start(BOOK_TUTORIAL_ID)
+	var started: bool = _start_tutorial(BOOK_TUTORIAL_ID)
+	if not started:
+		_complete_book_quest()
 	BookUI.open(BOOK_START_TAB)
+
+
+## Starts the book's tutorial now; true if it is the one running.
+## Tapping the book is a deliberate choice, so a tutorial still running (e.g.
+## ch1_basics restarted on Continue, waiting for a dialogue tap) is marked done
+## in its favor; it once made the book look dead and stranded q002. False when
+## the tutorial can't run at all (already done, or dev mode skips tutorials).
+func _start_tutorial(tutorial_id: String) -> bool:
+	TutorialManager.start(tutorial_id, true)
+	return TutorialManager.active_id() == tutorial_id
+
+
+## When the tutorial can't run, the quest it would complete must still finish,
+## or the rest of Chapter 1 (sleep, then the airport door) never unlocks.
+func _complete_book_quest() -> void:
+	if BOOK_QUEST_ID in QuestManager.active_quests:
+		QuestManager.complete_quest(BOOK_QUEST_ID)
 
 
 ## Complete the book quest only after the player finishes the full tutorial.
 ## Early close aborts the tutorial and leaves q002 active for the next attempt.
 func _on_tutorial_completed(tutorial_id: String) -> void:
-	# (menus_ui completes the quest in Game.gd: it can finish in any room.)
 	if tutorial_id != BOOK_TUTORIAL_ID:
 		return
 	if BOOK_QUEST_ID in QuestManager.active_quests:

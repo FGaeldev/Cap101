@@ -161,7 +161,8 @@ func _collect_text(dir: String) -> void:
 
 func _flag_is_set_somewhere(flag: String) -> bool:
 	for pt in ["\"flag\": \"%s\"" % flag, "set_flag(\"%s\"" % flag, "\"set_flag\": \"%s\"" % flag,
-			"\"set_flag_on_enter\": \"%s\"" % flag, "\"completion_flag\": \"%s\"" % flag]:
+			"\"set_flag_on_enter\": \"%s\"" % flag, "\"completion_flag\": \"%s\"" % flag,
+			"sleep_flag = \"%s\"" % flag]:  # sleep_bed.gd export in a .tscn
 		if all_text.contains(pt):
 			return true
 	var re := RegEx.new()
@@ -187,7 +188,9 @@ func _check_levels() -> void:
 			var at: Vector2 = w.global_position
 			var label := "%s :: %s" % [p.get_file(), lvl.get_path_to(w)]
 			if str(ts) == "":
-				_issue("warp_no_target", "%s has no target_scene" % label, {"level": p, "pos": at})
+				# A closed_message marks a door that's closed on purpose (comp_warp.gd).
+				if str(w.get("closed_message")).is_empty():
+					_issue("warp_no_target", "%s has no target_scene" % label, {"level": p, "pos": at})
 				continue
 			if not ResourceLoader.exists(ts):
 				_issue("warp_missing_scene", "%s -> missing %s" % [label, ts], {"level": p, "pos": at})
@@ -311,6 +314,11 @@ func _check_dialogue() -> void:
 						_issue("dialogue_bad_index", "%s jumps to %s but the scene has %d lines" % [tag, t, n], extra)
 					else:
 						reachable[int(t)] = true
+				var bubble = line.get("bubble", null)
+				if bubble != null:
+					for icon in (bubble if bubble is Array else [bubble]):
+						if not root.get_node("PictureBubbles").has_icon(str(icon)):
+							_issue("dialogue_unknown_bubble", "%s shows bubble icon '%s', which data/bubble_icons.json doesn't have" % [tag, icon], extra)
 				var cf := str(line.get("check_flag", ""))
 				if cf != "" and not _flag_is_set_somewhere(cf):
 					_issue("dialogue_flag_never_set", "%s checks flag '%s', which nothing sets" % [tag, cf], extra)
@@ -318,8 +326,12 @@ func _check_dialogue() -> void:
 					var w: String = str(wid).strip_edges()
 					if w != "" and not w.begins_with("[") and WB.get_word(w).is_empty():
 						_issue("dialogue_unknown_word", "%s tags unknown word id '%s'" % [tag, w], extra)
-				if line.get("type", "dialogue") == "dialogue" and line.has("choices") and str(line.get("text", "")).strip_edges() == "":
-					_issue("dialogue_empty_text", "%s is a choice line with no text (box shows '…')" % tag, extra)
+				# A choice line with no text keeps the previous line up as its prompt
+				# (Comp_Dialogue._show_line), so it's only a problem as the first
+				# line on screen: nothing with text leads into it.
+				if line.get("type", "dialogue") == "dialogue" and line.has("choices") and str(line.get("text", "")).strip_edges() == "" \
+						and not _has_text_before(lines, i):
+					_issue("dialogue_empty_text", "%s is a choice line with no text and no line before it to keep on screen (box shows '…')" % tag, extra)
 			if not key.begins_with("idle"):
 				for i in range(1, n):
 					var prev = lines[i - 1]
@@ -327,6 +339,18 @@ func _check_dialogue() -> void:
 						and prev.get("type", "") != "start_router"
 					if not reachable.has(i) and not falls_through:
 						_issue("dialogue_unreachable", "%s/%s[%d] can never be reached" % [ch, key, i], {"file": path, "snippet": JSON.stringify(lines[i], "  ")})
+
+## True if a dialogue line with text leads into line `i` (its "next", or by
+## falling through as the line just before it).
+func _has_text_before(lines: Array, i: int) -> bool:
+	for j in lines.size():
+		var l = lines[j]
+		if not l is Dictionary or str(l.get("text", "")).strip_edges() == "" or l.has("choices"):
+			continue
+		var nxt = l.get("next", j + 1 if not l.has("next") else null)
+		if nxt != null and int(nxt) == i:
+			return true
+	return false
 
 func _check_npc_scenes(scenes: Array) -> void:
 	var CL = root.get_node("ChapterLoader")

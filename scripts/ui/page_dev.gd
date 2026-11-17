@@ -397,7 +397,7 @@ func _dev_warp(scene_path: String, flags_on: Array = [], flags_off: Array = [], 
 	TutorialManager.abort()
 	# Close dialogue already on screen before replacing the current level.
 	DialogueUI.hide()
-	for tutorial_id in ["ch1_basics", "ch1_quest_hud"]:
+	for tutorial_id in ["ch1_basics", "ch1_quest_hud", "ch1_quests", "ch1_dictionary"]:
 		GameState.set_flag("tutorial_" + tutorial_id + "_done")
 	GameState.set_flag("seen_chapter1_scene1")
 	GameState.set_flag("story_done_papa_jobert_scene1")

@@ -30,6 +30,16 @@ func _load() -> void:
 ## Call this whenever a gating condition could have changed — quest
 ## completion (handled internally) and word exposure (GameState.expose_word).
 func _refresh_active_quests() -> void:
+	# Drop quests whose "unless_flag" got set while they were active (story or
+	# a dev warp moved past them). Not completed: they simply no longer apply.
+	var dropped := false
+	for id in active_quests.duplicate():
+		var unless_flag: String = quests.get(id, {}).get("unless_flag", "")
+		if not unless_flag.is_empty() and GameState.get_flag(unless_flag):
+			active_quests.erase(id)
+			dropped = true
+	if dropped:
+		quest_list_changed.emit()
 	for id in quests:
 		if id in active_quests:
 			continue
@@ -50,6 +60,10 @@ func is_quest_available(quest_id: String) -> bool:
 	# instead of word exposure. Absent/empty = no prerequisite.
 	var required_flag: String = q.get("requires_flag", "")
 	if not required_flag.is_empty() and not GameState.get_flag(required_flag): return false
+	# Optional: never appears once this flag is set (the story moved past it,
+	# e.g. saves already on the way to Aklan never get the night-before quest).
+	var unless_flag: String = q.get("unless_flag", "")
+	if not unless_flag.is_empty() and GameState.get_flag(unless_flag): return false
 	# Check exposure gate
 	var total_exposure = 0
 	for wid in q.get("target_words", []):
@@ -72,6 +86,22 @@ func complete_quests_with_trigger(trigger_name: String) -> void:
 		if q.has("area") and q["area"] != GameState.current_area:
 			continue
 		complete_quest(qid)
+
+## Display title. A quest can word itself differently with the separated menus
+## on ("title_separate_menus"), e.g. q002 opens the Dictionary there, not the book.
+func get_title(quest_id: String) -> String:
+	var q: Dictionary = quests.get(quest_id, {})
+	if BookUI.separate_menus and q.has("title_separate_menus"):
+		return str(q["title_separate_menus"])
+	return str(q.get("title", quest_id))
+
+## True if an active quest waits on trigger_name (see complete_quests_with_trigger).
+## Lets UI keep the control that fires it visible until it does.
+func has_active_trigger(trigger_name: String) -> bool:
+	for qid in active_quests:
+		if quests.get(qid, {}).get("completion_trigger", "") == trigger_name:
+			return true
+	return false
 
 ## Mark quest complete without popup/signal. Use for dev shortcuts that bypass gameplay.
 func complete_quest_silently(quest_id: String) -> void:

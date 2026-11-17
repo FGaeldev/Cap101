@@ -1,5 +1,6 @@
 [
 	{"type": "dialogue", "chapter": "chapter2", "scene": "scene_2_market_talk"},
+	{"type": "complete_quest", "quest_id": "q012", "unless_flag": "seen_chapter2_scene2"},
 	{"type": "set_flag", "flag": "seen_chapter2_scene2", "value": true},
 	{"type": "set_flag", "flag": "map_open_market", "value": true}
 ]

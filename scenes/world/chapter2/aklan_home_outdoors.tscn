@@ -148,8 +148,7 @@ y_sort_enabled = true
 position = Vector2(-24, 256)
 trigger_direction = 2
 span_tiles_override = 8
-required_flag = "chapter2_with_rose"
-blocked_message = "Hmm, I should probably talk to Rose."
+closed_message = "That road leads away from town. The park is the other way."
 
 [node name="WarpArea2" parent="Warps" unique_id=237112143 instance=ExtResource("3_nsjhx")]
 position = Vector2(584, 256)

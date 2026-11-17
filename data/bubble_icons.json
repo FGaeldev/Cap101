@@ -1,0 +1,12 @@
+{
+	"_note": "Picture-bubble icons (scripts/autoload/PictureBubbles.gd). One row of 16x16 cells in this order. The sheet is built by art_requests/tools/make_bubble_icons.js from pixel maps (shared palette, auto outline #45283c, light from the top left); edit the maps there and rerun it, or replace cells by hand in the same style.",
+	"sheet": "res://assets/ui/bubble_icons.png",
+	"cell": 16,
+	"icons": [
+		"star", "moon", "sun", "map", "bell", "calendar", "star_fruit",
+		"fish", "chicken", "egg", "rice_sack", "bread", "meat", "pig",
+		"swatch_white", "swatch_black", "swatch_red", "swatch_blue", "swatch_yellow", "swatch_green",
+		"basket_small", "basket_big", "thumbs_up", "keychain_new", "keychain_old",
+		"exclaim", "question", "zzz"
+	]
+}

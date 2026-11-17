@@ -138,6 +138,8 @@ func choose(choice: Dictionary) -> void:
 
 func _show_line() -> void:
 	var line: Dictionary = dialogue_lines[_current_line]
+	# Picture bubble for this line (or close the last line's). PictureBubbles.gd.
+	PictureBubbles.show_for_line(line)
 
 	# Gates, quizzes, phrase builders and minigames take over the screen.
 	if line.get("type", "") in ["challenge_gate", "phrase_builder", "quiz", "minigame_trigger"]:
@@ -268,6 +270,7 @@ func resolve_minigame(passed: bool) -> void:
 	_show_line()
 
 func _end() -> void:
+	PictureBubbles.clear_line()
 	DialogueUI.hide()
 	if not completes_quest_id.is_empty():
 		QuestManager.complete_quest(completes_quest_id)

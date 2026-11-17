@@ -4,10 +4,24 @@
 			"id": "q002",
 			"category": "main",
 			"title": "Return to your room: open the book",
+			"title_separate_menus": "Go to your room: check your notebook",
+			"completion_trigger": "dictionary_opened",
 			"required_exposures": 0,
 			"target_words": [],
 			"requires_flag": "seen_chapter1_scene1",
 			"completion_flag": "quest_002_done",
+			"show_popup": true
+		},
+		{
+			"id": "q010",
+			"category": "main",
+			"title": "Get some sleep: you fly out tomorrow",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "quest_002_done",
+			"unless_flag": "seen_chapter1_scene1_5",
+			"completion_trigger": "slept",
+			"completion_flag": "quest_010_done",
 			"show_popup": true
 		},
 		{
@@ -28,6 +42,72 @@
 			"target_words": [],
 			"requires_flag": "seen_chapter1_scene3",
 			"completion_flag": "quest_004_done",
+			"show_popup": true
+		},
+		{
+			"id": "q005",
+			"category": "main",
+			"title": "Ask Rose to show you around town",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "seen_chapter2_scene0b",
+			"unless_flag": "seen_chapter2_scene1",
+			"completion_flag": "quest_005_done",
+			"show_popup": true
+		},
+		{
+			"id": "q011",
+			"category": "main",
+			"title": "Walk through Pastrana Park with Rose",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "quest_005_done",
+			"unless_flag": "seen_chapter2_scene2",
+			"completion_flag": "quest_011_done",
+			"show_popup": true
+		},
+		{
+			"id": "q012",
+			"category": "main",
+			"title": "Find Nong Pedring at the market",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "quest_011_done",
+			"unless_flag": "seen_chapter2_scene4",
+			"completion_flag": "quest_012_done",
+			"show_popup": true
+		},
+		{
+			"id": "q013",
+			"category": "main",
+			"title": "See the cathedral with Rose",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "quest_012_done",
+			"unless_flag": "chapter2_evening_seen",
+			"completion_flag": "quest_013_done",
+			"show_popup": true
+		},
+		{
+			"id": "q014",
+			"category": "main",
+			"title": "Be home for dinner at 6 PM",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "quest_013_done",
+			"unless_flag": "chapter3_started",
+			"completion_flag": "quest_014_done",
+			"show_popup": true
+		},
+		{
+			"id": "q015",
+			"category": "main",
+			"title": "Go to Sunday mass with the family",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "quest_014_done",
+			"unless_flag": "chapter3_started",
+			"completion_flag": "quest_015_done",
 			"show_popup": true
 		},
 		{

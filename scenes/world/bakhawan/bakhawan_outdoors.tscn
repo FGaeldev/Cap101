@@ -48,6 +48,7 @@ y_sort_enabled = true
 [node name="WarpArea" parent="Warps" unique_id=1965068349 instance=ExtResource("2_dtxuw")]
 position = Vector2(240, 232)
 span_tiles_override = 2
+closed_message = "The visitor center is closed today."
 
 [node name="WarpArea2" parent="Warps" unique_id=1862165124 instance=ExtResource("2_dtxuw")]
 position = Vector2(64, 360)

@@ -112,6 +112,8 @@ static func _rich_word(word: String, index: int, active: bool) -> String:
 ## y = length. Vector2i(-1, 0) if the line has fewer marked words.
 static func marked_word_span(raw: String, index: int) -> Vector2i:
 	var filled: String = _fill_tokens(raw)
+	if _marked_word == null:
+		_marked_word = RegEx.create_from_string(MARKED_WORD_PATTERN)
 	var matches: Array[RegExMatch] = _marked_word.search_all(filled)
 	if index < 0 or index >= matches.size():
 		return Vector2i(-1, 0)

@@ -38,6 +38,13 @@ const WALKING_HOME_FLAG: String = "chapter2_walking_home"
 const WALK_OUT_CUTSCENE_ID: String = "chapter2_walk_living"
 const WALK_HOME_CUTSCENE_ID: String = "chapter2_walk_home_living"
 const LEAVE_ALONE_CUTSCENE_ID: String = "chapter2_leave_alone"
+## Chapter 2 dinner after the tour (docs/CHAPTER2_PLAN.md step 5): plays once,
+## in the 6-7 PM block when the family sits at the dining table (npc_schedule.json).
+const TOUR_DONE_FLAG: String = "chapter2_tour_done"
+const DINNER_CUTSCENE_ID: String = "chapter2_scene5"
+const DINNER_SEEN_FLAG: String = "chapter2_evening_seen"
+const DINNER_HOUR: int = 18
+const DINNER_CAST: Array = ["Rose", "Lola Susan", "Lola Jonabel", "Papa Jobert"]
 ## Chapter 3 (see docs/CHAPTER3_PLAN.md): the morning brief that starts the trip
 ## to Haboean, and the evening scene once the player is back from the cafe.
 const CH2_COMPLETE_FLAG: String = "chapter2_complete"
@@ -100,12 +107,24 @@ func _check_beats() -> void:
 		GameState.set_flag(MASS_WENT_FLAG, false)  # last Sunday's answer
 		CutsceneManager.play(MASS_CUTSCENE_ID)
 		return
+	if _dinner_due():
+		CutsceneManager.play(DINNER_CUTSCENE_ID)
+		return
 	if _ch3_brief_due():
 		CutsceneManager.play(CH3_BRIEF_CUTSCENE_ID)
 		return
 	if GameState.get_flag(CH3_CAFE_SEEN_FLAG) and not GameState.get_flag(CH3_EVENING_SEEN_FLAG) \
 			and _all_here_and_settled(["Lola Jonabel", "Lola Susan"]):
 		CutsceneManager.play(CH3_EVENING_CUTSCENE_ID)
+
+## The first evening after the tour, once all four are at the table. If the
+## player is out or asleep then, it waits for the next evening.
+func _dinner_due() -> bool:
+	if GameState.get_flag(DINNER_SEEN_FLAG) or not GameState.get_flag(TOUR_DONE_FLAG):
+		return false
+	if int(DayNightManager.get_hour()) != DINNER_HOUR:
+		return false
+	return _all_here_and_settled(DINNER_CAST)
 
 ## Chapter 3's morning brief: the first morning after Chapter 2 is complete,
 ## once Rose, Susan and Jonabel are at their brief spots (npc_schedule.json).

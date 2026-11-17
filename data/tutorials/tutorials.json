@@ -99,36 +99,9 @@
 			}
 		]
 	},
-	"menus_ui": {
+	"ch1_quests": {
 		"above_book": true,
 		"steps": [
-			{
-				"text": "Tap the Map button.",
-				"event": "menus_map",
-				"highlight": "hud_map"
-			},
-			{
-				"text": "See the places you have found. Tap back.",
-				"event": "menus_closed"
-			},
-			{
-				"text": "Tap the Dictionary button.",
-				"event": "menus_dictionary",
-				"highlight": "hud_dictionary"
-			},
-			{
-				"text": "Every word you find is saved here. Tap back.",
-				"event": "menus_closed"
-			},
-			{
-				"text": "Tap the clock to open the calendar.",
-				"event": "menus_calendar",
-				"highlight": "hud_clock"
-			},
-			{
-				"text": "Upcoming events show here. Tap back.",
-				"event": "menus_closed"
-			},
 			{
 				"text": "Tap your quest to see all quests.",
 				"event": "menus_quests",
@@ -136,6 +109,33 @@
 			},
 			{
 				"text": "Active and finished quests are here. Tap back.",
+				"event": "menus_closed"
+			},
+			{
+				"text": "Go to your room, check your notebook.",
+				"auto_advance": 4.0
+			}
+		]
+	},
+	"ch1_dictionary": {
+		"above_book": true,
+		"steps": [
+			{
+				"text": "Every word you find is saved here. Tap back.",
+				"event": "menus_closed"
+			}
+		]
+	},
+	"ch1_morning": {
+		"above_book": true,
+		"steps": [
+			{
+				"text": "Tap the clock to open the calendar.",
+				"event": "menus_calendar",
+				"highlight": "hud_clock"
+			},
+			{
+				"text": "Upcoming events show here. Tap back.",
 				"event": "menus_closed"
 			},
 			{
@@ -147,6 +147,20 @@
 				"text": "Settings and achievements are here. Tap Continue.",
 				"event": "menus_closed",
 				"highlight": "pause_continue"
+			}
+		]
+	},
+	"ch2_map": {
+		"above_book": true,
+		"steps": [
+			{
+				"text": "Rose's map is yours now. Tap the Map button.",
+				"event": "menus_map",
+				"highlight": "hud_map"
+			},
+			{
+				"text": "See the places you have found. Tap back.",
+				"event": "menus_closed"
 			}
 		]
 	},

@@ -72,6 +72,7 @@ var _warp_runs := {}
 var _explore_steps := 0
 var _want_sleep := false
 var _jump_sunday := false
+var _dinner_jumped := false
 var _want_bakhawan := false
 var _bakhawan_went := false
 var _mass_done := false
@@ -308,11 +309,12 @@ func _done_ch1() -> bool:
 func _setup_ch2() -> void:
 	var GS = A.GameState
 	for f in ["chapter_card_chapter1_seen", "tutorial_ch1_basics_done", "tutorial_ch1_quest_hud_done",
-			"tutorial_menus_ui_done", "tutorial_npc_menu_done", "seen_chapter1_scene1", "story_done_papa_jobert_scene1",
+			"tutorial_ch1_quests_done", "tutorial_ch1_dictionary_done", "tutorial_ch1_morning_done", "chapter1_slept",
+			"tutorial_npc_menu_done", "seen_chapter1_scene1", "story_done_papa_jobert_scene1",
 			"story_done_lola_jonabel_scene1", "seen_chapter1_scene1_5", "seen_chapter1_scene2", "seen_chapter1_scene3",
 			"seen_chapter1_scene4", "story_done_scene_3_reunion", "story_done_scene_4_rose", "chapter1_complete"]:
 		GS.set_flag(f)
-	for q in ["q002", "q003", "q004"]:
+	for q in ["q002", "q010", "q003", "q004"]:
 		A.QuestManager.complete_quest_silently(q)
 
 ## Tour, Sunday mass and the Bakhawan trip all done, and home again.
@@ -328,7 +330,8 @@ func _setup_ch3() -> void:
 	var GS = A.GameState
 	for f in ["chapter_card_chapter2_seen", "seen_chapter2_scene0", "chapter2_slept", "seen_chapter2_scene0b",
 			"seen_chapter2_scene1", "seen_chapter2_scene2", "seen_chapter2_scene3", "seen_chapter2_scene4",
-			"chapter2_tour_done", "map_open_market", "chapter2_mass_attended", "chapter2_complete"]:
+			"chapter2_tour_done", "map_open_market", "chapter2_mass_attended", "chapter2_complete",
+			"got_kalibo_map", "tutorial_ch2_map_done"]:
 		GS.set_flag(f)
 	var DN = root.get_node("DayNightManager")
 	if DN.get_date()["weekday"] == 0:
@@ -575,6 +578,19 @@ func _act() -> void:
 			player.global_position = level.global_position + Vector2(goal.x * 16, (goal.y + 1) * 16)
 			return
 	var GS = A.GameState
+	# Dinner after the tour (chapter2_scene5) plays at 6 PM in the living room:
+	# stop there on the tour day before skipping ahead to the weekend.
+	if _jump_sunday and not _dinner_jumped and not GS.get_flag("chapter2_with_rose") \
+			and not GS.get_flag("chapter2_evening_seen") \
+			and GS.current_level_path.ends_with("aklan_living.tscn") and A.DayNightManager.get_hour() < 18.0:
+		_dinner_jumped = true
+		var t: Dictionary = A.DayNightManager.get_date()
+		A.DayNightManager.jump_to(t["year"], t["month"], t["day"], 17.95)
+		_p("TEST: fast calendar -> dinner time %04d-%02d-%02d" % [t.year, t.month, t.day])
+		return
+	if _jump_sunday and _dinner_jumped and not GS.get_flag("chapter2_evening_seen") \
+			and A.DayNightManager.get_hour() < 19.0:
+		return  # wait at home for the dinner beat
 	if _jump_sunday and not GS.get_flag("chapter2_with_rose"):
 		_jump_sunday = false
 		var d: Dictionary = A.DayNightManager.get_date()
@@ -623,7 +639,9 @@ func _act() -> void:
 			continue
 		_touched_objects[wkey] = true
 		if str(w.target_scene) == "":
-			_add_finding("error", "warp %s in %s has no target_scene (walking into it does nothing)" % [level.get_path_to(w), lvl_path.get_file()])
+			# closed_message = closed on purpose (comp_warp.gd): a wall with a remark.
+			if str(w.get("closed_message")).is_empty():
+				_add_finding("error", "warp %s in %s has no target_scene and no closed_message" % [level.get_path_to(w), lvl_path.get_file()])
 		elif not ResourceLoader.exists(w.target_scene):
 			_add_finding("error", "warp %s in %s points at missing scene %s" % [level.get_path_to(w), lvl_path.get_file(), w.target_scene])
 	warps = warps.filter(func(w): return str(w.target_scene) != "" and ResourceLoader.exists(w.target_scene))
