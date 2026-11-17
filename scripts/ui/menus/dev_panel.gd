@@ -45,8 +45,12 @@ func _init() -> void:
 	var warps: Array = []
 	var times: Array = []
 	var dates: Array = []
+	var money: Array = []
 	for entry: Dictionary in PageDevScript.DEV_WARP_TARGETS:
 		if entry.has("toggle_menus"):
+			continue
+		if entry.has("pesos"):
+			money.append(entry)
 			continue
 		if entry.has("time"):
 			times.append(entry)
@@ -60,6 +64,7 @@ func _init() -> void:
 	_add_group(_list, "Skip to scene", 0, _subgroups.bind(warps, _warps))
 	_add_group(_list, "Time", 0, _items.bind(times, _warps, 1))
 	_add_group(_list, "Date", 0, _items.bind(dates, _warps, 1))
+	_add_group(_list, "Money", 0, _items.bind(money, _warps, 1))
 	_add_group(_list, "Minigames & quizzes", 0, _items.bind(PageDevScript.DEV_MINIGAMES, _cutscenes, 1))
 	_add_group(_list, "Play cutscene", 0, _subgroups.bind(PageDevScript.DEV_CUTSCENES, _cutscenes))
 

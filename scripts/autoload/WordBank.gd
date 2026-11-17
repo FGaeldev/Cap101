@@ -274,10 +274,10 @@ func get_known_puzzle_words(min_length: int, max_length: int) -> Array:
 ## whole day (GameState.wotd_date/wotd_id) even after reading it makes it known.
 ## Once every word is known, falls back to a weak known word.
 func get_word_of_the_day() -> String:
-	if GameState.wotd_date == GameState.date_unix and words.has(GameState.wotd_id):
+	if GameState.wotd_date == GameState.daily_date() and words.has(GameState.wotd_id):
 		return GameState.wotd_id
 	var unknown: Array = get_unknown_word_ids()
-	GameState.wotd_date = GameState.date_unix
+	GameState.wotd_date = GameState.daily_date()
 	GameState.wotd_id = unknown.pick_random() if not unknown.is_empty() \
 			else get_weighted_review_word(words.keys())
 	return GameState.wotd_id

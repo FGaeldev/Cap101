@@ -2359,6 +2359,19 @@
     {"id": "w318", "akeanon": "Domingo", "category": "Noun (n)", "area": "chapter2", "gloss": "Sunday", "verified": true, "source": "Ch2 storyboard review 2026-11-16; verified by user 2026-11-16"},
     {"id": "w319", "akeanon": "idto", "category": "", "area": "chapter2", "gloss": "there (also igto)", "verified": true, "source": "Ch2 storyboard review 2026-11-16; verified by user 2026-11-16"},
     {"id": "w320", "akeanon": "magdahan", "category": "Verb (v)", "area": "chapter2", "gloss": "to be careful (mag- + dahan)", "verified": true, "source": "Ch2 storyboard review 2026-11-16; verified by user 2026-11-16"},
-    {"id": "w321", "akeanon": "inyong", "category": "Pronoun (pro)", "area": "chapter2", "gloss": "your (more than one; inyo nga)", "verified": true, "source": "Ch2 storyboard review 2026-11-16; verified by user 2026-11-16"}
+    {"id": "w321", "akeanon": "inyong", "category": "Pronoun (pro)", "area": "chapter2", "gloss": "your (more than one; inyo nga)", "verified": true, "source": "Ch2 storyboard review 2026-11-16; verified by user 2026-11-16"},
+    {"id": "w322", "akeanon": "pahuway", "category": "Verb (v)", "area": "all", "gloss": "to rest, take a break", "verified": true, "source": "Idle-talk review 2026-11-18; verified by user"},
+    {"id": "w323", "akeanon": "anay", "category": "", "area": "all", "gloss": "first, for a while", "verified": true, "source": "Idle-talk review 2026-11-18; verified by user"},
+    {"id": "w324", "akeanon": "makaron", "category": "", "area": "all", "gloss": "today, now", "verified": true, "source": "Idle-talk review 2026-11-18; verified by user; de la Cruz & Zorc Vol. 1: makaron (now)"},
+    {"id": "w325", "akeanon": "mosyon", "category": "", "area": "all", "gloss": "let's go, come on (root mos)", "verified": true, "source": "Idle-talk review 2026-11-18; verified by user; de la Cruz & Zorc Vol. 1: mos (come on)"},
+    {"id": "w326", "akeanon": "maliyon", "category": "", "area": "all", "gloss": "let's go (root mali)", "verified": true, "source": "Idle-talk review 2026-11-18; verified by user"},
+    {"id": "w327", "akeanon": "anong", "category": "", "area": "all", "gloss": "what (ano nga)", "verified": false, "source": "Idle-talk review 2026-11-18; contraction like inyong"},
+    {"id": "w328", "akeanon": "pagkatueog", "category": "Verb (v)", "area": "all", "gloss": "to fall asleep, sleep (pagka- + tueog)", "verified": false, "source": "Idle-talk review 2026-11-18; spelling joined per de la Cruz & Zorc Vol. 1 pagka-"},
+    {"id": "w329", "akeanon": "insakto", "category": "Adjective (adj)", "area": "all", "gloss": "just right, exact, perfect", "verified": false, "source": "Idle-talk review 2026-11-18; line from user, gloss to confirm"},
+    {"id": "w330", "akeanon": "noh", "category": "", "area": "all", "gloss": "right?, isn't it? (asking agreement)", "verified": false, "source": "Idle-talk review 2026-11-18; line from user, gloss to confirm"},
+    {"id": "w331", "akeanon": "magtikang-tikang", "category": "Verb (v)", "area": "all", "gloss": "to take a stroll, walk around (mag- + tikang, repeated)", "verified": false, "source": "Idle-talk review 2026-11-18; line from user; mag- joined per the Ch2 spelling rule"},
+    {"id": "w332", "akeanon": "mauli", "category": "Verb (v)", "area": "all", "gloss": "to go home (ma- + uli)", "verified": true, "source": "Idle-talk review 2026-11-18; de la Cruz & Zorc Vol. 1: \"Mos, mauli eon kita\"; verified by user (as Mosyon, mauli eon kita)"},
+    {"id": "w333", "akeanon": "ginahaboe", "category": "Verb (v)", "area": "all", "gloss": "being woven (gina- + haboe)", "verified": true, "source": "Idle-talk review 2026-11-18; user said gina haboe; gina- joined per de la Cruz & Zorc Vol. 1 (ginabakae, ginabasa)"},
+    {"id": "w334", "akeanon": "maghaboe", "category": "Verb (v)", "area": "all", "gloss": "to weave (mag- + haboe)", "verified": false, "source": "Idle-talk review 2026-11-18; line from user; mag- joined per the Ch2 spelling rule"}
   ]
 }

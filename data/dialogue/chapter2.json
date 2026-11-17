@@ -547,7 +547,7 @@
 	},
 	{
 	  "speaker": "",
-	  "text": "Before leaving the cathedral grounds, they pass by a small souvenir shop full of colorful items.",
+	  "text": "Before leaving the cathedral grounds, Rose stops for another practice round.",
 	  "next": 2,
 	  "word_ids": [],
 	  "type": "dialogue"
@@ -574,7 +574,7 @@
 	},
 	{
 	  "speaker": "Rose",
-	  "text": "Now, colors — look at the fabrics there.",
+	  "text": "Now, colors — look at what the people walking by are wearing.",
 	  "next": 5,
 	  "word_ids": [],
 	  "type": "dialogue"
@@ -1101,14 +1101,14 @@
 	  "word_ids": [],
 	  "choices": [
 		{"label": "Can we go out again?", "next": 4},
-		{"label": "Can we go to Bakhawan?", "next": 6},
+		{"label": "Can we see the mangroves at Bakhawan?", "next": 6, "requires_flag": "chapter3_complete"},
 		{"label": "Not right now", "next": -1}
 	  ]
 	},
 	{
 	  "type": "dialogue",
 	  "speaker": "Rose",
-	  "text": "Bakhawan it is. Stay close.",
+	  "text": "The Bakhawan mangrove forest? Good pick, there's a long bamboo boardwalk through the trees. Stay close.",
 	  "set_flag": "chapter2_with_rose",
 	  "set_flag_on_enter": "chapter2_going_bakhawan",
 	  "next": null,
@@ -1121,7 +1121,7 @@
 	  "word_ids": [],
 	  "choices": [
 		{"label": "Can we go out again?", "next": 4},
-		{"label": "Can we go to Bakhawan?", "next": 6},
+		{"label": "Can we see the mangroves at Bakhawan?", "next": 6, "requires_flag": "chapter3_complete"},
 		{"label": "Can we go to the weavers?", "next": 8},
 		{"label": "Not right now", "next": -1}
 	  ]

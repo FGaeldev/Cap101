@@ -5,6 +5,8 @@
 extends "res://scripts/ui/menus/menu_panel.gd"
 
 const MAIN_CATEGORY := "main"
+const SIDE_CATEGORY := "side"
+const SideQuests := preload("res://scripts/util/side_quests.gd")
 
 var _list: VBoxContainer
 var _detail: VBoxContainer
@@ -51,6 +53,9 @@ func _collect_entries() -> Array:
 			"key": "quest:" + qid,
 			"title": QuestManager.get_title(qid),
 			"main": q.get("category", "") == MAIN_CATEGORY,
+			"side": q.get("category", "") == SIDE_CATEGORY,
+			"giver": q.get("giver", ""),
+			"items": SideQuests.item_progress(q) if not completed and q.has("needs_items") else "",
 			"done": completed,
 			"description": q.get("description", ""),
 		}
@@ -59,7 +64,8 @@ func _collect_entries() -> Array:
 		active.append(_task_entry(tid, false))
 	for tid in GameState.completed_tasks:
 		done.append(_task_entry(tid, true))
-	active.sort_custom(func(a, b): return a["main"] and not b["main"])
+	# Main quests on top, side quests last (see _rank).
+	active.sort_custom(func(a, b): return _rank(a) < _rank(b))
 	return active + done
 
 func _task_entry(tid: String, done: bool) -> Dictionary:
@@ -84,7 +90,8 @@ func _rebuild_list() -> void:
 		return
 	var section := ""
 	for entry in _entries:
-		var entry_section: String = "Completed" if entry["done"] else "Active"
+		var entry_section: String = "Completed" if entry["done"] \
+				else ("Side quests" if entry.get("side", false) else "Active")
 		if entry_section != section:
 			section = entry_section
 			_list.add_child(MenuStyle.label(section, UIThemeApplier.FONT_SIZE_S, UIThemeApplier.TEXT_EMPHASIS))
@@ -128,6 +135,17 @@ func _show_detail() -> void:
 		var desc := MenuStyle.label(entry["description"], UIThemeApplier.FONT_SIZE_S)
 		desc.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		_detail.add_child(desc)
+	if not str(entry.get("items", "")).is_empty():
+		var items := MenuStyle.label("Bring: " + entry["items"], UIThemeApplier.FONT_SIZE_S)
+		items.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		_detail.add_child(items)
 	if entry.has("steps_total") and entry["steps_total"] > 0:
 		_detail.add_child(MenuStyle.label("Steps done: %d / %d" % [entry["steps_done"], entry["steps_total"]],
 				UIThemeApplier.FONT_SIZE_S))
+
+## Sort order of active entries: main, then tasks and other quests, then side
+## quests last under their own "Side quests" heading.
+func _rank(entry: Dictionary) -> int:
+	if entry["main"]:
+		return 0
+	return 2 if entry.get("side", false) else 1

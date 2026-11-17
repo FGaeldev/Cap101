@@ -1,6 +1,6 @@
 # Pesos, fares and the market: economy plan
 
-Drafted 2026-11-16. Not built yet. Cross-chapter design, so it lives here rather than in a chapter plan.
+Drafted 2026-11-16. Phases 1–3 and the first fetch quest built 2026-11-18 (see "Build status" at the end). Cross-chapter design, so it lives here rather than in a chapter plan.
 
 ## Why
 
@@ -114,3 +114,16 @@ Tooling per phase: a playtest/autoplay hook so the auto-player can pay fares and
 | 3 | Does Bakhawan move out of Ch2 (CHAPTER3_PLAN decision 4)? | Fares make it a paid optional trip either way |
 | 4 | Should the café snack give a gameplay bonus? | No, cosmetic comfort only |
 | 5 | Cosmetics in scope for this game? | Later phase, after Ch4 |
+
+## Build status (2026-11-18)
+
+Phases 1–3 are in. Starting values as in the tables above unless noted.
+
+- **Wallet:** `GameState.pesos`, `inventory`, `allowance_date`, `review_earn_date` / `review_earned_today`, `quest_offer_declined` (all saved, default empty, so old saves load). `RewardManager.award_pesos / spend_pesos / award_story_activity / award_review / check_allowance`. HUD "₱N" panel left of the clock (shown from Ch2, or once the player has money) and a "+₱N" toast through `popup_queued`. Dev menu: Money → +₱50.
+- **Earning hooks:** story quiz and minigame lines (DialogueUI) ₱5 / ₱2; NPC Review ₱3 / ₱1, capped at ₱15 per day; Lola's allowance ₱10 from 6 AM while under ₱20 (from Ch2).
+- **Fares:** `regions.json` has Home, Pastrana Park, Kalibo Cathedral, Market (tricycle ₱5, walk 30 min), Haboean (jeepney ₱15, walk 2 h, after `quest_007_done`) and Bakhawan (van ₱15, walk 2 h, after `map_open_bakhawan`; its old archived gate challenge is gone). Map markers are placeholders around the airport marker. `MapManager.travel_to_region(id, "ride" | "walk")`; the coin exchange is `Economy.pay()` (scripts/ui/market_panel.gd). Map trips are refused while out with Rose or the family (the trip flags), so story trips stay free and untouched.
+- **Inventory and buying:** `data/items.json` (goods; the piña bookmark as a never-sellable keepsake), `Economy` autoload, "Buy" in Nong Pedring's NPC menu at the market.
+- **Side quests:** `"category": "side"` quests with `giver`, `offer_flag`, `start_pesos`, `needs_items`, `reward_rapport`, `lines` (scripts/util/side_quests.gd). Journal: "Side quests" section and a "Bring:" item checklist. First one: qs001 "Susan's list".
+- **Lines:** `data/economy_lines.json`; draft Akeanon waits for review. Money/fare word still open (question 1).
+
+Not built yet from phases 1–3: ₱2 for a word's first "mastered", Habi-Habi per-row pay, retiring `akeanon_stars`, and an autoplay hook that pays fares / finishes a fetch quest. The static check (`validate.gd` `_check_economy`) is in.

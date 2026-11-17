@@ -12,4 +12,4 @@ script = ExtResource("2_paper")
 [node name="InteractableComponent" parent="." instance=ExtResource("3_paper")]
 position = Vector2(0, -14)
 interact_label = "Read"
-area_size = Vector2(64, 64)
+area_size = Vector2(32, 64)

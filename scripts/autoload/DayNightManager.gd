@@ -53,6 +53,11 @@ const LIGHT_KEYS: Array = [
 signal hour_changed(hour: int)
 ## Emitted when the clock passes midnight and the in-game date advances.
 signal day_changed
+## Emitted when the daily day (GameState.daily_date(), which turns over at
+## GameState.DAILY_START_HOUR) changes: the newspaper puzzle and word of the day reset.
+signal daily_reset
+
+var _last_daily_date: int = -1
 
 const SECONDS_PER_DAY: int = 86400
 const WEEKDAY_SHORT: Array[String] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
@@ -85,6 +90,7 @@ func _process(delta: float) -> void:
 		var after: int = int(GameState.time_of_day)
 		if after != before:
 			hour_changed.emit(after)
+			_check_daily()
 	_apply()
 
 ## Current in-game date: {year, month, day, weekday (0 = Sunday)}.
@@ -120,6 +126,7 @@ func get_hour() -> float:
 func set_hour(hour: float) -> void:
 	GameState.time_of_day = fposmod(hour, 24.0)
 	hour_changed.emit(int(GameState.time_of_day))
+	_check_daily()
 	_apply()
 
 ## Minutes from now until the first arrival_hour that is at least min_minutes
@@ -148,6 +155,7 @@ func advance_minutes(minutes: float) -> void:
 		day_changed.emit()
 	if int(GameState.time_of_day) != before or days > 0:
 		hour_changed.emit(int(GameState.time_of_day))
+	_check_daily()
 	_apply()
 
 func is_night() -> bool:
@@ -176,3 +184,12 @@ func _sample_color(keys: Array, hour: float) -> Color:
 func _sample_float(keys: Array, hour: float) -> float:
 	var i: int = _key_index(keys, hour)
 	return lerpf(keys[i][1], keys[i + 1][1], _key_weight(keys, i, hour))
+
+## Emits daily_reset once each time the daily day changes. The first call after
+## boot only records it. A reset right after loading another save is harmless:
+## listeners just refresh.
+func _check_daily() -> void:
+	var daily: int = GameState.daily_date()
+	if _last_daily_date != -1 and daily != _last_daily_date:
+		daily_reset.emit()
+	_last_daily_date = daily

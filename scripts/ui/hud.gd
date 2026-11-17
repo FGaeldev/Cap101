@@ -133,8 +133,12 @@ func _ready() -> void:
 	GameState.mastery_changed.connect(_on_mastery_changed)
 	GameState.word_learned.connect(_on_word_learned)
 	AchievementManager.achievement_unlocked.connect(_on_achievement_unlocked)
+	RewardManager.popup_queued.connect(_on_reward_popup)
+	GameState.pesos_changed.connect(func(_total, _delta): _refresh_wallet())
 	_apply_style()
 	_refresh_tier()
+	_build_wallet()
+	_refresh_wallet()
 	_rebuild_quest_rows()
 	# This layer sits above every panel: the column's own empty area must not
 	# swallow clicks meant for what's under it. MenuButton still gets its own.
@@ -148,6 +152,8 @@ func _ready() -> void:
 	TutorialManager.register_target("tier_bar", tier_bar)
 	# The joystick draws its ring well outside its small control rect.
 	joystick.set_meta("tutorial_arrow_margin", JOYSTICK_RING_MARGIN)
+	# Taps on the ring must not reach world objects under it (Comp_Interactable).
+	joystick.add_to_group(InteractableComponent.TOUCH_BLOCKER_GROUP)
 	TutorialManager.register_target("joystick", joystick)
 	TutorialManager.register_target("interact_button", interact_button)
 	_build_separated_menu_controls()
@@ -155,6 +161,7 @@ func _ready() -> void:
 	_apply_menu_mode(BookUI.separate_menus)
 	DayNightManager.hour_changed.connect(func(_h): _check_event_reminders())
 	_check_event_reminders.call_deferred()  # loaded save: this morning's may be due
+	RewardManager.check_allowance.call_deferred()  # loaded save: this morning's allowance may be due
 
 func _process(_delta: float) -> void:
 	var overlay: bool = _is_overlay_active()
@@ -169,6 +176,7 @@ func _process(_delta: float) -> void:
 	# and need the corners HUD draws in. Toasts stay, so new words still show.
 	var fullscreen: bool = DialogueUI.is_fullscreen_active()
 	clock_panel.visible = not fullscreen
+	_wallet_panel.visible = not fullscreen and _wallet_shown()
 	_menu_row.visible = not fullscreen
 	quest_column.visible = not fullscreen
 	tier_bar.visible = not fullscreen and not BookUI.separate_menus
@@ -215,7 +223,7 @@ func _update_interact_button(overlay: bool) -> void:
 		interact_button.visible = false
 		_nearest_interactable = null
 		return
-	_nearest_interactable = InteractableComponent.get_nearest(player.global_position)
+	_nearest_interactable = InteractableComponent.get_nearest_to(player)
 	interact_button.visible = _nearest_interactable != null
 
 func _on_interact_button_pressed() -> void:
@@ -617,3 +625,46 @@ func _update_clock_period() -> void:
 	if _clock_period.texture != MenuStyle.icon(index):
 		_clock_period.texture = MenuStyle.icon(index)
 		_clock_period.self_modulate = MenuStyle.ICON_COLOR_DAY if morning else MenuStyle.ICON_COLOR_NIGHT
+
+# --- Wallet (docs/ECONOMY_PLAN.md) -------------------------------------------
+
+## Wallet counter: shown once the player lives in Aklan, or holds any money.
+const WALLET_FLAG := "seen_chapter2_scene0"
+var _wallet_panel: PanelContainer
+var _wallet_label: Label
+
+## "₱12" panel to the left of the clock, in one row with it.
+func _build_wallet() -> void:
+	var row := HBoxContainer.new()
+	row.name = "ClockRow"
+	row.size_flags_horizontal = Control.SIZE_SHRINK_END
+	row.add_theme_constant_override("separation", 4)
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var index: int = clock_panel.get_index()
+	right_column.remove_child(clock_panel)
+	right_column.add_child(row)
+	right_column.move_child(row, index)
+	_wallet_panel = PanelContainer.new()
+	_wallet_panel.name = "Wallet"
+	_wallet_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_wallet_panel.add_theme_stylebox_override("panel", UIThemeApplier.make_header_right_style())
+	_wallet_label = Label.new()
+	_wallet_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_EMPHASIS)
+	_wallet_panel.add_child(_wallet_label)
+	row.add_child(_wallet_panel)
+	row.add_child(clock_panel)
+	TutorialManager.register_target("hud_wallet", _wallet_panel)
+
+func _wallet_shown() -> bool:
+	return GameState.pesos > 0 or GameState.get_flag(WALLET_FLAG)
+
+func _refresh_wallet() -> void:
+	if _wallet_label != null:
+		_wallet_label.text = "₱%d" % GameState.pesos
+
+## RewardManager's popup queue: HUD is its display. Pesos show as a "+₱N"
+## toast; the other reward kinds have no display yet and are just drained.
+func _on_reward_popup(kind: String, value) -> void:
+	if kind == "pesos":
+		push_toast(str(value.get("reason", "Pesos")), "+₱%d" % int(value.get("amount", 0)))
+	RewardManager.advance_popup()

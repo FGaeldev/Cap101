@@ -12,8 +12,15 @@ extends SceneTree
 #   --out=DIR             where events.log, findings.json and shots/ go (required).
 #   --budget=SEC          real-time limit (default 900 per chapter).
 #   --speed=X             Engine.time_scale floor (default 3).
-#   --no-fast-calendar    don't jump the clock to Saturday night after the Ch2 tour
-#                         (by default it does, so Sunday mass gets tested quickly).
+#   --wait-speed=X        Engine.time_scale while waiting for the clock (default 12).
+#
+# It plays through real input, like a person: walks tile by tile by holding the
+# ui_* actions along a grid path (walls and NPCs block it), faces what it wants
+# and presses "interact", walks onto doors and holds their direction, advances
+# dialogue with "interact", and clicks choice/menu buttons with the mouse. It
+# never moves the player or the clock directly: time passes by waiting (sped up)
+# or by sleeping in a bed it walked to. Minigames are still resolved without
+# playing them, and tutorial steps it can't reach get their event sent.
 #
 # Must run WINDOWED (not --headless): screenshots need a real frame.
 # Overwrites user://save.dat while it runs -- run.sh backs it up and restores it.
@@ -32,7 +39,7 @@ const CHAPTERS := {
 	3: {"start_level": "res://scenes/world/chapter2/aklan_living.tscn", "setup": "_setup_ch3", "done": "_done_ch3"},
 }
 
-var opts := {"mode": "full", "chapter": 1, "out": "", "budget": 0.0, "speed": 3.0, "fast_calendar": true}
+var opts := {"mode": "full", "chapter": 1, "out": "", "budget": 0.0, "speed": 3.0, "wait_speed": 12.0}
 var _chapters: Array = []      # chapter numbers this run plays, in order
 var _chapter_i := 0
 var _phase := 0
@@ -71,12 +78,26 @@ var _no_action_rounds := 0
 var _warp_runs := {}
 var _explore_steps := 0
 var _want_sleep := false
-var _jump_sunday := false
-var _dinner_jumped := false
 var _want_bakhawan := false
 var _bakhawan_went := false
 var _mass_done := false
 var _wait_until := -1
+
+# navigation (real input)
+const TILE := 16
+const DIR_ACTIONS := {Vector2i.LEFT: "ui_left", Vector2i.RIGHT: "ui_right", Vector2i.UP: "ui_up", Vector2i.DOWN: "ui_down"}
+const TRIGGER_DIRS := [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]  # comp_warp.gd TriggerDirection order
+## Real ms a walk may stand still with input held (an NPC in the way) before replanning.
+const STALL_MS := 1500
+const MAX_REPLANS := 5
+var _nav := {}               # active walk/interaction, see _nav_start
+var _held := Vector2i.ZERO   # direction action currently held
+var _scene_graph := {}       # level path -> [{node, to}] from every level's warps
+var _failed_edges := {}      # "level::node" -> epoch it failed in
+var _wait_hour := -1.0       # waiting for the clock to reach this hour (sped up)
+var _waits := 0
+var _bed_trips := 0
+var _click := {}             # last button clicked: {key, t, btn}
 
 
 class CaptureLogger extends Logger:
@@ -112,7 +133,7 @@ func _parse_args() -> void:
 			"out": opts.out = v
 			"budget": opts.budget = float(v)
 			"speed": opts.speed = float(v)
-			"no-fast-calendar": opts.fast_calendar = false
+			"wait-speed": opts.wait_speed = float(v)
 
 func _queue_error(e: Dictionary) -> void:
 	_err_mutex.lock()
@@ -248,7 +269,8 @@ func _start() -> void:
 	else:
 		_chapters = playable
 	if opts.budget <= 0.0:
-		opts.budget = 900.0 * _chapters.size()
+		opts.budget = 2400.0 * _chapters.size()  # walking and sleeping take real time
+	_build_scene_graph()
 	if _headless:
 		_p("WARNING: running headless -- no screenshots will be taken")
 	_p("START mode=%s chapters=%s budget=%ds" % [opts.mode, _chapters, int(opts.budget)])
@@ -278,8 +300,6 @@ func _current_chapter() -> int:
 func _on_flag(flag: String, value: bool) -> void:
 	_p("FLAG %s = %s" % [flag, value])
 	_progress()
-	if flag == "chapter2_tour_done" and value and opts.fast_calendar and _current_chapter() == 2:
-		_jump_sunday = true
 	if flag == "chapter2_mass_cathedral" and value:
 		_want_bakhawan = true
 		_mass_done = true  # the flag itself is cleared again once home
@@ -291,6 +311,8 @@ func _progress() -> void:
 	_tried.clear()
 	_no_action_rounds = 0
 	_explore_steps = 0
+	_waits = 0
+	_bed_trips = 0
 
 func _finish(reason: String) -> void:
 	_p("END: " + reason)
@@ -382,6 +404,7 @@ func _drive() -> void:
 		return
 	# Hold still while a finding's screenshot is pending, so it shows that moment.
 	if _capturing or not _shot_queue.is_empty():
+		_hold_dir(Vector2i.ZERO)  # stop where we are; the walk picks up again after
 		return
 	# Chapter finished?
 	if _chapter_i < _chapters.size() and call(CHAPTERS[_chapters[_chapter_i]].done):
@@ -394,18 +417,25 @@ func _drive() -> void:
 	if lvl_path != _last_level:
 		_last_level = lvl_path
 		_p("LEVEL " + lvl_path)
+	_check_click_miss()
+	if not _nav.is_empty() and _nav_interrupted():
+		return
+	if _wait_hour >= 0.0 and (A.CutsceneManager.is_playing() or A.DialogueUI.is_active() or A.MapManager.is_transitioning):
+		_stop_waiting("something happened")
 	if A.ChapterCard.visible:
 		if not A.ChapterCard._continue_btn.disabled:
-			_p("CHAPTER CARD: " + A.ChapterCard._title_label.text)
-			A.ChapterCard._on_continue()
+			if _wait(300):
+				return
+			_p("CHAPTER CARD: " + A.ChapterCard._title_label.text + " -> click Continue")
+			_click_button(A.ChapterCard._continue_btn, "chapter_card")
 		return
 	if A.BookUI.visible:
 		if A.TutorialManager.is_running():
 			_tutorial_step()
 		if _wait(400):
 			return
-		_p("BOOKUI close")
-		A.BookUI.close()
+		_p("BOOKUI close (Esc)")
+		_key(KEY_ESCAPE)
 		return
 	var DUI = A.DialogueUI
 	for pair in [["phrase_builder", DUI._phrase_box], ["quiz", DUI._quiz_box], [str(DUI._minigame_type), DUI._minigame_box]]:
@@ -422,20 +452,28 @@ func _drive() -> void:
 	if DUI._newspaper_box != null and is_instance_valid(DUI._newspaper_box) and DUI._newspaper_box.visible:
 		if _wait(400):
 			return
-		_p("NEWSPAPER close")
-		DUI._newspaper_box.close()
-		DUI.hide()
+		_p("NEWSPAPER put down (Esc)")
+		_key(KEY_ESCAPE)
 		return
 	if DUI._npc_menu != null and is_instance_valid(DUI._npc_menu) and DUI._npc_menu.visible:
 		if _wait(300):
 			return
-		var pick := "talk"
+		var pick := "Talk"
 		if _review_done < 2 and A.GameState.get_flag("seen_chapter1_scene4"):
-			pick = "review"
-			_review_done += 1
+			pick = "Review"
 		var who: String = DUI._npc_menu.get_node("NpcName").text if DUI._npc_menu.has_node("NpcName") else "?"
-		_p("NPC MENU (%s) -> %s" % [who, pick])
-		DUI._on_npc_interaction_choice(pick)
+		var btn: Button = null
+		for b in DUI._npc_menu.get_children():
+			if b is Button and b.text == pick:
+				btn = b
+		if btn == null:
+			_add_finding("softlock", "NPC menu for %s has no '%s' button" % [who, pick])
+			DUI._on_npc_interaction_choice(pick.to_lower())
+			return
+		if pick == "Review" and _click.get("key", "") != "npc:" + who:
+			_review_done += 1
+		_p("NPC MENU (%s) -> click %s" % [who, pick])
+		_click_button(btn, "npc:" + who)
 		return
 	var comp = DUI._current_component
 	if DUI._choice_box != null and DUI._choice_box.visible:
@@ -449,6 +487,9 @@ func _drive() -> void:
 		if comp != null and is_instance_valid(comp) and comp._current_line < comp.dialogue_lines.size():
 			prompt = str(comp.dialogue_lines[comp._current_line].get("text", ""))
 		var key := prompt + "|" + "|".join(btns.map(func(b): return b.text))
+		# Clicked this same menu a moment ago and it's still up: the click missed.
+		if _click.get("key", "") == key and Time.get_ticks_msec() - int(_click.get("t", 0)) < 1500:
+			return
 		var rec: Dictionary = _choice_seen.get(key, {"count": 0, "epoch": -1})
 		var idx := 0
 		if rec["epoch"] == _epoch:
@@ -460,8 +501,8 @@ func _drive() -> void:
 		rec["count"] += 1
 		rec["epoch"] = _epoch
 		_choice_seen[key] = rec
-		_p("CHOICE [%s] -> '%s'  (options: %s)" % [prompt.left(70), btns[idx].text, " / ".join(btns.map(func(b): return b.text.left(30)))])
-		btns[idx].pressed.emit()
+		_p("CHOICE [%s] -> click '%s'  (options: %s)" % [prompt.left(70), btns[idx].text, " / ".join(btns.map(func(b): return b.text.left(30)))])
+		_click_button(btns[idx], key)
 		return
 	if comp != null and is_instance_valid(comp) and DUI._root != null and DUI._root.visible:
 		var lines: Array = comp.dialogue_lines
@@ -480,7 +521,7 @@ func _drive() -> void:
 				_tutorial_step()
 		if _wait(250):
 			return
-		DUI.player_pressed_advance()
+		_tap_action("interact")  # same as the keyboard; DialogueBox finishes typing, then advances
 		return
 	if DUI.is_active():
 		if _active_since < 0:
@@ -504,6 +545,12 @@ func _drive() -> void:
 			_busy_since = now
 		return
 	_busy_since = -1
+	if not _nav.is_empty():
+		_nav_tick()
+		return
+	if _wait_hour >= 0.0:
+		_wait_tick()
+		return
 	if _idle_since < 0:
 		_idle_since = now
 		return
@@ -564,43 +611,50 @@ func _score(ic: Node) -> int:
 			return 60
 	return 0
 
+var _route_target := ""      # level the auto-player is walking to through doors
+var _block_cache := {}
+
+## Picks the next thing to do and starts walking to it. Called once the game has
+## been idle a moment (no dialogue, cutscene or transition).
 func _act() -> void:
 	var level := _level()
 	var player := _player()
 	if level == null or player == null:
 		return
-	# A level asking the player to walk somewhere (haboean_cafe.gd's directions
-	# walk): go straight there, the way warps are taken below.
+	var GS = A.GameState
+	var lvl_path: String = GS.current_level_path
+	# Standing between tiles: grid walking (walk_state.gd) keeps the offset for good,
+	# so doors and objects stop lining up. Something moved the player off the grid.
+	if not player.has_meta("pew") and player.global_position.distance_to(_cell_pos(_cell_of(player.global_position))) > 0.5:
+		_add_finding("off_grid", "player left standing between tiles at %s in %s (grid walking keeps that offset, so doors and objects stop lining up)" % [player.global_position, lvl_path.get_file()])
+	# Seated (pew.gd, seat.gd): any direction gets up, like on a phone.
+	if player.has_meta("pew"):
+		_p("STAND UP (press down)")
+		_hold_dir(Vector2i.DOWN)
+		_nav = {"kind": "stand", "phase": "tap", "ticks": 0}
+		return
+	# A level asking the player to walk somewhere (haboean_cafe.gd's directions walk).
 	if level.has_method("walk_goal"):
 		var goal: Vector2i = level.walk_goal()
 		if goal.x > -99:
-			_p("WALK to the level's goal tile %s" % goal)
-			player.global_position = level.global_position + Vector2(goal.x * 16, (goal.y + 1) * 16)
-			return
-	var GS = A.GameState
-	# Dinner after the tour (chapter2_scene5) plays at 6 PM in the living room:
-	# stop there on the tour day before skipping ahead to the weekend.
-	if _jump_sunday and not _dinner_jumped and not GS.get_flag("chapter2_with_rose") \
-			and not GS.get_flag("chapter2_evening_seen") \
-			and GS.current_level_path.ends_with("aklan_living.tscn") and A.DayNightManager.get_hour() < 18.0:
-		_dinner_jumped = true
-		var t: Dictionary = A.DayNightManager.get_date()
-		A.DayNightManager.jump_to(t["year"], t["month"], t["day"], 17.95)
-		_p("TEST: fast calendar -> dinner time %04d-%02d-%02d" % [t.year, t.month, t.day])
-		return
-	if _jump_sunday and _dinner_jumped and not GS.get_flag("chapter2_evening_seen") \
-			and A.DayNightManager.get_hour() < 19.0:
-		return  # wait at home for the dinner beat
-	if _jump_sunday and not GS.get_flag("chapter2_with_rose"):
-		_jump_sunday = false
-		var d: Dictionary = A.DayNightManager.get_date()
-		var add: int = (6 - int(d["weekday"]) + 7) % 7
-		var u: int = Time.get_unix_time_from_datetime_dict({"year": d["year"], "month": d["month"], "day": d["day"], "hour": 12}) + add * 86400
-		var nd: Dictionary = Time.get_datetime_dict_from_unix_time(u)
-		A.DayNightManager.jump_to(nd["year"], nd["month"], nd["day"], 21.0)
-		_p("TEST: fast calendar -> Saturday night %04d-%02d-%02d" % [nd.year, nd.month, nd.day])
-		_want_sleep = true
-	var lvl_path: String = GS.current_level_path
+			var off := Vector2i((level.global_position / TILE).round())
+			if _tried.get("goal:%s" % goal, 0) < 3:
+				_tried["goal:%s" % goal] = _tried.get("goal:%s" % goal, 0) + 1
+				if _nav_start({"kind": "goal", "goals": {goal + off: true}, "why": "level goal tile %s" % goal, "name": "goal"}):
+					return
+	# Walking through doors to a room picked earlier (e.g. to bed).
+	if _route_target != "":
+		if lvl_path == _route_target:
+			_p("ROUTE arrived in " + lvl_path.get_file())
+			_route_target = ""
+		else:
+			var edge := _route_edge(lvl_path, _route_target)
+			var w: Node = level.get_node_or_null(NodePath(edge.get("node", ""))) if not edge.is_empty() else null
+			if w != null:
+				_nav_warp(w, level, "route to " + _route_target.get_file())
+				return
+			_p("ROUTE lost: no known door path from %s to %s" % [lvl_path.get_file(), _route_target.get_file()])
+			_route_target = ""
 	var best: Node = null
 	var best_score := 0
 	var objects := []
@@ -618,11 +672,11 @@ func _act() -> void:
 		elif not _touched_objects.has(key) and ic.get_parent().get("sleepable") == null:
 			objects.append(ic)
 	if best != null:
-		_interact(best, level, "story score %d" % best_score)
+		_nav_interact(best, level, "story score %d" % best_score, best_score)
 		return
 	if not objects.is_empty():
 		_touched_objects["%s::%s" % [lvl_path, level.get_path_to(objects[0])]] = true
-		_interact(objects[0], level, "coverage")
+		_nav_interact(objects[0], level, "coverage", 0)
 		return
 	if _want_sleep or _explore_steps >= 8:
 		for ic in _interactables(level):
@@ -630,7 +684,7 @@ func _act() -> void:
 				_tried["bed:" + lvl_path] = 1
 				_want_sleep = false
 				_sleeps += 1
-				_interact(ic, level, "sleep #%d" % _sleeps)
+				_nav_interact(ic, level, "sleep #%d" % _sleeps, 0)
 				return
 	var warps := level.find_children("*", "Area2D", true, false).filter(func(w): return w.get("target_scene") != null)
 	for w in warps:
@@ -655,43 +709,614 @@ func _act() -> void:
 		_tried["warp:" + key] = _tried.get("warp:" + key, 0) + 1
 		_warp_runs[key] = _warp_runs.get(key, 0) + 1
 		_explore_steps += 1
-		_p("WARP via %s -> %s #%s (needs flag '%s')" % [level.get_path_to(w), w.target_scene.get_file(), w.target_spawn_id, w.required_flag])
-		player.global_position = w.global_position
-		w._fire(player)
+		_nav_warp(w, level, "explore")
 		return
 	for ic in _interactables(level):
 		if ic.get_parent().get("sleepable") == true and _tried.get("bed:" + lvl_path, 0) < 1:
 			_tried["bed:" + lvl_path] = 1
 			_sleeps += 1
-			_interact(ic, level, "sleep #%d" % _sleeps)
+			_nav_interact(ic, level, "sleep #%d" % _sleeps, 0)
 			return
+	# Nothing left here: let the clock run (sped up), or walk to bed and sleep.
 	_no_action_rounds += 1
-	if _no_action_rounds == 1:
-		_p("NOTHING TO DO: advancing clock 2h")
-		A.DayNightManager.advance_minutes(120)
+	var hour: float = A.DayNightManager.get_hour()
+	if _waits < 4 and hour >= 6.0 and hour < 19.0:
+		_waits += 1
 		_tried.clear(); _explore_steps = 0
+		_start_waiting(minf(hour + 2.0, 19.5), "nothing to do")
 		return
-	if _no_action_rounds < 6:
+	if _bed_trips < 7:
+		_bed_trips += 1
+		_waits = 0
+		_want_sleep = true
+		_tried.clear(); _explore_steps = 0
 		var bed_level: String = "res://scenes/world/chapter2/aklan_BR_Player.tscn" if GS.get_flag("seen_chapter2_scene0") \
 			else "res://scenes/world/chapter1/us_bedroom.tscn"
 		if lvl_path != bed_level:
-			_p("NOTHING TO DO: going to bed in %s" % bed_level.get_file())
-			A.MapManager.warp_to_scene(bed_level, "DefaultSpawn", 0)
-			_want_sleep = true
-			_tried.clear(); _explore_steps = 0
-			return
-		A.DayNightManager.advance_minutes(240)
-		_tried.clear(); _explore_steps = 0
-		_p("NOTHING TO DO: advancing clock 4h")
+			_p("NOTHING TO DO: walking to bed in %s" % bed_level.get_file())
+			_route_target = bed_level
 		return
 	_add_finding("stuck", "auto-player found nothing left to do before chapter %d's finish line" % _current_chapter())
 	_finish("no more actions found")
 
-func _interact(ic: Node, level: Node, why: String) -> void:
+# --- navigation: real input ------------------------------------------------------
+
+func _nav_interact(ic: Node, level: Node, why: String, score: int) -> void:
 	var key := "%s::%s" % [A.GameState.current_level_path, level.get_path_to(ic)]
 	_tried[key] = _tried.get(key, 0) + 1
 	var p: Node2D = ic.get_parent()
+	var rect := _shape_rect(ic.get_node_or_null("InteractArea/CollisionShape2D"))
+	if not rect.has_area():
+		rect = Rect2(p.global_position + Vector2(-2, -18), Vector2(20, 20))
+	var name := str(level.get_path_to(p))
+	_p("GO INTERACT %s (%s)" % [name, why])
+	_nav_start({"kind": "interact", "ic": ic, "rect": rect, "why": why, "name": name, "score": score})
+
+func _nav_warp(w: Node, level: Node, why: String) -> void:
+	var trig: Vector2i = TRIGGER_DIRS[int(w.trigger_direction)]
+	var name := str(level.get_path_to(w))
+	_p("GO WARP %s -> %s #%s (%s, needs flag '%s')" % [name, str(w.target_scene).get_file(), w.target_spawn_id, why, w.required_flag])
+	_nav_start({"kind": "warp", "warp": w, "rect": _shape_rect(w.get_node_or_null("CollisionShape2D")),
+		"trig": trig, "why": why, "name": name, "edge": "%s::%s" % [A.GameState.current_level_path, name]})
+
+## Plans a path to the target's tiles and starts walking. False if it can't be reached.
+func _nav_start(nav: Dictionary) -> bool:
 	var player := _player()
-	_p("INTERACT %s (%s)" % [level.get_path_to(p), why])
-	player.global_position = ((p.global_position + Vector2(0, 16)) / 16.0).round() * 16.0
-	ic.interacted.emit(player)
+	_block_cache.clear()
+	var start := _cell_of(player.global_position)
+	var goals: Dictionary = nav.get("goals", {})
+	if goals.is_empty():
+		goals = _goal_cells(nav.rect, start, nav.get("trig", Vector2i.ZERO))
+	nav.goals = goals
+	nav.avoid = _other_warp_cells(nav.get("warp"))
+	var path = _find_path(start, goals, nav.avoid)
+	if path == null:
+		_nav_unreachable(nav)
+		return false
+	nav.path = path
+	nav.phase = "walk"
+	nav.replans = 0
+	nav.prev = player.global_position
+	nav.still_since = -1
+	nav.face_tries = 0
+	nav.t = Time.get_ticks_msec()
+	_nav = nav
+	_p("WALK %d tiles to %s" % [path.size(), nav.name])
+	return true
+
+func _nav_unreachable(nav: Dictionary) -> void:
+	var lvl: String = A.GameState.current_level_path.get_file()
+	var player := _player()
+	var start := _cell_of(player.global_position)
+	var around := []
+	for d in TRIGGER_DIRS:
+		around.append("%s:%s" % [DIR_ACTIONS[d].trim_prefix("ui_"), _blocker_names(start + d)])
+	_p("UNREACHABLE %s in %s (%d candidate tiles %s) from tile %s pos %s; around: %s" % [nav.get("name", "?"), lvl, nav.get("goals", {}).size(), nav.get("goals", {}).keys().slice(0, 4), start, player.global_position, ", ".join(around)])
+	if nav.kind == "warp":
+		_failed_edges[nav.edge] = _epoch
+	if nav.kind == "interact" and int(nav.get("score", 0)) > 0:
+		# Only the map's fault if it's unreachable even with every NPC out of the way.
+		_ignore_npcs = true
+		_block_cache.clear()
+		var walled: bool = _find_path(start, _goal_cells(nav.rect, start, Vector2i.ZERO), {}) == null
+		_ignore_npcs = false
+		_block_cache.clear()
+		if walled:
+			_add_finding("stuck", "can't walk to %s in %s: no tile where it can be used is reachable, even with NPCs out of the way" % [nav.name, lvl])
+		else:
+			_p("  (an NPC is in the way right now)")
+	_nav = {}
+
+func _nav_clear() -> void:
+	_hold_dir(Vector2i.ZERO)
+	_nav = {}
+	_block_cache.clear()
+
+## True (and the walk is over) once something took over the screen: dialogue, a
+## cutscene, a warp, the Book. Expected when we just interacted or held a door.
+func _nav_interrupted() -> bool:
+	var why := ""
+	if A.CutsceneManager.is_playing():
+		why = "cutscene"
+	elif A.MapManager.is_transitioning:
+		why = "warp"
+	elif A.DialogueUI.is_active():
+		why = "dialogue/menu"
+	elif A.BookUI.visible:
+		why = "book"
+	elif A.ChapterCard.visible:
+		why = "chapter card"
+	elif _nav.get("phase", "") == "await" and _player() != null and _player().has_meta("pew"):
+		why = "sat down"
+	if why == "":
+		return false
+	if _nav.get("phase", "") in ["await", "hold"]:
+		_p("  -> %s" % why)
+	else:
+		_p("WALK to %s interrupted by %s" % [_nav.get("name", "?"), why])
+	_nav_clear()
+	return true
+
+func _nav_tick() -> void:
+	var player := _player()
+	if player == null:
+		_nav_clear()
+		return
+	var now := Time.get_ticks_msec()
+	match _nav.phase:
+		"tap":
+			_nav.ticks += 1
+			if _nav.ticks >= 2:
+				_nav_clear()
+		"walk":
+			_walk_tick(player, now)
+		"face":
+			var want := _face_dir(player)
+			if want == Vector2i.ZERO or Vector2i(player.facing_vec) == want or _nav.face_tries >= 3:
+				_nav.phase = "act"
+				return
+			_hold_dir(want)  # one frame: Idle turns in place (idle_state.gd TURN_DELAY)
+			_nav.face_tries += 1
+			_nav.phase = "face_release"
+		"face_release":
+			_hold_dir(Vector2i.ZERO)
+			_nav.phase = "face"
+		"act":
+			if _nav.kind == "goal":
+				_p("  reached the goal tile")
+				_nav_clear()
+			elif _nav.kind == "warp":
+				_hold_dir(_nav.trig)
+				_nav.phase = "hold"
+				_nav.t = now
+			else:
+				_act_interact(player, now)
+		"wait_range":
+			_act_interact(player, now)
+		"await":
+			if now - int(_nav.t) > 1500:
+				_p("  (no visible response from %s)" % _nav.name)
+				_nav_clear()
+		"hold":
+			if now - int(_nav.t) > 3000:
+				_add_finding("stuck", "stood on door %s in %s holding %s for 3s and it didn't open" % [_nav.name, A.GameState.current_level_path.get_file(), DIR_ACTIONS[_nav.trig]])
+				_failed_edges[_nav.edge] = _epoch
+				_nav_clear()
+
+func _act_interact(player: Node2D, now: int) -> void:
+	var ic: Node = _nav.ic
+	if not is_instance_valid(ic):
+		_nav_clear()
+		return
+	if not ic._in_range:
+		if _nav.phase != "wait_range":
+			_nav.phase = "wait_range"
+			_nav.t = now
+			return
+		if now - int(_nav.t) < 600:
+			return
+		var c := _cell_of(player.global_position)
+		var area: Area2D = ic.get_node_or_null("InteractArea")
+		if area == null or not area.monitoring or not _reaches(_body_rect(c), _nav.rect):
+			_p("  %s isn't usable right now (area off or out of reach)" % _nav.name)
+			_nav_clear()
+			return
+		_p("  next to %s but its interact area doesn't reach the player: player tile %s pos %s, area %s, body rect overlap %s, overlapping bodies %s" % [
+			_nav.name, c, player.global_position, _nav.rect, _body_rect(c).intersection(_nav.rect),
+			area.get_overlapping_bodies().map(func(b): return b.name) if area and area.monitoring else []])
+		# A person would shuffle to another side; try the remaining tiles first.
+		_nav.goals.erase(c)
+		_nav.tried_tiles = int(_nav.get("tried_tiles", 0)) + 1
+		if not _nav.goals.is_empty() and _nav.tried_tiles < 4:
+			var path = _find_path(c, _nav.goals, _nav.avoid)
+			if path != null:
+				_p("  trying another side (%d tiles)" % path.size())
+				_nav.path = path
+				_nav.phase = "walk"
+				_nav.face_tries = 0
+				_nav.still_since = -1
+				return
+		if ic.get_parent() is CharacterBody2D:
+			_p("  (%s moved away)" % _nav.name)
+			_nav_clear()
+			return
+		_add_finding("interact_range", "walked up to %s in %s (tile %s) and it can't be used from there: its interact area doesn't reach any tile the player can stand on" % [_nav.name, A.GameState.current_level_path.get_file(), c])
+		_nav_clear()
+		return
+	var nearest = ic.get_nearest_to(player)
+	if nearest != ic and nearest != null:
+		var other := str(_level().get_path_to(nearest.get_parent())) if _level() else "?"
+		var aim: Vector2 = player.global_position + Vector2(8, -8) + player.facing_vec.normalized() * 16.0
+		var cands := []
+		for cand in ic._in_range_pool:
+			if is_instance_valid(cand):
+				cands.append("%s %.1f" % [cand.get_parent().name, cand.box_center().distance_to(aim)])
+		_p("  interact picks %s, not %s: player %s facing %s, distances from the faced spot: %s" % [other, _nav.name, _cell_of(player.global_position), player.facing_vec, ", ".join(cands)])
+		_add_finding("interact_target", "facing %s from the next tile in %s, but interact picks %s instead" % [_nav.name, A.GameState.current_level_path.get_file(), other])
+	_p("  press interact (facing %s)" % player.direction)
+	_tap_action("interact")
+	_nav.phase = "await"
+	_nav.t = now
+
+## Follows the planned path by holding direction actions. The next direction is
+## set while a step is still under way, since walk_state.gd chains the next step
+## from the input held when the current one ends.
+func _walk_tick(player: Node2D, now: int) -> void:
+	var pos: Vector2 = player.global_position
+	var moved: Vector2 = pos - _nav.prev
+	_nav.prev = pos
+	# Watchdogs: not moving at all for a while (wherever it stands), or a walk
+	# that takes far too long, gets replanned / dropped instead of hanging.
+	if moved.length() >= 0.01 or not _nav.has("last_move"):
+		_nav.last_move = now
+	elif now - int(_nav.last_move) > STALL_MS * 2:
+		_nav.last_move = now
+		_replan(player, "not moving at %s (%s), holding %s, state %s" % [pos, _cell_of(pos), DIR_ACTIONS.get(_held, "nothing"), player.state_machine.current_state.name if player.get("state_machine") and player.state_machine.get("current_state") else "?"])
+		return
+	if now - int(_nav.t) > 45000:
+		_p("WALK to %s took over 45s, giving up" % _nav.name)
+		_nav_clear()
+		return
+	var path: Array = _nav.path
+	if path.is_empty():
+		_hold_dir(Vector2i.ZERO)
+		_nav.phase = "face"
+		return
+	var cell := _cell_of(pos)
+	var on_grid := pos.distance_to(_cell_pos(cell)) < 0.05
+	if on_grid:
+		if _nav.goals.has(cell):
+			_hold_dir(Vector2i.ZERO)
+			if moved.length() < 0.01:
+				_nav.phase = "face"
+			return
+		var idx := path.find(cell)
+		var next_i := idx + 1 if idx >= 0 else 0
+		var want: Vector2i = path[next_i] - cell if next_i < path.size() else Vector2i.ZERO
+		if absi(want.x) + absi(want.y) != 1:
+			_replan(player, "off the path at %s" % cell)
+			return
+		_hold_dir(want)
+		if moved.length() < 0.01:
+			if _nav.still_since < 0:
+				_nav.still_since = now
+			elif now - int(_nav.still_since) > STALL_MS:
+				_replan(player, "blocked at %s heading %s" % [cell, DIR_ACTIONS[want]])
+		else:
+			_nav.still_since = -1
+		return
+	_nav.still_since = -1
+	var dir := Vector2i(signi(roundi(moved.x * 100)), signi(roundi(moved.y * 100)))
+	if dir == Vector2i.ZERO:
+		dir = _held
+	var to := cell
+	if dir.x > 0: to.x = floori(pos.x / TILE) + 1
+	elif dir.x < 0: to.x = ceili(pos.x / TILE) - 1
+	if dir.y > 0: to.y = floori(pos.y / TILE)
+	elif dir.y < 0: to.y = ceili(pos.y / TILE) - 2
+	if _nav.goals.has(to):
+		_hold_dir(Vector2i.ZERO)  # stop on the goal
+		return
+	var hi := path.find(to)
+	if hi < 0 or hi + 1 >= path.size():
+		_hold_dir(Vector2i.ZERO)  # stepping off the path: stop, replan when still
+		return
+	_hold_dir(path[hi + 1] - to)
+
+func _replan(player: Node2D, why: String) -> void:
+	_nav.replans += 1
+	_hold_dir(Vector2i.ZERO)
+	if _nav.replans > MAX_REPLANS:
+		_p("WALK to %s gave up (%s)" % [_nav.name, why])
+		if _nav.kind == "warp":
+			_failed_edges[_nav.edge] = _epoch
+		_nav_clear()
+		return
+	_block_cache.clear()
+	var path = _find_path(_cell_of(player.global_position), _nav.goals, _nav.avoid)
+	if path == null:
+		_nav_unreachable(_nav)
+		_hold_dir(Vector2i.ZERO)
+		return
+	_p("  replan (%s): %d tiles" % [why, path.size()])
+	_nav.path = path
+	_nav.still_since = -1
+
+## Direction from the player's tile toward the target's centre, on its longer axis.
+func _face_dir(player: Node2D) -> Vector2i:
+	if not _nav.has("rect"):
+		return Vector2i.ZERO
+	var d: Vector2 = (_nav.rect as Rect2).get_center() - (player.global_position + Vector2(8, -8))
+	if d.length() < 4.0:
+		return Vector2i.ZERO
+	if absf(d.x) > absf(d.y):
+		return Vector2i(signi(int(signf(d.x))), 0)
+	return Vector2i(0, signi(int(signf(d.y))))
+
+# --- grid ----------------------------------------------------------------------
+
+## Tile of an actor origin (bottom-left corner of its tile, like every actor here).
+func _cell_of(pos: Vector2) -> Vector2i:
+	return Vector2i(roundi(pos.x / TILE), roundi(pos.y / TILE) - 1)
+
+func _cell_pos(c: Vector2i) -> Vector2:
+	return Vector2(c.x * TILE, (c.y + 1) * TILE)
+
+## The player's 14x14 body on tile c (Player.tscn's CollisionShape2D).
+func _body_rect(c: Vector2i) -> Rect2:
+	return Rect2(c.x * TILE + 1, c.y * TILE + 1, 14, 14)
+
+## Positive overlap both ways. NPC areas (20x20 on their tile) reach a
+## neighbouring tile by exactly 1 px, which usually registers.
+func _reaches(body: Rect2, area: Rect2) -> bool:
+	var i := body.intersection(area)
+	return i.size.x > 0.5 and i.size.y > 0.5
+
+## What fills tile c, for the log: collider names, or "free".
+func _blocker_names(c: Vector2i) -> String:
+	var player := _player()
+	var shape := RectangleShape2D.new()
+	shape.size = Vector2(14, 14)
+	var q := PhysicsShapeQueryParameters2D.new()
+	q.shape = shape
+	q.transform = Transform2D(0.0, Vector2(c.x * TILE + 8, c.y * TILE + 8))
+	q.collision_mask = player.collision_mask
+	q.exclude = [player.get_rid()]
+	var names := []
+	for hit in player.get_world_2d().direct_space_state.intersect_shape(q, 4):
+		names.append(str(hit["collider"].name))
+	if names.is_empty():
+		return "out of map bounds" if _blocked(c) else "free"
+	return "/".join(names)
+
+func _shape_rect(cs: Node) -> Rect2:
+	if cs == null or not cs is CollisionShape2D or not cs.shape is RectangleShape2D:
+		return Rect2()
+	var size: Vector2 = (cs.shape as RectangleShape2D).size * (cs as Node2D).global_transform.get_scale().abs()
+	return Rect2((cs as Node2D).global_position - size / 2.0, size)
+
+## Free tiles where the player's body overlaps `rect`. For a door set into a wall,
+## the tiles in front of it from which a step toward `trig` reaches it.
+func _goal_cells(rect: Rect2, start: Vector2i, trig: Vector2i) -> Dictionary:
+	var out := {}
+	if not rect.has_area():
+		return out
+	var r := rect.grow(TILE)
+	for cx in range(floori(r.position.x / TILE), ceili(r.end.x / TILE) + 1):
+		for cy in range(floori(r.position.y / TILE), ceili(r.end.y / TILE) + 1):
+			var c := Vector2i(cx, cy)
+			if _reaches(_body_rect(c), rect) and (c == start or not _blocked(c)):
+				out[c] = true
+	# Like a person, line up with the target: keep only tiles straight in front of
+	# it (its centre within half a tile on the other axis), when there are any.
+	var centre := rect.get_center()
+	var lined := {}
+	for c: Vector2i in out:
+		var d: Vector2 = centre - Vector2(c.x * TILE + 8, c.y * TILE + 8)
+		if absf(d.x) < TILE / 2.0 or absf(d.y) < TILE / 2.0:
+			lined[c] = true
+	if not lined.is_empty():
+		out = lined
+	if out.is_empty() and trig != Vector2i.ZERO:
+		for cx in range(floori(r.position.x / TILE) - 1, ceili(r.end.x / TILE) + 2):
+			for cy in range(floori(r.position.y / TILE) - 1, ceili(r.end.y / TILE) + 2):
+				var c := Vector2i(cx, cy)
+				if _reaches(_body_rect(c + trig), rect) and (c == start or not _blocked(c)):
+					out[c] = true
+	return out
+
+## Tiles on other doors, which a careful player walks around.
+func _other_warp_cells(target: Variant) -> Dictionary:
+	var out := {}
+	var level := _level()
+	if level == null:
+		return out
+	for w in level.find_children("*", "Area2D", true, false):
+		if w == target or w.get("target_scene") == null:
+			continue
+		var rect := _shape_rect(w.get_node_or_null("CollisionShape2D"))
+		if not rect.has_area():
+			continue
+		for cx in range(floori(rect.position.x / TILE) - 1, ceili(rect.end.x / TILE) + 1):
+			for cy in range(floori(rect.position.y / TILE) - 1, ceili(rect.end.y / TILE) + 1):
+				if _body_rect(Vector2i(cx, cy)).intersects(rect):
+					out[Vector2i(cx, cy)] = true
+	return out
+
+## Something the player can't walk into fills tile c: walls, furniture, NPCs.
+## Same test as walk_state.gd's test_move, as a shape query on the player's mask.
+## With _ignore_npcs set, characters don't count (to tell "an NPC is in the way
+## right now" from "the map itself walls it off").
+var _ignore_npcs := false
+
+func _blocked(c: Vector2i) -> bool:
+	if _block_cache.has(c):
+		return _block_cache[c]
+	var player := _player()
+	var hit := false
+	var g := _game()
+	var bounds = g.get("_map_bounds") if g else null
+	if bounds is Rect2 and (bounds as Rect2).has_area() and not (bounds as Rect2).grow(TILE).has_point(Vector2(c.x * TILE + 8, c.y * TILE + 8)):
+		hit = true
+	else:
+		var shape := RectangleShape2D.new()
+		shape.size = Vector2(14, 14)
+		var q := PhysicsShapeQueryParameters2D.new()
+		q.shape = shape
+		q.transform = Transform2D(0.0, Vector2(c.x * TILE + 8, c.y * TILE + 8))
+		q.collision_mask = player.collision_mask
+		q.exclude = [player.get_rid()]
+		for h in player.get_world_2d().direct_space_state.intersect_shape(q, 4):
+			if not (_ignore_npcs and h["collider"] is CharacterBody2D):
+				hit = true
+	_block_cache[c] = hit
+	return hit
+
+## Breadth-first grid path from start to the nearest goal tile, not counting start.
+## [] if start is a goal, null if no goal can be reached. Walks around `avoid`
+## (other doors) when it can, and across them when that's the only way.
+func _find_path(start: Vector2i, goals: Dictionary, avoid: Dictionary) -> Variant:
+	var path = _bfs(start, goals, avoid)
+	if path == null and not avoid.is_empty():
+		path = _bfs(start, goals, {})
+	return path
+
+func _bfs(start: Vector2i, goals: Dictionary, avoid: Dictionary) -> Variant:
+	if goals.is_empty():
+		return null
+	if goals.has(start):
+		return []
+	var came := {start: start}
+	var q: Array[Vector2i] = [start]
+	var found := false
+	var end := start
+	while not q.is_empty() and came.size() < 8000:
+		var c: Vector2i = q.pop_front()
+		if goals.has(c):
+			found = true
+			end = c
+			break
+		for d in TRIGGER_DIRS:
+			var n: Vector2i = c + d
+			if came.has(n) or _blocked(n) or (avoid.has(n) and not goals.has(n)):
+				continue
+			came[n] = c
+			q.append(n)
+	if not found:
+		return null
+	var path: Array = []
+	var cur := end
+	while cur != start:
+		path.push_front(cur)
+		cur = came[cur]
+	return path
+
+# --- doors between levels ------------------------------------------------------
+
+## Every level's doors, read from the scene files: level -> [{node, to}].
+func _build_scene_graph() -> void:
+	var files: Array = []
+	_list_scenes("res://scenes/world", files)
+	for f in files:
+		var ps = load(f)
+		if not ps is PackedScene:
+			continue
+		var st: SceneState = ps.get_state()
+		var edges: Array = []
+		for i in st.get_node_count():
+			for j in st.get_node_property_count(i):
+				if st.get_node_property_name(i, j) == "target_scene":
+					var to := str(st.get_node_property_value(i, j))
+					if to != "":
+						edges.append({"node": str(st.get_node_path(i)), "to": to})
+		_scene_graph[f] = edges
+	_p("door graph: %d levels" % _scene_graph.size())
+
+func _list_scenes(dir: String, out: Array) -> void:
+	var d := DirAccess.open(dir)
+	if d == null:
+		return
+	for sub in d.get_directories():
+		if not sub.begins_with("_"):
+			_list_scenes(dir.path_join(sub), out)
+	for f in d.get_files():
+		if f.ends_with(".tscn"):
+			out.append(dir.path_join(f))
+
+## First door to take from `from` toward `to`, skipping doors that failed this epoch.
+func _route_edge(from: String, to: String) -> Dictionary:
+	var prev := {from: {}}
+	var q: Array = [from]
+	while not q.is_empty():
+		var s: String = q.pop_front()
+		if s == to:
+			break
+		for e in _scene_graph.get(s, []):
+			if _failed_edges.get("%s::%s" % [s, e.node.trim_prefix("./")], -1) == _epoch or prev.has(e.to):
+				continue
+			prev[e.to] = {"from": s, "edge": e}
+			q.append(e.to)
+	if to == from or not prev.has(to):
+		return {}
+	var cur := to
+	while prev[cur]["from"] != from:
+		cur = prev[cur]["from"]
+	return prev[cur]["edge"]
+
+# --- input ---------------------------------------------------------------------
+
+## Holds one direction action (the keyboard arrows / joystick), releasing the last.
+func _hold_dir(d: Vector2i) -> void:
+	if d == _held:
+		return
+	if _held != Vector2i.ZERO:
+		Input.action_release(DIR_ACTIONS[_held])
+	if d != Vector2i.ZERO:
+		Input.action_press(DIR_ACTIONS[d])
+	_held = d
+
+## One press and release of an action, as an input event (reaches _unhandled_input).
+func _tap_action(action: String) -> void:
+	for pressed in [true, false]:
+		var e := InputEventAction.new()
+		e.action = action
+		e.pressed = pressed
+		Input.parse_input_event(e)
+
+func _key(keycode: Key) -> void:
+	for pressed in [true, false]:
+		var e := InputEventKey.new()
+		e.keycode = keycode
+		e.physical_keycode = keycode
+		e.pressed = pressed
+		Input.parse_input_event(e)
+
+## Left click at the centre of a button, in window coordinates, the way a mouse
+## (or, with emulate_touch_from_mouse, a finger) would.
+func _click_button(btn: Control, key: String) -> void:
+	var vp_pos: Vector2 = btn.get_global_transform_with_canvas() * (btn.size / 2.0)
+	var win_pos: Vector2 = root.get_screen_transform() * vp_pos
+	var motion := InputEventMouseMotion.new()
+	motion.position = win_pos
+	motion.global_position = win_pos
+	Input.parse_input_event(motion)
+	for pressed in [true, false]:
+		var e := InputEventMouseButton.new()
+		e.button_index = MOUSE_BUTTON_LEFT
+		e.pressed = pressed
+		e.position = win_pos
+		e.global_position = win_pos
+		Input.parse_input_event(e)
+	_click = {"key": key, "t": Time.get_ticks_msec(), "btn": btn}
+
+## A clicked button still up 1.5 s later didn't take the click: report it, then
+## press it directly so the run goes on.
+func _check_click_miss() -> void:
+	if _click.is_empty():
+		return
+	var btn = _click.btn
+	if not is_instance_valid(btn) or not btn.is_visible_in_tree():
+		_click = {}
+		return
+	if Time.get_ticks_msec() - int(_click.t) < 1500:
+		return
+	_add_finding("click_miss", "clicked the middle of '%s' (%s) and nothing happened; pressed it directly" % [btn.get("text"), str(_click.key).left(60)])
+	_click = {}
+	btn.pressed.emit()
+
+# --- waiting for the clock -----------------------------------------------------
+
+func _start_waiting(hour: float, why: String) -> void:
+	_wait_hour = hour
+	Engine.time_scale = opts.wait_speed
+	_p("WAIT until %.1fh (%s), game speed x%s" % [hour, why, opts.wait_speed])
+
+func _wait_tick() -> void:
+	var h: float = A.DayNightManager.get_hour()
+	if h >= _wait_hour or h < 5.0:
+		_stop_waiting("clock reached %.1fh" % h)
+
+func _stop_waiting(why: String) -> void:
+	_wait_hour = -1.0
+	Engine.time_scale = opts.speed
+	_p("  stop waiting (%s)" % why)

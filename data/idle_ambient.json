@@ -1,0 +1,155 @@
+{
+	"_about": "Location/time/weekday sentences for idle talk (scripts/util/idle_talk.gd, AMBIENT step). Remove \"draft\" once a line's Akeanon is reviewed. Tokens: [Weekday] (Domingo..Sabado), [DayPart] (agahon/hapon/gabie); list them in word_ids to tag them.",
+	"templates": [
+		{
+			"id": "home_morning_eat",
+			"areas": ["aklan_home"],
+			"parts": ["morning"],
+			"speakers": ["family"],
+			"text": "\\Kaon \\kita, \\apo.",
+			"translation": "Let's eat, apo.",
+			"word_ids": ["w105", "w113", "w019"]
+		},
+		{
+			"id": "home_afternoon_rest",
+			"areas": ["aklan_home"],
+			"parts": ["afternoon"],
+			"speakers": ["family"],
+			"text": "\\Pahuway \\anay, \\apo.",
+			"translation": "Rest for a while, apo.",
+			"word_ids": ["w322", "w323", "w019"]
+		},
+		{
+			"id": "home_night_sleep",
+			"areas": ["aklan_home"],
+			"parts": ["night"],
+			"speakers": ["family"],
+			"text": "\\Gabie \\eon, \\apo. \\Pagkatueog \\eon.",
+			"translation": "It's night already, apo. Time to sleep.",
+			"word_ids": ["w252", "w277", "w019", "w328"]
+		},
+		{
+			"id": "weekday_quiz",
+			"_note": "The player answers from three weekday names (the right one plus two others). right/wrong are the NPC's reply.",
+			"kind": "weekday_quiz",
+			"parts": ["morning"],
+			"text": "\\Anong \\adlaw \\eon \\makaron, \\apo?",
+			"translation": "What day is it today, apo?",
+			"word_ids": ["w327", "w003", "w277", "w324", "w019"],
+			"right": {
+				"text": "Ahh, \\[Weekday] eota \\gali!",
+				"translation": "Ahh, so it's [Weekday] already!",
+				"word_ids": ["[Weekday]", "w064"]
+			},
+			"wrong": {
+				"text": "Matsa \\[Weekday] ta \\makaron, \\apo.",
+				"translation": "Actually, it's [Weekday] today, apo.",
+				"word_ids": ["[Weekday]", "w324", "w019"]
+			}
+		},
+		{
+			"id": "sunday_mass_mosyon",
+			"areas": ["aklan_home"],
+			"parts": ["morning"],
+			"weekdays": [0],
+			"speakers": ["family"],
+			"text": "\\Domingo \\eon. \\Mosyon \\magsimba \\kita!",
+			"translation": "It's Sunday. Come on, let's go to mass!",
+			"word_ids": ["w318", "w277", "w325", "w308", "w113"]
+		},
+		{
+			"id": "sunday_mass_maliyon",
+			"areas": ["aklan_home"],
+			"parts": ["morning"],
+			"weekdays": [0],
+			"speakers": ["family"],
+			"text": "\\Domingo \\eon. \\Maliyon \\magsimba \\kita!",
+			"translation": "It's Sunday. Let's go to mass!",
+			"word_ids": ["w318", "w277", "w326", "w308", "w113"]
+		},
+		{
+			"id": "park_morning_walkers",
+			"areas": ["pastrana"],
+			"parts": ["morning"],
+			"text": "\\Insakto \\nga \\tyempo \\para \\magtikang-tikang, \\noh?",
+			"translation": "Perfect weather for a stroll, isn't it?",
+			"word_ids": ["w329", "w180", "w235", "w191", "w331", "w330"]
+		},
+		{
+			"id": "park_ask_market",
+			"_note": "A stranger answers the player asking for directions (ask = the player's line first).",
+			"areas": ["pastrana"],
+			"speakers": ["stranger"],
+			"ask": {
+				"text": "\\Siin \\ro \\tindahan?",
+				"translation": "Where is the market?",
+				"word_ids": ["w214", "w202", "w295"]
+			},
+			"text": "\\Maeapit \\eang \\iya \\ro \\tindahan.",
+			"translation": "The market is just near here.",
+			"word_ids": ["w133", "w059", "w095", "w202", "w295"]
+		},
+		{
+			"id": "park_sunday_mass",
+			"areas": ["pastrana"],
+			"weekdays": [0],
+			"text": "\\Masimba \\ka \\man gha?",
+			"translation": "Are you going to mass too?",
+			"word_ids": ["w157", "w083", "w151"]
+		},
+		{
+			"id": "market_morning_busy",
+			"areas": ["market"],
+			"parts": ["morning"],
+			"text": "\\Abo \\ro \\tawo \\sa \\tindahan \\kon \\agahon.",
+			"translation": "There are lots of people at the market in the morning.",
+			"word_ids": ["w001", "w202", "w228", "w203", "w295", "w114", "w006"]
+		},
+		{
+			"id": "market_goods",
+			"_note": "kind pick: the player picks any choice, then the reply plays.",
+			"kind": "pick",
+			"areas": ["market"],
+			"speakers": ["stranger"],
+			"text": "\\Alin imo gha?",
+			"translation": "Which one do you want?",
+			"word_ids": ["w012"],
+			"choices": ["Bugas", "Isda", "Itlog"],
+			"reply": {
+				"text": "Ahh, \\igto kay Pedring \\eang.",
+				"translation": "Ahh, just go over there to Pedring's.",
+				"word_ids": ["w082", "w059"]
+			}
+		},
+		{
+			"id": "haboean_tried_weaving",
+			"_note": "Rhetorical, no answer expected.",
+			"areas": ["haboean"],
+			"text": "Kasamit \\ka \\eon \\maghaboe?",
+			"translation": "Have you tried weaving yet?",
+			"word_ids": ["w083", "w277", "w334"]
+		},
+		{
+			"id": "haboean_pina",
+			"areas": ["haboean"],
+			"text": "\\Piña \\ro \\ginahaboe \\iya.",
+			"translation": "What's being woven here is piña.",
+			"word_ids": ["w194", "w202", "w333", "w095"]
+		},
+		{
+			"id": "bakhawan_roots",
+			"areas": ["bakhawan_ecopark"],
+			"text": "\\Tanawa \\ro \\mga \\ugat, \\apo.",
+			"translation": "Look at the roots, apo.",
+			"word_ids": ["w223", "w202", "w166", "w238", "w019"]
+		},
+		{
+			"id": "away_night_home",
+			"areas": ["pastrana", "market", "haboean", "bakhawan_ecopark"],
+			"parts": ["night"],
+			"text": "\\Mosyon, \\mauli \\eon \\kita.",
+			"translation": "Come on, let's go home.",
+			"word_ids": ["w325", "w332", "w277", "w113"]
+		}
+	]
+}

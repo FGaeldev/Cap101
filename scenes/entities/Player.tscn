@@ -28,8 +28,6 @@ position = Vector2(8, 0)
 offset = Vector2(0, 20)
 zoom = Vector2(2, 2)
 position_smoothing_enabled = true
-drag_horizontal_enabled = true
-drag_vertical_enabled = true
 
 [node name="StateMachine" type="Node" parent="." unique_id=1622289715 node_paths=PackedStringArray("actor")]
 script = ExtResource("3_7jddb")

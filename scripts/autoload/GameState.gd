@@ -38,6 +38,16 @@ var date_unix: int = start_date_unix()
 static func start_date_unix() -> int:
 	return Time.get_unix_time_from_datetime_dict({"year": START_DATE["year"], "month": START_DATE["month"], "day": START_DATE["day"], "hour": 0, "minute": 0, "second": 0})
 
+## Hour the "daily" day starts: dailies (newspaper puzzle, word of the day,
+## idle talk) turn over when the player wakes, not at midnight, so solving the
+## puzzle at 1 AM and sleeping still gives a fresh one in the morning.
+const DAILY_START_HOUR: float = 6.0
+
+## date_unix of the current daily day: before DAILY_START_HOUR it is still
+## yesterday.
+func daily_date() -> int:
+	return date_unix - (DayNightManager.SECONDS_PER_DAY if time_of_day < DAILY_START_HOUR else 0)
+
 ## Player-chosen display name. Empty until name entry completes (new game) or
 ## when loading a pre-name-entry save. TextUtil substitutes a fallback when empty.
 var player_name: String = ""
@@ -91,6 +101,49 @@ var rose_hint_tokens: int = 0
 var challenges_passed: Dictionary = {}  # challenge_id -> bool
 var challenge_attempts: Dictionary = {} # challenge_id -> int, attempt count (for first_try check)
 
+# --- Pesos and inventory (docs/ECONOMY_PLAN.md) ---
+# RewardManager is the only writer of pesos (award_pesos / spend_pesos).
+# Money is never taken away except by the player choosing to spend it.
+var pesos: int = 0
+var inventory: Dictionary = {}          # item id (data/items.json) -> count
+var allowance_date: int = 0             # daily_date() of the last morning allowance
+var review_earn_date: int = 0           # daily_date() review_earned_today counts for
+var review_earned_today: int = 0        # pesos earned from NPC Review on that day (daily cap)
+var quest_offer_declined: Dictionary = {} # side quest id -> daily_date() the player said "not now"
+
+## Inventory changed (shop, quests). HUD and panels refresh on it.
+signal inventory_changed
+## Pesos changed: new total and the change (negative when spent).
+signal pesos_changed(total: int, delta: int)
+
+func add_pesos(amount: int) -> void:
+	pesos = maxi(0, pesos + amount)
+	pesos_changed.emit(pesos, amount)
+
+func get_item_count(item_id: String) -> int:
+	return int(inventory.get(item_id, 0))
+
+func has_item(item_id: String, count: int = 1) -> bool:
+	return get_item_count(item_id) >= count
+
+func add_item(item_id: String, count: int = 1) -> void:
+	if item_id.is_empty() or count <= 0:
+		return
+	inventory[item_id] = get_item_count(item_id) + count
+	inventory_changed.emit()
+
+## Removes up to count; false (and nothing removed) if there are not enough.
+func remove_item(item_id: String, count: int = 1) -> bool:
+	if not has_item(item_id, count):
+		return false
+	var left: int = get_item_count(item_id) - count
+	if left <= 0:
+		inventory.erase(item_id)
+	else:
+		inventory[item_id] = left
+	inventory_changed.emit()
+	return true
+
 # --- World Tasks (environmental puzzles, additive to Challenge system above) ---
 # Owned by TaskManager, storage lives here per register-on-ready/call-through-autoload
 # pattern (TDD §2). Separate from challenges_passed -- world tasks are action-in-world
@@ -119,14 +172,14 @@ var puzzle_progress: Dictionary = {}
 
 ## One newspaper puzzle per in-game day.
 func is_puzzle_solved_today() -> bool:
-	return puzzle_solved_date == date_unix
+	return puzzle_solved_date == daily_date()
 
 ## One extra word from an NPC per in-game day.
 func is_word_taught_today() -> bool:
-	return word_taught_date == date_unix
+	return word_taught_date == daily_date()
 
 func mark_word_taught() -> void:
-	word_taught_date = date_unix
+	word_taught_date = daily_date()
 
 ## Total mastery changed (HUD tier bar).
 signal mastery_changed
@@ -332,6 +385,14 @@ func reset_game_state() -> void:
 	rose_hint_tokens = 0
 	challenges_passed.clear()
 	challenge_attempts.clear()
+	pesos = 0
+	inventory = {}
+	allowance_date = 0
+	review_earn_date = 0
+	review_earned_today = 0
+	quest_offer_declined = {}
+	pesos_changed.emit(pesos, 0)
+	inventory_changed.emit()
 	active_tasks.clear()
 	completed_tasks.clear()
 	word_mastery.clear()
@@ -370,6 +431,12 @@ func save_game() -> bool:
 		"rose_hint_tokens": rose_hint_tokens,
 		"challenges_passed": challenges_passed,
 		"challenge_attempts": challenge_attempts,
+		"pesos": pesos,
+		"inventory": inventory,
+		"allowance_date": allowance_date,
+		"review_earn_date": review_earn_date,
+		"review_earned_today": review_earned_today,
+		"quest_offer_declined": quest_offer_declined,
 		"active_tasks": active_tasks,
 		"completed_tasks": completed_tasks,
 		"word_mastery": word_mastery,
@@ -461,6 +528,14 @@ func load_game() -> bool:
 	rose_hint_tokens = data.get("rose_hint_tokens", 0)
 	challenges_passed = data.get("challenges_passed", {})
 	challenge_attempts = data.get("challenge_attempts", {})
+	pesos = int(data.get("pesos", 0))  # additive field, old saves -> 0
+	inventory = data.get("inventory", {})  # additive field, old saves -> {}
+	allowance_date = int(data.get("allowance_date", 0))  # additive field
+	review_earn_date = int(data.get("review_earn_date", 0))  # additive field
+	review_earned_today = int(data.get("review_earned_today", 0))  # additive field
+	quest_offer_declined = data.get("quest_offer_declined", {})  # additive field
+	pesos_changed.emit(pesos, 0)
+	inventory_changed.emit()
 	active_tasks = data.get("active_tasks", {})
 	completed_tasks = data.get("completed_tasks", {})
 	word_mastery = data.get("word_mastery", {})  # additive field, old saves -> {}

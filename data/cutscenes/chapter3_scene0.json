@@ -1,5 +1,5 @@
 [
-	{"type": "chapter_card", "chapter": "chapter3"},
+	{"type": "chapter_card", "chapter": "chapter3", "fade_in_after": true},
 	{"type": "dialogue", "chapter": "chapter3", "scene": "scene_0_morning_brief"},
 	{"type": "set_flag", "flag": "seen_chapter3_scene0", "value": true},
 	{"type": "set_flag", "flag": "chapter2_complete", "value": true},

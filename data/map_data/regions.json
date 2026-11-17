@@ -1,12 +1,17 @@
 {
 	"bonus":        { "id": "bonus",        "display_name": "Bonus",        "scene_path": "", "unlocked": false },
-	"landing":      { "id": "landing",      "display_name": "Landing",      "scene_path": "res://scenes/world/chapter1/us_bedroom.tscn", "unlocked": true },
+	"landing":      { "id": "landing",      "display_name": "Landing",      "scene_path": "res://scenes/world/chapter1/us_bedroom.tscn", "unlocked": true, "unless_flag": "seen_chapter1_scene1_5" },
 	"leaf_weaving": { "id": "leaf_weaving", "display_name": "Leaf Weaving", "scene_path": "", "unlocked": false },
 	"pottery":      { "id": "pottery",      "display_name": "Pottery",      "scene_path": "", "unlocked": false },
 	"airport":      { "id": "airport",      "display_name": "Airport",      "scene_path": "", "unlocked": false },
 	"port":         { "id": "port",         "display_name": "Port",         "scene_path": "", "unlocked": false },
 	"abaca":        { "id": "abaca",        "display_name": "Abaca",        "scene_path": "", "unlocked": false },
-	"farming":      { "id": "farming",      "display_name": "Farming",      "scene_path": "res://scenes/map/stub_area.tscn", "unlocked": true },
-	"village":      { "id": "village",      "display_name": "Village",      "scene_path": "res://scenes/world/chapter1/us_living.tscn", "unlocked": true },
-	"bakhawan_ecopark": { "id": "bakhawan_ecopark", "display_name": "Bakhawan Ecopark", "scene_path": "res://scenes/map/stub_area_bakhawan.tscn", "gate_challenge_id": "ch2_tutorial_field_notes", "unlocked": false }
+	"farming":      { "id": "farming",      "display_name": "Farming",      "scene_path": "res://scenes/map/stub_area.tscn", "unlocked": false },
+	"village":      { "id": "village",      "display_name": "Village",      "scene_path": "res://scenes/world/chapter1/us_living.tscn", "unlocked": true, "unless_flag": "seen_chapter1_scene1_5" },
+	"aklan_home":   { "id": "aklan_home",   "display_name": "Home",         "scene_path": "res://scenes/world/chapter2/aklan_home_outdoors.tscn", "unlocked": true, "requires_flag": "got_kalibo_map", "fare": 5, "vehicle": "Tricycle", "walk_minutes": 30, "ride_minutes": 10 },
+	"pastrana":     { "id": "pastrana",     "display_name": "Pastrana Park", "scene_path": "res://scenes/world/chapter2/pastrana_outdoors.tscn", "unlocked": true, "requires_flag": "got_kalibo_map", "fare": 5, "vehicle": "Tricycle", "walk_minutes": 30, "ride_minutes": 10 },
+	"cathedral":    { "id": "cathedral",    "display_name": "Kalibo Cathedral", "scene_path": "res://scenes/world/chapter2/cathedral_indoors.tscn", "unlocked": true, "requires_flag": "got_kalibo_map", "fare": 5, "vehicle": "Tricycle", "walk_minutes": 30, "ride_minutes": 10 },
+	"market":       { "id": "market",       "display_name": "Market",       "scene_path": "res://scenes/world/market/market_outdoors.tscn", "unlocked": true, "requires_flag": "got_kalibo_map", "fare": 5, "vehicle": "Tricycle", "walk_minutes": 30, "ride_minutes": 10 },
+	"haboean":      { "id": "haboean",      "display_name": "Haboean",      "scene_path": "res://scenes/world/haboean/habuean_outdoors.tscn", "unlocked": true, "requires_flag": "quest_007_done", "fare": 15, "vehicle": "Jeepney", "walk_minutes": 120, "ride_minutes": 40 },
+	"bakhawan_ecopark": { "id": "bakhawan_ecopark", "display_name": "Bakhawan Ecopark", "scene_path": "res://scenes/world/bakhawan/bakhawan_outdoors.tscn", "unlocked": true, "requires_flag": "map_open_bakhawan", "fare": 15, "vehicle": "Van", "walk_minutes": 120, "ride_minutes": 30 }
 }

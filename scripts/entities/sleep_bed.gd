@@ -122,8 +122,15 @@ func lay_down(player: Node2D) -> Vector2:
 ## Holds a moment in bed, then walks the player out to `to`.
 func get_up(player: Node2D, from: Vector2, to: Vector2) -> void:
 	await get_tree().create_timer(WAKE_PAUSE).timeout
+	# The sleeping spot is off the tile grid (SLEEPER_OFFSET). Slide onto the
+	# nearest tile first and path from there: routing from the sleeping spot kept
+	# every leg half a tile off, and the player woke up stuck between tiles.
+	var tile := float(player.tile_size)
+	var start: Vector2 = (from / tile).round() * tile
+	var legs: Array[Vector2] = [start]
+	legs.append_array(ActorPath.around_actors(CutsceneManager, player, start, to))
 	var prev: Vector2 = from
-	for leg_end: Vector2 in ActorPath.around_actors(CutsceneManager, player, from, to):
+	for leg_end: Vector2 in legs:
 		player.update_facing((leg_end - prev).normalized())
 		player.sprite.play("walk_" + player.direction)
 		var tween := create_tween()

@@ -274,6 +274,11 @@ func camera_follow(target: Node2D) -> void:
 	cam.top_level = true
 	_cam_follow_target = target
 
+## Stops the camera following anyone, so a cutscene can pan it freely. A
+## "release" step hands it back to the player.
+func camera_hold() -> void:
+	_cam_follow_target = null
+
 func camera_release() -> void:
 	var cam: Camera2D = get_actor("camera")
 	if cam == null:

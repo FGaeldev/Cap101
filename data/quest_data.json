@@ -139,6 +139,23 @@
 			"requires_flag": "quest_007_done",
 			"completion_flag": "quest_008_done",
 			"show_popup": true
+		},
+		{
+			"id": "qs001",
+			"category": "side",
+			"title": "Susan's list",
+			"description": "Lola Susan gave you ₱20 and a list in Akeanon: bugas (uncooked rice) and uga (dried fish). Buy them at Nong Pedring's stall in the market and bring them home. Keep the change.",
+			"giver": "Lola Susan",
+			"offer_flag": "chapter2_tour_done",
+			"start_pesos": 20,
+			"needs_items": {"bugas": 1, "uga": 1},
+			"reward_rapport": 1.0,
+			"lines": {"offer": ["susan_offer_1", "susan_offer_2"], "yes": "susan_offer_yes", "no": "susan_offer_no", "later": "susan_offer_later", "remind": "susan_remind", "thanks": "susan_thanks"},
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "side_qs001_accepted",
+			"completion_flag": "side_qs001_done",
+			"show_popup": true
 		}
 	]
 }

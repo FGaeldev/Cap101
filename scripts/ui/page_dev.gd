@@ -83,6 +83,8 @@ const DEV_WARP_TARGETS := [
 	# {label, days}: moves the in-game date (calendar / HUD weekday).
 	{"label": "Date — Next day", "days": 1},
 	{"label": "Date — Next week", "days": 7},
+	# Economy testing (docs/ECONOMY_PLAN.md): adds pesos without closing the menu.
+	{"label": "Money — +₱50", "pesos": 50},
 ]
 
 # Cutscenes are level-bound: their actors are spawned/registered by the host
@@ -265,6 +267,10 @@ func _render_page() -> void:
 			add_button(entry["label"], _on_dev_cutscene_pressed.bind(entry))
 
 func _on_dev_warp_pressed(target: Dictionary) -> void:
+	if target.has("pesos"):
+		RewardManager.award_pesos(int(target["pesos"]), "Dev")
+		GameState.save_game()
+		return
 	if target.has("time"):
 		DayNightManager.set_hour(target["time"])
 		BookUI.close()

@@ -194,6 +194,7 @@ script = ExtResource("2_scr")
 actor_id = "Nong Pedring"
 npc_id = "Nong Pedring"
 dialogue_chapter = "chapter2"
+shop_id = "pedring"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=913573483]
 position = Vector2(8, -12)
