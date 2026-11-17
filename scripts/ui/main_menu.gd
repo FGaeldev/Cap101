@@ -18,6 +18,7 @@ func _ready() -> void:
 	_apply_bg()
 	_apply_style()
 	_check_save()
+	_add_version_label()
 	start_btn.pressed.connect(_on_start)
 	continue_btn.pressed.connect(_on_continue)
 	instructions_btn.pressed.connect(func():
@@ -29,6 +30,22 @@ func _ready() -> void:
 		AudioManager.play_sfx("menu_click")
 		get_tree().quit()
 	)
+
+## Build version in the bottom-right corner, so testers can say which build a
+## bug came from. Set in project.godot (application/config/version); see RELEASING.md.
+func _add_version_label() -> void:
+	var v: String = str(ProjectSettings.get_setting("application/config/version", ""))
+	if v == "":
+		return
+	var lbl := Label.new()
+	lbl.text = "v" + v
+	lbl.add_theme_font_size_override("font_size", 14)
+	lbl.modulate = Color(1, 1, 1, 0.6)
+	lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	lbl.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT, Control.PRESET_MODE_MINSIZE, 8)
+	lbl.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	lbl.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	add_child(lbl)
 
 func _check_save() -> void:
 	continue_btn.disabled = not GameState.has_save()
