@@ -13,8 +13,8 @@ report has at least one screenshot.**
 
 | Ask | Command (from the project root) | Roughly |
 |---|---|---|
-| Whole game | `bash .claude/skills/playtest/scripts/run.sh full` | every playable chapter in order from a new game, ~8 min |
-| One chapter | `bash .claude/skills/playtest/scripts/run.sh chapter <N>` | that chapter from its start state; ch1 ~1 min, ch2 ~6 min |
+| Whole game | `bash .claude/skills/playtest/scripts/run.sh full` | every playable chapter in order from a new game, ~30 min |
+| One chapter | `bash .claude/skills/playtest/scripts/run.sh chapter <N>` | that chapter from its start state; ch1 ~2 min, ch2 ~25 min |
 | Data only | `bash .claude/skills/playtest/scripts/run.sh static` | static check alone, ~30 s |
 
 `full` and `chapter` also run the static check first. Run the command in the
@@ -22,7 +22,7 @@ background (`run_in_background`) for anything but `static`, and wait for the
 completion notice. The last line printed is `REPORT_DIR=<folder>`.
 
 Env overrides: `PLAYTEST_BUDGET=<seconds>` (real-time limit),
-`PLAYTEST_ARGS="--speed=4 --no-fast-calendar"`, `GODOT=<console binary>`.
+`PLAYTEST_ARGS="--speed=4 --wait-speed=16"`, `GODOT=<console binary>`.
 
 "Playable" chapters are those marked `"available": true` in `data/chapters.json`
 **and** defined in `CHAPTERS` in `scripts/autoplay.gd` (currently 1 and 2). Asking
@@ -44,16 +44,31 @@ built yet rather than reporting it as a bug.
 
 ## What the auto-player does
 
-Starts a new game (or the chapter's start state), runs at 3x speed, and:
-skips dialogue lines, picks choices (first option; cycles options when the same
-menu comes back without progress), **fails the first minigame of each kind** and
-passes the rest, completes tutorial steps by sending their events, opens the
-newspaper and closes it, picks "Review" for the first two NPC menus after Chapter 1,
-and when idle interacts with the most story-relevant thing in the room (unseen
-cutscene NPC > quest marker > pending story dialogue > untouched object), then
-explores through warps, sleeps, and advances the clock if nothing else is left.
-With the fast calendar on (default) it jumps to Saturday night after the Ch2 tour,
-so Sunday mass gets tested, then asks Rose for Bakhawan.
+Starts a new game (or the chapter's start state), runs at 3x speed, and **plays
+through real input, like a person**. It never moves the player or the clock directly:
+- **Walking:** plans a path over the tile grid (walls, furniture and NPCs block it,
+  read with physics queries on the player's collision mask) and holds the `ui_*`
+  direction actions tile by tile. Walks around doors it isn't taking. Replans when
+  an NPC steps in the way.
+- **Interacting:** walks to a tile where the object's interact area reaches, faces
+  it and sends a real `interact` event, so the game's own "which object is nearest
+  and faced" choice is tested.
+- **Doors:** walks onto the door and holds its trigger direction. To reach another
+  room (going to bed) it routes through doors using a door graph read from every
+  level's scene file.
+- **UI:** advances dialogue with `interact`, and clicks choice, NPC-menu and
+  chapter-card buttons with the mouse at their centre. Closes the Book and the
+  newspaper with Esc.
+- **Time:** when nothing is left to do, it waits with the game sped up (x12,
+  `--wait-speed`) until up to 7:30 PM, then walks to the player's bed and sleeps.
+  That's how it reaches dinner, Sunday mass and so on.
+
+It picks choices (first option, cycling when the same menu comes back without
+progress), **fails the first minigame of each kind** and passes the rest, picks
+"Review" for the first two NPC menus after Chapter 1, and asks Rose for Bakhawan
+after mass. When idle it goes for the most story-relevant thing in the room
+(unseen cutscene NPC > quest marker > pending story dialogue > untouched object),
+then explores through doors.
 
 It records a **finding** for every engine error and warning (via a Godot `Logger`,
 with script backtrace), plus things it detects itself:
@@ -62,14 +77,28 @@ with script backtrace), plus things it detects itself:
 - `stuck`: a warp running 20 s, a cutscene running 3 min, nothing left to do
   before the chapter's finish line, time budget out
 - `error` for warps with no target or a missing target scene, found while exploring
+- `interact_target`: standing next to an object facing it, `interact` picks a
+  different one (e.g. the chair instead of the desk book)
+- `interact_range`: walked up to an active object and its interact area doesn't
+  reach the tile the player stands on
+- `stuck` "can't walk to …": a story object no reachable tile can use;
+  "stood on door … didn't open": a door that won't fire when walked into
+- `off_grid`: the player was left standing between tiles (after which nothing
+  lines up)
+- `click_miss`: a mouse click at a button's centre did nothing (something covers it)
 
 Each finding is screenshotted the moment it happens (the driver holds still until
 the shot is taken), and every level gets one overview shot once it settles.
 
-Shortcuts it takes, worth knowing when judging findings: it teleports next to
-objects and fires warps/interacts directly (no real walking or collision), and it
-resolves minigames without playing them. It can't judge art, layout or text, so
-look at the level shots yourself for anything visibly wrong.
+Shortcuts it still takes, worth knowing when judging findings: it resolves
+minigames without playing them, sends the event for tutorial steps it doesn't
+reach by playing, and moves the mouse/keys through `Input.parse_input_event`
+rather than the OS (so the touch joystick itself isn't exercised). Walking is in
+the event log (`GO`, `WALK n tiles`, `replan`, `UNREACHABLE`). It can't judge art,
+layout or text, so look at the level shots yourself for anything visibly wrong.
+
+Budget: walking and sleeping take real time, so the default is 2400 s per chapter
+(`PLAYTEST_BUDGET`). Chapter 1 takes about 2 minutes, Chapter 2 about 25 (the week until Sunday mass is walked and slept through).
 
 ## Output folder (`playtest_reports/<stamp>_<mode>/`, gitignored)
 
@@ -152,8 +181,8 @@ When a new chapter becomes playable, add it to `CHAPTERS` in
 - `done`: a func that returns true once the chapter is fully played
 
 If the chapter has beats that wait on the calendar or need a specific choice
-(like Sunday mass or the Bakhawan request), add a nudge the way `_jump_sunday`
-and `_want_bakhawan` do, or the run will spend its budget waiting.
+(like the Bakhawan request), add a nudge the way `_want_bakhawan` does. Beats that
+only wait on the clock (dinner, Sunday mass) are reached by waiting and sleeping.
 
 ## Troubleshooting
 

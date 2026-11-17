@@ -56,6 +56,7 @@ func _run() -> void:
 	_check_cutscenes()
 	_check_dialogue()
 	_check_npc_scenes(scenes)
+	_check_economy()
 	# Images, one finding at a time.
 	for f in findings:
 		if _shots >= MAX_SHOTS:
@@ -160,7 +161,7 @@ func _collect_text(dir: String) -> void:
 		all_text += FileAccess.get_file_as_string(f) + "\n"
 
 func _flag_is_set_somewhere(flag: String) -> bool:
-	for pt in ["\"flag\": \"%s\"" % flag, "set_flag(\"%s\"" % flag, "\"set_flag\": \"%s\"" % flag,
+	for pt in ["\"flag\": \"%s\"" % flag, "\"flag\":\"%s\"" % flag, "set_flag(\"%s\"" % flag, "\"set_flag\": \"%s\"" % flag,
 			"\"set_flag_on_enter\": \"%s\"" % flag, "\"completion_flag\": \"%s\"" % flag,
 			"sleep_flag = \"%s\"" % flag]:  # sleep_bed.gd export in a .tscn
 		if all_text.contains(pt):
@@ -270,6 +271,8 @@ func _marker(id: String, file: String, snip: String, ref, cands: Array) -> void:
 
 func _check_dialogue() -> void:
 	var WB = root.get_node("WordBank")
+	_build_form_index(WB)
+	var playable := _playable_chapters()
 	for ch in ["chapter1", "chapter2", "chapter3", "chapter4", "chapter5", "chapter6"]:
 		var path := "res://data/dialogue/%s.json" % ch
 		if not FileAccess.file_exists(path):
@@ -278,7 +281,7 @@ func _check_dialogue() -> void:
 		if not data is Dictionary:
 			_issue("dialogue_bad_json", "%s does not parse" % path, {"file": path})
 			continue
-		_check_remarks(ch, path, data.get("remarks", {}))
+		_check_remarks(ch, path, data.get("remarks", {}), playable.has(ch))
 		for key in data:
 			var lines = data[key]
 			if not lines is Array:
@@ -326,6 +329,8 @@ func _check_dialogue() -> void:
 					var w: String = str(wid).strip_edges()
 					if w != "" and not w.begins_with("[") and WB.get_word(w).is_empty():
 						_issue("dialogue_unknown_word", "%s tags unknown word id '%s'" % [tag, w], extra)
+				if playable.has(ch) and line.get("type", "dialogue") == "dialogue":
+					_check_word_tags(tag, line, extra, WB)
 				# A choice line with no text keeps the previous line up as its prompt
 				# (Comp_Dialogue._show_line), so it's only a problem as the first
 				# line on screen: nothing with text leads into it.
@@ -339,6 +344,64 @@ func _check_dialogue() -> void:
 						and prev.get("type", "") != "start_router"
 					if not reachable.has(i) and not falls_through:
 						_issue("dialogue_unreachable", "%s/%s[%d] can never be reached" % [ch, key, i], {"file": path, "snippet": JSON.stringify(lines[i], "  ")})
+
+## Chapters marked available in data/chapters.json: the only ones whose Akeanon
+## tagging is checked (later chapters are drafts).
+func _playable_chapters() -> Array:
+	var out_ids := []
+	var data = JSON.parse_string(FileAccess.get_file_as_string("res://data/chapters.json"))
+	if data is Array:
+		for c in data:
+			if c is Dictionary and c.get("available", false):
+				out_ids.append(str(c.get("id", "")))
+	return out_ids
+
+## plain form (WordBank.plain_form) -> every word id with that spelling, its
+## "/" variants, or one of a phrase's words.
+var _form_ids := {}
+func _build_form_index(WB) -> void:
+	for id in WB.words:
+		var forms := []
+		for part in str(WB.words[id]["akeanon"]).to_lower().split("/", false):
+			part = part.strip_edges()
+			forms.append(part)
+			for tok in part.split(" ", false):
+				forms.append(tok)
+		for f in forms:
+			var k: String = WB.plain_form(f)
+			if not _form_ids.has(k):
+				_form_ids[k] = []
+			if not _form_ids[k].has(id):
+				_form_ids[k].append(id)
+
+## The roadmap's tagging rule (STORY_ROADMAP.md §7.1): every \marked word is in
+## the bank and tagged in word_ids, and every tagged word is said in the line.
+const MARKED_WORD := "\\\\([^\\s.,!?;:\"()—–…“”‘’]+)"
+func _check_word_tags(tag: String, line: Dictionary, extra: Dictionary, WB) -> void:
+	var text := str(line.get("text", ""))
+	var ids: Array = line.get("word_ids", []).map(func(w): return str(w).strip_edges()) \
+			.filter(func(w): return w != "" and not w.begins_with("["))
+	var re := RegEx.create_from_string(MARKED_WORD)
+	for m in re.search_all(text):
+		var form: String = m.get_string(1).trim_suffix("-")
+		if form.begins_with("[") or form.is_empty():
+			continue
+		var cands: Array = _form_ids.get(WB.plain_form(form), [])
+		if cands.is_empty():
+			_issue("dialogue_marked_unknown", "%s marks '%s', which isn't in the word bank" % [tag, form], extra)
+		elif not cands.any(func(c): return ids.has(c)):
+			_issue("dialogue_marked_untagged", "%s marks '%s' but word_ids doesn't tag it" % [tag, form], extra)
+	var said: String = WB.plain_form(text.replace("\\", ""))
+	for wid in ids:
+		var w: Dictionary = WB.get_word(wid)
+		if w.is_empty():
+			continue  # already a dialogue_unknown_word
+		var found := false
+		for part in str(w["akeanon"]).to_lower().split("/", false):
+			if said.contains(WB.plain_form(part.strip_edges())):
+				found = true
+		if not found:
+			_issue("dialogue_id_not_in_line", "%s tags %s '%s', which the line doesn't say" % [tag, wid, w["akeanon"]], extra)
 
 ## True if a dialogue line with text leads into line `i` (its "next", or by
 ## falling through as the line just before it).
@@ -366,7 +429,7 @@ func _check_npc_scenes(scenes: Array) -> void:
 
 ## Story remarks (IdleTalk): each needs a speaker and lines, its flags must be
 ## set somewhere, and its lines' word ids must exist.
-func _check_remarks(ch: String, path: String, remarks) -> void:
+func _check_remarks(ch: String, path: String, remarks, check_tags: bool = false) -> void:
 	if not remarks is Dictionary:
 		_issue("remark_bad_shape", "%s: \"remarks\" must be an object keyed by remark id" % ch, {"file": path})
 		return
@@ -385,3 +448,54 @@ func _check_remarks(ch: String, path: String, remarks) -> void:
 			for wid in line.get("word_ids", []):
 				if WB.get_word(str(wid)).is_empty():
 					_issue("dialogue_unknown_word", "%s tags unknown word id '%s'" % [tag, wid], extra)
+			if check_tags:
+				_check_word_tags(tag, line, extra, WB)
+
+## Economy data (docs/ECONOMY_PLAN.md): every map region with a fare has a scene
+## that exists and an unlock flag something sets; every item a quest or shop
+## names exists in data/items.json, keepsakes are never sellable, and every
+## line key a side quest uses exists in data/economy_lines.json.
+func _check_economy() -> void:
+	var regions: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/map_data/regions.json"))
+	var items_data: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/items.json"))
+	var lines: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/economy_lines.json"))
+	var quests: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/quest_data.json"))
+	if not (regions is Dictionary and items_data is Dictionary and lines is Dictionary and quests is Dictionary):
+		_issue("economy_data", "regions.json, items.json, economy_lines.json or quest_data.json does not parse")
+		return
+	var items: Dictionary = items_data.get("items", {})
+	for rid in regions:
+		var r: Dictionary = regions[rid]
+		if int(r.get("fare", 0)) <= 0:
+			continue
+		var scene: String = str(r.get("scene_path", ""))
+		if scene.is_empty() or not ResourceLoader.exists(scene):
+			_issue("economy_fare_region", "region '%s' has a fare but no scene (%s)" % [rid, scene], {"file": "res://data/map_data/regions.json"})
+		var req: String = str(r.get("requires_flag", ""))
+		if not req.is_empty() and not _flag_is_set_somewhere(req):
+			_issue("economy_fare_region", "region '%s' requires flag '%s', which nothing sets" % [rid, req], {"file": "res://data/map_data/regions.json"})
+	for iid in items:
+		var it: Dictionary = items[iid]
+		if it.get("kind", "") == "keepsake" and bool(it.get("sellable", false)):
+			_issue("economy_item", "keepsake '%s' is marked sellable" % iid, {"file": "res://data/items.json"})
+		var wid: String = str(it.get("akeanon_word_id", ""))
+		if not wid.is_empty() and not all_text.contains("\"id\": \"%s\"" % wid):
+			_issue("economy_item", "item '%s' uses word %s, not in the word bank" % [iid, wid], {"file": "res://data/items.json"})
+	var shops: Dictionary = items_data.get("shops", {})
+	for sid in shops:
+		for iid in shops[sid].get("stock", []):
+			if not items.has(iid):
+				_issue("economy_item", "shop '%s' sells unknown item '%s'" % [sid, iid], {"file": "res://data/items.json"})
+	for q: Dictionary in quests.get("quests", []):
+		if q.get("category", "") != "side":
+			continue
+		for iid in q.get("needs_items", {}):
+			if not items.has(iid):
+				_issue("economy_quest", "side quest %s needs unknown item '%s'" % [q.get("id", "?"), iid], {"file": "res://data/quest_data.json"})
+		var keys: Array = []
+		for k in q.get("lines", {}):
+			var v = q["lines"][k]
+			keys.append_array(v if v is Array else [v])
+		for key in keys:
+			if not lines.has(str(key)):
+				_issue("economy_quest", "side quest %s uses line '%s', not in economy_lines.json" % [q.get("id", "?"), key], {"file": "res://data/quest_data.json"})
