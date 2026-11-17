@@ -162,4 +162,4 @@ target_spawn_id = "from_bedroom"
 [node name="DeskChair" parent="Seats" unique_id=730100002 instance=ExtResource("seat_scn")]
 position = Vector2(112, 48)
 face = "up"
-stand_offset = Vector2(0, 16)
+area_size = Vector2(16, 16)

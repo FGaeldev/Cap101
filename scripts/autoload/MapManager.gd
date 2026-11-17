@@ -110,6 +110,16 @@ func is_node_unlocked(region_id: String) -> bool:
 	var region: Dictionary = regions.get(region_id, {})
 	if region.is_empty():
 		return false
+	# "unless_flag": locked once that story flag is set (the US house after the
+	# flight: going back there stranded the player behind the airport door).
+	var unless_flag: String = region.get("unless_flag", "")
+	if not unless_flag.is_empty() and GameState.get_flag(unless_flag):
+		return false
+	# "requires_flag": stays locked until that story flag is set (Kalibo places
+	# once Rose hands over her map).
+	var requires_flag: String = region.get("requires_flag", "")
+	if not requires_flag.is_empty() and not GameState.get_flag(requires_flag):
+		return false
 	var gate_id: String = region.get("gate_challenge_id", "")
 	if not gate_id.is_empty():
 		return ChallengeManager.is_passed(gate_id)
@@ -117,6 +127,26 @@ func is_node_unlocked(region_id: String) -> bool:
 
 func is_unlocked(region_id: String) -> bool:
 	return is_node_unlocked(region_id)
+
+const RIDE := "ride"
+const WALK := "walk"
+
+## Fare for a map trip there (0 = free).
+func fare_for(region_id: String) -> int:
+	return int(get_region(region_id).get("fare", 0))
+
+## Why the map can't take the player there right now, or "" if it can: already
+## there, or out on a trip with Rose or the family (the story is driving).
+func travel_blocked_reason(region_id: String) -> String:
+	var region := get_region(region_id)
+	if str(region.get("scene_path", "")) == GameState.current_level_path:
+		return "You are here."
+	if CutsceneManager.is_playing():
+		return "Not now."
+	for flag: String in DEV_SKIP_CLEARED_FLAGS:
+		if GameState.get_flag(flag):
+			return "Not now: you're out with the family."
+	return ""
 
 ## Called by RegionPopup's go_button. Fades out (if FadeManager is wired),
 ## switches scene, persists travel state to GameState, fades back in.
@@ -127,13 +157,19 @@ func is_unlocked(region_id: String) -> bool:
 ## MainMenu), destroying HUD/ScreenFade/DialogueRoot/WordReveal/
 ## QuestCompletePopup/PuzzlePanel, all of which live in Game.tscn's UILayer
 ## and are meant to persist across area travel.
-func travel_to_region(region_id: String) -> void:
+## mode (regions with a "fare"): "ride" pays the fare first with the coin
+## exchange (Economy.pay) and takes ride_minutes; "walk" is free and advances
+## the clock by walk_minutes instead. Regions without a fare ignore it. Story
+## trips never come through here (they are cutscenes), so they stay free.
+func travel_to_region(region_id: String, mode: String = RIDE) -> void:
 	var region := get_region(region_id)
 	if region.is_empty():
 		push_error("MapManager: unknown region_id '%s'" % region_id)
 		return
 	if not is_node_unlocked(region_id):
 		push_warning("MapManager: refused travel to locked region '%s'" % region_id)
+		return
+	if not travel_blocked_reason(region_id).is_empty():
 		return
 
 	var scene_path: String = region.get("scene_path", "")
@@ -148,12 +184,23 @@ func travel_to_region(region_id: String) -> void:
 	if game == null or not game.has_method("load_level"):
 		push_error("MapManager: current_scene has no load_level() — not running inside Game.tscn")
 		return
+	if is_transitioning:
+		return
 
+	var fare: int = fare_for(region_id)
+	var minutes: float = 0.0
+	if fare > 0:
+		minutes = float(region.get("walk_minutes" if mode == WALK else "ride_minutes", 0))
 	CutsceneManager.abort()
 	BookUI.close()
+	if fare > 0 and mode != WALK:
+		# The driver names the fare; cancelling or a short wallet costs nothing.
+		if not await Economy.pay(fare, "fare_price"):
+			return
 	is_transitioning = true
 	await FadeManager.fade_out()
 
+	DayNightManager.advance_minutes(minutes)
 	GameState.current_level_path = scene_path
 	game.load_level(scene_path)  # sets GameState.current_area
 	GameState.save_game()

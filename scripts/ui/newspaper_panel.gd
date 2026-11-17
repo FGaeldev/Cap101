@@ -40,7 +40,7 @@ func _ready() -> void:
 	add_theme_stylebox_override("panel", UIThemeApplier.make_puzzle_panel_style(10))
 	_build_layout()
 	HelpButton.pin(self, "newspaper")
-	DayNightManager.day_changed.connect(_on_day_changed)
+	DayNightManager.daily_reset.connect(_on_day_changed)
 	visible = false
 
 # --- public API ----------------------------------------------------------------
@@ -88,7 +88,7 @@ func _refresh_event(date: Dictionary) -> void:
 	_event_detail_label.text = "Today" if today else _format_day(next["month"], next["day"])
 
 func _refresh_puzzle() -> void:
-	_puzzle_type = puzzle_type_for(GameState.date_unix)
+	_puzzle_type = puzzle_type_for(GameState.daily_date())
 	_pool = WordBank.get_known_puzzle_words(MIN_WORD_LENGTH, MAX_WORD_LENGTH).slice(0, PUZZLE_POOL_SIZE)
 	var name_text: String = "Crossword" if _puzzle_type == "crossword" else "Word Search"
 	var solved: bool = GameState.is_puzzle_solved_today()
@@ -105,7 +105,7 @@ func _refresh_puzzle() -> void:
 
 ## True when a puzzle was quit earlier today (more saved than just its date).
 func _has_progress_today() -> bool:
-	return GameState.puzzle_progress.get("date", -1) == GameState.date_unix and GameState.puzzle_progress.size() > 1
+	return GameState.puzzle_progress.get("date", -1) == GameState.daily_date() and GameState.puzzle_progress.size() > 1
 
 # --- setup -----------------------------------------------------------------------
 
@@ -220,7 +220,7 @@ func _on_day_changed() -> void:
 
 func _on_solve_pressed() -> void:
 	visible = false
-	_puzzle_date = GameState.date_unix
+	_puzzle_date = GameState.daily_date()
 	if GameState.puzzle_progress.get("date", -1) != _puzzle_date:
 		GameState.puzzle_progress = {"date": _puzzle_date}
 	DialogueUI.show_standalone_minigame({

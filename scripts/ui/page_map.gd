@@ -64,4 +64,4 @@ func _refresh_unlocks() -> void:
 func _on_marker_pressed(region_id: String) -> void:
 	AudioManager.play_sfx("menu_click")
 	var region: Dictionary = MapManager.get_region(region_id)
-	_popup.open_for_region(region_id, region.get("display_name", region_id), region.get("unlocked", false))
+	_popup.open_for_region(region_id, region.get("display_name", region_id), MapManager.is_unlocked(region_id))

@@ -41,6 +41,9 @@ var _player_ref: Node = null
 # static since this needs no autoload node, just shared data.
 static var _in_range_pool: Array[InteractableComponent] = []
 
+## HUD controls (the joystick) whose screen area world taps never reach.
+const TOUCH_BLOCKER_GROUP: StringName = &"world_touch_blockers"
+
 ## True = ignores interaction and hides from the HUD button (e.g. a sleeping NPC).
 var disabled: bool = false
 
@@ -129,7 +132,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact"):
 		# Several can be in range at once (a row of chairs): only the nearest
 		# one fires, the same one the HUD button picks.
-		if _player_ref is Node2D and get_nearest((_player_ref as Node2D).global_position) != self:
+		if _player_ref is Node2D and get_nearest_to(_player_ref as Node2D) != self:
 			return
 		try_interact()
 
@@ -139,8 +142,24 @@ func _on_input_event(_viewport, event, _shape_idx):
 	# InputEventScreenTouch. Checking both event types here double-fired
 	# `interacted` per click. Touch alone covers real touch AND the
 	# emulated-from-mouse case, so this is the single source now.
-	if event is InputEventScreenTouch and event.pressed:
+	if event is InputEventScreenTouch and event.pressed and not _over_touch_blocker(event.position):
 		try_interact()
+
+## True if `screen_pos` lands on a visible HUD control in TOUCH_BLOCKER_GROUP,
+## including the margin in its "tutorial_arrow_margin" meta. The joystick ring
+## draws well past its small control rect, and a thumb on it used to sit the
+## player down in a chair that happened to be underneath.
+func _over_touch_blocker(screen_pos: Vector2) -> bool:
+	for node in get_tree().get_nodes_in_group(TOUCH_BLOCKER_GROUP):
+		var c := node as Control
+		if c == null or not c.is_visible_in_tree():
+			continue
+		var xf: Transform2D = c.get_global_transform_with_canvas()
+		var scale: Vector2 = xf.get_scale()
+		var margin: float = float(c.get_meta("tutorial_arrow_margin", 0.0)) * scale.x
+		if Rect2(xf.origin, c.size * scale).grow(margin).has_point(screen_pos):
+			return true
+	return false
 
 ## Single guarded entry point for firing `interacted` -- shared by keyboard
 ## input, touch/click input, AND the HUD interact button (hud.gd), so all
@@ -174,14 +193,29 @@ func _on_body_exited(body: Node) -> void:
 ## Nearest in-range interactable to `from_pos`, or null if none in range.
 ## HUD calls this every frame it's visible -- pool is small (NPCs/objects
 ## actually within interact radius at once), no spatial index needed.
-static func get_nearest(from_pos: Vector2) -> InteractableComponent:
+## With `facing` (the player's facing_vec), measures from the tile the player
+## faces instead of where they stand, so the thing in front of them wins over
+## one beside or behind them (a desk book over the chair next to it).
+static func get_nearest(from_pos: Vector2, facing: Vector2 = Vector2.ZERO) -> InteractableComponent:
 	var nearest: InteractableComponent = null
 	var best_dist := INF
+	# from_pos is an actor origin (bottom-left of its tile); aim from the tile centre.
+	var aim: Vector2 = from_pos + Vector2(8, -8) + facing.normalized() * 16.0
 	for ic in _in_range_pool:
 		if not is_instance_valid(ic) or ic.disabled:
 			continue
-		var d: float = ic.get_parent().global_position.distance_squared_to(from_pos)
+		var d: float = ic.box_center().distance_squared_to(aim)
 		if d < best_dist:
 			best_dist = d
 			nearest = ic
 	return nearest
+
+## Global centre of this component's trigger box.
+func box_center() -> Vector2:
+	var cs := get_node_or_null("InteractArea/CollisionShape2D") as Node2D
+	return cs.global_position if cs != null else global_position
+
+## Nearest in-range interactable to `player`, preferring the one they face.
+static func get_nearest_to(player: Node2D) -> InteractableComponent:
+	var facing: Vector2 = player.get("facing_vec") if player.get("facing_vec") != null else Vector2.ZERO
+	return get_nearest(player.global_position, facing)

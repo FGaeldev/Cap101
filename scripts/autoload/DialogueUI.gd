@@ -85,7 +85,9 @@ func show_choices(choices: Array, component) -> void:
 
 ## Show the NPC action menu after the NPC script has ruled out a cutscene trigger.
 ## The callback receives "talk", "review", or "goodbye".
-func show_npc_interaction_menu(npc_display_name: String, callback: Callable) -> void:
+## extras: more actions above Talk, [{"id": choice passed to callback, "label": text}]
+## (Pedring's "Buy" at the market).
+func show_npc_interaction_menu(npc_display_name: String, callback: Callable, extras: Array = []) -> void:
 	TutorialManager.start("npc_menu")
 	# Reuse DialogueRoot's existing dialogue panel and theme instead of a separate overlay.
 	if _root == null:
@@ -105,6 +107,7 @@ func show_npc_interaction_menu(npc_display_name: String, callback: Callable) -> 
 		text_column.add_child(_npc_menu)
 		_build_npc_interaction_menu()
 	_npc_menu_callback = callback
+	_set_npc_menu_extras(extras)
 	var title := _npc_menu.get_node_or_null("NpcName") as Label
 	if title:
 		title.text = npc_display_name if not npc_display_name.is_empty() else "NPC"
@@ -132,6 +135,11 @@ func _build_npc_interaction_menu() -> void:
 	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	title.add_theme_color_override("font_color", UIThemeApplier.TEXT_EMPHASIS)
 	_npc_menu.add_child(title)
+
+	var extras := VBoxContainer.new()
+	extras.name = "Extras"
+	extras.add_theme_constant_override("separation", 3)
+	_npc_menu.add_child(extras)
 
 	var talk_button := _make_npc_menu_button("Talk", "secondary")
 	talk_button.pressed.connect(_on_npc_interaction_choice.bind("talk"))
@@ -256,7 +264,8 @@ func show_standalone_quiz(line: Dictionary, on_resolved: Callable) -> void:
 	_quiz_box.open(line)
 
 
-func _on_review_quiz_resolved(_passed: bool) -> void:
+func _on_review_quiz_resolved(passed: bool) -> void:
+	RewardManager.award_review(passed)
 	# Review has no story branch; close overlays and return control to exploration.
 	hide()
 
@@ -330,6 +339,7 @@ func show_quiz(line: Dictionary, component) -> void:
 		_quiz_box.resolved.disconnect(conn["callable"])
 	_quiz_box.resolved.connect(func(passed: bool):
 		_quiz_box.close()
+		RewardManager.award_story_activity(passed)
 		component.resolve_quiz(passed)
 	, CONNECT_ONE_SHOT)
 	_quiz_box.open(line)
@@ -345,7 +355,9 @@ func show_minigame(line: Dictionary, component) -> void:
 		push_error("DialogueUI: unknown minigame_type '%s', auto-passing." % mg_type)
 		component.call_deferred("resolve_minigame", true)
 		return
-	_open_minigame(line, component.resolve_minigame)
+	_open_minigame(line, func(passed: bool):
+		RewardManager.award_story_activity(passed)
+		component.resolve_minigame(passed))
 
 ## Same panels without a DialogueComponent (Review, the newspaper): the result
 ## goes to `on_resolved(passed)` instead of a dialogue branch.
@@ -389,6 +401,8 @@ func is_fullscreen_active() -> bool:
 
 ## True while dialogue box is visible; HUD uses this to hide gameplay controls.
 func is_active() -> bool:
+	if Economy.is_open():
+		return true
 	# Include modal panels because quiz/phrase-builder intentionally hide DialogueRoot.
 	if _root != null and _root.visible:
 		return true
@@ -396,3 +410,17 @@ func is_active() -> bool:
 		if overlay != null and is_instance_valid(overlay) and overlay.visible:
 			return true
 	return false
+
+## Rebuilds the NPC menu's extra action buttons (see show_npc_interaction_menu).
+func _set_npc_menu_extras(extras: Array) -> void:
+	var box := _npc_menu.get_node_or_null("Extras") as VBoxContainer
+	if box == null:
+		return
+	for child in box.get_children():
+		box.remove_child(child)
+		child.queue_free()
+	box.visible = not extras.is_empty()
+	for extra: Dictionary in extras:
+		var btn := _make_npc_menu_button(str(extra.get("label", "")), "secondary")
+		btn.pressed.connect(_on_npc_interaction_choice.bind(str(extra.get("id", ""))))
+		box.add_child(btn)

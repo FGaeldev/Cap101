@@ -54,7 +54,7 @@ func intercept(warp: Node, player: Node2D) -> bool:
 	if _is_waiting_to_resume(_rose_nearby(player)):
 		_tell_to_stay(_rose_nearby(player), player, warp)
 		return true
-	_approach_then(_rose_nearby(player), player, _ask, warp)
+	_call_over(_rose_nearby(player), player, warp)
 	return true
 
 ## Rose in the same map as the player, while out with her and nothing's running.
@@ -187,3 +187,40 @@ func _set_anim(rose: Node2D, state: String, dir: Vector2) -> void:
 
 func _snap(pos: Vector2) -> Vector2:
 	return (pos / ActorPath.TILE_SIZE).round() * ActorPath.TILE_SIZE
+
+## Rose waiting to be asked where to go next, after calling the player over.
+var _pending_ask: Node2D = null
+
+## A locked/away warp while out with Rose: instead of making the player wait
+## while she walks over, she calls out and marks herself; talking to her then
+## asks where to go (take_pending_ask, npc_generic.gd).
+func _call_over(rose: Node2D, player: Node2D, warp: Node) -> void:
+	MapManager.is_transitioning = true
+	warp._walk_player_back(player)
+	await get_tree().create_timer(player.step_time).timeout
+	MapManager.is_transitioning = false
+	if not is_instance_valid(rose):
+		return
+	_pending_ask = rose
+	_set_marker(rose, true)
+	var dialogue := DialogueComponent.new()
+	dialogue.dialogue_lines = [{"speaker": "Rose", "text": "Balikbayan, over here! Come talk to me if you want to go somewhere.", "next": null}]
+	rose.add_child(dialogue)
+	dialogue.dialogue_ended.connect(dialogue.queue_free)
+	dialogue.start_dialogue()
+
+## True (and opens the "where to?" choices) if Rose called the player over.
+func take_pending_ask(rose: Node2D) -> bool:
+	if _pending_ask != rose or not is_instance_valid(rose) or not GameState.get_flag(WITH_ROSE_FLAG):
+		_pending_ask = null
+		return false
+	_pending_ask = null
+	_set_marker(rose, false)
+	_ask(rose)
+	return true
+
+func _set_marker(rose: Node2D, on: bool) -> void:
+	var ic: Node = rose.get_node_or_null("InteractableComponent")
+	if ic:
+		ic.is_active = on
+		ic.refresh_quest_marker()

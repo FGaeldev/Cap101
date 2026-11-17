@@ -21,8 +21,12 @@ const QUEST_ROW_HEIGHT := 22.0   # status/title row + separator
 func _get_header_text() -> String:
 	return "Quest Log" if partner_column != null else ""
 
+## Side quests only once offered and taken (they are optional; no spoilers).
 func _get_items() -> Array:
-	return QuestManager.quests.keys()
+	return QuestManager.quests.keys().filter(func(qid):
+		var q: Dictionary = QuestManager.quests[qid]
+		return q.get("category", "") != "side" or qid in QuestManager.active_quests \
+				or GameState.get_flag(q.get("completion_flag", "")))
 
 func rows_per_column() -> int:
 	return int(LIST_HEIGHT_BUDGET / QUEST_ROW_HEIGHT)   # 7 -> 14 per spread
@@ -33,5 +37,8 @@ func _get_empty_text() -> String:
 func _add_item_row(quest_id) -> void:
 	var q: Dictionary = QuestManager.quests[quest_id]
 	var completed: bool = GameState.get_flag(q.get("completion_flag", ""))
-	add_status_row(completed, quest_id in QuestManager.active_quests, q.get("title", quest_id), completed)
+	var title: String = q.get("title", quest_id)
+	if q.get("category", "") == "side":
+		title = "Side: " + title
+	add_status_row(completed, quest_id in QuestManager.active_quests, title, completed)
 	add_separator()

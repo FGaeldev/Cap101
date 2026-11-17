@@ -27,6 +27,11 @@ extends CharacterBody2D
 @export var cutscene_seen_flag: String = ""
 ## Interaction is ignored until this flag is set. Empty = always interactable.
 @export var unlock_flag: String = ""
+## Shop this NPC runs (data/items.json "shops"). Adds "Buy" to the menu while
+## the player is in that shop's area. Empty = not a vendor.
+@export var shop_id: String = ""
+
+const SideQuests := preload("res://scripts/util/side_quests.gd")
 
 @onready var interactable: InteractableComponent = $InteractableComponent
 @onready var dialogue: DialogueComponent = $DialogueComponent
@@ -42,12 +47,19 @@ func _on_interacted(_interactor: Node) -> void:
 		return
 	if not interact_quest_id.is_empty():
 		QuestManager.complete_quest(interact_quest_id)
+	# Rose called the player over after a warp attempt: ask where to go.
+	if TourGuide.take_pending_ask(self):
+		return
 	if not cutscene_id.is_empty() and not GameState.get_flag(cutscene_seen_flag):
 		CutsceneManager.play(cutscene_id)
 		return
+	var extras: Array = []
+	if not Economy.shop_here(shop_id).is_empty():
+		extras.append({"id": "shop", "label": "Buy"})
 	DialogueUI.show_npc_interaction_menu(
 		npc_id if not npc_id.is_empty() else name,
-		Callable(self, "_on_interaction_menu_choice")
+		Callable(self, "_on_interaction_menu_choice"),
+		extras
 	)
 
 
@@ -58,6 +70,8 @@ func _on_interaction_menu_choice(choice: String) -> void:
 			_start_dialogue_or_idle()
 		"review":
 			DialogueUI.show_review()
+		"shop":
+			Economy.open_shop(shop_id)
 		"goodbye":
 			return
 
@@ -69,6 +83,12 @@ func _start_dialogue_or_idle() -> void:
 			and (story_done_flag.is_empty() or not GameState.get_flag(story_done_flag))
 	if story_pending:
 		dialogue.dialogue_lines = story_lines
+		dialogue.start_dialogue()
+		return
+	# A side quest this NPC gives (offer, reminder or hand-in) comes before idle talk.
+	var quest_lines: Array = SideQuests.lines_for(npc_id)
+	if not quest_lines.is_empty():
+		dialogue.dialogue_lines = quest_lines
 		dialogue.start_dialogue()
 	else:
 		dialogue.start_idle_dialogue()

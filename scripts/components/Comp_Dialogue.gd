@@ -197,7 +197,12 @@ func _show_line() -> void:
 	if not speaker.is_empty():
 		_last_speaker = speaker
 
-	if line.has("choices") and not line["choices"].is_empty():
+	# A choice with "requires_flag" only shows once that flag is set (Bakhawan
+	# stays hidden until Chapter 3 is complete).
+	var choices: Array = Array(line.get("choices", [])).filter(func(c):
+		var req: String = str(c.get("requires_flag", "")) if c is Dictionary else ""
+		return req.is_empty() or GameState.get_flag(req))
+	if not choices.is_empty():
 		# A choice line with no text keeps the previous line on screen as its
 		# prompt, instead of a placeholder "…" line.
 		var has_text: bool = not str(line.get("text", "")).strip_edges().is_empty()
@@ -208,7 +213,7 @@ func _show_line() -> void:
 				self,
 				portrait_tex
 			)
-		DialogueUI.show_choices(line["choices"], self)
+		DialogueUI.show_choices(choices, self)
 	else:
 		DialogueUI.show_line(
 			line.get("speaker", ""),

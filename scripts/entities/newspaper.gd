@@ -7,7 +7,7 @@ extends Sprite2D
 
 func _ready() -> void:
 	interactable.interacted.connect(_on_interacted)
-	DayNightManager.day_changed.connect(_refresh_marker)
+	DayNightManager.daily_reset.connect(_refresh_marker)
 	DialogueUI.dialogue_finished.connect(_refresh_marker)
 	_refresh_marker()
 

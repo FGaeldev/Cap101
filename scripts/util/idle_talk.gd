@@ -5,6 +5,8 @@ extends RefCounted
 ## plays one step, the next one that applies. Each NPC starts over every day
 ## (GameState.idle_steps):
 ##   GREETING  Time-of-day greeting.
+##   AMBIENT   One sentence for where they are, the time of day and the weekday
+##             (data/idle_ambient.json), when one fits.
 ##   PUZZLE    Family only, once the newspaper is reachable, while today's puzzle
 ##             is unsolved: reminder to solve it.
 ##   WORD      Word of the day and its meaning. The first time ever, each sentence
@@ -25,7 +27,16 @@ extends RefCounted
 ## and its seen flag ("remark_<id>_seen") isn't. One per talk, newest chapter
 ## first, then in authored order; the rest wait for later talks.
 
-enum Step { GREETING, PUZZLE, WORD, OFFER, TOMORROW }
+enum Step { GREETING, AMBIENT, PUZZLE, WORD, OFFER, TOMORROW }
+
+## Location, time and weekday sentences for the AMBIENT step. Entries with
+## "draft": true are skipped until their Akeanon is reviewed.
+const AMBIENT_PATH: String = "res://data/idle_ambient.json"
+## Weekday name tokens, index 0 = Sunday (Time.get_date_dict weekday).
+const WEEKDAY_TOKEN: String = "[Weekday]"
+const WEEKDAYS: Array = [["Domingo", "w318"], ["Lunes", "w312"], ["Martes", "w313"], ["Miyerkoles", "w314"], ["Hwebes", "w315"], ["Biyernes", "w316"], ["Sabado", "w317"]]
+static var _ambient_cache: Array = []
+static var _ambient_loaded: bool = false
 
 ## Whose reminder this is: they live in the house with the newspaper.
 const FAMILY: Array[String] = ["Lola Jonabel", "Rose", "Lola Susan", "Papa Jobert"]
@@ -53,11 +64,13 @@ static func build(speaker: String) -> Array:
 	var step: Step = _next_step(speaker)
 	# An offer only counts as done once accepted, and that is what moves past it.
 	if step != Step.OFFER:
-		GameState.idle_steps[speaker] = {"date": GameState.date_unix, "step": step}
+		GameState.idle_steps[speaker] = {"date": GameState.daily_date(), "step": step}
 	match step:
 		Step.GREETING:
 			return [_line(speaker, "\\Mayad \\nga \\%s!" % TextUtil.DAY_PART_TOKEN,
 					[W_MAYAD, W_NGA, TextUtil.DAY_PART_TOKEN])]
+		Step.AMBIENT:
+			return _ambient_lines(speaker, _ambient_matches(speaker).pick_random())
 		Step.PUZZLE:
 			return [_line(speaker, "Remember to solve the newspaper puzzle.")]
 		Step.WORD:
@@ -100,7 +113,7 @@ static func remark_seen_flag(remark_id: String) -> String:
 ## The first step after the last one this NPC played today that applies now.
 static func _next_step(speaker: String) -> Step:
 	var progress: Dictionary = GameState.idle_steps.get(speaker, {})
-	if progress.get("date", 0) != GameState.date_unix:
+	if progress.get("date", 0) != GameState.daily_date():
 		return Step.GREETING
 	var step: int = int(progress.get("step", Step.GREETING)) + 1
 	while step < Step.TOMORROW and not _applies(step, speaker):
@@ -109,6 +122,8 @@ static func _next_step(speaker: String) -> Step:
 
 static func _applies(step: int, speaker: String) -> bool:
 	match step:
+		Step.AMBIENT:
+			return not _ambient_matches(speaker).is_empty()
 		Step.PUZZLE:
 			return FAMILY.has(speaker) and GameState.get_flag(NEWSPAPER_REACHABLE_FLAG) \
 					and not GameState.is_puzzle_solved_today()
@@ -138,7 +153,7 @@ static func _offer_lines(speaker: String) -> Array:
 
 static func _on_lesson_started(speaker: String) -> void:
 	GameState.mark_word_taught()
-	GameState.idle_steps[speaker] = {"date": GameState.date_unix, "step": Step.OFFER}
+	GameState.idle_steps[speaker] = {"date": GameState.daily_date(), "step": Step.OFFER}
 
 ## "The word of the day is X. The meaning is Y.", with explain, each followed by
 ## what it means.
@@ -163,3 +178,96 @@ static func _word_lines(speaker: String, word_id: String, explain: bool) -> Arra
 
 static func _line(speaker: String, text: String, word_ids: Array = []) -> Dictionary:
 	return {"speaker": speaker, "text": text, "word_ids": word_ids, "type": "dialogue"}
+
+## Reviewed ambient templates that fit the current area, day part, weekday and
+## speaker. Template fields (all but text optional):
+##   areas    GameState.current_area ids; empty = anywhere
+##   parts    "morning" / "afternoon" / "night" (TextUtil hours); empty = any time
+##   weekdays 0 = Sunday … 6 = Saturday; empty = any day
+##   speakers npc ids, "family" (FAMILY) or "stranger" (anyone else); empty = anyone
+##   ask      optional line the PLAYER says first (asking directions)
+##   text, translation, word_ids  as in dialogue lines; [Weekday] and [DayPart]
+##            tokens are filled in, and listed in word_ids to tag them
+static func _ambient_matches(speaker: String) -> Array:
+	var part: String = _day_part_key()
+	var weekday: int = int(DayNightManager.get_date()["weekday"])
+	var out: Array = []
+	for t: Dictionary in _ambient_templates():
+		if t.get("draft", false):
+			continue
+		var areas: Array = t.get("areas", [])
+		if not areas.is_empty() and not areas.has(GameState.current_area):
+			continue
+		var parts: Array = t.get("parts", [])
+		if not parts.is_empty() and not parts.has(part):
+			continue
+		var days: Array = t.get("weekdays", [])
+		if not days.is_empty() and not days.any(func(d): return int(d) == weekday):
+			continue
+		var who: Array = t.get("speakers", [])
+		if not who.is_empty() and not who.has(speaker) and not (who.has("family") and FAMILY.has(speaker)) \
+				and not (who.has("stranger") and not FAMILY.has(speaker)):
+			continue
+		out.append(t)
+	return out
+
+static func _ambient_line(speaker: String, t: Dictionary) -> Dictionary:
+	var day: Array = WEEKDAYS[int(DayNightManager.get_date()["weekday"])]
+	var ids: Array = []
+	for id in t.get("word_ids", []):
+		ids.append(day[1] if str(id) == WEEKDAY_TOKEN else str(id))
+	var line: Dictionary = _line(speaker, str(t.get("text", "")).replace(WEEKDAY_TOKEN, day[0]), ids)
+	var translation: String = str(t.get("translation", "")).replace(WEEKDAY_TOKEN, day[0])
+	if not translation.is_empty():
+		line["translation"] = TextUtil.resolve_day_part(translation)
+	return line
+
+## One line, or for "kind": "weekday_quiz" the question with three weekday
+## choices (today's plus two others, shuffled) and the right/wrong reply.
+## A right answer is a correct use of that weekday word: +1 mastery.
+static func _ambient_lines(speaker: String, t: Dictionary) -> Array:
+	var question: Dictionary = _ambient_line(speaker, t)
+	if t.get("kind", "") == "pick":
+		# Any answer leads to the same reply.
+		question["choices"] = t.get("choices", []).map(func(label): return {"label": str(label), "next": 1})
+		var reply: Dictionary = _ambient_line(speaker, t.get("reply", {}))
+		reply["next"] = null
+		return [question, reply]
+	if t.get("kind", "") != "weekday_quiz":
+		if t.has("ask"):
+			return [_ambient_line("Player", t["ask"]), question]
+		return [question]
+	var today: int = int(DayNightManager.get_date()["weekday"])
+	var options: Array = [today]
+	var others: Array = range(WEEKDAYS.size()).filter(func(d): return d != today)
+	others.shuffle()
+	options.append_array(others.slice(0, 2))
+	options.shuffle()
+	var choices: Array = []
+	for d in options:
+		choices.append({"label": WEEKDAYS[d][0], "next": 1 if d == today else 2})
+	question["choices"] = choices
+	var right: Dictionary = _ambient_line(speaker, t.get("right", {}))
+	right["next"] = null
+	right["on_enter"] = GameState.adjust_mastery.bind(WEEKDAYS[today][1], 1)
+	var wrong: Dictionary = _ambient_line(speaker, t.get("wrong", {}))
+	wrong["next"] = null
+	return [question, right, wrong]
+
+static func _ambient_templates() -> Array:
+	if not _ambient_loaded:
+		_ambient_loaded = true
+		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(AMBIENT_PATH))
+		if parsed is Dictionary and parsed.get("templates", null) is Array:
+			_ambient_cache = parsed["templates"]
+		else:
+			push_error("IdleTalk: bad or missing %s" % AMBIENT_PATH)
+	return _ambient_cache
+
+static func _day_part_key() -> String:
+	var hour: float = DayNightManager.get_hour()
+	if hour >= TextUtil.MORNING_START and hour < TextUtil.AFTERNOON_START:
+		return "morning"
+	if hour >= TextUtil.AFTERNOON_START and hour < TextUtil.NIGHT_START:
+		return "afternoon"
+	return "night"

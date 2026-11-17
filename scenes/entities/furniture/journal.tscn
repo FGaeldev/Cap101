@@ -11,3 +11,5 @@ script = ExtResource("2_8c3gl")
 
 [node name="InteractableComponent" parent="." unique_id=1233591827 instance=ExtResource("2_iv2lt")]
 position = Vector2(0, -14)
+area_size = Vector2(28, 24)
+area_offset = Vector2(-8, 6)

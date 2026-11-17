@@ -24,6 +24,7 @@ func execute(step: Dictionary, mgr: Node) -> void:
 		"focus":
 			var to: Array = step.get("to", [0, 0])
 			cam.top_level = true
+			mgr.camera_hold()
 			var tween: Tween = mgr.track_tween(cam.create_tween())
 			tween.tween_property(cam, "global_position", Vector2(to[0], to[1]), duration)
 			await tween.finished
@@ -32,6 +33,7 @@ func execute(step: Dictionary, mgr: Node) -> void:
 			if target == null:
 				return
 			cam.top_level = true
+			mgr.camera_hold()
 			var tween: Tween = mgr.track_tween(cam.create_tween())
 			tween.tween_property(cam, "global_position", target.global_position, duration)
 			await tween.finished

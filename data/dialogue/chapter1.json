@@ -858,5 +858,18 @@
 	  "word_ids": [],
 	  "type": "dialogue"
 	}
-  ]
+  ],
+  "remarks": {
+	"jonabel_flight_morning": {
+	  "speaker": "Lola Jonabel",
+	  "requires": ["chapter1_slept"],
+	  "unless": ["seen_chapter1_scene1_5"],
+	  "lines": [
+		{"type": "dialogue", "speaker": "Lola Jonabel", "text": "Good morning, \\apo! Today is the day.", "next": 1, "word_ids": ["w019"]},
+		{"type": "dialogue", "speaker": "Player", "text": "I could barely sleep, Grandma. Are we really going?", "next": 2, "word_ids": []},
+		{"type": "dialogue", "speaker": "Lola Jonabel", "text": "We are. After all these years, I'm going home to \\Aklan, and you're coming with me.", "next": 3, "word_ids": ["w010"]},
+		{"type": "dialogue", "speaker": "Lola Jonabel", "text": "Your Papa already has the bags. Go out the front door, the airport is waiting!", "next": null, "word_ids": []}
+	  ]
+	}
+  }
 }

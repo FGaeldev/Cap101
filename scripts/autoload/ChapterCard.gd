@@ -44,14 +44,15 @@ func get_chapters() -> Array:
 
 
 ## Shows the card and waits for the player, unless this save has already seen it.
-func show_if_new(chapter_id: String) -> void:
+## Returns true if it showed. Closing the card leaves the screen black.
+func show_if_new(chapter_id: String) -> bool:
 	var flag: String = "chapter_card_%s_seen" % chapter_id
 	var chapter: Dictionary = _find_chapter(chapter_id)
 	if GameState.dev_mode or GameState.get_flag(flag):
-		return
+		return false
 	if chapter.is_empty():
 		push_warning("ChapterCard: unknown chapter '%s'" % chapter_id)
-		return
+		return false
 	GameState.set_flag(flag)
 	_chapter_label.text = "Chapter %d" % int(chapter.get("number", 0))
 	_title_label.text = str(chapter.get("title", ""))
@@ -62,6 +63,7 @@ func show_if_new(chapter_id: String) -> void:
 	set_process_input(true)
 	get_tree().create_timer(MIN_SHOW_SECONDS).timeout.connect(func(): _continue_btn.disabled = false)
 	await closed
+	return true
 
 
 func _find_chapter(chapter_id: String) -> Dictionary:

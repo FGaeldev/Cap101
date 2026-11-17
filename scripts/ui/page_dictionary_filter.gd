@@ -10,12 +10,16 @@ const TEXTFIELD_SLICE_MARGIN := 3
 
 @onready var search_box: LineEdit = $VBox/SearchBox
 @onready var category_dropdown: OptionButton = $VBox/CategoryDropdown
+## "Words known: 42 / 310", plus the selected category's share.
+var _progress_label: Label
 
 func _ready() -> void:
 	_style_search_box()
 	_populate_categories()
 	search_box.text_changed.connect(_on_filters_changed)
 	category_dropdown.item_selected.connect(func(_idx): _on_filters_changed(search_box.text))
+	_build_progress_label()
+	_update_progress()
 
 func _style_search_box() -> void:
 	var sb := StyleBoxTexture.new()
@@ -59,3 +63,38 @@ func _on_filters_changed(_text: String = "") -> void:
 	var idx := category_dropdown.selected
 	var category := "" if idx <= 0 else category_dropdown.get_item_text(idx).to_lower()
 	filters_changed.emit(query, category)
+	_update_progress()
+
+## Called by BookUI each time the Dictionary tab opens.
+func refresh() -> void:
+	_update_progress()
+
+func _build_progress_label() -> void:
+	_progress_label = Label.new()
+	_progress_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_progress_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
+	_progress_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
+	$VBox.add_child(_progress_label)
+
+## Known words out of every word in the word bank, overall and for the chosen
+## category. Only words the bank can show count (WordBank skips gloss-less ones).
+func _update_progress() -> void:
+	if _progress_label == null:
+		return
+	var idx := category_dropdown.selected
+	var category := "" if idx <= 0 else category_dropdown.get_item_text(idx).to_lower()
+	var known := 0
+	var cat_known := 0
+	var cat_total := 0
+	for word_id in WordBank.words:
+		var in_dict: bool = GameState.is_in_dictionary(word_id)
+		if in_dict:
+			known += 1
+		if not category.is_empty() and str(WordBank.words[word_id].get("category", "")).to_lower() == category:
+			cat_total += 1
+			if in_dict:
+				cat_known += 1
+	var text := "Words known: %d / %d" % [known, WordBank.words.size()]
+	if not category.is_empty():
+		text += "\n%s: %d / %d" % [category_dropdown.get_item_text(idx), cat_known, cat_total]
+	_progress_label.text = text

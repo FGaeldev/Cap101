@@ -391,7 +391,7 @@ func _covers(pos: Vector2, cell: Vector2i) -> bool:
 ## Tiles to walk from `start` towards `goal`, not counting `start`. If the goal
 ## can't be reached right now, leads to the reachable tile nearest it instead;
 ## empty if `start` already is that tile. Never enters a tile with a collision
-## shape, except the goal when into_bed is set ("in_bed" blocks). Physics frames only.
+## shape, except the goal itself (a bed, chair or sofa the NPC is heading for). Physics frames only.
 func find_path(start: Vector2i, goal: Vector2i, me: Node2D, into_bed: bool = false) -> Array[Vector2i]:
 	var came_from: Dictionary = {start: start}
 	var queue: Array[Vector2i] = [start]
@@ -409,7 +409,9 @@ func find_path(start: Vector2i, goal: Vector2i, me: Node2D, into_bed: bool = fal
 			var next: Vector2i = cell + step
 			if came_from.has(next) or is_occupied(next, me):
 				continue
-			if is_blocked(next) and not (into_bed and next == goal):
+			# The goal may be solid: a bed, or a chair or sofa (solid tiles so the
+			# player can't walk through them) that the NPC sits on.
+			if is_blocked(next) and next != goal:
 				continue
 			came_from[next] = cell
 			queue.append(next)

@@ -181,6 +181,10 @@ func _get_map_bounds(level: Node) -> Rect2:
 		bounds = bounds.merge(rect) if bounds.has_area() else rect
 	return bounds
 
+## World pixels the camera may show past each map edge, so the HUD never covers
+## a player standing at the edge (playtest v0.1.19: hidden behind the quest box).
+const HUD_EDGE_MARGIN: float = 32.0
+
 ## Stops the camera from showing anything past the map edges. On an axis where
 ## the map is smaller than the view (most indoor rooms), the map stays centered.
 func _update_camera_limits() -> void:
@@ -197,6 +201,12 @@ func _update_camera_limits() -> void:
 	# the view, so widen them to the view's size around the map's center.
 	var pad: Vector2 = (view - _map_bounds.size).max(Vector2.ZERO) / 2.0
 	var limits: Rect2 = _map_bounds.grow_individual(pad.x, pad.y, pad.x, pad.y)
+	# Let the view run a little past the edges so a player on the edge of the
+	# map stays clear of the HUD corners (quest box, menu, joystick). Only on axes
+	# that scroll: a room smaller than the view stays fixed and centred.
+	var mx: float = HUD_EDGE_MARGIN if pad.x == 0.0 else 0.0
+	var my: float = HUD_EDGE_MARGIN if pad.y == 0.0 else 0.0
+	limits = limits.grow_individual(mx, my, mx, my)
 	# Camera2D applies its offset after the limits, so cancel it out here or the
 	# view would still go past the map by that amount.
 	limits.position -= camera.offset
