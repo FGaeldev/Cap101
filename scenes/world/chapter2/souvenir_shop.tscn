@@ -1,0 +1,73 @@
+[gd_scene format=4 uid="uid://b7sv3nirsh0p1"]
+
+[ext_resource type="TileSet" uid="uid://boab7cv7y1o5x" path="res://assets/tilesets/indoors.tres" id="1_indoors"]
+[ext_resource type="PackedScene" uid="uid://de6nkx7tf7u8d" path="res://scenes/entities/furniture/warp_area.tscn" id="2_8pgjo"]
+[ext_resource type="TileSet" uid="uid://c5vsev44bkm1e" path="res://assets/tilesets/shadows.tres" id="2_shadows"]
+[ext_resource type="TileSet" uid="uid://dd261lq2dwfm8" path="res://assets/tilesets/edges.tres" id="3_edges"]
+[ext_resource type="Script" uid="uid://dlkrsatlaij6c" path="res://scripts/game_scenes/stall_vendors.gd" id="10_vendors"]
+[ext_resource type="PackedScene" uid="uid://cvqh0spi5t1xj" path="res://scenes/entities/npc_RandomGuy1.tscn" id="11_guy1"]
+[ext_resource type="PackedScene" uid="uid://dyidv17ldaynb" path="res://scenes/entities/npc_RandomGuy2.tscn" id="12_guy2"]
+[ext_resource type="PackedScene" uid="uid://dxcbcue6862ey" path="res://scenes/entities/npc_RandomGuy3.tscn" id="13_guy3"]
+
+[node name="SouvenirShop" type="Node2D" unique_id=549255014]
+y_sort_enabled = true
+
+[node name="Floor" type="TileMapLayer" parent="." unique_id=843949917]
+z_index = -3
+tile_map_data = PackedByteArray("AAAFAAgAAAAKAAEAAAAFAAkAAAAKAAEAAAAGAAkAAAAKAAEAAAAHAAkAAAAKAAEAAAAIAAkAAAAKAAEAAAAJAAkAAAAKAAEAAAAKAAkAAAAKAAEAAAAKAAoAAAAKAAEAAAADAAgAAAAKAAEAAAADAAkAAAAKAAEAAAADAAoAAAAKAAEAAAADAAsAAAAKAAEAAAADAAwAAAAKAAEAAAAEAAgAAAAKAAEAAAAEAAkAAAAKAAEAAAAEAAoAAAAKAAEAAAAEAAsAAAAKAAEAAAAEAAwAAAAKAAEAAAAFAAoAAAAKAAEAAAAFAAsAAAAKAAEAAAAFAAwAAAAKAAEAAAAGAAgAAAAKAAEAAAAGAAoAAAAKAAEAAAAGAAsAAAAKAAEAAAAGAAwAAAAKAAEAAAAHAAgAAAAKAAEAAAAHAAoAAAAKAAEAAAAHAAsAAAAKAAEAAAAHAAwAAAAKAAEAAAAIAAgAAAAKAAEAAAAIAAoAAAAKAAEAAAAIAAsAAAAKAAEAAAAIAAwAAAAKAAEAAAAJAAgAAAAKAAEAAAAJAAoAAAAKAAEAAAAJAAsAAAAKAAEAAAAJAAwAAAAKAAEAAAAKAAgAAAAKAAEAAAAKAAsAAAAKAAEAAAAKAAwAAAAKAAEAAAALAAgAAAAKAAEAAAALAAkAAAAKAAEAAAALAAoAAAAKAAEAAAALAAsAAAAKAAEAAAALAAwAAAAKAAEAAAAMAAgAAAAKAAEAAAAMAAkAAAAKAAEAAAAMAAoAAAAKAAEAAAAMAAsAAAAKAAEAAAAMAAwAAAAKAAEAAAANAAgAAAAKAAEAAAANAAkAAAAKAAEAAAANAAoAAAAKAAEAAAANAAsAAAAKAAEAAAANAAwAAAAKAAEAAAA=")
+tile_set = ExtResource("1_indoors")
+
+[node name="FloorDecals" type="TileMapLayer" parent="." unique_id=1027026388]
+z_index = -2
+tile_map_data = PackedByteArray("AAAKAAwAAAAIAAEAAAALAAwAAAAJAAEAAAA=")
+tile_set = ExtResource("1_indoors")
+
+[node name="Shadows" type="TileMapLayer" parent="." unique_id=1056048906]
+z_index = -1
+tile_map_data = PackedByteArray("AAADAAgAAQAAAAAAAAADAAkAAQAAAAAAAAADAAoAAQAAAAAAAAADAAsAAQAAAAAAAAADAAwAAQAAAAAAAAAEAAgAAQAAAAAAAAAFAAgAAQAAAAAAAAAGAAgAAQAAAAAAAAAHAAgAAQAAAAAAAAAIAAgAAQAAAAAAAAAJAAgAAQAAAAAAAAAKAAgAAQABAAEAAAALAAgAAQAAAAEAAAAMAAgAAQAAAAEAAAANAAgAAQAAAAEAAAAEAAsAAQAAAAAAAAAFAAsAAQAAAAAAAAAGAAsAAQAAAAAAAAAHAAsAAQAAAAAAAAAEAAwAAQAAAAEAAAAFAAwAAQAAAAEAAAAGAAwAAQAAAAEAAAAHAAwAAQAAAAEAAAAIAAwAAQACAAIAAAAIAAsAAQACAAAAAAA=")
+tile_set = ExtResource("2_shadows")
+
+[node name="Walls" type="TileMapLayer" parent="." unique_id=1936397937]
+y_sort_enabled = true
+tile_map_data = PackedByteArray("AAAMAAYAAAADAA4AAAAMAAcAAAADAA8AAAANAAYAAAAHAA4AAAANAAcAAAAHAA8AAAADAAYAAAAAAA4AAAADAAcAAAAAAA8AAAAEAAYAAAADAA4AAAAEAAcAAAADAA8AAAAFAAYAAAADAA4AAAAFAAcAAAADAA8AAAAGAAYAAAADAA4AAAAGAAcAAAADAA8AAAAHAAYAAAADAA4AAAAHAAcAAAADAA8AAAAIAAYAAAADAA4AAAAIAAcAAAADAA8AAAAJAAYAAAADAA4AAAAJAAcAAAADAA8AAAAKAAYAAAADAA4AAAAKAAcAAAADAA8AAAALAAYAAAADAA4AAAALAAcAAAADAA8AAAA=")
+tile_set = ExtResource("1_indoors")
+
+[node name="Objects" type="TileMapLayer" parent="." unique_id=137754638]
+y_sort_enabled = true
+tile_map_data = PackedByteArray("AAADAAcAAAAmAAIAAAADAAgAAAAmAAMAAAAEAAcAAAAnAAIAAAAEAAgAAAAnAAMAAAADAAoAAAAmAAIAAAADAAsAAAAmAAMAAAAEAAoAAAAnAAIAAAAEAAsAAAAnAAMAAAANAAgAAAAmAAkAAAANAAkAAAAmAAoAAAAMAAgAAAAiAAkAAAAMAAkAAAAiAAoAAAAFAAoAAAAoAAIAAAAFAAsAAAAoAAMAAAAGAAoAAAAnAAIAAAAGAAsAAAAnAAMAAAAHAAsAAAApAAMAAAAHAAoAAAApAAIAAAAFAAcAAAAoAAIAAAAFAAgAAAAoAAMAAAAHAAgAAAAoAAMAAAAHAAcAAAAoAAIAAAAIAAcAAAAnAAIAAAAIAAgAAAAnAAMAAAAGAAcAAAAnAAIAAAAGAAgAAAAnAAMAAAAJAAcAAAApAAIAAAAJAAgAAAApAAMAAAA=")
+tile_set = ExtResource("1_indoors")
+
+[node name="Edge" type="TileMapLayer" parent="." unique_id=1866411030]
+tile_map_data = PackedByteArray("AAACAAUAAAAAAAAAAAACAAYAAAAAAAEAAAACAAcAAAAAAAEAAAACAAgAAAAAAAEAAAACAAkAAAAAAAEAAAACAAoAAAAAAAEAAAACAAsAAAAAAAEAAAACAAwAAAAAAAEAAAACAA0AAAAAAAIAAAADAAUAAAABAAAAAAADAA0AAAABAAIAAAAEAAUAAAABAAAAAAAEAA0AAAABAAIAAAAFAAUAAAABAAAAAAAFAA0AAAABAAIAAAAGAAUAAAABAAAAAAAGAA0AAAABAAIAAAAHAAUAAAABAAAAAAAHAA0AAAABAAIAAAAIAAUAAAABAAAAAAAIAA0AAAABAAIAAAAJAAUAAAABAAAAAAAJAA0AAAABAAIAAAAKAAUAAAABAAAAAAAKAA0AAAABAAIAAAALAAUAAAABAAAAAAALAA0AAAABAAIAAAAMAAUAAAABAAAAAAAMAA0AAAABAAIAAAANAAUAAAABAAAAAAANAA0AAAABAAIAAAAOAAUAAAACAAAAAAAOAAYAAAACAAEAAAAOAAcAAAACAAEAAAAOAAgAAAACAAEAAAAOAAkAAAACAAEAAAAOAAoAAAACAAEAAAAOAAsAAAACAAEAAAAOAAwAAAACAAEAAAAOAA0AAAACAAIAAAA=")
+tile_set = ExtResource("3_edges")
+
+[node name="Warp" type="Node2D" parent="." unique_id=942480874]
+
+[node name="WarpArea2" parent="Warp" unique_id=239514056 instance=ExtResource("2_8pgjo")]
+position = Vector2(176, 200)
+trigger_direction = 1
+span_tiles_override = 2
+target_scene = "res://scenes/world/chapter2/pastrana_outdoors.tscn"
+target_spawn_id = "FromSouvenirShop"
+
+[node name="Spawn" type="Node2D" parent="." unique_id=909967789]
+
+[node name="DefaultSpawn" type="Marker2D" parent="Spawn" unique_id=2125988194]
+position = Vector2(176, 176)
+
+[node name="Down" type="Marker2D" parent="Spawn" unique_id=539287589]
+position = Vector2(176, 192)
+
+[node name="Up" type="Marker2D" parent="Spawn" unique_id=447921376]
+position = Vector2(144, 160)
+
+[node name="SceneMarkers" type="Node2D" parent="." unique_id=410201000]
+
+[node name="Vendors" type="Node2D" parent="SceneMarkers" unique_id=1903178563]
+
+[node name="Shopkeeper" type="Marker2D" parent="SceneMarkers/Vendors" unique_id=1048243448]
+position = Vector2(176, 144)
+
+[node name="StallVendors" type="Node2D" parent="." unique_id=1920006430]
+script = ExtResource("10_vendors")
+npc_scenes = Array[PackedScene]([ExtResource("11_guy1"), ExtResource("12_guy2"), ExtResource("13_guy3")])

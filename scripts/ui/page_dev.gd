@@ -70,6 +70,7 @@ const DEV_WARP_TARGETS := [
 	{"label": "Ch2 — Pastrana Park", "scene_path": "res://scenes/world/chapter2/pastrana_outdoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
 	{"label": "Ch2 — Market - Indoors", "scene_path": "res://scenes/world/market/market_indoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
 	{"label": "Ch2 — Cathedral - Indoors", "scene_path": "res://scenes/world/chapter2/cathedral_indoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
+	{"label": "Ch2 — Souvenir Shop", "scene_path": "res://scenes/world/chapter2/souvenir_shop.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
 	{"label": "Ch4 — Bakhawan", "scene_path": "res://scenes/world/bakhawan/bakhawan_outdoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
 	{"label": "Ch3 — Morning brief (Living Room)", "scene_path": "res://scenes/world/chapter2/aklan_living.tscn", "flags_on": CH3_START_FLAGS, "quests_done": CH1_QUESTS},
 	{"label": "Haboean — Outdoors", "scene_path": "res://scenes/world/haboean/habuean_outdoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},

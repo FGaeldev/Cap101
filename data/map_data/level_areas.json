@@ -13,6 +13,7 @@
 	"res://scenes/world/chapter2/aklan_home_outdoors.tscn": "aklan_home",
 	"res://scenes/world/chapter2/pastrana_outdoors.tscn": "pastrana",
 	"res://scenes/world/chapter2/cathedral_indoors.tscn": "pastrana",
+	"res://scenes/world/chapter2/souvenir_shop.tscn": "pastrana",
 	"res://scenes/world/market/market_outdoors.tscn": "market",
 	"res://scenes/world/market/market_indoors.tscn": "market",
 	"res://scenes/world/caticlan/caticlan_outdoors.tscn": "caticlan",
