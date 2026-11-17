@@ -26,7 +26,7 @@ Prepared 2026-11-16 from the working tree (on top of commit `7b452d0`, with the 
 1. **The Ch2 Bakhawan trip.** Bakhawan is already a free Ch2 trip with nothing in it. Recommended: take "Can we go to Bakhawan?" out of Rose's Ch2 menu, so the first real visit is Chapter 4, and drop `_bakhawan_went` from autoplay's Ch2 "done". Keep and reuse the Ch2 walk cutscenes. Alternative: keep the trip and have Rose say Manong Ambo is away until "tomorrow".
 2. **One big outdoor map or a separate beach scene.** **Default (not asked):** one map, extended north to 42 × 62 as the map plan draws it (gate → forest → river → beach → sea), so the walk-and-talk cutscenes never cut. The visitor-centre interior is optional and comes last.
 3. **Who comes along.** **Decided:** **Jobert** comes on the trip (his "I used to fish there" in the brief pays off at the sunset scene); **Jonabel** stays home, and her existing reflection line moves to a short evening-home scene, as in Ch3.
-4. **Fishing minigame now or later.** **Decided:** ship the story with a stand-in (`quiz` on the scene 2 words) at the insertion point, then build a real `fishing` panel (wait for the bite, tap, name the catch in Akeanon from 2–3 choices, release it) using `habi_habi_panel.gd` as the model for a full-screen timed panel. Both pass and fail continue.
+4. **Fishing minigame now or later.** **Decided (changed 2026-11-18 in the line review):** fishing is a required quest step (q010) and the chapter ships with the real `fishing` panel, no quiz stand-in. Build the panel (wait for the bite, tap, name the catch in Akeanon from 2–3 choices, release it) using `habi_habi_panel.gd` as the model for a full-screen timed panel. Both pass and fail continue.
 5. **Where Ambo greets.** **Decided:** outdoors at the bamboo trail gate (`Ch4/Ambo_Gate`), so all story scenes are outdoors and the indoor room stays optional.
 
 ## Build order
@@ -50,7 +50,7 @@ Each step leaves the game playable. Steps 1–2 can go in parallel with 3.
 5. **Level script** `bakhawan_outdoors.gd`: keep the Ch2 branch, add Ch4: arrival plays scene 1 at the gate; walking onto the S2 platform plays scene 2; the pier plays scene 3; the shore plays scene 4; then sunset scene 5.
 6. **Cutscenes** `data/cutscenes/chapter4_*.json`: scene0 brief (`chapter_card`), arrive, scene1–5, walk home, evening home (sets `chapter4_complete`). Sunset: `DayNightManager` set to 17:30 for scene 5.
 7. **Quests + keepsake**: q009 "Visit the Bakhawan Eco-Park: meet Manong Ambo", q010 "Go fishing with Manong Ambo", q011 "Plant a mangrove and go home" in `data/quest_data.json`; seedling keepsake through `RewardManager`.
-8. **`fishing` minigame panel**: `scripts/ui/fishing_panel.gd`, registered in `DialogueUI.MINIGAMES`; swap in for the stand-in. Touch + keyboard.
+8. **`fishing` minigame panel** (needed before the chapter ships, decision 4): `scripts/ui/fishing_panel.gd`, registered in `DialogueUI.MINIGAMES`, at scene 3 shot 3.8. Touch + keyboard.
 9. **Challenges**: rename `data/challenges/chapter2.json` → `chapter4.json` and `ch2_*` → `ch4_*`; update `regions.json` and `ChallengeManager`; add `word_ids`.
 10. **Tooling and release**
     - `page_dev.gd`: `CH4_START_FLAGS` (Ch3 done flags) and fix the "Ch4 — Bakhawan" warp to use them.
