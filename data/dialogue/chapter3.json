@@ -431,7 +431,7 @@
 		{
 			"type": "dialogue",
 			"speaker": "Rose",
-			"text": "\\Maliya — come here. \\Agto — go. \\Igto — there. \\Diritso — straight. \\Liko — turn. \\Tuo — right. \\Waea — left. \\Dayon — then, or “continue.”",
+			"text": "\\Maliya — come here. \\Agto — go. \\Igto — there. \\Diretso — straight. \\Liko — turn. \\Tuo — right. \\Waea — left. \\Dayon — then, or “continue.”",
 			"next": 22,
 			"word_ids": ["w150", "w004", "w082", "w272", "w273", "w274", "w275", "w053"]
 		},
@@ -573,7 +573,7 @@
 		{
 			"type": "dialogue",
 			"speaker": "Rose",
-			"text": "\\Agto \\igto sa counter, \\diritso kat \\sangkiri, tapos \\liko \\pa \\tuo.",
+			"text": "\\Agto \\igto sa counter, \\diretso kat \\sangkiri, tapos \\liko \\pa \\tuo.",
 			"translation": "Go there to the counter, straight for a little bit, then turn to the right.",
 			"next": null,
 			"word_ids": ["w004", "w082", "w272", "w290", "w273", "w261", "w274"]
@@ -588,7 +588,7 @@
 		{
 			"type": "dialogue",
 			"speaker": "Rose",
-			"text": "\\Maliya! \\Liko sa \\waea, \\dayon \\diritso.",
+			"text": "\\Maliya! \\Liko sa \\waea, \\dayon \\diretso.",
 			"translation": "Come here! Turn left, then straight.",
 			"next": null,
 			"word_ids": ["w150", "w273", "w275", "w053", "w272"]

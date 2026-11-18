@@ -1,0 +1,53 @@
+{
+	"_about": "Places a passerby can give directions to (scripts/util/directions.gd), keyed by the warp's target_scene. label = the menu button; ask = the player's question (word_ids follow the \\ marked words in order). A warp whose target isn't listed here is never offered. \"draft\": true hides an entry until its Akeanon is reviewed.",
+	"_answers_about": "Pieces of the passerby's answer, joined in code: [ahead|back] [then] [left|right]. Turn-by-turn only, no near/far. Directions are from the way the player is facing. Same text/translation/word_ids format; a piece's first letter is capitalised when it starts the sentence.",
+	"answers": {
+		"ahead": {"text": "\\Diretso", "translation": "Go straight", "word_ids": ["w272"]},
+		"back": {"text": "\\Atras", "translation": "Go back", "word_ids": ["w336"]},
+		"then": {"text": ", \\tapos ", "translation": ", then ", "word_ids": ["w337"]},
+		"left": {"text": "\\liko pa \\waea", "translation": "turn left", "word_ids": ["w273", "w275"]},
+		"right": {"text": "\\liko pa \\tuo", "translation": "turn right", "word_ids": ["w273", "w274"]}
+	},
+	"places": {
+		"res://scenes/world/chapter2/aklan_home_outdoors.tscn": {
+			"label": "Lola Jonabel's house",
+			"ask": {"text": "\\Siin \\ro \\baeay \\ni Lola Jonabel?", "translation": "Where is Lola Jonabel's house?", "word_ids": ["w214", "w202", "w027", "w338"]}
+		},
+		"res://scenes/world/chapter1/airport_ourdoors.tscn": {
+			"label": "The airport",
+			"ask": {"text": "\\Siin \\ro airport?", "translation": "Where is the airport?", "word_ids": ["w214", "w202"]}
+		},
+		"res://scenes/world/market/market_outdoors.tscn": {
+			"label": "The market",
+			"ask": {"text": "\\Siin \\ro \\tindahan?", "translation": "Where is the market?", "word_ids": ["w214", "w202", "w295"]}
+		},
+		"res://scenes/world/haboean/habuean_outdoors.tscn": {
+			"label": "Haboean",
+			"ask": {"text": "\\Siin \\ro Haboean?", "translation": "Where is Haboean?", "word_ids": ["w214", "w202"]}
+		},
+		"res://scenes/world/bakhawan/bakhawan_outdoors.tscn": {
+			"label": "Bakhawan Ecopark",
+			"ask": {"text": "\\Siin \\ro Bakhawan?", "translation": "Where is Bakhawan?", "word_ids": ["w214", "w202"]}
+		},
+		"res://scenes/world/chapter2/cathedral_indoors.tscn": {
+			"label": "The cathedral",
+			"ask": {"text": "\\Siin \\ro cathedral?", "translation": "Where is the cathedral?", "word_ids": ["w214", "w202"]}
+		},
+		"res://scenes/world/chapter2/souvenir_shop.tscn": {
+			"label": "The souvenir shop",
+			"ask": {"text": "\\Siin \\ro souvenir shop?", "translation": "Where is the souvenir shop?", "word_ids": ["w214", "w202"]}
+		},
+		"res://scenes/world/chapter2/pastrana_outdoors.tscn": {
+			"label": "Pastrana Park",
+			"ask": {"text": "\\Siin \\ro Pastrana Park?", "translation": "Where is Pastrana Park?", "word_ids": ["w214", "w202"]}
+		},
+		"res://scenes/world/haboean/haboean_cafe.tscn": {
+			"label": "The cafe",
+			"ask": {"text": "\\Siin \\ro cafe?", "translation": "Where is the cafe?", "word_ids": ["w214", "w202"]}
+		},
+		"res://scenes/world/haboean/haboean_gallery.tscn": {
+			"label": "The gallery",
+			"ask": {"text": "\\Siin \\ro gallery?", "translation": "Where is the gallery?", "word_ids": ["w214", "w202"]}
+		}
+	}
+}

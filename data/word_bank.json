@@ -2310,7 +2310,7 @@
     {"id": "w269", "akeanon": "sing", "category": "Pronoun (pro)", "area": "chapter3", "gloss": "your (short for sa imo nga)", "verified": true, "source": "Ch3 storyboard review 2026-11-16; verified by user 2026-11-16"},
     {"id": "w270", "akeanon": "tan-aw", "category": "Verb (v)", "area": "chapter3", "gloss": "to look, to see", "verified": true, "source": "Ch3 storyboard review 2026-11-16; verified by user 2026-11-16"},
     {"id": "w271", "akeanon": "panaw", "category": "Verb (v)", "area": "chapter3", "gloss": "to walk", "verified": true, "source": "Ch3 storyboard review 2026-11-16; verified by user 2026-11-16"},
-    {"id": "w272", "akeanon": "diritso", "category": "Adverb (adv.)", "area": "chapter3", "gloss": "straight ahead", "verified": true, "source": "Zorc dictionary spelling, confirmed by user 2026-11-16"},
+    {"id": "w272", "akeanon": "diretso", "category": "Adverb (adv.)", "area": "chapter3", "gloss": "straight ahead", "verified": true, "source": "Zorc dictionary spells it diritso; user chose diretso in the directions review 2026-11-18"},
     {"id": "w273", "akeanon": "liko", "category": "Verb (v)", "area": "chapter3", "gloss": "to turn", "verified": true, "source": "Ch3 storyboard review 2026-11-16; verified by user 2026-11-16"},
     {"id": "w274", "akeanon": "tuo", "category": "Noun (n)", "area": "chapter3", "gloss": "right (direction)", "verified": true, "source": "Ch3 storyboard review 2026-11-16; verified by user 2026-11-16"},
     {"id": "w275", "akeanon": "waea", "category": "Noun (n)", "area": "chapter3", "gloss": "left (direction)", "verified": true, "source": "Ch3 storyboard review 2026-11-16; verified by user 2026-11-16"},
@@ -2373,6 +2373,9 @@
     {"id": "w332", "akeanon": "mauli", "category": "Verb (v)", "area": "all", "gloss": "to go home (ma- + uli)", "verified": true, "source": "Idle-talk review 2026-11-18; de la Cruz & Zorc Vol. 1: \"Mos, mauli eon kita\"; verified by user (as Mosyon, mauli eon kita)"},
     {"id": "w333", "akeanon": "ginahaboe", "category": "Verb (v)", "area": "all", "gloss": "being woven (gina- + haboe)", "verified": true, "source": "Idle-talk review 2026-11-18; user said gina haboe; gina- joined per de la Cruz & Zorc Vol. 1 (ginabakae, ginabasa)"},
     {"id": "w334", "akeanon": "maghaboe", "category": "Verb (v)", "area": "all", "gloss": "to weave (mag- + haboe)", "verified": false, "source": "Idle-talk review 2026-11-18; line from user; mag- joined per the Ch2 spelling rule"},
-    {"id": "w335", "akeanon": "piso", "category": "Noun (n)", "area": "chapter2", "gloss": "peso (money)", "verified": true, "source": "Economy line review 2026-11-18; user: one peso is just piso; other prices number + -ng/nga + piso (Limang piso), above 10 digits + pisos"}
+    {"id": "w335", "akeanon": "piso", "category": "Noun (n)", "area": "chapter2", "gloss": "peso (money)", "verified": true, "source": "Economy line review 2026-11-18; user: one peso is just piso; other prices number + -ng/nga + piso (Limang piso), above 10 digits + pisos"},
+    {"id": "w336", "akeanon": "atras", "category": "Verb (v)", "area": "all", "gloss": "step back, go back", "verified": true, "source": "Directions review 2026-11-18; user: atras can mean step back (used instead of balik for 'go back that way')"},
+    {"id": "w337", "akeanon": "tapos", "category": "", "area": "all", "gloss": "then, after that", "verified": true, "source": "Grammar notes, Giving directions (confirmed); directions review 2026-11-18"},
+    {"id": "w338", "akeanon": "ni", "category": "", "area": "all", "gloss": "of (before a person's name)", "verified": true, "source": "Directions review 2026-11-18; user confirmed \"Siin ro baeay ni Lola Jonabel?\""}
   ]
 }
