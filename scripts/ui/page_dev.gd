@@ -86,6 +86,13 @@ const DEV_WARP_TARGETS := [
 	{"label": "Date — Next week", "days": 7},
 	# Economy testing (docs/ECONOMY_PLAN.md): adds pesos without closing the menu.
 	{"label": "Money — +₱50", "pesos": 50},
+	# Chapter cards and notes (ChapterCard). The switch shows them even in dev mode;
+	# replays show one now, seen or not, without changing the save.
+	{"label": "", "toggle_cards": true},
+	{"label": "Cards — Replay Chapter 1 card", "card": "chapter1"},
+	{"label": "Cards — Replay Chapter 2 card", "card": "chapter2"},
+	{"label": "Cards — Replay Chapter 3 card", "card": "chapter3"},
+	{"label": "Cards — Replay \"story so far\" note", "card": "story_so_far"},
 ]
 
 # Cutscenes are level-bound: their actors are spawned/registered by the host
@@ -260,6 +267,10 @@ func _render_page() -> void:
 		if entry.has("toggle_menus"):
 			add_button("Menus: %s (tap to switch)" % ("separate" if BookUI.separate_menus else "book"),
 					func(): BookUI.set_separate_menus(not BookUI.separate_menus))
+		elif entry.has("toggle_cards"):
+			add_button(cards_label(), func():
+				GameState.set_dev_show_cards(not GameState.dev_show_cards)
+				_render_page())
 		elif column == "warps":
 			add_button(entry["label"], _on_dev_warp_pressed.bind(entry))
 		elif entry.has("kind"):
@@ -268,6 +279,10 @@ func _render_page() -> void:
 			add_button(entry["label"], _on_dev_cutscene_pressed.bind(entry))
 
 func _on_dev_warp_pressed(target: Dictionary) -> void:
+	if target.has("card"):
+		BookUI.close()
+		await ChapterCard.replay(str(target["card"]))
+		return
 	if target.has("pesos"):
 		RewardManager.award_pesos(int(target["pesos"]), "Dev")
 		GameState.save_game()
@@ -440,3 +455,7 @@ func _save_after_load(game: Node) -> void:
 		return
 	game.remember_exit_spot()
 	GameState.save_game()
+
+## Label of the Dev switch for chapter cards in dev mode.
+static func cards_label() -> String:
+	return "Chapter cards in dev mode: %s (tap to switch)" % ("on" if GameState.dev_show_cards else "off")

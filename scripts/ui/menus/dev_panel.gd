@@ -46,8 +46,12 @@ func _init() -> void:
 	var times: Array = []
 	var dates: Array = []
 	var money: Array = []
+	var cards: Array = []
 	for entry: Dictionary in PageDevScript.DEV_WARP_TARGETS:
-		if entry.has("toggle_menus"):
+		if entry.has("toggle_menus") or entry.has("toggle_cards"):
+			continue
+		if entry.has("card"):
+			cards.append(entry)
 			continue
 		if entry.has("pesos"):
 			money.append(entry)
@@ -65,6 +69,12 @@ func _init() -> void:
 	_add_group(_list, "Time", 0, _items.bind(times, _warps, 1))
 	_add_group(_list, "Date", 0, _items.bind(dates, _warps, 1))
 	_add_group(_list, "Money", 0, _items.bind(money, _warps, 1))
+	var cards_btn: Button = _item_button(PageDevScript.cards_label(), 0, Callable())
+	cards_btn.pressed.connect(func():
+		GameState.set_dev_show_cards(not GameState.dev_show_cards)
+		cards_btn.text = PageDevScript.cards_label())
+	_list.add_child(cards_btn)
+	_add_group(_list, "Chapter cards", 0, _items.bind(cards, _warps, 1))
 	_add_group(_list, "Minigames & quizzes", 0, _items.bind(PageDevScript.DEV_MINIGAMES, _cutscenes, 1))
 	_add_group(_list, "Play cutscene", 0, _subgroups.bind(PageDevScript.DEV_CUTSCENES, _cutscenes))
 

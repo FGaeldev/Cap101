@@ -48,7 +48,7 @@ func get_chapters() -> Array:
 func show_if_new(chapter_id: String) -> bool:
 	var flag: String = "chapter_card_%s_seen" % chapter_id
 	var chapter: Dictionary = _find_chapter(chapter_id)
-	if GameState.dev_mode or GameState.get_flag(flag):
+	if GameState.skips_cards() or GameState.get_flag(flag):
 		return false
 	if chapter.is_empty():
 		push_warning("ChapterCard: unknown chapter '%s'" % chapter_id)
@@ -64,6 +64,52 @@ func show_if_new(chapter_id: String) -> bool:
 	get_tree().create_timer(MIN_SHOW_SECONDS).timeout.connect(func(): _continue_btn.disabled = false)
 	await closed
 	return true
+
+
+## One-off notes on the same card, shown once per save ("note_<id>_seen").
+## story_so_far: after the last finished chapter, so players don't wait for a
+## quest that isn't built yet (v0.1.19 playtest). Update its date and text when
+## Chapter 4 ships, and point "after_flag" at the new last chapter.
+const NOTES: Dictionary = {
+	"story_so_far": {
+		"after_flag": "chapter3_complete",
+		"heading": "Chapter 3 complete",
+		"title": "That's the story so far",
+		"body": "Chapter 4, Roots of Bakhawan, is on its way.\nEstimated: November 19, 12 noon.\nFollow @fgaeldevnew for updates.",
+		"footer": "Until then, you can still learn new words by talking to people around town.",
+	},
+}
+
+## Shows a NOTES entry once per save, if its after_flag is set. Same rules as
+## the chapter cards (skipped in dev mode unless the Dev switch is on). Returns true if it showed; closing
+## leaves the screen black, so the caller fades back in.
+func show_note_if_new(note_id: String) -> bool:
+	var note: Dictionary = NOTES.get(note_id, {})
+	var flag: String = "note_%s_seen" % note_id
+	if note.is_empty() or GameState.skips_cards() or GameState.get_flag(flag) or visible:
+		return false
+	if not GameState.get_flag(str(note.get("after_flag", ""))):
+		return false
+	GameState.set_flag(flag)
+	_chapter_label.text = str(note.get("heading", ""))
+	_title_label.text = str(note.get("title", ""))
+	_description_label.text = str(note.get("body", ""))
+	_learn_label.text = str(note.get("footer", ""))
+	_continue_btn.disabled = true
+	show()
+	set_process_input(true)
+	get_tree().create_timer(MIN_SHOW_SECONDS).timeout.connect(func(): _continue_btn.disabled = false)
+	await closed
+	GameState.save_game()
+	return true
+
+## A save loaded after its story ran out (it finished Chapter 3 before this note
+## existed): show the note once the level is up, then fade back in.
+func show_note_on_load(note_id: String) -> void:
+	if CutsceneManager.is_playing() or MapManager.is_transitioning:
+		return
+	if await show_note_if_new(note_id):
+		await FadeManager.fade_in(0.6)
 
 
 func _find_chapter(chapter_id: String) -> Dictionary:
@@ -150,3 +196,31 @@ func _add_label(parent: Control, font_size: int, color: Color) -> Label:
 	label.add_theme_color_override("font_color", color)
 	parent.add_child(label)
 	return label
+
+
+## Dev menu replay: shows a chapter card or a note right now, even if this save
+## has seen it or dev mode is on, then fades back in. Changes no flags.
+func replay(id: String) -> void:
+	if visible:
+		return
+	var chapter: Dictionary = _find_chapter(id)
+	var note: Dictionary = NOTES.get(id, {})
+	if not chapter.is_empty():
+		_chapter_label.text = "Chapter %d" % int(chapter.get("number", 0))
+		_title_label.text = str(chapter.get("title", ""))
+		_description_label.text = str(chapter.get("description", ""))
+		_learn_label.text = "You will learn: %s" % str(chapter.get("learn", ""))
+	elif not note.is_empty():
+		_chapter_label.text = str(note.get("heading", ""))
+		_title_label.text = str(note.get("title", ""))
+		_description_label.text = str(note.get("body", ""))
+		_learn_label.text = str(note.get("footer", ""))
+	else:
+		push_warning("ChapterCard: nothing to replay for '%s'" % id)
+		return
+	_continue_btn.disabled = true
+	show()
+	set_process_input(true)
+	get_tree().create_timer(MIN_SHOW_SECONDS).timeout.connect(func(): _continue_btn.disabled = false)
+	await closed
+	await FadeManager.fade_in(0.6)

@@ -1,9 +1,9 @@
 {
 	"_NOTE": "Items for the peso economy (docs/ECONOMY_PLAN.md). kind 'good' = can be bought, used in quests, sold later; kind 'keepsake' = story gifts, shown in Achievements > Collections, never sellable. name is the English shown beside the Akeanon word (from data/word_bank.json via akeanon_word_id). Prices are starting values, tune later.",
 	"items": {
-		"bugas": {"name": "Uncooked rice", "akeanon_word_id": "w291", "kind": "good", "base_price": 8, "sellable": true},
+		"bugas": {"name": "Uncooked rice", "akeanon_word_id": "w291", "kind": "good", "base_price": 54, "sellable": true},
 		"uga": {"name": "Dried fish", "akeanon_word_id": "w249", "kind": "good", "base_price": 6, "sellable": true},
-		"isda": {"name": "Fish", "akeanon_word_id": "w091", "kind": "good", "base_price": 10, "sellable": true},
+		"isda": {"name": "Fish", "akeanon_word_id": "w091", "kind": "good", "base_price": 22, "sellable": true},
 		"tubi": {"name": "Water", "akeanon_word_id": "w233", "kind": "good", "base_price": 3, "sellable": true},
 		"pina_bookmark": {"name": "Piña bookmark", "akeanon_word_id": "", "kind": "keepsake", "base_price": 0, "sellable": false, "collection_id": "col_pina_bookmark"}
 	},

@@ -11,8 +11,8 @@ extends CanvasLayer
 
 signal finished(paid: bool)
 
-const COINS: Array[int] = [1, 5, 10]
-const PANEL_WIDTH := 400.0
+const COINS: Array[int] = [1, 5, 10, 20, 50]
+const PANEL_WIDTH := 460.0
 
 var _panel: PanelContainer
 ## What the player just said (their order), shown above the reply.
@@ -180,12 +180,12 @@ func _on_pay() -> void:
 		_end_pay(true)
 		return
 	# Wrong amount: coins come back, the price is repeated with its English.
-	var word: String = Economy.number_word(_price)
+	var said: String = TextUtil.resolve(str(Economy.price_phrase(_price)["text"]))
 	var gloss: String = str(WordBank.get_word(Economy.number_word_id(_price)).get("gloss", ""))
-	if word.is_empty():
-		_hint.text = "Not quite. The price is ₱%d. Try again." % _price
+	if gloss.is_empty():
+		_hint.text = "Not quite. %s = ₱%d. Try again." % [said, _price]
 	else:
-		_hint.text = "Not quite. %s = %s, so ₱%d. Try again." % [word.capitalize(), gloss, _price]
+		_hint.text = "Not quite. %s = %s pesos, so ₱%d. Try again." % [said, gloss, _price]
 	_tray = 0
 	_refresh_tray()
 

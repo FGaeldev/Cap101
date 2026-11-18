@@ -61,11 +61,16 @@ var dev_mode: bool = false
 const DEV_SETTINGS_PATH := "user://settings.cfg"
 const DEV_SETTINGS_SECTION := "dev"
 const DEV_SETTINGS_KEY := "dev_mode"
+## Dev menu switch: show chapter cards and notes even in dev mode. Device
+## setting like dev_mode, never in a save.
+var dev_show_cards: bool = false
+const DEV_SHOW_CARDS_KEY := "show_chapter_cards"
 
 func _ready() -> void:
 	var config := ConfigFile.new()
 	if config.load(DEV_SETTINGS_PATH) == OK:
 		dev_mode = bool(config.get_value(DEV_SETTINGS_SECTION, DEV_SETTINGS_KEY, false))
+		dev_show_cards = bool(config.get_value(DEV_SETTINGS_SECTION, DEV_SHOW_CARDS_KEY, false))
 
 ## Turns dev mode on/off and remembers it across restarts.
 func set_dev_mode(enabled: bool) -> void:
@@ -74,6 +79,19 @@ func set_dev_mode(enabled: bool) -> void:
 	config.load(DEV_SETTINGS_PATH)  # keeps other keys; a missing file is fine
 	config.set_value(DEV_SETTINGS_SECTION, DEV_SETTINGS_KEY, enabled)
 	config.save(DEV_SETTINGS_PATH)
+
+## Turns "chapter cards in dev mode" on/off and remembers it across restarts.
+func set_dev_show_cards(enabled: bool) -> void:
+	dev_show_cards = enabled
+	var config := ConfigFile.new()
+	config.load(DEV_SETTINGS_PATH)
+	config.set_value(DEV_SETTINGS_SECTION, DEV_SHOW_CARDS_KEY, enabled)
+	config.save(DEV_SETTINGS_PATH)
+
+## True when chapter cards and notes should be skipped: dev mode, unless the
+## Dev menu's "Chapter cards" switch is on.
+func skips_cards() -> bool:
+	return dev_mode and not dev_show_cards
 
 # --- Rapport / Patience ---
 # "Rapport regains around half per day"

@@ -109,7 +109,7 @@ Tooling per phase: a playtest/autoplay hook so the auto-player can pay fares and
 
 | # | Question | Default if not decided |
 |---|---|---|
-| 1 | Akeanon word for the money and for "fare" ⚑ | Show "₱" and English until confirmed |
+| 1 | Akeanon word for the money and for "fare" ⚑ | **Decided 2026-11-18: piso.** ₱1 = *Piso*; a number word ending in a vowel takes -ng (*Limang piso*), one ending in a consonant takes nga (*Siyam nga piso*); above 10, digits + *pisos*. |
 | 2 | Coin-picking or phrase-choice for paying? | Coin-picking (practises numbers) |
 | 3 | Does Bakhawan move out of Ch2 (CHAPTER3_PLAN decision 4)? | Fares make it a paid optional trip either way |
 | 4 | Should the café snack give a gameplay bonus? | No, cosmetic comfort only |

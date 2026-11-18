@@ -66,6 +66,26 @@ func number_word(n: int) -> String:
 func number_word_id(n: int) -> String:
 	return NUMBER_WORD_IDS[n] if n >= 1 and n < NUMBER_WORD_IDS.size() else ""
 
+const PISO_WORD_ID := "w335"
+const NGA_WORD_ID := "w180"
+
+## A price said in Akeanon (user's rule, economy review 2026-11-18):
+##   1                           -> "Piso" alone
+##   number word ends in a vowel -> word + "ng piso"  (Limang piso)
+##   ends in a consonant         -> word + " nga piso" (Siyam nga piso)
+##   above 10                    -> digits + " pisos"   (15 pisos)
+## Returns {text (Akeanon marked with \), word_ids}.
+func price_phrase(n: int) -> Dictionary:
+	if n == 1:
+		return {"text": "\\Piso", "word_ids": [PISO_WORD_ID]}  # one peso is just "piso"
+	var word: String = number_word(n)
+	if word.is_empty():
+		return {"text": "%d \\pisos" % n, "word_ids": [PISO_WORD_ID]}
+	var shown: String = word.left(1).to_upper() + word.substr(1)
+	if "aeiou".contains(word.right(1)):
+		return {"text": "\\%sng \\piso" % shown, "word_ids": [number_word_id(n), PISO_WORD_ID]}
+	return {"text": "\\%s \\nga \\piso" % shown, "word_ids": [number_word_id(n), NGA_WORD_ID, PISO_WORD_ID]}
+
 ## A line from economy_lines.json with its tokens filled. Returns a copy:
 ## {speaker, text, translation, word_ids}. Number words are marked as Akeanon
 ## and their ids added, so they reach the Dictionary like any dialogue word.
@@ -79,12 +99,10 @@ func line(key: String, tokens: Dictionary = {}) -> Dictionary:
 	}
 	var price: int = int(tokens.get("price", 0))
 	if price > 0:
-		var word: String = number_word(price)
-		var shown: String = ("\\" + word.capitalize()) if not word.is_empty() else "₱%d" % price
-		out["text"] = out["text"].replace("{number}", shown)
+		var phrase: Dictionary = price_phrase(price)
+		out["text"] = out["text"].replace("{number}", phrase["text"])
 		out["translation"] = out["translation"].replace("{price}", str(price))
-		if not word.is_empty():
-			out["word_ids"].append(number_word_id(price))
+		out["word_ids"].append_array(phrase["word_ids"])
 	if tokens.has("item"):
 		var item_id: String = tokens["item"]
 		out["text"] = out["text"].replace("{item}", "\\" + item_word(item_id))

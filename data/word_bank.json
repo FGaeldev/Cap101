@@ -42,8 +42,8 @@
       "category": "Conjunction (conj.)",
       "area": "chapter3",
       "gloss": "and",
-      "verified": false,
-      "source": ""
+      "verified": true,
+      "source": "Verified by user 2026-11-18 (economy line review: bugas ag uga)"
     },
     {
       "id": "w006",
@@ -1851,8 +1851,8 @@
       "category": "",
       "area": "chapter1",
       "gloss": "thank you",
-      "verified": false,
-      "source": ""
+      "verified": true,
+      "source": "Verified by user 2026-11-18 (economy line review: Saeamat, Nong.)"
     },
     {
       "id": "w207",
@@ -2372,6 +2372,7 @@
     {"id": "w331", "akeanon": "magtikang-tikang", "category": "Verb (v)", "area": "all", "gloss": "to take a stroll, walk around (mag- + tikang, repeated)", "verified": false, "source": "Idle-talk review 2026-11-18; line from user; mag- joined per the Ch2 spelling rule"},
     {"id": "w332", "akeanon": "mauli", "category": "Verb (v)", "area": "all", "gloss": "to go home (ma- + uli)", "verified": true, "source": "Idle-talk review 2026-11-18; de la Cruz & Zorc Vol. 1: \"Mos, mauli eon kita\"; verified by user (as Mosyon, mauli eon kita)"},
     {"id": "w333", "akeanon": "ginahaboe", "category": "Verb (v)", "area": "all", "gloss": "being woven (gina- + haboe)", "verified": true, "source": "Idle-talk review 2026-11-18; user said gina haboe; gina- joined per de la Cruz & Zorc Vol. 1 (ginabakae, ginabasa)"},
-    {"id": "w334", "akeanon": "maghaboe", "category": "Verb (v)", "area": "all", "gloss": "to weave (mag- + haboe)", "verified": false, "source": "Idle-talk review 2026-11-18; line from user; mag- joined per the Ch2 spelling rule"}
+    {"id": "w334", "akeanon": "maghaboe", "category": "Verb (v)", "area": "all", "gloss": "to weave (mag- + haboe)", "verified": false, "source": "Idle-talk review 2026-11-18; line from user; mag- joined per the Ch2 spelling rule"},
+    {"id": "w335", "akeanon": "piso", "category": "Noun (n)", "area": "chapter2", "gloss": "peso (money)", "verified": true, "source": "Economy line review 2026-11-18; user: one peso is just piso; other prices number + -ng/nga + piso (Limang piso), above 10 digits + pisos"}
   ]
 }

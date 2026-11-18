@@ -162,6 +162,8 @@ func _ready() -> void:
 	DayNightManager.hour_changed.connect(func(_h): _check_event_reminders())
 	_check_event_reminders.call_deferred()  # loaded save: this morning's may be due
 	RewardManager.check_allowance.call_deferred()  # loaded save: this morning's allowance may be due
+	# A save that finished the story before the "story so far" note existed.
+	ChapterCard.show_note_on_load.call_deferred("story_so_far")
 
 func _process(_delta: float) -> void:
 	var overlay: bool = _is_overlay_active()
