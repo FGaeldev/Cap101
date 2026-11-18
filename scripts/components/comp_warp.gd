@@ -139,6 +139,8 @@ var _hold_time: float = 0.0
 ## Player arrived inside this area by a warp (spawned on it): no held-through
 ## firing until they let go, so holding a direction can't bounce them back.
 var _arrived_inside: bool = false
+## BUTTON doors: the interact box over the door (_add_interactable).
+var _door_ic: InteractableComponent = null
 
 ## True when this warp opens with the interact button (see entry).
 func uses_button() -> bool:
@@ -165,6 +167,9 @@ func _ready() -> void:
 ## Reads input, not Walk state, because a wall behind the door blocks the step
 ## and Walk never starts.
 func _physics_process(delta: float) -> void:
+	if Engine.is_editor_hint():
+		return
+	_update_door_facing()
 	if Engine.is_editor_hint() or _player == null or _fired:
 		return
 	if fire_during_cutscene and CutsceneManager.is_playing():
@@ -308,9 +313,21 @@ func _add_interactable() -> void:
 	ic.position = col.position
 	ic.area_size = (col.shape as RectangleShape2D).size + Vector2.ONE * BUTTON_REACH * 2.0
 	ic.interacted.connect(_on_interacted)
+	_door_ic = ic
 
 func _on_interacted(interactor: Node) -> void:
 	var player: Node = interactor if interactor != null else _player
 	if player == null or _blocked_dialogue_active:
 		return
 	_fire(player)
+
+## A BUTTON door only offers itself while the player faces into it (its trigger
+## direction), so an NPC or object standing beside a door still gets the
+## interact button when the player faces them instead.
+func _update_door_facing() -> void:
+	if _door_ic == null or not is_instance_valid(_door_ic) or not _door_ic._in_range:
+		return
+	var player: Node = _door_ic._player_ref
+	if player == null or player.get("facing_vec") == null:
+		return
+	_door_ic.disabled = Vector2(player.facing_vec) != TRIGGER_VECTORS[trigger_direction]

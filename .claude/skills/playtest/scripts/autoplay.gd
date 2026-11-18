@@ -582,6 +582,9 @@ func _tutorial_step() -> void:
 func _interactables(level: Node) -> Array:
 	var out := []
 	for n in level.find_children("*", "Node2D", true, false):
+		# Door interact boxes (comp_warp.gd) are reached through the warp route instead.
+		if n.name == "DoorInteract" and n.get_parent().get("target_scene") != null:
+			continue
 		if n.has_signal("interacted") and n.has_method("try_interact") and not n.is_queued_for_deletion():
 			out.append(n)
 	return out
@@ -868,11 +871,9 @@ func _nav_tick() -> void:
 			elif _nav.kind == "warp":
 				var door: Node = _nav.get("warp")
 				if is_instance_valid(door) and door.has_method("uses_button") and door.uses_button():
-					# Doors open with the interact button (comp_warp.gd entry), not by walking in.
-					_hold_dir(Vector2i.ZERO)
-					var ic: Node = door.get_node_or_null("DoorInteract")
-					if ic != null:
-						ic.try_interact()
+					# Doors open with the interact button (comp_warp.gd entry) while the
+					# player faces into them: turn toward the door, then press (in "hold").
+					_hold_dir(_nav.trig)
 				else:
 					_hold_dir(_nav.trig)
 				_nav.phase = "hold"
@@ -889,8 +890,10 @@ func _nav_tick() -> void:
 			var held_door: Node = _nav.get("warp")
 			if is_instance_valid(held_door) and held_door.has_method("uses_button") and held_door.uses_button():
 				var dic: Node = held_door.get_node_or_null("DoorInteract")
-				if dic != null and now - int(_nav.t) > 400:
-					dic.try_interact()  # retry: the box may need a frame to see the player
+				if now - int(_nav.t) > 250:
+					_hold_dir(Vector2i.ZERO)  # facing into the door now; let go and press
+					if dic != null:
+						dic.try_interact()
 			if now - int(_nav.t) > 3000:
 				_add_finding("stuck", "stood on door %s in %s holding %s for 3s and it didn't open" % [_nav.name, A.GameState.current_level_path.get_file(), DIR_ACTIONS[_nav.trig]])
 				_failed_edges[_nav.edge] = _epoch
