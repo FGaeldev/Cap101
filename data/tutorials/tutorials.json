@@ -6,7 +6,7 @@
 				"event": "dialogue_advanced"
 			},
 			{
-				"text": "Use the joystick to move.",
+				"text": "Use the joystick or D-pad to move.",
 				"event": "player_moved",
 				"count": 3,
 				"highlight": "joystick"

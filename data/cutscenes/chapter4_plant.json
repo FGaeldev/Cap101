@@ -1,0 +1,21 @@
+[
+	{"type": "move_npc", "actor": "Manong Ambo", "to": "Ch4/Plant_Ambo", "avoid_actors": true, "speed": 40, "face": "right"},
+	{"type": "move_npc", "actor": "player", "direction": "left", "tiles": 0, "face": "left"},
+	{"type": "dialogue", "chapter": "chapter4", "scene": "scene_4b_planting"},
+	{"type": "parallel", "actions": [
+		{"type": "move_npc", "actor": "player", "direction": "down", "tiles": 0, "face": "down"},
+		{"type": "move_npc", "actor": "Rose", "to": "Ch4/Plant_Rose", "avoid_actors": true, "speed": 48, "face": "down"}
+	]},
+	{"type": "set_flag", "flag": "planted_mangrove", "value": true},
+	{"type": "wait", "seconds": 1.5},
+	{"type": "move_npc", "actor": "player", "direction": "left", "tiles": 0, "face": "left"},
+	{"type": "dialogue", "chapter": "chapter4", "scene": "scene_4c_after_planting"},
+	{"type": "set_flag", "flag": "planted_mangrove", "value": true},
+	{"type": "set_flag", "flag": "story_done_ch4_ambo", "value": true},
+	{"type": "game_speed", "scale": 2.0},
+	{"type": "parallel", "actions": [
+		{"type": "move_npc", "actor": "Manong Ambo", "to": "Ch4/S4_Ambo", "avoid_actors": true, "speed": 40, "face": "right"},
+		{"type": "move_npc", "actor": "Papa Jobert", "to": "Ch4/S5_Jobert", "avoid_actors": true, "speed": 40, "face": "up"},
+		{"type": "sequence", "actions": [{"type": "wait", "seconds": 0.6}, {"type": "move_npc", "actor": "Rose", "to": "Ch4/S5_Rose", "avoid_actors": true, "speed": 40, "face": "down"}]}
+	]}
+]

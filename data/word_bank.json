@@ -1058,9 +1058,9 @@
       "akeanon": "kundi",
       "category": "",
       "area": "chapter4",
-      "gloss": "(?)",
+      "gloss": "but (rather), instead",
       "verified": false,
-      "source": ""
+      "source": "Ch4 storyboard review 2026-11-18: bukon eang ... kundi = not just ... but"
     },
     {
       "id": "w119",
@@ -1991,7 +1991,7 @@
     },
     {
       "id": "w223",
-      "akeanon": "tanawa",
+      "akeanon": "tan-awa",
       "category": "",
       "area": "chapter2",
       "gloss": "look",
@@ -2376,6 +2376,33 @@
     {"id": "w335", "akeanon": "piso", "category": "Noun (n)", "area": "chapter2", "gloss": "peso (money)", "verified": true, "source": "Economy line review 2026-11-18; user: one peso is just piso; other prices number + -ng/nga + piso (Limang piso), above 10 digits + pisos"},
     {"id": "w336", "akeanon": "atras", "category": "Verb (v)", "area": "all", "gloss": "step back, go back", "verified": true, "source": "Directions review 2026-11-18; user: atras can mean step back (used instead of balik for 'go back that way')"},
     {"id": "w337", "akeanon": "tapos", "category": "", "area": "all", "gloss": "then, after that", "verified": true, "source": "Grammar notes, Giving directions (confirmed); directions review 2026-11-18"},
-    {"id": "w338", "akeanon": "ni", "category": "", "area": "all", "gloss": "of (before a person's name)", "verified": true, "source": "Directions review 2026-11-18; user confirmed \"Siin ro baeay ni Lola Jonabel?\""}
+    {"id": "w338", "akeanon": "ni", "category": "", "area": "all", "gloss": "of (before a person's name)", "verified": true, "source": "Directions review 2026-11-18; user confirmed \"Siin ro baeay ni Lola Jonabel?\""},
+    {"id": "w339", "akeanon": "bakhawan", "category": "Noun (n)", "area": "chapter4", "gloss": "mangrove", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
+    {"id": "w340", "akeanon": "ma-amat", "category": "Verb (v)", "area": "chapter4", "gloss": "to get going, set off", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
+    {"id": "w341", "akeanon": "bangod", "category": "", "area": "chapter4", "gloss": "because", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
+    {"id": "w342", "akeanon": "gintanom", "category": "Verb (v)", "area": "chapter4", "gloss": "planted (gin- + tanom)", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
+    {"id": "w343", "akeanon": "tagsa-tagsa", "category": "", "area": "chapter4", "gloss": "one by one", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
+    {"id": "w344", "akeanon": "naila", "category": "Verb (v)", "area": "chapter4", "gloss": "wanted, liked to", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
+    {"id": "w345", "akeanon": "magbulig", "category": "Verb (v)", "area": "chapter4", "gloss": "to help", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
+    {"id": "w346", "akeanon": "magkantiguhan", "category": "Verb (v)", "area": "chapter4", "gloss": "to try (something out)", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
+    {"id": "w347", "akeanon": "pagtuon", "category": "Noun (n)", "area": "chapter4", "gloss": "learning", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
+    {"id": "w348", "akeanon": "haron ahh", "category": "", "area": "chapter4", "gloss": "there we go!", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
+    {"id": "w349", "akeanon": "bunit", "category": "Noun (n)", "area": "chapter4", "gloss": "fish hook", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
+    {"id": "w350", "akeanon": "paon", "category": "Noun (n)", "area": "chapter4", "gloss": "bait", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
+    {"id": "w351", "akeanon": "ha", "category": "", "area": "chapter4", "gloss": "okay? (softening particle)", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
+    {"id": "w352", "akeanon": "ibalik", "category": "Verb (v)", "area": "chapter4", "gloss": "to put back, return", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
+    {"id": "w353", "akeanon": "naton", "category": "", "area": "chapter4", "gloss": "us, our (incl.)", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
+    {"id": "w354", "akeanon": "sigeha", "category": "", "area": "chapter4", "gloss": "keep at it, go on", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
+    {"id": "w355", "akeanon": "alimango", "category": "Noun (n)", "area": "chapter4", "gloss": "mud crab", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
+    {"id": "w356", "akeanon": "pamunit", "category": "Verb (v)", "area": "chapter4", "gloss": "to fish (with hook and line)", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
+    {"id": "w357", "akeanon": "itanom", "category": "Verb (v)", "area": "chapter4", "gloss": "plant (it)", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
+    {"id": "w358", "akeanon": "di magbuhay", "category": "", "area": "chapter4", "gloss": "before long", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
+    {"id": "w359", "akeanon": "mataas", "category": "Adjective (adj)", "area": "chapter4", "gloss": "tall, high", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
+    {"id": "w360", "akeanon": "kimo", "category": "", "area": "chapter4", "gloss": "you (after sa, mas …)", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
+    {"id": "w361", "akeanon": "magtatap", "category": "Verb (v)", "area": "chapter4", "gloss": "to take care of, look after", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
+    {"id": "w362", "akeanon": "pagbisita", "category": "Noun (n)", "area": "chapter4", "gloss": "visit, visiting", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
+    {"id": "w363", "akeanon": "makarang", "category": "", "area": "chapter4", "gloss": "this (time), today with adlaw", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
+    {"id": "w364", "akeanon": "haeambaeun", "category": "Noun (n)", "area": "chapter4", "gloss": "words, language", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
+    {"id": "w365", "akeanon": "nay", "category": "Noun (n)", "area": "chapter4", "gloss": "mom (short for nanay)", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"}
   ]
 }

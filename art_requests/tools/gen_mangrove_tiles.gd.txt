@@ -1,0 +1,240 @@
+extends SceneTree
+# Draws the mangrove (bakhaw, Rhizophora) trees for the Bakhawan maps into the
+# Bakhawan tile sheet, as big tiles: one tile per tree, so a map places each tree
+# as a single TileMapLayer cell instead of a node. Placeholder art in the same
+# palette as gen_bakhawan.gd; redraw over the cells by hand any time.
+# Rename to .gd and run from the project root:
+#   godot --headless --path . --script art_requests/tools/gen_mangrove_tiles.gd [-- preview.png]
+# Writes the trees into assets/tilesets/bakhawan_eco.png and
+# art_requests/bakhawan_sprites_template.png (kept identical), at TREES below.
+# build_bakhawan_maps.gd.txt reads the same TREES table.
+
+## name -> [sheet x, sheet y, w, h] in px (16-aligned), and the seed used to draw it.
+const TREES := {
+	"large_a": [Vector2i(128, 544), Vector2i(48, 48), 11],
+	"large_b": [Vector2i(176, 544), Vector2i(48, 48), 23],
+	"medium_a": [Vector2i(224, 544), Vector2i(32, 48), 37],
+	"medium_b": [Vector2i(256, 544), Vector2i(32, 48), 41],
+	"small_a": [Vector2i(288, 560), Vector2i(32, 32), 53],
+	"small_b": [Vector2i(320, 560), Vector2i(32, 32), 67],
+}
+const SHEETS := ["res://assets/tilesets/bakhawan_eco.png", "res://art_requests/bakhawan_sprites_template.png"]
+
+var OL := Color("45283c")
+# Canopy: cooler and darker than the grass, so the forest reads apart from land.
+var C0 := Color("173d2e"); var C1 := Color("21573a"); var C2 := Color("2f7a45"); var C3 := Color("4f9e4f"); var C4 := Color("8fcf6a")
+# Bark and roots
+var R0 := Color("2e1f17"); var R1 := Color("4a3324"); var R2 := Color("6e4d33"); var R3 := Color("9a7048")
+# Propagules (long green seed pods), brown cap
+var P0 := Color("5b8a2e"); var P1 := Color("9cc84a"); var PC := Color("6e4d33")
+# Water ripples at the roots
+var W2 := Color("5d9bd1"); var W3 := Color("cfe6f5")
+
+var rng := RandomNumberGenerator.new()
+
+func _initialize() -> void:
+	var trees := {}
+	for key in TREES:
+		var spec: Array = TREES[key]
+		trees[key] = draw_tree(spec[1], spec[2])
+	for path in SHEETS:
+		var sheet := Image.load_from_file(ProjectSettings.globalize_path(path))
+		sheet.convert(Image.FORMAT_RGBA8)
+		for key in TREES:
+			var spec: Array = TREES[key]
+			# These cells were empty in the sheet; rerunning redraws them in place.
+			var r := Rect2i(spec[0], spec[1])
+			sheet.fill_rect(r, Color(0, 0, 0, 0))
+			sheet.blit_rect(trees[key], Rect2i(Vector2i.ZERO, spec[1]), spec[0])
+		sheet.save_png(ProjectSettings.globalize_path(path))
+		print("wrote ", path)
+	var args := OS.get_cmdline_user_args()
+	if args.size() > 0:
+		save_preview(trees, args[0])
+	quit()
+
+## A 6x preview on a water background, for looking at the design.
+func save_preview(trees: Dictionary, out: String) -> void:
+	var pad := 8
+	var w := pad
+	for key in trees:
+		w += trees[key].get_width() + pad
+	var h := 48 + pad * 2
+	var img := Image.create(w, h, false, Image.FORMAT_RGBA8)
+	img.fill(Color("3a78b0"))
+	for y in h:
+		for x in w:
+			if (x * 3 + y * 7) % 23 == 0:
+				img.set_pixel(x, y, Color("5d9bd1"))
+	var x0 := pad
+	for key in trees:
+		var t: Image = trees[key]
+		img.blend_rect(t, Rect2i(Vector2i.ZERO, t.get_size()), Vector2i(x0, h - pad - t.get_height()))
+		x0 += t.get_width() + pad
+	img.resize(w * 6, h * 6, Image.INTERPOLATE_NEAREST)
+	img.save_png(out)
+
+# --- drawing -------------------------------------------------------------------------
+
+func draw_tree(size: Vector2i, seed_value: int) -> Image:
+	rng.seed = seed_value
+	var w := size.x
+	var h := size.y
+	var img := Image.create(w, h, false, Image.FORMAT_RGBA8)
+	var cx := w / 2 + rng.randi_range(-1, 0)
+	var water_y := h - 3            # where the roots meet the water
+	var canopy_h := int(h * (0.62 if h > 32 else 0.68))
+	var canopy_bottom := canopy_h - 2
+	var junction := water_y - (5 if h > 32 else 3)   # where the prop roots leave the trunk
+
+	# Prop roots: arching out and down into the water, back ones first (darker).
+	var spread := w / 2 - 2
+	var n_roots := 7 if w > 32 else 5
+	var tips: Array = []
+	for pass_i in 2:
+		for i in n_roots:
+			var t := (float(i) + 0.5) / n_roots
+			var dx := int(lerpf(-spread, spread, t)) + rng.randi_range(-1, 1)
+			if pass_i == 0 and i % 2 == 1:
+				continue
+			if pass_i == 1 and i % 2 == 0:
+				continue
+			var start := Vector2(cx + signi(dx) * rng.randi_range(0, 1), junction - rng.randi_range(0, 6))
+			var end := Vector2(cx + dx, water_y + rng.randi_range(0, 1))
+			var ctrl := Vector2(cx + dx * 0.55, min(start.y, end.y) - rng.randi_range(2, 5))
+			root(img, start, ctrl, end, pass_i == 0)
+			tips.append(end)
+	# Trunk: from under the canopy to the roots, light on the left.
+	for y in range(canopy_bottom - 3, junction + 1):
+		var sway := int(round(sin(float(y) * 0.35 + seed_value) * 0.6))
+		px(img, cx - 1 + sway, y, R3)
+		px(img, cx + sway, y, R2)
+		px(img, cx + 1 + sway, y, R1)
+	# Aerial roots dropping straight from the lower branches (large trees only).
+	if w > 32:
+		for side in [-1, 1]:
+			var x: int = cx + side * rng.randi_range(6, 9)
+			for y in range(canopy_bottom - 1, water_y + 1):
+				px(img, x, y, R1 if y % 3 else R2)
+			tips.append(Vector2(x, water_y))
+
+	canopy(img, cx, canopy_h, w)
+	propagules(img, cx, canopy_bottom, w)
+	outline(img)
+	for tip in tips:
+		ripple(img, int(tip.x), water_y + 1)
+	return img
+
+func root(img: Image, a: Vector2, c: Vector2, b: Vector2, back: bool) -> void:
+	var steps := 24
+	var prev := Vector2i(-99, -99)
+	for s in steps + 1:
+		var t := float(s) / steps
+		var p := a.lerp(c, t).lerp(c.lerp(b, t), t)
+		var q := Vector2i(int(round(p.x)), int(round(p.y)))
+		if q == prev:
+			continue
+		prev = q
+		px(img, q.x, q.y, R0 if back else R1)
+		if not back:
+			px(img, q.x, q.y - 1, R2 if t < 0.5 else R1)
+			if t < 0.3:
+				px(img, q.x, q.y - 1, R3)
+
+func canopy(img: Image, cx: int, canopy_h: int, w: int) -> void:
+	var cy := canopy_h / 2 + 1
+	var rx := w / 2.0 - 1.0
+	var ry := canopy_h / 2.0 - 1.0
+	# Lumpy silhouette: one big mass plus clumps on the rim.
+	var blobs: Array = [[cx, cy, rx * 0.86, ry * 0.86]]
+	var n := 7 if w > 32 else 5
+	for i in n:
+		var a := TAU * float(i) / n + rng.randf_range(-0.3, 0.3)
+		var r := rng.randf_range(0.3, 0.42) * minf(rx, ry) * 1.6
+		blobs.append([cx + cos(a) * (rx - r * 0.7), cy + sin(a) * (ry - r * 0.7) * 0.9, r, r * 0.85])
+	for b in blobs:
+		ellipse(img, b[0], b[1], b[2], b[3], C1)
+	# Underside shadow, then light building up toward the top-left.
+	for y in img.get_height():
+		for x in img.get_width():
+			if img.get_pixel(x, y) != C1:
+				continue
+			var nx := (x - cx) / rx
+			var ny := (y - cy) / ry
+			if ny > 0.45 + nx * 0.1:
+				img.set_pixel(x, y, C0)
+	for b in blobs:
+		ellipse_if(img, b[0] - b[2] * 0.18, b[1] - b[3] * 0.25, b[2] * 0.72, b[3] * 0.62, C2, [C1])
+	for b in blobs:
+		ellipse_if(img, b[0] - b[2] * 0.32, b[1] - b[3] * 0.42, b[2] * 0.4, b[3] * 0.32, C3, [C2])
+	# Leaf texture: small dark gaps and bright leaf tips, more on the lit side.
+	for y in img.get_height():
+		for x in img.get_width():
+			var c := img.get_pixel(x, y)
+			var roll := rng.randf()
+			if c == C2 and roll < 0.12:
+				img.set_pixel(x, y, C1)
+			elif c == C3 and roll < 0.18:
+				img.set_pixel(x, y, C4)
+			elif c == C1 and roll < 0.08:
+				img.set_pixel(x, y, C0)
+			elif c == C3 and roll < 0.26:
+				img.set_pixel(x, y, C2)
+
+func propagules(img: Image, cx: int, bottom: int, w: int) -> void:
+	var n := 5 if w > 32 else 3
+	for i in n:
+		var x := cx + int(lerpf(-w * 0.32, w * 0.32, (i + 0.5) / n)) + rng.randi_range(-1, 1)
+		# start at the lowest leaf pixel in this column
+		var y := bottom
+		while y > 0 and img.get_pixel(x, y).a == 0:
+			y -= 1
+		if y <= 0:
+			continue
+		px(img, x, y + 1, PC)
+		var length := rng.randi_range(3, 5)
+		for k in length:
+			px(img, x, y + 2 + k, P1 if k < 2 else P0)
+
+func ripple(img: Image, x: int, y: int) -> void:
+	for dx in range(-1, 2):
+		if y < img.get_height() and img.get_pixel(clampi(x + dx, 0, img.get_width() - 1), y).a == 0:
+			px(img, x + dx, y, W3 if dx != 1 else W2)
+	if y + 1 < img.get_height():
+		px(img, x - 2, y + 1, W2)
+		px(img, x + 2, y + 1, W2)
+
+# --- pixel helpers ---------------------------------------------------------------------
+
+func px(img: Image, x: int, y: int, c: Color) -> void:
+	if x >= 0 and y >= 0 and x < img.get_width() and y < img.get_height():
+		img.set_pixel(x, y, c)
+
+func ellipse(img: Image, ecx: float, ecy: float, rx: float, ry: float, c: Color) -> void:
+	for y in img.get_height():
+		for x in img.get_width():
+			var dx := (x + 0.5 - ecx) / maxf(rx, 0.5)
+			var dy := (y + 0.5 - ecy) / maxf(ry, 0.5)
+			if dx * dx + dy * dy <= 1.0:
+				img.set_pixel(x, y, c)
+
+func ellipse_if(img: Image, ecx: float, ecy: float, rx: float, ry: float, c: Color, over: Array) -> void:
+	for y in img.get_height():
+		for x in img.get_width():
+			var dx := (x + 0.5 - ecx) / maxf(rx, 0.5)
+			var dy := (y + 0.5 - ecy) / maxf(ry, 0.5)
+			if dx * dx + dy * dy <= 1.0 and over.has(img.get_pixel(x, y)):
+				img.set_pixel(x, y, c)
+
+## 1px outline around everything drawn so far.
+func outline(img: Image) -> void:
+	var src := img.duplicate()
+	for y in img.get_height():
+		for x in img.get_width():
+			if src.get_pixel(x, y).a > 0:
+				continue
+			for o in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+				var q: Vector2i = Vector2i(x, y) + o
+				if q.x >= 0 and q.y >= 0 and q.x < img.get_width() and q.y < img.get_height() and src.get_pixel(q.x, q.y).a > 0:
+					img.set_pixel(x, y, OL)
+					break

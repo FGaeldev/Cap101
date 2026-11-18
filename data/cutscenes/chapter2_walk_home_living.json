@@ -1,6 +1,7 @@
 [
 	{"type": "spawn_npc", "actor": "Rose", "scene": "res://scenes/entities/npc_Rose.tscn", "at": [48, 96]},
 	{"type": "spawn_npc", "actor": "Lola Susan", "scene": "res://scenes/entities/npc_LolaSusan.tscn", "at": [64, 96], "if_flag": "chapter2_mass_trip"},
+	{"type": "spawn_npc", "actor": "Papa Jobert", "scene": "res://scenes/entities/npc_PapaJobert.tscn", "at": [80, 96], "if_flag": "chapter4_going_bakhawan"},
 	{"type": "move_npc", "actor": "player", "from": "DefaultSpawn", "direction": "up", "tiles": 0},
 	{"type": "set_flag", "flag": "chapter2_walking_home", "value": false},
 	{"type": "set_flag", "flag": "chapter2_at_park", "value": false},
@@ -8,6 +9,8 @@
 	{"type": "set_flag", "flag": "chapter2_at_bakhawan", "value": false},
 	{"type": "set_flag", "flag": "chapter2_going_bakhawan", "value": false},
 	{"type": "set_flag", "flag": "chapter3_going_haboean", "value": false},
+	{"type": "set_flag", "flag": "chapter4_going_bakhawan", "value": false},
+	{"type": "set_flag", "flag": "chapter4_at_bakhawan", "value": false},
 	{"type": "set_flag", "flag": "chapter3_at_haboean", "value": false},
 	{"type": "set_flag", "flag": "chapter2_from_market", "value": false},
 	{"type": "set_flag", "flag": "chapter2_left_home", "value": false},

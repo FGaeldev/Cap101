@@ -23,9 +23,11 @@ const STOPS: Dictionary = {
 		"home": "chapter2_walk_home_park",
 		"places": [{"label": "The market", "flag": "map_open_market", "cutscene": "chapter2_park_to_market"}],
 	},
+	# Rose waits on the plaza; the visitor centre (and the trail behind it) stays open.
 	"bakhawan_outdoors.tscn": {
 		"home": "chapter2_walk_home_bakhawan",
 		"places": [],
+		"free_warps": ["WarpArea"],
 	},
 	"market_indoors.tscn": {
 		"home": "chapter2_walk_home_market",

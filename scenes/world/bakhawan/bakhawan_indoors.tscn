@@ -1,4 +1,341 @@
-[gd_scene format=3 uid="uid://d4b0317pxwp4a"]
+[gd_scene format=4]
 
-[node name="BakhawanOutdoors" type="Node2D" unique_id=1376067596]
+[ext_resource type="Script" path="res://scripts/game_scenes/bakhawan_indoors.gd" id="1_dv1m0"]
+[ext_resource type="TileSet" path="res://assets/tilesets/bakhawan.tres" id="2_8m7mp"]
+[ext_resource type="TileSet" path="res://assets/tilesets/indoors.tres" id="3_d42pf"]
+[ext_resource type="TileSet" path="res://assets/tilesets/edges.tres" id="4_1h7n1"]
+[ext_resource type="Texture2D" path="res://assets/tilesets/bakhawan_eco.png" id="5_w63o3"]
+[ext_resource type="PackedScene" path="res://scenes/entities/furniture/warp_area.tscn" id="6_0o2ua"]
+[ext_resource type="Script" path="res://scripts/components/comp_warp.gd" id="7_7gpi0"]
+[ext_resource type="Script" path="res://scripts/entities/examinable.gd" id="examinable_gd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_88xse"]
+size = Vector2(32, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wiaax"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8u5vd"]
+size = Vector2(48, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_scg0e"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qafgw"]
+size = Vector2(48, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fmcjg"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ahcbc"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_epb17"]
+size = Vector2(32, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q0t2m"]
+size = Vector2(32, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h42nk"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oohus"]
+size = Vector2(16, 16)
+
+[node name="BakhawanIndoors" type="Node2D" unique_id=1483464667]
 y_sort_enabled = true
+script = ExtResource("1_dv1m0")
+
+[node name="Floor" type="TileMapLayer" parent="." unique_id=1132294027]
+z_index = -3
+tile_map_data = PackedByteArray("AAABAAMAAAABAAIAAAACAAMAAAABAAIAAAADAAMAAAABAAIAAAAEAAMAAAABAAIAAAAFAAMAAAABAAIAAAAGAAMAAAABAAIAAAAHAAMAAAABAAIAAAAIAAMAAAABAAIAAAAJAAMAAAABAAIAAAAKAAMAAAABAAIAAAALAAMAAAABAAIAAAAMAAMAAAABAAIAAAABAAQAAAABAAIAAAACAAQAAAABAAIAAAADAAQAAAABAAIAAAAEAAQAAAACAAIAAAAFAAQAAAACAAIAAAAGAAQAAAACAAIAAAAHAAQAAAACAAIAAAAIAAQAAAACAAIAAAAJAAQAAAABAAIAAAAKAAQAAAABAAIAAAALAAQAAAABAAIAAAAMAAQAAAABAAIAAAABAAUAAAABAAIAAAACAAUAAAABAAIAAAADAAUAAAABAAIAAAAEAAUAAAACAAIAAAAFAAUAAAACAAIAAAAGAAUAAAACAAIAAAAHAAUAAAACAAIAAAAIAAUAAAACAAIAAAAJAAUAAAABAAIAAAAKAAUAAAABAAIAAAALAAUAAAABAAIAAAAMAAUAAAABAAIAAAABAAYAAAABAAIAAAACAAYAAAABAAIAAAADAAYAAAABAAIAAAAEAAYAAAACAAIAAAAFAAYAAAACAAIAAAAGAAYAAAACAAIAAAAHAAYAAAACAAIAAAAIAAYAAAACAAIAAAAJAAYAAAABAAIAAAAKAAYAAAABAAIAAAALAAYAAAABAAIAAAAMAAYAAAABAAIAAAABAAcAAAABAAIAAAACAAcAAAABAAIAAAADAAcAAAABAAIAAAAEAAcAAAACAAIAAAAFAAcAAAACAAIAAAAGAAcAAAACAAIAAAAHAAcAAAACAAIAAAAIAAcAAAACAAIAAAAJAAcAAAABAAIAAAAKAAcAAAABAAIAAAALAAcAAAABAAIAAAAMAAcAAAABAAIAAAABAAgAAAABAAIAAAACAAgAAAABAAIAAAADAAgAAAABAAIAAAAEAAgAAAABAAIAAAAFAAgAAAABAAIAAAAGAAgAAAABAAIAAAAHAAgAAAABAAIAAAAIAAgAAAABAAIAAAAJAAgAAAABAAIAAAAKAAgAAAABAAIAAAALAAgAAAABAAIAAAAMAAgAAAABAAIAAAABAAkAAAABAAIAAAACAAkAAAABAAIAAAADAAkAAAABAAIAAAAEAAkAAAABAAIAAAAFAAkAAAABAAIAAAAGAAkAAAABAAIAAAAHAAkAAAABAAIAAAAIAAkAAAABAAIAAAAJAAkAAAABAAIAAAAKAAkAAAABAAIAAAALAAkAAAABAAIAAAAMAAkAAAABAAIAAAABAAoAAAABAAIAAAACAAoAAAABAAIAAAADAAoAAAABAAIAAAAEAAoAAAABAAIAAAAFAAoAAAABAAIAAAAGAAoAAAABAAIAAAAHAAoAAAABAAIAAAAIAAoAAAABAAIAAAAJAAoAAAABAAIAAAAKAAoAAAABAAIAAAALAAoAAAABAAIAAAAMAAoAAAABAAIAAAA=")
+tile_set = ExtResource("2_8m7mp")
+
+[node name="FloorDecals" type="TileMapLayer" parent="." unique_id=1905052781]
+z_index = -2
+tile_map_data = PackedByteArray("AAAGAAoAAAAIAAEAAAAHAAoAAAAJAAEAAAA=")
+tile_set = ExtResource("3_d42pf")
+
+[node name="Walls" type="TileMapLayer" parent="." unique_id=121619]
+y_sort_enabled = true
+tile_map_data = PackedByteArray("AAABAAEAAAAAAA4AAAABAAIAAAAAAA8AAAACAAEAAAADAA4AAAACAAIAAAADAA8AAAADAAEAAAADAA4AAAADAAIAAAADAA8AAAAEAAEAAAADAA4AAAAEAAIAAAADAA8AAAAFAAEAAAADAA4AAAAFAAIAAAADAA8AAAAGAAEAAAADAA4AAAAGAAIAAAADAA8AAAAHAAEAAAADAA4AAAAHAAIAAAADAA8AAAAIAAEAAAADAA4AAAAIAAIAAAADAA8AAAAJAAEAAAADAA4AAAAJAAIAAAADAA8AAAAKAAEAAAADAA4AAAAKAAIAAAADAA8AAAALAAEAAAADAA4AAAALAAIAAAADAA8AAAAMAAEAAAAHAA4AAAAMAAIAAAAHAA8AAAA=")
+tile_set = ExtResource("3_d42pf")
+
+[node name="Edge" type="TileMapLayer" parent="." unique_id=1487073801]
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAsAAAAAAAIAAAABAAAAAAABAAAAAAABAAsAAAABAAIAAAACAAAAAAABAAAAAAACAAsAAAABAAIAAAADAAAAAAABAAAAAAADAAsAAAABAAIAAAAEAAAAAAABAAAAAAAEAAsAAAABAAIAAAAFAAAAAAABAAAAAAAFAAsAAAABAAIAAAAGAAAAAAABAAAAAAAGAAsAAAABAAIAAAAHAAAAAAABAAAAAAAHAAsAAAABAAIAAAAIAAAAAAABAAAAAAAIAAsAAAABAAIAAAAJAAAAAAABAAAAAAAJAAsAAAABAAIAAAAKAAAAAAABAAAAAAAKAAsAAAABAAIAAAALAAAAAAABAAAAAAALAAsAAAABAAIAAAAMAAAAAAABAAAAAAAMAAsAAAABAAIAAAANAAAAAAACAAAAAAANAAsAAAACAAIAAAAAAAEAAAAAAAEAAAANAAEAAAACAAEAAAAAAAIAAAAAAAEAAAANAAIAAAACAAEAAAAAAAMAAAAAAAEAAAANAAMAAAACAAEAAAAAAAQAAAAAAAEAAAANAAQAAAACAAEAAAAAAAUAAAAAAAEAAAANAAUAAAACAAEAAAAAAAYAAAAAAAEAAAANAAYAAAACAAEAAAAAAAcAAAAAAAEAAAANAAcAAAACAAEAAAAAAAgAAAAAAAEAAAANAAgAAAACAAEAAAAAAAkAAAAAAAEAAAANAAkAAAACAAEAAAAAAAoAAAAAAAEAAAANAAoAAAACAAEAAAA=")
+tile_set = ExtResource("4_1h7n1")
+
+[node name="Props" type="Node2D" parent="." unique_id=1833293731]
+y_sort_enabled = true
+
+[node name="SouvenirShelf" type="Node2D" parent="Props" unique_id=71456993]
+position = Vector2(16, 64)
+
+[node name="Sprite2D" type="Sprite2D" parent="Props/SouvenirShelf" unique_id=1387410368]
+position = Vector2(0, -24)
+texture = ExtResource("5_w63o3")
+centered = false
+region_enabled = true
+region_rect = Rect2(144, 32, 31, 24)
+
+[node name="Body" type="StaticBody2D" parent="Props/SouvenirShelf" unique_id=1954911323]
+
+[node name="Shape" type="CollisionShape2D" parent="Props/SouvenirShelf/Body" unique_id=967766686]
+position = Vector2(16, -8)
+shape = SubResource("RectangleShape2D_88xse")
+
+[node name="Cabinet" type="Node2D" parent="Props" unique_id=2040986871]
+position = Vector2(48, 64)
+
+[node name="Sprite2D" type="Sprite2D" parent="Props/Cabinet" unique_id=1264691927]
+position = Vector2(0, -20)
+texture = ExtResource("5_w63o3")
+centered = false
+region_enabled = true
+region_rect = Rect2(208, 32, 16, 20)
+
+[node name="Body" type="StaticBody2D" parent="Props/Cabinet" unique_id=455064484]
+
+[node name="Shape" type="CollisionShape2D" parent="Props/Cabinet/Body" unique_id=2008906180]
+position = Vector2(8, -8)
+shape = SubResource("RectangleShape2D_wiaax")
+
+[node name="KasamaBoard" type="Node2D" parent="Props" unique_id=1139486267]
+position = Vector2(64, 32)
+
+[node name="Sprite2D" type="Sprite2D" parent="Props/KasamaBoard" unique_id=576448079]
+z_index = 1
+position = Vector2(2, -9)
+texture = ExtResource("5_w63o3")
+centered = false
+region_enabled = true
+region_rect = Rect2(400, 32, 43, 7)
+
+[node name="Bench" type="Node2D" parent="Props" unique_id=2139957721]
+position = Vector2(64, 64)
+
+[node name="Sprite2D" type="Sprite2D" parent="Props/Bench" unique_id=603966937]
+position = Vector2(6, -12)
+texture = ExtResource("5_w63o3")
+centered = false
+region_enabled = true
+region_rect = Rect2(336, 32, 35, 12)
+
+[node name="Body" type="StaticBody2D" parent="Props/Bench" unique_id=142060870]
+
+[node name="Shape" type="CollisionShape2D" parent="Props/Bench/Body" unique_id=1829432425]
+position = Vector2(24, -8)
+shape = SubResource("RectangleShape2D_8u5vd")
+
+[node name="TrailDoorway" type="Node2D" parent="Props" unique_id=497144176]
+position = Vector2(128, 48)
+
+[node name="Sprite2D" type="Sprite2D" parent="Props/TrailDoorway" unique_id=1499961119]
+z_index = 1
+position = Vector2(2, -18)
+texture = ExtResource("5_w63o3")
+centered = false
+region_enabled = true
+region_rect = Rect2(464, 32, 27, 18)
+
+[node name="StaffDoorway" type="Node2D" parent="Props" unique_id=220369819]
+position = Vector2(176, 48)
+
+[node name="Sprite2D" type="Sprite2D" parent="Props/StaffDoorway" unique_id=1540922771]
+z_index = 1
+position = Vector2(2, -18)
+texture = ExtResource("5_w63o3")
+centered = false
+region_enabled = true
+region_rect = Rect2(464, 32, 27, 18)
+
+[node name="PlantBack" type="Node2D" parent="Props" unique_id=31195700]
+position = Vector2(160, 64)
+
+[node name="Sprite2D" type="Sprite2D" parent="Props/PlantBack" unique_id=473771602]
+position = Vector2(2, -15)
+texture = ExtResource("5_w63o3")
+centered = false
+region_enabled = true
+region_rect = Rect2(272, 32, 12, 15)
+
+[node name="Body" type="StaticBody2D" parent="Props/PlantBack" unique_id=326378219]
+
+[node name="Shape" type="CollisionShape2D" parent="Props/PlantBack/Body" unique_id=1112095350]
+position = Vector2(8, -8)
+shape = SubResource("RectangleShape2D_scg0e")
+
+[node name="Desk" type="Node2D" parent="Props" unique_id=1834140352]
+position = Vector2(80, 112)
+
+[node name="Sprite2D" type="Sprite2D" parent="Props/Desk" unique_id=1472511944]
+position = Vector2(2, -24)
+texture = ExtResource("5_w63o3")
+centered = false
+region_enabled = true
+region_rect = Rect2(80, 32, 44, 24)
+
+[node name="Body" type="StaticBody2D" parent="Props/Desk" unique_id=704924143]
+
+[node name="Shape" type="CollisionShape2D" parent="Props/Desk/Body" unique_id=830418809]
+position = Vector2(24, -16)
+shape = SubResource("RectangleShape2D_qafgw")
+
+[node name="PlantDeskL" type="Node2D" parent="Props" unique_id=1758733659]
+position = Vector2(64, 112)
+
+[node name="Sprite2D" type="Sprite2D" parent="Props/PlantDeskL" unique_id=1470764009]
+position = Vector2(2, -15)
+texture = ExtResource("5_w63o3")
+centered = false
+region_enabled = true
+region_rect = Rect2(272, 32, 12, 15)
+
+[node name="Body" type="StaticBody2D" parent="Props/PlantDeskL" unique_id=224209762]
+
+[node name="Shape" type="CollisionShape2D" parent="Props/PlantDeskL/Body" unique_id=1829613840]
+position = Vector2(8, -8)
+shape = SubResource("RectangleShape2D_fmcjg")
+
+[node name="PlantDeskR" type="Node2D" parent="Props" unique_id=1534659740]
+position = Vector2(128, 112)
+
+[node name="Sprite2D" type="Sprite2D" parent="Props/PlantDeskR" unique_id=2015027229]
+position = Vector2(2, -15)
+texture = ExtResource("5_w63o3")
+centered = false
+region_enabled = true
+region_rect = Rect2(272, 32, 12, 15)
+
+[node name="Body" type="StaticBody2D" parent="Props/PlantDeskR" unique_id=1856168667]
+
+[node name="Shape" type="CollisionShape2D" parent="Props/PlantDeskR/Body" unique_id=1315723439]
+position = Vector2(8, -8)
+shape = SubResource("RectangleShape2D_ahcbc")
+
+[node name="TrailMap" type="Node2D" parent="Props" unique_id=1391218001]
+position = Vector2(176, 96)
+
+[node name="Sprite2D" type="Sprite2D" parent="Props/TrailMap" unique_id=103282379]
+position = Vector2(0, -32)
+texture = ExtResource("5_w63o3")
+centered = false
+region_enabled = true
+region_rect = Rect2(528, 32, 32, 32)
+
+[node name="Body" type="StaticBody2D" parent="Props/TrailMap" unique_id=2060572801]
+
+[node name="Shape" type="CollisionShape2D" parent="Props/TrailMap/Body" unique_id=1622383463]
+position = Vector2(16, -8)
+shape = SubResource("RectangleShape2D_epb17")
+
+[node name="Propagules" type="Node2D" parent="Props" unique_id=227175752]
+position = Vector2(176, 128)
+
+[node name="Sprite2D" type="Sprite2D" parent="Props/Propagules" unique_id=683827580]
+position = Vector2(0, -16)
+texture = ExtResource("5_w63o3")
+centered = false
+region_enabled = true
+region_rect = Rect2(592, 32, 32, 16)
+
+[node name="Body" type="StaticBody2D" parent="Props/Propagules" unique_id=290816207]
+
+[node name="Shape" type="CollisionShape2D" parent="Props/Propagules/Body" unique_id=1792044202]
+position = Vector2(16, -8)
+shape = SubResource("RectangleShape2D_q0t2m")
+
+[node name="Guestbook" type="Node2D" parent="Props" unique_id=2000184065]
+position = Vector2(32, 144)
+
+[node name="Sprite2D" type="Sprite2D" parent="Props/Guestbook" unique_id=546481696]
+position = Vector2(0, -32)
+texture = ExtResource("5_w63o3")
+centered = false
+region_enabled = true
+region_rect = Rect2(16, 112, 16, 32)
+
+[node name="Body" type="StaticBody2D" parent="Props/Guestbook" unique_id=49013264]
+
+[node name="Shape" type="CollisionShape2D" parent="Props/Guestbook/Body" unique_id=643034668]
+position = Vector2(8, -8)
+shape = SubResource("RectangleShape2D_h42nk")
+
+[node name="PlantCorner" type="Node2D" parent="Props" unique_id=1364349589]
+position = Vector2(16, 176)
+
+[node name="Sprite2D" type="Sprite2D" parent="Props/PlantCorner" unique_id=680480990]
+position = Vector2(2, -15)
+texture = ExtResource("5_w63o3")
+centered = false
+region_enabled = true
+region_rect = Rect2(272, 32, 12, 15)
+
+[node name="Body" type="StaticBody2D" parent="Props/PlantCorner" unique_id=1960711160]
+
+[node name="Shape" type="CollisionShape2D" parent="Props/PlantCorner/Body" unique_id=612113377]
+position = Vector2(8, -8)
+shape = SubResource("RectangleShape2D_oohus")
+
+[node name="Warps" type="Node2D" parent="." unique_id=1426767576]
+
+[node name="ToPlaza" type="Area2D" parent="Warps" unique_id=1965068349 instance=ExtResource("6_0o2ua")]
+position = Vector2(112, 168)
+script = ExtResource("7_7gpi0")
+trigger_direction = 1
+span_tiles_override = 2
+target_scene = "res://scenes/world/bakhawan/bakhawan_outdoors.tscn"
+target_spawn_id = "FromIndoors"
+
+[node name="ToTrail" type="Area2D" parent="Warps" unique_id=1443005755 instance=ExtResource("6_0o2ua")]
+position = Vector2(144, 56)
+script = ExtResource("7_7gpi0")
+span_tiles_override = 2
+target_scene = "res://scenes/world/bakhawan/bakhawan_trail.tscn"
+target_spawn_id = "FromCentre"
+
+[node name="StaffRoom" type="Area2D" parent="Warps" unique_id=1239323304 instance=ExtResource("6_0o2ua")]
+position = Vector2(192, 56)
+script = ExtResource("7_7gpi0")
+span_tiles_override = 2
+closed_message = "Staff only. KASAMA's research room is locked."
+
+[node name="Spawns" type="Node2D" parent="." unique_id=1275904703]
+
+[node name="DefaultSpawn" type="Marker2D" parent="Spawns" unique_id=2126653523]
+position = Vector2(96, 160)
+
+[node name="FromOutdoors" type="Marker2D" parent="Spawns" unique_id=884138754]
+position = Vector2(96, 160)
+
+[node name="FromTrail" type="Marker2D" parent="Spawns" unique_id=1310631127]
+position = Vector2(128, 80)
+
+[node name="SceneMarkers" type="Node2D" parent="." unique_id=1769189845]
+
+[node name="Examinables" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="KasamaBoard" type="Node2D" parent="Examinables"]
+position = Vector2(88, 72)
+script = ExtResource("examinable_gd")
+scene_key = "examine_centre_board"
+area_size = Vector2(48, 16)
+
+[node name="TrailMap" type="Node2D" parent="Examinables"]
+position = Vector2(192, 104)
+script = ExtResource("examinable_gd")
+scene_key = "examine_trail_map"
+area_size = Vector2(32, 16)
+
+[node name="Propagules" type="Node2D" parent="Examinables"]
+position = Vector2(192, 136)
+script = ExtResource("examinable_gd")
+scene_key = "examine_propagules"
+area_size = Vector2(32, 16)
+
+[node name="Guestbook" type="Node2D" parent="Examinables"]
+position = Vector2(40, 152)
+script = ExtResource("examinable_gd")
+scene_key = "examine_guestbook"
+area_size = Vector2(16, 16)

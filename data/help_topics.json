@@ -44,6 +44,22 @@
 			"Each pair you match raises how well you know that word."
 		]
 	},
+	"fishing": {
+		"title": "Fishing for Words",
+		"goal": "Catch the fish carrying the right answer before time runs out.",
+		"steps": [
+			"Read the question at the top. Some ask what an Akeanon word means, others ask for the Akeanon word.",
+			"Each fish carries an answer on a little board. Tap the fish with the right one (or press 1 to 4, top to bottom).",
+			"A right answer catches the fish, adds points and 2 seconds, and brings the next question.",
+			"A wrong answer takes 3 seconds and shows the right fish, then a new question comes.",
+			"When time runs out you see your score and the words to remember."
+		],
+		"tips": [
+			"Answers in a row build a combo that multiplies your points.",
+			"Early on the fish are slow, and they stop while your finger is on the water.",
+			"Each word you get right raises how well you know it."
+		]
+	},
 	"habi_habi": {
 		"title": "Habi-Habi",
 		"goal": "Weave a piece of cloth by spelling the words Manang Loleng calls.",

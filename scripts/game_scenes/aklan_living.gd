@@ -53,6 +53,16 @@ const CH3_BRIEF_SEEN_FLAG: String = "seen_chapter3_scene0"
 const CH3_CAFE_SEEN_FLAG: String = "seen_chapter3_scene4"
 const CH3_EVENING_CUTSCENE_ID: String = "chapter3_scene5"
 const CH3_EVENING_SEEN_FLAG: String = "seen_chapter3_scene5"
+## Chapter 4 (see docs/CHAPTER4_PLAN.md): the morning brief that sends Rose, Papa
+## Jobert and the player to Bakhawan, and the evening scene once they're home.
+const CH3_COMPLETE_FLAG: String = "chapter3_complete"
+const CH4_BRIEF_CUTSCENE_ID: String = "chapter4_scene0"
+const CH4_BRIEF_SEEN_FLAG: String = "seen_chapter4_scene0"
+const CH4_BRIEF_CAST: Array = ["Rose", "Lola Susan", "Lola Jonabel", "Papa Jobert"]
+const CH4_SUNSET_SEEN_FLAG: String = "seen_chapter4_scene5"
+const CH4_EVENING_CUTSCENE_ID: String = "chapter4_scene6"
+const CH4_EVENING_SEEN_FLAG: String = "seen_chapter4_scene6"
+const CH4_EVENING_CAST: Array = ["Lola Jonabel", "Lola Susan", "Papa Jobert"]
 
 func _ready() -> void:
 	# Walks with Rose never reach this door's warp: they're cutscenes, or TourGuide stops them.
@@ -116,6 +126,22 @@ func _check_beats() -> void:
 	if GameState.get_flag(CH3_CAFE_SEEN_FLAG) and not GameState.get_flag(CH3_EVENING_SEEN_FLAG) \
 			and _all_here_and_settled(["Lola Jonabel", "Lola Susan"]):
 		CutsceneManager.play(CH3_EVENING_CUTSCENE_ID)
+		return
+	if _ch4_brief_due():
+		CutsceneManager.play(CH4_BRIEF_CUTSCENE_ID)
+		return
+	if GameState.get_flag(CH4_SUNSET_SEEN_FLAG) and not GameState.get_flag(CH4_EVENING_SEEN_FLAG) \
+			and _all_here_and_settled(CH4_EVENING_CAST):
+		CutsceneManager.play(CH4_EVENING_CUTSCENE_ID)
+
+## Chapter 4's morning brief: the first morning after Chapter 3 is complete
+## (and Chapter 4 is out), once all four are at their brief spots.
+func _ch4_brief_due() -> bool:
+	if GameState.get_flag(CH4_BRIEF_SEEN_FLAG) or not GameState.get_flag(CH3_COMPLETE_FLAG):
+		return false
+	if NpcSchedule.get_block("Rose").get("when", "") != "ch4_brief_pending":
+		return false
+	return _all_here_and_settled(CH4_BRIEF_CAST)
 
 ## The first evening after the tour, once all four are at the table. If the
 ## player is out or asleep then, it waits for the next evening.

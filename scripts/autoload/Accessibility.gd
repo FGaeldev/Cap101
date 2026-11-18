@@ -21,11 +21,36 @@ const ERROR_COLOR_BLIND := Color("d55e00")
 
 var color_blind: bool = false
 
+## On-screen movement control: the analog joystick or a 4-way D-pad (dpad.gd).
+## Both press the ui_* actions; the HUD shows whichever is chosen.
+const KEY_MOVEMENT := "movement_controls"
+const MOVEMENT_JOYSTICK := "joystick"
+const MOVEMENT_DPAD := "dpad"
+const MOVEMENT_OPTIONS := {MOVEMENT_JOYSTICK: "Joystick", MOVEMENT_DPAD: "D-pad"}
+var movement_controls: String = MOVEMENT_JOYSTICK
+
 
 func _ready() -> void:
 	var config := ConfigFile.new()
 	if config.load(SETTINGS_PATH) == OK:
 		color_blind = bool(config.get_value(SECTION, KEY_COLOR_BLIND, false))
+		var movement := str(config.get_value(SECTION, KEY_MOVEMENT, MOVEMENT_JOYSTICK))
+		movement_controls = movement if MOVEMENT_OPTIONS.has(movement) else MOVEMENT_JOYSTICK
+
+
+func set_movement_controls(kind: String) -> void:
+	if kind == movement_controls or not MOVEMENT_OPTIONS.has(kind):
+		return
+	movement_controls = kind
+	var config := ConfigFile.new()
+	config.load(SETTINGS_PATH)  # keeps other keys; a missing file is fine
+	config.set_value(SECTION, KEY_MOVEMENT, movement_controls)
+	config.save(SETTINGS_PATH)
+	changed.emit()
+
+
+func uses_dpad() -> bool:
+	return movement_controls == MOVEMENT_DPAD
 
 
 func set_color_blind(enabled: bool) -> void:

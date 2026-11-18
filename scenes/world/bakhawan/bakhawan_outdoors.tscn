@@ -5,6 +5,7 @@
 [ext_resource type="TileSet" uid="uid://dd261lq2dwfm8" path="res://assets/tilesets/edges.tres" id="t_edges"]
 [ext_resource type="PackedScene" uid="uid://de6nkx7tf7u8d" path="res://scenes/entities/furniture/warp_area.tscn" id="2_dtxuw"]
 [ext_resource type="Script" path="res://scripts/game_scenes/bakhawan_outdoors.gd" id="3_trip"]
+[ext_resource type="TileSet" path="res://assets/tilesets/bakhawan.tres" id="5_bakhawan"]
 
 [node name="BakhawanOutdoors" type="Node2D" unique_id=599495054]
 script = ExtResource("3_trip")
@@ -48,7 +49,8 @@ y_sort_enabled = true
 [node name="WarpArea" parent="Warps" unique_id=1965068349 instance=ExtResource("2_dtxuw")]
 position = Vector2(240, 232)
 span_tiles_override = 2
-closed_message = "The visitor center is closed today."
+target_scene = "res://scenes/world/bakhawan/bakhawan_indoors.tscn"
+target_spawn_id = "FromOutdoors"
 
 [node name="WarpArea2" parent="Warps" unique_id=1862165124 instance=ExtResource("2_dtxuw")]
 position = Vector2(64, 360)
@@ -76,3 +78,8 @@ y_sort_enabled = true
 
 [node name="Rose" type="Marker2D" parent="SceneMarkers/Trip"]
 position = Vector2(96, 304)
+
+[node name="Mangroves" type="TileMapLayer" parent="."]
+y_sort_enabled = true
+tile_map_data = PackedByteArray("AAABAAMAAAAIACIAAAAGAAIAAAAOACIAAAALAAIAAAALACIAAAAPAAMAAAAQACIAAAAVAAIAAAAIACIAAAAaAAMAAAAOACIAAAAfAAIAAAALACIAAAAkAAMAAAAQACIAAAACAAoAAAASACMAAAAFAAkAAAAUACMAAAA=")
+tile_set = ExtResource("5_bakhawan")

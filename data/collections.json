@@ -13,6 +13,13 @@
 			"description": "A Habi-Habi cloth woven with every row clean.",
 			"chapter": "chapter3",
 			"flag": "habi_habi_clean_cloth"
+		},
+		{
+			"id": "col_mangrove_seedling",
+			"title": "Mangrove seedling",
+			"description": "The bakhawan seedling you planted on the Bakhawan shore with Manong Ambo. Rose helped, without being asked.",
+			"chapter": "chapter4",
+			"flag": "planted_mangrove"
 		}
 	]
 }

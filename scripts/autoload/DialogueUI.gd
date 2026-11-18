@@ -25,12 +25,13 @@ const MINIGAME_SCRIPTS := {
 	"crossword": preload("res://scripts/ui/crossword_panel.gd"),
 	"word_search": preload("res://scripts/ui/word_search_panel.gd"),
 	"habi_habi": preload("res://scripts/ui/habi_habi_panel.gd"),
+	"fishing": preload("res://scripts/ui/fishing_panel.gd"),
 }
-const FULLSCREEN_MINIGAMES: Array[String] = ["crossword", "word_search", "habi_habi"]
+const FULLSCREEN_MINIGAMES: Array[String] = ["crossword", "word_search", "habi_habi", "fishing"]
 const NEWSPAPER_SCRIPT := preload("res://scripts/ui/newspaper_panel.gd")
 
 ## Relative chance of each activity when the player asks an NPC to review.
-const REVIEW_WEIGHTS := {"quiz": 50, "hangman": 25, "memory_match": 25}
+const REVIEW_WEIGHTS := {"quiz": 50, "hangman": 25, "memory_match": 25, "fishing": 25}
 ## Fewest known words review memory match needs. Pairs scale with the difficulty
 ## tier (GameState.get_minigame_word_count), limited by the words known.
 const REVIEW_MEMORY_MIN_WORDS: int = 4
@@ -194,6 +195,9 @@ func show_review() -> void:
 		weights["hangman"] = REVIEW_WEIGHTS["hangman"]
 	if memory_pool.size() >= REVIEW_MEMORY_MIN_WORDS:
 		weights["memory_match"] = REVIEW_WEIGHTS["memory_match"]
+		# Fishing for words (fishing_panel.gd) once Chapter 4 has taught it.
+		if GameState.get_flag("went_fishing"):
+			weights["fishing"] = REVIEW_WEIGHTS["fishing"]
 
 	_current_component = null
 	match WordBank._weighted_pick(weights):
@@ -202,6 +206,8 @@ func show_review() -> void:
 		"memory_match":
 			show_standalone_minigame({"minigame_type": "memory_match", "word_pool": memory_pool,
 					"pair_count": GameState.get_minigame_word_count()}, _on_review_quiz_resolved)
+		"fishing":
+			show_standalone_minigame({"minigame_type": "fishing", "word_pool": memory_pool}, _on_review_quiz_resolved)
 		_:
 			show_review_quiz()
 
@@ -393,6 +399,13 @@ func player_pressed_advance() -> void:
 
 ## True while a panel that covers the whole screen is up; HUD hides itself so
 ## its clock and buttons don't draw over the panel.
+## Full-screen minigames the HUD's toasts must not cover (fishing: every
+## answer shows a word, and the toasts would sit over the score and the fish).
+const TOASTLESS_MINIGAMES: Array[String] = ["fishing"]
+
+func hides_toasts() -> bool:
+	return is_fullscreen_active() and TOASTLESS_MINIGAMES.has(_minigame_type)
+
 func is_fullscreen_active() -> bool:
 	if _newspaper_box != null and is_instance_valid(_newspaper_box) and _newspaper_box.visible:
 		return true

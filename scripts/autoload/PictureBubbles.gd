@@ -76,7 +76,6 @@ func _load_icons() -> void:
 
 func has_icon(icon: String) -> bool:
 	return _cells.has(icon)
-
 # --- dialogue lines -------------------------------------------------------------
 
 ## Called for every dialogue line as it appears. Notes the line's pictures;

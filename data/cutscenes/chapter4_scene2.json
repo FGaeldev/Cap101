@@ -1,0 +1,11 @@
+[
+	{"type": "move_npc", "actor": "Manong Ambo", "direction": "left", "tiles": 0, "face": "left"},
+	{"type": "dialogue", "chapter": "chapter4", "scene": "scene_2_learning_about_mangroves"},
+	{"type": "set_flag", "flag": "seen_chapter4_scene2", "value": true},
+	{"type": "game_speed", "scale": 2.0},
+	{"type": "parallel", "actions": [
+		{"type": "move_npc", "actor": "Manong Ambo", "to": "Ch4/S3_Ambo", "avoid_actors": true, "speed": 40, "face": "down"},
+		{"type": "sequence", "actions": [{"type": "wait", "seconds": 0.6}, {"type": "move_npc", "actor": "Rose", "to": "Ch4/S3_Rose", "avoid_actors": true, "speed": 40, "face": "down"}]},
+		{"type": "sequence", "actions": [{"type": "wait", "seconds": 1.2}, {"type": "move_npc", "actor": "Papa Jobert", "to": "Ch4/S3_Jobert", "avoid_actors": true, "speed": 40, "face": "down"}]}
+	]}
+]

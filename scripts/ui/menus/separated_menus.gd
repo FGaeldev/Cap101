@@ -124,6 +124,9 @@ func _show(id: String) -> void:
 			# Only this panel's copy of the page: the book keeps its own look.
 			for btn in _settings_page.ui_scale_row.get_children():
 				MenuStyle.style_chip(btn)
+			if _settings_page._movement_row:
+				for btn in _settings_page._movement_row.get_children():
+					MenuStyle.style_chip(btn)
 			for slider in _settings_page.find_children("*", "HSlider", true, false):
 				MenuStyle.style_slider(slider)
 			for toggle in _settings_page.find_children("*", "CheckButton", true, false):

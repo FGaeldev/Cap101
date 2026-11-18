@@ -30,6 +30,7 @@ const ACTION_SCRIPTS := [
 	"res://scripts/cutscene_actions/stand_action.gd",
 	"res://scripts/cutscene_actions/complete_quest_action.gd",
 	"res://scripts/cutscene_actions/bubble_action.gd",
+	"res://scripts/cutscene_actions/hold_clock_action.gd",
 ]
 
 var _actions: Dictionary = {}
@@ -63,6 +64,16 @@ func set_fast_forward(on: bool) -> void:
 func _apply_speed() -> void:
 	var boost: bool = fast_forward and _playing and not DialogueUI.is_active()
 	Engine.time_scale = _base_speed * (FAST_FORWARD_SCALE if boost else 1.0)
+
+## hold_clock step: stops DayNightManager's clock. Only a clock this manager
+## stopped is started again, so a hold from elsewhere is left alone.
+var _clock_held: bool = false
+
+func set_clock_held(held: bool) -> void:
+	if held == _clock_held:
+		return
+	_clock_held = held
+	DayNightManager.paused = held
 
 ## Back to normal speed with fast-forward off (cutscene end or abort).
 func _reset_speed() -> void:
@@ -136,6 +147,7 @@ func play(cutscene_id: String) -> void:
 	_playing = false
 	_tweens.clear()
 	_reset_speed()  # a game_speed step or fast-forward never outlives its cutscene
+	set_clock_held(false)  # nor does a hold_clock step
 	cutscene_finished.emit(cutscene_id)
 
 func _run_sequence(steps: Array, run_id: int) -> void:
@@ -230,6 +242,7 @@ func abort() -> void:
 	_run_id += 1
 	_playing = false
 	_reset_speed()
+	set_clock_held(false)
 	for tween in _tweens:
 		if tween.is_valid():
 			tween.kill()

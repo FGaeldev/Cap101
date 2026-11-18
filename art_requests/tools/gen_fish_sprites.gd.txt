@@ -1,0 +1,232 @@
+extends SceneTree
+# Pixel-art fish for the "fishing for words" minigame (scripts/ui/fishing_panel.gd).
+# Rename to .gd and run from the project root:
+#   godot --headless --path . --script art_requests/tools/gen_fish_sprites.gd [-- preview.png]
+# Writes assets/sprites/minigames/fishing_fish.png: one row per fish, two frames
+# (tail flick) per row, CELL px each, facing right (the game flips them).
+# Also writes fishing_seabed.png: a SEABED-sized strip that tiles left to right
+# (sand, pebbles, rocks, seagrass, a shell and a starfish), for the bottom of the water.
+# Same outline colour and top-left light as the rest of the game's art.
+# Redraw over the sheet by hand any time; keep the cell grid.
+
+const OUT := "res://assets/sprites/minigames/fishing_fish.png"
+const SEABED_OUT := "res://assets/sprites/minigames/fishing_seabed.png"
+const SEABED := Vector2i(128, 24)
+const CELL := Vector2i(32, 20)
+const OL := Color("45283c")
+const EYE_W := Color("fff4dc")
+const EYE_K := Color("2a2430")
+## Label band (sprite pixels): rows BAND_TOP..BAND_BOTTOM, columns BAND_LEFT up to
+## the gill line. fishing_panel.gd's Fish writes the word there; keep them in step.
+const BAND_TOP := 7
+const BAND_BOTTOM := 12
+const BAND_LEFT := 8
+const GILL_X := 23
+
+## Each fish: shape (body half-length, half-height), palette, extras.
+const FISH := [
+	{"name": "bangus", "rx": 11.5, "ry": 4.6, "back": "34557c", "mid": "7c9cbd", "light": "c4d5e7", "belly": "eef3f8", "fin": "5a7da6", "fork": true},
+	{"name": "snapper", "rx": 11.0, "ry": 5.4, "back": "7d1f2c", "mid": "cf4a3f", "light": "f08870", "belly": "ffd6c6", "fin": "a92f39", "fork": false},
+	{"name": "damsel", "rx": 9.0, "ry": 6.6, "back": "a8780d", "mid": "f0be45", "light": "ffe28e", "belly": "fff6d8", "fin": "d39a26", "stripes": "4a3324", "fork": false},
+	{"name": "parrotfish", "rx": 9.5, "ry": 6.4, "back": "1d6762", "mid": "2f9f95", "light": "7fd5c6", "belly": "d9f4ee", "fin": "e46fa6", "fork": false},
+]
+
+func _initialize() -> void:
+	var sheet := Image.create(CELL.x * 2, CELL.y * FISH.size(), false, Image.FORMAT_RGBA8)
+	for row in FISH.size():
+		for frame in 2:
+			var img := draw_fish(FISH[row], frame)
+			sheet.blit_rect(img, Rect2i(Vector2i.ZERO, CELL), Vector2i(frame * CELL.x, row * CELL.y))
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUT.get_base_dir()))
+	sheet.save_png(ProjectSettings.globalize_path(OUT))
+	print("wrote ", OUT)
+	draw_seabed().save_png(ProjectSettings.globalize_path(SEABED_OUT))
+	print("wrote ", SEABED_OUT)
+	var args := OS.get_cmdline_user_args()
+	if args.size() > 0:
+		var prev := Image.create(sheet.get_width() + 8, sheet.get_height() + 8, false, Image.FORMAT_RGBA8)
+		prev.fill(Color("5d8fc4"))
+		prev.blend_rect(sheet, Rect2i(Vector2i.ZERO, sheet.get_size()), Vector2i(4, 4))
+		prev.resize(prev.get_width() * 8, prev.get_height() * 8, Image.INTERPOLATE_NEAREST)
+		prev.save_png(args[0])
+	quit()
+
+func draw_fish(f: Dictionary, frame: int) -> Image:
+	var img := Image.create(CELL.x, CELL.y, false, Image.FORMAT_RGBA8)
+	var back := Color(f["back"]); var mid := Color(f["mid"]); var light := Color(f["light"])
+	var belly := Color(f["belly"]); var fin := Color(f["fin"])
+	var rx: float = f["rx"]
+	var ry: float = f["ry"]
+	var cx: float = 18.0
+	var cy: float = 9.5
+	var tail_x := int(cx - rx) + 1
+
+	# Tail first (behind the body): a fan from the tail root, flicking per frame.
+	var length := 6 if rx > 10.0 else 5
+	var spread: float = (3.6 if frame == 0 else 2.8) * (1.0 if rx > 10.0 else 1.15)
+	var shift := 0 if frame == 0 else 1
+	for x in range(tail_x - length, tail_x + 1):
+		var t := float(tail_x - x) / float(length)  # 0 at root .. 1 at the tip
+		var half := 1.0 + t * spread
+		var centre := cy + t * shift * 2.0
+		for y in range(int(floor(centre - half)), int(ceil(centre + half)) + 1):
+			if f.get("fork", false) and t > 0.7 and absf(y - centre) < (t - 0.7) * 6.0:
+				continue  # V notch at the tip (bangus)
+			var edge := absf(y - centre) > half - 1.2
+			var ray := int(absf(y - centre) + t * 2.0) % 2 == 0
+			px(img, x, y, fin.darkened(0.2) if edge else (fin.lightened(0.12) if ray else fin))
+
+	# Dorsal fin and belly fin.
+	for i in 6:
+		var h := int(round(3.0 - absf(i - 2.0) * 0.8))
+		for k in h:
+			var c_fin := fin.lightened(0.12) if i % 2 == 0 else fin
+			px(img, int(cx) - 4 + i, int(cy - ry) - 1 - k, c_fin if k < h - 1 else fin.darkened(0.2))
+	for i in 3:
+		px(img, int(cx) - 2 + i, int(cy + ry) + 1, fin.darkened(0.1))
+	px(img, int(cx) - 2, int(cy + ry) + 2, fin.darkened(0.25))
+
+	# Body: an egg shape (fuller at the head), shaded in bands, light from the top left.
+	for y in CELL.y:
+		for x in CELL.x:
+			var dx := (x + 0.5 - cx) / (rx if x + 0.5 >= cx else rx * 1.05)
+			var dy := (y + 0.5 - cy) / ry
+			if dx * dx + dy * dy > 1.0:
+				continue
+			# Label band: the word is written here (fishing_panel.gd Fish), so it's flat
+			# and light, framed by a thin line above and below.
+			if x >= BAND_LEFT and x < GILL_X:
+				if y >= BAND_TOP and y <= BAND_BOTTOM:
+					img.set_pixel(x, y, light.lerp(Color.WHITE, 0.55))
+					continue
+				if y == BAND_TOP - 1:
+					img.set_pixel(x, y, back)
+					continue
+				if y == BAND_BOTTOM + 1:
+					img.set_pixel(x, y, mid)
+					continue
+			var c := mid
+			var chk := (x + y) % 2 == 0
+			if dy < -0.58 or (dy < -0.44 and chk):
+				c = back
+			elif dy < -0.14 or (dy < -0.04 and chk):
+				c = mid
+			elif dy < 0.4 or (dy < 0.52 and chk):
+				c = light
+			else:
+				c = belly
+			# light from the top left: a soft highlight on the forehead
+			if dx > 0.35 and dx < 0.75 and dy > -0.75 and dy < -0.35:
+				c = c.lightened(0.28)
+			# scale shimmer on the flank
+			if c == mid and (x * 3 + y * 5) % 7 == 0:
+				c = light
+			if c == light and (x * 5 + y * 3) % 9 == 0:
+				c = mid
+			# stripes (damsel): vertical bands, not on the belly
+			# (none under the dorsal fin, columns 13-20: the game copies that strip
+			# over the stretched middle, fishing_panel.gd Fish.DORSAL)
+			if f.has("stripes") and dy < 0.55 and (x - int(cx - rx)) % 5 == 2 and absf(dx) < 0.8 \
+					and (x < 13 or x > 20):
+				c = Color(f["stripes"])
+			img.set_pixel(x, y, c)
+
+	# Gill line (at the band's head end), side fin under the band, eye, mouth.
+	var gx := GILL_X
+	for y in range(int(cy - ry * 0.5), int(cy + ry * 0.45) + 1):
+		if img.get_pixel(gx, y).a > 0.0:
+			img.set_pixel(gx, y, back.darkened(0.1))
+	# curve the gill toward the head at its top and bottom
+	px(img, gx + 1, int(cy - ry * 0.5), back.darkened(0.1))
+	px(img, gx + 1, int(cy + ry * 0.45), back.darkened(0.1))
+	px(img, gx - 2, BAND_BOTTOM + 1, fin)
+	px(img, gx - 3, BAND_BOTTOM + 1, fin)
+	px(img, gx - 3, BAND_BOTTOM + 2, fin.darkened(0.2))
+	var ex := int(cx + rx * 0.62)
+	var ey := int(cy) - 2
+	# eye: a 2x2 pupil with a white shine, in a pale ring
+	for o in [Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(0, -1), Vector2i(1, -1), Vector2i(2, 0), Vector2i(2, 1), Vector2i(0, 2), Vector2i(1, 2)]:
+		if img.get_pixel(clampi(ex + o.x, 0, CELL.x - 1), clampi(ey + o.y, 0, CELL.y - 1)).a > 0.0:
+			px(img, ex + o.x, ey + o.y, EYE_W.lerp(light, 0.4))
+	px(img, ex, ey, EYE_W)
+	px(img, ex + 1, ey, EYE_K)
+	px(img, ex, ey + 1, EYE_K)
+	px(img, ex + 1, ey + 1, EYE_K)
+	# mouth
+	px(img, int(cx + rx) - 1, int(cy) + 1, back.darkened(0.35))
+	px(img, int(cx + rx) - 2, int(cy) + 1, back.darkened(0.2))
+
+	outline(img)
+	return img
+
+# --- seabed ---------------------------------------------------------------------------
+
+func draw_seabed() -> Image:
+	var w := SEABED.x
+	var h := SEABED.y
+	var img := Image.create(w, h, false, Image.FORMAT_RGBA8)
+	var sand := [Color("b8995e"), Color("d2b77c"), Color("e6d3a1"), Color("f2e6c2")]
+	# Sand with a gentle rolling top (period divides the width, so it tiles).
+	for x in w:
+		var top := 15.0 + sin(x * TAU / 64.0) * 1.6 + sin(x * TAU / 32.0 + 1.0) * 0.7
+		for y in range(int(top), h):
+			var depth := (y - top) / (h - top)
+			var i := 3 if depth < 0.15 else (2 if depth < 0.45 else (1 if depth < 0.8 else 0))
+			if (x * 7 + y * 3) % 11 == 0:
+				i = maxi(0, i - 1)  # grain
+			img.set_pixel(x, y, sand[i])
+	# Pebbles
+	for pb in [Vector2i(9, 20), Vector2i(41, 21), Vector2i(58, 19), Vector2i(93, 21), Vector2i(117, 20)]:
+		px(img, pb.x, pb.y, Color("8f7b5c"))
+		px(img, pb.x + 1, pb.y, Color("a8916c"))
+	# Rocks: rounded, lit from the top left.
+	for rock in [[Vector2(24, 18), 6.0, 4.5], [Vector2(31, 19), 3.5, 3.0], [Vector2(84, 18), 5.0, 4.0]]:
+		var c: Vector2 = rock[0]
+		for y in h:
+			for x in w:
+				var dx: float = (x + 0.5 - c.x) / rock[1]
+				var dy: float = (y + 0.5 - c.y) / rock[2]
+				if dx * dx + dy * dy <= 1.0 and y <= c.y + 2:
+					var lit := -dx * 0.5 - dy
+					img.set_pixel(x, y, Color("a69d8a") if lit > 0.6 else (Color("857d6c") if lit > -0.2 else Color("615a4e")))
+	# Seagrass tufts: blades leaning a little, darker at the base.
+	var greens := [Color("2e6b3a"), Color("3f8f4a"), Color("6fbf5e")]
+	for tuft in [[6, 4, 9], [48, 5, 12], [66, 3, 8], [104, 5, 11], [122, 3, 7]]:
+		var bx: int = tuft[0]
+		for b in tuft[1]:
+			var x0: int = bx + b * 2 - tuft[1]
+			var height: int = tuft[2] - (b % 2) * 3
+			var lean := 1 if b % 2 == 0 else -1
+			for k in height:
+				var x := x0 + int(round(lean * pow(float(k) / height, 2.0) * 2.0))
+				var y := 17 - k
+				px(img, wrapi(x, 0, w), y, greens[0] if k < 2 else (greens[2] if k > height - 3 else greens[1]))
+	# A shell and a starfish.
+	for o in [Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0), Vector2i(0, -1), Vector2i(1, -1), Vector2i(1, -2)]:
+		px(img, 74 + o.x, 21 + o.y, Color("f2c9b0") if o.y < 0 else Color("e8a989"))
+	for o in [Vector2i(0, 0), Vector2i(-1, 0), Vector2i(1, 0), Vector2i(0, -1), Vector2i(0, 1), Vector2i(-2, 1), Vector2i(2, 1)]:
+		px(img, 112 + o.x, 21 + o.y, Color("e8724a"))
+	px(img, 112, 21, Color("f5a06a"))
+	outline(img)
+	return img
+
+func px(img: Image, x: int, y: int, c: Color) -> void:
+	if x >= 0 and y >= 0 and x < img.get_width() and y < img.get_height():
+		img.set_pixel(x, y, c)
+
+## Selective outline: each outline pixel is a dark shade of the colour it borders,
+## mixed with the game outline colour, a bit lighter along top edges where the
+## light falls.
+func outline(img: Image) -> void:
+	var src := img.duplicate()
+	for y in img.get_height():
+		for x in img.get_width():
+			if src.get_pixel(x, y).a > 0.0:
+				continue
+			for o in [Vector2i(0, 1), Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, -1)]:
+				var q: Vector2i = Vector2i(x, y) + o
+				if q.x >= 0 and q.y >= 0 and q.x < img.get_width() and q.y < img.get_height() and src.get_pixel(q.x, q.y).a > 0.0:
+					var inner: Color = src.get_pixel(q.x, q.y)
+					var top_edge: bool = o == Vector2i(0, 1)
+					img.set_pixel(x, y, OL.lerp(inner.darkened(0.55), 0.35 if top_edge else 0.2))
+					break

@@ -6,9 +6,17 @@ extends SceneTree
 #   godot --path <project> --script autoplay.gd -- --mode=chapter --chapter=2 --out=<dir>
 #
 # Options (after the bare "--"):
-#   --mode=full|chapter   full: every available chapter in order from a new game.
+#   --mode=full|chapter|segment
+#                         full: every available chapter in order from a new game.
 #                         chapter: one chapter, starting from that chapter's start state.
+#                         segment: one piece of the story (SEGMENTS), from its forced
+#                         start state until the NEXT chapter's opening cutscene starts,
+#                         so the handoff between chapters is played for real. run.sh
+#                         "parallel" runs every segment, a few at once.
 #   --chapter=N           chapter for --mode=chapter.
+#   --segment=ID          segment for --mode=segment ("1", "2a", "2b", "3", "4").
+#   --save-dir=DIR        read by GameState: saves go to DIR (user://playtest/...), never
+#                         to the player's save slots. run.sh always passes one.
 #   --out=DIR             where events.log, findings.json and shots/ go (required).
 #   --budget=SEC          real-time limit (default 900 per chapter).
 #   --speed=X             Engine.time_scale floor (default 3).
@@ -23,7 +31,7 @@ extends SceneTree
 # playing them, and tutorial steps it can't reach get their event sent.
 #
 # Must run WINDOWED (not --headless): screenshots need a real frame.
-# Overwrites user://save.dat while it runs -- run.sh backs it up and restores it.
+# Saves go to the --save-dir folder (GameState), so the player's slots are never touched.
 
 const IDLE_SETTLE_MS := 700
 const MAX_SHOTS := 60
@@ -37,9 +45,22 @@ const CHAPTERS := {
 	1: {"start_level": "res://scenes/world/chapter1/us_bedroom.tscn", "setup": "_setup_ch1", "done": "_done_ch1"},
 	2: {"start_level": "res://scenes/world/chapter2/aklan_living.tscn", "setup": "_setup_ch2", "done": "_done_ch2"},
 	3: {"start_level": "res://scenes/world/chapter2/aklan_living.tscn", "setup": "_setup_ch3", "done": "_done_ch3"},
+	4: {"start_level": "res://scenes/world/chapter2/aklan_living.tscn", "setup": "_setup_ch4", "done": "_done_ch4"},
 }
 
-var opts := {"mode": "full", "chapter": 1, "out": "", "budget": 0.0, "speed": 3.0, "wait_speed": 12.0}
+## Story segments for parallel runs. Each ends when the NEXT chapter's opening
+## cutscene starts (the real handoff), except the last, which ends at its finish.
+const SEGMENTS := {
+	"1": {"start_level": "res://scenes/world/chapter1/us_bedroom.tscn", "setup": "_setup_ch1", "done": "_done_seg1"},
+	"2a": {"start_level": "res://scenes/world/chapter2/aklan_living.tscn", "setup": "_setup_ch2", "done": "_done_seg2a"},
+	"2b": {"start_level": "res://scenes/world/chapter2/aklan_living.tscn", "setup": "_setup_seg2b", "done": "_done_seg2b"},
+	"3": {"start_level": "res://scenes/world/chapter2/aklan_living.tscn", "setup": "_setup_seg3", "done": "_done_seg3"},
+	"4": {"start_level": "res://scenes/world/chapter2/aklan_living.tscn", "setup": "_setup_ch4", "done": "_done_ch4"},
+}
+## Cutscenes that have started this run (segment finish lines look here).
+var _started_cutscenes := {}
+
+var opts := {"mode": "full", "chapter": 1, "segment": "", "out": "", "budget": 0.0, "speed": 3.0, "wait_speed": 12.0}
 var _chapters: Array = []      # chapter numbers this run plays, in order
 var _chapter_i := 0
 var _phase := 0
@@ -130,6 +151,7 @@ func _parse_args() -> void:
 		match k:
 			"mode": opts.mode = v
 			"chapter": opts.chapter = int(v)
+			"segment": opts.segment = v
 			"out": opts.out = v
 			"budget": opts.budget = float(v)
 			"speed": opts.speed = float(v)
@@ -259,7 +281,13 @@ func _start() -> void:
 	for ch in root.get_node("ChapterCard").get_chapters():
 		if ch.get("available", false) and CHAPTERS.has(int(ch.number)):
 			playable.append(int(ch.number))
-	if opts.mode == "chapter":
+	if opts.mode == "segment":
+		if not SEGMENTS.has(opts.segment):
+			_add_finding("driver", "segment '%s' is not defined in autoplay.gd SEGMENTS" % opts.segment)
+			_finish("segment not defined")
+			return
+		_chapters = [opts.segment]
+	elif opts.mode == "chapter":
 		if not CHAPTERS.has(opts.chapter):
 			_p("END: chapter %d has no autoplay definition (playable: %s)" % [opts.chapter, playable])
 			_add_finding("driver", "chapter %d is not playable yet / not defined in autoplay.gd CHAPTERS" % opts.chapter)
@@ -281,21 +309,25 @@ func _start() -> void:
 	GS.flag_changed.connect(_on_flag)
 	A.QuestManager.quest_started.connect(func(q): _p("QUEST started " + q); _progress())
 	A.QuestManager.quest_completed.connect(func(q): _p("QUEST completed " + q); _progress())
-	A.CutsceneManager.cutscene_started.connect(func(c): _p("CUTSCENE start " + c))
+	A.CutsceneManager.cutscene_started.connect(func(c): _p("CUTSCENE start " + c); _started_cutscenes[c] = true)
 	A.CutsceneManager.cutscene_finished.connect(func(c): _p("CUTSCENE end " + c))
 	A.TutorialManager.tutorial_started.connect(func(t): _p("TUTORIAL start " + t))
 	A.TutorialManager.tutorial_completed.connect(func(t): _p("TUTORIAL done " + t))
 	A.DayNightManager.day_changed.connect(func(): _p("DAY -> %s" % str(A.DayNightManager.get_date())))
 	# Chapter mode: force the state that chapter starts from.
-	var first: int = _chapters[0]
-	if first != 1 or opts.mode == "chapter":
-		call(CHAPTERS[first].setup)
-		GS.current_level_path = CHAPTERS[first].start_level
+	var first = _chapters[0]
+	if opts.mode == "segment" or first != 1 or opts.mode == "chapter":
+		call(_spec(first).setup)
+		GS.current_level_path = _spec(first).start_level
 	change_scene_to_file("res://scenes/Game.tscn")
 	_phase = 1
 
-func _current_chapter() -> int:
+func _current_chapter() -> Variant:
 	return _chapters[_chapter_i] if _chapter_i < _chapters.size() else -1
+
+## CHAPTERS entry, or SEGMENTS entry in segment mode.
+func _spec(key: Variant) -> Dictionary:
+	return SEGMENTS[key] if opts.mode == "segment" else CHAPTERS[key]
 
 func _on_flag(flag: String, value: bool) -> void:
 	_p("FLAG %s = %s" % [flag, value])
@@ -339,10 +371,11 @@ func _setup_ch2() -> void:
 	for q in ["q002", "q010", "q003", "q004"]:
 		A.QuestManager.complete_quest_silently(q)
 
-## Tour, Sunday mass and the Bakhawan trip all done, and home again.
+## Tour and Sunday mass done, and home again. (Rose only offers Bakhawan once
+## Chapter 4 has started, so the trip isn't part of Chapter 2 any more.)
 func _done_ch2() -> bool:
 	var GS = A.GameState
-	return GS.get_flag("chapter2_tour_done") and _mass_done and _bakhawan_went \
+	return GS.get_flag("chapter2_tour_done") and _mass_done \
 		and not GS.get_flag("chapter2_with_rose") and not A.CutsceneManager.is_playing()
 
 ## The morning after Chapter 2 ended (tour + a mass, then a night's sleep), on a
@@ -364,6 +397,70 @@ func _setup_ch3() -> void:
 ## Evening scene with Jonabel played.
 func _done_ch3() -> bool:
 	return A.GameState.get_flag("chapter3_complete") and not A.CutsceneManager.is_playing()
+
+## The morning after Chapter 3 ended (weekday, 7:00), so Chapter 4's brief plays.
+func _setup_ch4() -> void:
+	_setup_ch3()
+	var GS = A.GameState
+	for f in ["chapter_card_chapter3_seen", "seen_chapter3_scene0", "chapter3_started", "seen_chapter3_scene1",
+			"map_open_habuean", "seen_chapter3_scene2", "wove_first_row", "seen_chapter3_scene3",
+			"got_pina_bookmark", "story_done_ch3_loleng", "seen_chapter3_scene4", "seen_chapter3_scene5",
+			"chapter3_complete", "note_story_so_far_seen"]:
+		GS.set_flag(f)
+	for q in ["q006", "q007", "q008"]:
+		A.QuestManager.complete_quest_silently(q)
+	# The brief waits until chapters.json marks Chapter 4 out (NpcSchedule
+	# "ch4_brief_pending"); treat it as out for this run so it can be tested first.
+	_make_available("chapter4")
+
+## Segment 1: Chapter 2's "home at last" opening has started.
+func _done_seg1() -> bool:
+	return _started_cutscenes.has("chapter2_scene0")
+
+## Segment 2a: the first trip with Rose (tour) done and home again.
+func _done_seg2a() -> bool:
+	var GS = A.GameState
+	return GS.get_flag("chapter2_tour_done") and not GS.get_flag("chapter2_with_rose") \
+		and not A.CutsceneManager.is_playing()
+
+## Segment 2b: home from the tour on a Saturday at 5 PM, so dinner plays, then
+## Sunday mass the next morning, then a night's sleep ends Chapter 2.
+func _setup_seg2b() -> void:
+	_setup_ch2()
+	var GS = A.GameState
+	for f in ["chapter_card_chapter2_seen", "seen_chapter2_scene0", "chapter2_slept", "seen_chapter2_scene0b",
+			"seen_chapter2_scene1", "seen_chapter2_scene2", "seen_chapter2_scene3", "seen_chapter2_scene4",
+			"chapter2_tour_done", "map_open_market", "got_kalibo_map", "tutorial_ch2_map_done"]:
+		GS.set_flag(f)
+	for q in ["q011", "q012", "q013"]:
+		A.QuestManager.complete_quest_silently(q)
+	var DN = root.get_node("DayNightManager")
+	while DN.get_date()["weekday"] != 6:
+		GS.date_unix += 86400
+	DN.set_hour(17.0)
+
+## Segment 2b: Chapter 3's morning brief has started.
+func _done_seg2b() -> bool:
+	return _started_cutscenes.has("chapter3_scene0")
+
+## Segment 3: Chapter 3, with Chapter 4 treated as out so its brief can start.
+func _setup_seg3() -> void:
+	_setup_ch3()
+	_make_available("chapter4")
+
+## Segment 3: Chapter 4's morning brief has started.
+func _done_seg3() -> bool:
+	return _started_cutscenes.has("chapter4_scene0")
+
+## Marks a chapter available for this run only (its brief waits for chapters.json).
+func _make_available(chapter_id: String) -> void:
+	for ch in A.ChapterCard.get_chapters():
+		if ch.get("id", "") == chapter_id:
+			ch["available"] = true
+
+## Evening scene with Jobert and Jonabel played.
+func _done_ch4() -> bool:
+	return A.GameState.get_flag("chapter4_complete") and not A.CutsceneManager.is_playing()
 
 # --- driving ------------------------------------------------------------------
 func _game() -> Node:
@@ -395,7 +492,7 @@ func _wait(ms: int) -> bool:
 func _drive() -> void:
 	var now := Time.get_ticks_msec()
 	if (now - _t0) / 1000.0 > opts.budget:
-		_add_finding("stuck", "time budget (%ds) ran out before chapter %d finished" % [int(opts.budget), _current_chapter()])
+		_add_finding("stuck", "time budget (%ds) ran out before chapter %s finished" % [int(opts.budget), str(_current_chapter())])
 		_finish("time budget reached")
 		return
 	if Engine.time_scale < opts.speed:
@@ -407,8 +504,8 @@ func _drive() -> void:
 		_hold_dir(Vector2i.ZERO)  # stop where we are; the walk picks up again after
 		return
 	# Chapter finished?
-	if _chapter_i < _chapters.size() and call(CHAPTERS[_chapters[_chapter_i]].done):
-		_p("CHAPTER %d COMPLETE" % _chapters[_chapter_i])
+	if _chapter_i < _chapters.size() and call(_spec(_chapters[_chapter_i]).done):
+		_p("CHAPTER %s COMPLETE" % str(_chapters[_chapter_i]))
 		_chapter_i += 1
 		if _chapter_i >= _chapters.size():
 			_finish("all requested chapters played")
@@ -739,7 +836,7 @@ func _act() -> void:
 			_p("NOTHING TO DO: walking to bed in %s" % bed_level.get_file())
 			_route_target = bed_level
 		return
-	_add_finding("stuck", "auto-player found nothing left to do before chapter %d's finish line" % _current_chapter())
+	_add_finding("stuck", "auto-player found nothing left to do before chapter %s's finish line" % str(_current_chapter()))
 	_finish("no more actions found")
 
 # --- navigation: real input ------------------------------------------------------
@@ -900,10 +997,14 @@ func _nav_tick() -> void:
 				_nav_clear()
 
 func _act_interact(player: Node2D, now: int) -> void:
-	var ic: Node = _nav.ic
-	if not is_instance_valid(ic):
+	# Untyped first: assigning a freed NPC (left on its schedule) to a typed var errors
+	# before the validity check can run.
+	var target = _nav.get("ic")
+	if not is_instance_valid(target):
+		_p("  (target gone: %s)" % _nav.get("name", "?"))
 		_nav_clear()
 		return
+	var ic: Node = target
 	if not ic._in_range:
 		if _nav.phase != "wait_range":
 			_nav.phase = "wait_range"

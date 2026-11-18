@@ -27,7 +27,7 @@
 		"id": "chapter4",
 		"number": 4,
 		"title": "Roots of Bakhawan",
-		"available": false,
+		"available": true,
 		"description": "Explore the Bakhawan Eco-Park with its caretaker, Manong Ambo. Learn how mangrove roots protect the town from storms, then try fishing.",
 		"learn": "Nature words and action words"
 	},

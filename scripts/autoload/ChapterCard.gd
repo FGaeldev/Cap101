@@ -68,14 +68,17 @@ func show_if_new(chapter_id: String) -> bool:
 
 ## One-off notes on the same card, shown once per save ("note_<id>_seen").
 ## story_so_far: after the last finished chapter, so players don't wait for a
-## quest that isn't built yet (v0.1.19 playtest). Update its date and text when
-## Chapter 4 ships, and point "after_flag" at the new last chapter.
+## quest that isn't built yet (v0.1.19 playtest). When the next chapter ships,
+## point "after_flag" at the new last chapter, update the text, give it a new
+## "seen_flag" (so saves that saw the old note see this one), and move the
+## chapter_card step to that chapter's last cutscene.
 const NOTES: Dictionary = {
 	"story_so_far": {
-		"after_flag": "chapter3_complete",
-		"heading": "Chapter 3 complete",
+		"after_flag": "chapter4_complete",
+		"seen_flag": "note_story_so_far_ch4_seen",
+		"heading": "Chapter 4 complete",
 		"title": "That's the story so far",
-		"body": "Chapter 4, Roots of Bakhawan, is on its way.\nEstimated: November 19, 12 noon.\nFollow @fgaeldevnew for updates.",
+		"body": "Chapter 5, Hala Bira!, is on its way.\nFollow @fgaeldevnew for updates.",
 		"footer": "Until then, you can still learn new words by talking to people around town.",
 	},
 }
@@ -85,7 +88,7 @@ const NOTES: Dictionary = {
 ## leaves the screen black, so the caller fades back in.
 func show_note_if_new(note_id: String) -> bool:
 	var note: Dictionary = NOTES.get(note_id, {})
-	var flag: String = "note_%s_seen" % note_id
+	var flag: String = str(note.get("seen_flag", "note_%s_seen" % note_id))
 	if note.is_empty() or GameState.skips_cards() or GameState.get_flag(flag) or visible:
 		return false
 	if not GameState.get_flag(str(note.get("after_flag", ""))):

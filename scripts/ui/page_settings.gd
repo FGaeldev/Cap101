@@ -37,6 +37,7 @@ func _ready() -> void:
 	sfx_slider.value_changed.connect(func(v: float): AudioManager.set_sfx_volume(v / 100.0))
 	dev_mode_toggle.toggled.connect(_on_dev_mode_toggled)
 	_build_ui_scale_row()
+	_build_movement_row()
 	UIThemeApplier.apply_button_theme(quit_btn, "danger")
 	quit_btn.pressed.connect(func(): BookUI.confirm_exit_to_menu())
 	_build_instructions_button()
@@ -62,6 +63,9 @@ func refresh() -> void:
 	sfx_slider.set_value_no_signal(_bus_percent(AudioManager.SFX_BUS))
 	for i in UIScale.OPTIONS.size():
 		ui_scale_row.get_child(i).set_pressed_no_signal(UIScale.OPTIONS[i] == UIScale.value)
+	if _movement_row:
+		for btn: Button in _movement_row.get_children():
+			btn.set_pressed_no_signal(btn.get_meta("kind") == Accessibility.movement_controls)
 	# separated menus: Exit to menu lives on the pause menu instead.
 	quit_btn.visible = not BookUI.is_main_menu_context() and not BookUI.separate_menus
 
@@ -103,6 +107,39 @@ func _build_ui_scale_row() -> void:
 		btn.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
 		btn.pressed.connect(UIScale.set_value.bind(option))
 		ui_scale_row.add_child(btn)
+
+var _movement_row: HBoxContainer = null
+
+## "Movement controls": joystick or D-pad (Accessibility, shown by the HUD).
+## Placed right under the UI scale row.
+func _build_movement_row() -> void:
+	var rows: Node = ui_scale_row.get_parent()
+	var label := Label.new()
+	label.text = "Movement controls"
+	label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
+	label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_M)
+	_movement_row = HBoxContainer.new()
+	_movement_row.add_theme_constant_override("separation", ui_scale_row.get_theme_constant("separation"))
+	var group := ButtonGroup.new()
+	for kind: String in Accessibility.MOVEMENT_OPTIONS:
+		var btn := Button.new()
+		btn.text = Accessibility.MOVEMENT_OPTIONS[kind]
+		btn.toggle_mode = true
+		btn.button_group = group
+		btn.set_meta("kind", kind)
+		btn.custom_minimum_size = Vector2(72, 24)
+		UIThemeApplier.apply_button_theme(btn, "primary")
+		btn.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
+		btn.button_pressed = kind == Accessibility.movement_controls
+		btn.pressed.connect(func():
+			AudioManager.play_sfx("menu_click")
+			Accessibility.set_movement_controls(kind))
+		_movement_row.add_child(btn)
+	var at := ui_scale_row.get_index() + 1
+	rows.add_child(label)
+	rows.move_child(label, at)
+	rows.add_child(_movement_row)
+	rows.move_child(_movement_row, at + 1)
 
 ## A bus's volume as the sliders' 0-100.
 func _bus_percent(bus_name: String) -> float:

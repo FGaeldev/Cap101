@@ -1,0 +1,5 @@
+[
+	{"type": "move_npc", "actor": "Rose", "direction": "up", "tiles": 0, "face": "up"},
+	{"type": "dialogue", "chapter": "chapter4", "scene": "scene_4_vocabulary_practice_round_nature_and_actions"},
+	{"type": "set_flag", "flag": "seen_chapter4_scene4", "value": true}
+]
