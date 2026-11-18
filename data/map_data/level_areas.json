@@ -22,6 +22,5 @@
 	"res://scenes/world/haboean/haboean_gallery.tscn": "haboean",
 	"res://scenes/world/bakhawan/bakhawan_outdoors.tscn": "bakhawan_ecopark",
 	"res://scenes/world/bakhawan/bakhawan_indoors.tscn": "bakhawan_ecopark",
-	"res://scenes/world/bakhawan/bakhawan_trail.tscn": "bakhawan_ecopark",
-	"res://scenes/world/bakhawan/bakhawan_tree.tscn": "bakhawan_ecopark"
+	"res://scenes/world/bakhawan/bakhawan_trail.tscn": "bakhawan_ecopark"
 }

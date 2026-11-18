@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" path="res://assets/tilesets/bakhawan_eco.png" id="5_w63o3"]
 [ext_resource type="PackedScene" path="res://scenes/entities/furniture/warp_area.tscn" id="6_0o2ua"]
 [ext_resource type="Script" path="res://scripts/components/comp_warp.gd" id="7_7gpi0"]
+[ext_resource type="Script" path="res://scripts/entities/examinable.gd" id="examinable_gd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_88xse"]
 size = Vector2(32, 16)
@@ -311,3 +312,30 @@ position = Vector2(96, 160)
 position = Vector2(128, 80)
 
 [node name="SceneMarkers" type="Node2D" parent="." unique_id=1769189845]
+
+[node name="Examinables" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="KasamaBoard" type="Node2D" parent="Examinables"]
+position = Vector2(88, 72)
+script = ExtResource("examinable_gd")
+scene_key = "examine_centre_board"
+area_size = Vector2(48, 16)
+
+[node name="TrailMap" type="Node2D" parent="Examinables"]
+position = Vector2(192, 104)
+script = ExtResource("examinable_gd")
+scene_key = "examine_trail_map"
+area_size = Vector2(32, 16)
+
+[node name="Propagules" type="Node2D" parent="Examinables"]
+position = Vector2(192, 136)
+script = ExtResource("examinable_gd")
+scene_key = "examine_propagules"
+area_size = Vector2(32, 16)
+
+[node name="Guestbook" type="Node2D" parent="Examinables"]
+position = Vector2(40, 152)
+script = ExtResource("examinable_gd")
+scene_key = "examine_guestbook"
+area_size = Vector2(16, 16)

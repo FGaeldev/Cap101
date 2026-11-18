@@ -1,6 +1,7 @@
 [
 	{"type": "fade", "direction": "out", "duration": 0.8},
 	{"type": "advance_clock", "to_hour": 17.5},
+	{"type": "hold_clock", "value": true},
 	{"type": "move_npc", "actor": "player", "from": "Ch4/S5_Player", "direction": "down", "tiles": 0, "face": "down"},
 	{"type": "move_npc", "actor": "Papa Jobert", "from": "Ch4/S5_Jobert", "direction": "down", "tiles": 0, "face": "down"},
 	{"type": "move_npc", "actor": "Rose", "from": "Ch4/S5_Rose", "direction": "down", "tiles": 0, "face": "down"},
@@ -9,6 +10,7 @@
 	{"type": "wait", "seconds": 2.0},
 	{"type": "move_npc", "actor": "Rose", "direction": "up", "tiles": 0, "face": "right"},
 	{"type": "dialogue", "chapter": "chapter4", "scene": "scene_5_home_now"},
+	{"type": "hold_clock", "value": false},
 	{"type": "set_flag", "flag": "seen_chapter4_scene5", "value": true},
 	{"type": "set_flag", "flag": "story_done_ch4_ambo", "value": true},
 	{"type": "set_flag", "flag": "chapter4_at_bakhawan", "value": false},

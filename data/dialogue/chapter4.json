@@ -919,5 +919,142 @@
 			"next": null,
 			"word_ids": []
 		}
+	],
+	"examine_kasama_plaque": [
+		{
+			"type": "start_router",
+			"start_index_if_flag": {
+				"default": 1
+			}
+		},
+		{
+			"type": "dialogue",
+			"speaker": "",
+			"text": "KASAMA: Kalibo Save the Mangroves Association.",
+			"next": 2,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "",
+			"text": "Planted 1990 on 50 hectares of mudflat. Today: 220.",
+			"next": null,
+			"word_ids": []
+		}
+	],
+	"examine_trail_sign": [
+		{
+			"type": "start_router",
+			"start_index_if_flag": {
+				"default": 1
+			}
+		},
+		{
+			"type": "dialogue",
+			"speaker": "",
+			"text": "Boardwalk to the sea. Stay on the bamboo.",
+			"next": 2,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "",
+			"text": "Do not cut the mangroves.",
+			"next": null,
+			"word_ids": []
+		}
+	],
+	"examine_watchtower": [
+		{
+			"type": "start_router",
+			"start_index_if_flag": {
+				"default": 1
+			}
+		},
+		{
+			"type": "dialogue",
+			"speaker": "",
+			"text": "A bamboo watchtower. From the top the forest runs all the way to the sea.",
+			"next": null,
+			"word_ids": []
+		}
+	],
+	"examine_centre_board": [
+		{
+			"type": "start_router",
+			"start_index_if_flag": {
+				"default": 1
+			}
+		},
+		{
+			"type": "dialogue",
+			"speaker": "",
+			"text": "Bakhawan Eco-Park. Planting began in January 1990 on reclaimed mudflat in New Buswang.",
+			"next": 2,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "",
+			"text": "It was planted to stop floods and storm surges. Fishers of KASAMA still look after it.",
+			"next": null,
+			"word_ids": []
+		}
+	],
+	"examine_trail_map": [
+		{
+			"type": "start_router",
+			"start_index_if_flag": {
+				"default": 1
+			}
+		},
+		{
+			"type": "dialogue",
+			"speaker": "",
+			"text": "Trail map: from the gate the boardwalk winds through the mangroves, past a rest island, out to the sea.",
+			"next": null,
+			"word_ids": []
+		}
+	],
+	"examine_propagules": [
+		{
+			"type": "start_router",
+			"start_index_if_flag": {
+				"default": 1
+			}
+		},
+		{
+			"type": "dialogue",
+			"speaker": "",
+			"text": "\\Bakhawan seedlings, ready to plant. They grow on the tree, then drop into the mud and take root.",
+			"next": 2,
+			"word_ids": [
+				"w339"
+			]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "",
+			"text": "A label below: \\tanom, plant.",
+			"next": null,
+			"word_ids": [
+				"w225"
+			]
+		}
+	],
+	"examine_guestbook": [
+		{
+			"type": "start_router",
+			"start_index_if_flag": {
+				"default": 1
+			}
+		},
+		{
+			"type": "dialogue",
+			"speaker": "",
+			"text": "A guestbook. Visitors from all over Aklan, and further, have signed it.",
+			"next": null,
+			"word_ids": []
+		}
 	]
 }
