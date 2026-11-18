@@ -45,17 +45,19 @@
 		]
 	},
 	"fishing": {
-		"title": "Fishing",
-		"goal": "Catch something off the pier, then name your catch in Akeanon.",
+		"title": "Fishing for Words",
+		"goal": "Catch the fish carrying the right answer before time runs out.",
 		"steps": [
-			"Watch the red bobber on the water.",
-			"When it dips and shows \"!\", tap Reel in (or press Space or Enter).",
-			"Too early or too late, and the fish swims off.",
-			"If you catch something, tap its Akeanon name (or press 1, 2 or 3)."
+			"Read the question at the top. Some ask what an Akeanon word means, others ask for the Akeanon word.",
+			"Each fish carries an answer on a little board. Tap the fish with the right one (or press 1 to 4, top to bottom).",
+			"A right answer catches the fish, adds points and 2 seconds, and brings the next question.",
+			"A wrong answer takes 3 seconds and shows the right fish, then a new question comes.",
+			"When time runs out you see your score and the words to remember."
 		],
 		"tips": [
-			"You get three casts. Name two catches right to pass.",
-			"Each catch you name right raises how well you know that word."
+			"Answers in a row build a combo that multiplies your points.",
+			"Early on the fish are slow, and they stop while your finger is on the water.",
+			"Each word you get right raises how well you know it."
 		]
 	},
 	"habi_habi": {

@@ -76,16 +76,6 @@ func _load_icons() -> void:
 
 func has_icon(icon: String) -> bool:
 	return _cells.has(icon)
-
-## One icon from the sheet as its own texture (the fishing panel's catches), or null.
-func icon_texture(icon: String) -> Texture2D:
-	if _sheet == null or not _cells.has(icon):
-		return null
-	var atlas := AtlasTexture.new()
-	atlas.atlas = _sheet
-	atlas.region = Rect2(int(_cells[icon]) * _cell, 0, _cell, _cell)
-	return atlas
-
 # --- dialogue lines -------------------------------------------------------------
 
 ## Called for every dialogue line as it appears. Notes the line's pictures;

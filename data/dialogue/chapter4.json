@@ -453,23 +453,26 @@
 		{
 			"type": "minigame_trigger",
 			"minigame_type": "fishing",
-			"catch_pool": [
+			"word_pool": [
 				"w091",
-				"w355"
-			],
-			"catch_icons": {
-				"w091": "fish",
-				"w355": "crab"
-			},
-			"distractors": [
-				"w350",
-				"w349",
+				"w355",
 				"w238",
 				"w233",
-				"w026"
+				"w026",
+				"w062",
+				"w037",
+				"w349",
+				"w350",
+				"w339",
+				"w225",
+				"w030",
+				"w145",
+				"w144",
+				"w135",
+				"w149",
+				"w143"
 			],
-			"casts": 3,
-			"pass_count": 2,
+			"pass_count": 5,
 			"success": 11,
 			"failure": 14
 		},

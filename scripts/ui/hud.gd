@@ -212,6 +212,7 @@ func _process(_delta: float) -> void:
 	# Full-screen panels (newspaper, crossword, word search) have their own exit
 	# and need the corners HUD draws in. Toasts stay, so new words still show.
 	var fullscreen: bool = DialogueUI.is_fullscreen_active()
+	toasts.visible = not DialogueUI.hides_toasts()  # queued toasts show once it closes
 	clock_panel.visible = not fullscreen
 	_wallet_panel.visible = not fullscreen and _wallet_shown()
 	_update_fast_forward(fullscreen)
