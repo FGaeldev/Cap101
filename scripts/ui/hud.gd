@@ -67,6 +67,12 @@ const FULLSCREEN_COLUMN_TOP: float = 38.0
 @onready var tier_fill: ProgressBar = $TierBar/Row/Fill
 @onready var joystick: Control = $VirtualJoystick
 @onready var interact_button: Button = $InteractButton
+## The D-pad alternative to the joystick (Settings > Movement controls). Built in
+## code over the joystick's ring, so both sit in the same spot under the thumb.
+var dpad: Control = null
+const DPadScript := preload("res://scripts/ui/dpad.gd")
+## D-pad size, centred where the joystick's ring is drawn.
+const DPAD_SIZE: float = 112.0
 
 # -- separated menus --
 const MenuStyle := preload("res://scripts/ui/menus/menu_style.gd")
@@ -155,7 +161,9 @@ func _ready() -> void:
 	joystick.set_meta("tutorial_arrow_margin", JOYSTICK_RING_MARGIN)
 	# Taps on the ring must not reach world objects under it (Comp_Interactable).
 	joystick.add_to_group(InteractableComponent.TOUCH_BLOCKER_GROUP)
-	TutorialManager.register_target("joystick", joystick)
+	_build_dpad()
+	Accessibility.changed.connect(_apply_movement_controls)
+	_apply_movement_controls()
 	TutorialManager.register_target("interact_button", interact_button)
 	_build_separated_menu_controls()
 	BookUI.separate_menus_changed.connect(_apply_menu_mode)
@@ -166,6 +174,30 @@ func _ready() -> void:
 	# A save that finished the story before the "story so far" note existed.
 	ChapterCard.show_note_on_load.call_deferred("story_so_far")
 
+## The D-pad, centred on the joystick's ring (bottom-left), hidden until chosen.
+func _build_dpad() -> void:
+	dpad = DPadScript.new()
+	dpad.name = "DPad"
+	var center: Vector2 = Vector2((joystick.offset_left + joystick.offset_right) / 2.0,
+			(joystick.offset_top + joystick.offset_bottom) / 2.0)
+	dpad.anchor_top = 1.0
+	dpad.anchor_bottom = 1.0
+	dpad.offset_left = center.x - DPAD_SIZE / 2.0
+	dpad.offset_right = center.x + DPAD_SIZE / 2.0
+	dpad.offset_top = center.y - DPAD_SIZE / 2.0
+	dpad.offset_bottom = center.y + DPAD_SIZE / 2.0
+	dpad.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	dpad.visible = false
+	# Taps on the pad must not reach world objects under it (Comp_Interactable).
+	dpad.add_to_group(InteractableComponent.TOUCH_BLOCKER_GROUP)
+	add_child(dpad)
+	move_child(dpad, joystick.get_index() + 1)
+
+## Shows the chosen movement control; the tutorial's "move" arrow points at it.
+func _apply_movement_controls() -> void:
+	var active: Control = dpad if Accessibility.uses_dpad() else joystick
+	TutorialManager.register_target("joystick", active)
+
 func _process(_delta: float) -> void:
 	var overlay: bool = _is_overlay_active()
 	# Controls hidden whenever any overlay (BookUI, dialogue, quest/challenge/
@@ -173,7 +205,9 @@ func _process(_delta: float) -> void:
 	# and a stray visible joystick/button over a popup reads as a bug.
 	# The menu button is the exception: always shown, so the Book is always
 	# reachable on touch devices (BookUI itself draws over it when open).
-	joystick.visible = not overlay
+	var use_dpad: bool = Accessibility.uses_dpad()
+	joystick.visible = not overlay and not use_dpad
+	dpad.visible = not overlay and use_dpad
 	_update_interact_button(overlay)
 	# Full-screen panels (newspaper, crossword, word search) have their own exit
 	# and need the corners HUD draws in. Toasts stay, so new words still show.
