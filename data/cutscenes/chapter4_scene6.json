@@ -1,0 +1,6 @@
+[
+	{"type": "dialogue", "chapter": "chapter4", "scene": "scene_6_evening_home"},
+	{"type": "set_flag", "flag": "seen_chapter4_scene6", "value": true},
+	{"type": "complete_quest", "quest_id": "q019"},
+	{"type": "set_flag", "flag": "chapter4_complete", "value": true}
+]

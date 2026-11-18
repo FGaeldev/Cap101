@@ -21,6 +21,23 @@ Prepared 2026-11-16 from the working tree (on top of commit `7b452d0`, with the 
 | Tooling | `autoplay.gd` `CHAPTERS` has 1–3; Ch2 "done" needs `_bakhawan_went`. `page_dev.gd` has a "Ch4 — Bakhawan" warp using Ch2 flags, no `CH4_START_FLAGS` | |
 | Open bugs | tracker B5 (`map_open_bakhawan` never set), B7 (indoors and tree scenes have no `DefaultSpawn`), area-mapping bug (`current_area` stays `bakhawan_ecopark` after the trip home) | fix B7 with the indoor build |
 
+## Build status (2026-11-18, branch `feature/chapter4`)
+
+The chapter plays from the morning brief to the evening at home. `chapters.json` still has `"available": false`; the brief only starts once that flips (or in dev mode, and in the Ch4 autoplay run).
+
+| Piece | Done | Left |
+|---|---|---|
+| Dialogue | `chapter4.json` rewritten from the reviewed storyboard: scenes 0–6, `\` markers, translations, word ids, rapport, quiz (2.9), fishing (3.8), memory match (4.6) | `idle_pool_manong_ambo` (no lines written yet; Ambo falls back to generated idle talk) |
+| Word bank | w339–w365 added (area `chapter4`, `verified: false`, glosses taken from the confirmed translations); w223 spelled `tan-awa`; w118 `kundi` glossed | confirm the new glosses |
+| Quests | **q017–q019** (q010–q016 were already taken by Ch1–2, so the plan's q009–q011 moved) | |
+| Keepsake | `col_mangrove_seedling` (flag `planted_mangrove`), item `mangrove_seedling` | |
+| Ambo | `npc_Ambo.tscn` uses the unused `Elder_sprite.png` as a stand-in | his own walk sprite (salakot, green shirt, like `ambo_art.png`) |
+| Maps | Three scenes, entered outdoor → indoor → outdoor: **plaza** `bakhawan_outdoors` (front door now opens; mangrove trees on its grass) → **visitor centre** `bakhawan_indoors` (12 × 11: desk, shelf, KASAMA board, trail map, propagules, guestbook; back door to the trail, staff door locked) → **trail** `bakhawan_trail` (40 × 64: gate and kiosks on land, boardwalk through the mangroves, roots platform, staircase, rest island with huts and watchtower, T-deck over the sea with the pier at the east end, sand spit with cottages and the planting row at the west end). The trail is its own scene rather than the plaza extended north, so the only way in is through the building. Both new maps and `assets/tilesets/bakhawan.tres` are built by `art_requests/tools/build_bakhawan_maps.gd.txt` from the placeholder sheet (`assets/tilesets/bakhawan_eco.png`, a copy of `art_requests/bakhawan_sprites_template.png`). Mangrove trees are six big tiles in that sheet (two 3×3, two 2×3, two 2×2 saplings, drawn by `art_requests/tools/gen_mangrove_tiles.gd.txt`), placed as one cell each on a y-sorted `Mangroves` tile layer in the trail and the plaza, not as nodes; `bakhawan_tree.tscn` is no longer used | real art: redraw over the sheet in the same positions and rerun the builder; examinables (KASAMA plaque, signs, watchtower pan) |
+| Flow | brief in `aklan_living.gd`; Jobert joins the existing Bakhawan walk legs (`if_flag chapter4_going_bakhawan`); plaza → centre → trail by `chapter4_arrive`, `chapter4_walk_centre_in`, `chapter4_arrive_gate`; `bakhawan_trail.gd` plays each beat when the player walks to its spot (arrow + `walk_goal()`); sunset sets the clock to 17:30 and walks everyone back out (`chapter4_walk_centre_out`, `chapter4_walk_plaza_out`) and home; the family waits up for the evening scene in `aklan_living.gd` | clock isn't paused during the sunset scene |
+| Fishing | `scripts/ui/fishing_panel.gd` (3 casts, tap on the bite, name the catch from 3 words), help topic `fishing`, crab icon added to the bubble sheet | |
+| Tooling | dev tab: "Ch4 — Morning brief", "Game — Fishing"; autoplay `CHAPTERS[4]`; Ch2 autoplay no longer needs the Bakhawan trip | |
+| Release | | flip `available`; update the Ch3 "story so far" note and quest q016, which still say Chapter 4 is coming |
+
 ## Decisions (decided 2026-11-16, all as recommended)
 
 1. **The Ch2 Bakhawan trip.** Bakhawan is already a free Ch2 trip with nothing in it. Recommended: take "Can we go to Bakhawan?" out of Rose's Ch2 menu, so the first real visit is Chapter 4, and drop `_bakhawan_went` from autoplay's Ch2 "done". Keep and reuse the Ch2 walk cutscenes. Alternative: keep the trip and have Rose say Manong Ambo is away until "tomorrow".

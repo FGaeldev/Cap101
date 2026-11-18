@@ -5,7 +5,8 @@
 		"uga": {"name": "Dried fish", "akeanon_word_id": "w249", "kind": "good", "base_price": 6, "sellable": true},
 		"isda": {"name": "Fish", "akeanon_word_id": "w091", "kind": "good", "base_price": 22, "sellable": true},
 		"tubi": {"name": "Water", "akeanon_word_id": "w233", "kind": "good", "base_price": 3, "sellable": true},
-		"pina_bookmark": {"name": "Piña bookmark", "akeanon_word_id": "", "kind": "keepsake", "base_price": 0, "sellable": false, "collection_id": "col_pina_bookmark"}
+		"pina_bookmark": {"name": "Piña bookmark", "akeanon_word_id": "", "kind": "keepsake", "base_price": 0, "sellable": false, "collection_id": "col_pina_bookmark"},
+		"mangrove_seedling": {"name": "Mangrove seedling", "akeanon_word_id": "w339", "kind": "keepsake", "base_price": 0, "sellable": false, "collection_id": "col_mangrove_seedling"}
 	},
 	"shops": {
 		"pedring": {

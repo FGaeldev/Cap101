@@ -1,0 +1,21 @@
+[
+	{"type": "fade", "direction": "out", "duration": 0.8},
+	{"type": "advance_clock", "to_hour": 17.5},
+	{"type": "move_npc", "actor": "player", "from": "Ch4/S5_Player", "direction": "down", "tiles": 0, "face": "down"},
+	{"type": "move_npc", "actor": "Papa Jobert", "from": "Ch4/S5_Jobert", "direction": "down", "tiles": 0, "face": "down"},
+	{"type": "move_npc", "actor": "Rose", "from": "Ch4/S5_Rose", "direction": "down", "tiles": 0, "face": "down"},
+	{"type": "fade", "direction": "in", "duration": 1.2},
+	{"type": "dialogue", "chapter": "chapter4", "scene": "scene_5_reflection"},
+	{"type": "wait", "seconds": 2.0},
+	{"type": "move_npc", "actor": "Rose", "direction": "up", "tiles": 0, "face": "right"},
+	{"type": "dialogue", "chapter": "chapter4", "scene": "scene_5_home_now"},
+	{"type": "set_flag", "flag": "seen_chapter4_scene5", "value": true},
+	{"type": "set_flag", "flag": "story_done_ch4_ambo", "value": true},
+	{"type": "set_flag", "flag": "chapter4_at_bakhawan", "value": false},
+	{"type": "set_flag", "flag": "chapter2_at_bakhawan", "value": false},
+	{"type": "set_flag", "flag": "chapter2_walking_home", "value": true},
+	{"type": "game_speed", "scale": 2.0},
+	{"type": "conga", "join": "nearest_x", "leader": "Rose", "followers": ["Papa Jobert", "player"], "path_to": "Warps/ToCentre", "gap": 2, "speed": 48, "despawn": true},
+	{"type": "fade", "direction": "out", "duration": 0.6},
+	{"type": "load_scene", "scene_path": "res://scenes/world/bakhawan/bakhawan_indoors.tscn"}
+]

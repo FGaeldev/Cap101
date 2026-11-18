@@ -1,0 +1,97 @@
+[gd_resource type="TileSet" format=3 uid="uid://bc71v24foo31o"]
+
+[ext_resource type="Texture2D" uid="uid://dbgvcxk2teler" path="res://assets/tilesets/bakhawan_eco.png" id="1_tfhev"]
+[ext_resource type="Texture2D" uid="uid://dbhy4oimu58g1" path="res://assets/pastrana/pastrana_outdoors.png" id="2_6bnrb"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mlw8v"]
+texture = ExtResource("1_tfhev")
+39:39/0 = 0
+39:39/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+13:13/animation_columns = 4
+13:13/animation_frame_0/duration = 0.35
+13:13/animation_frame_1/duration = 0.35
+13:13/animation_frame_2/duration = 0.35
+13:13/animation_frame_3/duration = 0.35
+13:13/0 = 0
+22:13/animation_columns = 2
+22:13/animation_frame_0/duration = 0.6
+22:13/animation_frame_1/duration = 0.6
+22:13/0 = 0
+22:14/animation_columns = 2
+22:14/animation_frame_0/duration = 0.6
+22:14/animation_frame_1/duration = 0.6
+22:14/0 = 0
+18:13/0 = 0
+19:13/0 = 0
+1:13/0 = 0
+2:13/0 = 0
+30:13/0 = 0
+31:13/0 = 0
+32:13/0 = 0
+34:13/0 = 0
+35:13/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+1:19/0 = 0
+2:19/0 = 0
+1:20/0 = 0
+2:20/0 = 0
+3:19/0 = 0
+4:19/0 = 0
+3:20/0 = 0
+4:20/0 = 0
+6:19/0 = 0
+7:19/0 = 0
+6:20/0 = 0
+7:20/0 = 0
+8:19/0 = 0
+9:19/0 = 0
+8:20/0 = 0
+9:20/0 = 0
+10:19/0 = 0
+11:19/0 = 0
+10:20/0 = 0
+11:20/0 = 0
+12:19/0 = 0
+13:19/0 = 0
+12:20/0 = 0
+13:20/0 = 0
+15:19/0 = 0
+16:19/0 = 0
+15:20/0 = 0
+16:20/0 = 0
+17:19/0 = 0
+18:19/0 = 0
+17:20/0 = 0
+18:20/0 = 0
+19:19/0 = 0
+20:19/0 = 0
+19:20/0 = 0
+20:20/0 = 0
+8:34/size_in_atlas = Vector2i(3, 3)
+8:34/0 = 0
+8:34/0/texture_origin = Vector2i(0, 16)
+11:34/size_in_atlas = Vector2i(3, 3)
+11:34/0 = 0
+11:34/0/texture_origin = Vector2i(0, 16)
+14:34/size_in_atlas = Vector2i(2, 3)
+14:34/0 = 0
+14:34/0/texture_origin = Vector2i(0, 16)
+16:34/size_in_atlas = Vector2i(2, 3)
+16:34/0 = 0
+16:34/0/texture_origin = Vector2i(0, 16)
+18:35/size_in_atlas = Vector2i(2, 2)
+18:35/0 = 0
+18:35/0/texture_origin = Vector2i(0, 8)
+20:35/size_in_atlas = Vector2i(2, 2)
+20:35/0 = 0
+20:35/0/texture_origin = Vector2i(0, 8)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_b1eb7"]
+texture = ExtResource("2_6bnrb")
+0:1/0 = 0
+
+[resource]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_mlw8v")
+sources/1 = SubResource("TileSetAtlasSource_b1eb7")

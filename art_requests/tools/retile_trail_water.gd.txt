@@ -1,0 +1,210 @@
+extends SceneTree
+# Re-tiles the water in bakhawan_trail.tscn IN PLACE, keeping everything else in
+# the scene exactly as the team saved it. Rename to .gd and run from the project root:
+#   godot --headless --path . --script art_requests/tools/retile_trail_water.gd
+#
+# What it changes (only these):
+#  - The water layers (Water0..Water6, or Sea from an earlier run) become one "Sea"
+#    layer of outdoors.tres water, tinted by assets/shaders/water_gradient.gdshader
+#    (greenish by the shore, blue out at sea), so there's no dithering.
+#  - Water cells touching land get the transition tiles (9-slice edges + inner
+#    corners, outdoors.tres cols 36-40). Transition tiles already placed by hand
+#    are kept as they are.
+#  - Under each transition, Floor gets plain sand or mud (whichever the land next
+#    to it shows on that side), so the ragged water edge shows land, not black.
+#  - "WaterCollision" (invisible bakhawan.tres blocker) on every cell that isn't
+#    land or boardwalk, so the water can't be walked on.
+# Land = a Floor cell that isn't water. Rerun it after reshaping the land.
+
+const SCENE := "res://scenes/world/bakhawan/bakhawan_trail.tscn"
+const SHEET := "res://assets/pastrana/pastrana_outdoors.png"
+const SHADER := "res://assets/shaders/water_gradient.gdshader"
+const W := 40
+const H := 64
+const WATER := Vector2i(25, 5)
+const SAND := Vector2i(23, 1)
+const MUD := Vector2i(24, 1)
+const BLOCK := Vector2i(39, 39)   # bakhawan.tres: invisible full-tile collision
+## Transition tiles (outdoors.tres): sides that are land -> tile.
+const EDGE := {
+	"NW": Vector2i(36, 0), "N": Vector2i(37, 0), "NE": Vector2i(38, 0),
+	"W": Vector2i(36, 1), "E": Vector2i(38, 1),
+	"SW": Vector2i(36, 2), "S": Vector2i(37, 2), "SE": Vector2i(38, 2),
+}
+## Inner corners: only a diagonal neighbour is land -> tile with the notch there.
+const INNER := {"NW": Vector2i(40, 1), "NE": Vector2i(39, 1), "SW": Vector2i(40, 0), "SE": Vector2i(39, 0)}
+const DIRS := {"N": Vector2i(0, -1), "S": Vector2i(0, 1), "W": Vector2i(-1, 0), "E": Vector2i(1, 0),
+	"NW": Vector2i(-1, -1), "NE": Vector2i(1, -1), "SW": Vector2i(-1, 1), "SE": Vector2i(1, 1)}
+
+var _step := 0
+var _sheet: Image
+
+func _initialize() -> void:
+	auto_accept_quit = false
+
+func _process(_d: float) -> bool:
+	_step += 1
+	if _step == 2:
+		_run()
+		quit()
+	return false
+
+func _run() -> void:
+	_sheet = (load(SHEET) as Texture2D).get_image()
+	var lvl: Node = (load(SCENE) as PackedScene).instantiate()
+	var floor_l: TileMapLayer = lvl.get_node("Floor")
+	var walk_l: TileMapLayer = lvl.get_node("Boardwalk")
+
+	# Water as it is now: every water layer, and transitions placed by hand.
+	var water := {}
+	var kept := {}
+	for n in lvl.get_children():
+		if n is TileMapLayer and (String(n.name).begins_with("Water") and String(n.name) != "WaterCollision" or n.name == &"Sea"):
+			for c in n.get_used_cells():
+				water[c] = true
+				var a: Vector2i = n.get_cell_atlas_coords(c)
+				if a != WATER and a.x >= 36:
+					kept[c] = a
+	var land := {}
+	for c in floor_l.get_used_cells():
+		if not water.has(c):
+			land[c] = true
+	print("water ", water.size(), " land ", land.size(), " hand-placed transitions ", kept.size())
+
+	var sea := TileMapLayer.new()
+	sea.tile_set = floor_l.tile_set
+	var new_floor := TileMapLayer.new()
+	new_floor.tile_set = floor_l.tile_set
+	new_floor.tile_map_data = floor_l.tile_map_data
+	var edges := 0
+	for c: Vector2i in water:
+		var tile: Vector2i = kept[c] if kept.has(c) else _pick(c, land)
+		sea.set_cell(c, 0, tile)
+		if tile == WATER:
+			continue
+		edges += 1
+		if floor_l.get_cell_source_id(c) == -1:
+			new_floor.set_cell(c, 0, _underlay(c, land, floor_l))
+	print("transitions ", edges)
+
+	var block := TileMapLayer.new()
+	block.tile_set = load("res://assets/tilesets/bakhawan.tres")
+	var blocked := 0
+	for y in H:
+		for x in W:
+			var c := Vector2i(x, y)
+			if not land.has(c) and walk_l.get_cell_source_id(c) == -1:
+				block.set_cell(c, 0, BLOCK)
+				blocked += 1
+	print("blocked ", blocked)
+
+	_write(Marshalls.raw_to_base64(sea.tile_map_data), Marshalls.raw_to_base64(new_floor.tile_map_data),
+		Marshalls.raw_to_base64(block.tile_map_data))
+
+func _is_land(c: Vector2i, land: Dictionary) -> bool:
+	return land.has(c)
+
+func _pick(c: Vector2i, land: Dictionary) -> Vector2i:
+	var n := _is_land(c + DIRS["N"], land)
+	var s := _is_land(c + DIRS["S"], land)
+	var w := _is_land(c + DIRS["W"], land)
+	var e := _is_land(c + DIRS["E"], land)
+	if (n and s) or (w and e):
+		return WATER  # a one-tile channel: no art for it
+	var key := ("N" if n else ("S" if s else "")) + ("W" if w else ("E" if e else ""))
+	if EDGE.has(key):
+		return EDGE[key]
+	for d in INNER:
+		if _is_land(c + DIRS[d], land):
+			return INNER[d]
+	return WATER
+
+## Plain sand or mud for under a transition: whatever the neighbouring land tile
+## shows on the side facing this cell (sampled from the sheet: mud is dark).
+func _underlay(c: Vector2i, land: Dictionary, floor_l: TileMapLayer) -> Vector2i:
+	for d in ["N", "S", "W", "E", "NW", "NE", "SW", "SE"]:
+		var nc: Vector2i = c + DIRS[d]
+		if not land.has(nc):
+			continue
+		var a := floor_l.get_cell_atlas_coords(nc)
+		var off: Vector2i = DIRS[d]
+		# pixel in the neighbour tile on the edge nearest this cell
+		var px := Vector2i(a.x * 16 + (8 - off.x * 7), a.y * 16 + (8 - off.y * 7))
+		px = px.clamp(Vector2i(a.x * 16, a.y * 16), Vector2i(a.x * 16 + 15, a.y * 16 + 15))
+		var col := _sheet.get_pixelv(px)
+		return MUD if col.get_luminance() < 0.5 else SAND
+	return SAND
+
+# --- writing: text surgery on the saved scene, so nothing else is re-saved ---------
+
+func _write(sea_b64: String, floor_b64: String, block_b64: String) -> void:
+	var path := ProjectSettings.globalize_path(SCENE)
+	var text := FileAccess.get_file_as_string(path)
+	var outdoors_id := _ext_id(text, "res://assets/tilesets/outdoors.tres")
+	var bakhawan_id := _ext_id(text, "res://assets/tilesets/bakhawan.tres")
+	if outdoors_id.is_empty() or bakhawan_id.is_empty():
+		push_error("tileset ext_resources not found")
+		return
+	# Shader resources (added once).
+	if not text.contains(SHADER):
+		var last_ext := text.rfind("\n[ext_resource ")
+		var eol := text.find("\n", last_ext + 1)
+		text = text.substr(0, eol) + "\n[ext_resource type=\"Shader\" path=\"%s\" id=\"sea_shader\"]" % SHADER + text.substr(eol)
+	if not text.contains("id=\"ShaderMaterial_sea\""):
+		var first_node := text.find("\n[node ")
+		text = text.substr(0, first_node) + "\n[sub_resource type=\"ShaderMaterial\" id=\"ShaderMaterial_sea\"]\nshader = ExtResource(\"sea_shader\")\nshader_parameter/near_tint = Color(0.62, 0.92, 0.66, 1)\nshader_parameter/far_tint = Color(0.74, 0.84, 1, 1)\nshader_parameter/near_y = 880.0\nshader_parameter/far_y = 0.0\n" + text.substr(first_node)
+
+	var blocks := _split(text)
+	var out: Array[String] = []
+	var sea_done := false
+	for b: String in blocks:
+		var name := _node_name(b)
+		var top_level := b.contains("parent=\".\"")
+		if top_level and (name.begins_with("Water") and name != "WaterCollision" or name == "Sea"):
+			if not sea_done:
+				out.append("[node name=\"Sea\" type=\"TileMapLayer\" parent=\".\"]\nz_index = -3\nmaterial = SubResource(\"ShaderMaterial_sea\")\ntile_map_data = PackedByteArray(\"%s\")\ntile_set = ExtResource(\"%s\")\n\n" % [sea_b64, outdoors_id])
+				out.append("[node name=\"WaterCollision\" type=\"TileMapLayer\" parent=\".\"]\nz_index = -3\ntile_map_data = PackedByteArray(\"%s\")\ntile_set = ExtResource(\"%s\")\n\n" % [block_b64, bakhawan_id])
+				sea_done = true
+			continue
+		if top_level and name == "WaterCollision":
+			continue  # replaced above
+		if top_level and name == "Floor":
+			var lines := b.split("\n")
+			for i in lines.size():
+				if lines[i].begins_with("tile_map_data = "):
+					lines[i] = "tile_map_data = PackedByteArray(\"%s\")" % floor_b64
+			b = "\n".join(lines)
+		out.append(b)
+	if not sea_done:
+		push_error("no water layers found")
+		return
+	var f := FileAccess.open(path, FileAccess.WRITE)
+	f.store_string("".join(out).rstrip("\n") + "\n")
+	f.close()
+	print("wrote ", SCENE)
+
+func _ext_id(text: String, res_path: String) -> String:
+	for line in text.split("\n"):
+		if line.begins_with("[ext_resource") and line.contains("path=\"%s\"" % res_path):
+			var i := line.find("id=\"", line.find("path=")) + 4
+			return line.substr(i, line.find("\"", i) - i)
+	return ""
+
+## The file as blocks, each starting at a "[" header line (the first is the header).
+func _split(text: String) -> Array[String]:
+	var blocks: Array[String] = []
+	var cur := ""
+	for line in text.split("\n"):
+		if line.begins_with("[") and not cur.is_empty():
+			blocks.append(cur)
+			cur = ""
+		cur += line + "\n"
+	if not cur.is_empty():
+		blocks.append(cur)
+	# each block keeps its own trailing blank line; join with "" later
+	return blocks
+
+func _node_name(block: String) -> String:
+	if not block.begins_with("[node name=\""):
+		return ""
+	return block.substr(12, block.find("\"", 12) - 12)

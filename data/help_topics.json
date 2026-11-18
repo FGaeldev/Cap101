@@ -44,6 +44,20 @@
 			"Each pair you match raises how well you know that word."
 		]
 	},
+	"fishing": {
+		"title": "Fishing",
+		"goal": "Catch something off the pier, then name your catch in Akeanon.",
+		"steps": [
+			"Watch the red bobber on the water.",
+			"When it dips and shows \"!\", tap Reel in (or press Space or Enter).",
+			"Too early or too late, and the fish swims off.",
+			"If you catch something, tap its Akeanon name (or press 1, 2 or 3)."
+		],
+		"tips": [
+			"You get three casts. Name two catches right to pass.",
+			"Each catch you name right raises how well you know that word."
+		]
+	},
 	"habi_habi": {
 		"title": "Habi-Habi",
 		"goal": "Weave a piece of cloth by spelling the words Manang Loleng calls.",

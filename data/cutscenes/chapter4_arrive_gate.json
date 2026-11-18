@@ -1,0 +1,29 @@
+[
+	{"type": "game_speed", "scale": 2.0},
+	{"type": "set_visible", "actor": "player", "value": false},
+	{"type": "spawn_npc", "actor": "Rose", "scene": "res://scenes/entities/npc_Rose.tscn", "at_marker": "FromCentre"},
+	{"type": "spawn_npc", "actor": "Papa Jobert", "scene": "res://scenes/entities/npc_PapaJobert.tscn", "at": [304, 1008]},
+	{"type": "spawn_npc", "actor": "Manong Ambo", "scene": "res://scenes/entities/npc_Ambo.tscn", "at_marker": "Ch4/Ambo_Gate"},
+	{"type": "move_npc", "actor": "player", "from": "FromCentre", "direction": "up", "tiles": 0},
+	{"type": "parallel", "actions": [
+		{"type": "fade", "direction": "in", "duration": 0.6},
+		{"type": "conga", "join": "nearest_x", "leader": "Rose", "followers": ["Papa Jobert", "player"], "path_to": "Ch4/Gate_Rose", "gap": 1, "speed": 48, "despawn": false},
+		{"type": "sequence", "actions": [{"type": "wait", "seconds": 0.5}, {"type": "set_visible", "actor": "player", "value": true}]}
+	]},
+	{"type": "game_speed", "scale": 1.0},
+	{"type": "parallel", "actions": [
+		{"type": "move_npc", "actor": "player", "to": "Ch4/Gate_Player", "avoid_actors": true, "speed": 48, "face": "right"},
+		{"type": "move_npc", "actor": "Papa Jobert", "to": "Ch4/Gate_Jobert", "avoid_actors": true, "speed": 48, "face": "right"},
+		{"type": "move_npc", "actor": "Rose", "direction": "up", "tiles": 0, "face": "right"},
+		{"type": "move_npc", "actor": "Manong Ambo", "direction": "left", "tiles": 0, "face": "left"}
+	]},
+	{"type": "dialogue", "chapter": "chapter4", "scene": "scene_1_arrival_at_the_eco_park"},
+	{"type": "set_flag", "flag": "seen_chapter4_scene1", "value": true},
+	{"type": "complete_quest", "quest_id": "q017"},
+	{"type": "game_speed", "scale": 2.0},
+	{"type": "parallel", "actions": [
+		{"type": "move_npc", "actor": "Manong Ambo", "to": "Ch4/S2_Ambo", "avoid_actors": true, "speed": 40, "face": "left"},
+		{"type": "sequence", "actions": [{"type": "wait", "seconds": 0.6}, {"type": "move_npc", "actor": "Rose", "to": "Ch4/S2_Rose", "avoid_actors": true, "speed": 40, "face": "left"}]},
+		{"type": "sequence", "actions": [{"type": "wait", "seconds": 1.2}, {"type": "move_npc", "actor": "Papa Jobert", "to": "Ch4/S2_Jobert", "avoid_actors": true, "speed": 40, "face": "left"}]}
+	]}
+]

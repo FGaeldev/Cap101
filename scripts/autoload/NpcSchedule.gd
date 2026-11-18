@@ -255,7 +255,25 @@ func _condition(name: String) -> bool:
 			return not GameState.get_flag("chapter2_tour_done")
 		"ch3_brief_pending":
 			return GameState.get_flag("chapter2_complete") and not GameState.get_flag("seen_chapter3_scene0")
+		"ch4_brief_pending":
+			return GameState.get_flag("chapter3_complete") and not GameState.get_flag("seen_chapter4_scene0") \
+					and _chapter_available("chapter4")
+		"ch4_trip":
+			return GameState.get_flag("chapter4_going_bakhawan")
+		"ch4_evening_pending":
+			# The Bakhawan walk home ends after the family's bedtime: they wait up.
+			return GameState.get_flag("seen_chapter4_scene5") and not GameState.get_flag("seen_chapter4_scene6")
 	push_error("NpcSchedule: unknown condition '%s'" % name)
+	return false
+
+## A chapter's story only starts once data/chapters.json marks it available
+## (dev mode starts it anyway, for testing a chapter before release).
+func _chapter_available(chapter_id: String) -> bool:
+	if GameState.dev_mode:
+		return true
+	for chapter: Dictionary in ChapterCard.get_chapters():
+		if chapter.get("id", "") == chapter_id:
+			return chapter.get("available", false)
 	return false
 
 func _target_room(block: Dictionary) -> String:

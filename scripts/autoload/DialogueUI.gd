@@ -25,6 +25,7 @@ const MINIGAME_SCRIPTS := {
 	"crossword": preload("res://scripts/ui/crossword_panel.gd"),
 	"word_search": preload("res://scripts/ui/word_search_panel.gd"),
 	"habi_habi": preload("res://scripts/ui/habi_habi_panel.gd"),
+	"fishing": preload("res://scripts/ui/fishing_panel.gd"),
 }
 const FULLSCREEN_MINIGAMES: Array[String] = ["crossword", "word_search", "habi_habi"]
 const NEWSPAPER_SCRIPT := preload("res://scripts/ui/newspaper_panel.gd")

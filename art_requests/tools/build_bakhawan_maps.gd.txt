@@ -1,0 +1,506 @@
+extends SceneTree
+# Builds the Bakhawan Eco-Park maps for Chapter 4 from the placeholder art sheet
+# (art_requests/bakhawan_sprites_template.png, copied to assets/tilesets/bakhawan_eco.png).
+# Rename to .gd and run from the project root:
+#   godot --headless --path . --script art_requests/tools/build_bakhawan_maps.gd
+# Writes:
+#   assets/tilesets/bakhawan.tres                tileset (water, sand, mud, boardwalk, plank floor)
+#   scenes/world/bakhawan/bakhawan_indoors.tscn  visitor centre, 12 x 11 (docs/CHAPTER4_MAP_PLAN.md §6)
+#   scenes/world/bakhawan/bakhawan_trail.tscn    gate -> mangroves -> rest island -> T-deck and sand spit, 40 x 64 (§5)
+# Way in: plaza (bakhawan_outdoors) -> visitor centre front door -> its back door -> trail.
+# When the real art lands in the same sheet positions, rerun this to rebuild both maps.
+# Tile coordinates below are cells; an actor standing on cell (c, r) has its node at (c*16, (r+1)*16).
+
+const SHEET := "res://assets/tilesets/bakhawan_eco.png"
+
+const OUTDOOR_SHEET := "res://assets/pastrana/pastrana_outdoors.png"
+const TILESET_PATH := "res://assets/tilesets/bakhawan.tres"
+const INDOORS_TS := "res://assets/tilesets/indoors.tres"
+const EDGES_TS := "res://assets/tilesets/edges.tres"
+const WARP_SCENE := "res://scenes/entities/furniture/warp_area.tscn"
+const INDOOR_PATH := "res://scenes/world/bakhawan/bakhawan_indoors.tscn"
+const TRAIL_PATH := "res://scenes/world/bakhawan/bakhawan_trail.tscn"
+const PLAZA_PATH := "res://scenes/world/bakhawan/bakhawan_outdoors.tscn"
+
+# Atlas cells in the sheet (source 0).
+const BLOCK := Vector2i(39, 39)          # empty cell: invisible water/wall collision
+const WATER := Vector2i(13, 13)          # 4 animation frames to the right
+const SHORE_TOP := Vector2i(22, 13)      # 2 frames; water with foam
+const SHORE_BOTTOM := Vector2i(22, 14)   # 2 frames; foam onto sand
+const SAND := [Vector2i(18, 13), Vector2i(19, 13)]
+const MUD := [Vector2i(1, 13), Vector2i(2, 13)]
+const ROOTS := [Vector2i(30, 13), Vector2i(31, 13), Vector2i(32, 13)]
+const SEEDLINGS := [Vector2i(34, 13), Vector2i(35, 13)]
+const PLANK_LIGHT := Vector2i(1, 2)
+const PLANK_DARK := Vector2i(2, 2)
+# Boardwalk pieces: 2x2, keyed by the sides they open to (N E S W).
+const WALK := {
+	"NS": Vector2i(1, 19), "EW": Vector2i(3, 19),
+	"NE": Vector2i(6, 19), "NW": Vector2i(8, 19), "ES": Vector2i(10, 19), "SW": Vector2i(12, 19),
+	"NES": Vector2i(15, 19), "NSW": Vector2i(17, 19), "S": Vector2i(19, 19),
+}
+const GRASS := Vector2i(0, 1)            # source 1 (pastrana_outdoors.png), same as the plaza
+
+# Trail ground and water: outdoors.tres (source 0, pastrana_outdoors.png), the team's tiles.
+const OUTDOORS_TS := "res://assets/tilesets/outdoors.tres"
+const OD_GRASS := Vector2i(0, 1)
+const OD_SAND := [Vector2i(23, 0), Vector2i(23, 1), Vector2i(23, 3)]
+const OD_MUD := [Vector2i(24, 0), Vector2i(24, 1), Vector2i(24, 3)]
+const OD_SAND_EDGE := Vector2i(23, 2)    # sand with a dark lip along the bottom
+const OD_MUD_EDGE := Vector2i(24, 2)     # mud with a dark lip along the bottom
+const OD_GRASS_IN_MUD := Vector2i(28, 0) # 3x3 9-slice: grass with a mud rim
+const OD_GRASS_MUD_TOP := Vector2i(29, 0)
+const OD_WATER := Vector2i(25, 5)
+## Water tint per band, south (mangroves, greenish) to north (open sea, blue).
+const WATER_TINTS: Array[Color] = [
+	Color(0.62, 0.92, 0.66), Color(0.66, 0.93, 0.74), Color(0.70, 0.93, 0.82), Color(0.74, 0.92, 0.89),
+	Color(0.77, 0.91, 0.95), Color(0.78, 0.88, 1.0), Color(0.74, 0.84, 1.0),
+]
+const BAYER := [[0, 8, 2, 10], [12, 4, 14, 6], [3, 11, 1, 9], [15, 7, 13, 5]]
+## Mangrove trees (art_requests/tools/gen_mangrove_tiles.gd.txt): one big tile each,
+## atlas cell -> size in cells. A tree is placed on the cell under its trunk
+## (texture_origin lifts it so its roots sit on that cell's bottom edge).
+const TREES := {
+	Vector2i(8, 34): Vector2i(3, 3), Vector2i(11, 34): Vector2i(3, 3),
+	Vector2i(14, 34): Vector2i(2, 3), Vector2i(16, 34): Vector2i(2, 3),
+	Vector2i(18, 35): Vector2i(2, 2), Vector2i(20, 35): Vector2i(2, 2),
+}
+
+# Prop art in the sheet (px).
+const ART := {
+	"desk": Rect2i(80, 32, 44, 24), "shelf": Rect2i(144, 32, 31, 24), "cabinet": Rect2i(208, 32, 16, 20),
+	"plant": Rect2i(272, 32, 12, 15), "bench": Rect2i(336, 32, 35, 12), "wallboard": Rect2i(400, 32, 43, 7),
+	"doorway": Rect2i(464, 32, 27, 18), "mapboard": Rect2i(528, 32, 32, 32), "propagules": Rect2i(592, 32, 32, 16),
+	"guestbook": Rect2i(16, 112, 16, 32),
+	"clams": Rect2i(480, 304, 32, 16), "pier": Rect2i(416, 304, 32, 48), "cottage": Rect2i(544, 304, 64, 48),
+	"hut": Rect2i(16, 400, 48, 48), "tower": Rect2i(80, 400, 64, 96), "canteen": Rect2i(160, 400, 64, 48),
+	"kiosk": Rect2i(240, 400, 64, 48), "rack": Rect2i(320, 400, 48, 32), "bags": Rect2i(384, 400, 16, 16),
+	"signpost": Rect2i(448, 400, 16, 32), "infoboard": Rect2i(512, 400, 32, 32), "gate": Rect2i(16, 544, 64, 48),
+	"young": Rect2i(96, 544, 16, 32),
+}
+
+const W := 40
+const H := 64
+
+var _step := 0
+var _sheet: Texture2D
+
+var _ts: TileSet
+var rng := RandomNumberGenerator.new()
+
+func _initialize() -> void:
+	auto_accept_quit = false
+
+func _process(_d: float) -> bool:
+	_step += 1
+	if _step == 2:
+		rng.seed = 1990
+		_sheet = load(SHEET)
+
+		_ts = _build_tileset()
+		_save(_build_indoors(), INDOOR_PATH)
+		_save(_build_trail(), TRAIL_PATH)
+		_plaza_trees()
+		quit()
+	return false
+
+func _save(root: Node, path: String) -> void:
+	var packed := PackedScene.new()
+	var err := packed.pack(root)
+	if err != OK:
+		push_error("pack failed for %s: %d" % [path, err])
+		return
+	err = ResourceSaver.save(packed, path)
+	print("saved ", path, " -> ", err)
+
+## Plaza (hand-made scene, edited as text so nothing else in it changes): the
+## mangroves on the grass behind the visitor centre become one tile layer, the last
+## node in the file. Replaces any earlier "Mangroves" block (tree instances or layer).
+const PLAZA_TREES := [[1, 3, 0], [6, 2, 2], [11, 2, 1], [15, 3, 3], [21, 2, 0], [26, 3, 2], [31, 2, 1], [36, 3, 3], [2, 10, 4], [5, 9, 5]]
+
+func _plaza_trees() -> void:
+	var layer := TileMapLayer.new()
+	layer.tile_set = _ts
+	var kinds: Array = TREES.keys()
+	for t in PLAZA_TREES:
+		layer.set_cell(Vector2i(t[0], t[1]), 0, kinds[t[2]])
+	var data := Marshalls.raw_to_base64(layer.tile_map_data)
+	layer.free()
+	var file := ProjectSettings.globalize_path(PLAZA_PATH)
+	var s := FileAccess.get_file_as_string(file)
+	var cut := s.find("\n[node name=\"Mangroves\"")
+	if cut >= 0:
+		s = s.substr(0, cut) + "\n"
+	s = s.replace("[ext_resource type=\"PackedScene\" uid=\"uid://bvq4cmi3t1v0h\" path=\"res://scenes/world/bakhawan/bakhawan_tree.tscn\" id=\"4_tree\"]\n", "")
+	var ts_line := "[ext_resource type=\"TileSet\" path=\"%s\" id=\"5_bakhawan\"]" % TILESET_PATH
+	if not s.contains(ts_line):
+		var at := s.find("\n\n[node ")
+		s = s.substr(0, at) + "\n" + ts_line + s.substr(at)
+	s = s.rstrip("\n") + "\n\n[node name=\"Mangroves\" type=\"TileMapLayer\" parent=\".\"]\ny_sort_enabled = true\ntile_map_data = PackedByteArray(\"%s\")\ntile_set = ExtResource(\"5_bakhawan\")\n" % data
+	var out := FileAccess.open(file, FileAccess.WRITE)
+	out.store_string(s)
+	out.close()
+	print("plaza trees ", PLAZA_TREES.size())
+
+# --- tileset ---------------------------------------------------------------------
+
+func _build_tileset() -> TileSet:
+	var ts := TileSet.new()
+	ts.tile_size = Vector2i(16, 16)
+	ts.add_physics_layer()
+	ts.set_physics_layer_collision_layer(0, 1)
+	var src := TileSetAtlasSource.new()
+	src.texture = _sheet
+	src.texture_region_size = Vector2i(16, 16)
+	ts.add_source(src, 0)
+	var img: Image = _sheet.get_image()
+	if not img.get_region(Rect2i(BLOCK * 16, Vector2i(16, 16))).is_invisible():
+		push_error("BLOCK cell isn't empty in the sheet")
+	_tile(src, BLOCK, true)
+	_tile(src, WATER, false, 4, 0.35)
+	_tile(src, SHORE_TOP, false, 2, 0.6)
+	_tile(src, SHORE_BOTTOM, false, 2, 0.6)
+	for c in SAND + MUD + ROOTS + SEEDLINGS + [PLANK_LIGHT, PLANK_DARK]:
+		_tile(src, c, false)
+	for key in WALK:
+		for d in [Vector2i(0, 0), Vector2i(1, 0), Vector2i(0, 1), Vector2i(1, 1)]:
+			_tile(src, WALK[key] + d, false)
+	for c: Vector2i in TREES:
+		var cells: Vector2i = TREES[c]
+		src.create_tile(c, cells)
+		# Drawn centred on the cell: lift it so the roots end at the cell's bottom edge.
+		src.get_tile_data(c, 0).texture_origin = Vector2i(0, cells.y * 8 - 8)
+	var grass := TileSetAtlasSource.new()
+	grass.texture = load(OUTDOOR_SHEET)
+	grass.texture_region_size = Vector2i(16, 16)
+	ts.add_source(grass, 1)
+	grass.create_tile(GRASS)
+	var err := ResourceSaver.save(ts, TILESET_PATH)
+	print("saved ", TILESET_PATH, " -> ", err)
+	return load(TILESET_PATH)
+
+func _tile(src: TileSetAtlasSource, c: Vector2i, solid: bool, frames: int = 1, seconds: float = 0.3) -> void:
+	src.create_tile(c)
+	if frames > 1:
+		src.set_tile_animation_columns(c, frames)
+		src.set_tile_animation_frames_count(c, frames)
+		for i in frames:
+			src.set_tile_animation_frame_duration(c, i, seconds)
+	if solid:
+		var data := src.get_tile_data(c, 0)
+		data.add_collision_polygon(0)
+		data.set_collision_polygon_points(0, 0, PackedVector2Array([Vector2(-8, -8), Vector2(8, -8), Vector2(8, 8), Vector2(-8, 8)]))
+
+# --- helpers ---------------------------------------------------------------------
+
+func _layer(root: Node, layer_name: String, ts: TileSet, z: int, ysort: bool = false) -> TileMapLayer:
+	var l := TileMapLayer.new()
+	l.name = layer_name
+	l.tile_set = ts
+	l.z_index = z
+	l.y_sort_enabled = ysort
+	root.add_child(l)
+	l.owner = root
+	return l
+
+func _node(parent: Node, root: Node, n: Node, node_name: String) -> Node:
+	n.name = node_name
+	parent.add_child(n)
+	n.owner = root
+	return n
+
+## Edge ring (edges.tres 9-slice) around cells x0..x1, y0..y1 inclusive.
+func _edge_ring(l: TileMapLayer, x0: int, y0: int, x1: int, y1: int) -> void:
+	for x in range(x0, x1 + 1):
+		l.set_cell(Vector2i(x, y0), 0, Vector2i(0 if x == x0 else (2 if x == x1 else 1), 0))
+		l.set_cell(Vector2i(x, y1), 0, Vector2i(0 if x == x0 else (2 if x == x1 else 1), 2))
+	for y in range(y0 + 1, y1):
+		l.set_cell(Vector2i(x0, y), 0, Vector2i(0, 1))
+		l.set_cell(Vector2i(x1, y), 0, Vector2i(2, 1))
+
+## A sprite prop standing on footprint cells (fx, fy, fw x fh), art centred on it
+## and sitting on its bottom edge. "solid" = cells, relative to the footprint, that collide.
+func _prop(parent: Node, root: Node, prop_name: String, art: String, fx: int, fy: int, fw: int, fh: int,
+		solid: Rect2i = Rect2i(), tex: Texture2D = null, region: Rect2i = Rect2i(), z: int = 0, lift: int = 0) -> Node2D:
+	var holder := Node2D.new()
+	_node(parent, root, holder, prop_name)
+	holder.position = Vector2(fx * 16, (fy + fh) * 16)
+	var r: Rect2i = region if region.has_area() else ART[art]
+	var s := Sprite2D.new()
+	_node(holder, root, s, "Sprite2D")
+	s.texture = tex if tex != null else _sheet
+	s.region_enabled = true
+	s.region_rect = Rect2(r)
+	s.centered = false
+	s.position = Vector2(int((fw * 16 - r.size.x) / 2.0), -r.size.y - lift)
+	s.z_index = z
+	if solid.has_area():
+		var body := StaticBody2D.new()
+		_node(holder, root, body, "Body")
+		var shape := CollisionShape2D.new()
+		_node(body, root, shape, "Shape")
+		var rect := RectangleShape2D.new()
+		rect.size = Vector2(solid.size * 16)
+		shape.shape = rect
+		shape.position = Vector2(solid.position.x * 16 + solid.size.x * 8, (solid.position.y - fh) * 16 + solid.size.y * 8)
+	return holder
+
+func _marker(parent: Node, root: Node, marker_name: String, cell: Vector2i) -> void:
+	var m := Marker2D.new()
+	_node(parent, root, m, marker_name)
+	m.position = Vector2(cell.x * 16, (cell.y + 1) * 16)
+
+## Door on cells x..x+1 of row "row", walked through in "dir" (comp_warp TriggerDirection).
+func _warp(parent: Node, root: Node, warp_name: String, x: int, row: int, dir: int, target: String, spawn: String, closed: String = "") -> void:
+	var w: Node2D = (load(WARP_SCENE) as PackedScene).instantiate()
+	_node(parent, root, w, warp_name)
+	w.position = Vector2((x + 1) * 16, row * 16 + 8)
+	w.set("trigger_direction", dir)
+	w.set("span_tiles_override", 2)
+	if not target.is_empty():
+		w.set("target_scene", target)
+		w.set("target_spawn_id", spawn)
+	if not closed.is_empty():
+		w.set("closed_message", closed)
+
+## A tree on base cell "base" (under its trunk) covers cells.x columns around it and
+## cells.y rows up to it. True if all of that, plus a 1-cell margin, is clear of
+## walkable cells and inside the map.
+func _tree_fits(walkable: Dictionary, base: Vector2i, cells: Vector2i) -> bool:
+	var x0: int = base.x - cells.x / 2
+	for yy in range(base.y - cells.y, base.y + 2):
+		for xx in range(x0 - 1, x0 + cells.x + 1):
+			if xx < 0 or xx >= W or walkable.has(Vector2i(xx, yy)):
+				return false
+	return true
+
+func _pick(list: Array, c: Vector2i):
+	return list[abs(c.x * 7 + c.y * 13) % list.size()]
+
+# --- visitor centre ----------------------------------------------------------------
+# Interior x1..12; back wall rows 1-2; floor rows 3..10; front door at the bottom
+# (x6-7), trail door in the back wall (x8-9), staff room door (x11-12) locked.
+
+func _build_indoors() -> Node2D:
+	var root := Node2D.new()
+	root.name = "BakhawanIndoors"
+	root.y_sort_enabled = true
+	root.set_script(load("res://scripts/game_scenes/bakhawan_indoors.gd"))
+	var indoors: TileSet = load(INDOORS_TS)
+	var floor_l := _layer(root, "Floor", _ts, -3)
+	var decals := _layer(root, "FloorDecals", indoors, -2)
+	var walls := _layer(root, "Walls", indoors, 0, true)
+	var edge := _layer(root, "Edge", load(EDGES_TS), 0)
+	for y in range(3, 11):
+		for x in range(1, 13):
+			var dark := x >= 4 and x <= 8 and y >= 4 and y <= 7
+			floor_l.set_cell(Vector2i(x, y), 0, PLANK_DARK if dark else PLANK_LIGHT)
+	for x in range(1, 13):
+		var col := 0 if x == 1 else (7 if x == 12 else 3)
+		walls.set_cell(Vector2i(x, 1), 0, Vector2i(col, 14))
+		walls.set_cell(Vector2i(x, 2), 0, Vector2i(col, 15))
+	decals.set_cell(Vector2i(6, 10), 0, Vector2i(8, 1))
+	decals.set_cell(Vector2i(7, 10), 0, Vector2i(9, 1))
+	_edge_ring(edge, 0, 0, 13, 11)
+
+	var props := Node2D.new()
+	_node(root, root, props, "Props")
+	props.y_sort_enabled = true
+	_prop(props, root, "SouvenirShelf", "shelf", 1, 2, 2, 2, Rect2i(0, 1, 2, 1))
+	_prop(props, root, "Cabinet", "cabinet", 3, 2, 1, 2, Rect2i(0, 1, 1, 1))
+	_prop(props, root, "KasamaBoard", "wallboard", 4, 1, 3, 1, Rect2i(), null, Rect2i(), 1, 2)
+	_prop(props, root, "Bench", "bench", 4, 3, 3, 1, Rect2i(0, 0, 3, 1))
+	_prop(props, root, "TrailDoorway", "doorway", 8, 1, 2, 2, Rect2i(), null, Rect2i(), 1)
+	_prop(props, root, "StaffDoorway", "doorway", 11, 1, 2, 2, Rect2i(), null, Rect2i(), 1)
+	_prop(props, root, "PlantBack", "plant", 10, 3, 1, 1, Rect2i(0, 0, 1, 1))
+	_prop(props, root, "Desk", "desk", 5, 5, 3, 2, Rect2i(0, 0, 3, 2))
+	_prop(props, root, "PlantDeskL", "plant", 4, 6, 1, 1, Rect2i(0, 0, 1, 1))
+	_prop(props, root, "PlantDeskR", "plant", 8, 6, 1, 1, Rect2i(0, 0, 1, 1))
+	_prop(props, root, "TrailMap", "mapboard", 11, 4, 2, 2, Rect2i(0, 1, 2, 1))
+	_prop(props, root, "Propagules", "propagules", 11, 7, 2, 1, Rect2i(0, 0, 2, 1))
+	_prop(props, root, "Guestbook", "guestbook", 2, 7, 1, 2, Rect2i(0, 1, 1, 1))
+	_prop(props, root, "PlantCorner", "plant", 1, 10, 1, 1, Rect2i(0, 0, 1, 1))
+
+	var warps := Node2D.new()
+	_node(root, root, warps, "Warps")
+	_warp(warps, root, "ToPlaza", 6, 10, 1, PLAZA_PATH, "FromIndoors")
+	_warp(warps, root, "ToTrail", 8, 3, 0, TRAIL_PATH, "FromCentre")
+	_warp(warps, root, "StaffRoom", 11, 3, 0, "", "", "Staff only. KASAMA's research room is locked.")
+	var spawns := Node2D.new()
+	_node(root, root, spawns, "Spawns")
+	_marker(spawns, root, "DefaultSpawn", Vector2i(6, 9))
+	_marker(spawns, root, "FromOutdoors", Vector2i(6, 9))
+	_marker(spawns, root, "FromTrail", Vector2i(8, 4))
+	var markers := Node2D.new()
+	_node(root, root, markers, "SceneMarkers")
+	return root
+
+# --- trail -------------------------------------------------------------------------
+# Rows 0..13 sea, with the sand spit (x2..11, rows 2..13) on the west; rows 14..55
+# mangroves in water, with the rest island at x14..31, rows 20..27; rows 56..63 land
+# with the bamboo gate. The boardwalk (2 tiles wide, cells of 2x2) runs from the
+# gate north, west, up past the roots platform, a staircase north-east, onto the
+# island and out to the T-deck over the sea.
+
+## Boardwalk in 2x2 cells (cell (cx, cy) covers tiles 2cx..2cx+1, 2cy..2cy+1).
+func _walk_cells() -> Dictionary:
+	var cells := {}
+	var path := [Vector2i(9, 27), Vector2i(9, 26), Vector2i(9, 25), Vector2i(9, 24), Vector2i(9, 23),
+		Vector2i(8, 23), Vector2i(7, 23), Vector2i(6, 23), Vector2i(5, 23), Vector2i(4, 23),
+		Vector2i(4, 22), Vector2i(4, 21), Vector2i(4, 20), Vector2i(4, 19), Vector2i(4, 18),
+		Vector2i(5, 18), Vector2i(5, 17), Vector2i(6, 17), Vector2i(6, 16), Vector2i(7, 16), Vector2i(7, 15),
+		Vector2i(8, 15), Vector2i(8, 14), Vector2i(9, 14), Vector2i(10, 14)]
+	for y in range(3, 14):
+		path.append(Vector2i(10, y))
+	for x in range(6, 17):
+		path.append(Vector2i(x, 3))
+	for c in path:
+		cells[c] = true
+	for c in [Vector2i(5, 19), Vector2i(6, 19), Vector2i(5, 20), Vector2i(6, 20)]:  # roots platform
+		cells[c] = true
+	return cells
+
+func _piece(cells: Dictionary, c: Vector2i) -> Vector2i:
+	var key := ""
+	if cells.has(c + Vector2i.UP): key += "N"
+	if cells.has(c + Vector2i.RIGHT): key += "E"
+	if cells.has(c + Vector2i.DOWN): key += "S"
+	if cells.has(c + Vector2i.LEFT): key += "W"
+	if c.y == 27:
+		key = "NS"  # first piece, off the land
+	if WALK.has(key):
+		return WALK[key]
+	if key == "N":
+		return WALK["NS"]
+	return WALK["EW"]  # T-joints we have no art for, the platform, the deck ends
+
+func _build_trail() -> Node2D:
+	var root := Node2D.new()
+	root.name = "BakhawanTrail"
+	root.y_sort_enabled = true
+	root.set_script(load("res://scripts/game_scenes/bakhawan_trail.gd"))
+	# Ground and water come from outdoors.tres (the team's tiles in pastrana_outdoors.png).
+	var outdoors: TileSet = load(OUTDOORS_TS)
+	var floor_l := _layer(root, "Floor", outdoors, -3)
+	var tints: Array[TileMapLayer] = []
+	for i in WATER_TINTS.size():
+		var tint := _layer(root, "Water%d" % i, outdoors, -3)
+		tint.self_modulate = WATER_TINTS[i]
+		tints.append(tint)
+	var water_l := _layer(root, "Water", _ts, -3)
+	var walk_l := _layer(root, "Boardwalk", _ts, -2)
+	var decals := _layer(root, "FloorDecals", _ts, -2)
+	var edge := _layer(root, "Edge", load(EDGES_TS), 0)
+
+	var walkable := {}
+	var cells := _walk_cells()
+	for c: Vector2i in cells:
+		var piece := _piece(cells, c)
+		for d in [Vector2i(0, 0), Vector2i(1, 0), Vector2i(0, 1), Vector2i(1, 1)]:
+			walk_l.set_cell(c * 2 + d, 0, piece + d)
+			walkable[c * 2 + d] = true
+	for y in H:
+		for x in W:
+			var c := Vector2i(x, y)
+			if y >= 56:
+				# Land by the gate: a muddy bank along the water, grass behind it.
+				floor_l.set_cell(c, 0, OD_GRASS_MUD_TOP if y == 56 else OD_GRASS)
+				walkable[c] = true
+			elif x >= 14 and x <= 31 and y >= 20 and y <= 27:
+				# Rest island: grass with a mud rim (the grass-in-mud 9-slice).
+				var col := 0 if x == 14 else (2 if x == 31 else 1)
+				var row := 0 if y == 20 else (2 if y == 27 else 1)
+				floor_l.set_cell(c, 0, OD_GRASS_IN_MUD + Vector2i(col, row))
+				walkable[c] = true
+			elif x >= 2 and x <= 11 and y >= 2 and y <= 13:
+				# Sand spit, with the planting mud along its south edge.
+				if y == 13:
+					floor_l.set_cell(c, 0, OD_MUD_EDGE)
+				else:
+					floor_l.set_cell(c, 0, _pick(OD_SAND, c))
+				walkable[c] = true
+			else:
+				# Water: greenish among the mangroves, bluer toward the open sea,
+				# dithered between tint bands so the change is gradual.
+				var t: float = clampf(float(55 - y) / 55.0, 0.0, 1.0)
+				var dither: float = BAYER[y % 4][x % 4] / 16.0 - 0.47
+				var band: int = clampi(int(floor(t * (WATER_TINTS.size() - 1) + 0.5 + dither)), 0, WATER_TINTS.size() - 1)
+				tints[band].set_cell(c, 0, OD_WATER)
+	for y in H:
+		for x in W:
+			if not walkable.has(Vector2i(x, y)):
+				water_l.set_cell(Vector2i(x, y), 0, BLOCK)
+	_edge_ring(edge, -1, -1, W, H)
+	for c in [Vector2i(4, 13), Vector2i(10, 13), Vector2i(14, 22), Vector2i(31, 25), Vector2i(20, 27)]:
+		decals.set_cell(c, 0, _pick(ROOTS, c))
+	for c in [Vector2i(2, 13), Vector2i(7, 13), Vector2i(11, 13)]:
+		decals.set_cell(c, 0, _pick(SEEDLINGS, c))
+
+	var props := Node2D.new()
+	_node(root, root, props, "Props")
+	props.y_sort_enabled = true
+	# Land by the gate
+	_prop(props, root, "Gate", "gate", 17, 53, 4, 3, Rect2i(0, 2, 1, 1))
+	_prop(props, root, "KasamaPlaque", "infoboard", 22, 56, 2, 2, Rect2i(0, 1, 2, 1))
+	_prop(props, root, "TrailSign", "signpost", 15, 56, 1, 2, Rect2i(0, 1, 1, 1))
+	_prop(props, root, "Nursery", "rack", 3, 57, 3, 2, Rect2i(0, 1, 3, 1))
+	for i in 4:
+		_prop(props, root, "SeedlingBags%d" % i, "bags", 6 + i % 2, 58 + i / 2, 1, 1)
+	_prop(props, root, "Canteen", "canteen", 27, 57, 4, 3, Rect2i(0, 1, 4, 2))
+	_prop(props, root, "SouvenirKiosk", "kiosk", 33, 57, 4, 3, Rect2i(0, 1, 4, 2))
+	_prop(props, root, "PicnicHutLand", "hut", 8, 60, 3, 3, Rect2i(0, 2, 3, 1))
+	for x in [1, 12, 25, 38]:
+		_prop(props, root, "YoungMangrove%d" % x, "young", x, 55, 1, 2)
+	# Rest island
+	_prop(props, root, "PicnicHut1", "hut", 15, 21, 3, 3, Rect2i(0, 2, 3, 1))
+	_prop(props, root, "PicnicHut2", "hut", 24, 21, 3, 3, Rect2i(0, 2, 3, 1))
+	_prop(props, root, "Watchtower", "tower", 27, 19, 4, 6, Rect2i(0, 4, 4, 2))
+	# Sand spit and sea
+	_prop(props, root, "Cottage1", "cottage", 3, 9, 4, 3, Rect2i(0, 1, 4, 2))
+	_prop(props, root, "Cottage2", "cottage", 7, 3, 4, 3, Rect2i(0, 1, 4, 2))
+	_prop(props, root, "NurseryShore", "rack", 8, 10, 3, 2, Rect2i(0, 1, 3, 1))
+	_prop(props, root, "PlantedSeedling", "young", 9, 12, 1, 2)
+	for x in [3, 5]:
+		_prop(props, root, "ShoreMangrove%d" % x, "young", x, 12, 1, 2)
+	_prop(props, root, "PierEnd", "pier", 34, 5, 2, 3)
+	_prop(props, root, "Clams1", "clams", 0, 7, 2, 1)
+	_prop(props, root, "Clams2", "clams", 14, 10, 2, 1)
+	_prop(props, root, "Clams3", "clams", 36, 10, 2, 1)
+
+	# Mangrove trees: one tile cell each on a y-sorted layer, in the water, one
+	# clear tile from anything walkable. Bigger trees deeper in, saplings near the sea.
+	var trees := _layer(root, "Mangroves", _ts, 0, true)
+	var kinds: Array = TREES.keys()
+	var n := 0
+	for y in range(15, 56, 3):
+		for x in range(1, W, 3):
+			var base := Vector2i(x + rng.randi_range(-1, 0), y + rng.randi_range(0, 1))
+			var kind: Vector2i = kinds[rng.randi_range(0, 3)] if y > 17 else kinds[rng.randi_range(2, 5)]
+			if rng.randf() < 0.2 or not _tree_fits(walkable, base, TREES[kind]):
+				continue
+			trees.set_cell(base, 0, kind)
+			n += 1
+	print("trees ", n)
+
+	var warps := Node2D.new()
+	_node(root, root, warps, "Warps")
+	_warp(warps, root, "ToCentre", 18, 63, 1, INDOOR_PATH, "FromTrail")
+	var spawns := Node2D.new()
+	_node(root, root, spawns, "Spawns")
+	_marker(spawns, root, "DefaultSpawn", Vector2i(18, 62))
+	_marker(spawns, root, "FromCentre", Vector2i(18, 62))
+	var markers := Node2D.new()
+	_node(root, root, markers, "SceneMarkers")
+	var ch4 := Node2D.new()
+	_node(markers, root, ch4, "Ch4")
+	var spots := {
+		"Ambo_Gate": Vector2i(20, 57), "Gate_Rose": Vector2i(17, 58), "Gate_Player": Vector2i(18, 58), "Gate_Jobert": Vector2i(16, 59),
+		"S2_Ambo": Vector2i(12, 39), "S2_Rose": Vector2i(13, 41), "S2_Jobert": Vector2i(11, 41),
+		"S3_Ambo": Vector2i(33, 6), "S3_Rose": Vector2i(31, 6), "S3_Jobert": Vector2i(30, 6),
+		"S4_Ambo": Vector2i(7, 11), "S4_Rose": Vector2i(10, 7), "S4_Jobert": Vector2i(6, 4),
+		"Plant_Ambo": Vector2i(8, 12), "Plant_Player": Vector2i(9, 12), "Plant_Rose": Vector2i(10, 12),
+		"S5_Jobert": Vector2i(4, 7), "S5_Rose": Vector2i(3, 7), "S5_Player": Vector2i(5, 7),
+	}
+	for k in spots:
+		_marker(ch4, root, k, spots[k])
+	return root

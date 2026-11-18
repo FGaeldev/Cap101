@@ -42,6 +42,15 @@ const CH3_START_FLAGS := CH2_START_FLAGS + [
 	"chapter2_tour_done", "map_open_market", "chapter2_mass_attended", "chapter2_complete",
 ]
 
+## Chapter 3 finished: the living room then plays Chapter 4's morning brief
+## between 6:00 and 12:00 (dev mode starts it before chapters.json marks it out).
+const CH4_START_FLAGS := CH3_START_FLAGS + [
+	"chapter_card_chapter3_seen", "seen_chapter3_scene0", "chapter3_started", "seen_chapter3_scene1",
+	"map_open_habuean", "seen_chapter3_scene2", "wove_first_row", "seen_chapter3_scene3",
+	"got_pina_bookmark", "story_done_ch3_loleng", "seen_chapter3_scene4", "seen_chapter3_scene5",
+	"chapter3_complete", "note_story_so_far_seen",
+]
+
 ## Chapter 1 story quests, in story order. q002 is handled by the onboarding
 ## skip in _dev_warp().
 const CH1_QUESTS := ["q003", "q004"]
@@ -71,7 +80,10 @@ const DEV_WARP_TARGETS := [
 	{"label": "Ch2 — Market - Indoors", "scene_path": "res://scenes/world/market/market_indoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
 	{"label": "Ch2 — Cathedral - Indoors", "scene_path": "res://scenes/world/chapter2/cathedral_indoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
 	{"label": "Ch2 — Souvenir Shop", "scene_path": "res://scenes/world/chapter2/souvenir_shop.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
+	{"label": "Ch4 — Morning brief (Living Room)", "scene_path": "res://scenes/world/chapter2/aklan_living.tscn", "flags_on": CH4_START_FLAGS, "quests_done": CH1_QUESTS},
 	{"label": "Ch4 — Bakhawan", "scene_path": "res://scenes/world/bakhawan/bakhawan_outdoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
+	{"label": "Ch4 — Bakhawan visitor centre", "scene_path": "res://scenes/world/bakhawan/bakhawan_indoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
+	{"label": "Ch4 — Bakhawan trail", "scene_path": "res://scenes/world/bakhawan/bakhawan_trail.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
 	{"label": "Ch3 — Morning brief (Living Room)", "scene_path": "res://scenes/world/chapter2/aklan_living.tscn", "flags_on": CH3_START_FLAGS, "quests_done": CH1_QUESTS},
 	{"label": "Haboean — Outdoors", "scene_path": "res://scenes/world/haboean/habuean_outdoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
 	{"label": "Haboean — Café (L0)", "scene_path": "res://scenes/world/haboean/haboean_cafe.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
@@ -220,6 +232,8 @@ const DEV_MINIGAMES := [
 		"line": {"minigame_type": "word_search", "word_pool": "ALL_GRID", "min_len": 3, "max_len": 8, "word_count": 6}},
 	{"label": "Game — Habi-Habi: story loom (Ch3 colours)", "kind": "minigame",
 		"from": {"chapter": "chapter3", "scene": "scene_2_trying_the_loom", "minigame_type": "habi_habi"}, "line": {}},
+	{"label": "Game — Fishing (Ch4 pier)", "kind": "minigame",
+		"from": {"chapter": "chapter4", "scene": "scene_3_fishing_lesson", "minigame_type": "fishing"}, "line": {}},
 	{"label": "Game — Habi-Habi (all words)", "kind": "minigame",
 		"from": {"chapter": "chapter3", "scene": "scene_loleng_habi_habi", "minigame_type": "habi_habi"},
 		"line": {"word_pool": "ALL_GRID", "min_len": 3, "max_len": 8}},

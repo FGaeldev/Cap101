@@ -1,124 +1,567 @@
 {
-	"scene_1_arrival_at_the_eco_park": [
+	"scene_0_morning_brief": [
 		{
+			"type": "start_router",
 			"start_index_if_flag": {
 				"default": 1
-			},
-			"type": "start_router"
+			}
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Rose",
-			"text": "hara do mangrove , bukon eang it para sa bisita kundi para protektahan.",
+			"text": "Old slippers, balikbayan. Ones you don't love.",
 			"next": 2,
-			"translation": "This is the mangrove eco-park. It’s not just for visitors, but truly for conservation."
+			"word_ids": []
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Player",
-			"text": "It looks peaceful. I didn’t expect it to be this wide.",
-			"next": 3
+			"text": "Where are we going?",
+			"next": 3,
+			"word_ids": []
 		},
 		{
-			"speaker": "Manong Ambo",
-			"text": "Mayad-ayad nga [DayPart] , mga bisita. iya kamo para makita do aton nga mangroves?",
-			"next": 4,
-			"translation": "[GoodDay], visitors. Are you here to see our coast and mangroves?"
-		},
-		{
+			"type": "dialogue",
 			"speaker": "Rose",
-			"text": "Yes, Manong Ambo. He’s the caretaker here.",
-			"next": null
+			"text": "\\Bakhawan. Mangroves. Mud up to here.",
+			"next": 4,
+			"word_ids": [
+				"w339"
+			]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Papa Jobert",
+			"text": "\\Bakhawan? I used to fish there. Off the mud, before there were any trees.",
+			"next": 5,
+			"word_ids": [
+				"w339"
+			]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Lola Jonabel",
+			"text": "Every Saturday. You came home smelling like the sea.",
+			"next": 6,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "Then you're coming, Tito. Someone has to pull the balikbayan out when they sink.",
+			"next": 7,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Lola Susan",
+			"text": "Manong Ambo knows the tides. Listen to him.",
+			"next": 8,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Lola Jonabel",
+			"text": "I'll stay. My knees and boardwalks don't get along. Bring me a story.",
+			"next": null,
+			"word_ids": []
+		}
+	],
+	"scene_1_arrival_at_the_eco_park": [
+		{
+			"type": "start_router",
+			"start_index_if_flag": {
+				"default": 1
+			}
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "\\Hara \\do \\bakhawan, \\bukon \\eang \\it \\para \\sa \\bisita \\kundi \\para \\protektahan.",
+			"translation": "This is the mangrove. It's not just for visitors, it's for protection.",
+			"next": 2,
+			"word_ids": [
+				"w075",
+				"w055",
+				"w339",
+				"w045",
+				"w059",
+				"w092",
+				"w191",
+				"w204",
+				"w042",
+				"w118",
+				"w197"
+			]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Player",
+			"text": "It looks peaceful. I didn't expect it to be this wide.",
+			"next": 3,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Manong Ambo",
+			"text": "\\Mayad \\nga [DayPart], \\mga \\bisita. \\Iya \\kamo \\para \\makita \\do \\aton \\nga \\bakhawan?",
+			"translation": "[GoodDay], visitors. Are you here to see our mangroves?",
+			"next": 4,
+			"word_ids": [
+				"w163",
+				"w180",
+				"[DayPart]",
+				"w167",
+				"w042",
+				"w095",
+				"w102",
+				"w191",
+				"w148",
+				"w055",
+				"w022",
+				"w339"
+			]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "\\Huo, Manong Ambo.",
+			"translation": "Yes, Manong Ambo.",
+			"next": 5,
+			"word_ids": [
+				"w081"
+			]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "\\Huo means yes, balikbayan. He's the caretaker here. Say hello properly.",
+			"next": 6,
+			"word_ids": [
+				"w081"
+			]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Manong Ambo",
+			"text": "…",
+			"choices": [
+				{
+					"label": "Mayad nga [DayPart], Manong Ambo.",
+					"rapport_delta": 2,
+					"next": 7
+				},
+				{
+					"label": "Hello!",
+					"next": 7
+				},
+				{
+					"label": "Can we skip to the fishing?",
+					"rapport_delta": -2,
+					"next": 8
+				}
+			],
+			"next": null,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Manong Ambo",
+			"text": "\\Maliya, \\apo. \\Ma-amat \\kita.",
+			"translation": "Come here, apo. Let's get going.",
+			"next": 9,
+			"word_ids": [
+				"w150",
+				"w019",
+				"w340",
+				"w113"
+			]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "Manners, balikbayan. The fish aren't going anywhere.",
+			"next": 7,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Papa Jobert",
+			"text": "\"Planted 1990.\" Huh.",
+			"next": null,
+			"word_ids": []
 		}
 	],
 	"scene_2_learning_about_mangroves": [
 		{
+			"type": "start_router",
 			"start_index_if_flag": {
 				"default": 1
-			},
-			"type": "start_router"
+			}
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Manong Ambo",
-			"text": "ro mga ugat ru gakapyot sa eugta. kaya indi masamad bisan it bagyo.",
+			"text": "\\Bangod \\ro \\mga \\ugat \\ro \\gakapyot \\sa \\eugta, \\indi \\ra \\masamad \\bisan \\it \\bagyo.",
+			"translation": "Because the roots hold on to the soil, it won't be destroyed even by a storm.",
 			"next": 2,
-			"translation": "The roots hold the soil. It won’t collapse even during storms."
+			"word_ids": [
+				"w341",
+				"w202",
+				"w167",
+				"w238",
+				"w063",
+				"w204",
+				"w062",
+				"w086",
+				"w265",
+				"w156",
+				"w041",
+				"w092",
+				"w030"
+			]
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Player",
 			"text": "So this protects the town?",
-			"next": 3
+			"next": 3,
+			"word_ids": []
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Manong Ambo",
-			"text": "hara gid. Kung uwa ra, ro baeas ag tubi hay magatao it kaeainan",
+			"text": "\\Huo, \\apo.",
+			"translation": "Yes, apo.",
 			"next": 4,
-			"translation": "Exactly. Without this, the sand and water would cause danger."
+			"word_ids": [
+				"w081",
+				"w019"
+			]
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Rose",
-			"text": "That’s why they say mangroves are natural shields.",
-			"next": null
+			"text": "That's why they say mangroves are natural shields.",
+			"next": 5,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Papa Jobert",
+			"text": "When I was a boy, there was nothing here. Just mud. The sea came right up to the houses when it stormed.",
+			"next": 6,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Manong Ambo",
+			"text": "\\Kato \\nga 1990, \\eugta \\eang \\ra \\tanan. \\Gintanom \\namon \\ra \\tagsa-tagsa.",
+			"translation": "In 1990, this was all just mud. We planted them one by one.",
+			"next": 7,
+			"word_ids": [
+				"w303",
+				"w180",
+				"w062",
+				"w059",
+				"w265",
+				"w221",
+				"w342",
+				"w175",
+				"w343"
+			]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "You planted all of this?",
+			"next": 8,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Manong Ambo",
+			"text": "\\Ako \\ag \\mga \\tawo \\nga \\naila \\magbulig.",
+			"translation": "Me and the people who wanted to help.",
+			"next": 9,
+			"word_ids": [
+				"w011",
+				"w005",
+				"w167",
+				"w228",
+				"w180",
+				"w344",
+				"w345"
+			]
+		},
+		{
+			"type": "quiz",
+			"quiz_type": "static",
+			"questions": [
+				{
+					"question": "What holds the soil?",
+					"correct_answer": "w238"
+				}
+			],
+			"choices": [
+				"w238",
+				"w026",
+				"w233"
+			],
+			"choice_display": "word",
+			"success": 10,
+			"failure": 11
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Manong Ambo",
+			"text": "\\Insakto! \\Ro \\ugat.",
+			"translation": "Correct! The roots.",
+			"next": null,
+			"word_ids": [
+				"w329",
+				"w202",
+				"w238"
+			]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "\\Ugat. Roots. The thing holding you up, balikbayan.",
+			"next": null,
+			"word_ids": [
+				"w238"
+			]
 		}
 	],
 	"scene_3_fishing_lesson": [
 		{
+			"type": "start_router",
 			"start_index_if_flag": {
 				"default": 1
-			},
-			"type": "start_router"
+			}
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Manong Ambo",
-			"text": "Gusto ninyo magkantoguhan magpamunit? bukon eang para sa isda, kundi para sa pagtuon.",
+			"text": "\\Gusto \\ninyo \\magkantiguhan \\magpamunit? \\Bukon \\eang \\para \\sa \\isda, \\kundi \\para \\sa \\pagtuon.",
+			"translation": "Do you want to try fishing? Not just for the fish, but for learning.",
 			"next": 2,
-			"translation": "Do you want to try fishing? Not just for fish, but for learning."
+			"word_ids": [
+				"w068",
+				"w309",
+				"w346",
+				"w139",
+				"w045",
+				"w059",
+				"w191",
+				"w204",
+				"w091",
+				"w118",
+				"w347"
+			]
 		},
 		{
+			"type": "dialogue",
 			"speaker": "",
 			"text": "Will you try fishing?",
 			"choices": [
 				{
 					"label": "Yes, I want to learn how.",
+					"rapport_delta": 2,
 					"next": 3
 				},
 				{
 					"label": "Maybe later, I just want to watch first.",
-					"next": 3
+					"next": 4
 				},
 				{
-					"label": "I’m not really into fishing, sorry.",
-					"next": 4
+					"label": "I'm not really into fishing, sorry.",
+					"rapport_delta": -2,
+					"next": 6
 				}
 			],
-			"next": null
+			"next": null,
+			"word_ids": []
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Manong Ambo",
-			"text": "Mayad! iya, sunod kakon.",
-			"next": null
+			"text": "\\Haron \\ahh! \\Iya, \\sunod \\kakon.",
+			"translation": "There we go! Here, follow me.",
+			"next": 8,
+			"word_ids": [
+				"w348",
+				"w095",
+				"w217",
+				"w099"
+			]
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Manong Ambo",
-			"text": "bukon problema. Watching teaches too.",
-			"next": null
+			"text": "\\Uwat \\kaso.",
+			"translation": "No problem.",
+			"next": 5,
+			"word_ids": [
+				"w258"
+			]
 		},
 		{
+			"type": "dialogue",
+			"speaker": "Papa Jobert",
+			"text": "Come on. One try. My father showed me right about here.",
+			"next": 8,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
 			"speaker": "Rose",
-			"text": "You’ll miss out. It’s part of the experience, balikbayan.",
-			"next": null
+			"text": "You'll miss out. It's part of the experience, balikbayan.",
+			"next": 7,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "And I'm not touching the bait, so it's you or nobody.",
+			"next": 8,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Manong Ambo",
+			"text": "\\Ro \\bunit, \\ag \\ro \\paon. \\Magdahan \\ha.",
+			"translation": "The hook, and the bait. Be careful with it.",
+			"next": 9,
+			"word_ids": [
+				"w202",
+				"w349",
+				"w005",
+				"w350",
+				"w320",
+				"w351"
+			]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "He means don't yank it like you did the loom.",
+			"next": 10,
+			"word_ids": []
+		},
+		{
+			"type": "minigame_trigger",
+			"minigame_type": "fishing",
+			"catch_pool": [
+				"w091",
+				"w355"
+			],
+			"catch_icons": {
+				"w091": "fish",
+				"w355": "crab"
+			},
+			"distractors": [
+				"w350",
+				"w349",
+				"w238",
+				"w233",
+				"w026"
+			],
+			"casts": 3,
+			"pass_count": 2,
+			"success": 11,
+			"failure": 14
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Manong Ambo",
+			"text": "\\Abaw, \\isda!",
+			"translation": "Wow, a fish!",
+			"next": 12,
+			"word_ids": [
+				"w297",
+				"w091"
+			]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Papa Jobert",
+			"text": "Beginner's luck. Runs in the family.",
+			"next": 13,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Manong Ambo",
+			"text": "\\Maisot \\pa \\ra. \\Ibalik \\naton \\sa \\tubi.",
+			"translation": "It's still small. Let's put it back in the water.",
+			"set_flag": "ch4_fishing_passed",
+			"next": 16,
+			"word_ids": [
+				"w145",
+				"w261",
+				"w265",
+				"w352",
+				"w353",
+				"w204",
+				"w233"
+			]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "The fish won. Don't take it personally.",
+			"next": 15,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Manong Ambo",
+			"text": "\\Uwat \\kaso, \\apo. \\Sigeha \\eang.",
+			"translation": "No problem, apo. Just keep at it.",
+			"next": 16,
+			"word_ids": [
+				"w258",
+				"w019",
+				"w354",
+				"w059"
+			]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Manong Ambo",
+			"text": "\\Alimango!",
+			"translation": "A mud crab!",
+			"next": 17,
+			"word_ids": [
+				"w355"
+			]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Papa Jobert",
+			"text": "Still got it.",
+			"set_flag": "went_fishing",
+			"next": null,
+			"word_ids": []
 		}
 	],
 	"scene_4_vocabulary_practice_round_nature_and_actions": [
 		{
+			"type": "start_router",
 			"start_index_if_flag": {
 				"default": 1
-			},
-			"type": "start_router"
+			}
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Rose",
-			"text": "Tan-awa ru baybay — that’s “shore.” Tubi — water. eugta — soil. Baeas — sand.",
+			"text": "\\Tan-awa \\ro \\baybay, that's \"shore.\" \\Tubi, water. \\Eugta, soil. \\Baeas, sand.",
 			"next": 2,
 			"word_ids": [
+				"w223",
+				"w202",
 				"w037",
 				"w233",
 				"w062",
@@ -126,8 +569,9 @@
 			]
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Rose",
-			"text": "Maisog — brave. Maeuya — weak. Malimpyo — clean. Mahigko — dirty.",
+			"text": "\\Maisog, brave. \\Maeuya, weak. \\Malimpyo, clean. \\Mahigko, dirty.",
 			"next": 3,
 			"word_ids": [
 				"w144",
@@ -137,48 +581,343 @@
 			]
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Rose",
-			"text": "tikang pa — keep walking. Pamati — listen. Pamunit — to fish. Tanom — plant.",
+			"text": "\\Tikang \\pa, keep walking. \\Pamati, listen. \\Pamunit, to fish. \\Tanom, plant.",
 			"next": 4,
 			"word_ids": [
 				"w229",
+				"w261",
 				"w187",
+				"w356",
 				"w225"
 			]
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Player",
-			"text": "Okay, so pamunit is what Manong Ambo said earlier.",
-			"next": 5
+			"text": "Okay, so \\pamunit is what Manong Ambo said earlier.",
+			"next": 5,
+			"word_ids": [
+				"w356"
+			]
 		},
 		{
+			"type": "dialogue",
 			"speaker": "Rose",
-			"text": "Correct. And tanom — you’ll hear that a lot here, since mangroves are plants.",
-			"next": null
+			"text": "Correct. And \\tanom, you'll hear that a lot here, since mangroves are plants.",
+			"next": 6,
+			"word_ids": [
+				"w225"
+			]
+		},
+		{
+			"type": "minigame_trigger",
+			"minigame_type": "memory_match",
+			"word_pool": [
+				"w144",
+				"w135",
+				"w149",
+				"w143"
+			],
+			"pair_count": 4,
+			"success": 7,
+			"failure": 8
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "Not bad. You're only a little bit \\maeuya.",
+			"next": 9,
+			"word_ids": [
+				"w135"
+			]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "We'll do it again on the walk home. And again.",
+			"next": 9,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Manong Ambo",
+			"text": "\\Apo! \\Maliya!",
+			"translation": "Apo! Come here!",
+			"next": null,
+			"word_ids": [
+				"w019",
+				"w150"
+			]
+		}
+	],
+	"scene_4b_planting": [
+		{
+			"type": "start_router",
+			"start_index_if_flag": {
+				"default": 1
+			}
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Manong Ambo",
+			"text": "\\Itanom \\mo \\iya, \\apo.",
+			"translation": "Plant it here, apo.",
+			"next": null,
+			"word_ids": [
+				"w357",
+				"w168",
+				"w095",
+				"w019"
+			]
+		}
+	],
+	"scene_4c_after_planting": [
+		{
+			"type": "start_router",
+			"start_index_if_flag": {
+				"default": 1
+			}
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Manong Ambo",
+			"text": "\\Sa \\di \\magbuhay, \\mas \\mataas \\pa \\ra \\kimo.",
+			"translation": "Before long, it'll be taller than you.",
+			"next": 2,
+			"word_ids": [
+				"w204",
+				"w358",
+				"w155",
+				"w359",
+				"w261",
+				"w265",
+				"w360"
+			]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Player",
+			"text": "Will it still be here when I come back?",
+			"next": 3,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Manong Ambo",
+			"text": "\\Kon \\may \\magtatap.",
+			"translation": "If someone takes care of it.",
+			"next": 4,
+			"word_ids": [
+				"w114",
+				"w162",
+				"w361"
+			]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "…These were my good shorts.",
+			"set_flag": "planted_mangrove",
+			"next": 5,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Manong Ambo",
+			"text": "\\Saeamat \\sa \\pagbisita, \\apo. \\Balik \\kamo.",
+			"translation": "Thanks for visiting, apo. Come back, all of you.",
+			"set_flag": "story_done_ch4_ambo",
+			"next": null,
+			"word_ids": [
+				"w206",
+				"w204",
+				"w362",
+				"w019",
+				"w287",
+				"w102"
+			]
 		}
 	],
 	"scene_5_reflection": [
 		{
+			"type": "start_router",
 			"start_index_if_flag": {
 				"default": 1
-			},
-			"type": "start_router"
+			}
 		},
 		{
-			"speaker": "Lola Jonabel",
-			"text": "maabo aton nga natun-an makarang adlaw. bukon eang it mga haeambaeun, kundi pati kultura man.",
-			"next": 2,
-			"translation": "We learned so much today. Not just words, but culture too."
-		},
-		{
+			"type": "dialogue",
 			"speaker": "Papa Jobert",
-			"text": "True. This place reminds me of my childhood.",
-			"next": 3
+			"text": "This place reminds me of my childhood. Except there were no trees.",
+			"next": 2,
+			"word_ids": []
 		},
 		{
+			"type": "dialogue",
+			"speaker": "Papa Jobert",
+			"text": "We left when I was eight. I always thought the shore would look the same when I came back.",
+			"next": 3,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Player",
+			"text": "Does it feel strange?",
+			"next": 4,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Papa Jobert",
+			"text": "Someone planted a forest while I was gone. People I never met. And today my kid planted one more.",
+			"next": 5,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "",
+			"text": "What do you say?",
+			"choices": [
+				{
+					"label": "Now part of it's ours.",
+					"rapport_delta": 2,
+					"next": 6
+				},
+				{
+					"label": "We should come back and check on it.",
+					"next": 6
+				},
+				{
+					"label": "Can we go? I'm covered in mud.",
+					"rapport_delta": -2,
+					"next": 7
+				}
+			],
+			"next": null,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
 			"speaker": "Rose",
-			"text": "And now it’s part of yours, balikbayan.",
-			"next": null
+			"text": "And now it's part of yours, balikbayan.",
+			"next": null,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Papa Jobert",
+			"text": "Spoken like your Lola.",
+			"next": null,
+			"word_ids": []
+		}
+	],
+	"scene_5_home_now": [
+		{
+			"type": "start_router",
+			"start_index_if_flag": {
+				"default": 1
+			}
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "Okay. Mud. Home. Now.",
+			"next": null,
+			"word_ids": []
+		}
+	],
+	"scene_6_evening_home": [
+		{
+			"type": "start_router",
+			"start_index_if_flag": {
+				"default": 1
+			}
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Papa Jobert",
+			"text": "\\Abo-abo \\aton \\nga \\natun-an \\makarang \\adlaw. \\Bukon \\eang \\it \\mga \\haeambaeun, \\kundi \\pati \\man \\kultura.",
+			"translation": "We learned so much today. Not just words, but culture too.",
+			"next": 2,
+			"word_ids": [
+				"w260",
+				"w022",
+				"w180",
+				"w179",
+				"w363",
+				"w003",
+				"w045",
+				"w059",
+				"w092",
+				"w167",
+				"w364",
+				"w118",
+				"w193",
+				"w151",
+				"w117"
+			]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Lola Jonabel",
+			"text": "Listen to him. Fifty years, and now he speaks Akeanon.",
+			"next": 3,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Papa Jobert",
+			"text": "We went to the shore, \\Nay. It's a forest now.",
+			"next": 4,
+			"word_ids": [
+				"w365"
+			]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Lola Jonabel",
+			"text": "The mud where you lost your slipper?",
+			"next": 5,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Papa Jobert",
+			"text": "That mud.",
+			"next": 6,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Lola Susan",
+			"text": "Ambo planted those. He and the fishermen, every low tide for years.",
+			"next": 7,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Player",
+			"text": "I planted one too.",
+			"next": 8,
+			"word_ids": []
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Lola Jonabel",
+			"text": "Then you have a tree in Aklan now, \\apo. You'll have to come back and see it.",
+			"next": 9,
+			"word_ids": [
+				"w019"
+			]
+		},
+		{
+			"type": "dialogue",
+			"speaker": "Rose",
+			"text": "Wash your feet before you touch anything. Both of you.",
+			"next": null,
+			"word_ids": []
 		}
 	]
 }

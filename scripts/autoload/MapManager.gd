@@ -38,6 +38,7 @@ const DEV_SKIP_CLEARED_FLAGS: Array[String] = [
 	"chapter2_at_market", "chapter2_from_market", "chapter2_leaving_market",
 	"chapter2_walking_home", "chapter2_mass_trip", "chapter2_mass_cathedral",
 	"chapter2_at_bakhawan", "chapter2_going_bakhawan", "chapter3_going_haboean", "chapter3_at_haboean",
+	"chapter4_going_bakhawan", "chapter4_at_bakhawan",
 ]
 
 ## True from the moment a warp/travel starts (fade-out) until its fade-in

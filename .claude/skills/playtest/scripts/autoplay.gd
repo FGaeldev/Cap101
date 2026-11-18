@@ -37,6 +37,7 @@ const CHAPTERS := {
 	1: {"start_level": "res://scenes/world/chapter1/us_bedroom.tscn", "setup": "_setup_ch1", "done": "_done_ch1"},
 	2: {"start_level": "res://scenes/world/chapter2/aklan_living.tscn", "setup": "_setup_ch2", "done": "_done_ch2"},
 	3: {"start_level": "res://scenes/world/chapter2/aklan_living.tscn", "setup": "_setup_ch3", "done": "_done_ch3"},
+	4: {"start_level": "res://scenes/world/chapter2/aklan_living.tscn", "setup": "_setup_ch4", "done": "_done_ch4"},
 }
 
 var opts := {"mode": "full", "chapter": 1, "out": "", "budget": 0.0, "speed": 3.0, "wait_speed": 12.0}
@@ -339,10 +340,11 @@ func _setup_ch2() -> void:
 	for q in ["q002", "q010", "q003", "q004"]:
 		A.QuestManager.complete_quest_silently(q)
 
-## Tour, Sunday mass and the Bakhawan trip all done, and home again.
+## Tour and Sunday mass done, and home again. (Rose only offers Bakhawan once
+## Chapter 4 has started, so the trip isn't part of Chapter 2 any more.)
 func _done_ch2() -> bool:
 	var GS = A.GameState
-	return GS.get_flag("chapter2_tour_done") and _mass_done and _bakhawan_went \
+	return GS.get_flag("chapter2_tour_done") and _mass_done \
 		and not GS.get_flag("chapter2_with_rose") and not A.CutsceneManager.is_playing()
 
 ## The morning after Chapter 2 ended (tour + a mass, then a night's sleep), on a
@@ -364,6 +366,27 @@ func _setup_ch3() -> void:
 ## Evening scene with Jonabel played.
 func _done_ch3() -> bool:
 	return A.GameState.get_flag("chapter3_complete") and not A.CutsceneManager.is_playing()
+
+## The morning after Chapter 3 ended (weekday, 7:00), so Chapter 4's brief plays.
+func _setup_ch4() -> void:
+	_setup_ch3()
+	var GS = A.GameState
+	for f in ["chapter_card_chapter3_seen", "seen_chapter3_scene0", "chapter3_started", "seen_chapter3_scene1",
+			"map_open_habuean", "seen_chapter3_scene2", "wove_first_row", "seen_chapter3_scene3",
+			"got_pina_bookmark", "story_done_ch3_loleng", "seen_chapter3_scene4", "seen_chapter3_scene5",
+			"chapter3_complete", "note_story_so_far_seen"]:
+		GS.set_flag(f)
+	for q in ["q006", "q007", "q008"]:
+		A.QuestManager.complete_quest_silently(q)
+	# The brief waits until chapters.json marks Chapter 4 out (NpcSchedule
+	# "ch4_brief_pending"); treat it as out for this run so it can be tested first.
+	for ch in A.ChapterCard.get_chapters():
+		if ch.get("id", "") == "chapter4":
+			ch["available"] = true
+
+## Evening scene with Jobert and Jonabel played.
+func _done_ch4() -> bool:
+	return A.GameState.get_flag("chapter4_complete") and not A.CutsceneManager.is_playing()
 
 # --- driving ------------------------------------------------------------------
 func _game() -> Node:

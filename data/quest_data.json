@@ -141,6 +141,36 @@
 			"show_popup": true
 		},
 		{
+			"id": "q017",
+			"category": "main",
+			"title": "Visit the Bakhawan Eco-Park: meet Manong Ambo",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "chapter4_started",
+			"completion_flag": "quest_017_done",
+			"show_popup": true
+		},
+		{
+			"id": "q018",
+			"category": "main",
+			"title": "Go fishing with Manong Ambo",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "quest_017_done",
+			"completion_flag": "quest_018_done",
+			"show_popup": true
+		},
+		{
+			"id": "q019",
+			"category": "main",
+			"title": "Plant a mangrove and go home",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "quest_018_done",
+			"completion_flag": "quest_019_done",
+			"show_popup": true
+		},
+		{
 			"id": "q016",
 			"category": "main",
 			"title": "Chapter 4 arrives November 19, 12 noon",
