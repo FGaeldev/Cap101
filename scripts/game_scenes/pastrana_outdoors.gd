@@ -3,7 +3,8 @@
 # and picks the leg to play, so a save made partway picks it up on entry.
 #   First trip, Rose leads and at each stop the player roams until they talk to her:
 #     scene 1 at the plaza -> market (market_indoors.gd)
-#     -> back here for scenes 3 and 4 at the cathedral -> home.
+#     -> back here for scene 3 at the cathedral -> souvenir shop for scene 4
+#     (souvenir_shop.gd) -> back here -> home.
 #   Sunday mass: cathedral_indoors.gd -> market -> back here -> home.
 #   Later trips: walk to the plaza; Rose then waits for the player (TourGuide).
 #   Bakhawan trip: straight through this map, both ways (bakhawan_outdoors.gd).
@@ -28,7 +29,7 @@ const ARRIVED_CATHEDRAL_FLAG: String = "chapter2_arrived_cathedral"
 const ROSE_SCENE: String = "res://scenes/entities/npc_Rose.tscn"
 const ROSE_ID: String = "Rose"
 ## Legs that need Rose already standing in the map.
-const NEEDS_ROSE: Array[String] = ["chapter2_walk_home_park", "chapter2_tour_to_market"]
+const NEEDS_ROSE: Array[String] = ["chapter2_walk_home_park", "chapter2_tour_to_market", "chapter2_tour_to_souvenir"]
 
 const MarkerUtil := preload("res://scripts/util/marker_util.gd")
 
@@ -77,11 +78,16 @@ func _next_cutscene() -> String:
 	if not GameState.get_flag("seen_chapter2_scene2"):
 		return "chapter2_tour_to_market"
 	if not GameState.get_flag("seen_chapter2_scene4"):
-		return "" if GameState.get_flag(ARRIVED_CATHEDRAL_FLAG) else "chapter2_tour_to_cathedral"
+		if not GameState.get_flag(ARRIVED_CATHEDRAL_FLAG):
+			return "chapter2_tour_to_cathedral"
+		# After the cathedral talk Rose takes them into the souvenir shop for the
+		# practice round (souvenir_shop.gd); until then the player roams.
+		return "chapter2_tour_to_souvenir" if GameState.get_flag("seen_chapter2_scene3") else ""
 	if not GameState.get_flag(TOUR_DONE_FLAG):
+		# Back out of the souvenir shop: straight home.
 		GameState.set_flag(TOUR_DONE_FLAG)
 		TutorialManager.start("bakhawan_trip")
-		return "chapter2_walk_home_park"
+		return "chapter2_walk_home_souvenir"
 	if GameState.get_flag(FROM_MARKET_FLAG):
 		return "chapter2_walk_gate_to_park"
 	return "" if GameState.get_flag(AT_PARK_FLAG) else "chapter2_walk_to_park"
@@ -106,6 +112,6 @@ func _set_rose_resume() -> void:
 	elif GameState.get_flag(ARRIVED_CATHEDRAL_FLAG) and not GameState.get_flag("seen_chapter2_scene4"):
 		rose.cutscene_id = "chapter2_cathedral_talk"
 		TutorialManager.start("tour_roam")
-		rose.cutscene_seen_flag = "seen_chapter2_scene4"
+		rose.cutscene_seen_flag = "seen_chapter2_scene3"
 	else:
 		rose.cutscene_id = ""

@@ -9,9 +9,5 @@
 	{"type": "game_speed", "scale": 2.0},
 	{"type": "parallel", "actions": [{"type": "move_npc", "actor": "Lola Susan", "to": "S3/SusanEnter", "avoid_actors": true, "speed": 48}, {"type": "move_npc", "actor": "Lola Jonabel", "to": "S3/JonabelEnter", "avoid_actors": true, "speed": 48}]},
 	{"type": "despawn_npc", "actor": "Lola Susan"},
-	{"type": "despawn_npc", "actor": "Lola Jonabel"},
-	{"type": "game_speed", "scale": 1.0},
-	{"type": "dialogue", "chapter": "chapter2", "scene": "scene_4_vocabulary_practice_round_numbers_colors_market_goods"},
-	{"type": "complete_quest", "quest_id": "q013", "unless_flag": "seen_chapter2_scene4"},
-	{"type": "set_flag", "flag": "seen_chapter2_scene4", "value": true}
+	{"type": "despawn_npc", "actor": "Lola Jonabel"}
 ]

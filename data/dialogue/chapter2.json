@@ -538,6 +538,15 @@
 	  "type": "dialogue"
 	}
   ],
+  "scene_4_souvenir_shop_invite": [
+	{
+	  "speaker": "Rose",
+	  "text": "Before we go home, there's a little souvenir shop right by the cathedral. Come, let's take a look.",
+	  "next": null,
+	  "word_ids": [],
+	  "type": "dialogue"
+	}
+  ],
   "scene_4_vocabulary_practice_round_numbers_colors_market_goods": [
 	{
 	  "start_index_if_flag": {
@@ -547,7 +556,7 @@
 	},
 	{
 	  "speaker": "",
-	  "text": "Before leaving the cathedral grounds, Rose stops for another practice round.",
+	  "text": "Inside, the little souvenir shop is packed with colorful items. Rose stops for another practice round.",
 	  "next": 2,
 	  "word_ids": [],
 	  "type": "dialogue"
@@ -574,7 +583,7 @@
 	},
 	{
 	  "speaker": "Rose",
-	  "text": "Now, colors — look at what the people walking by are wearing.",
+	  "text": "Now, colors — look at everything on these shelves.",
 	  "next": 5,
 	  "word_ids": [],
 	  "type": "dialogue"
@@ -751,7 +760,7 @@
 	},
 	{
 	  "speaker": "Rose",
-	  "text": "Not bad for a first try. Look at the fabrics again later.",
+	  "text": "Not bad for a first try. Look at the shelves again on your way out.",
 	  "next": 10,
 	  "word_ids": [],
 	  "type": "dialogue"
@@ -1101,7 +1110,7 @@
 	  "word_ids": [],
 	  "choices": [
 		{"label": "Can we go out again?", "next": 4},
-		{"label": "Can we see the mangroves at Bakhawan?", "next": 6, "requires_flag": "chapter3_complete"},
+		{"label": "Can we see the mangroves at Bakhawan?", "next": 6, "requires_flag": "chapter4_started"},
 		{"label": "Not right now", "next": -1}
 	  ]
 	},
@@ -1121,7 +1130,7 @@
 	  "word_ids": [],
 	  "choices": [
 		{"label": "Can we go out again?", "next": 4},
-		{"label": "Can we see the mangroves at Bakhawan?", "next": 6, "requires_flag": "chapter3_complete"},
+		{"label": "Can we see the mangroves at Bakhawan?", "next": 6, "requires_flag": "chapter4_started"},
 		{"label": "Can we go to the weavers?", "next": 8},
 		{"label": "Not right now", "next": -1}
 	  ]

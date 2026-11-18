@@ -1,0 +1,11 @@
+[
+	{"type": "game_speed", "scale": 2.0},
+	{"type": "set_visible", "actor": "player", "value": false},
+	{"type": "spawn_npc", "actor": "Rose", "scene": "res://scenes/entities/npc_Rose.tscn", "at_marker": "Down"},
+	{"type": "move_npc", "actor": "player", "from": "Down", "direction": "up", "tiles": 0},
+	{"type": "parallel", "actions": [{"type": "fade", "direction": "in", "duration": 0.6}, {"type": "conga", "join": "nearest_x", "leader": "Rose", "followers": ["player"], "path_to": "S4/Rose", "gap": 2, "speed": 48, "despawn": false}, {"type": "sequence", "actions": [{"type": "wait", "seconds": 0.5}, {"type": "set_visible", "actor": "player", "value": true}]}]},
+	{"type": "game_speed", "scale": 1.0},
+	{"type": "dialogue", "chapter": "chapter2", "scene": "scene_4_vocabulary_practice_round_numbers_colors_market_goods"},
+	{"type": "complete_quest", "quest_id": "q013", "unless_flag": "seen_chapter2_scene4"},
+	{"type": "set_flag", "flag": "seen_chapter2_scene4", "value": true}
+]
