@@ -61,7 +61,7 @@
 			"text": "\\Hinay-hinay, Lola. We'll be back before dark. Stay close, balikbayan.",
 			"translation": "Take it slow, Lola. We'll be back before dark. Stay close, balikbayan.",
 			"next": null,
-			"word_ids": ["w079"]
+			"word_ids": ["w289"]
 		}
 	],
 	"scene_1_hear_the_looms": [
@@ -116,7 +116,7 @@
 			"text": "\\Halin \\ra \\igto sa \\taeamnan, sa \\tanum nga \\piña, \\abo-abo \\pa nga \\ro \\kinahangean nga \\ubrahon \\para \\maging \\eambong \\ra.",
 			"translation": "This comes from over there, the farm, from the piña plant. There's still a lot of work needed before it becomes cloth.",
 			"next": 6,
-			"word_ids": ["w072", "w265", "w082", "w219", "w259", "w194", "w260", "w261", "w262", "w263", "w191", "w264", "w057"]
+			"word_ids": ["w072", "w265", "w082", "w219", "w259", "w194", "w260", "w261", "w262", "w263", "w191", "w264", "w057", "w202"]
 		},
 		{
 			"type": "quiz",
@@ -518,7 +518,7 @@
 			"speaker": "Rose",
 			"text": "\\Taas — tall, or long. \\Naba — short. \\Paspas — fast. \\Hinay — slow. Manang's “\\hinayi” means slower, and “\\hinay-hinay” means little by little.",
 			"next": 15,
-			"word_ids": ["w218", "w170", "w192", "w079", "w267"]
+			"word_ids": ["w218", "w170", "w192", "w079", "w289", "w267"]
 		},
 		{
 			"type": "dialogue",
@@ -755,7 +755,7 @@
 				}
 			],
 			"next": null,
-			"word_ids": ["w019", "w079", "w192"]
+			"word_ids": ["w019", "w289", "w192"]
 		},
 		{
 			"type": "minigame_trigger",
@@ -791,7 +791,7 @@
 			"speaker": "Manang Loleng",
 			"text": "\\Hinay-hinay, \\apo. The loom will wait for you.",
 			"next": null,
-			"word_ids": ["w079", "w019"]
+			"word_ids": ["w289", "w019"]
 		}
 	],
 	"scene_revisit_arrival": [
@@ -810,7 +810,7 @@
 			"text": "\\Hinay-hinay \\eang.",
 			"translation": "Little by little, that's all.",
 			"next": null,
-			"word_ids": ["w079", "w059"]
+			"word_ids": ["w289", "w059"]
 		}
 	],
 	"scene_weaver_2": [
