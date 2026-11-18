@@ -67,6 +67,7 @@ var dev_show_cards: bool = false
 const DEV_SHOW_CARDS_KEY := "show_chapter_cards"
 
 func _ready() -> void:
+	_init_save_slots()
 	var config := ConfigFile.new()
 	if config.load(DEV_SETTINGS_PATH) == OK:
 		dev_mode = bool(config.get_value(DEV_SETTINGS_SECTION, DEV_SETTINGS_KEY, false))
@@ -335,12 +336,80 @@ func _regen_patience(npc_id: String) -> void:
 	patience[npc_id] = min(float(PATIENCE_MAX), current + regained)
 	_patience_last_update[npc_id] = now
 
-const SAVE_PATH = "user://save.dat"
-## Each save is written here first, then swapped in, so a crash mid-write can't
-## damage the real file.
-const SAVE_TEMP_PATH = "user://save.tmp"
-## The previous save, used if the main file can't be read.
-const SAVE_BACKUP_PATH = "user://save.bak"
+# --- Save slots ---
+# Three games side by side: <save_dir>/save_<slot>.dat. Each save is written to
+# save_<slot>.tmp first and then swapped in, so a crash mid-write can't damage the
+# real file; the previous save stays as save_<slot>.bak and is used if the main
+# file can't be read. The main menu picks the slot (save_slot) before New Game or
+# Continue. Test runs pass "--save-dir=user://playtest/<name>/" after "--" so they
+# never touch the player's slots.
+const SLOT_COUNT := 3
+## Before save slots there was one game, user://save.dat. It becomes slot 1.
+const LEGACY_SAVE_PATH := "user://save.dat"
+const LEGACY_BACKUP_PATH := "user://save.bak"
+## Slot last played, remembered in settings.cfg so Continue starts there.
+const SLOT_SETTINGS_SECTION := "save"
+const SLOT_SETTINGS_KEY := "last_slot"
+var save_slot: int = 1
+var save_dir: String = "user://"
+
+func _save_path(slot: int = 0) -> String:
+	return save_dir.path_join("save_%d.dat" % (slot if slot > 0 else save_slot))
+
+func _save_temp_path(slot: int = 0) -> String:
+	return save_dir.path_join("save_%d.tmp" % (slot if slot > 0 else save_slot))
+
+func _save_backup_path(slot: int = 0) -> String:
+	return save_dir.path_join("save_%d.bak" % (slot if slot > 0 else save_slot))
+
+## Reads "--save-dir=" (test runs) and moves a pre-slots save into slot 1.
+func _init_save_slots() -> void:
+	for a in OS.get_cmdline_user_args():
+		if a.begins_with("--save-dir="):
+			save_dir = a.substr(11)
+			DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(save_dir))
+			return  # test runs keep their own folder; no migration, no last-slot memory
+	if FileAccess.file_exists(LEGACY_SAVE_PATH) and not FileAccess.file_exists(_save_path(1)):
+		DirAccess.rename_absolute(LEGACY_SAVE_PATH, _save_path(1))
+		if FileAccess.file_exists(LEGACY_BACKUP_PATH) and not FileAccess.file_exists(_save_backup_path(1)):
+			DirAccess.rename_absolute(LEGACY_BACKUP_PATH, _save_backup_path(1))
+	var config := ConfigFile.new()
+	if config.load(DEV_SETTINGS_PATH) == OK:
+		save_slot = clampi(int(config.get_value(SLOT_SETTINGS_SECTION, SLOT_SETTINGS_KEY, 1)), 1, SLOT_COUNT)
+
+## Makes slot the one save_game()/load_game() use, and remembers it for Continue.
+func use_slot(slot: int) -> void:
+	save_slot = clampi(slot, 1, SLOT_COUNT)
+	if save_dir != "user://":
+		return
+	var config := ConfigFile.new()
+	config.load(DEV_SETTINGS_PATH)  # keep the other settings in the file
+	config.set_value(SLOT_SETTINGS_SECTION, SLOT_SETTINGS_KEY, save_slot)
+	config.save(DEV_SETTINGS_PATH)
+
+## What the slot picker shows: {exists, name, chapter, saved (unix time)}.
+func slot_summary(slot: int) -> Dictionary:
+	var path := _save_path(slot)
+	var data: Variant = _read_save(path)
+	if data == null:
+		path = _save_backup_path(slot)
+		data = _read_save(path)
+	if data == null:
+		return {"exists": false}
+	var f: Dictionary = data.get("flags", {})
+	var chapter := 1
+	for n in range(6, 1, -1):
+		if f.get("chapter%d_started" % n, false) or f.get("seen_chapter%d_scene0" % n, false):
+			chapter = n
+			break
+	return {"exists": true, "name": str(data.get("player_name", "")), "chapter": chapter,
+		"saved": FileAccess.get_modified_time(path)}
+
+## Removes a slot's save and backup.
+func delete_slot(slot: int) -> void:
+	for p in [_save_path(slot), _save_backup_path(slot), _save_temp_path(slot)]:
+		if FileAccess.file_exists(p):
+			DirAccess.remove_absolute(p)
 
 # --- Flag System ---
 func set_flag(flag_name: String, value: bool = true) -> void:
@@ -467,9 +536,10 @@ func save_game() -> bool:
 		"event_reminder_date": event_reminder_date,
 		"puzzle_progress": puzzle_progress
 	}
-	var file := FileAccess.open(SAVE_TEMP_PATH, FileAccess.WRITE)
+	var temp_path := _save_temp_path()
+	var file := FileAccess.open(temp_path, FileAccess.WRITE)
 	if file == null:
-		push_error("GameState.save_game: cannot open %s for writing (error %d)" % [SAVE_TEMP_PATH, FileAccess.get_open_error()])
+		push_error("GameState.save_game: cannot open %s for writing (error %d)" % [temp_path, FileAccess.get_open_error()])
 		return false
 
 	file.store_var(data)
@@ -477,25 +547,34 @@ func save_game() -> bool:
 	var write_error: Error = file.get_error()
 	file.close()
 	if write_error != OK:
-		push_error("GameState.save_game: failed writing %s (error %d)" % [SAVE_TEMP_PATH, write_error])
+		push_error("GameState.save_game: failed writing %s (error %d)" % [temp_path, write_error])
 		return false
 	return _swap_in_saved_file()
 
 ## Keeps the current save as the backup and makes the finished temp file the save.
 func _swap_in_saved_file() -> bool:
-	if FileAccess.file_exists(SAVE_PATH):
-		if FileAccess.file_exists(SAVE_BACKUP_PATH):
-			DirAccess.remove_absolute(SAVE_BACKUP_PATH)
-		DirAccess.rename_absolute(SAVE_PATH, SAVE_BACKUP_PATH)
-	var error := DirAccess.rename_absolute(SAVE_TEMP_PATH, SAVE_PATH)
+	var path := _save_path()
+	var backup := _save_backup_path()
+	if FileAccess.file_exists(path):
+		if FileAccess.file_exists(backup):
+			DirAccess.remove_absolute(backup)
+		DirAccess.rename_absolute(path, backup)
+	var error := DirAccess.rename_absolute(_save_temp_path(), path)
 	if error != OK:
-		push_error("GameState.save_game: could not replace %s (error %d)" % [SAVE_PATH, error])
+		push_error("GameState.save_game: could not replace %s (error %d)" % [path, error])
 		return false
 	return true
 
-## True if there's anything Continue could try to load.
-func has_save() -> bool:
-	return FileAccess.file_exists(SAVE_PATH) or FileAccess.file_exists(SAVE_BACKUP_PATH)
+## True if there's anything Continue could try to load in slot (0 = the current slot).
+func has_save(slot: int = 0) -> bool:
+	return FileAccess.file_exists(_save_path(slot)) or FileAccess.file_exists(_save_backup_path(slot))
+
+## True if any slot has a game.
+func has_any_save() -> bool:
+	for s in range(1, SLOT_COUNT + 1):
+		if has_save(s):
+			return true
+	return false
 
 ## The save at path, or null if it's missing, empty or damaged.
 func _read_save(path: String) -> Variant:
@@ -519,9 +598,9 @@ func _migrate_flags() -> void:
 				break
 
 func load_game() -> bool:
-	var data: Variant = _read_save(SAVE_PATH)
+	var data: Variant = _read_save(_save_path())
 	if data == null:
-		data = _read_save(SAVE_BACKUP_PATH)
+		data = _read_save(_save_backup_path())
 		if data == null:
 			push_error("GameState.load_game: no readable save found")
 			return false
