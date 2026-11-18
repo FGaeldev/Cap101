@@ -997,10 +997,14 @@ func _nav_tick() -> void:
 				_nav_clear()
 
 func _act_interact(player: Node2D, now: int) -> void:
-	var ic: Node = _nav.ic
-	if not is_instance_valid(ic):
+	# Untyped first: assigning a freed NPC (left on its schedule) to a typed var errors
+	# before the validity check can run.
+	var target = _nav.get("ic")
+	if not is_instance_valid(target):
+		_p("  (target gone: %s)" % _nav.get("name", "?"))
 		_nav_clear()
 		return
+	var ic: Node = target
 	if not ic._in_range:
 		if _nav.phase != "wait_range":
 			_nav.phase = "wait_range"

@@ -183,6 +183,18 @@
 			"show_popup": false
 		},
 		{
+			"id": "q020",
+			"category": "main",
+			"title": "Chapter 5 is on its way",
+			"description": "That's the story so far. Chapter 5, Hala Bira!, is on its way. Follow @fgaeldevnew for updates. Until then, you can still learn new words by talking to people around town.",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "chapter4_complete",
+			"unless_flag": "chapter5_started",
+			"completion_flag": "quest_020_done",
+			"show_popup": false
+		},
+		{
 			"id": "qs001",
 			"category": "side",
 			"title": "Susan's list",
