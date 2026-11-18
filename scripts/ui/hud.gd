@@ -139,6 +139,7 @@ func _ready() -> void:
 	_refresh_tier()
 	_build_wallet()
 	_refresh_wallet()
+	_build_fast_forward()
 	_rebuild_quest_rows()
 	# This layer sits above every panel: the column's own empty area must not
 	# swallow clicks meant for what's under it. MenuButton still gets its own.
@@ -179,6 +180,7 @@ func _process(_delta: float) -> void:
 	var fullscreen: bool = DialogueUI.is_fullscreen_active()
 	clock_panel.visible = not fullscreen
 	_wallet_panel.visible = not fullscreen and _wallet_shown()
+	_update_fast_forward(fullscreen)
 	_menu_row.visible = not fullscreen
 	quest_column.visible = not fullscreen
 	tier_bar.visible = not fullscreen and not BookUI.separate_menus
@@ -670,3 +672,42 @@ func _on_reward_popup(kind: String, value) -> void:
 	if kind == "pesos":
 		push_toast(str(value.get("reason", "Pesos")), "+₱%d" % int(value.get("amount", 0)))
 	RewardManager.advance_popup()
+
+# --- Fast-forward (v0.1.19 playtest: long walks with Rose were tedious) -------
+
+var _fast_button: Button
+
+## "Fast »" toggle, bottom right, while a cutscene walks the player around.
+func _build_fast_forward() -> void:
+	_fast_button = Button.new()
+	_fast_button.name = "FastForwardButton"
+	_fast_button.toggle_mode = true
+	_fast_button.focus_mode = Control.FOCUS_NONE
+	_fast_button.custom_minimum_size = Vector2(72, 26)
+	_fast_button.anchor_left = 1.0
+	_fast_button.anchor_top = 1.0
+	_fast_button.anchor_right = 1.0
+	_fast_button.anchor_bottom = 1.0
+	_fast_button.offset_left = -96.0
+	_fast_button.offset_top = -62.0
+	_fast_button.offset_right = -24.0
+	_fast_button.offset_bottom = -36.0
+	_fast_button.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	_fast_button.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	UIThemeApplier.apply_button_theme(_fast_button, "secondary")
+	_fast_button.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
+	_fast_button.visible = false
+	_fast_button.toggled.connect(func(on: bool):
+		AudioManager.play_sfx("menu_click")
+		CutsceneManager.set_fast_forward(on))
+	add_child(_fast_button)
+
+## Shown during a cutscene, hidden while a dialogue line is up (lines read at
+## normal speed anyway) and behind full-screen panels or the Book.
+func _update_fast_forward(fullscreen: bool) -> void:
+	var show: bool = CutsceneManager.is_playing() and not DialogueUI.is_active() \
+			and not fullscreen and not BookUI.visible and not ChapterCard.visible
+	_fast_button.visible = show
+	if _fast_button.button_pressed != CutsceneManager.fast_forward:
+		_fast_button.set_pressed_no_signal(CutsceneManager.fast_forward)
+	_fast_button.text = "Fast »»" if CutsceneManager.fast_forward else "Fast »"

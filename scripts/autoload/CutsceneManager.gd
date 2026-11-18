@@ -44,6 +44,32 @@ var _run_id: int = 0
 ## level swap.
 var _tweens: Array[Tween] = []
 
+## Fast-forward (HUD button during cutscenes, v0.1.19 playtest: long walks were
+## tedious). Multiplies the cutscene's own game_speed while no dialogue line is
+## up, so lines still read at normal speed. Off again when the cutscene ends.
+const FAST_FORWARD_SCALE: float = 3.0
+var fast_forward: bool = false
+var _base_speed: float = 1.0
+
+## game_speed step: the cutscene's own speed (fast-forward multiplies it).
+func set_game_speed(scale: float) -> void:
+	_base_speed = maxf(scale, 0.1)
+	_apply_speed()
+
+func set_fast_forward(on: bool) -> void:
+	fast_forward = on and _playing
+	_apply_speed()
+
+func _apply_speed() -> void:
+	var boost: bool = fast_forward and _playing and not DialogueUI.is_active()
+	Engine.time_scale = _base_speed * (FAST_FORWARD_SCALE if boost else 1.0)
+
+## Back to normal speed with fast-forward off (cutscene end or abort).
+func _reset_speed() -> void:
+	fast_forward = false
+	_base_speed = 1.0
+	Engine.time_scale = 1.0
+
 func _ready() -> void:
 	_register_actions()
 
@@ -109,7 +135,7 @@ func play(cutscene_id: String) -> void:
 		return  # aborted: abort() already reset state, a newer run may own it
 	_playing = false
 	_tweens.clear()
-	Engine.time_scale = 1.0  # a game_speed step never outlives its cutscene
+	_reset_speed()  # a game_speed step or fast-forward never outlives its cutscene
 	cutscene_finished.emit(cutscene_id)
 
 func _run_sequence(steps: Array, run_id: int) -> void:
@@ -203,7 +229,7 @@ func abort() -> void:
 		return
 	_run_id += 1
 	_playing = false
-	Engine.time_scale = 1.0
+	_reset_speed()
 	for tween in _tweens:
 		if tween.is_valid():
 			tween.kill()
@@ -231,6 +257,8 @@ func abort() -> void:
 var _cam_follow_target: Node2D = null
 
 func _process(_delta: float) -> void:
+	if fast_forward:
+		_apply_speed()  # dialogue lines come and go; they read at normal speed
 	if _cam_follow_target == null:
 		return
 	if not is_instance_valid(_cam_follow_target):

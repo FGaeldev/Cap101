@@ -866,7 +866,15 @@ func _nav_tick() -> void:
 				_p("  reached the goal tile")
 				_nav_clear()
 			elif _nav.kind == "warp":
-				_hold_dir(_nav.trig)
+				var door: Node = _nav.get("warp")
+				if is_instance_valid(door) and door.has_method("uses_button") and door.uses_button():
+					# Doors open with the interact button (comp_warp.gd entry), not by walking in.
+					_hold_dir(Vector2i.ZERO)
+					var ic: Node = door.get_node_or_null("DoorInteract")
+					if ic != null:
+						ic.try_interact()
+				else:
+					_hold_dir(_nav.trig)
 				_nav.phase = "hold"
 				_nav.t = now
 			else:
@@ -878,6 +886,11 @@ func _nav_tick() -> void:
 				_p("  (no visible response from %s)" % _nav.name)
 				_nav_clear()
 		"hold":
+			var held_door: Node = _nav.get("warp")
+			if is_instance_valid(held_door) and held_door.has_method("uses_button") and held_door.uses_button():
+				var dic: Node = held_door.get_node_or_null("DoorInteract")
+				if dic != null and now - int(_nav.t) > 400:
+					dic.try_interact()  # retry: the box may need a frame to see the player
 			if now - int(_nav.t) > 3000:
 				_add_finding("stuck", "stood on door %s in %s holding %s for 3s and it didn't open" % [_nav.name, A.GameState.current_level_path.get_file(), DIR_ACTIONS[_nav.trig]])
 				_failed_edges[_nav.edge] = _epoch

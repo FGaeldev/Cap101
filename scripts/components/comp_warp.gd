@@ -59,6 +59,19 @@ const NO_TARGET_MESSAGE: String = "I don't need to go that way right now."
 		span_tiles_override = value
 		_refresh_shape()
 
+## How the player goes through (v0.1.19 playtest: walking into doors kept
+## bouncing players in and out). BUTTON: stand on the door and press the
+## interact button (HUD button, E, or tap the door). WALK: walk into it while
+## holding the trigger direction (map-edge roads). AUTO: BUTTON for doors (up or
+## down, at most 2 tiles wide), WALK for side exits and wide openings.
+enum Entry { AUTO, BUTTON, WALK }
+@export var entry: Entry = Entry.AUTO
+
+const InteractableScene := preload("res://scenes/components/interactable_component.tscn")
+## Extra reach (px) around the door for the interact box, so standing on the
+## door tile or just in front of it both work.
+const BUTTON_REACH: float = 6.0
+
 ## Seconds the player must keep holding the trigger direction, when they step
 ## onto the door already pressing it, before the door fires.
 @export_range(0.0, 2.0, 0.05) var hold_delay: float = 0.5
@@ -123,6 +136,17 @@ var _fired: bool = false
 var _armed: bool = false
 ## Seconds the trigger direction has been held since entering (held-through path).
 var _hold_time: float = 0.0
+## Player arrived inside this area by a warp (spawned on it): no held-through
+## firing until they let go, so holding a direction can't bounce them back.
+var _arrived_inside: bool = false
+
+## True when this warp opens with the interact button (see entry).
+func uses_button() -> bool:
+	if entry != Entry.AUTO:
+		return entry == Entry.BUTTON
+	var tiles: int = span_tiles_override if span_tiles_override > 0 else int(door_width)
+	var vertical: bool = trigger_direction == TriggerDirection.UP or trigger_direction == TriggerDirection.DOWN
+	return vertical and tiles <= 2
 
 func _ready() -> void:
 	_refresh_shape()
@@ -130,6 +154,8 @@ func _ready() -> void:
 		return
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
+	if uses_button():
+		_add_interactable.call_deferred()
 
 ## Polls while a player overlaps. Two ways to fire:
 ## 1) Fresh press: door saw the player NOT pressing the trigger direction
@@ -145,13 +171,18 @@ func _physics_process(delta: float) -> void:
 		if required_flag.is_empty() or GameState.dev_mode or GameState.get_flag(required_flag):
 			_fire(_player)
 		return
+	if uses_button():
+		return  # opened by the interact button instead (_on_interacted)
 	var want: Vector2 = TRIGGER_VECTORS[trigger_direction]
 	if _player.get_input_dir() != want:
 		_armed = true
+		_arrived_inside = false
 		_hold_time = 0.0
 		return
 	if _armed:
 		_fire(_player)
+		return
+	if _arrived_inside:
 		return
 	_hold_time += delta
 	if _hold_time >= hold_delay:
@@ -163,6 +194,7 @@ func _on_body_entered(body: Node) -> void:
 	_player = body
 	_armed = false
 	_hold_time = 0.0
+	_arrived_inside = MapManager.is_transitioning
 
 func _on_body_exited(body: Node) -> void:
 	if body == _player:
@@ -262,3 +294,23 @@ func _walk_player_back(player) -> void:
 	tween.tween_property(player, "global_position", target, player.step_time)
 	tween.finished.connect(func():
 		player.sprite.play("idle_" + player.direction))
+
+## BUTTON doors: an InteractableComponent over the door, so the HUD interact
+## button, the interact key and a tap on the door all open it.
+func _add_interactable() -> void:
+	var col := get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if col == null or not col.shape is RectangleShape2D:
+		return
+	var ic: InteractableComponent = InteractableScene.instantiate()
+	ic.name = "DoorInteract"
+	ic.interact_label = "Enter"
+	add_child(ic)
+	ic.position = col.position
+	ic.area_size = (col.shape as RectangleShape2D).size + Vector2.ONE * BUTTON_REACH * 2.0
+	ic.interacted.connect(_on_interacted)
+
+func _on_interacted(interactor: Node) -> void:
+	var player: Node = interactor if interactor != null else _player
+	if player == null or _blocked_dialogue_active:
+		return
+	_fire(player)

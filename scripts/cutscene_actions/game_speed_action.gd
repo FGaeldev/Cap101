@@ -11,4 +11,4 @@ func action_type() -> String:
 	return "game_speed"
 
 func execute(step: Dictionary, _mgr: Node) -> void:
-	Engine.time_scale = maxf(float(step.get("scale", 1.0)), 0.1)
+	_mgr.set_game_speed(float(step.get("scale", 1.0)))
