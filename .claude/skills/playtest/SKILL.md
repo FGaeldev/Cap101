@@ -15,9 +15,16 @@ report has at least one screenshot.**
 |---|---|---|
 | Whole game | `bash .claude/skills/playtest/scripts/run.sh full` | every playable chapter in order from a new game, ~30 min |
 | One chapter | `bash .claude/skills/playtest/scripts/run.sh chapter <N>` | that chapter from its start state; ch1 ~2 min, ch2 ~25 min |
+| Every chapter, fast | `bash .claude/skills/playtest/scripts/run.sh parallel` | the story in segments (1, 2a tour, 2b mass+dinner, 3, 4), 3 at once; each runs from its start state until the next chapter's opening cutscene starts, so handoffs are played for real. Writes `summary.md` merging all segments |
 | Data only | `bash .claude/skills/playtest/scripts/run.sh static` | static check alone, ~30 s |
 
-`full` and `chapter` also run the static check first. Run the command in the
+Use `parallel` day to day; keep one `full` run before a release, because forced
+start states can drift from what real play leaves behind (a flag set in Chapter 2
+and read in Chapter 4 is only checked by `full`). Segments are defined in
+`SEGMENTS` in `autoplay.gd`; `PLAYTEST_PARALLEL=<n>` changes how many run at once,
+`PLAYTEST_SEGMENTS="2b 3"` picks some.
+
+`full`, `chapter` and `parallel` also run the static check first. Run the command in the
 background (`run_in_background`) for anything but `static`, and wait for the
 completion notice. The last line printed is `REPORT_DIR=<folder>`.
 
@@ -25,7 +32,7 @@ Env overrides: `PLAYTEST_BUDGET=<seconds>` (real-time limit),
 `PLAYTEST_ARGS="--speed=4 --wait-speed=16"`, `GODOT=<console binary>`.
 
 "Playable" chapters are those marked `"available": true` in `data/chapters.json`
-**and** defined in `CHAPTERS` in `scripts/autoplay.gd` (currently 1 and 2). Asking
+**and** defined in `CHAPTERS` in `scripts/autoplay.gd` (1 to 4; Chapter 4 runs before it is marked available). Asking
 for another chapter ends at once with a "not defined" finding: say the chapter isn't
 built yet rather than reporting it as a bug.
 
@@ -33,12 +40,12 @@ built yet rather than reporting it as a bug.
 
 - Runs are **windowed** (a game window appears; screenshots need a real frame).
   Tell the user a window will pop up and not to type into it. Never add `--headless`.
-- Don't run two playtests at once, and don't run while the user is playing in the
-  editor: both write the same save file.
-- `run.sh` backs up `save.dat`, `save.bak` and `settings.cfg` into
-  `<report>/backup/` and restores only files the run changed. Check its last
-  lines for `save.dat: restored/unchanged`. If it prints a WARNING, tell the user
-  and point them at the backup; don't overwrite anything yourself.
+- Every Godot run saves into its own folder (`--save-dir=user://playtest/<run>/`,
+  read by GameState), never into the player's save slots (`save_1.dat`..`save_3.dat`),
+  and run.sh deletes those folders afterwards. Its last lines say
+  `player saves: untouched`.
+- `settings.cfg` is still shared: run.sh backs it up into `<report>/backup/` and
+  puts it back only if a run changed it.
 - The auto-player forces dev mode off for the run (the user's own setting comes
   back with settings.cfg).
 
