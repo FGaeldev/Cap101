@@ -81,6 +81,19 @@
 	{"type": "dialogue", "speaker": "Lola Ising", "text": "We call them the Nineteen Martyrs of Aklan. They rest at the Aklan Freedom Shrine. Everybody just calls it \"Castillo.\"", "next": 4, "word_ids": []},
 	{"type": "dialogue", "speaker": "Lola Ising", "text": "So when you walk through Pastrana, walk a little slower. Brave people stood here.", "next": null, "word_ids": []}
   ],
+  "lost_child": [
+	{"type": "dialogue", "speaker": "Bea", "text": "*sniff* ...Lola? ...You're not my Lola.", "next": 1, "word_ids": []},
+	{"type": "dialogue", "speaker": "Player", "text": "", "next": null, "word_ids": [], "choices": [{"label": "Hey, it's okay. What's your name?", "next": 2, "rapport_delta": 0},{"label": "Are you lost?", "next": 2, "rapport_delta": 0}]},
+	{"type": "dialogue", "speaker": "Bea", "text": "\\Ako si Bea.", "translation": "I'm Bea.", "next": 3, "word_ids": ["w011", "w248"]},
+	{"type": "dialogue", "speaker": "Bea", "text": "I was with my Lola, then she was gone. She has a pink umbrella.", "next": 4, "word_ids": []},
+	{"type": "dialogue", "speaker": "Player", "text": "Stay right here by the fountain, Bea. I'll find her.", "next": null, "word_ids": [], "set_flag": "lost_child_asked"}
+  ],
+  "lost_child_lola": [
+	{"type": "dialogue", "speaker": "Bea's Lola", "text": "Have you seen a little girl? My \\apo, Bea. I turned around and she was gone!", "translation": "Have you seen a little girl? My grandchild, Bea. I turned around and she was gone!", "next": 1, "word_ids": ["w019"]},
+	{"type": "dialogue", "speaker": "Player", "text": "She's by the fountain. She told me her name.", "next": 2, "word_ids": []},
+	{"type": "dialogue", "speaker": "Bea's Lola", "text": "\\Saeamat, \\apo! Thank you, thank you.", "translation": "Thank you, apo! Thank you, thank you.", "next": 3, "word_ids": ["w206", "w019"], "complete_quest": "qs008"},
+	{"type": "dialogue", "speaker": "Bea's Lola", "text": "Bea! Stay there, Lola's coming!", "next": null, "word_ids": []}
+  ],
   "scene_1_meet_pedring": [
 	{
 	  "speaker": "Rose",

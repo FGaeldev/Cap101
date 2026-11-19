@@ -176,6 +176,11 @@ func _show_line() -> void:
 			GameState.set_flag(set_id, bool(set_spec.get("value", true)))
 	elif set_spec is String and not set_spec.strip_edges().is_empty():
 		GameState.set_flag(set_spec.strip_edges())
+	# complete_quest: a quest id finished when this line shows (e.g. the lost
+	# child's lola thanking the player).
+	var quest_id := str(line.get("complete_quest", "")).strip_edges()
+	if not quest_id.is_empty():
+		QuestManager.complete_quest(quest_id)
 
 	var portrait_tex = CharacterRegistry.get_portrait(
 		line.get("speaker", "")

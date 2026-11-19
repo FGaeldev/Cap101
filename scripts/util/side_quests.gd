@@ -7,6 +7,10 @@
 #   offer_flag   : the giver offers the quest once this story flag is set
 #   offer_condition: optional NpcSchedule condition that must hold right now
 #                  (e.g. "mass_skipped": only while the others are at mass)
+#   offer_spot   : optional culture spot id whose person must be out now
+#                  ("taho_vendor": only on the mornings the taho man comes)
+#   offer_dates  : optional {from: [month, day], to: [month, day]} (holidays)
+#   unless_flag  : never offered or reminded once this flag is set
 #   start_pesos  : money the giver hands over on accepting (to buy with)
 #   needs_items  : {item id: count} the player brings back (data/items.json)
 #   reward_rapport: hearts with the giver on hand-in
@@ -17,14 +21,24 @@
 extends RefCounted
 
 const SIDE_CATEGORY := "side"
+const CultureSpots := preload("res://scripts/util/culture_spots.gd")
 
 ## Dialogue lines for the giver's side quest, or [] (then normal talk runs).
 static func lines_for(npc_id: String) -> Array:
-	for qid: String in QuestManager.quests:
+	# Time-limited quests (holiday dates, a random-day vendor) come first, so
+	# they aren't missed behind an ordinary errand the giver also has.
+	var ids: Array = QuestManager.quests.keys()
+	var timed: Array = ids.filter(func(id: String) -> bool:
+		return QuestManager.quests[id].has("offer_dates") or QuestManager.quests[id].has("offer_spot"))
+	for qid: String in timed + ids.filter(func(id: String) -> bool: return not timed.has(id)):
 		var q: Dictionary = QuestManager.quests[qid]
 		if q.get("category", "") != SIDE_CATEGORY or q.get("giver", "") != npc_id:
 			continue
 		if GameState.get_flag(str(q.get("completion_flag", ""))):
+			continue
+		# The story moved past it (packing for the flight once in Aklan).
+		var unless_flag: String = str(q.get("unless_flag", ""))
+		if not unless_flag.is_empty() and GameState.get_flag(unless_flag):
 			continue
 		var accepted: bool = GameState.get_flag(str(q.get("requires_flag", "")))
 		if accepted:
@@ -58,8 +72,22 @@ static func _can_offer(qid: String, q: Dictionary) -> bool:
 	var offer_condition: String = str(q.get("offer_condition", ""))
 	if not offer_condition.is_empty() and not NpcSchedule.condition(offer_condition):
 		return false
+	var offer_spot: String = str(q.get("offer_spot", ""))
+	if not offer_spot.is_empty() and not CultureSpots.is_spot_out(offer_spot):
+		return false
+	if q.has("offer_dates") and not _in_dates(q["offer_dates"]):
+		return false
 	# "Not now" today means she asks again tomorrow, not on every Talk.
 	return int(GameState.quest_offer_declined.get(qid, -1)) != GameState.daily_date()
+
+## offer_dates {"from": [month, day], "to": [month, day]}, inclusive, within one
+## year (Dec 20 to Dec 24). Uses the in-game date.
+static func _in_dates(dates: Dictionary) -> bool:
+	var d: Dictionary = DayNightManager.get_date()
+	var today: int = int(d["month"]) * 100 + int(d["day"])
+	var from: Array = dates.get("from", [1, 1])
+	var to: Array = dates.get("to", [12, 31])
+	return today >= int(from[0]) * 100 + int(from[1]) and today <= int(to[0]) * 100 + int(to[1])
 
 static func _line(q: Dictionary, key: String, extra: Dictionary = {}) -> Dictionary:
 	var line_key: String = str(q.get("lines", {}).get(key, ""))

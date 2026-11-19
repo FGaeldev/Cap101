@@ -45,6 +45,50 @@
 					6,
 					18
 				]
+			},
+			{
+				"id": "lost_child",
+				"scene": "res://scenes/entities/npc_LostChild.tscn",
+				"at": [
+					848,
+					688
+				],
+				"face": "down",
+				"chapter": "chapter2",
+				"scene_key": "lost_child",
+				"requires_flag": "chapter2_tour_done",
+				"unless_flag": "side_qs008_done",
+				"hours": [
+					15,
+					18
+				],
+				"chance": 40
+			},
+			{
+				"id": "bea_lola",
+				"scene": "res://scenes/entities/npc_BeaLola.tscn",
+				"at": [
+					1200,
+					320
+				],
+				"face": "down",
+				"chapter": "chapter2",
+				"scene_key": "lost_child_lola",
+				"requires_flag": "lost_child_asked",
+				"unless_flag": "side_qs008_done"
+			}
+		],
+		"pickups": [
+			{
+				"id": "rose_notebook",
+				"item": "rose_notebook",
+				"at": [
+					784,
+					768
+				],
+				"requires_flag": "side_qs005_accepted",
+				"unless_flag": "side_qs005_done",
+				"text": "Rose's notebook! Every page is full of Akeanon words, with little drawings next to them."
 			}
 		]
 	},
@@ -133,6 +177,24 @@
 					6,
 					12
 				]
+			},
+			{
+				"id": "taho_vendor",
+				"scene": "res://scenes/entities/npc_TahoVendor.tscn",
+				"at": [
+					304,
+					208
+				],
+				"face": "down",
+				"chapter": "chapter2",
+				"scene_key": "",
+				"shop_id": "taho_cart",
+				"requires_flag": "chapter2_tour_done",
+				"hours": [
+					6,
+					9
+				],
+				"chance": 35
 			}
 		]
 	},
@@ -146,6 +208,106 @@
 				"chapter": "chapter2",
 				"scene_key": "",
 				"shop_id": "souvenirs"
+			}
+		]
+	},
+	"res://scenes/world/chapter1/us_bedroom.tscn": {
+		"pickups": [
+			{
+				"id": "pack_passport",
+				"item": "passport",
+				"at": [
+					112,
+					64
+				],
+				"requires_flag": "side_qs004_accepted",
+				"unless_flag": "side_qs004_done",
+				"text": "Your passport, under a pile of homework."
+			},
+			{
+				"id": "pack_jacket",
+				"item": "jacket",
+				"at": [
+					96,
+					96
+				],
+				"requires_flag": "side_qs004_accepted",
+				"unless_flag": "side_qs004_done",
+				"text": "Your travel jacket. Lola says the plane gets cold."
+			}
+		]
+	},
+	"res://scenes/world/chapter1/us_living.tscn": {
+		"pickups": [
+			{
+				"id": "pack_box",
+				"item": "pasalubong_box",
+				"at": [
+					128,
+					96
+				],
+				"requires_flag": "side_qs004_accepted",
+				"unless_flag": "side_qs004_done",
+				"text": "The pasalubong box for Lola Susan. It smells like chocolate."
+			}
+		]
+	},
+	"res://scenes/world/bakhawan/bakhawan_trail.tscn": {
+		"pickups": [
+			{
+				"id": "litter_1",
+				"item": "litter",
+				"at": [
+					400,
+					112
+				],
+				"requires_flag": "side_qs006_accepted",
+				"unless_flag": "side_qs006_done",
+				"text": "A plastic wrapper. Into the bag it goes."
+			},
+			{
+				"id": "litter_2",
+				"item": "litter",
+				"at": [
+					320,
+					256
+				],
+				"requires_flag": "side_qs006_accepted",
+				"unless_flag": "side_qs006_done",
+				"text": "A bottle cap, wedged between the bamboo slats."
+			},
+			{
+				"id": "litter_3",
+				"item": "litter",
+				"at": [
+					272,
+					432
+				],
+				"requires_flag": "side_qs006_accepted",
+				"unless_flag": "side_qs006_done",
+				"text": "A plastic straw."
+			},
+			{
+				"id": "litter_4",
+				"item": "litter",
+				"at": [
+					464,
+					432
+				],
+				"requires_flag": "side_qs006_accepted",
+				"unless_flag": "side_qs006_done",
+				"text": "A candy wrapper by the watchtower."
+			},
+			{
+				"id": "litter_5",
+				"item": "litter",
+				"at": [
+					176,
+					640
+				],
+				"requires_flag": "side_qs006_accepted",
+				"unless_flag": "side_qs006_done",
+				"text": "A plastic cup on the steps."
 			}
 		]
 	}

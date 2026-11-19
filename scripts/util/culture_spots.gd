@@ -5,23 +5,43 @@
 # calls place() for every level.
 #   "npcs":        {id, scene, at [x, y] or "marker", face, chapter, scene_key,
 #                   hours [from, to], days [weekday 0=Sun..], shop_id,
-#                   unless_flag}. Story lines play the first
-#                   time (story_done_flag "culture_<id>_heard"), idle talk after.
+#                   requires_flag, unless_flag, chance (0-100: out on that share
+#                   of days, the same all day; random events)}. Story lines play
+#                   the first time (story_done_flag "culture_<id>_heard"), idle
+#                   talk after. is_spot_out(id) tells side quests (offer_spot)
+#                   whether a spot's person is out right now.
 #   "examinables": {at, size [w, h], chapter, scene_key} -- examinable.gd areas
 #                   for objects already in the map (altar, exhibit cabinets).
+#   "pickups":     {id, item, at, requires_flag, unless_flag, text} -- pickup.gd
+#                   glints for side quests (shown only while the quest wants them).
 extends RefCounted
 
 const DATA_PATH: String = "res://data/culture_spots.json"
 const MarkerUtil := preload("res://scripts/util/marker_util.gd")
 const EXAMINABLE := preload("res://scripts/entities/examinable.gd")
+const PICKUP := preload("res://scripts/entities/pickup.gd")
 const FACES := {"up": Vector2.UP, "down": Vector2.DOWN, "left": Vector2.LEFT, "right": Vector2.RIGHT}
 
 static var _data: Dictionary = {}
 
-static func place(level: Node2D, path: String) -> void:
+static func _load() -> void:
 	if _data.is_empty():
 		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(DATA_PATH))
 		_data = parsed if parsed is Dictionary else {"_bad": true}
+
+## True if the spot NPC with this id (any level) is out right now.
+static func is_spot_out(spot_id: String) -> bool:
+	_load()
+	for path: String in _data:
+		if not _data[path] is Dictionary:
+			continue
+		for entry: Dictionary in _data[path].get("npcs", []):
+			if str(entry.get("id", "")) == spot_id:
+				return _is_out(entry)
+	return false
+
+static func place(level: Node2D, path: String) -> void:
+	_load()
 	var spots: Dictionary = _data.get(path, {})
 	for entry: Dictionary in spots.get("npcs", []):
 		if not _is_out(entry):
@@ -46,12 +66,30 @@ static func place(level: Node2D, path: String) -> void:
 		spot.area_size = Vector2(size[0], size[1])
 		spot.position = _resolve(level, entry.get("at"))
 		level.add_child(spot)
+	for entry: Dictionary in spots.get("pickups", []):
+		var pickup := Node2D.new()
+		pickup.set_script(PICKUP)
+		pickup.pickup_id = str(entry.get("id", ""))
+		pickup.item_id = str(entry.get("item", ""))
+		pickup.requires_flag = str(entry.get("requires_flag", ""))
+		pickup.unless_flag = str(entry.get("unless_flag", ""))
+		pickup.found_text = str(entry.get("text", ""))
+		pickup.position = _resolve(level, entry.get("at"))
+		level.add_child(pickup)
 
 ## Present right now: inside its hours and its unless_flag not set.
 static func _is_out(entry: Dictionary) -> bool:
 	var unless: String = str(entry.get("unless_flag", ""))
 	if not unless.is_empty() and GameState.get_flag(unless):
 		return false
+	var requires: String = str(entry.get("requires_flag", ""))
+	if not requires.is_empty() and not GameState.get_flag(requires):
+		return false
+	# Random events: the same answer all day (seeded by the daily date and id).
+	if entry.has("chance"):
+		var roll: int = absi(hash("%s:%d" % [str(entry.get("id", "")), GameState.daily_date()])) % 100
+		if roll >= int(entry["chance"]):
+			return false
 	var days: Array = entry.get("days", [])
 	if not days.is_empty() and not days.has(float(DayNightManager.get_date()["weekday"])):
 		return false

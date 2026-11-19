@@ -8,13 +8,20 @@
 		"pina_bookmark": {"name": "Piña bookmark", "akeanon_word_id": "", "kind": "keepsake", "base_price": 0, "sellable": false, "collection_id": "col_pina_bookmark"},
 		"mangrove_seedling": {"name": "Mangrove seedling", "akeanon_word_id": "w339", "kind": "keepsake", "base_price": 0, "sellable": false, "collection_id": "col_mangrove_seedling"},
 		"pandesal": {"name": "Pandesal (bag of 10)", "akeanon_word_id": "", "kind": "good", "base_price": 25, "sellable": false},
-		"keychain": {"name": "Ati-Atihan keychain", "akeanon_word_id": "", "kind": "good", "base_price": 8, "sellable": false}
+		"keychain": {"name": "Ati-Atihan keychain", "akeanon_word_id": "", "kind": "good", "base_price": 8, "sellable": false},
+		"passport": {"name": "Passport", "akeanon_word_id": "", "kind": "good", "base_price": 0, "sellable": false},
+		"jacket": {"name": "Travel jacket", "akeanon_word_id": "", "kind": "good", "base_price": 0, "sellable": false},
+		"pasalubong_box": {"name": "Pasalubong box", "akeanon_word_id": "", "kind": "good", "base_price": 0, "sellable": false},
+		"rose_notebook": {"name": "Rose's notebook", "akeanon_word_id": "", "kind": "good", "base_price": 0, "sellable": false},
+		"litter": {"name": "Piece of litter", "akeanon_word_id": "", "kind": "good", "base_price": 0, "sellable": false},
+		"taho": {"name": "Taho (cup)", "akeanon_word_id": "", "kind": "good", "base_price": 10, "sellable": false},
+		"round_fruits": {"name": "Twelve round fruits (bag)", "akeanon_word_id": "", "kind": "good", "base_price": 60, "sellable": false}
 	},
 	"shops": {
 		"pedring": {
 			"vendor": "Nong Pedring",
 			"area": "market",
-			"stock": ["bugas", "uga", "isda", "tubi"]
+			"stock": ["bugas", "uga", "isda", "tubi", "round_fruits"]
 		},
 		"pandesal_cart": {
 			"vendor": "Pandesal Vendor",
@@ -25,6 +32,11 @@
 			"vendor": "Souvenir Seller",
 			"area": "pastrana",
 			"stock": ["keychain"]
+		},
+		"taho_cart": {
+			"vendor": "Taho Vendor",
+			"area": "aklan_home",
+			"stock": ["taho"]
 		}
 	}
 }

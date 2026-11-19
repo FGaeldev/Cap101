@@ -76,8 +76,8 @@
 			]
 		},
 		{
-			"id": "snack_vendor",
-			"scene": "res://scenes/entities/npc_PasserbyAlingCora.tscn",
+			"id": "park_guard",
+			"scene": "res://scenes/entities/npc_PasserbySecurityGuardGuy.tscn",
 			"waypoints": [
 				[
 					1104,
@@ -106,7 +106,7 @@
 			],
 			"hours": [
 				6,
-				19
+				20
 			]
 		},
 		{
@@ -139,7 +139,7 @@
 			"respawn": 35,
 			"hours": [
 				6,
-				17
+				15
 			]
 		},
 		{
