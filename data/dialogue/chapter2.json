@@ -76,7 +76,7 @@
   ],
   "culture_park_martyrs": [
 	{"type": "dialogue", "speaker": "Lola Ising", "text": "You're new here, \\apo? Come, sit a while. Do you know what happened in this park?", "next": 1, "word_ids": ["w019"]},
-	{"type": "dialogue", "speaker": "Lola Ising", "text": "In the revolution against Spain, Aklan's fighters were led by Francisco del Castillo. The old folks say he fell right here, in March 1897.", "next": 2, "word_ids": []},
+	{"type": "dialogue", "speaker": "Lola Ising", "text": "In the revolution against Spain, Aklan's fighters were led by Francisco del Castillo. He died in March 1897, and his marker stands here in Pastrana.", "next": 2, "word_ids": []},
 	{"type": "dialogue", "speaker": "Lola Ising", "text": "A few days later, on March 23, nineteen men from Kalibo, Malinao and Lagatik were shot by the Spanish.", "next": 3, "word_ids": []},
 	{"type": "dialogue", "speaker": "Lola Ising", "text": "We call them the Nineteen Martyrs of Aklan. They rest at the Aklan Freedom Shrine. Everybody just calls it \"Castillo.\"", "next": 4, "word_ids": []},
 	{"type": "dialogue", "speaker": "Lola Ising", "text": "So when you walk through Pastrana, walk a little slower. Brave people stood here.", "next": null, "word_ids": []}

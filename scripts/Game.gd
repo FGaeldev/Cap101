@@ -169,6 +169,7 @@ func load_level(path: String, spawn_id: String = "DefaultSpawn") -> void:
 	_update_current_area(path)
 	NpcSchedule.on_level_loaded(level, path)
 	CultureSpots.place(level, path)
+	ChapterCard.show_area_if_new(path)
 
 ## Union of every visible TileMapLayer except "Edge" (the border ring around the
 ## map, which the camera shouldn't show), so a new map is covered without

@@ -1,0 +1,18 @@
+{
+	"_about": "First-visit banners (ChapterCard.show_area_if_new): level scene path -> {key, header, title}. Maps of one place share a key, so the banner shows once per place per save. US home maps are left out: Chapter 1's banner covers them.",
+	"res://scenes/world/chapter1/airport_arival.tscn": {"key": "kalibo_airport", "header": "Kalibo, Aklan", "title": "Kalibo International Airport"},
+	"res://scenes/world/chapter1/airport_ourdoors.tscn": {"key": "kalibo_airport", "header": "Kalibo, Aklan", "title": "Kalibo International Airport"},
+	"res://scenes/world/chapter2/aklan_living.tscn": {"key": "family_home", "header": "Kalibo, Aklan", "title": "The Family Home"},
+	"res://scenes/world/chapter2/aklan_home_outdoors.tscn": {"key": "family_home", "header": "Kalibo, Aklan", "title": "The Family Home"},
+	"res://scenes/world/chapter2/pastrana_outdoors.tscn": {"key": "pastrana", "header": "Kalibo, Aklan", "title": "Pastrana Park"},
+	"res://scenes/world/chapter2/cathedral_indoors.tscn": {"key": "cathedral", "header": "Kalibo, Aklan", "title": "Kalibo Cathedral"},
+	"res://scenes/world/chapter2/souvenir_shop.tscn": {"key": "souvenir_shop", "header": "Pastrana Park", "title": "Souvenir Shop"},
+	"res://scenes/world/market/market_outdoors.tscn": {"key": "market", "header": "Kalibo, Aklan", "title": "Kalibo Public Market"},
+	"res://scenes/world/market/market_indoors.tscn": {"key": "market", "header": "Kalibo, Aklan", "title": "Kalibo Public Market"},
+	"res://scenes/world/haboean/habuean_outdoors.tscn": {"key": "haboean", "header": "Piña weavers", "title": "Haboean"},
+	"res://scenes/world/haboean/haboean_gallery.tscn": {"key": "haboean", "header": "Piña weavers", "title": "Haboean"},
+	"res://scenes/world/haboean/haboean_cafe.tscn": {"key": "haboean_cafe", "header": "Haboean", "title": "Haboean Café"},
+	"res://scenes/world/bakhawan/bakhawan_outdoors.tscn": {"key": "bakhawan", "header": "New Buswang, Kalibo", "title": "Bakhawan Eco-Park"},
+	"res://scenes/world/bakhawan/bakhawan_indoors.tscn": {"key": "bakhawan", "header": "New Buswang, Kalibo", "title": "Bakhawan Eco-Park"},
+	"res://scenes/world/bakhawan/bakhawan_trail.tscn": {"key": "bakhawan_trail", "header": "Bakhawan Eco-Park", "title": "Mangrove Trail"}
+}

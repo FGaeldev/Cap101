@@ -1,7 +1,9 @@
-# chapter_card_action.gd -- shows a chapter's description card once per save.
-# The card closes onto a black screen. Steps that set the scene up first fade in
-# themselves (chapter2_scene0); otherwise pass "fade_in_after": true, which fades
-# in only when the card actually showed (no black flash on a repeat).
+# chapter_card_action.gd -- a chapter start: queues the "Chapter N / title /
+# Started" banner once per save (banner_card.gd). The banner plays over the game
+# and waits out any black screen by itself, so the cutscene carries straight on;
+# "fade_in_after" no longer fires for chapters (ChapterCard.show_if_new returns
+# false). Notes still use the full card, which closes onto a black screen, so
+# for those "fade_in_after": true fades back in.
 #   {"type": "chapter_card", "chapter": "chapter3", "fade_in_after": true}
 # With "note" instead of "chapter", shows one of ChapterCard.NOTES (same fade rule):
 #   {"type": "chapter_card", "note": "story_so_far", "fade_in_after": true}
