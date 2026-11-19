@@ -177,5 +177,37 @@
 		"tips": [
 			"Bright places are open. Dim places are not available yet and show Coming Soon."
 		]
+	},
+	"money": {
+		"title": "Money (pesos)",
+		"goal": "Pesos (₱) let you ride around Kalibo and buy things. Your pesos show next to the clock.",
+		"steps": [
+			"Earn ₱5 for each story quiz or activity you pass (₱2 if you don't pass, so you always earn something).",
+			"Choose Review when you talk to someone: ₱3 for passing, ₱1 for trying, up to ₱15 a day.",
+			"Do errands for the family. Side quests, like Lola Susan's shopping list, pay more than quizzes.",
+			"Each morning, Lola gives you ₱10 if you have less than ₱20."
+		],
+		"tips": [
+			"Rides on the map cost a fare: a tricycle around town is ₱5, a jeepney or van to Haboean or Bakhawan is ₱15. Walking is always free, it just takes longer.",
+			"Buy food and goods at Nong Pedring's stall in the market. Prices are said in Akeanon, so count your coins carefully.",
+			"You never lose pesos for a wrong answer, and story trips with Rose or the family are always free.",
+			"Tap your pesos at the top of the screen to open this page."
+		]
+	},
+	"errands": {
+		"title": "Errands and chapter goals",
+		"goal": "Help your family and the people of Kalibo with small errands, and finish the goals that open the next chapter.",
+		"steps": [
+			"Talk to someone who has an errand. They explain it and may hand you money to buy with. Choose yes to take it.",
+			"The errand appears in your quests, with a Bring list of what you still need.",
+			"Buy things with Buy when you talk to a seller (Nong Pedring, the vendors), or pick up the twinkles on the ground.",
+			"Go back and talk to the person who asked. They take the items, and you keep any change."
+		],
+		"tips": [
+			"Said not now? They'll ask again tomorrow.",
+			"Some errands only happen sometimes: the taho vendor on some mornings, a lost child in the park on some afternoons, holiday errands in late December.",
+			"When a chapter ends, its goals show in your quests: a number of errands and Review tries. The next chapter begins the morning after both are done.",
+			"Every errand gives you a heart with the person who asked."
+		]
 	}
 }

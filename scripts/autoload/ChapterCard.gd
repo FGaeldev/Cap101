@@ -1,4 +1,5 @@
-# ChapterCard.gd -- full-screen card describing a chapter when it begins.
+# ChapterCard.gd -- chapter-start and new-area banners (banner_card.gd), and the
+# full-screen card for one-off notes (the end of Part One).
 #
 # Chapter text lives in CHAPTER_DATA_PATH, which the Instructions screen also
 # reads. Each card shows once per save ("chapter_card_<id>_seen"), and never in
@@ -20,6 +21,12 @@ const PANEL_WIDTH: float = 440.0
 ## Stops a key press meant for the previous screen from skipping the card, and
 ## lets a warp's fade-in finish before the card can close.
 const MIN_SHOW_SECONDS: float = 0.8
+const AREA_DATA_PATH: String = "res://data/map_data/area_banners.json"
+const BannerCard := preload("res://scripts/ui/banner_card.gd")
+
+## Chapter-start and new-area banner, its own CanvasLayer on the root.
+var _banner: CanvasLayer
+var _areas: Dictionary = {}
 
 var _chapters: Array = []
 var _chapter_label: Label
@@ -35,6 +42,9 @@ func _ready() -> void:
 	_load_data()
 	_build_ui()
 	hide()
+	_banner = BannerCard.new()
+	_banner.name = "BannerCard"
+	get_tree().root.add_child.call_deferred(_banner)
 	set_process_input(false)
 
 
@@ -43,8 +53,10 @@ func get_chapters() -> Array:
 	return _chapters
 
 
-## Shows the card and waits for the player, unless this save has already seen it.
-## Returns true if it showed. Closing the card leaves the screen black.
+## A chapter start: the "Chapter N / title / Started" banner (banner_card.gd),
+## once per save. It plays over the game and fades by itself, so this never
+## waits and never leaves the screen black: it returns false either way, so a
+## caller's "fade_in_after" doesn't fade a screen that is already showing.
 func show_if_new(chapter_id: String) -> bool:
 	var flag: String = "chapter_card_%s_seen" % chapter_id
 	var chapter: Dictionary = _find_chapter(chapter_id)
@@ -54,16 +66,29 @@ func show_if_new(chapter_id: String) -> bool:
 		push_warning("ChapterCard: unknown chapter '%s'" % chapter_id)
 		return false
 	GameState.set_flag(flag)
-	_chapter_label.text = "Chapter %d" % int(chapter.get("number", 0))
-	_title_label.text = str(chapter.get("title", ""))
-	_description_label.text = str(chapter.get("description", ""))
-	_learn_label.text = "You will learn: %s" % str(chapter.get("learn", ""))
-	_continue_btn.disabled = true
-	show()
-	set_process_input(true)
-	get_tree().create_timer(MIN_SHOW_SECONDS).timeout.connect(func(): _continue_btn.disabled = false)
-	await closed
-	return true
+	_show_chapter_banner(chapter)
+	return false
+
+
+func _show_chapter_banner(chapter: Dictionary) -> void:
+	_banner.show_banner("Chapter %d" % int(chapter.get("number", 0)), str(chapter.get("title", "")), "Started")
+
+
+## First visit to a place (data/map_data/area_banners.json, keyed by level
+## scene path): its name on the same banner with "Discovered". Once per place
+## per save; maps of one place share its "key". Game.load_level() calls this.
+func show_area_if_new(scene_path: String) -> void:
+	if _areas.is_empty():
+		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(AREA_DATA_PATH))
+		_areas = parsed if parsed is Dictionary else {"_bad": {}}
+	var area: Dictionary = _areas.get(scene_path, {})
+	if area.is_empty() or GameState.skips_cards():
+		return
+	var flag: String = "area_banner_%s_seen" % str(area.get("key", scene_path.get_file().get_basename()))
+	if GameState.get_flag(flag):
+		return
+	GameState.set_flag(flag)
+	_banner.show_banner(str(area.get("header", "")), str(area.get("title", "")), "Discovered")
 
 
 ## One-off notes on the same card, shown once per save ("note_<id>_seen").
@@ -75,11 +100,11 @@ func show_if_new(chapter_id: String) -> bool:
 const NOTES: Dictionary = {
 	"story_so_far": {
 		"after_flag": "chapter4_complete",
-		"seen_flag": "note_story_so_far_ch4_seen",
-		"heading": "Chapter 4 complete",
-		"title": "That's the story so far",
-		"body": "Chapter 5, Hala Bira!, is on its way.\nFollow @fgaeldevnew for updates.",
-		"footer": "Until then, you can still learn new words by talking to people around town.",
+		"seen_flag": "note_part_one_end_seen",
+		"heading": "The end of Part One",
+		"title": "Salamat, and well done!",
+		"body": "You came home to Aklan, toured Kalibo with Rose, wove piña with Manang Loleng, and planted a mangrove with Manong Ambo.",
+		"footer": "Kalibo is still yours to explore: talk to people, run errands for the family, and keep practicing your words.",
 	},
 }
 
@@ -209,10 +234,8 @@ func replay(id: String) -> void:
 	var chapter: Dictionary = _find_chapter(id)
 	var note: Dictionary = NOTES.get(id, {})
 	if not chapter.is_empty():
-		_chapter_label.text = "Chapter %d" % int(chapter.get("number", 0))
-		_title_label.text = str(chapter.get("title", ""))
-		_description_label.text = str(chapter.get("description", ""))
-		_learn_label.text = "You will learn: %s" % str(chapter.get("learn", ""))
+		_show_chapter_banner(chapter)
+		return
 	elif not note.is_empty():
 		_chapter_label.text = str(note.get("heading", ""))
 		_title_label.text = str(note.get("title", ""))

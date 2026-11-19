@@ -5,6 +5,8 @@
 # from gameplay code (register-on-ready/call-through-autoload pattern, TDD §2).
 extends Node
 
+const ChapterGoals := preload("res://scripts/util/chapter_goals.gd")
+
 ## Emitted once per awarded item, in display order. Whatever UI owns reward
 ## popups listens here and calls advance_popup() once it has finished
 ## showing the front item, to pull the next queued one. Popup rendering
@@ -127,6 +129,8 @@ func award_story_activity(passed: bool) -> void:
 
 ## An NPC Review activity resolved. Capped per daily day.
 func award_review(passed: bool) -> void:
+	GameState.reviews_done += 1  # chapter goals count tries, not passes
+	ChapterGoals.check()
 	var today: int = GameState.daily_date()
 	if GameState.review_earn_date != today:
 		GameState.review_earn_date = today

@@ -15,6 +15,17 @@ extends CharacterBody2D
 ## silently reading rapport for "" the whole time.
 @export var npc_id: String = "Papa Jobert"
 
+## Same optional story hooks as npc_generic.gd (us_living.gd uses them the
+## morning of the flight). quest_id shows the quest marker (Comp_Interactable
+## reads it via get()); interact_quest_id completes on first interact;
+## cutscene_id plays instead of the menu until cutscene_seen_flag is set.
+@export var quest_id: String = ""
+@export var interact_quest_id: String = ""
+@export var cutscene_id: String = ""
+@export var cutscene_seen_flag: String = ""
+
+const SideQuests := preload("res://scripts/util/side_quests.gd")
+
 @onready var interactable: InteractableComponent = $InteractableComponent
 @onready var dialogue: DialogueComponent = $DialogueComponent
 
@@ -25,6 +36,11 @@ func _ready() -> void:
 	call_deferred("_register")
 
 func _on_interacted(_interactor: Node) -> void:
+	if not interact_quest_id.is_empty():
+		QuestManager.complete_quest(interact_quest_id)
+	if not cutscene_id.is_empty() and not GameState.get_flag(cutscene_seen_flag):
+		CutsceneManager.play(cutscene_id)
+		return
 	DialogueUI.show_npc_interaction_menu(
 		npc_id if not npc_id.is_empty() else name,
 		Callable(self, "_on_interaction_menu_choice")
@@ -49,8 +65,14 @@ func _start_dialogue_or_idle() -> void:
 	if story_pending:
 		dialogue.dialogue_lines = story_lines
 		dialogue.start_dialogue()
-	else:
-		dialogue.start_idle_dialogue()
+		return
+	# A side quest this NPC gives (offer, reminder or hand-in) comes before idle talk.
+	var quest_lines: Array = SideQuests.lines_for(npc_id)
+	if not quest_lines.is_empty():
+		dialogue.dialogue_lines = quest_lines
+		dialogue.start_dialogue()
+		return
+	dialogue.start_idle_dialogue()
 
 func _on_dialogue_ended() -> void:
 	if not story_done_flag.is_empty() and not GameState.get_flag(story_done_flag):

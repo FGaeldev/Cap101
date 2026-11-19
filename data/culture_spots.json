@@ -1,0 +1,314 @@
+{
+	"_about": "People and things that explain Aklan's culture in place (scripts/util/culture_spots.gd). Facts checked 2026-11-19 against Wikipedia (Kalibo Cathedral, Nineteen Martyrs of Aklan, Bakhawan Eco-Park), UNESCO ICH 01564 coverage (Inquirer, Philstar, Rappler) and Mongabay. Keyed by level scene path.",
+	"res://scenes/world/chapter2/cathedral_indoors.tscn": {
+		"npcs": [
+			{
+				"id": "parish_priest",
+				"scene": "res://scenes/entities/npc_CathedralPriest.tscn",
+				"at": [
+					144,
+					112
+				],
+				"face": "down",
+				"chapter": "chapter2",
+				"scene_key": "culture_parish_priest"
+			}
+		],
+		"examinables": [
+			{
+				"at": [
+					128,
+					136
+				],
+				"size": [
+					48,
+					16
+				],
+				"chapter": "chapter2",
+				"scene_key": "examine_santo_nino"
+			}
+		]
+	},
+	"res://scenes/world/chapter2/pastrana_outdoors.tscn": {
+		"npcs": [
+			{
+				"id": "lola_ising",
+				"scene": "res://scenes/entities/npc_LolaIsing.tscn",
+				"at": [
+					1040,
+					752
+				],
+				"face": "left",
+				"chapter": "chapter2",
+				"scene_key": "culture_park_martyrs",
+				"hours": [
+					6,
+					18
+				]
+			},
+			{
+				"id": "lost_child",
+				"scene": "res://scenes/entities/npc_LostChild.tscn",
+				"at": [
+					848,
+					688
+				],
+				"face": "down",
+				"chapter": "chapter2",
+				"scene_key": "lost_child",
+				"requires_flag": "chapter2_tour_done",
+				"unless_flag": "side_qs008_done",
+				"hours": [
+					15,
+					18
+				],
+				"chance": 40
+			},
+			{
+				"id": "bea_lola",
+				"scene": "res://scenes/entities/npc_BeaLola.tscn",
+				"at": [
+					1200,
+					320
+				],
+				"face": "down",
+				"chapter": "chapter2",
+				"scene_key": "lost_child_lola",
+				"requires_flag": "lost_child_asked",
+				"unless_flag": "side_qs008_done"
+			}
+		],
+		"pickups": [
+			{
+				"id": "rose_notebook",
+				"item": "rose_notebook",
+				"at": [
+					784,
+					768
+				],
+				"requires_flag": "side_qs005_accepted",
+				"unless_flag": "side_qs005_done",
+				"text": "Rose's notebook! Every page is full of Akeanon words, with little drawings next to them."
+			}
+		]
+	},
+	"res://scenes/world/haboean/haboean_gallery.tscn": {
+		"npcs": [
+			{
+				"id": "gallery_curator",
+				"scene": "res://scenes/entities/npc_GalleryCurator.tscn",
+				"at": "Staff/Curator",
+				"face": "down",
+				"chapter": "chapter3",
+				"scene_key": "culture_gallery_curator"
+			}
+		],
+		"examinables": [
+			{
+				"at": "Exhibits/CabinetA",
+				"size": [
+					48,
+					48
+				],
+				"chapter": "chapter3",
+				"scene_key": "examine_fiber_jars"
+			},
+			{
+				"at": "Exhibits/CabinetB",
+				"size": [
+					48,
+					48
+				],
+				"chapter": "chapter3",
+				"scene_key": "examine_scraping_tools"
+			},
+			{
+				"at": "Exhibits/PlinthA",
+				"size": [
+					48,
+					48
+				],
+				"chapter": "chapter3",
+				"scene_key": "examine_pina_barong"
+			},
+			{
+				"at": "Exhibits/PlinthB",
+				"size": [
+					48,
+					48
+				],
+				"chapter": "chapter3",
+				"scene_key": "examine_unesco_frame"
+			}
+		]
+	},
+	"res://scenes/world/bakhawan/bakhawan_indoors.tscn": {
+		"npcs": [
+			{
+				"id": "kasama_volunteer",
+				"scene": "res://scenes/entities/npc_KasamaVolunteer.tscn",
+				"at": [
+					48,
+					96
+				],
+				"face": "right",
+				"chapter": "chapter4",
+				"scene_key": "culture_kasama_volunteer"
+			}
+		]
+	},
+	"res://scenes/world/chapter2/aklan_home_outdoors.tscn": {
+		"npcs": [
+			{
+				"id": "pandesal_vendor",
+				"scene": "res://scenes/entities/npc_PandesalVendor.tscn",
+				"at": [
+					240,
+					208
+				],
+				"face": "down",
+				"chapter": "chapter2",
+				"scene_key": "",
+				"shop_id": "pandesal_cart",
+				"days": [
+					0
+				],
+				"hours": [
+					6,
+					12
+				]
+			},
+			{
+				"id": "taho_vendor",
+				"scene": "res://scenes/entities/npc_TahoVendor.tscn",
+				"at": [
+					304,
+					208
+				],
+				"face": "down",
+				"chapter": "chapter2",
+				"scene_key": "",
+				"shop_id": "taho_cart",
+				"requires_flag": "chapter2_tour_done",
+				"hours": [
+					6,
+					9
+				],
+				"chance": 35
+			}
+		]
+	},
+	"res://scenes/world/chapter2/souvenir_shop.tscn": {
+		"npcs": [
+			{
+				"id": "souvenir_seller",
+				"scene": "res://scenes/entities/npc_SouvenirSeller.tscn",
+				"at": "Vendors/Shopkeeper",
+				"face": "down",
+				"chapter": "chapter2",
+				"scene_key": "",
+				"shop_id": "souvenirs"
+			}
+		]
+	},
+	"res://scenes/world/chapter1/us_bedroom.tscn": {
+		"pickups": [
+			{
+				"id": "pack_passport",
+				"item": "passport",
+				"at": [
+					112,
+					64
+				],
+				"requires_flag": "side_qs004_accepted",
+				"unless_flag": "side_qs004_done",
+				"text": "Your passport, under a pile of homework."
+			},
+			{
+				"id": "pack_jacket",
+				"item": "jacket",
+				"at": [
+					96,
+					96
+				],
+				"requires_flag": "side_qs004_accepted",
+				"unless_flag": "side_qs004_done",
+				"text": "Your travel jacket. Lola says the plane gets cold."
+			}
+		]
+	},
+	"res://scenes/world/chapter1/us_living.tscn": {
+		"pickups": [
+			{
+				"id": "pack_box",
+				"item": "pasalubong_box",
+				"at": [
+					128,
+					96
+				],
+				"requires_flag": "side_qs004_accepted",
+				"unless_flag": "side_qs004_done",
+				"text": "The pasalubong box for Lola Susan. It smells like chocolate."
+			}
+		]
+	},
+	"res://scenes/world/bakhawan/bakhawan_trail.tscn": {
+		"pickups": [
+			{
+				"id": "litter_1",
+				"item": "litter",
+				"at": [
+					400,
+					112
+				],
+				"requires_flag": "side_qs006_accepted",
+				"unless_flag": "side_qs006_done",
+				"text": "A plastic wrapper. Into the bag it goes."
+			},
+			{
+				"id": "litter_2",
+				"item": "litter",
+				"at": [
+					320,
+					256
+				],
+				"requires_flag": "side_qs006_accepted",
+				"unless_flag": "side_qs006_done",
+				"text": "A bottle cap, wedged between the bamboo slats."
+			},
+			{
+				"id": "litter_3",
+				"item": "litter",
+				"at": [
+					272,
+					432
+				],
+				"requires_flag": "side_qs006_accepted",
+				"unless_flag": "side_qs006_done",
+				"text": "A plastic straw."
+			},
+			{
+				"id": "litter_4",
+				"item": "litter",
+				"at": [
+					464,
+					432
+				],
+				"requires_flag": "side_qs006_accepted",
+				"unless_flag": "side_qs006_done",
+				"text": "A candy wrapper by the watchtower."
+			},
+			{
+				"id": "litter_5",
+				"item": "litter",
+				"at": [
+					176,
+					640
+				],
+				"requires_flag": "side_qs006_accepted",
+				"unless_flag": "side_qs006_done",
+				"text": "A plastic cup on the steps."
+			}
+		]
+	}
+}

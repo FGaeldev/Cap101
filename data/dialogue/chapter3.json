@@ -822,6 +822,25 @@
 			"word_ids": ["w019"]
 		}
 	],
+	"culture_gallery_curator": [
+		{"type": "dialogue", "speaker": "Gallery Curator", "text": "Welcome to the gallery! Everything you see here starts as a pineapple leaf. \\Piña.", "next": 1, "word_ids": ["w194"]},
+		{"type": "dialogue", "speaker": "Gallery Curator", "text": "First we scrape the leaf with a shard of porcelain. That gives the rough fiber, the \\bastos.", "next": 2, "word_ids": ["w366"]},
+		{"type": "dialogue", "speaker": "Gallery Curator", "text": "Then a coconut shell draws out the finest fiber, the \\liniwan. That is what becomes the softest cloth.", "next": 3, "word_ids": ["w367"]},
+		{"type": "dialogue", "speaker": "Gallery Curator", "text": "In 2023, UNESCO listed Aklan piña handloom weaving as Intangible Cultural Heritage of Humanity. The first from the Visayas!", "next": 4, "word_ids": []},
+		{"type": "dialogue", "speaker": "Gallery Curator", "text": "You'll see piña in a barong at a wedding, or a gown for a big day. Look around, take your time.", "next": null, "word_ids": []}
+	],
+	"examine_fiber_jars": [
+		{"type": "dialogue", "speaker": "", "text": "Two jars of fiber. One is \\bastos: rough and stiff. The other is \\liniwan: fine and shiny, almost like silk.", "next": null, "word_ids": ["w366", "w367"]}
+	],
+	"examine_scraping_tools": [
+		{"type": "dialogue", "speaker": "", "text": "A porcelain shard and half a coconut shell, both worn smooth from years of scraping leaves.", "next": null, "word_ids": []}
+	],
+	"examine_pina_barong": [
+		{"type": "dialogue", "speaker": "", "text": "A piña barong, thin enough to see through, embroidered by hand. A card says it was made for a wedding.", "next": null, "word_ids": []}
+	],
+	"examine_unesco_frame": [
+		{"type": "dialogue", "speaker": "", "text": "A framed notice: Aklan Piña Handloom Weaving, inscribed by UNESCO on the Representative List of the Intangible Cultural Heritage of Humanity, December 2023.", "next": null, "word_ids": []}
+	],
 	"remarks": {
 		"jonabel_bookmark_kept": {
 			"speaker": "Lola Jonabel",

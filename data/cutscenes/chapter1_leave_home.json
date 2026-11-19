@@ -1,0 +1,19 @@
+[
+	{"type": "dialogue", "chapter": "chapter1", "scene": "scene_1_75_leaving_home"},
+	{"type": "set_flag", "flag": "seen_chapter1_leave_home", "value": true},
+	{
+		"type": "conga",
+		"leader": "Papa Jobert",
+		"followers": ["Lola Jonabel", "player"],
+		"waypoints": [[24, 112], [24, 144]],
+		"order": "xy",
+		"gap": 1,
+		"speed": 40,
+		"despawn": true,
+		"hold_at": [24, 128]
+	},
+	{"type": "fade", "direction": "out", "duration": 0.6},
+	{"type": "advance_clock", "hours": 20.0},
+	{"type": "advance_clock", "to_hour": 8.75},
+	{"type": "load_scene", "scene_path": "res://scenes/world/chapter1/airport_arival.tscn"}
+]

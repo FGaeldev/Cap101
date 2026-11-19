@@ -9,12 +9,16 @@ const DIM := Color(0.0, 0.0, 0.0, 0.6)
 const MARGIN: float = 0.05
 
 const HOW_TO_PLAY: Array = [
-	["Moving", "Drag the joystick at the bottom left (or hold the D-pad, if you chose it in Settings), or use W, A, S, D."],
-	["Talking and using things", "Walk up to a person or object, then tap the button at the bottom right or press E. Tap the screen or press E to continue a conversation."],
-	["Your goal", "Your current quest is shown at the top left. Follow it to move the story forward."],
+	["Moving", "Hold the D-pad at the bottom left, or use W, A, S, D."],
+	["Talking and using things", "Walk up to a person or object, then tap the button at the bottom right or press E. Tap the screen or press E to continue a conversation. Signs, plaques and exhibits say Look: they tell you about Aklan's history and culture."],
+	["Your goal", "Your current quest is shown at the top left. Follow it to move the story forward. Tap it to see all your quests."],
+	["Errands", "People at home and around town ask for help: a shopping list, a lost notebook, pasalubong. Say yes, and the errand joins your quests with what to bring. Some only happen on certain days, like the taho vendor's mornings or the days before Christmas. Each one finished gives you a heart with that person."],
+	["Finding things", "A twinkle on the ground is something you can pick up for an errand. Walk up to it and tap Pick up."],
+	["Before a new chapter", "When a chapter ends, a few goals appear in your quests: errands for the family and Review practice. The next chapter starts the morning after they are done. Every Review try counts, right or wrong."],
 	["The Book", "Tap the menu button at the top right or press Esc. It holds your settings, journal, relationships, dictionary, map, and calendar."],
 	["Learning Akeanon", "Akeanon words are colored and underlined in conversations. Tap one to see what it means, and tap again to close it. Every word you find is saved in the Dictionary. Choose Review when you talk to someone to practice words. Practice fills the word tier bar at the top of the screen."],
-	["Days", "Read the newspaper for the word of the day and a daily puzzle. Sleep in a bed to start a new day."],
+	["Days", "Read the newspaper for the word of the day and a daily puzzle. Sleep in a bed to start a new day. Tap the clock to see the calendar and holidays coming up."],
+	["Money", "Your pesos show next to the clock. Earn them from activities, Review and errands; spend them on rides and at shops. Tap your pesos to learn more."],
 	["Getting help", "Quizzes, minigames, and other activities have a ? button. Tap it to see how that activity works. You can also read them all under Activities on this screen."],
 	["Stopping and continuing", "The game saves as you play. To stop, open the Book, go to Settings, and choose Return to Menu. To keep playing later, choose Continue on the main menu."],
 ]
@@ -163,8 +167,9 @@ func _fill_how_to_play(content: Control) -> void:
 func _fill_chapters(content: Control) -> void:
 	for chapter: Dictionary in ChapterCard.get_chapters():
 		var heading: String = "Chapter %d: %s" % [int(chapter.get("number", 0)), str(chapter.get("title", ""))]
+		# Unreleased chapters stay hidden so Part One reads as complete.
 		if not chapter.get("available", false):
-			heading += " (coming soon)"
+			continue
 		_add_section(content, heading, [str(chapter.get("description", "")), "You will learn: %s" % str(chapter.get("learn", ""))])
 
 

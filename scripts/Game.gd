@@ -1,6 +1,9 @@
 # Game.gd — attached to Game.tscn root
 extends Node
 
+const CultureSpots := preload("res://scripts/util/culture_spots.gd")
+const ChapterGoals := preload("res://scripts/util/chapter_goals.gd")
+
 # Game.gd
 ## Player is now a persistent sibling of LevelContainer (not baked into each
 ## level scene) — see Game.tscn. load_level() must reposition it manually
@@ -81,6 +84,17 @@ func _ready() -> void:
 	DayNightManager.register_canvas_modulate(day_night)
 	# Save is loaded by now: baseline achievements so only new ones get a toast.
 	AchievementManager.prime()
+	# Between-chapter goals (chapter_goals.gd): re-check on any story flag, a frame
+	# later so a quest the flag just unlocked is already active.
+	GameState.flag_changed.connect(func(_flag: String, _value: bool): ChapterGoals.check.call_deferred())
+	ChapterGoals.check.call_deferred()
+	# First errand and first chapter goals each get a short tutorial (tutorials.json).
+	QuestManager.quest_started.connect(func(quest_id: String):
+		var quest: Dictionary = QuestManager.quests.get(quest_id, {})
+		if quest.get("category", "") == "side":
+			TutorialManager.start("errands")
+		elif ChapterGoals.is_goal_quest(quest_id):
+			TutorialManager.start("chapter_goals"))
 	# Before the level loads, so the bedroom's opening dialogue waits for it.
 	# Saves already past the opening never get this card.
 	if not GameState.get_flag("seen_chapter1_scene1"):
@@ -166,6 +180,8 @@ func load_level(path: String, spawn_id: String = "DefaultSpawn") -> void:
 	CutsceneManager.snap_camera()
 	_update_current_area(path)
 	NpcSchedule.on_level_loaded(level, path)
+	CultureSpots.place(level, path)
+	ChapterCard.show_area_if_new(path)
 
 ## Union of every visible TileMapLayer except "Edge" (the border ring around the
 ## map, which the camera shouldn't show), so a new map is covered without

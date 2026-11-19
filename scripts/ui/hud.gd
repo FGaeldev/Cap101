@@ -72,7 +72,9 @@ const FULLSCREEN_COLUMN_TOP: float = 38.0
 var dpad: Control = null
 const DPadScript := preload("res://scripts/ui/dpad.gd")
 ## D-pad size, centred where the joystick's ring is drawn.
-const DPAD_SIZE: float = 112.0
+## Each key is 3/4 of a 1/3 cell of the art (24 of 32 px), so 128 makes every key
+## 32 px, the size of the HUD menu buttons (MENU_BUTTON_SIZE).
+const DPAD_SIZE: float = 128.0
 
 # -- separated menus --
 const MenuStyle := preload("res://scripts/ui/menus/menu_style.gd")
@@ -112,6 +114,8 @@ var _book_quest_filter: Control.MouseFilter
 
 # -- event reminders --
 const CalendarUtil := preload("res://scripts/util/calendar_util.gd")
+const InstructionsPanel := preload("res://scripts/ui/instructions_panel.gd")
+const InteractKey := preload("res://scripts/ui/interact_key.gd")
 ## In-game hour the daily reminder shows ("every morning").
 const REMINDER_HOUR := 6
 ## Reminders start this many days before an event, then daily until the day.
@@ -153,7 +157,11 @@ func _ready() -> void:
 	toasts.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	UIThemeApplier.apply_icon_button_theme(menu_button, "menu")
 	menu_button.pressed.connect(_on_menu_button_pressed)
-	UIThemeApplier.apply_icon_button_theme(interact_button, "dictionary")
+	# Drawn like the D-pad keys; the icon follows what pressing it would do.
+	interact_button.text = ""
+	interact_button.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	interact_button.focus_mode = Control.FOCUS_NONE
+	_set_interact_icon("talk")
 	interact_button.pressed.connect(_on_interact_button_pressed)
 	TutorialManager.register_target("quest_hud", main_quest)
 	TutorialManager.register_target("tier_bar", tier_bar)
@@ -215,6 +223,10 @@ func _process(_delta: float) -> void:
 	toasts.visible = not DialogueUI.hides_toasts()  # queued toasts show once it closes
 	clock_panel.visible = not fullscreen
 	_wallet_panel.visible = not fullscreen and _wallet_shown()
+	# First time the wallet is up with nothing else on screen: explain money.
+	if _wallet_panel.visible and not overlay and not CutsceneManager.is_playing() \
+			and not TutorialManager.is_done("money"):
+		TutorialManager.start("money")
 	_update_fast_forward(fullscreen)
 	_menu_row.visible = not fullscreen
 	quest_column.visible = not fullscreen
@@ -264,6 +276,24 @@ func _update_interact_button(overlay: bool) -> void:
 		return
 	_nearest_interactable = InteractableComponent.get_nearest_to(player)
 	interact_button.visible = _nearest_interactable != null
+	if _nearest_interactable != null:
+		_set_interact_icon(InteractKey.icon_for(str(_nearest_interactable.interact_label)))
+
+## Current interact key icon (InteractKey.ICONS key), so styles only change on a new target.
+var _interact_icon: String = ""
+
+func _set_interact_icon(icon: String) -> void:
+	if icon == _interact_icon:
+		return
+	_interact_icon = icon
+	for state: String in ["normal", "hover", "focus", "disabled"]:
+		interact_button.add_theme_stylebox_override(state, _key_style(InteractKey.texture(icon)))
+	interact_button.add_theme_stylebox_override("pressed", _key_style(InteractKey.texture(icon, true)))
+
+func _key_style(tex: Texture2D) -> StyleBoxTexture:
+	var style := StyleBoxTexture.new()
+	style.texture = tex
+	return style
 
 func _on_interact_button_pressed() -> void:
 	if is_instance_valid(_nearest_interactable):
@@ -685,7 +715,12 @@ func _build_wallet() -> void:
 	right_column.move_child(row, index)
 	_wallet_panel = PanelContainer.new()
 	_wallet_panel.name = "Wallet"
-	_wallet_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# Tap the wallet for the Money help page (how to earn pesos, what they buy).
+	_wallet_panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	_wallet_panel.gui_input.connect(func(event: InputEvent):
+		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			AudioManager.play_sfx("menu_click")
+			InstructionsPanel.open_topic(get_tree(), "money"))
 	_wallet_panel.add_theme_stylebox_override("panel", UIThemeApplier.make_header_right_style())
 	_wallet_label = Label.new()
 	_wallet_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_EMPHASIS)

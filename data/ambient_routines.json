@@ -1,0 +1,179 @@
+{
+	"_about": "NPCs with a purpose, on top of a map's random crowd (random_npc_spawner.gd). Keyed by level scene path. Each routine: scene, waypoints [[x, y], ...] in level px (multiples of 16, walkable), mode loop | pingpong | once (once: walks to the end, leaves, returns after respawn seconds), speed px/s, pause [min, max] or pauses per waypoint, faces per waypoint (up/down/left/right), hours [from, to] when it is out (checked on map load).",
+	"res://scenes/world/chapter2/pastrana_outdoors.tscn": [
+		{
+			"id": "morning_jogger",
+			"scene": "res://scenes/entities/npc_RandomGuy2.tscn",
+			"waypoints": [
+				[
+					864,
+					336
+				],
+				[
+					1184,
+					336
+				],
+				[
+					1184,
+					848
+				],
+				[
+					864,
+					848
+				]
+			],
+			"mode": "loop",
+			"speed": 72,
+			"pause": [
+				0,
+				0
+			],
+			"hours": [
+				5,
+				19
+			]
+		},
+		{
+			"id": "friends_chatting_a",
+			"scene": "res://scenes/entities/npc_RandomGuy3.tscn",
+			"waypoints": [
+				[
+					944,
+					944
+				]
+			],
+			"faces": [
+				"right"
+			],
+			"pause": [
+				4,
+				8
+			],
+			"hours": [
+				7,
+				20
+			]
+		},
+		{
+			"id": "friends_chatting_b",
+			"scene": "res://scenes/entities/npc_RandomGuy1.tscn",
+			"waypoints": [
+				[
+					976,
+					944
+				]
+			],
+			"faces": [
+				"left"
+			],
+			"pause": [
+				4,
+				8
+			],
+			"hours": [
+				7,
+				20
+			]
+		},
+		{
+			"id": "park_guard",
+			"scene": "res://scenes/entities/npc_PasserbySecurityGuardGuy.tscn",
+			"waypoints": [
+				[
+					1104,
+					320
+				],
+				[
+					960,
+					496
+				],
+				[
+					848,
+					752
+				]
+			],
+			"mode": "pingpong",
+			"speed": 36,
+			"pauses": [
+				12,
+				10,
+				12
+			],
+			"faces": [
+				"down",
+				"down",
+				"right"
+			],
+			"hours": [
+				6,
+				20
+			]
+		},
+		{
+			"id": "student_to_school",
+			"scene": "res://scenes/entities/npc_PasserbyGirlStudent.tscn",
+			"waypoints": [
+				[
+					112,
+					304
+				],
+				[
+					928,
+					656
+				],
+				[
+					928,
+					1040
+				],
+				[
+					1632,
+					1216
+				]
+			],
+			"mode": "once",
+			"speed": 44,
+			"pause": [
+				0,
+				0
+			],
+			"respawn": 35,
+			"hours": [
+				6,
+				15
+			]
+		},
+		{
+			"id": "student_home",
+			"scene": "res://scenes/entities/npc_PasserbyBoyStudent.tscn",
+			"waypoints": [
+				[
+					1632,
+					680
+				],
+				[
+					1200,
+					656
+				],
+				[
+					1008,
+					304
+				],
+				[
+					112,
+					304
+				]
+			],
+			"mode": "once",
+			"speed": 44,
+			"pause": [
+				0,
+				0
+			],
+			"respawn": 45,
+			"hours": [
+				7,
+				18
+			]
+		}
+	]
+}

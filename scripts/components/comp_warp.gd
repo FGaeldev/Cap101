@@ -60,10 +60,9 @@ const NO_TARGET_MESSAGE: String = "I don't need to go that way right now."
 		_refresh_shape()
 
 ## How the player goes through (v0.1.19 playtest: walking into doors kept
-## bouncing players in and out). BUTTON: stand on the door and press the
-## interact button (HUD button, E, or tap the door). WALK: walk into it while
-## holding the trigger direction (map-edge roads). AUTO: BUTTON for doors (up or
-## down, at most 2 tiles wide), WALK for side exits and wide openings.
+## bouncing players in and out; back to walking in with the D-pad). BUTTON:
+## stand on the door and press the interact button (HUD button, E, or tap the
+## door). WALK: walk into it while holding the trigger direction. AUTO: WALK.
 enum Entry { AUTO, BUTTON, WALK }
 @export var entry: Entry = Entry.AUTO
 
@@ -143,12 +142,11 @@ var _arrived_inside: bool = false
 var _door_ic: InteractableComponent = null
 
 ## True when this warp opens with the interact button (see entry).
+## AUTO is walk-in again for every door (2026-11-20: with the D-pad, stepping
+## into a door no longer bounces players; the arrived-inside and hold_delay
+## guards below still stop an instant bounce back).
 func uses_button() -> bool:
-	if entry != Entry.AUTO:
-		return entry == Entry.BUTTON
-	var tiles: int = span_tiles_override if span_tiles_override > 0 else int(door_width)
-	var vertical: bool = trigger_direction == TriggerDirection.UP or trigger_direction == TriggerDirection.DOWN
-	return vertical and tiles <= 2
+	return entry == Entry.BUTTON
 
 func _ready() -> void:
 	_refresh_shape()

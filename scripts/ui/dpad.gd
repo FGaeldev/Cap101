@@ -7,9 +7,8 @@
 # without lifting. Multi-touch safe: it follows only the finger that started on
 # it. Mouse works too (desktop testing).
 #
-# Placeholder look drawn in _draw(): a cross in the UI palette with arrows, the
-# held arm highlighted. To use art later, draw textures here (or swap _draw for
-# four TextureRects) and keep the input code.
+# Look: assets/ui/Dpad.png, four arrow keys on a 3x3 grid of 32 px cells. Each
+# key is drawn from its cell; the held one sinks a pixel and darkens.
 class_name DPad
 extends Control
 
@@ -19,12 +18,13 @@ const ACTIONS := {
 }
 ## Fraction of the pad's half-size around the centre that counts as no direction.
 const DEAD_ZONE: float = 0.18
-## Arm width as a fraction of the pad's size.
-const ARM: float = 0.36
-const FILL := Color("e6c79c")
-const FILL_HELD := Color("f2c14e")
-const EDGE := Color("4c2020")
-const ARROW := Color("4c2020")
+const ART := preload("res://assets/ui/Dpad.png")
+## Each key's cell in the art (3x3 grid of 32 px cells, centre empty).
+const CELLS := {
+	Vector2i.UP: Rect2(32, 0, 32, 32), Vector2i.DOWN: Rect2(32, 64, 32, 32),
+	Vector2i.LEFT: Rect2(0, 32, 32, 32), Vector2i.RIGHT: Rect2(64, 32, 32, 32),
+}
+const HELD_TINT := Color(0.82, 0.78, 0.74)
 
 var _dir: Vector2i = Vector2i.ZERO
 var _finger: int = -1        # touch index that owns the pad, -1 = none
@@ -32,6 +32,7 @@ var _mouse_down: bool = false
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
+	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	visibility_changed.connect(func():
 		if not visible:
 			_release())
@@ -98,33 +99,11 @@ func held() -> Vector2i:
 	return _dir
 
 func _draw() -> void:
-	var s := size
-	var arm := minf(s.x, s.y) * ARM
-	var vert := Rect2((s.x - arm) / 2.0, 0.0, arm, s.y)
-	var horiz := Rect2(0.0, (s.y - arm) / 2.0, s.x, arm)
-	for r in [vert, horiz]:
-		draw_rect(r.grow(2.0), EDGE)
-	for r in [vert, horiz]:
-		draw_rect(r, FILL)
-	if _dir != Vector2i.ZERO:
-		draw_rect(_arm_rect(_dir, arm), FILL_HELD)
-	for d: Vector2i in ACTIONS:
-		_draw_arrow(d, arm)
-
-## The outer part of one arm (the bit the highlight covers).
-func _arm_rect(d: Vector2i, arm: float) -> Rect2:
-	var s := size
-	var reach := (minf(s.x, s.y) - arm) / 2.0
-	match d:
-		Vector2i.UP: return Rect2((s.x - arm) / 2.0, 0.0, arm, reach)
-		Vector2i.DOWN: return Rect2((s.x - arm) / 2.0, s.y - reach, arm, reach)
-		Vector2i.LEFT: return Rect2(0.0, (s.y - arm) / 2.0, reach, arm)
-	return Rect2(s.x - reach, (s.y - arm) / 2.0, reach, arm)
-
-func _draw_arrow(d: Vector2i, arm: float) -> void:
-	var r := _arm_rect(d, arm)
-	var c := r.get_center()
-	var a := arm * 0.22
-	var f := Vector2(d) * a        # tip direction
-	var side := Vector2(-f.y, f.x)
-	draw_colored_polygon(PackedVector2Array([c + f, c - f * 0.6 + side, c - f * 0.6 - side]), ARROW)
+	var scale_xy := size / Vector2(ART.get_size())
+	for d: Vector2i in CELLS:
+		var src: Rect2 = CELLS[d]
+		var dst := Rect2(src.position * scale_xy, src.size * scale_xy)
+		if d == _dir:
+			draw_texture_rect_region(ART, Rect2(dst.position + Vector2(0, 1), dst.size), src, HELD_TINT)
+		else:
+			draw_texture_rect_region(ART, dst, src)
