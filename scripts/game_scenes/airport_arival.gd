@@ -18,6 +18,9 @@ func _ready() -> void:
 		player.visible = false
 	# Entry arrives via Comp_Warp -> MapManager.warp_to_scene(), which owns the
 	# fade. Wait it out so the cutscene doesn't start under a half-faded screen.
-	while MapManager.is_transitioning:
+	# Leaving the US home (chapter1_leave_home) loads this level as its last step,
+	# so that cutscene is still finishing here: wait for it too, or play() ignores us.
+	while MapManager.is_transitioning or CutsceneManager.is_playing():
 		await get_tree().process_frame
-	CutsceneManager.play(CUTSCENE_ID)
+	if is_inside_tree():
+		CutsceneManager.play(CUTSCENE_ID)

@@ -25,6 +25,13 @@ static func errands_done() -> int:
 			count += 1
 	return count
 
+## True for the quests that show a chapter's goals (q023-q026).
+static func is_goal_quest(quest_id: String) -> bool:
+	for goal: Dictionary in GOALS.values():
+		if quest_id == goal["errand_quest"] or quest_id == goal["review_quest"]:
+			return true
+	return false
+
 ## True once everything the chapter needs is done (unknown chapters: true).
 static func met(chapter_id: String) -> bool:
 	var goal: Dictionary = GOALS.get(chapter_id, {})

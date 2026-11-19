@@ -263,5 +263,35 @@
 			{"text": "Spend them on rides and at the market.", "auto_advance": 4.5},
 			{"text": "Tap your pesos any time to learn more.", "auto_advance": 4.5, "highlight": "hud_wallet"}
 		]
+	},
+	"errands": {
+		"steps": [
+			{
+				"text": "Errands show in your quests.",
+				"auto_advance": 4,
+				"highlight": "quest_hud"
+			},
+			{
+				"text": "Bring what they ask, then talk to them.",
+				"auto_advance": 4.5
+			}
+		]
+	},
+	"chapter_goals": {
+		"steps": [
+			{
+				"text": "Finish these goals to start the next chapter.",
+				"auto_advance": 5,
+				"highlight": "quest_hud"
+			}
+		]
+	},
+	"pickup": {
+		"steps": [
+			{
+				"text": "A twinkle is something to pick up.",
+				"auto_advance": 4.5
+			}
+		]
 	}
 }

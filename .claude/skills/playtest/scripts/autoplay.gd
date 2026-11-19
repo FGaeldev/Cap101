@@ -337,6 +337,9 @@ func _on_flag(flag: String, value: bool) -> void:
 		_mass_done = true  # the flag itself is cleared again once home
 	if flag == "chapter2_going_bakhawan" and value:
 		_bakhawan_went = true
+	# A chapter just ended: its between-chapter goals (chapter_goals.gd) appear.
+	if value and (flag == "chapter2_complete" or flag == "chapter3_complete"):
+		_meet_chapter_goals()
 
 func _progress() -> void:
 	_epoch += 1
@@ -393,6 +396,7 @@ func _setup_ch3() -> void:
 		GS.date_unix += 86400
 	DN.set_hour(7.0)
 	GS.mass_invite_date = GS.date_unix
+	_meet_chapter_goals()
 
 ## Evening scene with Jonabel played.
 func _done_ch3() -> bool:
@@ -451,6 +455,17 @@ func _setup_seg3() -> void:
 ## Segment 3: Chapter 4's morning brief has started.
 func _done_seg3() -> bool:
 	return _started_cutscenes.has("chapter4_scene0")
+
+## Shortcut, like resolving minigames: the between-chapter goals (family errands
+## and Review tries, scripts/util/chapter_goals.gd) are met without playing the
+## errands. The driver doesn't run errands; this keeps chapter handoffs testable.
+func _meet_chapter_goals() -> void:
+	for q in ["qs001", "qs003"]:
+		var quest: Dictionary = A.QuestManager.quests.get(q, {})
+		A.GameState.set_flag(str(quest.get("requires_flag", "")))
+		A.QuestManager.complete_quest_silently(q)
+	A.GameState.reviews_done = maxi(A.GameState.reviews_done, 6)
+	_p("SHORTCUT chapter goals met (2 errands, 6 Review tries)")
 
 ## Marks a chapter available for this run only (its brief waits for chapters.json).
 func _make_available(chapter_id: String) -> void:

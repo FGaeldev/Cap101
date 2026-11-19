@@ -45,6 +45,8 @@ func _refresh() -> void:
 	visible = on
 	_ic.disabled = not on
 	set_process(on)
+	if on:
+		TutorialManager.start("pickup")
 
 func _process(delta: float) -> void:
 	_t += delta

@@ -72,7 +72,7 @@ const FULLSCREEN_COLUMN_TOP: float = 38.0
 var dpad: Control = null
 const DPadScript := preload("res://scripts/ui/dpad.gd")
 ## D-pad size, centred where the joystick's ring is drawn.
-const DPAD_SIZE: float = 112.0
+const DPAD_SIZE: float = 96.0  # the art's own size (assets/ui/Dpad.png), so pixels stay crisp
 
 # -- separated menus --
 const MenuStyle := preload("res://scripts/ui/menus/menu_style.gd")

@@ -88,6 +88,13 @@ func _ready() -> void:
 	# later so a quest the flag just unlocked is already active.
 	GameState.flag_changed.connect(func(_flag: String, _value: bool): ChapterGoals.check.call_deferred())
 	ChapterGoals.check.call_deferred()
+	# First errand and first chapter goals each get a short tutorial (tutorials.json).
+	QuestManager.quest_started.connect(func(quest_id: String):
+		var quest: Dictionary = QuestManager.quests.get(quest_id, {})
+		if quest.get("category", "") == "side":
+			TutorialManager.start("errands")
+		elif ChapterGoals.is_goal_quest(quest_id):
+			TutorialManager.start("chapter_goals"))
 	# Before the level loads, so the bedroom's opening dialogue waits for it.
 	# Saves already past the opening never get this card.
 	if not GameState.get_flag("seen_chapter1_scene1"):
