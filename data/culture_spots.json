@@ -1,0 +1,32 @@
+{
+	"_about": "People and things that explain Aklan's culture in place (scripts/util/culture_spots.gd). Facts checked 2026-11-19 against Wikipedia (Kalibo Cathedral, Nineteen Martyrs of Aklan, Bakhawan Eco-Park), UNESCO ICH 01564 coverage (Inquirer, Philstar, Rappler) and Mongabay. Keyed by level scene path.",
+	"res://scenes/world/chapter2/cathedral_indoors.tscn": {
+		"npcs": [
+			{"id": "parish_priest", "scene": "res://scenes/entities/npc_CathedralPriest.tscn", "at": [144, 112], "face": "down", "chapter": "chapter2", "scene_key": "culture_parish_priest"}
+		],
+		"examinables": [
+			{"at": [128, 136], "size": [48, 16], "chapter": "chapter2", "scene_key": "examine_santo_nino"}
+		]
+	},
+	"res://scenes/world/chapter2/pastrana_outdoors.tscn": {
+		"npcs": [
+			{"id": "lola_ising", "scene": "res://scenes/entities/npc_LolaIsing.tscn", "at": [1040, 752], "face": "left", "chapter": "chapter2", "scene_key": "culture_park_martyrs", "hours": [6, 18]}
+		]
+	},
+	"res://scenes/world/haboean/haboean_gallery.tscn": {
+		"npcs": [
+			{"id": "gallery_curator", "scene": "res://scenes/entities/npc_GalleryCurator.tscn", "at": "Staff/Curator", "face": "down", "chapter": "chapter3", "scene_key": "culture_gallery_curator"}
+		],
+		"examinables": [
+			{"at": "Exhibits/CabinetA", "size": [48, 48], "chapter": "chapter3", "scene_key": "examine_fiber_jars"},
+			{"at": "Exhibits/CabinetB", "size": [48, 48], "chapter": "chapter3", "scene_key": "examine_scraping_tools"},
+			{"at": "Exhibits/PlinthA", "size": [48, 48], "chapter": "chapter3", "scene_key": "examine_pina_barong"},
+			{"at": "Exhibits/PlinthB", "size": [48, 48], "chapter": "chapter3", "scene_key": "examine_unesco_frame"}
+		]
+	},
+	"res://scenes/world/bakhawan/bakhawan_indoors.tscn": {
+		"npcs": [
+			{"id": "kasama_volunteer", "scene": "res://scenes/entities/npc_KasamaVolunteer.tscn", "at": [48, 96], "face": "right", "chapter": "chapter4", "scene_key": "culture_kasama_volunteer"}
+		]
+	}
+}

@@ -25,6 +25,18 @@
 			"show_popup": true
 		},
 		{
+			"id": "q021",
+			"category": "main",
+			"title": "Leave for the airport with Papa and Lola",
+			"description": "Papa Jobert and Lola Jonabel are waiting by the front door with the bags. Talk to Papa when you are ready to go.",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "quest_010_done",
+			"unless_flag": "seen_chapter1_scene1_5",
+			"completion_flag": "quest_021_done",
+			"show_popup": false
+		},
+		{
 			"id": "q003",
 			"category": "main",
 			"title": "Find Lola Susan and Rose in the parking lot",
@@ -64,6 +76,18 @@
 			"requires_flag": "quest_005_done",
 			"unless_flag": "seen_chapter2_scene2",
 			"completion_flag": "quest_011_done",
+			"show_popup": true
+		},
+		{
+			"id": "q022",
+			"category": "main",
+			"title": "Help Rose find Nong Pedring",
+			"description": "Nong Pedring was supposed to meet you and Rose in Pastrana Park, but he isn't where she expected. Ask the people in the park if they are Nong Pedring.",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "chapter2_arrived_park",
+			"unless_flag": "seen_chapter2_scene1",
+			"completion_flag": "quest_022_done",
 			"show_popup": true
 		},
 		{
@@ -185,8 +209,8 @@
 		{
 			"id": "q020",
 			"category": "main",
-			"title": "Chapter 5 is on its way",
-			"description": "That's the story so far. Chapter 5, Hala Bira!, is on its way. Follow @fgaeldevnew for updates. Until then, you can still learn new words by talking to people around town.",
+			"title": "Explore Kalibo",
+			"description": "You finished Part One! Kalibo is yours to explore: talk to people around town, run errands for the family, and keep practicing your Akeanon.",
 			"required_exposures": 0,
 			"target_words": [],
 			"requires_flag": "chapter4_complete",

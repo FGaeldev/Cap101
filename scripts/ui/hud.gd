@@ -112,6 +112,7 @@ var _book_quest_filter: Control.MouseFilter
 
 # -- event reminders --
 const CalendarUtil := preload("res://scripts/util/calendar_util.gd")
+const InstructionsPanel := preload("res://scripts/ui/instructions_panel.gd")
 ## In-game hour the daily reminder shows ("every morning").
 const REMINDER_HOUR := 6
 ## Reminders start this many days before an event, then daily until the day.
@@ -215,6 +216,10 @@ func _process(_delta: float) -> void:
 	toasts.visible = not DialogueUI.hides_toasts()  # queued toasts show once it closes
 	clock_panel.visible = not fullscreen
 	_wallet_panel.visible = not fullscreen and _wallet_shown()
+	# First time the wallet is up with nothing else on screen: explain money.
+	if _wallet_panel.visible and not overlay and not CutsceneManager.is_playing() \
+			and not TutorialManager.is_done("money"):
+		TutorialManager.start("money")
 	_update_fast_forward(fullscreen)
 	_menu_row.visible = not fullscreen
 	quest_column.visible = not fullscreen
@@ -685,7 +690,12 @@ func _build_wallet() -> void:
 	right_column.move_child(row, index)
 	_wallet_panel = PanelContainer.new()
 	_wallet_panel.name = "Wallet"
-	_wallet_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# Tap the wallet for the Money help page (how to earn pesos, what they buy).
+	_wallet_panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	_wallet_panel.gui_input.connect(func(event: InputEvent):
+		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			AudioManager.play_sfx("menu_click")
+			InstructionsPanel.open_topic(get_tree(), "money"))
 	_wallet_panel.add_theme_stylebox_override("panel", UIThemeApplier.make_header_right_style())
 	_wallet_label = Label.new()
 	_wallet_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_EMPHASIS)

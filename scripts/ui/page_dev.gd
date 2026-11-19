@@ -65,6 +65,8 @@ const DEV_WARP_TARGETS := [
 	# separated menus: switches between the book and the separated menus.
 	# Label is built in _render_page().
 	{"label": "", "toggle_menus": true},
+	# Movement controls: D-pad (default) or joystick. Label built in _render_page().
+	{"label": "", "toggle_movement": true},
 	{"label": "Ch1 — US Home - Bedroom", "scene_path": "res://scenes/world/chapter1/us_bedroom.tscn"},
 	{"label": "Ch1 — US Home - Living Room", "scene_path": "res://scenes/world/chapter1/us_living.tscn"},
 	{"label": "Ch1 — Airport - Indoors", "scene_path": "res://scenes/world/chapter1/airport_arival.tscn"},
@@ -104,7 +106,7 @@ const DEV_WARP_TARGETS := [
 	{"label": "Cards — Replay Chapter 1 card", "card": "chapter1"},
 	{"label": "Cards — Replay Chapter 2 card", "card": "chapter2"},
 	{"label": "Cards — Replay Chapter 3 card", "card": "chapter3"},
-	{"label": "Cards — Replay \"story so far\" note", "card": "story_so_far"},
+	{"label": "Cards — Replay \"end of Part One\" note", "card": "story_so_far"},
 ]
 
 # Cutscenes are level-bound: their actors are spawned/registered by the host
@@ -281,6 +283,10 @@ func _render_page() -> void:
 		if entry.has("toggle_menus"):
 			add_button("Menus: %s (tap to switch)" % ("separate" if BookUI.separate_menus else "book"),
 					func(): BookUI.set_separate_menus(not BookUI.separate_menus))
+		elif entry.has("toggle_movement"):
+			add_button("Movement: %s (tap to switch)" % Accessibility.MOVEMENT_OPTIONS[Accessibility.movement_controls], func():
+				Accessibility.set_movement_controls(Accessibility.MOVEMENT_JOYSTICK if Accessibility.uses_dpad() else Accessibility.MOVEMENT_DPAD)
+				_render_page())
 		elif entry.has("toggle_cards"):
 			add_button(cards_label(), func():
 				GameState.set_dev_show_cards(not GameState.dev_show_cards)

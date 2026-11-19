@@ -22,20 +22,21 @@ const ERROR_COLOR_BLIND := Color("d55e00")
 var color_blind: bool = false
 
 ## On-screen movement control: the analog joystick or a 4-way D-pad (dpad.gd).
-## Both press the ui_* actions; the HUD shows whichever is chosen.
+## Both press the ui_* actions; the HUD shows whichever is chosen. D-pad is the
+## default; the switch lives in the dev menu (page_dev.gd), not Settings.
 const KEY_MOVEMENT := "movement_controls"
 const MOVEMENT_JOYSTICK := "joystick"
 const MOVEMENT_DPAD := "dpad"
 const MOVEMENT_OPTIONS := {MOVEMENT_JOYSTICK: "Joystick", MOVEMENT_DPAD: "D-pad"}
-var movement_controls: String = MOVEMENT_JOYSTICK
+var movement_controls: String = MOVEMENT_DPAD
 
 
 func _ready() -> void:
 	var config := ConfigFile.new()
 	if config.load(SETTINGS_PATH) == OK:
 		color_blind = bool(config.get_value(SECTION, KEY_COLOR_BLIND, false))
-		var movement := str(config.get_value(SECTION, KEY_MOVEMENT, MOVEMENT_JOYSTICK))
-		movement_controls = movement if MOVEMENT_OPTIONS.has(movement) else MOVEMENT_JOYSTICK
+		var movement := str(config.get_value(SECTION, KEY_MOVEMENT, MOVEMENT_DPAD))
+		movement_controls = movement if MOVEMENT_OPTIONS.has(movement) else MOVEMENT_DPAD
 
 
 func set_movement_controls(kind: String) -> void:

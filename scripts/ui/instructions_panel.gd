@@ -9,7 +9,7 @@ const DIM := Color(0.0, 0.0, 0.0, 0.6)
 const MARGIN: float = 0.05
 
 const HOW_TO_PLAY: Array = [
-	["Moving", "Drag the joystick at the bottom left (or hold the D-pad, if you chose it in Settings), or use W, A, S, D."],
+	["Moving", "Hold the D-pad at the bottom left, or use W, A, S, D."],
 	["Talking and using things", "Walk up to a person or object, then tap the button at the bottom right or press E. Tap the screen or press E to continue a conversation."],
 	["Your goal", "Your current quest is shown at the top left. Follow it to move the story forward."],
 	["The Book", "Tap the menu button at the top right or press Esc. It holds your settings, journal, relationships, dictionary, map, and calendar."],
@@ -163,8 +163,9 @@ func _fill_how_to_play(content: Control) -> void:
 func _fill_chapters(content: Control) -> void:
 	for chapter: Dictionary in ChapterCard.get_chapters():
 		var heading: String = "Chapter %d: %s" % [int(chapter.get("number", 0)), str(chapter.get("title", ""))]
+		# Unreleased chapters stay hidden so Part One reads as complete.
 		if not chapter.get("available", false):
-			heading += " (coming soon)"
+			continue
 		_add_section(content, heading, [str(chapter.get("description", "")), "You will learn: %s" % str(chapter.get("learn", ""))])
 
 

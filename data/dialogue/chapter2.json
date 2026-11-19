@@ -37,11 +37,49 @@
 	},
 	{
 	  "speaker": "Rose",
-	  "text": "Look around first, balikbayan. Talk to me when you want to keep going.",
+	  "text": "Nong Pedring said he'd meet us here. He sells at the market, he's our suki.",
+	  "next": 5,
+	  "word_ids": [],
+	  "type": "dialogue"
+	},
+	{
+	  "speaker": "Rose",
+	  "text": "I don't see him, though. Help me look, balikbayan? Ask around the park. Someone here has to be him.",
 	  "next": null,
 	  "word_ids": [],
 	  "type": "dialogue"
 	}
+  ],
+  "scene_1_found_pedring": [
+	{"type": "dialogue", "speaker": "Player", "text": "Excuse me... are you Nong Pedring?", "next": 1, "word_ids": []},
+	{"type": "dialogue", "speaker": "Nong Pedring", "text": "I am! And you must be Jonabel's apo, the one from abroad. Where's Rose?", "next": 2, "word_ids": []},
+	{"type": "dialogue", "speaker": "Player", "text": "Rose! Over here, I found him!", "next": null, "word_ids": []}
+  ],
+  "ask_pedring_passerby": [
+	{"type": "dialogue", "speaker": "Player", "text": "Excuse me, are you Nong Pedring?", "next": 1, "word_ids": []},
+	{"type": "dialogue", "speaker": "Passerby", "text": "\\Bukon, I'm not him. Sorry!", "next": 2, "word_ids": ["w045"]},
+	{"type": "dialogue", "speaker": "Passerby", "text": "Pedring? \\Bukon. Try asking someone else.", "next": 3, "word_ids": ["w045"]},
+	{"type": "dialogue", "speaker": "Passerby", "text": "\\Bukon. The market vendors usually wait on the south side, by the street.", "next": 4, "word_ids": ["w045"]},
+	{"type": "dialogue", "speaker": "Passerby", "text": "Haha, \\bukon! I'm just out for a walk.", "next": null, "word_ids": ["w045"]}
+  ],
+  "culture_parish_priest": [
+	{"type": "dialogue", "speaker": "Parish Priest", "text": "Welcome, child. This is the Cathedral of Saint John the Baptist, the seat of the Diocese of Kalibo.", "next": 1, "word_ids": []},
+	{"type": "dialogue", "speaker": "Parish Priest", "text": "Saint John is Kalibo's patron. His feast is June 24. But look at the altar: most hearts here belong to the Santo Niño.", "next": 2, "word_ids": []},
+	{"type": "dialogue", "speaker": "Parish Priest", "text": "The Santo Niño is the Holy Child Jesus. This cathedral is also his diocesan shrine.", "next": 3, "word_ids": []},
+	{"type": "dialogue", "speaker": "Parish Priest", "text": "Every January, on the third Sunday, Kalibo honors him with the Ati-Atihan. Drums, painted faces, the whole town dancing in the streets.", "next": 4, "word_ids": []},
+	{"type": "dialogue", "speaker": "Parish Priest", "text": "They shout \"Hala bira!\" and \"Viva Señor Santo Niño!\" all day, then come here to pray and give thanks.", "next": 5, "word_ids": []},
+	{"type": "dialogue", "speaker": "Parish Priest", "text": "The dancing and the praying go together here. That is Aklan's devotion.", "next": null, "word_ids": []}
+  ],
+  "examine_santo_nino": [
+	{"type": "dialogue", "speaker": "", "text": "An image of the Santo Niño, the Child Jesus, in a rich robe and crown. He holds a globe and a scepter.", "next": 1, "word_ids": []},
+	{"type": "dialogue", "speaker": "", "text": "Candles and fresh flowers have been left in front of him.", "next": null, "word_ids": []}
+  ],
+  "culture_park_martyrs": [
+	{"type": "dialogue", "speaker": "Lola Ising", "text": "You're new here, \\apo? Come, sit a while. Do you know what happened in this park?", "next": 1, "word_ids": ["w019"]},
+	{"type": "dialogue", "speaker": "Lola Ising", "text": "In the revolution against Spain, Aklan's fighters were led by Francisco del Castillo. The old folks say he fell right here, in March 1897.", "next": 2, "word_ids": []},
+	{"type": "dialogue", "speaker": "Lola Ising", "text": "A few days later, on March 23, nineteen men from Kalibo, Malinao and Lagatik were shot by the Spanish.", "next": 3, "word_ids": []},
+	{"type": "dialogue", "speaker": "Lola Ising", "text": "We call them the Nineteen Martyrs of Aklan. They rest at the Aklan Freedom Shrine. Everybody just calls it \"Castillo.\"", "next": 4, "word_ids": []},
+	{"type": "dialogue", "speaker": "Lola Ising", "text": "So when you walk through Pastrana, walk a little slower. Brave people stood here.", "next": null, "word_ids": []}
   ],
   "scene_1_meet_pedring": [
 	{

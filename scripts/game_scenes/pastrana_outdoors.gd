@@ -28,6 +28,14 @@ const ARRIVED_FLAG: String = "chapter2_arrived_park"
 const ARRIVED_CATHEDRAL_FLAG: String = "chapter2_arrived_cathedral"
 const ROSE_SCENE: String = "res://scenes/entities/npc_Rose.tscn"
 const ROSE_ID: String = "Rose"
+## "Help Rose find Nong Pedring" (q022): after scene 1 he waits on the south
+## sidewalk by the planters; passersby say they aren't him (npc_wanderer.gd)
+## and talking to him plays chapter2_park_meet_pedring.
+const PEDRING_SCENE: String = "res://scenes/entities/npc_Pedring.tscn"
+const PEDRING_ID: String = "Nong Pedring"
+const PEDRING_SPOT := Vector2(1008, 1200)
+const FIND_PEDRING_QUEST: String = "q022"
+var _pedring: Node2D = null
 ## Legs that need Rose already standing in the map.
 const NEEDS_ROSE: Array[String] = ["chapter2_walk_home_park", "chapter2_tour_to_market", "chapter2_tour_to_souvenir"]
 
@@ -102,13 +110,27 @@ func _place_rose() -> void:
 		CutsceneManager.register_actor(ROSE_ID, npc)
 	_set_rose_resume()
 
+## Nong Pedring, somewhere in the park for the player to find (q022).
+func _place_pedring() -> void:
+	# Registration is deferred, so has_actor() misses one placed this frame.
+	if is_instance_valid(_pedring) or CutsceneManager.has_actor(PEDRING_ID):
+		return
+	var npc: Node2D = (load(PEDRING_SCENE) as PackedScene).instantiate()
+	npc.position = PEDRING_SPOT
+	npc.quest_id = FIND_PEDRING_QUEST
+	npc.interact_quest_id = FIND_PEDRING_QUEST
+	npc.cutscene_id = "chapter2_park_meet_pedring"
+	npc.cutscene_seen_flag = "seen_chapter2_scene1"
+	add_child(npc)
+	_pedring = npc
+
 ## While the player roams a stop of the first trip, talking to Rose continues it.
 func _set_rose_resume() -> void:
 	var rose: Node = CutsceneManager.get_actor(ROSE_ID)
 	if GameState.get_flag(ARRIVED_FLAG) and not GameState.get_flag("seen_chapter2_scene1"):
-		rose.cutscene_id = "chapter2_park_meet_pedring"
-		TutorialManager.start("tour_roam")
-		rose.cutscene_seen_flag = "seen_chapter2_scene1"
+		# Rose waits; the player goes looking for Nong Pedring.
+		rose.cutscene_id = ""
+		_place_pedring()
 	elif GameState.get_flag(ARRIVED_CATHEDRAL_FLAG) and not GameState.get_flag("seen_chapter2_scene4"):
 		rose.cutscene_id = "chapter2_cathedral_talk"
 		TutorialManager.start("tour_roam")

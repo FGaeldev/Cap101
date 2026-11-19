@@ -1,9 +1,10 @@
 [
+	{"type": "dialogue", "chapter": "chapter2", "scene": "scene_1_found_pedring"},
 	{"type": "game_speed", "scale": 2.0},
-	{"type": "spawn_npc", "actor": "Nong Pedring", "scene": "res://scenes/entities/npc_Pedring.tscn", "at_marker": "S1/Pedring Start"},
-	{"type": "move_npc", "actor": "Nong Pedring", "to": "S1/PedringStand", "avoid_actors": true, "speed": 48},
+	{"type": "move_npc", "actor": "Rose", "to": [1040, 1200], "avoid_actors": true, "speed": 64},
 	{"type": "game_speed", "scale": 1.0},
 	{"type": "dialogue", "chapter": "chapter2", "scene": "scene_1_meet_pedring"},
+	{"type": "complete_quest", "quest_id": "q022"},
 	{"type": "complete_quest", "quest_id": "q011", "unless_flag": "seen_chapter2_scene1"},
 	{"type": "set_flag", "flag": "seen_chapter2_scene1", "value": true}
 ]

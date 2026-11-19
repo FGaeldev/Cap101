@@ -859,6 +859,12 @@
 	  "type": "dialogue"
 	}
   ],
+  "scene_1_75_leaving_home": [
+	{"type": "dialogue", "speaker": "Papa Jobert", "text": "Morning! Bags are packed and the taxi's outside.", "next": 1, "word_ids": []},
+	{"type": "dialogue", "speaker": "Papa Jobert", "text": "Passports, tickets, and the pasalubong for your Lola Susan. Everyone ready?", "next": 2, "word_ids": []},
+	{"type": "dialogue", "speaker": "Lola Jonabel", "text": "I've been ready since last night. Let's go home.", "next": 3, "word_ids": []},
+	{"type": "dialogue", "speaker": "Player", "text": "Let's go!", "next": null, "word_ids": []}
+  ],
   "remarks": {
 	"jonabel_flight_morning": {
 	  "speaker": "Lola Jonabel",
@@ -868,7 +874,7 @@
 		{"type": "dialogue", "speaker": "Lola Jonabel", "text": "Good morning, \\apo! Today is the day.", "next": 1, "word_ids": ["w019"]},
 		{"type": "dialogue", "speaker": "Player", "text": "I could barely sleep, Grandma. Are we really going?", "next": 2, "word_ids": []},
 		{"type": "dialogue", "speaker": "Lola Jonabel", "text": "We are. After all these years, I'm going home to \\Aklan, and you're coming with me.", "next": 3, "word_ids": ["w010"]},
-		{"type": "dialogue", "speaker": "Lola Jonabel", "text": "Your Papa already has the bags. Go out the front door, the airport is waiting!", "next": null, "word_ids": []}
+		{"type": "dialogue", "speaker": "Lola Jonabel", "text": "Your Papa already has the bags by the door. Tell him when you're ready, and we'll all go together!", "next": null, "word_ids": []}
 	  ]
 	}
   }

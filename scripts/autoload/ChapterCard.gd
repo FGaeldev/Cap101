@@ -75,11 +75,11 @@ func show_if_new(chapter_id: String) -> bool:
 const NOTES: Dictionary = {
 	"story_so_far": {
 		"after_flag": "chapter4_complete",
-		"seen_flag": "note_story_so_far_ch4_seen",
-		"heading": "Chapter 4 complete",
-		"title": "That's the story so far",
-		"body": "Chapter 5, Hala Bira!, is on its way.\nFollow @fgaeldevnew for updates.",
-		"footer": "Until then, you can still learn new words by talking to people around town.",
+		"seen_flag": "note_part_one_end_seen",
+		"heading": "The end of Part One",
+		"title": "Salamat, and well done!",
+		"body": "You came home to Aklan, toured Kalibo with Rose, wove piña with Manang Loleng, and planted a mangrove with Manong Ambo.",
+		"footer": "Kalibo is still yours to explore: talk to people, run errands for the family, and keep practicing your words.",
 	},
 }
 

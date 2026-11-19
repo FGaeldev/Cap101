@@ -4,6 +4,11 @@
 #   - Each NPC (npc_wanderer.gd) picks a random marker, walks there around walls
 #     and furniture, pauses, and picks another.
 # NPCs are children of this node, so they go away with the level.
+#   - Routines (data/ambient_routines.json, keyed by the level's scene path) add
+#     NPCs with a purpose on top of the random crowd: a jogger lapping the park,
+#     friends chatting in one spot, students crossing to school. Each walks its
+#     own waypoints in order (loop, ping-pong or once, then leaves and comes
+#     back later), pausing where its routine says. See npc_wanderer.gd.
 extends Node2D
 
 const ActorPath := preload("res://scripts/util/actor_path.gd")
@@ -15,6 +20,7 @@ const GRID_MARGIN_TILES: int = 16
 const CELLS_PER_FRAME: int = 1500
 ## Extra world px around the view that counts as visible (a sprite is 32 px wide).
 const VIEW_MARGIN: float = 32.0
+const ROUTINES_PATH: String = "res://data/ambient_routines.json"
 
 @export var markers_path: NodePath = ^"../SceneMarkers/RandomNPC"
 @export var npc_scenes: Array[PackedScene] = []
@@ -27,6 +33,10 @@ var _grid := AStarGrid2D.new()
 var _targets: Array[Vector2i] = []
 var _scene_queue: Array[PackedScene] = []
 var _spawn_timer: float = 0.0
+## This level's routines, and per routine index the seconds until a "once"
+## routine that left comes back (absent = it is out walking).
+var _routines: Array = []
+var _routine_wait: Dictionary = {}
 
 func _ready() -> void:
 	set_physics_process(false)
@@ -36,6 +46,9 @@ func _ready() -> void:
 	await _build_grid()
 	if not is_inside_tree() or _targets.is_empty() or npc_scenes.is_empty():
 		return
+	_load_routines()
+	for i in _routines.size():
+		_spawn_routine(i)
 	for i in max_npcs:
 		_try_spawn()
 	set_physics_process(true)
@@ -45,6 +58,11 @@ func _physics_process(delta: float) -> void:
 	if _spawn_timer >= spawn_interval:
 		_spawn_timer = 0.0
 		_try_spawn()
+	for i: int in _routine_wait.keys():
+		_routine_wait[i] -= delta
+		if _routine_wait[i] <= 0.0:
+			_routine_wait.erase(i)
+			_spawn_routine(i)
 
 # --- route grid ------------------------------------------------------------------
 # Same convention as NpcSchedule: a tile's cell is its marker position / 16, since
@@ -90,7 +108,7 @@ func _largest_connected(markers: Array[Vector2i]) -> Array[Vector2i]:
 # --- spawning --------------------------------------------------------------------
 
 func _try_spawn() -> void:
-	if get_child_count() >= max_npcs:
+	if _random_count() >= max_npcs:
 		return
 	var view: Rect2 = _world_view().grow(VIEW_MARGIN)
 	var options: Array[Vector2i] = _targets.duplicate()
@@ -108,6 +126,74 @@ func _spawn_at(cell: Vector2i) -> void:
 	npc.setup(self, cell)
 	add_child(npc)
 	npc.global_position = Vector2(cell) * TILE
+
+## Random crowd only; routine NPCs don't count toward max_npcs.
+func _random_count() -> int:
+	var count: int = 0
+	for child in get_children():
+		if child.get("routine") == null or (child.routine as Dictionary).is_empty():
+			count += 1
+	return count
+
+# --- routines ---------------------------------------------------------------------
+
+func _load_routines() -> void:
+	var level: Node = owner if owner != null else get_parent()
+	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(ROUTINES_PATH))
+	if not parsed is Dictionary:
+		push_error("%s: bad JSON in %s" % [name, ROUTINES_PATH])
+		return
+	for routine: Dictionary in parsed.get(level.scene_file_path, []):
+		var hours: Array = routine.get("hours", [])
+		if hours.size() == 2 and not _hour_in(DayNightManager.get_hour(), float(hours[0]), float(hours[1])):
+			continue
+		var cells: Array[Vector2i] = []
+		for point: Array in routine.get("waypoints", []):
+			cells.append(Vector2i((Vector2(point[0], point[1]) / TILE).round()))
+		if cells.is_empty() or not ResourceLoader.exists(str(routine.get("scene", ""))):
+			push_warning("%s: routine '%s' has no waypoints or scene" % [name, routine.get("id", "?")])
+			continue
+		for cell in cells:
+			if not _grid.region.has_point(cell) or _grid.is_point_solid(cell):
+				push_warning("%s: routine '%s' waypoint %s is blocked" % [name, routine.get("id", "?"), cell * int(TILE)])
+		var entry: Dictionary = routine.duplicate()
+		entry["cells"] = cells
+		_routines.append(entry)
+
+static func _hour_in(hour: float, from: float, to: float) -> bool:
+	return hour >= from and hour < to if from <= to else hour >= from or hour < to
+
+func _spawn_routine(index: int) -> void:
+	var routine: Dictionary = _routines[index]
+	var cell: Vector2i = routine["cells"][0]
+	var npc: Node2D = (load(str(routine["scene"])) as PackedScene).instantiate()
+	npc.setup(self, cell)
+	npc.routine = routine
+	npc.routine_index = index
+	add_child(npc)
+	npc.global_position = Vector2(cell) * TILE
+
+## Called by a "once" routine NPC at its last waypoint: it leaves, and the same
+## routine walks again after its "respawn" seconds.
+func routine_finished(npc: Node2D) -> void:
+	_routine_wait[npc.routine_index] = float(npc.routine.get("respawn", 30.0))
+	npc.queue_free()
+
+## Tiles from the NPC to a given goal, around anyone in the way. Empty if none.
+func plan_route_to(npc: Node2D, goal: Vector2i) -> Array[Vector2i]:
+	var here: Vector2i = npc.next_cell
+	if here == goal:
+		return []
+	var blocked: Array[Vector2i] = _block_others(npc)
+	var was_solid: bool = _grid.is_point_solid(goal)
+	_grid.set_point_solid(goal, false)
+	var path: Array[Vector2i] = _grid.get_id_path(here, goal)
+	_grid.set_point_solid(goal, was_solid)
+	for cell in blocked:
+		_grid.set_point_solid(cell, false)
+	if not path.is_empty():
+		path.remove_at(0)
+	return path
 
 ## The part of the map on screen right now, in world coordinates.
 func _world_view() -> Rect2:

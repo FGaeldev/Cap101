@@ -37,7 +37,6 @@ func _ready() -> void:
 	sfx_slider.value_changed.connect(func(v: float): AudioManager.set_sfx_volume(v / 100.0))
 	dev_mode_toggle.toggled.connect(_on_dev_mode_toggled)
 	_build_ui_scale_row()
-	_build_movement_row()
 	UIThemeApplier.apply_button_theme(quit_btn, "danger")
 	quit_btn.pressed.connect(func(): BookUI.confirm_exit_to_menu())
 	_build_instructions_button()

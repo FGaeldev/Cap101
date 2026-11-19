@@ -1059,5 +1059,12 @@
 			"next": null,
 			"word_ids": []
 		}
+	],
+	"culture_kasama_volunteer": [
+		{"type": "dialogue", "speaker": "KASAMA Volunteer", "text": "Welcome! I'm with KASAMA, the Kalibo Save the Mangroves Association. Most of us are fisherfolk from New Buswang.", "next": 1, "word_ids": []},
+		{"type": "dialogue", "speaker": "KASAMA Volunteer", "text": "In 1990 this was bare mudflat. The town planted \\bakhawan here so floods and storm surges wouldn't reach the houses.", "next": 2, "word_ids": ["w339"]},
+		{"type": "dialogue", "speaker": "KASAMA Volunteer", "text": "It started with 50 hectares. Now it's about 220, and the bamboo trail runs over a kilometer into the forest.", "next": 3, "word_ids": []},
+		{"type": "dialogue", "speaker": "KASAMA Volunteer", "text": "The roots are a nursery too. Young \\isda, crabs and shrimp hide there until they're big enough for the sea.", "next": 4, "word_ids": ["w091"]},
+		{"type": "dialogue", "speaker": "KASAMA Volunteer", "text": "Your entrance fee helps us look after it all. Thank you for visiting!", "next": null, "word_ids": []}
 	]
 }
