@@ -22,6 +22,8 @@
 #     to end. Cutscene-spawned NPCs are reused, since they share the actor id.
 extends Node
 
+const ChapterGoals := preload("res://scripts/util/chapter_goals.gd")
+
 ## A scheduled NPC finished walking. Story beats waiting on someone's arrival
 ## re-check on this.
 signal npc_arrived(actor_id: String)
@@ -239,6 +241,10 @@ func _matches(block: Dictionary) -> bool:
 			return false
 	return not block.has("when") or _condition(block["when"])
 
+## A schedule condition by name ("mass_skipped"...), for side quests' offer_condition.
+func condition(name: String) -> bool:
+	return _condition(name)
+
 func _condition(name: String) -> bool:
 	match name:
 		"first_day":
@@ -254,10 +260,12 @@ func _condition(name: String) -> bool:
 		"tour_pending":
 			return not GameState.get_flag("chapter2_tour_done")
 		"ch3_brief_pending":
-			return GameState.get_flag("chapter2_complete") and not GameState.get_flag("seen_chapter3_scene0")
+			# The between-chapter goals (chapter_goals.gd) hold the brief back.
+			return GameState.get_flag("chapter2_complete") and not GameState.get_flag("seen_chapter3_scene0") \
+					and ChapterGoals.met("chapter3")
 		"ch4_brief_pending":
 			return GameState.get_flag("chapter3_complete") and not GameState.get_flag("seen_chapter4_scene0") \
-					and _chapter_available("chapter4")
+					and _chapter_available("chapter4") and ChapterGoals.met("chapter4")
 		"ch4_trip":
 			return GameState.get_flag("chapter4_going_bakhawan")
 		"ch4_evening_pending":

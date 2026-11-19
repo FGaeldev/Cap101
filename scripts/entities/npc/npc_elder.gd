@@ -39,6 +39,8 @@ enum FacingDirection {
 ## silently reading rapport for "" the whole time.
 @export var npc_id: String = "Lola Jonabel"
 
+const SideQuests := preload("res://scripts/util/side_quests.gd")
+
 @onready var interactable: InteractableComponent = $InteractableComponent
 @onready var dialogue: DialogueComponent = $DialogueComponent
 
@@ -99,8 +101,14 @@ func _start_dialogue_or_idle() -> void:
 	if story_pending:
 		dialogue.dialogue_lines = story_lines
 		dialogue.start_dialogue()
-	else:
-		dialogue.start_idle_dialogue()
+		return
+	# A side quest this NPC gives (offer, reminder or hand-in) comes before idle talk.
+	var quest_lines: Array = SideQuests.lines_for(npc_id)
+	if not quest_lines.is_empty():
+		dialogue.dialogue_lines = quest_lines
+		dialogue.start_dialogue()
+		return
+	dialogue.start_idle_dialogue()
 
 ## Only the post-cutscene repeat dialogue should ever set story_done_flag --
 ## idle dialogue also fires dialogue_ended, but story_done_flag is already

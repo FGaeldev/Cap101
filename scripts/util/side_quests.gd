@@ -5,6 +5,8 @@
 # (the NPC's npc_id). Its "requires_flag" is the flag set when the player
 # accepts, so QuestManager shows it as active from then on. Fields:
 #   offer_flag   : the giver offers the quest once this story flag is set
+#   offer_condition: optional NpcSchedule condition that must hold right now
+#                  (e.g. "mass_skipped": only while the others are at mass)
 #   start_pesos  : money the giver hands over on accepting (to buy with)
 #   needs_items  : {item id: count} the player brings back (data/items.json)
 #   reward_rapport: hearts with the giver on hand-in
@@ -52,6 +54,9 @@ static func item_progress(q: Dictionary) -> String:
 static func _can_offer(qid: String, q: Dictionary) -> bool:
 	var offer_flag: String = str(q.get("offer_flag", ""))
 	if not offer_flag.is_empty() and not GameState.get_flag(offer_flag):
+		return false
+	var offer_condition: String = str(q.get("offer_condition", ""))
+	if not offer_condition.is_empty() and not NpcSchedule.condition(offer_condition):
 		return false
 	# "Not now" today means she asks again tomorrow, not on every Talk.
 	return int(GameState.quest_offer_declined.get(qid, -1)) != GameState.daily_date()

@@ -2,6 +2,7 @@
 extends Node
 
 const CultureSpots := preload("res://scripts/util/culture_spots.gd")
+const ChapterGoals := preload("res://scripts/util/chapter_goals.gd")
 
 # Game.gd
 ## Player is now a persistent sibling of LevelContainer (not baked into each
@@ -83,6 +84,10 @@ func _ready() -> void:
 	DayNightManager.register_canvas_modulate(day_night)
 	# Save is loaded by now: baseline achievements so only new ones get a toast.
 	AchievementManager.prime()
+	# Between-chapter goals (chapter_goals.gd): re-check on any story flag, a frame
+	# later so a quest the flag just unlocked is already active.
+	GameState.flag_changed.connect(func(_flag: String, _value: bool): ChapterGoals.check.call_deferred())
+	ChapterGoals.check.call_deferred()
 	# Before the level loads, so the bedroom's opening dialogue waits for it.
 	# Saves already past the opening never get this card.
 	if not GameState.get_flag("seen_chapter1_scene1"):

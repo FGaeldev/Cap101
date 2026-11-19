@@ -91,6 +91,54 @@
 			"show_popup": true
 		},
 		{
+			"id": "q023",
+			"category": "main",
+			"title": "Before Chapter 3: run an errand for the family",
+			"description": "Help someone at home with an errand: Lola Susan's shopping list, Lola Jonabel's merienda, or Papa's pasalubong. Then the next chapter can begin.",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "chapter2_complete",
+			"unless_flag": "seen_chapter3_scene0",
+			"completion_flag": "quest_023_done",
+			"show_popup": true
+		},
+		{
+			"id": "q024",
+			"category": "main",
+			"title": "Before Chapter 3: practice with Review 3 times",
+			"description": "Talk to anyone and choose Review. Right or wrong, every try counts.",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "chapter2_complete",
+			"unless_flag": "seen_chapter3_scene0",
+			"completion_flag": "quest_024_done",
+			"show_popup": true
+		},
+		{
+			"id": "q025",
+			"category": "main",
+			"title": "Before Chapter 4: run two errands in all",
+			"description": "Finish two family errands in all (Lola Susan's list, Lola Jonabel's merienda, Papa's pasalubong). Then the next chapter can begin.",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "chapter3_complete",
+			"unless_flag": "seen_chapter4_scene0",
+			"completion_flag": "quest_025_done",
+			"show_popup": true
+		},
+		{
+			"id": "q026",
+			"category": "main",
+			"title": "Before Chapter 4: practice with Review 6 times in all",
+			"description": "Talk to anyone and choose Review. Right or wrong, every try counts.",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "chapter3_complete",
+			"unless_flag": "seen_chapter4_scene0",
+			"completion_flag": "quest_026_done",
+			"show_popup": true
+		},
+		{
 			"id": "q012",
 			"category": "main",
 			"title": "Find Nong Pedring at the market",
@@ -233,6 +281,41 @@
 			"target_words": [],
 			"requires_flag": "side_qs001_accepted",
 			"completion_flag": "side_qs001_done",
+			"show_popup": true
+		},
+		{
+			"id": "qs002",
+			"category": "side",
+			"title": "Lola Jonabel's merienda",
+			"description": "Everyone else is at mass. Lola Jonabel gave you ₱30 to buy a bag of pandesal from the cart outside the house. Bring it to her. Keep the change.",
+			"giver": "Lola Jonabel",
+			"offer_flag": "chapter2_tour_done",
+			"offer_condition": "mass_skipped",
+			"start_pesos": 30,
+			"needs_items": {"pandesal": 1},
+			"reward_rapport": 1,
+			"lines": {"offer": ["jonabel_offer_1", "jonabel_offer_2"], "yes": "jonabel_offer_yes", "no": "jonabel_offer_no", "later": "jonabel_offer_later", "remind": "jonabel_remind", "thanks": "jonabel_thanks"},
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "side_qs002_accepted",
+			"completion_flag": "side_qs002_done",
+			"show_popup": true
+		},
+		{
+			"id": "qs003",
+			"category": "side",
+			"title": "Papa's pasalubong",
+			"description": "Papa Jobert gave you ₱30 for three Ati-Atihan keychains, pasalubong for his friends at work. The souvenir shop is by Pastrana Park. Keep the change.",
+			"giver": "Papa Jobert",
+			"offer_flag": "chapter2_tour_done",
+			"start_pesos": 30,
+			"needs_items": {"keychain": 3},
+			"reward_rapport": 1,
+			"lines": {"offer": ["jobert_offer_1", "jobert_offer_2"], "yes": "jobert_offer_yes", "no": "jobert_offer_no", "later": "jobert_offer_later", "remind": "jobert_remind", "thanks": "jobert_thanks"},
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "side_qs003_accepted",
+			"completion_flag": "side_qs003_done",
 			"show_popup": true
 		}
 	]

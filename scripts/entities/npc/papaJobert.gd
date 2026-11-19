@@ -24,6 +24,8 @@ extends CharacterBody2D
 @export var cutscene_id: String = ""
 @export var cutscene_seen_flag: String = ""
 
+const SideQuests := preload("res://scripts/util/side_quests.gd")
+
 @onready var interactable: InteractableComponent = $InteractableComponent
 @onready var dialogue: DialogueComponent = $DialogueComponent
 
@@ -63,8 +65,14 @@ func _start_dialogue_or_idle() -> void:
 	if story_pending:
 		dialogue.dialogue_lines = story_lines
 		dialogue.start_dialogue()
-	else:
-		dialogue.start_idle_dialogue()
+		return
+	# A side quest this NPC gives (offer, reminder or hand-in) comes before idle talk.
+	var quest_lines: Array = SideQuests.lines_for(npc_id)
+	if not quest_lines.is_empty():
+		dialogue.dialogue_lines = quest_lines
+		dialogue.start_dialogue()
+		return
+	dialogue.start_idle_dialogue()
 
 func _on_dialogue_ended() -> void:
 	if not story_done_flag.is_empty() and not GameState.get_flag(story_done_flag):

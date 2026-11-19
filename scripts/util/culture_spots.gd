@@ -4,7 +4,8 @@
 # Data: data/culture_spots.json, keyed by level scene path. Game.load_level()
 # calls place() for every level.
 #   "npcs":        {id, scene, at [x, y] or "marker", face, chapter, scene_key,
-#                   hours [from, to], unless_flag}. Story lines play the first
+#                   hours [from, to], days [weekday 0=Sun..], shop_id,
+#                   unless_flag}. Story lines play the first
 #                   time (story_done_flag "culture_<id>_heard"), idle talk after.
 #   "examinables": {at, size [w, h], chapter, scene_key} -- examinable.gd areas
 #                   for objects already in the map (altar, exhibit cabinets).
@@ -30,6 +31,8 @@ static func place(level: Node2D, path: String) -> void:
 		npc.dialogue_chapter = str(entry.get("chapter", "chapter2"))
 		npc.dialogue_scene_key = str(entry.get("scene_key", ""))
 		npc.story_done_flag = "culture_%s_heard" % str(entry.get("id", ""))
+		if entry.has("shop_id"):
+			npc.shop_id = str(entry["shop_id"])
 		level.add_child(npc)
 		var anim: Node = npc.get_node_or_null("CutsceneAnimComponent")
 		if anim != null and FACES.has(str(entry.get("face", ""))):
@@ -48,6 +51,9 @@ static func place(level: Node2D, path: String) -> void:
 static func _is_out(entry: Dictionary) -> bool:
 	var unless: String = str(entry.get("unless_flag", ""))
 	if not unless.is_empty() and GameState.get_flag(unless):
+		return false
+	var days: Array = entry.get("days", [])
+	if not days.is_empty() and not days.has(float(DayNightManager.get_date()["weekday"])):
 		return false
 	var hours: Array = entry.get("hours", [])
 	if hours.size() == 2:

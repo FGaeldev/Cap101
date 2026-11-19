@@ -1071,8 +1071,15 @@
 	  "type": "dialogue",
 	  "speaker": "Rose",
 	  "text": "Suit yourself. We'll be back by noon.",
-	  "next": null,
+	  "next": 5,
 	  "word_ids": []
+	},
+	{
+	  "type": "dialogue",
+	  "speaker": "Lola Susan",
+	  "text": "Your Lola Jonabel is staying home today. Keep her company, \\apo.",
+	  "next": null,
+	  "word_ids": ["w019"]
 	}
   ],
   "scene_house_farewell": [
