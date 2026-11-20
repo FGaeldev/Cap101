@@ -15,6 +15,12 @@ const BANNER_LAYER: int = 98
 const BAND_SIZE := Vector2(340, 100)
 ## Band centre, a little above the middle of the 640x360 view.
 const BAND_CENTER_Y: float = 150.0
+const TITLE_FONT_SIZE: int = 26
+const TITLE_MIN_FONT_SIZE: int = 16
+## Space between the title and the panel's left/right edges.
+const TITLE_PADDING: float = 22.0
+## Closest the band may come to the screen's sides.
+const TITLE_SCREEN_MARGIN: float = 12.0
 const IN_SECONDS: float = 0.35
 const HOLD_SECONDS: float = 3.2
 const OUT_SECONDS: float = 0.6
@@ -66,8 +72,9 @@ func _play_next() -> void:
 	_title.text = entry["title"]
 	_pill_label.text = entry["pill"]
 	_pill_label.get_parent().visible = not str(entry["pill"]).is_empty()
+	_fit_title(str(entry["title"]))
 	_root.modulate.a = 0.0
-	_band.pivot_offset = BAND_SIZE / 2.0
+	_band.pivot_offset = _band.size / 2.0
 	_band.scale = Vector2(0.94, 0.94)
 	_root.show()
 	AudioManager.play_sfx("menu_click")
@@ -83,6 +90,24 @@ func _play_next() -> void:
 	_play_next()
 
 # --- layout ----------------------------------------------------------------------
+
+## Widens the band for a long title ("Kalibo International Airport") so the words
+## stay inside the panel, up to the screen's width minus a margin; past that the
+## title's font steps down until it fits.
+func _fit_title(title: String) -> void:
+	var font: Font = _title.get_theme_font("font")
+	var max_w: float = _root.get_viewport_rect().size.x - 2.0 * TITLE_SCREEN_MARGIN
+	var font_size: int = TITLE_FONT_SIZE
+	var text_w: float = font.get_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
+	while text_w + 2.0 * TITLE_PADDING > max_w and font_size > TITLE_MIN_FONT_SIZE:
+		font_size -= 2
+		text_w = font.get_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
+	_title.add_theme_font_size_override("font_size", font_size)
+	var band_w: float = clampf(ceilf(text_w + 2.0 * TITLE_PADDING), BAND_SIZE.x, maxf(BAND_SIZE.x, max_w))
+	# Offsets from the centre anchor (setting position would place it absolutely).
+	_band.offset_left = -band_w / 2.0
+	_band.offset_right = band_w / 2.0
+	_band.queue_redraw()
 
 func _build() -> void:
 	_root = Control.new()
@@ -108,7 +133,7 @@ func _build() -> void:
 	_band.add_child(column)
 
 	_header = _label(column, UIThemeApplier.FONT_SIZE_S, UIThemeApplier.TEXT_DEFAULT)
-	_title = _label(column, 26, UIThemeApplier.TEXT_EMPHASIS)
+	_title = _label(column, TITLE_FONT_SIZE, UIThemeApplier.TEXT_EMPHASIS)
 	UIThemeApplier.apply_display_font(_title)
 
 	var pill := PanelContainer.new()
@@ -139,7 +164,7 @@ func _label(parent: Control, font_size: int, color: Color) -> Label:
 ## The parchment panel, then the emblem on its top edge: a peach medallion in the
 ## panel's maroon border with an orange four-point star like its corner tabs.
 func _draw_band() -> void:
-	var r := Rect2(Vector2.ZERO, BAND_SIZE)
+	var r := Rect2(Vector2.ZERO, _band.size)
 	if _panel_style == null:
 		_panel_style = UIThemeApplier.make_panel_style(0)
 	_panel_style.draw(_band.get_canvas_item(), r)

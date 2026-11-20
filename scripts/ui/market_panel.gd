@@ -230,8 +230,69 @@ func _show_stall(l: Dictionary, hint: String) -> void:
 func _on_item(item_id: String) -> void:
 	if _buying:
 		return
-	_buying = true
 	AudioManager.play_sfx("menu_click")
+	if _off_list(item_id):
+		_confirm_off_list(item_id)
+		return
+	_buy(item_id)
+
+## True if an active errand still needs something from this stall and item_id
+## isn't one of those things (or the player already holds enough of it).
+func _off_list(item_id: String) -> bool:
+	var stock: Array = Economy.shops.get(_shop_id, {}).get("stock", [])
+	var errand_here: bool = false
+	for qid: String in QuestManager.active_quests:
+		var needs: Dictionary = QuestManager.quests.get(qid, {}).get("needs_items", {})
+		for need_id: String in needs:
+			if not need_id in stock or GameState.get_item_count(need_id) >= int(needs[need_id]):
+				continue
+			if need_id == item_id:
+				return false
+			errand_here = true
+	return errand_here
+
+## Remembers which choice ended the dialogue (DialogueComponent only routes by "next").
+class ChoiceDialogue extends DialogueComponent:
+	var picked: String = ""
+	func choose(choice: Dictionary) -> void:
+		picked = str(choice.get("id", ""))
+		super.choose(choice)
+
+## A gentle check before an off-list buy, in the usual dialogue box: the vendor
+## just asks "Sigurado ka, apo?". It never says which item is right: reading the
+## list is the player's job. The stall hides meanwhile and comes back after.
+func _confirm_off_list(item_id: String) -> void:
+	_buying = true  # no second tap while the question is up
+	var sure: Dictionary = Economy.line("shop_sure")
+	var vendor: String = str(Economy.shops.get(_shop_id, {}).get("vendor", sure["speaker"]))
+	var dialogue := ChoiceDialogue.new()
+	add_child(dialogue)
+	# A choice's "next" past the last line ends the dialogue.
+	dialogue.dialogue_lines = [{
+		"speaker": vendor, "text": sure["text"], "word_ids": sure["word_ids"],
+		"choices": [
+			{"label": "Yes, buy it", "next": 1, "id": "buy"},
+			{"label": "Let me check", "next": 1, "id": "back"},
+		],
+	}]
+	visible = false
+	dialogue.start_dialogue()
+	await dialogue.dialogue_ended
+	var buy: bool = dialogue.picked == "buy"
+	dialogue.queue_free()
+	_buying = false
+	if _shop_id.is_empty():
+		return  # the stall was closed meanwhile
+	visible = true
+	if buy:
+		_buy(item_id)
+	else:
+		_show_stall(Economy.line("shop_greet"), "")
+
+func _buy(item_id: String) -> void:
+	if _buying:
+		return
+	_buying = true
 	# The player asks for it in Akeanon, then Pedring names the price.
 	var bought: bool = await Economy.buy(item_id)
 	_buying = false

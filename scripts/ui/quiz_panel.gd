@@ -159,6 +159,10 @@ func _build_questions(line: Dictionary) -> Array:
 		if scaled > 0:
 			max_options = scaled
 		if not line.get("fixed_pool", false):
+			# No expressions ("ho", "abaw") as questions or options; authored
+			# fixed pools are left as written.
+			pool = WordBank.practice_words(pool)
+			option_pool = WordBank.practice_words(option_pool)
 			pool = WordBank.top_up_pool(pool, MIN_POOL_SIZE, true)
 			option_pool = WordBank.top_up_pool(option_pool, maxi(MIN_POOL_SIZE, max_options), true)
 

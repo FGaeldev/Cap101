@@ -1,9 +1,4 @@
 [
-	{"type": "game_speed", "scale": 2.0},
-	{"type": "spawn_npc", "actor": "Lola Susan", "scene": "res://scenes/entities/npc_LolaSusan.tscn", "at_marker": "S3/SusanEnter"},
-	{"type": "spawn_npc", "actor": "Lola Jonabel", "scene": "res://scenes/entities/npc_LolaJonabel.tscn", "at_marker": "S3/JonabelEnter"},
-	{"type": "parallel", "actions": [{"type": "move_npc", "actor": "Lola Susan", "to": "S3/Susan", "avoid_actors": true, "speed": 48, "face": "right"}, {"type": "move_npc", "actor": "Lola Jonabel", "to": "S3/Jonabel", "avoid_actors": true, "speed": 48, "face": "left"}]},
-	{"type": "game_speed", "scale": 1.0},
 	{"type": "dialogue", "chapter": "chapter2", "scene": "scene_3_cathedral_talk"},
 	{"type": "set_flag", "flag": "seen_chapter2_scene3", "value": true},
 	{"type": "game_speed", "scale": 2.0},

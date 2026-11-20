@@ -204,6 +204,21 @@ func make_puzzle_panel_style(content_margin: int = 14) -> StyleBoxTexture:
 func make_header_style() -> StyleBoxTexture:
 	return _make_panel_style(HEADER, HEADER_SLICE_MARGIN, 0, 10, 4)
 
+## Book rule (line.png), tiled across the width: the divider between list
+## items (Dictionary entries, calendar events, Instructions sections).
+const LINE := preload("res://assets/ui/book/line.png")
+
+func make_divider(gap: int = 2) -> HSeparator:
+	var style := StyleBoxTexture.new()
+	style.texture = LINE
+	style.axis_stretch_horizontal = StyleBoxTexture.AXIS_STRETCH_MODE_TILE
+	style.content_margin_top = gap
+	style.content_margin_bottom = gap
+	var sep := HSeparator.new()
+	sep.add_theme_stylebox_override("separator", style)
+	sep.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return sep
+
 ## make_header_style() for the right side of the screen (HUD clock, toasts).
 func make_header_right_style() -> StyleBoxTexture:
 	return _make_panel_style(HEADER_RIGHT, HEADER_SLICE_MARGIN, 0, 10, 4)

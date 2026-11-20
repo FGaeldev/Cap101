@@ -229,10 +229,10 @@ func show_review_quiz() -> void:
 	if _root == null:
 		push_error("DialogueUI: no root registered, cannot show review quiz")
 		return
-	var word_pool: Array = GameState.word_exposures.keys()
+	var word_pool: Array = WordBank.practice_words(GameState.word_exposures.keys())
 	if word_pool.is_empty():
-		word_pool = WordBank.words.keys()
-	var choices: Array = WordBank.words.keys()
+		word_pool = WordBank.practice_words(WordBank.words.keys())
+	var choices: Array = WordBank.practice_words(WordBank.words.keys())
 	if word_pool.is_empty() or choices.is_empty():
 		push_warning("DialogueUI: cannot start review quiz because word bank is empty")
 		return

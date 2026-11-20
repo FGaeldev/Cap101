@@ -21,6 +21,7 @@ extends SceneTree
 #   --budget=SEC          real-time limit (default 900 per chapter).
 #   --speed=X             Engine.time_scale floor (default 3).
 #   --wait-speed=X        Engine.time_scale while waiting for the clock (default 12).
+#   --window=WxH          windowed at that size instead of fullscreen (e.g. 1600x720 = 20:9).
 #
 # It plays through real input, like a person: walks tile by tile by holding the
 # ui_* actions along a grid path (walls and NPCs block it), faces what it wants
@@ -134,6 +135,11 @@ class CaptureLogger extends Logger:
 		pass
 
 
+## --window=WxH: play in a window of that size instead of the project's
+## fullscreen, e.g. 1600x720 to test a 20:9 phone shape on a 16:9 monitor.
+var _window_size := Vector2i.ZERO
+var _hb_last := 0  # debug heartbeat (ticks ms)
+
 func _initialize() -> void:
 	auto_accept_quit = false
 	_parse_args()
@@ -156,6 +162,7 @@ func _parse_args() -> void:
 			"budget": opts.budget = float(v)
 			"speed": opts.speed = float(v)
 			"wait-speed": opts.wait_speed = float(v)
+			"window": _window_size = Vector2i(int(v.get_slice("x", 0)), int(v.get_slice("x", 1)))
 
 func _queue_error(e: Dictionary) -> void:
 	_err_mutex.lock()
@@ -250,6 +257,12 @@ func _process(_delta: float) -> bool:
 		return false
 	_drain_errors()
 	_service_shots()
+	# Applied from the frame loop, not _initialize: the project's fullscreen
+	# setting is applied after _initialize and would override it. Re-asserted
+	# until it sticks.
+	if _window_size.x > 0 and root.size != _window_size:
+		root.mode = Window.MODE_WINDOWED
+		root.size = _window_size
 	match _phase:
 		0:
 			_start()
@@ -301,7 +314,7 @@ func _start() -> void:
 	_build_scene_graph()
 	if _headless:
 		_p("WARNING: running headless -- no screenshots will be taken")
-	_p("START mode=%s chapters=%s budget=%ds" % [opts.mode, _chapters, int(opts.budget)])
+	_p("START mode=%s chapters=%s budget=%ds window=%s view=%s" % [opts.mode, _chapters, int(opts.budget), root.size, root.get_visible_rect().size])
 	var GS = A.GameState
 	GS.dev_mode = false
 	GS.reset_game_state()
@@ -514,6 +527,12 @@ func _drive() -> void:
 		Engine.time_scale = opts.speed
 	if _game() == null:
 		return
+	if now - _hb_last > 5000:
+		_hb_last = now
+		_p("HB cap=%s q=%d nav=%d wait_h=%.1f card=%s book=%s dlg=%s cut=%s warp=%s win=%s view=%s" % [
+			_capturing, _shot_queue.size(), _nav.size(), _wait_hour, A.ChapterCard.visible,
+			A.BookUI.visible, A.DialogueUI.is_active(), A.CutsceneManager.is_playing(),
+			A.MapManager.is_transitioning, root.size, root.get_visible_rect().size])
 	# Hold still while a finding's screenshot is pending, so it shows that moment.
 	if _capturing or not _shot_queue.is_empty():
 		_hold_dir(Vector2i.ZERO)  # stop where we are; the walk picks up again after
