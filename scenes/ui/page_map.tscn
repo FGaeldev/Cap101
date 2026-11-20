@@ -32,58 +32,51 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="landing" type="Button" parent="Markers" unique_id=223118627]
-layout_mode = 0
-offset_left = 170.0
-offset_top = 15.0
-offset_right = 178.0
-offset_bottom = 23.0
-
 [node name="airport" type="Button" parent="Markers" unique_id=1244268475]
 layout_mode = 0
-offset_left = 278.0
-offset_top = 97.0
-offset_right = 286.0
-offset_bottom = 105.0
+offset_left = 438.0
+offset_top = 144.0
+offset_right = 459.0
+offset_bottom = 165.0
 
 [node name="aklan_home" type="Button" parent="Markers"]
 layout_mode = 0
-offset_left = 300.0
-offset_top = 112.0
-offset_right = 308.0
-offset_bottom = 120.0
+offset_left = 350.0
+offset_top = 138.0
+offset_right = 371.0
+offset_bottom = 159.0
 
 [node name="pastrana" type="Button" parent="Markers"]
 layout_mode = 0
-offset_left = 318.0
-offset_top = 98.0
-offset_right = 326.0
-offset_bottom = 106.0
+offset_left = 390.0
+offset_top = 138.0
+offset_right = 411.0
+offset_bottom = 159.0
 
 [node name="cathedral" type="Button" parent="Markers"]
 layout_mode = 0
-offset_left = 332.0
-offset_top = 108.0
-offset_right = 340.0
-offset_bottom = 116.0
+offset_left = 396.0
+offset_top = 106.0
+offset_right = 417.0
+offset_bottom = 127.0
 
 [node name="market" type="Button" parent="Markers"]
 layout_mode = 0
-offset_left = 314.0
-offset_top = 124.0
-offset_right = 322.0
-offset_bottom = 132.0
+offset_left = 406.0
+offset_top = 176.0
+offset_right = 427.0
+offset_bottom = 197.0
 
 [node name="bakhawan_ecopark" type="Button" parent="Markers"]
 layout_mode = 0
-offset_left = 298.0
-offset_top = 82.0
-offset_right = 306.0
-offset_bottom = 90.0
+offset_left = 438.0
+offset_top = 102.0
+offset_right = 459.0
+offset_bottom = 123.0
 
 [node name="haboean" type="Button" parent="Markers"]
 layout_mode = 0
-offset_left = 196.0
-offset_top = 118.0
-offset_right = 204.0
-offset_bottom = 126.0
+offset_left = 350.0
+offset_top = 180.0
+offset_right = 371.0
+offset_bottom = 201.0

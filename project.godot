@@ -11,11 +11,14 @@ config_version=5
 [application]
 
 config/name="BueotHambaeon"
-config/version="1.0.0"
+config/version="1.1.0"
 run/main_scene="uid://b8oa217q8gyrx"
 config/quit_on_go_back=false
 config/features=PackedStringArray("4.7", "GL Compatibility")
+boot_splash/stretch_mode=0
+boot_splash/image="uid://d3s3seueyhf3c"
 config/icon="res://icon.svg"
+boot_splash/minimum_display_time=50
 
 [autoload]
 
