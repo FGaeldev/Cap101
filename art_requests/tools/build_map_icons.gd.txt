@@ -1,0 +1,214 @@
+extends SceneTree
+## Generates the 21x21 map landmark icons in assets/ui/map_icons/<region_id>.png.
+## Run (copy to a .gd first; kept as .gd.txt so Godot doesn't treat it as project code):
+##   godot --headless --path . --script <copy>.gd
+## Each file name must match a regions.json key / page_map marker node name.
+##
+## Monochrome sepia: one ink hue in three values, so the icons read as drawn
+## on the parchment map.
+## Art rows: shorter than 21 → centred; fewer than 21 rows → bottom-aligned.
+## '#' = pineapple lattice cell (ink on a diamond grid, mid tone elsewhere).
+
+const W := 21
+const PALETTE := {
+	"k": Color8(59, 36, 22),     # ink
+	"m": Color8(139, 104, 70),   # mid sepia
+	"c": Color8(243, 226, 190),  # light sepia (paper highlight)
+}
+
+func _icons() -> Dictionary:
+	return {
+	# US suburban house with chimney and picket fence (where the story starts)
+	"landing": [
+		"...............kkk...",
+		"..........k....kmk...",
+		".........kmk...kmk...",
+		"........kmmmk..kmk...",
+		".......kmmmmmk.kmk...",
+		"......kmmmmmmmkkmk...",
+		".....kmmmmmmmmmkmk...",
+		"....kmmmmmmmmmmmkk...",
+		"k" + "m".repeat(13) + "k",
+		"k" + "m".repeat(15) + "k",
+		"k".repeat(19),
+		"k" + "c".repeat(15) + "k",
+		"k" + "ckkkkckkkckkkkc" + "k",
+		"k" + "ckmmkckmkckmmkc" + "k",
+		"k" + "ckkkkckmkckkkkc" + "k",
+		"k" + "cccccckmkcccccc" + "k",
+		"k" + "cccccckmkcccccc" + "k",
+		"k".repeat(19),
+		".k.k.k.k.k...k.k.k.k.",
+		"kkkkkkkkkk...kkkkkkkk",
+		".k.k.k.k.k...k.k.k.k.",
+	],
+	# Bahay kubo: thatch roof, bamboo walls, stilts
+	"aklan_home": [
+		"k",
+		"kmk",
+		"kmmmk",
+		"kmkmkmk",
+		"kmmmmmmmk",
+		"kmkmkmkmkmk",
+		"kmmmmmmmmmmmk",
+		"kmkmkmkmkmkmkmk",
+		"kmmmmmmmmmmmmmmmk",
+		"k".repeat(21),
+		"k" + "cmkkkkcmkkkmc" + "k",
+		"k" + "cmkmmkcmkmkmc" + "k",
+		"k" + "cmkkkkcmkmkmc" + "k",
+		"k" + "cmcmcmcmkmkmc" + "k",
+		"k".repeat(17),
+		"k...k.......k...k",
+		"k...k.......k...k",
+		"k...k.......k...k",
+		"mmmmmmmmmmmmmmmmmmm",
+	],
+	# Plaza kiosk (gazebo) between two trees
+	"pastrana": [
+		"..........k..........",
+		".........kmk.........",
+		"........kmmmk........",
+		".......kmmmmmk.......",
+		".kkk..kmmmmmmmk..kkk.",
+		"kmmmkkmmmmmmmmmkkmmmk",
+		"kmcmk" + "k".repeat(11) + "kmcmk",
+		"kmmmk.k...k...k.kmmmk",
+		"kmcmk.k...k...k.kmcmk",
+		"kmmmk.k...k...k.kmmmk",
+		".kkk..k...k...k..kkk.",
+		"..k...k...k...k...k..",
+		"..k..kkkkkkkkkkk..k..",
+		"k".repeat(21),
+		".m.m.m.m.m.m.m.m.m.m.",
+	],
+	# Church: cross, gable with rose window, two bell towers, arched door
+	"cathedral": [
+		"..........k..........",
+		".........kkk.........",
+		"..........k..........",
+		".........kck.........",
+		"...k....kccck....k...",
+		"..kmk..kccccck..kmk..",
+		".kmmmk" + "kccccccck" + "kmmmk.",
+		".kkkkk" + "kccmmmcck" + "kkkkk.",
+		".kckck" + "kcmmkmmck" + "kckck.",
+		".kckck" + "kccmmmcck" + "kckck.",
+		".kccck" + "kccccccck" + "kccck.",
+		".kckck" + "kcckkkcck" + "kckck.",
+		".kckck" + "kckmmmkck" + "kckck.",
+		".kccck" + "kckmmmkck" + "kccck.",
+		".kccck" + "kckmmmkck" + "kccck.",
+		"k".repeat(21),
+		"kmmmmmmmmmk",
+		"k".repeat(13),
+	],
+	# Market stall: striped awning, produce piles, counter
+	"market": [
+		"k".repeat(19),
+		"k" + "cmcmcmcmcmcmcmcmc" + "k",
+		"k" + "cmcmcmcmcmcmcmcmc" + "k",
+		"k".repeat(19),
+		"k.k.k.k.k.k.k.k.k.k",
+		".k" + ".".repeat(15) + "k.",
+		".k" + ".".repeat(15) + "k.",
+		".k" + "..kk..kkk..kk.." + "k.",
+		".k" + ".kmmkkmcmkkmmk." + "k.",
+		"k".repeat(19),
+		"k" + "c".repeat(17) + "k",
+		"k" + "cmcmcmcmcmcmcmcmc" + "k",
+		"k".repeat(19),
+		".k" + ".".repeat(15) + "k.",
+	],
+	# Airport: control tower, terminal, plane overhead, runway marks
+	"airport": [
+		"..........." + "....k...." + ".",
+		".kkkkk....." + "...kck..." + ".",
+		".kmmmk....." + "kkkkckkkk" + ".",
+		".kkkkk....." + "kccccccck" + ".",
+		"..kck......" + "kkkkckkkk" + ".",
+		"..kck......" + "...kck..." + ".",
+		"..kck......" + "..kkckk.." + ".",
+		"..kck......" + "........." + ".",
+		"k".repeat(21),
+		"k" + "c".repeat(19) + "k",
+		"k" + "cmmcmmcmmcmmcmmcmmc" + "k",
+		"k" + "cmmcmmcmmcmmcmmcmmc" + "k",
+		"k" + "c".repeat(19) + "k",
+		"k" + "cccccccckkkcccccccc" + "k",
+		"k" + "cccccccckmkcccccccc" + "k",
+		"k".repeat(21),
+		"kk..kk..kk..kk..kk..k",
+	],
+	# Mangrove (bakhawan): round canopy on splayed prop roots over water
+	"bakhawan_ecopark": [
+		"kkkkk",
+		"kkmmmmmkk",
+		"kmmcmmmcmmk",
+		"kmmmmmcmmmmmk",
+		"kmcmmmmmmmmcmmk",
+		"kmmmmmcmmmmmmmk",
+		"kmmmmmmmmmmmk",
+		"k".repeat(11),
+		"kmk",
+		"kmk",
+		"k.kmk.k",
+		"k..k.k..k",
+		"k...k.k...k",
+		"k....k.k....k",
+		"mm..mm..mm..mm..mm..m",
+		"..mm..mm..mm..mm..mm.",
+	],
+	# Pineapple: Aklan's pina weaving
+	"haboean": [
+		"k",
+		"kmk",
+		"k.kmk.k",
+		"kmkmkmk",
+		"kmkmk",
+		"k".repeat(7),
+		"k" + "#".repeat(7) + "k",
+		"k" + "#".repeat(9) + "k",
+		"k" + "#".repeat(11) + "k",
+		"k" + "#".repeat(11) + "k",
+		"k" + "#".repeat(11) + "k",
+		"k" + "#".repeat(11) + "k",
+		"k" + "#".repeat(9) + "k",
+		"k" + "#".repeat(7) + "k",
+		"k".repeat(7),
+	],
+	}
+
+func _initialize() -> void:
+	var dir := "res://assets/ui/map_icons"
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(dir))
+	var ok := true
+	var icons := _icons()
+	for id in icons:
+		var rows: Array = icons[id]
+		if rows.size() > W:
+			push_error("%s: %d rows" % [id, rows.size()]); ok = false; continue
+		var img := Image.create(W, W, false, Image.FORMAT_RGBA8)
+		img.fill(Color(0, 0, 0, 0))
+		var top := W - rows.size()
+		for ry in rows.size():
+			var row: String = rows[ry]
+			if row.length() > W:
+				push_error("%s row %d: length %d" % [id, ry, row.length()]); ok = false; continue
+			if row.length() % 2 == 0:
+				push_error("%s row %d: even length %d can't centre" % [id, ry, row.length()]); ok = false
+			var left := (W - row.length()) / 2
+			for i in row.length():
+				var ch := row[i]
+				var x := left + i
+				var y := top + ry
+				if ch == "#":
+					ch = "k" if ((x + y) % 4 == 0 or (x - y + 100) % 4 == 0) else "m"
+				if ch == ".":
+					continue
+				if not PALETTE.has(ch):
+					push_error("%s row %d: unknown '%s'" % [id, ry, ch]); ok = false; continue
+				img.set_pixel(x, y, PALETTE[ch])
+		img.save_png("%s/%s.png" % [dir, id])
+	print("done ok=", ok)
+	quit(0 if ok else 1)
