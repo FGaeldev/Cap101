@@ -80,7 +80,8 @@ var _level_strength: float = 1.0
 func _process(delta: float) -> void:
 	if _modulate == null or not is_instance_valid(_modulate):
 		return
-	if not paused:
+	# Time stands still while a conversation (or a quiz, minigame or the shop) is up.
+	if not paused and not DialogueUI.is_active():
 		var before: int = int(GameState.time_of_day)
 		var raw: float = GameState.time_of_day + delta * 24.0 / DAY_LENGTH_SEC
 		GameState.time_of_day = fposmod(raw, 24.0)

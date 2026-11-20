@@ -7,6 +7,8 @@ extends CanvasLayer
 const PANEL_LAYER: int = 103
 const DIM := Color(0.0, 0.0, 0.0, 0.6)
 const MARGIN: float = 0.05
+## Space above and below the line between sections.
+const SECTION_GAP: int = 4
 
 const HOW_TO_PLAY: Array = [
 	["Moving", "Hold the D-pad at the bottom left, or use W, A, S, D."],
@@ -193,7 +195,10 @@ func _fill_topic(content: Control, topic: Dictionary) -> void:
 		_add_section(content, "Good to know", tips)
 
 
+## A line divides each section from the one before it (none above the first).
 func _add_section(content: Control, heading: String, lines: Array) -> void:
+	if content.get_child_count() > 0:
+		content.add_child(UIThemeApplier.make_divider(SECTION_GAP))
 	var heading_label := _make_label(heading, UIThemeApplier.FONT_SIZE_M, UIThemeApplier.TEXT_EMPHASIS, true)
 	content.add_child(heading_label)
 	for line: String in lines:

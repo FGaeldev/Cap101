@@ -130,6 +130,16 @@ func _normalize_category(raw_category: String) -> String:
 func get_word(id: String) -> Dictionary:
 	return words.get(id, {})
 
+## False for words marked `"practice": false` in word_bank.json: expressions and
+## fillers ("ho", "haron ahh", "abaw") the player meets in dialogue and the
+## dictionary but that quizzes and minigames never ask about.
+func is_practice_word(id: String) -> bool:
+	return bool(words.get(id, {}).get("practice", true))
+
+## `ids` without the words quizzes and minigames skip (see is_practice_word).
+func practice_words(ids: Array) -> Array:
+	return ids.filter(func(id): return is_practice_word(str(id)))
+
 ## Reverse lookup: akeanon surface form (case-insensitive) -> word ID, or "".
 ## Duplicate forms resolve to the first record loaded.
 func find_id_by_form(form: String) -> String:
@@ -169,7 +179,7 @@ func top_up_pool(pool: Array, min_size: int = MIN_POOL_SIZE, require_gloss: bool
 	var candidates: Array = []
 	for id in GameState.word_exposures.keys():
 		var word_id := str(id)
-		if not words.has(word_id) or result.has(word_id):
+		if not words.has(word_id) or result.has(word_id) or not is_practice_word(word_id):
 			continue
 		var key := _gloss_key(word_id)
 		if key.is_empty():
@@ -200,7 +210,7 @@ func pick_known_akeanon(exclude: Array, count: int) -> Array:
 	var candidates: Array = []
 	for id in GameState.word_exposures.keys():
 		var record: Dictionary = get_word(str(id))
-		if record.is_empty():
+		if record.is_empty() or not is_practice_word(str(id)):
 			continue
 		var form: String = record["akeanon"]
 		if form.contains(" ") or skip.has(form.to_lower()):
@@ -261,7 +271,7 @@ func get_known_puzzle_words(min_length: int, max_length: int) -> Array:
 	for mastery in range(GameState.MASTERY_MAX + 1):
 		for raw_id in ids:
 			var id := str(raw_id)
-			if GameState.get_mastery(id) != mastery:
+			if GameState.get_mastery(id) != mastery or not is_practice_word(id):
 				continue
 			var letters := puzzle_letters(id)
 			if letters.length() < min_length or letters.length() > max_length or seen.has(letters):
@@ -296,6 +306,11 @@ func get_words_for_area(area: String) -> Array:
 ## (GameState.word_mastery). Unseen/unpracticed words (mastery 0) weigh most.
 func get_weighted_review_word(candidate_ids: Array) -> String:
 	var weights: Dictionary = {}
+	# Expressions are never the word a minigame asks about, unless a caller
+	# passed nothing else (then the round still runs).
+	var practice: Array = practice_words(candidate_ids)
+	if not practice.is_empty():
+		candidate_ids = practice
 	for candidate in candidate_ids:
 		var word_id := str(candidate)
 		if word_id.is_empty() or not words.has(word_id) or weights.has(word_id):

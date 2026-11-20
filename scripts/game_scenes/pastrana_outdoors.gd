@@ -110,6 +110,26 @@ func _place_rose() -> void:
 		CutsceneManager.register_actor(ROSE_ID, npc)
 	_set_rose_resume()
 
+## Lola Susan and Lola Jonabel wait in front of the cathedral for the
+## cathedral talk (chapter2_tour_to_cathedral spawns them on arrival; this puts
+## them back after the player roams off and returns, and covers older saves).
+const LOLAS: Array = [
+	["Lola Susan", "res://scenes/entities/npc_LolaSusan.tscn", "S3/Susan", "right"],
+	["Lola Jonabel", "res://scenes/entities/npc_LolaJonabel.tscn", "S3/Jonabel", "left"],
+]
+
+func _place_lolas() -> void:
+	for lola: Array in LOLAS:
+		if CutsceneManager.has_actor(lola[0]):
+			continue
+		var npc: Node2D = (load(lola[1]) as PackedScene).instantiate()
+		npc.position = to_local(MarkerUtil.find(self, lola[2]).global_position)
+		add_child(npc)
+		CutsceneManager.register_actor(lola[0], npc)
+		var anim = npc.get_node_or_null("CutsceneAnimComponent")
+		if anim:
+			anim.set_cutscene_anim_state("idle", Vector2.RIGHT if lola[3] == "right" else Vector2.LEFT)
+
 ## Nong Pedring, somewhere in the park for the player to find (q022).
 func _place_pedring() -> void:
 	# Registration is deferred, so has_actor() misses one placed this frame.
@@ -132,6 +152,8 @@ func _set_rose_resume() -> void:
 		rose.cutscene_id = ""
 		_place_pedring()
 	elif GameState.get_flag(ARRIVED_CATHEDRAL_FLAG) and not GameState.get_flag("seen_chapter2_scene4"):
+		if not GameState.get_flag("seen_chapter2_scene3"):
+			_place_lolas()
 		rose.cutscene_id = "chapter2_cathedral_talk"
 		TutorialManager.start("tour_roam")
 		rose.cutscene_seen_flag = "seen_chapter2_scene3"

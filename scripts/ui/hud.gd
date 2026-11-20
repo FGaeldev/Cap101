@@ -57,6 +57,7 @@ const TOAST_FADE := 0.25
 const DEFAULT_COLUMN_TOP: float = 14.0
 const FULLSCREEN_COLUMN_TOP: float = 38.0
 
+@onready var top_right: CanvasLayer = $TopRight
 @onready var right_column: VBoxContainer = $TopRight/RightColumn
 @onready var clock_panel: PanelContainer = $TopRight/RightColumn/Clock
 @onready var clock_label: Label = $TopRight/RightColumn/Clock/Label
@@ -153,6 +154,7 @@ func _ready() -> void:
 	_build_wallet()
 	_refresh_wallet()
 	_build_fast_forward()
+	_build_requirement_list()
 	_rebuild_quest_rows()
 	# This layer sits above every panel: the column's own empty area must not
 	# swallow clicks meant for what's under it. MenuButton still gets its own.
@@ -211,6 +213,11 @@ func _apply_movement_controls() -> void:
 	TutorialManager.register_target("joystick", active)
 
 func _process(_delta: float) -> void:
+	# Nothing of the HUD shows through a screen fade (warps, cutscene cuts). The
+	# top-right column is its own CanvasLayer, so it is hidden separately.
+	var fading: bool = FadeManager.is_fading()
+	visible = not fading
+	top_right.visible = not fading
 	var overlay: bool = _is_overlay_active()
 	# Controls hidden whenever any overlay (BookUI, dialogue, quest/challenge/
 	# puzzle popups) is on screen -- player can't act through them anyway,
@@ -234,6 +241,7 @@ func _process(_delta: float) -> void:
 	_update_fast_forward(fullscreen)
 	_menu_row.visible = not fullscreen
 	quest_column.visible = not fullscreen
+	_watch_reviews()
 	tier_bar.visible = not fullscreen and not BookUI.separate_menus
 	if BookUI.separate_menus:
 		# Dictionary stays hidden until there's a first word, like the book's tab lock.
@@ -349,22 +357,30 @@ func _on_quest_completed(quest_id: String) -> void:
 
 ## Main panel = first active "main" quest in quest_data.json order (the
 ## current story objective). Every other active quest, then each active world
-## task ("title (done/total)"), becomes a sub-quest row.
+## task ("title (done/total)"), becomes a sub-quest row. Quests with something
+## to count (errand items, chapter goals) list it under their title; side rows
+## that have such a list come first, and only the first one shows it, so the
+## column stays clear of the joystick.
 func _rebuild_quest_rows() -> void:
 	for child in sub_quests.get_children():
 		child.queue_free()
 
-	var main_title: String = ""
-	var sub_titles: Array[String] = []
+	var main_id: String = ""
+	var subs: Array = []  # [{title, reqs}]
 	for qid in QuestManager.quests:
 		if not qid in QuestManager.active_quests:
 			continue
 		var q: Dictionary = QuestManager.quests[qid]
-		var title: String = QuestManager.get_title(qid)
-		if main_title.is_empty() and q.get("category", "") == MAIN_CATEGORY:
-			main_title = title
+		if main_id.is_empty() and q.get("category", "") == MAIN_CATEGORY:
+			main_id = qid
 		else:
-			sub_titles.append(title)
+			subs.append({"title": QuestManager.get_title(qid), "reqs": quest_requirements(qid),
+					"errand": q.has("needs_items")})
+	# Stable: errands with items first (what to buy matters most), then other
+	# rows with a to-do list, then plain ones; order kept within each group.
+	subs = subs.filter(func(s): return s["errand"]) \
+			+ subs.filter(func(s): return not s["errand"] and not s["reqs"].is_empty()) \
+			+ subs.filter(func(s): return not s["errand"] and s["reqs"].is_empty())
 
 	for tid in TaskManager.get_active_task_ids():
 		# completed_steps, not current_step+1 -- avoids the row reading "2/2"
@@ -372,31 +388,144 @@ func _rebuild_quest_rows() -> void:
 		# disappears on true completion (task leaves active_tasks).
 		var completed_steps: int = GameState.active_tasks.get(tid, 0)
 		var total_steps: int = TaskManager.get_step_count(tid)
-		sub_titles.append("%s (%d/%d)" % [TaskManager.get_task_title(tid), completed_steps, total_steps])
+		subs.append({"title": "%s (%d/%d)" % [TaskManager.get_task_title(tid), completed_steps, total_steps], "reqs": [], "errand": false})
 
-	main_quest.visible = not main_title.is_empty()
-	main_quest_title.text = main_title
+	main_quest.visible = not main_id.is_empty()
+	main_quest_title.text = QuestManager.get_title(main_id) if not main_id.is_empty() else ""
+	_fill_requirements(_main_reqs, quest_requirements(main_id) if not main_id.is_empty() else [])
 
 	# separated menus: the full list is one tap away on the Quests panel.
+	# Book mode: a first row with a to-do list takes the room of the other rows,
+	# which fold into "+N more" (three rows plus a list reach the D-pad).
+	var max_rows: int = MAX_SUB_ROWS
 	if BookUI.separate_menus:
-		for i in mini(sub_titles.size(), SEPARATE_SUB_ROWS):
-			_add_sub_row(sub_titles[i])
-		return
-	for i in mini(sub_titles.size(), MAX_SUB_ROWS):
-		_add_sub_row(sub_titles[i])
-	if sub_titles.size() > MAX_SUB_ROWS:
-		_add_sub_row("+%d more" % (sub_titles.size() - MAX_SUB_ROWS))
+		max_rows = SEPARATE_SUB_ROWS
+	elif not subs.is_empty() and not subs[0]["reqs"].is_empty():
+		max_rows = 1
+	for i in mini(subs.size(), max_rows):
+		_add_sub_row(subs[i]["title"], subs[i]["reqs"] if i == 0 else [])
+	if not BookUI.separate_menus and subs.size() > max_rows:
+		_add_sub_row("+%d more" % (subs.size() - max_rows))
 
-func _add_sub_row(text: String) -> void:
+func _add_sub_row(text: String, reqs: Array = []) -> void:
 	var row := PanelContainer.new()
 	row.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	row.add_theme_stylebox_override("panel", UIThemeApplier.make_header_style())
+	var vbox := VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 0)
+	row.add_child(vbox)
 	var label := Label.new()
 	label.text = text
 	label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 	label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XS)
-	row.add_child(label)
+	vbox.add_child(label)
+	if not reqs.is_empty():
+		var list := VBoxContainer.new()
+		list.add_theme_constant_override("separation", REQ_LINE_SEPARATION)
+		vbox.add_child(list)
+		_fill_requirements(list, reqs)
 	sub_quests.add_child(row)
+
+# --- Quest requirements ---------------------------------------------------------
+# What is left to finish a quest, under its title: errand items with their
+# price and how many the player holds ("Buy bugas 0/1 · ₱54"), then who to bring
+# them to; chapter goals as counts ("Errands done 1/2").
+
+const ChapterGoals := preload("res://scripts/util/chapter_goals.gd")
+const SideQuests := preload("res://scripts/util/side_quests.gd")
+## Requirement lines wrap at this width (px) so the column never runs into the
+## tier bar at the top middle of a 640 px wide screen.
+const REQ_WIDTH: float = 150.0
+const REQ_LINE_SEPARATION: int = -2
+## Finished lines: a darker COLOR_SUCCESS, readable on the tan header.
+const REQ_DONE_COLOR := Color("2f6b39")
+
+## Lines under the main quest's title (built in _ready).
+var _main_reqs: VBoxContainer
+## GameState.reviews_done last shown: Review has no signal of its own.
+var _shown_reviews: int = -1
+
+func _build_requirement_list() -> void:
+	_main_reqs = VBoxContainer.new()
+	_main_reqs.name = "Requirements"
+	_main_reqs.add_theme_constant_override("separation", REQ_LINE_SEPARATION)
+	_main_reqs.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	main_quest_title.get_parent().add_child(_main_reqs)
+	GameState.inventory_changed.connect(_rebuild_quest_rows)
+	GameState.pesos_changed.connect(func(_total, _delta): _rebuild_quest_rows())
+
+## Rebuilds the rows when a Review try changed a chapter goal count.
+func _watch_reviews() -> void:
+	if GameState.reviews_done != _shown_reviews:
+		_shown_reviews = GameState.reviews_done
+		_rebuild_quest_rows()
+
+## [{text, state}] for one quest. state: "todo", "done", "next" (the hand-in,
+## once everything is held) or "short" (not enough pesos for what is left).
+static func quest_requirements(quest_id: String) -> Array:
+	var q: Dictionary = QuestManager.quests.get(quest_id, {})
+	var out: Array = []
+	if q.has("needs_items"):
+		if SideQuests.has_all_items(q):
+			var giver: String = str(q.get("giver", ""))
+			if not giver.is_empty():
+				out.append({"text": "Bring it all to %s" % giver, "state": "next"})
+			return out
+		var needs: Dictionary = q["needs_items"]
+		var still_to_pay: int = 0
+		for item_id: String in needs:
+			var need: int = int(needs[item_id])
+			var have: int = mini(GameState.get_item_count(item_id), need)
+			var price: int = int(Economy.get_item(item_id).get("base_price", 0))
+			var buy: bool = price > 0 and _sold_in_a_shop(item_id)
+			var text: String = "%s %s %d/%d" % ["Buy" if buy else "Find", _short_item_name(item_id), have, need]
+			if buy and have < need:
+				text += " · ₱%d%s" % [price, " each" if need > 1 else ""]
+				still_to_pay += price * (need - have)
+			out.append({"text": text, "state": "done" if have >= need else "todo"})
+		if still_to_pay > GameState.pesos:
+			out.append({"text": "Need ₱%d more" % (still_to_pay - GameState.pesos), "state": "short"})
+		return out
+	for goal: Dictionary in ChapterGoals.GOALS.values():
+		if quest_id == goal["errand_quest"]:
+			var errands: int = int(goal["errands"])
+			out.append(_count_line("Errands done", mini(ChapterGoals.errands_done(), errands), errands))
+		elif quest_id == goal["review_quest"]:
+			var reviews: int = int(goal["reviews"])
+			out.append(_count_line("Review tries", mini(GameState.reviews_done, reviews), reviews))
+	return out
+
+static func _count_line(what: String, have: int, need: int) -> Dictionary:
+	return {"text": "%s %d/%d" % [what, have, need], "state": "done" if have >= need else "todo"}
+
+static func _sold_in_a_shop(item_id: String) -> bool:
+	for shop: Dictionary in Economy.shops.values():
+		if item_id in shop.get("stock", []):
+			return true
+	return false
+
+## The item's Akeanon word (or English name) without a "(bag of 10)" note.
+static func _short_item_name(item_id: String) -> String:
+	return Economy.item_word(item_id).get_slice(" (", 0)
+
+func _fill_requirements(list: VBoxContainer, reqs: Array) -> void:
+	for child in list.get_children():
+		child.queue_free()
+	list.visible = not reqs.is_empty()
+	for req: Dictionary in reqs:
+		var label := Label.new()
+		label.text = str(req["text"])
+		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		label.custom_minimum_size.x = REQ_WIDTH
+		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XS)
+		var color: Color = UIThemeApplier.TEXT_DEFAULT
+		match str(req["state"]):
+			"done": color = REQ_DONE_COLOR
+			"next": color = UIThemeApplier.TEXT_EMPHASIS
+			"short": color = UIThemeApplier.COLOR_ERROR
+		label.add_theme_color_override("font_color", color)
+		list.add_child(label)
 
 # --- Toasts -----------------------------------------------------------------
 

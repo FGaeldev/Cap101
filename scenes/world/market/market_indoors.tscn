@@ -1,9 +1,9 @@
 [gd_scene format=4 uid="uid://k4yeqhp47gq6"]
 
 [ext_resource type="TileSet" uid="uid://boab7cv7y1o5x" path="res://assets/tilesets/indoors.tres" id="1_indoors"]
+[ext_resource type="PackedScene" uid="uid://de6nkx7tf7u8d" path="res://scenes/entities/furniture/warp_area.tscn" id="2_8pgjo"]
 [ext_resource type="TileSet" uid="uid://c5vsev44bkm1e" path="res://assets/tilesets/shadows.tres" id="2_shadows"]
 [ext_resource type="TileSet" uid="uid://dd261lq2dwfm8" path="res://assets/tilesets/edges.tres" id="3_edges"]
-[ext_resource type="PackedScene" uid="uid://de6nkx7tf7u8d" path="res://scenes/entities/furniture/warp_area.tscn" id="2_8pgjo"]
 [ext_resource type="Script" uid="uid://vglearl5uho" path="res://scripts/game_scenes/market_indoors.gd" id="9_story"]
 [ext_resource type="Script" uid="uid://dlkrsatlaij6c" path="res://scripts/game_scenes/stall_vendors.gd" id="10_vendors"]
 [ext_resource type="PackedScene" uid="uid://cvqh0spi5t1xj" path="res://scenes/entities/npc_RandomGuy1.tscn" id="11_guy1"]
@@ -22,6 +22,7 @@ tile_set = ExtResource("1_indoors")
 
 [node name="FloorDecals" type="TileMapLayer" parent="." unique_id=1027026388]
 z_index = -2
+tile_map_data = PackedByteArray("AAAGAAwAAAAIAAEAAAAHAAwAAAAJAAEAAAA=")
 tile_set = ExtResource("1_indoors")
 
 [node name="Shadows" type="TileMapLayer" parent="." unique_id=1056048906]
@@ -31,7 +32,7 @@ tile_set = ExtResource("2_shadows")
 
 [node name="Walls" type="TileMapLayer" parent="." unique_id=1936397937]
 y_sort_enabled = true
-tile_map_data = PackedByteArray("AAAAAAAAAAAAAAwAAAAAAAEAAAAAAA0AAAABAAAAAAACAAwAAAABAAEAAAACAA0AAAACAAAAAAACAAwAAAACAAEAAAACAA0AAAADAAAAAAACAAwAAAADAAEAAAACAA0AAAAEAAAAAAABAAwAAAAEAAEAAAABAA0AAAAFAAAAAAAEAAwAAAAFAAEAAAAEAA0AAAAGAAAAAAAFAAwAAAAGAAEAAAAFAA0AAAAHAAAAAAAGAAwAAAAHAAEAAAAGAA0AAAAIAAAAAAAHAAwAAAAIAAEAAAAHAA0AAAAJAAAAAAABAAwAAAAJAAEAAAABAA0AAAAKAAAAAAACAAwAAAAKAAEAAAACAA0AAAALAAAAAAACAAwAAAALAAEAAAACAA0AAAAMAAAAAAACAAwAAAAMAAEAAAACAA0AAAANAAAAAAADAAwAAAANAAEAAAADAA0AAAA=")
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAwAAAAAAAEAAAAAAA0AAAABAAAAAAACAAwAAAABAAEAAAACAA0AAAACAAAAAAACAAwAAAACAAEAAAACAA0AAAADAAAAAAACAAwAAAADAAEAAAACAA0AAAAEAAAAAAABAAwAAAAEAAEAAAABAA0AAAAFAAAAAAACAAwAAAAFAAEAAAACAA0AAAAGAAAAAAACAAwAAAAGAAEAAAACAA0AAAAHAAAAAAACAAwAAAAHAAEAAAACAA0AAAAJAAAAAAABAAwAAAAJAAEAAAABAA0AAAAKAAAAAAACAAwAAAAKAAEAAAACAA0AAAALAAAAAAACAAwAAAALAAEAAAACAA0AAAAMAAAAAAACAAwAAAAMAAEAAAACAA0AAAANAAAAAAADAAwAAAANAAEAAAADAA0AAAAIAAAAAAACAAwAAAAIAAEAAAACAA0AAAA=")
 tile_set = ExtResource("1_indoors")
 
 [node name="Objects" type="TileMapLayer" parent="." unique_id=137754638]
@@ -45,12 +46,6 @@ tile_set = ExtResource("3_edges")
 
 [node name="Warp" type="Node2D" parent="." unique_id=942480874]
 
-[node name="WarpArea" parent="Warp" unique_id=1965068349 instance=ExtResource("2_8pgjo")]
-position = Vector2(112, 40)
-span_tiles_override = 2
-target_scene = "res://scenes/world/chapter2/pastrana_outdoors.tscn"
-target_spawn_id = "FromMarket"
-
 [node name="WarpArea2" parent="Warp" unique_id=239514056 instance=ExtResource("2_8pgjo")]
 position = Vector2(112, 200)
 trigger_direction = 1
@@ -60,7 +55,7 @@ target_spawn_id = "FromHall"
 
 [node name="Spawn" type="Node2D" parent="." unique_id=909967789]
 
-[node name="DefaultSpawn" type="Marker2D" parent="Spawn"]
+[node name="DefaultSpawn" type="Marker2D" parent="Spawn" unique_id=555577310]
 position = Vector2(96, 64)
 
 [node name="Down" type="Marker2D" parent="Spawn" unique_id=539287589]

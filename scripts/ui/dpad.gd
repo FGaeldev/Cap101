@@ -46,6 +46,11 @@ func _notification(what: int) -> void:
 		_release()
 
 func _gui_input(event: InputEvent) -> void:
+	# No walking through a conversation: drop any held direction and ignore taps.
+	if DialogueUI.is_active():
+		_release()
+		accept_event()
+		return
 	if event is InputEventScreenTouch:
 		if event.pressed and _finger == -1:
 			_finger = event.index

@@ -14,6 +14,7 @@
 #   start_pesos  : money the giver hands over on accepting (to buy with)
 #   needs_items  : {item id: count} the player brings back (data/items.json)
 #   reward_rapport: hearts with the giver on hand-in
+#   reward_pesos : thank-you money on hand-in, on top of any change
 #   lines        : economy_lines.json keys: offer (array), yes, no, later,
 #                  remind, thanks
 # Handing in takes the items and completes the quest. Money is never taken:
@@ -140,6 +141,9 @@ static func _hand_in(qid: String) -> void:
 	var needs: Dictionary = q.get("needs_items", {})
 	for item_id: String in needs:
 		GameState.remove_item(item_id, int(needs[item_id]))
+	var thanks_pesos: int = int(q.get("reward_pesos", 0))
+	if thanks_pesos > 0:
+		RewardManager.award_pesos(thanks_pesos, "From " + str(q.get("giver", "")))
 	var hearts: float = float(q.get("reward_rapport", 0.0))
 	if hearts > 0.0:
 		GameState.adjust_rapport(str(q.get("giver", "")), hearts)
