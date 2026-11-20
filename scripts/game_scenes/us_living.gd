@@ -15,8 +15,8 @@ const LEAVE_QUEST_ID: String = "q021"
 
 const PAPA_SCENE: String = "res://scenes/entities/npc_PapaJobert.tscn"
 ## Beside the front door (WarpArea2 at 24,121), on the row under the rug.
-const PAPA_SPOT := Vector2(40, 112)
-const JONABEL_SPOT := Vector2(72, 112)
+const PAPA_SPOT := Vector2(48, 112)
+const JONABEL_SPOT := Vector2(80, 112)
 
 func _ready() -> void:
 	if not GameState.get_flag(SLEPT_FLAG) or GameState.get_flag(LEFT_FLAG):

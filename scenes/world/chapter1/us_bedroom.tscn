@@ -76,7 +76,6 @@ script = ExtResource("1_fxahd")
 position = Vector2(24, 120)
 texture = ExtResource("14_r7sd8")
 vframes = 2
-frame = 1
 
 [node name="BedroomRug" type="Sprite2D" parent="." unique_id=2070048524]
 z_index = -1
