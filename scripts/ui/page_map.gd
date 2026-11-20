@@ -53,6 +53,11 @@ const ZOOM := 2.0
 var _content: Control       # holds MapBG, Fog, Markers; moved to pan
 var _dragging := false
 var _user_panned := false   # reset each time the tab opens
+## Page size the .tscn marker positions were placed at (the map page on a 16:9
+## screen). Positions are kept as fractions of it, see _layout_markers.
+const AUTHORED_SIZE := Vector2(616, 289)
+var _marker_norm: Dictionary = {}  # region_id -> marker centre as a fraction of the map
+var _fog_mat: ShaderMaterial
 
 func _ready() -> void:
 	map_bg.texture = MAP_TEXTURE
@@ -63,6 +68,7 @@ func _ready() -> void:
 	_wire_markers()
 	_build_fog()
 	_build_roads()
+	_on_resized()
 	HelpButton.pin(self, "map")
 
 ## Called by BookUI._show_page() right before the tab becomes visible —
@@ -95,10 +101,33 @@ func _build_pan_layer() -> void:
 ## refresh()), so keep re-centring on every resize until the player drags.
 func _on_resized() -> void:
 	_content.size = size * ZOOM
+	_layout_markers()
 	if not _user_panned:
 		_center_on_places()
 	else:
 		_set_pan(_content.position)
+
+## Puts every marker at its fraction of the (stretched, zoomed) map, so markers
+## stay on their spot of the map on any screen shape. Icons keep their pixel size.
+func _layout_markers() -> void:
+	if _marker_buttons.is_empty() or _content.size.x <= 0.0:
+		return
+	for region_id in _marker_buttons:
+		var b: Button = _marker_buttons[region_id]
+		var bsize := Vector2(b.offset_right - b.offset_left, b.offset_bottom - b.offset_top)
+		var norm: Vector2 = _marker_norm[region_id]
+		var tl: Vector2 = (norm * _content.size - bsize * 0.5).round()
+		b.offset_left = tl.x; b.offset_top = tl.y
+		b.offset_right = tl.x + bsize.x; b.offset_bottom = tl.y + bsize.y
+	if _fog_mat:
+		var centers := PackedVector2Array()
+		for region_id in _marker_buttons:
+			centers.append(_marker_rect(region_id).get_center())
+		_fog_mat.set_shader_parameter("clear_count", mini(centers.size(), 16))
+		centers.resize(16)
+		_fog_mat.set_shader_parameter("clear_pos", centers)
+	if _roads:
+		_roads.queue_redraw()
 
 ## Clamp so the map always covers the page (no empty edge showing).
 func _set_pan(p: Vector2) -> void:
@@ -128,8 +157,9 @@ func _gui_input(event: InputEvent) -> void:
 		accept_event()
 
 ## Markers already exist as hand-placed children of $Markers (editor-authored
-## position, authored at 1x). This wires each one to its regions.json entry by
-## name and spreads its centre out by ZOOM; no creation.
+## position, placed with the whole map filling an AUTHORED_SIZE page). This wires
+## each one to its regions.json entry by name and remembers where it sits as a
+## fraction of the map; _layout_markers places it on the map at any size.
 func _wire_markers() -> void:
 	for child in markers_root.get_children():
 		if not child is Button:
@@ -140,12 +170,8 @@ func _wire_markers() -> void:
 			push_warning("page_map: marker node '%s' has no matching regions.json entry" % region_id)
 			continue
 		var btn := child as Button
-		# Spread the authored (1x) centre out to the zoomed map.
 		var half := Vector2(btn.offset_right - btn.offset_left, btn.offset_bottom - btn.offset_top) * 0.5
-		var c := Vector2(btn.offset_left, btn.offset_top) + half
-		c *= ZOOM
-		btn.offset_left = c.x - half.x; btn.offset_right = c.x + half.x
-		btn.offset_top = c.y - half.y; btn.offset_bottom = c.y + half.y
+		_marker_norm[region_id] = (Vector2(btn.offset_left, btn.offset_top) + half) / AUTHORED_SIZE
 		_apply_icon(btn, region_id)
 		btn.tooltip_text = region.get("display_name", region_id)
 		btn.pressed.connect(_on_marker_pressed.bind(region_id))
@@ -203,12 +229,7 @@ func _build_fog() -> void:
 	_content.move_child(fog, markers_root.get_index())
 	mat.set_shader_parameter("clear_radius", 30.0 * ZOOM)
 	mat.set_shader_parameter("edge", 10.0 * ZOOM)
-	var centers := PackedVector2Array()
-	for region_id in _marker_buttons:
-		centers.append(_marker_rect(region_id).get_center())
-	mat.set_shader_parameter("clear_count", mini(centers.size(), 16))
-	centers.resize(16)
-	mat.set_shader_parameter("clear_pos", centers)
+	_fog_mat = mat  # clearings are set in _layout_markers
 	var sync_size := func(): mat.set_shader_parameter("host_size", fog.size)
 	fog.resized.connect(sync_size)
 	sync_size.call()

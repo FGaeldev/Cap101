@@ -68,13 +68,16 @@ const FULLSCREEN_COLUMN_TOP: float = 38.0
 @onready var joystick: Control = $VirtualJoystick
 @onready var interact_button: Button = $InteractButton
 ## The D-pad alternative to the joystick (Settings > Movement controls). Built in
-## code over the joystick's ring, so both sit in the same spot under the thumb.
+## code; it sits in the bottom-left corner, near where the joystick is.
 var dpad: Control = null
 const DPadScript := preload("res://scripts/ui/dpad.gd")
-## D-pad size, centred where the joystick's ring is drawn.
+## D-pad size.
 ## Each key is 3/4 of a 1/3 cell of the art (24 of 32 px), so 128 makes every key
 ## 32 px, the size of the HUD menu buttons (MENU_BUTTON_SIZE).
 const DPAD_SIZE: float = 128.0
+## Gap between the D-pad and the screen's left and bottom edges (the interact
+## key uses the same gap on the right, set in hud.tscn).
+const DPAD_MARGIN: float = 20.0
 
 # -- separated menus --
 const MenuStyle := preload("res://scripts/ui/menus/menu_style.gd")
@@ -182,12 +185,13 @@ func _ready() -> void:
 	# A save that finished the story before the "story so far" note existed.
 	ChapterCard.show_note_on_load.call_deferred("story_so_far")
 
-## The D-pad, centred on the joystick's ring (bottom-left), hidden until chosen.
+## The D-pad in the bottom-left corner, hidden until chosen.
 func _build_dpad() -> void:
 	dpad = DPadScript.new()
 	dpad.name = "DPad"
-	var center: Vector2 = Vector2((joystick.offset_left + joystick.offset_right) / 2.0,
-			(joystick.offset_top + joystick.offset_bottom) / 2.0)
+	# Tucked into the bottom-left corner (not the joystick's spot, which needs
+	# room for its ring), so the thumb rests near the screen edge.
+	var center: Vector2 = Vector2(DPAD_MARGIN + DPAD_SIZE / 2.0, -(DPAD_MARGIN + DPAD_SIZE / 2.0))
 	dpad.anchor_top = 1.0
 	dpad.anchor_bottom = 1.0
 	dpad.offset_left = center.x - DPAD_SIZE / 2.0
