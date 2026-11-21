@@ -95,6 +95,12 @@ func _run() -> void:
 			"chapter2_complete", "chapter3_complete", "got_kalibo_map", "map_open_market", "map_open_habuean", "went_fishing",
 			"note_story_so_far_seen", "chapter4_started", "chapter4_complete", "note_part_one_end_seen", "seen_chapter2_scene0", "seen_chapter3_scene0", "seen_chapter4_scene0"]:
 		GS.set_flag(f)
+	# Skip the "Discovered" place banners (v1.1.0): they'd cover the world shots.
+	var areas: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/map_data/area_banners.json"))
+	if areas is Dictionary:
+		for path: String in areas:
+			if areas[path] is Dictionary:
+				GS.set_flag("area_banner_%s_seen" % str(areas[path].get("key", path.get_file().get_basename())))
 	var n := 0
 	for id in A.WordBank.words.keys():
 		var w: Dictionary = A.WordBank.words[id]

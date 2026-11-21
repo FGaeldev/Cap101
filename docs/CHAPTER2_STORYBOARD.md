@@ -193,7 +193,7 @@ A shot-by-shot version of Chapter 2 for polishing the cutscenes and dialogue JSO
 | --- | --- | --- |
 | 5.1 | `fade` in on the table, evening light. Everyone seated (`sit`), plates out. Camera wide. | — |
 | 5.2 | Susan sets down the last dish. | **Lola Susan:** *Kaon kita!* *(Let's eat!)* (Confirmed) |
-| 5.3 | Jonabel turns to the player. Camera eases in on the two of them. | **Lola Jonabel:** So, *apo*. What did you see today? |
+| 5.3 | Jonabel turns to the player. Camera eases in on the two of them. | **Lola Jonabel:** So, *apo*. What did you like best today? |
 | 5.4 | Choice. | *What do you tell Lola Jonabel?* → "The cathedral. Lola Susan says you were the most devout." (+2) · "The market. So much food." (0) · "Honestly? It was hot. I mostly wanted to sit down." (−2) |
 | 5.5 (+2) | Jonabel laughs; Susan looks innocent. | **Lola Jonabel:** (laughs) Susan never forgets anything. |
 | 5.6 (0) | Susan, pleased. | **Lola Susan:** Wait until Sunday. After mass, the market is even busier. |

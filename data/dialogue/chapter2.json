@@ -891,7 +891,7 @@
 	{
 	  "type": "dialogue",
 	  "speaker": "Lola Jonabel",
-	  "text": "So, \\apo. What did you see today?",
+	  "text": "So, \\apo. What did you like best today?",
 	  "next": 3,
 	  "word_ids": ["w019"]
 	},
@@ -917,14 +917,14 @@
 	  "type": "dialogue",
 	  "speaker": "Lola Susan",
 	  "text": "Wait until Sunday. After mass, the market is even busier.",
-	  "next": 7,
+	  "next": 8,
 	  "word_ids": []
 	},
 	{
 	  "type": "dialogue",
 	  "speaker": "Rose",
 	  "text": "You sat on every bench in Kalibo, balikbayan. Every one.",
-	  "next": 7,
+	  "next": 8,
 	  "word_ids": []
 	},
 	{

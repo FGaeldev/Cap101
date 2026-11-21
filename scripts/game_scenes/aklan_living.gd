@@ -44,6 +44,8 @@ const TOUR_DONE_FLAG: String = "chapter2_tour_done"
 const DINNER_CUTSCENE_ID: String = "chapter2_scene5"
 const DINNER_SEEN_FLAG: String = "chapter2_evening_seen"
 const DINNER_HOUR: int = 18
+## The family waits at the table until then (npc_schedule.json "ch2_dinner_pending").
+const DINNER_LAST_HOUR: int = 23
 const DINNER_CAST: Array = ["Rose", "Lola Susan", "Lola Jonabel", "Papa Jobert"]
 ## Chapter 3 (see docs/CHAPTER3_PLAN.md): the morning brief that starts the trip
 ## to Haboean, and the evening scene once the player is back from the cafe.
@@ -148,7 +150,8 @@ func _ch4_brief_due() -> bool:
 func _dinner_due() -> bool:
 	if GameState.get_flag(DINNER_SEEN_FLAG) or not GameState.get_flag(TOUR_DONE_FLAG):
 		return false
-	if int(DayNightManager.get_hour()) != DINNER_HOUR:
+	var hour: int = int(DayNightManager.get_hour())
+	if hour < DINNER_HOUR or hour >= DINNER_LAST_HOUR:
 		return false
 	return _all_here_and_settled(DINNER_CAST)
 

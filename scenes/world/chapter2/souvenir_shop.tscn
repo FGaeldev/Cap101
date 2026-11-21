@@ -4,10 +4,6 @@
 [ext_resource type="PackedScene" uid="uid://de6nkx7tf7u8d" path="res://scenes/entities/furniture/warp_area.tscn" id="2_8pgjo"]
 [ext_resource type="TileSet" uid="uid://c5vsev44bkm1e" path="res://assets/tilesets/shadows.tres" id="2_shadows"]
 [ext_resource type="TileSet" uid="uid://dd261lq2dwfm8" path="res://assets/tilesets/edges.tres" id="3_edges"]
-[ext_resource type="Script" uid="uid://dlkrsatlaij6c" path="res://scripts/game_scenes/stall_vendors.gd" id="10_vendors"]
-[ext_resource type="PackedScene" uid="uid://cvqh0spi5t1xj" path="res://scenes/entities/npc_RandomGuy1.tscn" id="11_guy1"]
-[ext_resource type="PackedScene" uid="uid://dyidv17ldaynb" path="res://scenes/entities/npc_RandomGuy2.tscn" id="12_guy2"]
-[ext_resource type="PackedScene" uid="uid://dxcbcue6862ey" path="res://scenes/entities/npc_RandomGuy3.tscn" id="13_guy3"]
 [ext_resource type="Script" path="res://scripts/game_scenes/souvenir_shop.gd" id="14_story"]
 
 [node name="SouvenirShop" type="Node2D" unique_id=549255014]
@@ -69,10 +65,6 @@ position = Vector2(144, 160)
 
 [node name="Shopkeeper" type="Marker2D" parent="SceneMarkers/Vendors" unique_id=1048243448]
 position = Vector2(176, 144)
-
-[node name="StallVendors" type="Node2D" parent="." unique_id=1920006430]
-script = ExtResource("10_vendors")
-npc_scenes = Array[PackedScene]([ExtResource("11_guy1"), ExtResource("12_guy2"), ExtResource("13_guy3")])
 
 [node name="S4" type="Node2D" parent="SceneMarkers" unique_id=410201010]
 

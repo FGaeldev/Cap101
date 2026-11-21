@@ -29,9 +29,13 @@ position = Vector2(80, 154)
 trigger_direction = 1
 door_width = 2
 target_scene = "res://scenes/world/chapter1/airport_ourdoors.tscn"
+target_spawn_id = "FromHall"
 
 [node name="DefaultSpawn" type="Marker2D" parent="." unique_id=41428921]
 position = Vector2(-64, 48)
+
+[node name="FromOutdoors" type="Marker2D" parent="." unique_id=718204552]
+position = Vector2(64, 144)
 
 [node name="SceneMarkers" type="Node2D" parent="." unique_id=27370587]
 y_sort_enabled = true

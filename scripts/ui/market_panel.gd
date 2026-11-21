@@ -110,7 +110,11 @@ func _say(l: Dictionary, said: Dictionary = {}) -> void:
 	if _said.visible:
 		_said.text = "%s: %s" % [TextUtil.resolve_speaker(str(said.get("speaker", ""))), TextUtil.resolve_rich(str(said.get("text", "")))]
 		Economy.expose_line_words(said)
-	_speaker.text = TextUtil.resolve_speaker(str(l.get("speaker", "")))
+	var speaker: String = str(l.get("speaker", ""))
+	# Shop lines are written for Pedring; at another stall its own vendor says them.
+	if speaker == "Nong Pedring" and not _shop_id.is_empty():
+		speaker = str(Economy.shops.get(_shop_id, {}).get("vendor", speaker))
+	_speaker.text = TextUtil.resolve_speaker(speaker)
 	_text.text = TextUtil.resolve_rich(str(l.get("text", "")))
 	Economy.expose_line_words(l)
 
