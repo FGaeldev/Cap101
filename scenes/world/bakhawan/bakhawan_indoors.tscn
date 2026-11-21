@@ -104,7 +104,6 @@ shape = SubResource("RectangleShape2D_wiaax")
 position = Vector2(64, 32)
 
 [node name="Sprite2D" type="Sprite2D" parent="Props/KasamaBoard" unique_id=576448079]
-z_index = 1
 position = Vector2(2, -9)
 texture = ExtResource("5_w63o3")
 centered = false
@@ -131,7 +130,6 @@ shape = SubResource("RectangleShape2D_8u5vd")
 position = Vector2(128, 48)
 
 [node name="Sprite2D" type="Sprite2D" parent="Props/TrailDoorway" unique_id=1499961119]
-z_index = 1
 position = Vector2(2, -18)
 texture = ExtResource("5_w63o3")
 centered = false
@@ -142,7 +140,6 @@ region_rect = Rect2(464, 32, 27, 18)
 position = Vector2(176, 48)
 
 [node name="Sprite2D" type="Sprite2D" parent="Props/StaffDoorway" unique_id=1540922771]
-z_index = 1
 position = Vector2(2, -18)
 texture = ExtResource("5_w63o3")
 centered = false

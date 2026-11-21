@@ -259,6 +259,9 @@ func _condition(name: String) -> bool:
 			return GameState.get_flag("chapter2_mass_trip")
 		"tour_pending":
 			return not GameState.get_flag("chapter2_tour_done")
+		"ch2_dinner_pending":
+			# The tour's dinner waits up for the player until 11 PM, not just 6-7.
+			return GameState.get_flag("chapter2_tour_done") and not GameState.get_flag("chapter2_evening_seen")
 		"ch3_brief_pending":
 			# The between-chapter goals (chapter_goals.gd) hold the brief back.
 			return GameState.get_flag("chapter2_complete") and not GameState.get_flag("seen_chapter3_scene0") \

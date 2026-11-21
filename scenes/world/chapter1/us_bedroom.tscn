@@ -22,7 +22,7 @@ y_sort_enabled = true
 script = ExtResource("1_fxahd")
 
 [node name="DoorDownWide" type="Sprite2D" parent="." unique_id=1896744918]
-position = Vector2(24, 120)
+position = Vector2(32, 120)
 texture = ExtResource("14_r7sd8")
 vframes = 2
 
@@ -100,8 +100,9 @@ position = Vector2(16, 128)
 position = Vector2(72, 64.00001)
 
 [node name="WarpArea" parent="." unique_id=1965068349 instance=ExtResource("13_6bimx")]
-position = Vector2(24, 121)
+position = Vector2(32, 121)
 trigger_direction = 1
+door_width = 2
 target_scene = "res://scenes/world/chapter1/us_living.tscn"
 target_spawn_id = "from_bedroom"
 

@@ -64,21 +64,45 @@ func _say(text: String) -> void:
 ## and leaves _current_line on 0. That's how the answer is read back.
 func _ask_to_sleep() -> void:
 	var dialogue := DialogueComponent.new()
-	dialogue.dialogue_lines = [{
-		"speaker": "Player",
-		"text": prompt_text,
-		"choices": [
-			{"label": "Sleep", "next": 1},
-			{"label": "Not yet", "next": -1},
-		],
-	}]
+	var choices: Array = [{"label": "Sleep", "next": 1}]
+	# Chapter 2's dinner is at 6 PM; let the player skip the wait (index 2).
+	var can_rest: bool = _dinner_waiting()
+	if can_rest:
+		choices.append({"label": "Rest until dinner", "next": 2})
+	choices.append({"label": "Not yet", "next": -1})
+	dialogue.dialogue_lines = [{"speaker": "Player", "text": prompt_text, "choices": choices}]
 	add_child(dialogue)
 	dialogue.dialogue_ended.connect(func():
-		var accepted: bool = dialogue._current_line == 1
+		var picked: int = dialogue._current_line
 		dialogue.queue_free()
-		if accepted:
-			_sleep())
+		if picked == 1:
+			_sleep()
+		elif picked == 2 and can_rest:
+			_rest_until(DINNER_HOUR))
 	dialogue.start_dialogue()
+
+const DINNER_HOUR: float = 18.0
+
+## After the Chapter 2 tour, before its dinner, in the daytime.
+func _dinner_waiting() -> bool:
+	var hour: float = DayNightManager.get_hour()
+	return GameState.get_flag("chapter2_tour_done") and not GameState.get_flag("chapter2_evening_seen") \
+			and hour >= 6.0 and hour < DINNER_HOUR
+
+## A nap: like _sleep() but only up to `hour` the same day, no sleep flags.
+func _rest_until(hour: float) -> void:
+	_sleeping = true
+	MapManager.is_transitioning = true
+	await FadeManager.fade_out()
+	var player: Node2D = CutsceneManager.get_actor("player")
+	var stood_at: Vector2 = player.global_position
+	var in_bed: Vector2 = lay_down(player)
+	DayNightManager.advance_minutes(_minutes_until(hour))
+	GameState.save_game()
+	await FadeManager.fade_in()
+	await get_up(player, in_bed, stood_at)
+	MapManager.is_transitioning = false
+	_sleeping = false
 
 ## Fade to black, jump the clock to the next 6 AM, save, fade back in with the
 ## player under the blanket, then they get up and walk back to where they stood.

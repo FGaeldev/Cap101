@@ -14,7 +14,7 @@ const LEFT_FLAG: String = "seen_chapter1_scene1_5"
 const LEAVE_QUEST_ID: String = "q021"
 
 const PAPA_SCENE: String = "res://scenes/entities/npc_PapaJobert.tscn"
-## Beside the front door (WarpArea2 at 24,121), on the row under the rug.
+## Beside the front door (WarpArea2 at 32,121, two tiles wide), on the row under the rug.
 const PAPA_SPOT := Vector2(48, 112)
 const JONABEL_SPOT := Vector2(80, 112)
 

@@ -337,6 +337,9 @@ y_sort_enabled = true
 [node name="DefaultSpawn" type="Marker2D" parent="Spawns" unique_id=1461791157]
 position = Vector2(288, 144)
 
+[node name="FromHall" type="Marker2D" parent="Spawns" unique_id=718204551]
+position = Vector2(288, 160)
+
 [node name="SceneMarkers" type="Node2D" parent="." unique_id=381007296]
 y_sort_enabled = true
 
@@ -395,26 +398,31 @@ y_sort_enabled = true
 position = Vector2(48, 136)
 door_width = 2
 target_scene = "res://scenes/world/chapter1/airport_arival.tscn"
+target_spawn_id = "FromOutdoors"
 
 [node name="WarpArea2" parent="Warps" unique_id=765081227 instance=ExtResource("2_jyuqw")]
 position = Vector2(160, 136)
 door_width = 2
 target_scene = "res://scenes/world/chapter1/airport_arival.tscn"
+target_spawn_id = "FromOutdoors"
 
 [node name="WarpArea3" parent="Warps" unique_id=77709694 instance=ExtResource("2_jyuqw")]
 position = Vector2(304, 136)
 door_width = 2
 target_scene = "res://scenes/world/chapter1/airport_arival.tscn"
+target_spawn_id = "FromOutdoors"
 
 [node name="WarpArea4" parent="Warps" unique_id=842558184 instance=ExtResource("2_jyuqw")]
 position = Vector2(448, 136)
 door_width = 2
 target_scene = "res://scenes/world/chapter1/airport_arival.tscn"
+target_spawn_id = "FromOutdoors"
 
 [node name="WarpArea5" parent="Warps" unique_id=374208562 instance=ExtResource("2_jyuqw")]
 position = Vector2(560, 136)
 door_width = 2
 target_scene = "res://scenes/world/chapter1/airport_arival.tscn"
+target_spawn_id = "FromOutdoors"
 
 [node name="EdgeExit_Ch2" parent="Warps" unique_id=1364634463 instance=ExtResource("2_jyuqw")]
 position = Vector2(-192, 336)

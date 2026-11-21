@@ -23,6 +23,7 @@
 				{"when": "mass_trip", "away": true},
 				{"when": "first_day", "room": "living", "marker": "S0/Susan", "facing": "down"},
 				{"from": 19, "to": 23, "when": "ch4_evening_pending", "room": "living", "marker": "Schedule/SeatSusan", "facing": "right"},
+				{"from": 19, "to": 23, "when": "ch2_dinner_pending", "room": "living", "marker": "Schedule/SeatSusan", "facing": "right"},
 				{"from": 19, "to": 6, "room": "br_susan", "marker": "Schedule/Bed", "facing": "down", "asleep": true, "in_bed": true},
 				{"days": [0], "from": 6, "to": 12, "when": "mass_pending", "room": "living", "marker": "S0/Susan", "facing": "down"},
 				{"days": [0], "from": 6, "to": 12, "when": "mass_skipped", "away": true},
@@ -37,6 +38,7 @@
 			"blocks": [
 				{"when": "first_day", "room": "living", "marker": "S0/Rose", "facing": "down"},
 				{"when": "on_walk", "away": true},
+				{"from": 18, "to": 23, "when": "ch2_dinner_pending", "room": "living", "marker": "Schedule/SeatRose", "facing": "left"},
 				{"from": 19, "to": 6, "room": "br_rose", "marker": "Schedule/Bed", "facing": "down", "asleep": true, "in_bed": true},
 				{"days": [0], "from": 6, "to": 12, "when": "mass_pending", "room": "living", "marker": "S0/Rose", "facing": "down"},
 				{"days": [0], "from": 6, "to": 12, "when": "mass_skipped", "away": true},
@@ -55,6 +57,7 @@
 				{"from": 6, "to": 12, "when": "ch3_brief_pending", "room": "living", "marker": "Schedule/SeatJonabel", "facing": "left"},
 				{"from": 6, "to": 12, "when": "ch4_brief_pending", "room": "living", "marker": "Schedule/SeatJonabel", "facing": "left"},
 				{"from": 19, "to": 23, "when": "ch4_evening_pending", "room": "living", "marker": "Schedule/SeatJonabel", "facing": "left"},
+				{"from": 19, "to": 23, "when": "ch2_dinner_pending", "room": "living", "marker": "Schedule/SeatJonabel", "facing": "left"},
 				{"days": [0], "from": 6, "to": 12, "when": "mass_skipped", "room": "living", "marker": "Schedule/SeatJonabel", "facing": "left"},
 				{"from": 19, "to": 8, "room": "br_jonabel", "marker": "Schedule/Bed", "facing": "down", "asleep": true, "in_bed": true},
 				{"from": 8, "to": 19, "room": "living", "marker": "Schedule/SeatJonabel", "facing": "left"}
@@ -67,6 +70,7 @@
 				{"when": "ch4_trip", "away": true},
 				{"from": 6, "to": 12, "when": "ch4_brief_pending", "room": "living", "marker": "Schedule/SeatJobert", "facing": "right"},
 				{"from": 19, "to": 23, "when": "ch4_evening_pending", "room": "living", "marker": "Schedule/SeatJobert", "facing": "right"},
+				{"from": 19, "to": 23, "when": "ch2_dinner_pending", "room": "living", "marker": "Schedule/SeatJobert", "facing": "right"},
 				{"from": 19, "to": 8, "room": "br_jobert", "marker": "Schedule/Bed", "facing": "down", "asleep": true, "in_bed": true},
 				{"from": 12, "to": 13, "room": "living", "marker": "Schedule/SeatJobert", "facing": "right"},
 				{"from": 18, "to": 19, "room": "living", "marker": "Schedule/SeatJobert", "facing": "right"},
