@@ -3,6 +3,7 @@ extends Node
 
 const CultureSpots := preload("res://scripts/util/culture_spots.gd")
 const ChapterGoals := preload("res://scripts/util/chapter_goals.gd")
+const KaliboGoals := preload("res://scripts/util/kalibo_goals.gd")
 
 # Game.gd
 ## Player is now a persistent sibling of LevelContainer (not baked into each
@@ -88,6 +89,13 @@ func _ready() -> void:
 	# later so a quest the flag just unlocked is already active.
 	GameState.flag_changed.connect(func(_flag: String, _value: bool): ChapterGoals.check.call_deferred())
 	ChapterGoals.check.call_deferred()
+	# After Chapter 4 (kalibo_goals.gd): counts change without a flag (a word
+	# learned, a heart), so check every couple of seconds; it's cheap.
+	var goal_timer := Timer.new()
+	goal_timer.wait_time = 2.0
+	goal_timer.autostart = true
+	goal_timer.timeout.connect(KaliboGoals.check)
+	add_child(goal_timer)
 	# First errand and first chapter goals each get a short tutorial (tutorials.json).
 	QuestManager.quest_started.connect(func(quest_id: String):
 		var quest: Dictionary = QuestManager.quests.get(quest_id, {})

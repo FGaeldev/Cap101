@@ -258,8 +258,8 @@
 		{
 			"id": "q020",
 			"category": "main",
-			"title": "Explore Kalibo",
-			"description": "You finished Part One! Kalibo is yours to explore: talk to people around town, run errands for the family, and keep practicing your Akeanon.",
+			"title": "Kalibo goals",
+			"description": "You finished Part One! Kalibo is yours to explore. Help at Nong Pedring's stall, guide visitors in Pastrana Park, solve the daily puzzle, run errands, learn more words and make friends. Each goal pays when you reach it.",
 			"required_exposures": 0,
 			"target_words": [],
 			"requires_flag": "chapter4_complete",

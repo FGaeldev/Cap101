@@ -135,6 +135,11 @@ func _check_beats() -> void:
 	if GameState.get_flag(CH4_SUNSET_SEEN_FLAG) and not GameState.get_flag(CH4_EVENING_SEEN_FLAG) \
 			and _all_here_and_settled(CH4_EVENING_CAST):
 		CutsceneManager.play(CH4_EVENING_CUTSCENE_ID)
+		return
+	# Every Kalibo goal reached (kalibo_goals.gd): the family's closing scene.
+	if GameState.get_flag("quest_020_done") and not GameState.get_flag("seen_kalibo_goals_finale") \
+			and _all_here_and_settled(["Lola Jonabel", "Lola Susan"]):
+		CutsceneManager.play("chapter4_kalibo_finale")
 
 ## Chapter 4's morning brief: the first morning after Chapter 3 is complete
 ## (and Chapter 4 is out), once all four are at their brief spots.

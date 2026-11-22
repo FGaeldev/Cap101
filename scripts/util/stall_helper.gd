@@ -59,6 +59,7 @@ static func start(host: Node) -> void:
 	GameState.stall_helped_date = GameState.daily_date()
 	var served: int = int(shift.get("served", 0))
 	if served > 0:
+		GameState.stall_shifts += 1
 		RewardManager.award_pesos(served * PAY_PER_CUSTOMER, "Stall help")
 	GameState.save_game()
 	await _say(host, [_line("stall_pay")])

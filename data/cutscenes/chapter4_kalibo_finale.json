@@ -1,0 +1,5 @@
+[
+	{"type": "move_npc", "actor": "player", "to": "S5/Player", "avoid_actors": true, "speed": 56, "face": "up"},
+	{"type": "dialogue", "chapter": "chapter4", "scene": "scene_kalibo_goals_finale"},
+	{"type": "set_flag", "flag": "seen_kalibo_goals_finale", "value": true}
+]

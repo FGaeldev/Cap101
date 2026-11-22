@@ -43,6 +43,7 @@ static func start(visitor: Node2D) -> void:
 	DialogueUI.hide()
 	GameState.plaza_helped_date = GameState.daily_date()
 	var helped: int = int(game.get("helped", 0))
+	GameState.plaza_visitors_helped += helped
 	var pay: int = helped * PAY_PER_VISITOR
 	if helped > 0 and helped == Array(game["rounds"]).size():
 		pay += ALL_BONUS

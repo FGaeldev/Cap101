@@ -186,6 +186,9 @@ var wotd_id: String = ""
 var puzzle_solved_date: int = 0   # date_unix of the last solved daily puzzle
 var stall_helped_date: int = 0    # daily_date() of the last stall shift at Pedring's (once a day)
 var plaza_helped_date: int = 0    # daily_date() of the last plaza directions round (once a day)
+var stall_shifts: int = 0          # stall shifts with at least one customer served (Kalibo goals)
+var plaza_visitors_helped: int = 0 # visitors guided to their place, all time (Kalibo goals)
+var puzzles_solved: int = 0        # daily newspaper puzzles solved, all time (Kalibo goals)
 var word_taught_date: int = 0   # date_unix of the last extra word an NPC taught (IdleTalk)
 var idle_steps: Dictionary = {}   # npc_id -> {date, step}: how far today's idle talk got (IdleTalk)
 var mass_invite_date: int = 0     # date_unix of the last Sunday mass invitation
@@ -494,6 +497,9 @@ func reset_game_state() -> void:
 	puzzle_solved_date = 0
 	stall_helped_date = 0
 	plaza_helped_date = 0
+	stall_shifts = 0
+	plaza_visitors_helped = 0
+	puzzles_solved = 0
 	word_taught_date = 0
 	idle_steps = {}
 	mass_invite_date = 0
@@ -542,6 +548,9 @@ func save_game() -> bool:
 		"puzzle_solved_date": puzzle_solved_date,
 		"stall_helped_date": stall_helped_date,
 		"plaza_helped_date": plaza_helped_date,
+		"stall_shifts": stall_shifts,
+		"plaza_visitors_helped": plaza_visitors_helped,
+		"puzzles_solved": puzzles_solved,
 		"word_taught_date": word_taught_date,
 		"idle_steps": idle_steps,
 		"mass_invite_date": mass_invite_date,
@@ -655,6 +664,9 @@ func load_game() -> bool:
 	puzzle_solved_date = data.get("puzzle_solved_date", 0)  # additive field, old saves -> 0
 	stall_helped_date = int(data.get("stall_helped_date", 0))  # additive field
 	plaza_helped_date = int(data.get("plaza_helped_date", 0))  # additive field
+	stall_shifts = int(data.get("stall_shifts", 0))  # additive field
+	plaza_visitors_helped = int(data.get("plaza_visitors_helped", 0))  # additive field
+	puzzles_solved = int(data.get("puzzles_solved", 0))  # additive field
 	word_taught_date = data.get("word_taught_date", 0)  # additive field, old saves -> 0
 	idle_steps = data.get("idle_steps", {})  # additive field, old saves -> {}
 	mass_invite_date = data.get("mass_invite_date", 0)  # additive field, old saves -> 0
