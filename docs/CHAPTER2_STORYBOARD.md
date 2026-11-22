@@ -194,11 +194,9 @@ A shot-by-shot version of Chapter 2 for polishing the cutscenes and dialogue JSO
 | 5.1 | `fade` in on the table, evening light. Everyone seated (`sit`), plates out. Camera wide. | — |
 | 5.2 | Susan sets down the last dish. | **Lola Susan:** *Kaon kita!* *(Let's eat!)* (Confirmed) |
 | 5.3 | Jonabel turns to the player. Camera eases in on the two of them. | **Lola Jonabel:** So, *apo*. What did you like best today? |
-| 5.4 | Choice. | *What do you tell Lola Jonabel?* → "The cathedral. Lola Susan says you were the most devout." (+2) · "The market. So much food." (0) · "Honestly? It was hot. I mostly wanted to sit down." (−2) |
-| 5.5 (+2) | Jonabel laughs; Susan looks innocent. | **Lola Jonabel:** (laughs) Susan never forgets anything. |
+| 5.4 | Choice. | *What do you tell Lola Jonabel?* → "The market. So much food." (0) · "Honestly? It was hot. I mostly wanted to sit down." (−2). The cathedral answer was cut in v1.1.4: Jonabel was there with you, so only places she missed are offered. |
 | 5.6 (0) | Susan, pleased. | **Lola Susan:** Wait until Sunday. After mass, the market is even busier. |
 | 5.7 (−2) | Rose, not looking up from her plate. | **Rose:** You sat on every bench in Kalibo, balikbayan. Every one. |
-| 5.8 | Quiet. Jonabel puts her spoon down; the others keep eating. Camera holds on her. | **Lola Jonabel:** I used to sit on those church steps after mass. I'd forgotten how loud the bells are. |
 | 5.9 | Jonabel, softer, to the player. | **Lola Jonabel:** There's one more place I'd like you to see. Another day. |
 | 5.10 | Rose, a half smile, then back to dry. | **Rose:** Another trip, another day. Don't get comfortable, balikbayan. |
 | 5.11 | Susan, to the table. | **Lola Susan:** *Sa Domingo, magsimba kita.* All of us. *(On Sunday, we go to mass.)* (Confirmed) |

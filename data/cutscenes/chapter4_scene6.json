@@ -1,4 +1,5 @@
 [
+	{"type": "move_npc", "actor": "player", "to": "S5/Player", "avoid_actors": true, "speed": 56, "face": "up"},
 	{"type": "dialogue", "chapter": "chapter4", "scene": "scene_6_evening_home"},
 	{"type": "set_flag", "flag": "seen_chapter4_scene6", "value": true},
 	{"type": "complete_quest", "quest_id": "q019"},

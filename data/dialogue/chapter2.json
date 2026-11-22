@@ -901,51 +901,36 @@
 	  "text": "What do you tell Lola Jonabel?",
 	  "word_ids": [],
 	  "choices": [
-		{"label": "The cathedral. Lola Susan says you were the most devout.", "rapport_delta": 2, "next": 4},
-		{"label": "The market. So much food.", "next": 5},
-		{"label": "Honestly? It was hot. I mostly wanted to sit down.", "rapport_delta": -2, "next": 6}
+		{"label": "The market. So much food.", "next": 4},
+		{"label": "Honestly? It was hot. I mostly wanted to sit down.", "rapport_delta": -2, "next": 5}
 	  ]
-	},
-	{
-	  "type": "dialogue",
-	  "speaker": "Lola Jonabel",
-	  "text": "(laughs) Susan never forgets anything.",
-	  "next": 7,
-	  "word_ids": []
 	},
 	{
 	  "type": "dialogue",
 	  "speaker": "Lola Susan",
 	  "text": "Wait until Sunday. After mass, the market is even busier.",
-	  "next": 8,
+	  "next": 6,
 	  "word_ids": []
 	},
 	{
 	  "type": "dialogue",
 	  "speaker": "Rose",
 	  "text": "You sat on every bench in Kalibo, balikbayan. Every one.",
-	  "next": 8,
-	  "word_ids": []
-	},
-	{
-	  "type": "dialogue",
-	  "speaker": "Lola Jonabel",
-	  "text": "I used to sit on those church steps after mass. I'd forgotten how loud the bells are.",
-	  "next": 8,
+	  "next": 6,
 	  "word_ids": []
 	},
 	{
 	  "type": "dialogue",
 	  "speaker": "Lola Jonabel",
 	  "text": "There's one more place I'd like you to see. Another day.",
-	  "next": 9,
+	  "next": 7,
 	  "word_ids": []
 	},
 	{
 	  "type": "dialogue",
 	  "speaker": "Rose",
 	  "text": "Another trip, another day. Don't get comfortable, balikbayan.",
-	  "next": 10,
+	  "next": 8,
 	  "word_ids": []
 	},
 	{
@@ -953,7 +938,7 @@
 	  "speaker": "Lola Susan",
 	  "text": "Sa \\Domingo, \\magsimba \\kita. All of us.",
 	  "translation": "On Sunday, we go to mass. All of us.",
-	  "next": 11,
+	  "next": 9,
 	  "word_ids": ["w318", "w308", "w113"]
 	},
 	{
@@ -961,14 +946,14 @@
 	  "speaker": "Papa Jobert",
 	  "text": "Mm. Mass. Good.",
 	  "bubble": "zzz",
-	  "next": 12,
+	  "next": 10,
 	  "word_ids": []
 	},
 	{
 	  "type": "dialogue",
 	  "speaker": "Rose",
 	  "text": "You don't even know what day it is, do you, balikbayan?",
-	  "next": 13,
+	  "next": 11,
 	  "word_ids": []
 	},
 	{
@@ -977,21 +962,21 @@
 	  "text": "\\Lunes, \\Martes, \\Miyerkoles, \\Hwebes, \\Biyernes, \\Sabado, \\Domingo.",
 	  "translation": "Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday.",
 	  "bubble": "calendar",
-	  "next": 14,
+	  "next": 12,
 	  "word_ids": ["w312", "w313", "w314", "w315", "w316", "w317", "w318"]
 	},
 	{
 	  "type": "dialogue",
 	  "speaker": "Player",
 	  "text": "Wait, those sound Spanish.",
-	  "next": 15,
+	  "next": 13,
 	  "word_ids": []
 	},
 	{
 	  "type": "dialogue",
 	  "speaker": "Rose",
 	  "text": "They are. Free points for you. Now prove it.",
-	  "next": 16,
+	  "next": 14,
 	  "word_ids": []
 	},
 	{
@@ -1002,15 +987,12 @@
 	  "question_count": 3,
 	  "word_pool": ["w312", "w313", "w314", "w315", "w316", "w317", "w318"],
 	  "choices": ["w312", "w313", "w314", "w315", "w316", "w317", "w318"],
-	  "question_templates": [
-		"What does \"[word]\" mean?",
-		"What Akeanon word means \"[gloss]\"?"
-	  ],
+	  "question_templates": ["What does \"[word]\" mean?", "What Akeanon word means \"[gloss]\"?"],
 	  "question_template_choice_displays": ["gloss", "word"],
 	  "choice_display": "gloss",
 	  "pass_ratio": 0.5,
-	  "success": 17,
-	  "failure": 18
+	  "success": 15,
+	  "failure": 16
 	},
 	{
 	  "type": "dialogue",

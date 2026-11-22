@@ -1,4 +1,5 @@
 [
+	{"type": "move_npc", "actor": "player", "to": "S0/Player", "avoid_actors": true, "speed": 56, "face": "up"},
 	{"type": "chapter_card", "chapter": "chapter3", "fade_in_after": true},
 	{"type": "dialogue", "chapter": "chapter3", "scene": "scene_0_morning_brief"},
 	{"type": "set_flag", "flag": "seen_chapter3_scene0", "value": true},

@@ -93,13 +93,20 @@ func _ready() -> void:
 	_load_data()
 	_build_overlay()
 	_panel.hide()
-	set_process(false)
+	set_process(true)  # always: hides the overlay during fades (see _process)
 
 
-## Only runs while a target is highlighted (see _apply_highlight).
+## Hides the overlay while the screen fades (the above-Book layer would otherwise
+## draw over the black), and while the Book covers a HUD button the step points
+## at (the instruction can't be followed until the Book closes, and the banner
+## sat on the Book's page titles). Moves the arrow while a target is highlighted.
 func _process(delta: float) -> void:
-	_arrow_time += delta
-	_update_arrow()
+	var under_book: bool = BookUI.visible and is_instance_valid(_highlighted) \
+			and not BookUI.is_ancestor_of(_highlighted)
+	visible = not FadeManager.is_fading() and not under_book
+	if is_instance_valid(_highlighted):
+		_arrow_time += delta
+		_update_arrow()
 
 
 # ── Public API ──────────────────────────────────────────────────────────────
@@ -282,7 +289,6 @@ func _apply_highlight(target_id: String) -> void:
 	_pulse_tween.tween_property(node, "self_modulate", Color.WHITE, PULSE_TIME)
 	_pulse_tween.parallel().tween_property(node, "scale", _highlight_base_scale, PULSE_TIME)
 	_arrow_time = 0.0
-	set_process(true)
 	_update_arrow()
 
 
@@ -330,7 +336,6 @@ func _move_panel_below_arrow(target_bottom: float) -> void:
 
 
 func _clear_highlight() -> void:
-	set_process(false)
 	if _arrow:
 		_arrow.hide()
 	if _panel:

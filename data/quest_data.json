@@ -250,6 +250,7 @@
 			"required_exposures": 0,
 			"target_words": [],
 			"requires_flag": "chapter3_complete",
+			"requires_flags": ["quest_025_done", "quest_026_done"],
 			"unless_flag": "chapter4_started",
 			"completion_flag": "quest_016_done",
 			"show_popup": false

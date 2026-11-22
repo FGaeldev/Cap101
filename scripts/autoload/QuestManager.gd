@@ -60,6 +60,9 @@ func is_quest_available(quest_id: String) -> bool:
 	# instead of word exposure. Absent/empty = no prerequisite.
 	var required_flag: String = q.get("requires_flag", "")
 	if not required_flag.is_empty() and not GameState.get_flag(required_flag): return false
+	# Optional: more flags that must all be set (e.g. a chapter's goal quests).
+	for flag in q.get("requires_flags", []):
+		if not GameState.get_flag(str(flag)): return false
 	# Optional: never appears once this flag is set (the story moved past it,
 	# e.g. saves already on the way to Aklan never get the night-before quest).
 	var unless_flag: String = q.get("unless_flag", "")

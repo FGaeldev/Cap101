@@ -218,7 +218,11 @@ func _show_stall(l: Dictionary, hint: String) -> void:
 	for item_id: String in shop.get("stock", []):
 		var price: int = int(Economy.get_item(item_id).get("base_price", 0))
 		var have: int = GameState.get_item_count(item_id)
-		var text: String = "%s  (%s)   ₱%d" % [Economy.item_word(item_id), Economy.item_name(item_id).to_lower(), price]
+		var word: String = Economy.item_word(item_id)
+		var english: String = Economy.item_name(item_id).to_lower()
+		# Items with no Akeanon word ("Ati-Atihan keychain") show their name once.
+		var text: String = "%s   ₱%d" % [word, price] if word.to_lower() == english \
+				else "%s  (%s)   ₱%d" % [word, english, price]
 		if have > 0:
 			text += "   you have %d" % have
 		var b := _button(text)

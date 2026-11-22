@@ -4,10 +4,9 @@
 	{"type": "set_flag", "flag": "went_fishing", "value": true},
 	{"type": "set_flag", "flag": "seen_chapter4_scene3", "value": true},
 	{"type": "complete_quest", "quest_id": "q018"},
-	{"type": "game_speed", "scale": 2.0},
-	{"type": "parallel", "actions": [
-		{"type": "move_npc", "actor": "Manong Ambo", "to": "Ch4/S4_Ambo", "avoid_actors": true, "speed": 40, "face": "left"},
-		{"type": "sequence", "actions": [{"type": "wait", "seconds": 0.6}, {"type": "move_npc", "actor": "Rose", "to": "Ch4/S4_Rose", "avoid_actors": true, "speed": 40, "face": "up"}]},
-		{"type": "sequence", "actions": [{"type": "wait", "seconds": 1.2}, {"type": "move_npc", "actor": "Papa Jobert", "to": "Ch4/S4_Jobert", "avoid_actors": true, "speed": 40, "face": "right"}]}
-	]}
+	{"type": "fade", "direction": "out", "duration": 0.6},
+	{"type": "move_npc", "actor": "Manong Ambo", "from": "Ch4/S4_Ambo", "direction": "left", "tiles": 0, "face": "left"},
+	{"type": "move_npc", "actor": "Rose", "from": "Ch4/S4_Rose", "direction": "up", "tiles": 0, "face": "up"},
+	{"type": "move_npc", "actor": "Papa Jobert", "from": "Ch4/S4_Jobert", "direction": "right", "tiles": 0, "face": "right"},
+	{"type": "fade", "direction": "in", "duration": 0.6}
 ]
