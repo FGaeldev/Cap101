@@ -109,6 +109,43 @@
 			}
 		]
 	},
+	"res://scenes/world/haboean/habuean_outdoors.tscn": {
+		"pickups": [
+			{
+				"id": "gallery_brochure_1",
+				"item": "brochure",
+				"at": [
+					160,
+					320
+				],
+				"requires_flag": "side_qs011_accepted",
+				"unless_flag": "side_qs011_done",
+				"text": "A gallery brochure about piña weaving, a little dusty."
+			},
+			{
+				"id": "gallery_brochure_2",
+				"item": "brochure",
+				"at": [
+					336,
+					256
+				],
+				"requires_flag": "side_qs011_accepted",
+				"unless_flag": "side_qs011_done",
+				"text": "A gallery brochure about piña weaving, a little dusty."
+			},
+			{
+				"id": "gallery_brochure_3",
+				"item": "brochure",
+				"at": [
+					416,
+					160
+				],
+				"requires_flag": "side_qs011_accepted",
+				"unless_flag": "side_qs011_done",
+				"text": "A gallery brochure about piña weaving, a little dusty."
+			}
+		]
+	},
 	"res://scenes/world/haboean/haboean_gallery.tscn": {
 		"npcs": [
 			{
