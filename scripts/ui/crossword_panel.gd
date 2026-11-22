@@ -7,9 +7,9 @@
 #     "progress": {} }                 # optional, kept on Quit and resumed from
 #
 # Tap a cell to select its word (tap again to switch across/down), then type with
-# the on-screen or a physical keyboard. Nothing shows whether a word is right
-# unless the player turns on the Check toggle, which colors filled words green or
-# red. The puzzle ends when every word is right. Mastery is hidden and moves once
+# the on-screen or a physical keyboard. Each filled word turns green when right
+# and red when wrong, right away (playtest v1.1.3: the old Check On/Off toggle
+# was a step players didn't want). The puzzle ends when every word is right. Mastery is hidden and moves once
 # per word: +1 the first time it's filled correctly, -1 the first time it's filled
 # wrong. No timer and no way to fail (no-punishment rule, GDD 7); Quit resolves false.
 #
@@ -60,9 +60,8 @@ var _placements: Array = []       # [{id, letters, cell, dir, number, credited, 
 var _answers: Dictionary = {}     # cell -> correct letter
 var _numbers: Dictionary = {}     # cell -> clue number
 var _typed: Dictionary = {}       # cell -> typed letter
-var _good_cells: Dictionary = {}  # cell -> true, in a right word (Check on only)
-var _bad_cells: Dictionary = {}   # cell -> true, in a wrong word (Check on only)
-var _check_on: bool = false
+var _good_cells: Dictionary = {}  # cell -> true, in a right word
+var _bad_cells: Dictionary = {}   # cell -> true, in a wrong word
 var _progress: Dictionary = {}    # the line's "progress", written on Quit
 var _grid_size: Vector2i = Vector2i.ZERO
 var _selected: int = -1           # index into _placements
@@ -73,7 +72,6 @@ var _session: int = 0             # bumped on open/close; stale timers bail
 var _grid: Grid
 var _clue_label: Label
 var _clue_list: VBoxContainer
-var _check_button: Button
 var _keyboard: LetterKeyboard
 
 func _ready() -> void:
@@ -138,9 +136,6 @@ func _load_layout(layout: Dictionary) -> void:
 	_answers.clear()
 	_numbers.clear()
 	_typed.clear()
-	_check_on = false
-	_check_button.set_pressed_no_signal(false)
-	_check_button.text = "Check: Off"
 	for p in _placements:
 		p["credited"] = p.get("credited", false)
 		p["penalized"] = p.get("penalized", false)
@@ -217,10 +212,6 @@ func _build_layout() -> void:
 	title.add_theme_color_override("font_color", UIThemeApplier.TEXT_EMPHASIS)
 	header.add_child(title)
 	header.add_child(HelpButton.new("crossword"))
-	_check_button = _make_header_button("Check: Off", 84)
-	_check_button.toggle_mode = true
-	_check_button.toggled.connect(_on_check_toggled)
-	header.add_child(_check_button)
 	var quit := _make_header_button("Quit", 48)
 	quit.pressed.connect(_quit)
 	header.add_child(quit)
@@ -365,7 +356,7 @@ func _after_edit() -> void:
 	if _placements.all(_is_correct):
 		_end_game()
 	elif _answers.keys().all(func(c): return _typed.has(c)):
-		_clue_label.text = "Something isn't right yet. Try Check."
+		_clue_label.text = "Something isn't right yet. Fix the red words."
 	_grid.queue_redraw()
 
 ## Hidden mastery, once per word in each direction.
@@ -381,14 +372,13 @@ func _score_filled_words() -> void:
 			p["penalized"] = true
 			GameState.adjust_mastery(p["id"], -1)
 
-## Rebuilds the Check coloring. Stays empty while Check is off, so nothing on
-## screen gives away whether a word is right.
+## Rebuilds the green/red coloring of filled words.
 func _refresh_checks() -> void:
 	_good_cells.clear()
 	_bad_cells.clear()
 	for p in _placements:
-		var good: bool = _check_on and _is_correct(p)
-		var bad: bool = _check_on and _is_filled(p) and not good
+		var good: bool = _is_correct(p)
+		var bad: bool = _is_filled(p) and not good
 		for cell in _word_cells(p):
 			if good:
 				_good_cells[cell] = true
@@ -400,12 +390,6 @@ func _refresh_checks() -> void:
 		elif bad:
 			tint = Color(UIThemeApplier.COLOR_ERROR, 0.7)
 		p["clue_btn"].modulate = tint
-
-func _on_check_toggled(on: bool) -> void:
-	_check_on = on
-	_check_button.text = "Check: On" if on else "Check: Off"
-	_refresh_checks()
-	_grid.queue_redraw()
 
 ## The next word after the selected one that still has empty cells, if any.
 func _select_next_open() -> void:
@@ -419,7 +403,6 @@ func _select_next_open() -> void:
 func _end_game() -> void:
 	_locked = true
 	_selected = -1
-	_check_on = true   # the finished grid shows green either way
 	_refresh_checks()
 	_clue_label.text = "Insakto! Crossword complete."
 	_clue_label.add_theme_color_override("font_color", UIThemeApplier.COLOR_SUCCESS)

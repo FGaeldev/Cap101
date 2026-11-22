@@ -101,7 +101,7 @@
 			"The puzzle ends when every word is right."
 		],
 		"tips": [
-			"Nothing shows whether a word is right until you turn on Check. Then filled words turn green or red.",
+			"A filled word turns green when it is right and red when it is wrong.",
 			"There is no timer, and you cannot fail.",
 			"If this is the newspaper's puzzle, Quit keeps your progress so you can continue that day."
 		]

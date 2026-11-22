@@ -1,4 +1,8 @@
 [
+	{"type": "parallel", "actions": [
+		{"type": "move_npc", "actor": "player", "to": "S5/Player", "avoid_actors": true, "speed": 56, "face": "up"},
+		{"type": "sequence", "actions": [{"type": "wait", "seconds": 0.3}, {"type": "move_npc", "actor": "Rose", "to": [256, 96], "avoid_actors": true, "speed": 56, "face": "up"}]}
+	]},
 	{"type": "dialogue", "chapter": "chapter3", "scene": "scene_5_the_sound_of_the_loom"},
 	{"type": "set_flag", "flag": "seen_chapter3_scene5", "value": true},
 	{"type": "complete_quest", "quest_id": "q008"},

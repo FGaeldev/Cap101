@@ -40,8 +40,10 @@ const PLANTED_FLAG: String = "planted_mangrove"
 const BEATS: Array[Dictionary] = [
 	{"seen": "seen_chapter4_scene2", "cutscene": "chapter4_scene2", "goal": Vector2i(10, 40),
 		"zone": Rect2i(10, 38, 4, 4), "cast": {AMBO_ID: "Ch4/S2_Ambo", ROSE_ID: "Ch4/S2_Rose", JOBERT_ID: "Ch4/S2_Jobert"}},
-	{"seen": "seen_chapter4_scene3", "cutscene": "chapter4_scene3", "goal": Vector2i(32, 7),
-		"zone": Rect2i(31, 7, 3, 1), "cast": {AMBO_ID: "Ch4/S3_Ambo", ROSE_ID: "Ch4/S3_Rose", JOBERT_ID: "Ch4/S3_Jobert"}},
+	# The T-deck is one tile wide (row 7 is its side face, blocked), so the player
+	# stops short of the cast, who stand further along it.
+	{"seen": "seen_chapter4_scene3", "cutscene": "chapter4_scene3", "goal": Vector2i(30, 6),
+		"zone": Rect2i(29, 6, 2, 1), "cast": {AMBO_ID: "Ch4/S3_Ambo", ROSE_ID: "Ch4/S3_Rose", JOBERT_ID: "Ch4/S3_Jobert"}},
 	{"seen": "seen_chapter4_scene4", "cutscene": "chapter4_scene4", "goal": Vector2i(11, 6),
 		"zone": Rect2i(9, 5, 5, 4), "cast": {AMBO_ID: "Ch4/S4_Ambo", ROSE_ID: "Ch4/S4_Rose", JOBERT_ID: "Ch4/S4_Jobert"}},
 	{"seen": PLANTED_FLAG, "cutscene": "chapter4_plant", "goal": Vector2i(9, 12),
