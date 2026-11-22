@@ -32,6 +32,7 @@ extends CharacterBody2D
 @export var shop_id: String = ""
 
 const SideQuests := preload("res://scripts/util/side_quests.gd")
+const StallHelper := preload("res://scripts/util/stall_helper.gd")
 
 @onready var interactable: InteractableComponent = $InteractableComponent
 @onready var dialogue: DialogueComponent = $DialogueComponent
@@ -62,6 +63,8 @@ func _on_interacted(_interactor: Node) -> void:
 	var extras: Array = []
 	if not Economy.shop_here(shop_id).is_empty():
 		extras.append({"id": "shop", "label": "Buy"})
+		if bool(Economy.shops.get(shop_id, {}).get("helper", false)) and StallHelper.is_available():
+			extras.append({"id": "stall", "label": "Help at the stall"})
 	DialogueUI.show_npc_interaction_menu(
 		npc_id if not npc_id.is_empty() else name,
 		Callable(self, "_on_interaction_menu_choice"),
@@ -78,6 +81,8 @@ func _on_interaction_menu_choice(choice: String) -> void:
 			DialogueUI.show_review()
 		"shop":
 			Economy.open_shop(shop_id)
+		"stall":
+			StallHelper.start(self)
 		"goodbye":
 			return
 

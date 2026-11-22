@@ -106,6 +106,21 @@
 			"If this is the newspaper's puzzle, Quit keeps your progress so you can continue that day."
 		]
 	},
+	"stall": {
+		"title": "Help at the Stall",
+		"goal": "Serve Nong Pedring's customers. They ask in Akeanon.",
+		"steps": [
+			"\"Pangabay it ..., gha.\" means they want that item: tap it.",
+			"\"Tig pila ro ..., gha?\" asks the price of one: tap that item on the price board.",
+			"Then tap \"Pilang bato?\" to ask how many, and tap the number they say.",
+			"Five customers make a shift."
+		],
+		"tips": [
+			"Pedring pays ₱2 for every customer you serve.",
+			"A wrong tap sends the customer away unpaid. Three misses end the shift early.",
+			"One shift a day. Tap any Akeanon word you don't know yet in the Dictionary."
+		]
+	},
 	"word_search": {
 		"title": "Word Search",
 		"goal": "Find the hidden Akeanon words in the letter grid.",

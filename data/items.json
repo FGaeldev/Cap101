@@ -21,6 +21,7 @@
 		"pedring": {
 			"vendor": "Nong Pedring",
 			"area": "market",
+			"helper": true,
 			"stock": ["bugas", "uga", "isda", "tubi", "round_fruits"]
 		},
 		"pandesal_cart": {
