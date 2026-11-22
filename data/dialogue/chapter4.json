@@ -1066,5 +1066,16 @@
 		{"type": "dialogue", "speaker": "KASAMA Volunteer", "text": "It started with 50 hectares. Now it's about 220, and the bamboo trail runs over a kilometer into the forest.", "next": 3, "word_ids": []},
 		{"type": "dialogue", "speaker": "KASAMA Volunteer", "text": "The roots are a nursery too. Young \\isda, crabs and shrimp hide there until they're big enough for the sea.", "next": 4, "word_ids": ["w091"]},
 		{"type": "dialogue", "speaker": "KASAMA Volunteer", "text": "Your entrance fee helps us look after it all. Thank you for visiting!", "next": null, "word_ids": []}
+	],
+	"scene_kalibo_goals_finale": [
+		{"type": "dialogue", "speaker": "Lola Susan", "text": "Look at you. Half of Kalibo knows your name now, \\apo.", "next": 1, "word_ids": ["w019"]},
+		{"type": "dialogue", "speaker": "Papa Jobert", "text": "Pedring says you're his best helper. He wants to pay you in fish.", "next": 2, "word_ids": []},
+		{"type": "dialogue", "speaker": "Rose", "text": "And the tourists keep asking for the balikbayan who gives directions.", "next": 3, "word_ids": []},
+		{"type": "dialogue", "speaker": "Lola Jonabel", "text": "When you came, all you could say was \\Saeamat. Now you talk like you grew up here.", "word_ids": ["w206"],
+			"choices": [
+				{"label": "I had good teachers.", "rapport_delta": 1, "next": 4},
+				{"label": "I'm still learning.", "next": 4}
+			]},
+		{"type": "dialogue", "speaker": "Lola Jonabel", "text": "\\Saeamat, \\apo. Stay as long as you like. This is your home too.", "next": null, "word_ids": ["w206", "w019"]}
 	]
 }

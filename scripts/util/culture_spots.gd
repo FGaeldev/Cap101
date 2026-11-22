@@ -53,6 +53,8 @@ static func place(level: Node2D, path: String) -> void:
 		npc.story_done_flag = "culture_%s_heard" % str(entry.get("id", ""))
 		if entry.has("shop_id"):
 			npc.shop_id = str(entry["shop_id"])
+		if entry.has("activity"):
+			npc.activity = str(entry["activity"])
 		level.add_child(npc)
 		var anim: Node = npc.get_node_or_null("CutsceneAnimComponent")
 		if anim != null and FACES.has(str(entry.get("face", ""))):

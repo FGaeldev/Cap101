@@ -13,6 +13,7 @@
 		"jacket": {"name": "Travel jacket", "akeanon_word_id": "", "kind": "good", "base_price": 0, "sellable": false},
 		"pasalubong_box": {"name": "Pasalubong box", "akeanon_word_id": "", "kind": "good", "base_price": 0, "sellable": false},
 		"rose_notebook": {"name": "Rose's notebook", "akeanon_word_id": "", "kind": "good", "base_price": 0, "sellable": false},
+		"brochure": {"name": "Gallery brochure", "akeanon_word_id": "", "kind": "good", "base_price": 0, "sellable": false},
 		"litter": {"name": "Piece of litter", "akeanon_word_id": "", "kind": "good", "base_price": 0, "sellable": false},
 		"taho": {"name": "Taho (cup)", "akeanon_word_id": "", "kind": "good", "base_price": 10, "sellable": false},
 		"round_fruits": {"name": "Twelve round fruits (bag)", "akeanon_word_id": "", "kind": "good", "base_price": 60, "sellable": false}
@@ -21,6 +22,7 @@
 		"pedring": {
 			"vendor": "Nong Pedring",
 			"area": "market",
+			"helper": true,
 			"stock": ["bugas", "uga", "isda", "tubi", "round_fruits"]
 		},
 		"pandesal_cart": {

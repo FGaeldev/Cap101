@@ -432,6 +432,7 @@ func _add_sub_row(text: String, reqs: Array = []) -> void:
 # them to; chapter goals as counts ("Errands done 1/2").
 
 const ChapterGoals := preload("res://scripts/util/chapter_goals.gd")
+const KaliboGoals := preload("res://scripts/util/kalibo_goals.gd")
 const SideQuests := preload("res://scripts/util/side_quests.gd")
 ## Requirement lines wrap at this width (px) so the column never runs into the
 ## tier bar at the top middle of a 640 px wide screen.
@@ -442,8 +443,10 @@ const REQ_DONE_COLOR := Color("2f6b39")
 
 ## Lines under the main quest's title (built in _ready).
 var _main_reqs: VBoxContainer
-## GameState.reviews_done last shown: Review has no signal of its own.
+## GameState.reviews_passed last shown: Review has no signal of its own.
 var _shown_reviews: int = -1
+## KaliboGoals.snapshot() last shown: the post-story counts.
+var _shown_goals: String = ""
 
 func _build_requirement_list() -> void:
 	_main_reqs = VBoxContainer.new()
@@ -456,13 +459,17 @@ func _build_requirement_list() -> void:
 
 ## Rebuilds the rows when a Review try changed a chapter goal count.
 func _watch_reviews() -> void:
-	if GameState.reviews_done != _shown_reviews:
-		_shown_reviews = GameState.reviews_done
+	var goals: String = KaliboGoals.snapshot()
+	if GameState.reviews_passed != _shown_reviews or goals != _shown_goals:
+		_shown_reviews = GameState.reviews_passed
+		_shown_goals = goals
 		_rebuild_quest_rows()
 
 ## [{text, state}] for one quest. state: "todo", "done", "next" (the hand-in,
 ## once everything is held) or "short" (not enough pesos for what is left).
 static func quest_requirements(quest_id: String) -> Array:
+	if quest_id == KaliboGoals.QUEST:
+		return KaliboGoals.lines()
 	var q: Dictionary = QuestManager.quests.get(quest_id, {})
 	var out: Array = []
 	if q.has("needs_items"):
@@ -492,7 +499,7 @@ static func quest_requirements(quest_id: String) -> Array:
 			out.append(_count_line("Errands done", mini(ChapterGoals.errands_done(), errands), errands))
 		elif quest_id == goal["review_quest"]:
 			var reviews: int = int(goal["reviews"])
-			out.append(_count_line("Review tries", mini(GameState.reviews_done, reviews), reviews))
+			out.append(_count_line("Reviews passed", mini(GameState.reviews_passed, reviews), reviews))
 	return out
 
 static func _count_line(what: String, have: int, need: int) -> Dictionary:

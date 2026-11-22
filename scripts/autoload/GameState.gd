@@ -129,6 +129,7 @@ var allowance_date: int = 0             # daily_date() of the last morning allow
 var review_earn_date: int = 0           # daily_date() review_earned_today counts for
 var review_earned_today: int = 0        # pesos earned from NPC Review on that day (daily cap)
 var reviews_done: int = 0               # NPC Review activities finished, pass or fail (chapter goals)
+var reviews_passed: int = 0             # NPC Review activities passed (chapter goals since v1.1.5)
 var quest_offer_declined: Dictionary = {} # side quest id -> daily_date() the player said "not now"
 
 ## Inventory changed (shop, quests). HUD and panels refresh on it.
@@ -183,6 +184,11 @@ var word_mastery: Dictionary = {}    # word_id -> int, clamped 0..MASTERY_MAX
 var wotd_date: int = 0     # date_unix the word was picked on
 var wotd_id: String = ""
 var puzzle_solved_date: int = 0   # date_unix of the last solved daily puzzle
+var stall_helped_date: int = 0    # daily_date() of the last stall shift at Pedring's (once a day)
+var plaza_helped_date: int = 0    # daily_date() of the last plaza directions round (once a day)
+var stall_shifts: int = 0          # stall shifts with at least one customer served (Kalibo goals)
+var plaza_visitors_helped: int = 0 # visitors guided to their place, all time (Kalibo goals)
+var puzzles_solved: int = 0        # daily newspaper puzzles solved, all time (Kalibo goals)
 var word_taught_date: int = 0   # date_unix of the last extra word an NPC taught (IdleTalk)
 var idle_steps: Dictionary = {}   # npc_id -> {date, step}: how far today's idle talk got (IdleTalk)
 var mass_invite_date: int = 0     # date_unix of the last Sunday mass invitation
@@ -479,6 +485,7 @@ func reset_game_state() -> void:
 	review_earn_date = 0
 	review_earned_today = 0
 	reviews_done = 0
+	reviews_passed = 0
 	quest_offer_declined = {}
 	pesos_changed.emit(pesos, 0)
 	inventory_changed.emit()
@@ -488,6 +495,11 @@ func reset_game_state() -> void:
 	wotd_date = 0
 	wotd_id = ""
 	puzzle_solved_date = 0
+	stall_helped_date = 0
+	plaza_helped_date = 0
+	stall_shifts = 0
+	plaza_visitors_helped = 0
+	puzzles_solved = 0
 	word_taught_date = 0
 	idle_steps = {}
 	mass_invite_date = 0
@@ -526,6 +538,7 @@ func save_game() -> bool:
 		"review_earn_date": review_earn_date,
 		"review_earned_today": review_earned_today,
 		"reviews_done": reviews_done,
+		"reviews_passed": reviews_passed,
 		"quest_offer_declined": quest_offer_declined,
 		"active_tasks": active_tasks,
 		"completed_tasks": completed_tasks,
@@ -533,6 +546,11 @@ func save_game() -> bool:
 		"wotd_date": wotd_date,
 		"wotd_id": wotd_id,
 		"puzzle_solved_date": puzzle_solved_date,
+		"stall_helped_date": stall_helped_date,
+		"plaza_helped_date": plaza_helped_date,
+		"stall_shifts": stall_shifts,
+		"plaza_visitors_helped": plaza_visitors_helped,
+		"puzzles_solved": puzzles_solved,
 		"word_taught_date": word_taught_date,
 		"idle_steps": idle_steps,
 		"mass_invite_date": mass_invite_date,
@@ -634,6 +652,7 @@ func load_game() -> bool:
 	review_earn_date = int(data.get("review_earn_date", 0))  # additive field
 	review_earned_today = int(data.get("review_earned_today", 0))  # additive field
 	reviews_done = int(data.get("reviews_done", 0))  # additive field
+	reviews_passed = int(data.get("reviews_passed", 0))  # additive field
 	quest_offer_declined = data.get("quest_offer_declined", {})  # additive field
 	pesos_changed.emit(pesos, 0)
 	inventory_changed.emit()
@@ -643,6 +662,11 @@ func load_game() -> bool:
 	wotd_date = data.get("wotd_date", 0)  # additive field, old saves -> 0
 	wotd_id = data.get("wotd_id", "")  # additive field, old saves -> ""
 	puzzle_solved_date = data.get("puzzle_solved_date", 0)  # additive field, old saves -> 0
+	stall_helped_date = int(data.get("stall_helped_date", 0))  # additive field
+	plaza_helped_date = int(data.get("plaza_helped_date", 0))  # additive field
+	stall_shifts = int(data.get("stall_shifts", 0))  # additive field
+	plaza_visitors_helped = int(data.get("plaza_visitors_helped", 0))  # additive field
+	puzzles_solved = int(data.get("puzzles_solved", 0))  # additive field
 	word_taught_date = data.get("word_taught_date", 0)  # additive field, old saves -> 0
 	idle_steps = data.get("idle_steps", {})  # additive field, old saves -> {}
 	mass_invite_date = data.get("mass_invite_date", 0)  # additive field, old saves -> 0

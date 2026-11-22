@@ -106,6 +106,36 @@
 			"If this is the newspaper's puzzle, Quit keeps your progress so you can continue that day."
 		]
 	},
+	"stall": {
+		"title": "Help at the Stall",
+		"goal": "Serve Nong Pedring's customers. They ask in Akeanon.",
+		"steps": [
+			"\"Pangabay it ..., gha.\" means they want that item: tap it.",
+			"\"Tig pila ro ..., gha?\" asks the price of one: tap that item on the price board.",
+			"Then tap \"Pilang bato?\" to ask how many, and tap the number they say.",
+			"Five customers make a shift."
+		],
+		"tips": [
+			"Pedring pays ₱2 for every customer you serve.",
+			"A wrong tap sends the customer away unpaid. Three misses end the shift early.",
+			"One shift a day. Tap any Akeanon word you don't know yet in the Dictionary."
+		]
+	},
+	"plaza_directions": {
+		"title": "Help with Directions",
+		"goal": "Steer each visitor to the place they ask for, marked green on the map.",
+		"steps": [
+			"The visitor asks \"Gha, siin ro ...?\" (Where is ...?).",
+			"Tap Abante (forward) to start them walking. They keep walking until you give a new word.",
+			"Atras turns them back. Liko pa waea turns them left, liko pa tuo turns them right, from the way they face.",
+			"Get them to the green spot."
+		],
+		"tips": [
+			"A wall or the wrong exit gets the visitor lost.",
+			"₱3 for each visitor who arrives, and ₱3 more if all three do.",
+			"One round a day."
+		]
+	},
 	"word_search": {
 		"title": "Word Search",
 		"goal": "Find the hidden Akeanon words in the letter grid.",
@@ -127,7 +157,7 @@
 		"steps": [
 			"Read the Word of the Day. Reading it adds the word to your Dictionary.",
 			"Check Coming Up to see the next event on the calendar.",
-			"Tap Solve to play today's puzzle, which is a crossword or a word search.",
+			"Tap Solve to play today's puzzle, which is a crossword or a word search. Solving it pays ₱10.",
 			"Tap Put it down when you are done reading."
 		],
 		"tips": [
@@ -206,7 +236,7 @@
 		"tips": [
 			"Said not now? They'll ask again tomorrow.",
 			"Some errands only happen sometimes: the taho vendor on some mornings, a lost child in the park on some afternoons, holiday errands in late December.",
-			"When a chapter ends, its goals show in your quests: a number of errands and Review tries. The next chapter begins the morning after both are done.",
+			"When a chapter ends, its goals show in your quests: a number of errands and passed Reviews. Failed Reviews cost nothing; just try again. The next chapter begins the morning after both are done.",
 			"Every errand gives you a heart with the person who asked."
 		]
 	}

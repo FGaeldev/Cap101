@@ -32,6 +32,23 @@
 	"res://scenes/world/chapter2/pastrana_outdoors.tscn": {
 		"npcs": [
 			{
+				"id": "plaza_visitor",
+				"scene": "res://scenes/entities/npc_Visitor.tscn",
+				"at": [
+					880,
+					752
+				],
+				"face": "down",
+				"chapter": "chapter2",
+				"scene_key": "",
+				"activity": "plaza_directions",
+				"requires_flag": "chapter2_tour_done",
+				"hours": [
+					8,
+					17
+				]
+			},
+			{
 				"id": "lola_ising",
 				"scene": "res://scenes/entities/npc_LolaIsing.tscn",
 				"at": [
@@ -89,6 +106,43 @@
 				"requires_flag": "side_qs005_accepted",
 				"unless_flag": "side_qs005_done",
 				"text": "Rose's notebook! Every page is full of Akeanon words, with little drawings next to them."
+			}
+		]
+	},
+	"res://scenes/world/haboean/habuean_outdoors.tscn": {
+		"pickups": [
+			{
+				"id": "gallery_brochure_1",
+				"item": "brochure",
+				"at": [
+					160,
+					320
+				],
+				"requires_flag": "side_qs011_accepted",
+				"unless_flag": "side_qs011_done",
+				"text": "A gallery brochure about piña weaving, a little dusty."
+			},
+			{
+				"id": "gallery_brochure_2",
+				"item": "brochure",
+				"at": [
+					336,
+					256
+				],
+				"requires_flag": "side_qs011_accepted",
+				"unless_flag": "side_qs011_done",
+				"text": "A gallery brochure about piña weaving, a little dusty."
+			},
+			{
+				"id": "gallery_brochure_3",
+				"item": "brochure",
+				"at": [
+					416,
+					160
+				],
+				"requires_flag": "side_qs011_accepted",
+				"unless_flag": "side_qs011_done",
+				"text": "A gallery brochure about piña weaving, a little dusty."
 			}
 		]
 	},

@@ -30,8 +30,13 @@ extends CharacterBody2D
 ## Shop this NPC runs (data/items.json "shops"). Adds "Buy" to the menu while
 ## the player is in that shop's area. Empty = not a vendor.
 @export var shop_id: String = ""
+## A minigame this NPC offers in their menu ("plaza_directions": plaza_game.gd).
+## Set from data/culture_spots.json "activity". Empty = none.
+@export var activity: String = ""
 
 const SideQuests := preload("res://scripts/util/side_quests.gd")
+const StallHelper := preload("res://scripts/util/stall_helper.gd")
+const PlazaGame := preload("res://scripts/util/plaza_game.gd")
 
 @onready var interactable: InteractableComponent = $InteractableComponent
 @onready var dialogue: DialogueComponent = $DialogueComponent
@@ -50,12 +55,22 @@ func _on_interacted(_interactor: Node) -> void:
 	# Rose called the player over after a warp attempt: ask where to go.
 	if TourGuide.take_pending_ask(self):
 		return
+	# A finished errand is handed in first, even where a talk cutscene would play.
+	var hand_in: Array = SideQuests.hand_in_lines_for(npc_id)
+	if not hand_in.is_empty():
+		dialogue.dialogue_lines = hand_in
+		dialogue.start_dialogue()
+		return
 	if not cutscene_id.is_empty() and not GameState.get_flag(cutscene_seen_flag):
 		CutsceneManager.play(cutscene_id)
 		return
 	var extras: Array = []
 	if not Economy.shop_here(shop_id).is_empty():
 		extras.append({"id": "shop", "label": "Buy"})
+		if bool(Economy.shops.get(shop_id, {}).get("helper", false)) and StallHelper.is_available():
+			extras.append({"id": "stall", "label": "Help at the stall"})
+	if activity == "plaza_directions" and not PlazaGame.done_today():
+		extras.append({"id": "plaza_directions", "label": "Help with directions"})
 	DialogueUI.show_npc_interaction_menu(
 		npc_id if not npc_id.is_empty() else name,
 		Callable(self, "_on_interaction_menu_choice"),
@@ -72,6 +87,10 @@ func _on_interaction_menu_choice(choice: String) -> void:
 			DialogueUI.show_review()
 		"shop":
 			Economy.open_shop(shop_id)
+		"stall":
+			StallHelper.start(self)
+		"plaza_directions":
+			PlazaGame.start(self)
 		"goodbye":
 			return
 

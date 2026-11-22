@@ -19,9 +19,12 @@ const MORNING_HOUR: int = 6
 ## Per map (by scene file): cutscene home, and the places offered under "Somewhere
 ## else" once their flag is set (no flag = always).
 const STOPS: Dictionary = {
+	# The cathedral door (WarpArea7) stays open: the tour's cathedral stop sends
+	# the player inside to hear the parish priest while Rose waits outside.
 	"pastrana_outdoors.tscn": {
 		"home": "chapter2_walk_home_park",
 		"places": [{"label": "The market", "flag": "map_open_market", "cutscene": "chapter2_park_to_market"}],
+		"free_warps": ["WarpArea7"],
 	},
 	# Rose waits on the plaza; the visitor centre (and the trail behind it) stays open.
 	"bakhawan_outdoors.tscn": {
@@ -177,9 +180,94 @@ func _ask(rose: Node2D) -> void:
 		var answer: int = dialogue._current_line
 		dialogue.queue_free()
 		if answer == home_choice:
-			_play_home(rose)
+			_walk_or_ride(rose, _stop_for(rose).get("home", ""))
 		elif answer > home_choice:
-			CutsceneManager.play(places[answer - home_choice - 1]["cutscene"]))
+			_walk_or_ride(rose, places[answer - home_choice - 1]["cutscene"]))
+	dialogue.start_dialogue()
+
+# --- riding instead of walking (v1.1.3 playtest: "can't ride with someone") --
+#
+# Walks with Rose chain across maps, each map playing the next leg from the
+# trip flags. A ride pays the fare, sets the flags the walk would have, and
+# loads the walk's last map, whose own script plays the arrival as usual.
+# Keyed by walk cutscene: "region" gives fare, vehicle and ride time
+# (regions.json); "to" is the last map; "flags" are set besides the walk's own.
+const RIDES: Dictionary = {
+	"chapter2_park_to_market": {"region": "market", "to": "res://scenes/world/market/market_indoors.tscn",
+			"flags": {"chapter2_leaving_market": false}},
+	"chapter2_market_to_park": {"region": "pastrana", "to": "res://scenes/world/chapter2/pastrana_outdoors.tscn",
+			"flags": {"chapter2_leaving_market": false}},
+	"chapter2_walk_home_park": {"region": "aklan_home", "to": "res://scenes/world/chapter2/aklan_living.tscn"},
+	"chapter2_walk_home_market": {"region": "aklan_home", "to": "res://scenes/world/chapter2/aklan_living.tscn",
+			"flags": {"chapter2_leaving_market": false}},
+	"chapter2_walk_home_bakhawan": {"region": "bakhawan_ecopark", "to": "res://scenes/world/chapter2/aklan_living.tscn"},
+	"chapter3_revisit_home": {"region": "haboean", "to": "res://scenes/world/chapter2/aklan_living.tscn"},
+}
+
+## Rose asks walk or ride; walking (or a ride not paid) plays the walk as before.
+func _walk_or_ride(rose: Node2D, walk_id: String) -> void:
+	if walk_id.is_empty():
+		return
+	if walk_id == _stop_for(rose).get("home", ""):
+		for flag: String in ARRIVAL_FLAGS:
+			GameState.set_flag(flag, false)
+	var ride: Dictionary = RIDES.get(walk_id, {})
+	var region: Dictionary = MapManager.get_region(str(ride.get("region", "")))
+	var fare: int = int(region.get("fare", 0))
+	if ride.is_empty() or fare <= 0:
+		CutsceneManager.play(walk_id)
+		return
+	var vehicle: String = str(region.get("vehicle", "Tricycle")).to_lower()
+	var dialogue := DialogueComponent.new()
+	dialogue.dialogue_lines = [
+		{"speaker": "Rose", "text": "Walk, or take a %s? It's ₱%d." % [vehicle, fare], "choices": [
+			{"label": "Let's walk.", "next": 1},
+			{"label": "Take a %s (₱%d)" % [vehicle, fare], "next": 2},
+		]},
+	]
+	rose.add_child(dialogue)
+	dialogue.start_dialogue()
+	await dialogue.dialogue_ended
+	var picked_ride: bool = dialogue._current_line == 2
+	dialogue.queue_free()
+	if not picked_ride:
+		CutsceneManager.play(walk_id)
+		return
+	# The driver names the fare; cancelling or a short wallet means walking.
+	if not await Economy.pay(fare, "fare_price"):
+		_say_then(rose, "Walking it is, then.", func(): CutsceneManager.play(walk_id))
+		return
+	_ride(walk_id, ride, region)
+
+func _ride(walk_id: String, ride: Dictionary, region: Dictionary) -> void:
+	for action in _cutscene_steps(walk_id):
+		if action is Dictionary and str(action.get("type", "")) == "set_flag":
+			GameState.set_flag(str(action["flag"]), bool(action.get("value", true)))
+	var extra: Dictionary = ride.get("flags", {})
+	for flag: String in extra:
+		GameState.set_flag(flag, bool(extra[flag]))
+	MapManager.is_transitioning = true
+	await FadeManager.fade_out()
+	DayNightManager.advance_minutes(float(region.get("ride_minutes", 0)))
+	var to: String = str(ride["to"])
+	GameState.current_level_path = to
+	get_tree().current_scene.load_level(to)
+	GameState.save_game()
+	# The last map's arrival cutscene fades in, as after a walk's load_scene.
+	MapManager.is_transitioning = false
+
+## A walk cutscene's steps, read straight from its JSON.
+func _cutscene_steps(cutscene_id: String) -> Array:
+	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/cutscenes/%s.json" % cutscene_id))
+	return parsed if parsed is Array else []
+
+func _say_then(rose: Node2D, text: String, next: Callable) -> void:
+	var dialogue := DialogueComponent.new()
+	dialogue.dialogue_lines = [{"speaker": "Rose", "text": text, "next": null}]
+	rose.add_child(dialogue)
+	dialogue.dialogue_ended.connect(func():
+		dialogue.queue_free()
+		next.call())
 	dialogue.start_dialogue()
 
 func _set_anim(rose: Node2D, state: String, dir: Vector2) -> void:

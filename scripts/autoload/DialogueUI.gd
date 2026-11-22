@@ -26,8 +26,10 @@ const MINIGAME_SCRIPTS := {
 	"word_search": preload("res://scripts/ui/word_search_panel.gd"),
 	"habi_habi": preload("res://scripts/ui/habi_habi_panel.gd"),
 	"fishing": preload("res://scripts/ui/fishing_panel.gd"),
+	"stall": preload("res://scripts/ui/stall_panel.gd"),
+	"plaza_directions": preload("res://scripts/ui/plaza_directions_panel.gd"),
 }
-const FULLSCREEN_MINIGAMES: Array[String] = ["crossword", "word_search", "habi_habi", "fishing"]
+const FULLSCREEN_MINIGAMES: Array[String] = ["crossword", "word_search", "habi_habi", "fishing", "plaza_directions"]
 const NEWSPAPER_SCRIPT := preload("res://scripts/ui/newspaper_panel.gd")
 
 ## Relative chance of each activity when the player asks an NPC to review.
@@ -401,7 +403,7 @@ func player_pressed_advance() -> void:
 ## its clock and buttons don't draw over the panel.
 ## Full-screen minigames the HUD's toasts must not cover (fishing: every
 ## answer shows a word, and the toasts would sit over the score and the fish).
-const TOASTLESS_MINIGAMES: Array[String] = ["fishing"]
+const TOASTLESS_MINIGAMES: Array[String] = ["fishing", "plaza_directions"]
 
 func hides_toasts() -> bool:
 	return is_fullscreen_active() and TOASTLESS_MINIGAMES.has(_minigame_type)

@@ -105,8 +105,8 @@
 		{
 			"id": "q024",
 			"category": "main",
-			"title": "Before Chapter 3: practice with Review 3 times",
-			"description": "Talk to anyone and choose Review. Right or wrong, every try counts.",
+			"title": "Before Chapter 3: pass Review 3 times",
+			"description": "Talk to anyone and choose Review. Only passed rounds count, and you can try again as often as you like.",
 			"required_exposures": 0,
 			"target_words": [],
 			"requires_flag": "chapter2_complete",
@@ -129,8 +129,8 @@
 		{
 			"id": "q026",
 			"category": "main",
-			"title": "Before Chapter 4: practice with Review 6 times in all",
-			"description": "Talk to anyone and choose Review. Right or wrong, every try counts.",
+			"title": "Before Chapter 4: pass Review 6 times in all",
+			"description": "Talk to anyone and choose Review. Only passed rounds count, and you can try again as often as you like.",
 			"required_exposures": 0,
 			"target_words": [],
 			"requires_flag": "chapter3_complete",
@@ -258,8 +258,8 @@
 		{
 			"id": "q020",
 			"category": "main",
-			"title": "Explore Kalibo",
-			"description": "You finished Part One! Kalibo is yours to explore: talk to people around town, run errands for the family, and keep practicing your Akeanon.",
+			"title": "Kalibo goals",
+			"description": "You finished Part One! Kalibo is yours to explore. Help at Nong Pedring's stall, guide visitors in Pastrana Park, solve the daily puzzle, run errands, learn more words and make friends. Each goal pays when you reach it.",
 			"required_exposures": 0,
 			"target_words": [],
 			"requires_flag": "chapter4_complete",
@@ -442,6 +442,24 @@
 			"completion_flag": "side_qs010_done",
 			"show_popup": true,
 			"offer_dates": {"from":[12,28],"to":[12,31]}
+		},
+		{
+			"id": "qs011",
+			"category": "side",
+			"title": "Gallery brochures",
+			"description": "The wind blew three of the Haboean gallery's brochures around the plaza outside. Pick them up and bring them back to the curator.",
+			"giver": "Gallery Curator",
+			"offer_flag": "chapter3_complete",
+			"start_pesos": 0,
+			"needs_items": {"brochure": 3},
+			"reward_rapport": 1,
+			"reward_pesos": 10,
+			"lines": {"offer": ["brochures_offer_1", "brochures_offer_2"], "yes": "brochures_offer_yes", "no": "brochures_offer_no", "later": "brochures_offer_later", "remind": "brochures_remind", "thanks": "brochures_thanks"},
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "side_qs011_accepted",
+			"completion_flag": "side_qs011_done",
+			"show_popup": true
 		}
 	]
 }

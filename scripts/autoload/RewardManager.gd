@@ -90,6 +90,8 @@ func peek_next_popup() -> Dictionary:
 const STORY_ACTIVITY_PESOS := {true: 5, false: 2}
 ## NPC Review (quiz, hangman, memory match), passed / failed.
 const REVIEW_PESOS := {true: 3, false: 1}
+## The newspaper's daily puzzle (crossword or word search), once per day when solved.
+const PUZZLE_PESOS: int = 10
 ## Most pesos Review can earn per daily day, so it can't be farmed.
 const REVIEW_DAILY_CAP: int = 15
 ## Lola's morning allowance: the floor that keeps a cheap fare affordable.
@@ -129,7 +131,9 @@ func award_story_activity(passed: bool) -> void:
 
 ## An NPC Review activity resolved. Capped per daily day.
 func award_review(passed: bool) -> void:
-	GameState.reviews_done += 1  # chapter goals count tries, not passes
+	GameState.reviews_done += 1
+	if passed:
+		GameState.reviews_passed += 1  # chapter goals count passes (v1.1.4 playtest)
 	ChapterGoals.check()
 	var today: int = GameState.daily_date()
 	if GameState.review_earn_date != today:
