@@ -105,8 +105,8 @@
 		{
 			"id": "q024",
 			"category": "main",
-			"title": "Before Chapter 3: practice with Review 3 times",
-			"description": "Talk to anyone and choose Review. Right or wrong, every try counts.",
+			"title": "Before Chapter 3: pass Review 3 times",
+			"description": "Talk to anyone and choose Review. Only passed rounds count, and you can try again as often as you like.",
 			"required_exposures": 0,
 			"target_words": [],
 			"requires_flag": "chapter2_complete",
@@ -129,8 +129,8 @@
 		{
 			"id": "q026",
 			"category": "main",
-			"title": "Before Chapter 4: practice with Review 6 times in all",
-			"description": "Talk to anyone and choose Review. Right or wrong, every try counts.",
+			"title": "Before Chapter 4: pass Review 6 times in all",
+			"description": "Talk to anyone and choose Review. Only passed rounds count, and you can try again as often as you like.",
 			"required_exposures": 0,
 			"target_words": [],
 			"requires_flag": "chapter3_complete",

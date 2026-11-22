@@ -127,7 +127,7 @@
 		"steps": [
 			"Read the Word of the Day. Reading it adds the word to your Dictionary.",
 			"Check Coming Up to see the next event on the calendar.",
-			"Tap Solve to play today's puzzle, which is a crossword or a word search.",
+			"Tap Solve to play today's puzzle, which is a crossword or a word search. Solving it pays ₱10.",
 			"Tap Put it down when you are done reading."
 		],
 		"tips": [
@@ -206,7 +206,7 @@
 		"tips": [
 			"Said not now? They'll ask again tomorrow.",
 			"Some errands only happen sometimes: the taho vendor on some mornings, a lost child in the park on some afternoons, holiday errands in late December.",
-			"When a chapter ends, its goals show in your quests: a number of errands and Review tries. The next chapter begins the morning after both are done.",
+			"When a chapter ends, its goals show in your quests: a number of errands and passed Reviews. Failed Reviews cost nothing; just try again. The next chapter begins the morning after both are done.",
 			"Every errand gives you a heart with the person who asked."
 		]
 	}

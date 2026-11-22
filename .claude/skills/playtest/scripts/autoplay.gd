@@ -86,6 +86,9 @@ var _err_mutex := Mutex.new()
 var _last_line_key := ""
 var _epoch := 0
 var _tried := {}
+## Plays per cutscene id, never reset: a talk cutscene that keeps replaying (Rose's
+## "go inside and ask Father first") stops outranking exploring after 3 plays.
+var _cutscene_plays := {}
 var _touched_objects := {}
 var _choice_seen := {}
 var _mg_seen := {}
@@ -322,7 +325,7 @@ func _start() -> void:
 	GS.flag_changed.connect(_on_flag)
 	A.QuestManager.quest_started.connect(func(q): _p("QUEST started " + q); _progress())
 	A.QuestManager.quest_completed.connect(func(q): _p("QUEST completed " + q); _progress())
-	A.CutsceneManager.cutscene_started.connect(func(c): _p("CUTSCENE start " + c); _started_cutscenes[c] = true)
+	A.CutsceneManager.cutscene_started.connect(func(c): _p("CUTSCENE start " + c); _started_cutscenes[c] = true; _cutscene_plays[c] = _cutscene_plays.get(c, 0) + 1)
 	A.CutsceneManager.cutscene_finished.connect(func(c): _p("CUTSCENE end " + c))
 	A.TutorialManager.tutorial_started.connect(func(t): _p("TUTORIAL start " + t))
 	A.TutorialManager.tutorial_completed.connect(func(t): _p("TUTORIAL done " + t))
@@ -478,6 +481,7 @@ func _meet_chapter_goals() -> void:
 		A.GameState.set_flag(str(quest.get("requires_flag", "")))
 		A.QuestManager.complete_quest_silently(q)
 	A.GameState.reviews_done = maxi(A.GameState.reviews_done, 6)
+	A.GameState.reviews_passed = maxi(A.GameState.reviews_passed, 6)
 	_p("SHORTCUT chapter goals met (2 errands, 6 Review tries)")
 
 ## Marks a chapter available for this run only (its brief waits for chapters.json).
@@ -734,6 +738,9 @@ func _score(ic: Node) -> int:
 	if seen == null:
 		seen = p.get("seen_flag")
 	if cut != null and str(cut) != "" and not GS.get_flag(str(seen)):
+		# Replayed 3 times and still unseen: it waits on something elsewhere.
+		if _cutscene_plays.get(str(cut), 0) >= 3:
+			return 0
 		return 100
 	var ind = ic.get_node_or_null("Indicator")
 	if ind != null and ind.visible:

@@ -234,6 +234,8 @@ func _on_solve_pressed() -> void:
 ## day's puzzle is still open.
 func _on_puzzle_resolved(passed: bool) -> void:
 	if passed:
+		if GameState.puzzle_solved_date != _puzzle_date:
+			RewardManager.award_pesos(RewardManager.PUZZLE_PESOS, "Daily puzzle")
 		GameState.puzzle_solved_date = _puzzle_date
 		GameState.puzzle_progress = {}
 	GameState.save_game()

@@ -129,6 +129,7 @@ var allowance_date: int = 0             # daily_date() of the last morning allow
 var review_earn_date: int = 0           # daily_date() review_earned_today counts for
 var review_earned_today: int = 0        # pesos earned from NPC Review on that day (daily cap)
 var reviews_done: int = 0               # NPC Review activities finished, pass or fail (chapter goals)
+var reviews_passed: int = 0             # NPC Review activities passed (chapter goals since v1.1.5)
 var quest_offer_declined: Dictionary = {} # side quest id -> daily_date() the player said "not now"
 
 ## Inventory changed (shop, quests). HUD and panels refresh on it.
@@ -479,6 +480,7 @@ func reset_game_state() -> void:
 	review_earn_date = 0
 	review_earned_today = 0
 	reviews_done = 0
+	reviews_passed = 0
 	quest_offer_declined = {}
 	pesos_changed.emit(pesos, 0)
 	inventory_changed.emit()
@@ -526,6 +528,7 @@ func save_game() -> bool:
 		"review_earn_date": review_earn_date,
 		"review_earned_today": review_earned_today,
 		"reviews_done": reviews_done,
+		"reviews_passed": reviews_passed,
 		"quest_offer_declined": quest_offer_declined,
 		"active_tasks": active_tasks,
 		"completed_tasks": completed_tasks,
@@ -634,6 +637,7 @@ func load_game() -> bool:
 	review_earn_date = int(data.get("review_earn_date", 0))  # additive field
 	review_earned_today = int(data.get("review_earned_today", 0))  # additive field
 	reviews_done = int(data.get("reviews_done", 0))  # additive field
+	reviews_passed = int(data.get("reviews_passed", 0))  # additive field
 	quest_offer_declined = data.get("quest_offer_declined", {})  # additive field
 	pesos_changed.emit(pesos, 0)
 	inventory_changed.emit()

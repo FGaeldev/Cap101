@@ -50,6 +50,12 @@ func _on_interacted(_interactor: Node) -> void:
 	# Rose called the player over after a warp attempt: ask where to go.
 	if TourGuide.take_pending_ask(self):
 		return
+	# A finished errand is handed in first, even where a talk cutscene would play.
+	var hand_in: Array = SideQuests.hand_in_lines_for(npc_id)
+	if not hand_in.is_empty():
+		dialogue.dialogue_lines = hand_in
+		dialogue.start_dialogue()
+		return
 	if not cutscene_id.is_empty() and not GameState.get_flag(cutscene_seen_flag):
 		CutsceneManager.play(cutscene_id)
 		return

@@ -3,8 +3,9 @@
 # before is complete; the next chapter's morning brief (aklan_living.gd and the
 # NpcSchedule "chN_brief_pending" blocks) waits until met() is true.
 #
-# Goals count effort, not right answers (no-punishment rule): family errands
-# (any finished side quest) and Review activities tried (GameState.reviews_done).
+# Goals: family errands
+# (any finished side quest) and Review activities passed (GameState.reviews_passed;
+# failing costs nothing and can be retried any time, so it stays no-punishment).
 # check() runs on every flag change (Game.gd) and after each Review.
 extends RefCounted
 
@@ -37,7 +38,7 @@ static func met(chapter_id: String) -> bool:
 	var goal: Dictionary = GOALS.get(chapter_id, {})
 	if goal.is_empty():
 		return true
-	return errands_done() >= int(goal["errands"]) and GameState.reviews_done >= int(goal["reviews"])
+	return errands_done() >= int(goal["errands"]) and GameState.reviews_passed >= int(goal["reviews"])
 
 ## Set while check() runs: completing a quest sets its flag, and flag changes
 ## call check() again (Game.gd) before the quest counts as completed.
@@ -58,7 +59,7 @@ static func _check_all() -> void:
 			continue
 		if errands_done() >= int(goal["errands"]):
 			_complete(str(goal["errand_quest"]))
-		if GameState.reviews_done >= int(goal["reviews"]):
+		if GameState.reviews_passed >= int(goal["reviews"]):
 			_complete(str(goal["review_quest"]))
 
 static func _complete(quest_id: String) -> void:

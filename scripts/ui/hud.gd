@@ -442,7 +442,7 @@ const REQ_DONE_COLOR := Color("2f6b39")
 
 ## Lines under the main quest's title (built in _ready).
 var _main_reqs: VBoxContainer
-## GameState.reviews_done last shown: Review has no signal of its own.
+## GameState.reviews_passed last shown: Review has no signal of its own.
 var _shown_reviews: int = -1
 
 func _build_requirement_list() -> void:
@@ -456,8 +456,8 @@ func _build_requirement_list() -> void:
 
 ## Rebuilds the rows when a Review try changed a chapter goal count.
 func _watch_reviews() -> void:
-	if GameState.reviews_done != _shown_reviews:
-		_shown_reviews = GameState.reviews_done
+	if GameState.reviews_passed != _shown_reviews:
+		_shown_reviews = GameState.reviews_passed
 		_rebuild_quest_rows()
 
 ## [{text, state}] for one quest. state: "todo", "done", "next" (the hand-in,
@@ -492,7 +492,7 @@ static func quest_requirements(quest_id: String) -> Array:
 			out.append(_count_line("Errands done", mini(ChapterGoals.errands_done(), errands), errands))
 		elif quest_id == goal["review_quest"]:
 			var reviews: int = int(goal["reviews"])
-			out.append(_count_line("Review tries", mini(GameState.reviews_done, reviews), reviews))
+			out.append(_count_line("Reviews passed", mini(GameState.reviews_passed, reviews), reviews))
 	return out
 
 static func _count_line(what: String, have: int, need: int) -> Dictionary:

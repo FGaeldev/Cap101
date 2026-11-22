@@ -26,6 +26,7 @@ const GOING_BAKHAWAN_FLAG: String = "chapter2_going_bakhawan"
 const GOING_HABOEAN_FLAG: String = "chapter3_going_haboean"
 const ARRIVED_FLAG: String = "chapter2_arrived_park"
 const ARRIVED_CATHEDRAL_FLAG: String = "chapter2_arrived_cathedral"
+const PRIEST_HEARD_FLAG: String = "culture_parish_priest_heard"
 const ROSE_SCENE: String = "res://scenes/entities/npc_Rose.tscn"
 const ROSE_ID: String = "Rose"
 ## "Help Rose find Nong Pedring" (q022): after scene 1 he waits on the south
@@ -154,8 +155,14 @@ func _set_rose_resume() -> void:
 	elif GameState.get_flag(ARRIVED_CATHEDRAL_FLAG) and not GameState.get_flag("seen_chapter2_scene4"):
 		if not GameState.get_flag("seen_chapter2_scene3"):
 			_place_lolas()
-		rose.cutscene_id = "chapter2_cathedral_talk"
 		TutorialManager.start("tour_roam")
-		rose.cutscene_seen_flag = "seen_chapter2_scene3"
+		# The tour's culture stop: Rose waits until the parish priest inside has
+		# told the player about the Santo Niño (culture_spots.json sets the flag).
+		if not GameState.get_flag(PRIEST_HEARD_FLAG) and not GameState.get_flag("seen_chapter2_scene3"):
+			rose.cutscene_id = "chapter2_cathedral_go_inside"
+			rose.cutscene_seen_flag = PRIEST_HEARD_FLAG
+		else:
+			rose.cutscene_id = "chapter2_cathedral_talk"
+			rose.cutscene_seen_flag = "seen_chapter2_scene3"
 	else:
 		rose.cutscene_id = ""

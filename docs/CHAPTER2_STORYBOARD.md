@@ -138,7 +138,8 @@ A shot-by-shot version of Chapter 2 for polishing the cutscenes and dialogue JSO
 | # | Picture (staging, camera) | Dialogue |
 | --- | --- | --- |
 | 3.1 | Fade in from the market side. Conga to `S3/Rose`. Camera tilts up the cathedral front, then settles. People going in and out. | *(narration)* A large church, strong walls, people going in and out — everyday life, not just for festivals. |
-| 3.2 | Rose stops. Player is free. | **Rose:** Take your time, balikbayan. Talk to me when you are ready. |
+| 3.2 | Rose stops. Player is free, and the cathedral door stays open (TourGuide free warp). | **Rose:** Go inside and find Father. Ask him about the Santo Niño, then come back out to me. (v1.1.5) |
+| 3.2a **NEW** | Inside: the Parish Priest (culture_parish_priest) tells the cathedral, the Santo Niño and the Ati-Atihan. Until he has (`culture_parish_priest_heard`), talking to Rose only repeats the nudge. | **Rose:** Not yet, balikbayan. Father's inside. Go ask him about the Santo Niño first. |
 | 3.3 | Player talks to Rose. Susan and Jonabel walk in together (parallel `move_npc`), Susan facing right, Jonabel left. | **Lola Susan:** *Iya kami kato tanan pirme ga simba. Inyong Lola Jonabel gid ro pinaka masueundun.* *(Back then, we all always went to church here. Your Lola Jonabel most of all, she was the most devout.)* (Corrected, confirmed) |
 | 3.4 | Jonabel laughs, swats Susan's arm. | **Lola Jonabel:** (laughs) Don't believe her, *Apo*. We were all equally naughty back then. |
 | 3.5 **NEW** | Silent beat. Jonabel looks up at the bell tower; bubble over her: bell. Camera holds on her for two seconds (pays off at 5.8, "how loud the bells are"). Susan notices and says nothing. | — |

@@ -19,9 +19,12 @@ const MORNING_HOUR: int = 6
 ## Per map (by scene file): cutscene home, and the places offered under "Somewhere
 ## else" once their flag is set (no flag = always).
 const STOPS: Dictionary = {
+	# The cathedral door (WarpArea7) stays open: the tour's cathedral stop sends
+	# the player inside to hear the parish priest while Rose waits outside.
 	"pastrana_outdoors.tscn": {
 		"home": "chapter2_walk_home_park",
 		"places": [{"label": "The market", "flag": "map_open_market", "cutscene": "chapter2_park_to_market"}],
+		"free_warps": ["WarpArea7"],
 	},
 	# Rose waits on the plaza; the visitor centre (and the trail behind it) stays open.
 	"bakhawan_outdoors.tscn": {

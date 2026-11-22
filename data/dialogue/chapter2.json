@@ -474,10 +474,19 @@
 	},
 	{
 	  "speaker": "Rose",
-	  "text": "Take your time, balikbayan. Talk to me when you are ready.",
+	  "text": "Go inside and find Father. Ask him about the Santo Niño, then come back out to me.",
 	  "next": null,
 	  "word_ids": [],
 	  "type": "dialogue"
+	}
+  ],
+  "scene_3_cathedral_go_inside": [
+	{
+	  "type": "dialogue",
+	  "speaker": "Rose",
+	  "text": "Not yet, balikbayan. Father's inside. Go ask him about the Santo Niño first.",
+	  "next": null,
+	  "word_ids": []
 	}
   ],
   "scene_3_cathedral_talk": [
