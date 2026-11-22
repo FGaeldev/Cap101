@@ -121,6 +121,21 @@
 			"One shift a day. Tap any Akeanon word you don't know yet in the Dictionary."
 		]
 	},
+	"plaza_directions": {
+		"title": "Help with Directions",
+		"goal": "Steer each visitor to the place they ask for, marked green on the map.",
+		"steps": [
+			"The visitor asks \"Gha, siin ro ...?\" (Where is ...?).",
+			"Tap Abante (forward) to start them walking. They keep walking until you give a new word.",
+			"Atras turns them back. Liko pa waea turns them left, liko pa tuo turns them right, from the way they face.",
+			"Get them to the green spot."
+		],
+		"tips": [
+			"A wall or the wrong exit gets the visitor lost.",
+			"₱3 for each visitor who arrives, and ₱3 more if all three do.",
+			"One round a day."
+		]
+	},
 	"word_search": {
 		"title": "Word Search",
 		"goal": "Find the hidden Akeanon words in the letter grid.",

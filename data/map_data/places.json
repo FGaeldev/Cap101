@@ -1,5 +1,6 @@
 {
 	"_about": "Places a passerby can give directions to (scripts/util/directions.gd), keyed by the warp's target_scene. label = the menu button; ask = the player's question (word_ids follow the \\ marked words in order). A warp whose target isn't listed here is never offered. \"draft\": true hides an entry until its Akeanon is reviewed.",
+	"_plaza_about": "plaza: the name a visitor uses in the plaza directions game (Gha, siin ro {name}?), reviewed 2026-11-22. Places without it are never asked for there.",
 	"_answers_about": "Pieces of the passerby's answer, joined in code: [ahead|back] [then] [left|right]. Turn-by-turn only, no near/far. Directions are from the way the player is facing. Same text/translation/word_ids format; a piece's first letter is capitalised when it starts the sentence.",
 	"answers": {
 		"ahead": {"text": "\\Diretso", "translation": "Go straight", "word_ids": ["w272"]},
@@ -11,14 +12,17 @@
 	"places": {
 		"res://scenes/world/chapter2/aklan_home_outdoors.tscn": {
 			"label": "Lola Jonabel's house",
+			"plaza": {"text": "\\baeay \\ni Lola Jonabel", "translation": "Lola Jonabel's house", "word_ids": ["w027", "w338"]},
 			"ask": {"text": "\\Siin \\ro \\baeay \\ni Lola Jonabel?", "translation": "Where is Lola Jonabel's house?", "word_ids": ["w214", "w202", "w027", "w338"]}
 		},
 		"res://scenes/world/chapter1/airport_ourdoors.tscn": {
 			"label": "The airport",
+			"plaza": {"text": "airport", "translation": "the airport", "word_ids": []},
 			"ask": {"text": "\\Siin \\ro airport?", "translation": "Where is the airport?", "word_ids": ["w214", "w202"]}
 		},
 		"res://scenes/world/market/market_outdoors.tscn": {
 			"label": "The market",
+			"plaza": {"text": "\\tindahan", "translation": "the market", "word_ids": ["w295"]},
 			"ask": {"text": "\\Siin \\ro \\tindahan?", "translation": "Where is the market?", "word_ids": ["w214", "w202", "w295"]}
 		},
 		"res://scenes/world/haboean/habuean_outdoors.tscn": {
@@ -31,10 +35,12 @@
 		},
 		"res://scenes/world/chapter2/cathedral_indoors.tscn": {
 			"label": "The cathedral",
+			"plaza": {"text": "\\simbahan", "translation": "the church", "word_ids": ["w372"]},
 			"ask": {"text": "\\Siin \\ro cathedral?", "translation": "Where is the cathedral?", "word_ids": ["w214", "w202"]}
 		},
 		"res://scenes/world/chapter2/souvenir_shop.tscn": {
 			"label": "The souvenir shop",
+			"plaza": {"text": "souvenir shop", "translation": "the souvenir shop", "word_ids": []},
 			"ask": {"text": "\\Siin \\ro souvenir shop?", "translation": "Where is the souvenir shop?", "word_ids": ["w214", "w202"]}
 		},
 		"res://scenes/world/chapter2/pastrana_outdoors.tscn": {

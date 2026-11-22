@@ -2410,6 +2410,8 @@
     {"id": "w367", "akeanon": "liniwan", "category": "Noun (n)", "area": "chapter3", "gloss": "fine piña fiber, drawn out with a coconut shell", "verified": false, "source": "Culture lines review 2026-11-20; craft sense from UNESCO ICH 01564 coverage (Inquirer, Philstar). Not in the Zorc dictionary"},
     {"id": "w368", "akeanon": "tig pila", "category": "Phrase", "area": "chapter2", "gloss": "how much each? (asking the price per piece)", "verified": true, "source": "Minigame line review with user 2026-11-22"},
     {"id": "w369", "akeanon": "bato", "category": "Noun (n)", "area": "chapter2", "gloss": "piece (counting things: tatlong bato = three pieces)", "verified": true, "source": "Minigame line review with user 2026-11-22"},
-    {"id": "w370", "akeanon": "pilang bato", "category": "Phrase", "area": "chapter2", "gloss": "how many pieces?", "verified": true, "source": "Minigame line review with user 2026-11-22"}
+    {"id": "w370", "akeanon": "pilang bato", "category": "Phrase", "area": "chapter2", "gloss": "how many pieces?", "verified": true, "source": "Minigame line review with user 2026-11-22"},
+    {"id": "w371", "akeanon": "abante", "category": "Verb (v)", "area": "chapter2", "gloss": "forward, go forward", "verified": true, "source": "Minigame line review with user 2026-11-22"},
+    {"id": "w372", "akeanon": "simbahan", "category": "Noun (n)", "area": "chapter2", "gloss": "church", "verified": true, "source": "Minigame line review with user 2026-11-22"}
   ]
 }

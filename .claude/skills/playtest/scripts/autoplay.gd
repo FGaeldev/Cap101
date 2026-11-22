@@ -89,7 +89,8 @@ var _tried := {}
 ## Plays per cutscene id, never reset: a talk cutscene that keeps replaying (Rose's
 ## "go inside and ask Father first") stops outranking exploring after 3 plays.
 var _cutscene_plays := {}
-## Picks "Help at the stall" once, the first time a vendor offers it (stall_helper.gd).
+## Picks the first minigame offer in an NPC menu once ("Help at the stall",
+## "Help with directions"), so the game-launch flow is played.
 var _stall_tried := false
 var _touched_objects := {}
 var _choice_seen := {}
@@ -600,8 +601,8 @@ func _drive() -> void:
 			pick = "Review"
 		if not _stall_tried:
 			for b in DUI._npc_menu.get_children():
-				if b is Button and b.text == "Help at the stall" and b.visible:
-					pick = "Help at the stall"
+				if b is Button and b.text in ["Help at the stall", "Help with directions"] and b.visible:
+					pick = b.text
 					_stall_tried = true
 		var who: String = DUI._npc_menu.get_node("NpcName").text if DUI._npc_menu.has_node("NpcName") else "?"
 		var btn: Button = null
