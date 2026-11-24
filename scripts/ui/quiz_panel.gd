@@ -60,7 +60,7 @@ const DEFAULT_PASS_RATIO: float = 0.5
 ## Option text source when the line sets no "choice_display".
 const DEFAULT_CHOICE_DISPLAY: String = "gloss"
 ## Shown when a word has no gloss yet (matches Dictionary tab fallback).
-const GLOSS_FALLBACK: String = "(meaning pending verification)"
+const GLOSS_FALLBACK: String = "—"
 ## Option grid columns.
 const CHOICE_COLUMNS: int = 2
 ## Option grid columns above MAX_OPTIONS, so all rows fit the panel height.

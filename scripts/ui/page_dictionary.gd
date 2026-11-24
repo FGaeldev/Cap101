@@ -110,8 +110,11 @@ func _passes_filter(word_data: Dictionary) -> bool:
 		return false
 	if _filter_query.is_empty():
 		return true
+	# Either side matches: the Akeanon word (accents optional) or its English meaning.
 	var akeanon: String = word_data.get("akeanon", "").to_lower()
-	return akeanon.contains(_filter_query)
+	if akeanon.contains(_filter_query) or WordBank.plain_form(akeanon).contains(WordBank.plain_form(_filter_query)):
+		return true
+	return str(word_data.get("gloss", "")).to_lower().contains(_filter_query)
 
 func _add_entry(word_id: String, word_data: Dictionary) -> void:
 	# Row 1: [word, tag, encounters]
@@ -150,7 +153,7 @@ func _add_entry(word_id: String, word_data: Dictionary) -> void:
 	# in word_bank.json. Falls back to placeholder until verified.
 	var meaning_label := Label.new()
 	var gloss: String = word_data.get("gloss", "")
-	meaning_label.text = gloss if not gloss.is_empty() else "(meaning pending verification)"
+	meaning_label.text = gloss if not gloss.is_empty() else "—"
 	meaning_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 	meaning_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
 	meaning_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

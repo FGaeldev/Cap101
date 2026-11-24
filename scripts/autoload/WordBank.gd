@@ -108,19 +108,25 @@ static func plain_form(form: String) -> String:
 
 ## Converts abbreviated and expanded part-of-speech labels to stable filter values.
 func _normalize_category(raw_category: String) -> String:
-	var category := raw_category.strip_edges().to_lower()
+	# "conj." and "Conjunction (conj.)" are one category: drop the dot first.
+	var category := raw_category.strip_edges().to_lower().trim_suffix(".")
 	if category.is_empty():
 		return "uncategorized"
 	if category.contains("proper noun"):
 		return "proper noun"
-	if category.contains("noun") or category == "n":
-		return "noun"
-	if category.contains("verb") or category == "v":
-		return "verb"
-	if category.contains("adjective") or category == "adj":
-		return "adjective"
 	if category.contains("pronoun") or category == "pro":
 		return "pronoun"
+	if category.contains("noun") or category == "n":
+		return "noun"
+	# Before "verb": "adverb" contains it.
+	if category.contains("adverb") or category == "adv":
+		return "adverb"
+	if category.contains("verb") or category == "v":
+		return "verb"
+	if category.contains("topic marker") or category == "tm" or category == "am":
+		return "marker"
+	if category.contains("adjective") or category == "adj":
+		return "adjective"
 	if category.contains("conjunction") or category == "conj":
 		return "conjunction"
 	if category.contains("negative") or category == "neg":

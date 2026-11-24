@@ -71,6 +71,9 @@ func _on_interacted(_interactor: Node) -> void:
 			extras.append({"id": "stall", "label": "Help at the stall"})
 	if activity == "plaza_directions" and not PlazaGame.done_today():
 		extras.append({"id": "plaza_directions", "label": "Help with directions"})
+	# Out with Rose and nothing required here: she can take the player elsewhere.
+	if npc_id == TourGuide.ROSE_ID and TourGuide.can_offer_trip(self):
+		extras.append({"id": "go_somewhere", "label": "Let's go somewhere"})
 	DialogueUI.show_npc_interaction_menu(
 		npc_id if not npc_id.is_empty() else name,
 		Callable(self, "_on_interaction_menu_choice"),
@@ -91,6 +94,8 @@ func _on_interaction_menu_choice(choice: String) -> void:
 			StallHelper.start(self)
 		"plaza_directions":
 			PlazaGame.start(self)
+		"go_somewhere":
+			TourGuide.ask(self)
 		"goodbye":
 			return
 

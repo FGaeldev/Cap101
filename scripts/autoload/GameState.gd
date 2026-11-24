@@ -410,7 +410,7 @@ func slot_summary(slot: int) -> Dictionary:
 			chapter = n
 			break
 	return {"exists": true, "name": str(data.get("player_name", "")), "chapter": chapter,
-		"saved": FileAccess.get_modified_time(path)}
+		"saved": FileAccess.get_modified_time(path), "version": str(data.get("game_version", ""))}
 
 ## Removes a slot's save and backup.
 func delete_slot(slot: int) -> void:
@@ -555,7 +555,11 @@ func save_game() -> bool:
 		"idle_steps": idle_steps,
 		"mass_invite_date": mass_invite_date,
 		"event_reminder_date": event_reminder_date,
-		"puzzle_progress": puzzle_progress
+		"puzzle_progress": puzzle_progress,
+		# Which build wrote this save (project.godot version), for the slot
+		# picker and load-time migrations (_migrate_save).
+		"game_version": game_version(),
+		"save_format": SAVE_FORMAT,
 	}
 	var temp_path := _save_temp_path()
 	var file := FileAccess.open(temp_path, FileAccess.WRITE)
@@ -606,8 +610,27 @@ func _read_save(path: String) -> Variant:
 	file.close()
 	return data if data is Dictionary and data.has("current_level_path") else null
 
-## Loads the save, falling back to the backup. False if neither can be read,
-## and then nothing in the current state has been touched.
+## Save layout version. Bump it when a change needs old saves converted, and add
+## the conversion to _migrate_save() under "if from_format < N".
+## 1 = v1.1.6, the first save to carry game_version/save_format (older = 0).
+const SAVE_FORMAT: int = 1
+
+## This build's version, e.g. "1.1.6" (project.godot application/config/version).
+static func game_version() -> String:
+	return str(ProjectSettings.get_setting("application/config/version", ""))
+
+## Build version the loaded save was written by ("" = before v1.1.6).
+var loaded_save_version: String = ""
+
+## Brings a save written by an older build up to date. Runs on every load;
+## each step only touches saves older than the format that needed it.
+func _migrate_save(from_format: int) -> void:
+	_migrate_flags()
+	if from_format != SAVE_FORMAT or loaded_save_version != game_version():
+		print("GameState: save from %s (format %d) loaded in %s (format %d)" % [
+			loaded_save_version if not loaded_save_version.is_empty() else "before 1.1.6",
+			from_format, game_version(), SAVE_FORMAT])
+
 ## One-time fixes for flags added after a save was made. Safe to run on every load.
 func _migrate_flags() -> void:
 	# chapter2_mass_attended (added 2026-11-16) is what lets Chapter 2 end. Older
@@ -672,7 +695,8 @@ func load_game() -> bool:
 	mass_invite_date = data.get("mass_invite_date", 0)  # additive field, old saves -> 0
 	event_reminder_date = data.get("event_reminder_date", 0)  # additive field, old saves -> 0
 	puzzle_progress = data.get("puzzle_progress", {})  # additive field, old saves -> {}
-	_migrate_flags()
+	loaded_save_version = str(data.get("game_version", ""))  # additive field, old saves -> ""
+	_migrate_save(int(data.get("save_format", 0)))
 	# QuestManager built its active list at boot, before flags/exposures were
 	# loaded -- re-scan so flag-gated quests (requires_flag) show after Continue.
 	QuestManager.refresh_active_quests()

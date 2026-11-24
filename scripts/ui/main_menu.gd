@@ -26,6 +26,7 @@ func _ready() -> void:
 		InstructionsPanel.open(get_tree())
 	)
 	settings_btn.pressed.connect(_on_settings)
+	_add_credits_button()
 	quit_btn.pressed.connect(func():
 		AudioManager.play_sfx("menu_click")
 		get_tree().quit()
@@ -150,6 +151,9 @@ func _show_slot_list() -> void:
 		if info.get("exists", false):
 			var who: String = info["name"] if not str(info["name"]).is_empty() else "No name"
 			text = "Slot %d   ·   %s\nChapter %d   ·   %s" % [s, who, int(info["chapter"]), _saved_text(int(info["saved"]))]
+			# Which build last saved it; older builds didn't record one.
+			var ver: String = str(info.get("version", ""))
+			text += "   ·   v%s" % ver if not ver.is_empty() else "   ·   older version"
 		var pick := _slot_button(text, "secondary", _on_slot_picked.bind(s, bool(info.get("exists", false))))
 		pick.custom_minimum_size = Vector2(0, 56)
 		pick.disabled = _slots_mode == "load" and not info.get("exists", false)
@@ -205,12 +209,87 @@ func _saved_text(unix: int) -> String:
 	var h: int = int(d["hour"])
 	return "%s %d, %d:%02d %s" % [months[int(d["month"]) - 1], int(d["day"]), 12 if h % 12 == 0 else h % 12, int(d["minute"]), "AM" if h < 12 else "PM"]
 
+# --- credits / about -------------------------------------------------------------
+# Text lives in data/credits.json so the team can edit it without touching code.
+
+const CREDITS_PATH := "res://data/credits.json"
+var _credits_overlay: Control = null
+
+## "Credits" sits above Exit, styled like its neighbours.
+func _add_credits_button() -> void:
+	var btn := Button.new()
+	btn.name = "CreditsBtn"
+	btn.text = "Credits"
+	btn.custom_minimum_size = settings_btn.custom_minimum_size
+	_style_btn(btn, "secondary")
+	quit_btn.get_parent().add_child(btn)
+	quit_btn.get_parent().move_child(btn, quit_btn.get_index())
+	btn.pressed.connect(func():
+		AudioManager.play_sfx("menu_click")
+		_open_credits())
+
+func _open_credits() -> void:
+	if _credits_overlay != null:
+		_credits_overlay.visible = true
+		return
+	var data: Variant = JSON.parse_string(FileAccess.get_file_as_string(CREDITS_PATH))
+	if not data is Dictionary:
+		push_error("MainMenu: %s is missing or malformed" % CREDITS_PATH)
+		return
+	_credits_overlay = Control.new()
+	_credits_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_credits_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	var dim := ColorRect.new()
+	dim.color = Color(0, 0, 0, 0.55)
+	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_credits_overlay.add_child(dim)
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_credits_overlay.add_child(center)
+	var panel := PanelContainer.new()
+	panel.add_theme_stylebox_override("panel", UIThemeApplier.make_panel_style(18))
+	panel.custom_minimum_size = Vector2(520, 0)
+	center.add_child(panel)
+	var outer := VBoxContainer.new()
+	outer.add_theme_constant_override("separation", 8)
+	panel.add_child(outer)
+	outer.add_child(_slot_label(str(title_label.text), UIThemeApplier.FONT_SIZE_L, UIThemeApplier.TEXT_EMPHASIS))
+	outer.add_child(_slot_label("v" + GameState.game_version(), UIThemeApplier.FONT_SIZE_XS, UIThemeApplier.TEXT_DISABLED))
+	var scroll := ScrollContainer.new()
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.custom_minimum_size = Vector2(0, get_viewport_rect().size.y * 0.55)
+	outer.add_child(scroll)
+	var body := VBoxContainer.new()
+	body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	body.add_theme_constant_override("separation", 4)
+	scroll.add_child(body)
+	body.add_child(_slot_label(str(data.get("about", "")), UIThemeApplier.FONT_SIZE_S, UIThemeApplier.TEXT_DEFAULT))
+	for section: Dictionary in data.get("sections", []):
+		var heading := _slot_label(str(section.get("title", "")), UIThemeApplier.FONT_SIZE_M, UIThemeApplier.TEXT_EMPHASIS)
+		heading.custom_minimum_size = Vector2(0, 32)
+		heading.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
+		body.add_child(heading)
+		for line in section.get("lines", []):
+			body.add_child(_slot_label(str(line), UIThemeApplier.FONT_SIZE_S, UIThemeApplier.TEXT_DEFAULT))
+	var back := _slot_button("Back", "secondary", _close_credits)
+	outer.add_child(back)
+	add_child(_credits_overlay)
+	back.grab_focus()
+
+func _close_credits() -> void:
+	if _credits_overlay:
+		_credits_overlay.visible = false
+
 func _on_settings() -> void:
 	AudioManager.play_sfx("menu_click")
 	BookUI.open("settings")
 	
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
+		if _credits_overlay and _credits_overlay.visible:
+			_close_credits()
+			get_viewport().set_input_as_handled()
+			return
 		if _slots_overlay and _slots_overlay.visible:
 			_close_slots()
 			get_viewport().set_input_as_handled()
