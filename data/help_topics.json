@@ -9,7 +9,7 @@
 			"The next question opens by itself. The count at the top left shows how far along you are."
 		],
 		"tips": [
-			"You usually need about half of the answers right to pass.",
+			"You need about seven in ten answers right to pass.",
 			"Some questions show a color and ask for its Akeanon word. Others name a word and ask you to tap its color.",
 			"In Color Blind Mode, each color also shows its name. Turn it on under Accessibility in Settings.",
 			"Right answers raise how well you know a word, and wrong answers lower it. Words you know less come up more often."
@@ -50,7 +50,7 @@
 		"steps": [
 			"Read the question at the top. Some ask what an Akeanon word means, others ask for the Akeanon word.",
 			"Each fish carries an answer on a little board. Tap the fish with the right one (or press 1 to 4, top to bottom).",
-			"A right answer catches the fish, adds points and 2 seconds, and brings the next question.",
+			"A right answer catches the fish, adds points and half a second, and brings the next question.",
 			"A wrong answer takes 3 seconds and shows the right fish, then a new question comes.",
 			"When time runs out you see your score and the words to remember."
 		],
@@ -86,7 +86,7 @@
 			"Fill in the whole word before the figure is finished."
 		],
 		"tips": [
-			"You can usually make 6 wrong guesses.",
+			"You can usually make 4 wrong guesses.",
 			"If you run out of guesses, the word is shown so you can learn it.",
 			"Winning raises how well you know the word, and losing lowers it."
 		]

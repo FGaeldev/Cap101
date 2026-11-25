@@ -37,6 +37,8 @@ extends CharacterBody2D
 const SideQuests := preload("res://scripts/util/side_quests.gd")
 const StallHelper := preload("res://scripts/util/stall_helper.gd")
 const PlazaGame := preload("res://scripts/util/plaza_game.gd")
+const Lessons := preload("res://scripts/util/lessons.gd")
+const FirstPlays := preload("res://scripts/util/first_plays.gd")
 
 @onready var interactable: InteractableComponent = $InteractableComponent
 @onready var dialogue: DialogueComponent = $DialogueComponent
@@ -46,6 +48,24 @@ func _ready() -> void:
 	interactable.interacted.connect(_on_interacted)
 	dialogue.dialogue_ended.connect(_on_dialogue_ended)
 	call_deferred("_register")
+
+## True when talking to this NPC now gets the player something new: a talk
+## cutscene or story/culture lines not heard yet, an errand to take or hand in,
+## today's activity, or (Rose) a lesson to retake. Comp_Interactable shows the
+## marker for it (v1.1.6: markers on people tied to quests or culture).
+func wants_marker() -> bool:
+	if not unlock_flag.is_empty() and not GameState.get_flag(unlock_flag):
+		return false
+	if npc_id == TourGuide.ROSE_ID and not GameState.missed_lessons.is_empty():
+		return true
+	if not cutscene_id.is_empty() and not cutscene_seen_flag.is_empty() and not GameState.get_flag(cutscene_seen_flag):
+		return true
+	if not story_done_flag.is_empty() and not GameState.get_flag(story_done_flag) \
+			and not ChapterLoader.get_scene_lines(dialogue_chapter, dialogue_scene_key).is_empty():
+		return true
+	if not npc_id.is_empty() and SideQuests.has_something(npc_id):
+		return true
+	return activity == "plaza_directions" and not PlazaGame.done_today()
 
 func _on_interacted(_interactor: Node) -> void:
 	if not unlock_flag.is_empty() and not GameState.get_flag(unlock_flag):
@@ -71,6 +91,12 @@ func _on_interacted(_interactor: Node) -> void:
 			extras.append({"id": "stall", "label": "Help at the stall"})
 	if activity == "plaza_directions" and not PlazaGame.done_today():
 		extras.append({"id": "plaza_directions", "label": "Help with directions"})
+	# Out with Rose and nothing required here: she can take the player elsewhere.
+	# Story lessons failed earlier (lessons.gd): Rose goes over them again.
+	if npc_id == TourGuide.ROSE_ID and not GameState.missed_lessons.is_empty():
+		extras.append({"id": "retake", "label": Lessons.menu_label()})
+	if npc_id == TourGuide.ROSE_ID and TourGuide.can_offer_trip(self):
+		extras.append({"id": "go_somewhere", "label": "Let's go somewhere"})
 	DialogueUI.show_npc_interaction_menu(
 		npc_id if not npc_id.is_empty() else name,
 		Callable(self, "_on_interaction_menu_choice"),
@@ -91,6 +117,10 @@ func _on_interaction_menu_choice(choice: String) -> void:
 			StallHelper.start(self)
 		"plaza_directions":
 			PlazaGame.start(self)
+		"retake":
+			Lessons.retake(self)
+		"go_somewhere":
+			TourGuide.ask(self)
 		"goodbye":
 			return
 
@@ -119,3 +149,5 @@ func _on_dialogue_ended() -> void:
 func _register() -> void:
 	if not actor_id.is_empty():
 		CutsceneManager.register_actor(actor_id, self)
+	# A world minigame this NPC runs starts by itself the first time (first_plays.gd).
+	FirstPlays.maybe_start(self)

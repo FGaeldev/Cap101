@@ -4,6 +4,9 @@ extends Node
 const CultureSpots := preload("res://scripts/util/culture_spots.gd")
 const ChapterGoals := preload("res://scripts/util/chapter_goals.gd")
 const KaliboGoals := preload("res://scripts/util/kalibo_goals.gd")
+const OpeningHours := preload("res://scripts/util/opening_hours.gd")
+const Objective := preload("res://scripts/util/objective.gd")
+const ObjectiveArrow := preload("res://scripts/ui/objective_arrow.gd")
 
 # Game.gd
 ## Player is now a persistent sibling of LevelContainer (not baked into each
@@ -88,6 +91,12 @@ func _ready() -> void:
 	# Between-chapter goals (chapter_goals.gd): re-check on any story flag, a frame
 	# later so a quest the flag just unlocked is already active.
 	GameState.flag_changed.connect(func(_flag: String, _value: bool): ChapterGoals.check.call_deferred())
+	DayNightManager.hour_changed.connect(_on_hour_for_closing)
+	# Arrow to a "go there yourself" goal (objective.gd), over the world, under menus.
+	var arrow := ObjectiveArrow.new()
+	arrow.name = "ObjectiveArrow"
+	$UILayer.add_child(arrow)
+	$UILayer.move_child(arrow, 0)
 	ChapterGoals.check.call_deferred()
 	# After Chapter 4 (kalibo_goals.gd): counts change without a flag (a word
 	# learned, a heart), so check every couple of seconds; it's cheap.
@@ -134,6 +143,20 @@ func _process(_delta: float) -> void:
 		_update_camera_limits()
 
 
+## At closing time, a player still inside a shop or public building is told to
+## head home and sleep (opening_hours.gd). Once per night, only when free to talk.
+func _on_hour_for_closing(hour: int) -> void:
+	if float(hour) != OpeningHours.CLOSE_HOUR or not OpeningHours.is_establishment(GameState.current_level_path):
+		return
+	if CutsceneManager.is_playing() or DialogueUI.is_active() or MapManager.is_transitioning or GameState.dev_mode:
+		return
+	var remark := DialogueComponent.new()
+	remark.dialogue_lines = [{"speaker": "Player", "text": OpeningHours.CLOSING_MESSAGE, "next": null}]
+	add_child(remark)
+	remark.dialogue_ended.connect(remark.queue_free)
+	remark.start_dialogue()
+
+
 func _on_ui_scale_changed(previous: float, current: float) -> void:
 	camera.zoom *= previous / current
 
@@ -178,6 +201,7 @@ func load_level(path: String, spawn_id: String = "DefaultSpawn") -> void:
 	player.reparent(level, false)
 	player = player.get_parent().get_node("Player")
 	_place_player_at_spawn(level, spawn_id)
+	Objective.on_level_loaded(path)
 	_resume_exit_spot(path)
 	# Per-level night strength (metadata on the level root, see DayNightManager).
 	DayNightManager.set_level_strength(float(level.get_meta("day_night_strength", 1.0)))

@@ -21,15 +21,21 @@ const MORNING_HOUR: int = 6
 const STOPS: Dictionary = {
 	# The cathedral door (WarpArea7) stays open: the tour's cathedral stop sends
 	# the player inside to hear the parish priest while Rose waits outside.
+	# The souvenir shop (WarpArea8) opens once the first tour's stop in it is done;
+	# before that, walking in would start the tour's practice round early.
 	"pastrana_outdoors.tscn": {
 		"home": "chapter2_walk_home_park",
 		"places": [{"label": "The market", "flag": "map_open_market", "cutscene": "chapter2_park_to_market"}],
 		"free_warps": ["WarpArea7"],
+		"free_warps_after": {"WarpArea8": "chapter2_tour_done"},
 	},
 	# Rose waits on the plaza; the visitor centre (and the trail behind it) stays open.
+	# "go" places have no walk cutscene: a short trip straight to that map (_go).
 	"bakhawan_outdoors.tscn": {
 		"home": "chapter2_walk_home_bakhawan",
-		"places": [],
+		"places": [{"label": "The park", "flag": "", "unless": "chapter4_going_bakhawan", "go": {
+			"to": "res://scenes/world/chapter2/pastrana_outdoors.tscn", "spawn": "FromBakhawan",
+			"flags": {"chapter2_going_bakhawan": false, "chapter2_at_bakhawan": false}}}],
 		"free_warps": ["WarpArea"],
 	},
 	"market_indoors.tscn": {
@@ -40,12 +46,15 @@ const STOPS: Dictionary = {
 	# doors stay open ("free_warps"); only the gate back to Pastrana asks.
 	"habuean_outdoors.tscn": {
 		"home": "chapter3_revisit_home",
-		"places": [],
+		"places": [{"label": "The park", "flag": "", "go": {
+			"to": "res://scenes/world/chapter2/pastrana_outdoors.tscn", "spawn": "FromHabuean",
+			"flags": {"chapter3_going_haboean": false, "chapter3_at_haboean": false}}}],
 		"free_warps": ["ToGallery", "ToCafe"],
 	},
 }
 
 const ActorPath := preload("res://scripts/util/actor_path.gd")
+const Objective := preload("res://scripts/util/objective.gd")
 
 func _ready() -> void:
 	DayNightManager.hour_changed.connect(_on_hour_changed)
@@ -54,7 +63,18 @@ func _ready() -> void:
 func intercept(warp: Node, player: Node2D) -> bool:
 	if GameState.dev_mode or _rose_nearby(player) == null:
 		return false
-	if _stop_for(_rose_nearby(player)).get("free_warps", []).has(String(warp.name)):
+	# A "go there yourself" goal (objective.gd): its door is free, the others
+	# get Rose pointing the way.
+	if Objective.is_target_warp(warp):
+		return false
+	if Objective.is_here(GameState.current_level_path):
+		_redirect(_rose_nearby(player), player, warp)
+		return true
+	var stop: Dictionary = _stop_for(_rose_nearby(player))
+	if stop.get("free_warps", []).has(String(warp.name)):
+		return false
+	var opens_after: String = stop.get("free_warps_after", {}).get(String(warp.name), "")
+	if not opens_after.is_empty() and GameState.get_flag(opens_after):
 		return false
 	if _is_waiting_to_resume(_rose_nearby(player)):
 		_tell_to_stay(_rose_nearby(player), player, warp)
@@ -143,6 +163,18 @@ func _tell_to_stay(rose: Node2D, player: Node2D, warp: Node) -> void:
 	dialogue.dialogue_ended.connect(dialogue.queue_free)
 	dialogue.start_dialogue()
 
+## Another door while a goal waits here: Rose points the way (the arrow shows it).
+func _redirect(rose: Node2D, player: Node2D, warp: Node) -> void:
+	MapManager.is_transitioning = true
+	warp._walk_player_back(player)
+	await get_tree().create_timer(player.step_time).timeout
+	MapManager.is_transitioning = false
+	var dialogue := DialogueComponent.new()
+	dialogue.dialogue_lines = [{"speaker": "Rose", "text": "Not that way, balikbayan. %s first. Follow the arrow." % Objective.label(), "next": null}]
+	rose.add_child(dialogue)
+	dialogue.dialogue_ended.connect(dialogue.queue_free)
+	dialogue.start_dialogue()
+
 func _play_home(rose: Node2D) -> void:
 	for flag: String in ARRIVAL_FLAGS:
 		GameState.set_flag(flag, false)
@@ -152,9 +184,21 @@ func _play_home(rose: Node2D) -> void:
 
 ## Choices jump past the last line to report the answer (same trick as
 ## sleep_bed.gd): dialogue_lines.size() + choice index. -1 stays where they are.
+## True when Rose's talk menu should offer "Let's go somewhere": out with her
+## in a map she guides, and no required stop of the trip is waiting on her.
+func can_offer_trip(rose: Node2D) -> bool:
+	return GameState.get_flag(WITH_ROSE_FLAG) and _rose_nearby(rose) == rose \
+			and not _stop_for(rose).is_empty() and not _is_waiting_to_resume(rose)
+
+## The "where to?" choices, from Rose's talk menu (npc_generic.gd).
+func ask(rose: Node2D) -> void:
+	_ask(rose)
+
 func _ask(rose: Node2D) -> void:
 	var places: Array[Dictionary] = []
 	for place: Dictionary in _stop_for(rose).get("places", []):
+		if not str(place.get("unless", "")).is_empty() and GameState.get_flag(place["unless"]):
+			continue
 		if place["flag"].is_empty() or GameState.get_flag(place["flag"]):
 			places.append(place)
 	var home_choice: int = 2
@@ -182,8 +226,31 @@ func _ask(rose: Node2D) -> void:
 		if answer == home_choice:
 			_walk_or_ride(rose, _stop_for(rose).get("home", ""))
 		elif answer > home_choice:
-			_walk_or_ride(rose, places[answer - home_choice - 1]["cutscene"]))
+			var place: Dictionary = places[answer - home_choice - 1]
+			if place.has("go"):
+				_go(place["go"])
+			else:
+				_walk_or_ride(rose, place["cutscene"]))
 	dialogue.start_dialogue()
+
+## Minutes a direct trip ("go" place) takes on the clock.
+const GO_MINUTES: float = 20.0
+## Set on every direct trip to the park: Rose and the player just standing there
+## (pastrana_outdoors.gd then plays no leg and places Rose).
+const GO_FLAGS: Dictionary = {"chapter2_left_home": true, "chapter2_walking_home": false,
+		"chapter2_from_market": false, "chapter2_at_park": true}
+
+## A place with no walk cutscene: fade, set the trip flags, and load the map at
+## its spawn. Rose stays with the player (WITH_ROSE_FLAG); the map places her.
+func _go(go: Dictionary) -> void:
+	for flag: String in ARRIVAL_FLAGS:
+		GameState.set_flag(flag, false)
+	for flag: String in GO_FLAGS:
+		GameState.set_flag(flag, bool(GO_FLAGS[flag]))
+	var extra: Dictionary = go.get("flags", {})
+	for flag: String in extra:
+		GameState.set_flag(flag, bool(extra[flag]))
+	MapManager.warp_to_scene(str(go["to"]), str(go.get("spawn", "DefaultSpawn")), GO_MINUTES)
 
 # --- riding instead of walking (v1.1.3 playtest: "can't ride with someone") --
 #

@@ -106,6 +106,61 @@
 				"requires_flag": "side_qs005_accepted",
 				"unless_flag": "side_qs005_done",
 				"text": "Rose's notebook! Every page is full of Akeanon words, with little drawings next to them."
+			},
+			{
+				"id": "plaza_litter_1",
+				"item": "plaza_litter",
+				"at": [
+					832,
+					560
+				],
+				"requires_flag": "side_qs012_accepted",
+				"unless_flag": "side_qs012_done",
+				"text": "A crumpled candy wrapper by the bench."
+			},
+			{
+				"id": "plaza_litter_2",
+				"item": "plaza_litter",
+				"at": [
+					1104,
+					592
+				],
+				"requires_flag": "side_qs012_accepted",
+				"unless_flag": "side_qs012_done",
+				"text": "A plastic cup someone left behind."
+			},
+			{
+				"id": "plaza_litter_3",
+				"item": "plaza_litter",
+				"at": [
+					720,
+					880
+				],
+				"requires_flag": "side_qs012_accepted",
+				"unless_flag": "side_qs012_done",
+				"text": "A soggy paper bag. Into the bag it goes."
+			},
+			{
+				"id": "plaza_litter_4",
+				"item": "plaza_litter",
+				"at": [
+					1136,
+					960
+				],
+				"requires_flag": "side_qs012_accepted",
+				"unless_flag": "side_qs012_done",
+				"text": "A bottle cap, half buried in the grass."
+			},
+			{
+				"id": "plaza_litter_5",
+				"item": "plaza_litter",
+				"at": [
+					896,
+					1104
+				],
+				"requires_flag": "side_qs012_accepted",
+				"unless_flag": "side_qs012_done",
+				"text": "An empty chip bag, caught on a planter."
 			}
 		]
 	},

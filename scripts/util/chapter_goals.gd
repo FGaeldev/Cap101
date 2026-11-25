@@ -26,6 +26,11 @@ static func errands_done() -> int:
 			count += 1
 	return count
 
+## The review goal also needs every missed story lesson retaken (lessons.gd,
+## v1.1.6): failing a story minigame holds the next chapter back.
+static func reviews_met(goal: Dictionary) -> bool:
+	return GameState.reviews_passed >= int(goal["reviews"]) and GameState.missed_lessons.is_empty()
+
 ## True for the quests that show a chapter's goals (q023-q026).
 static func is_goal_quest(quest_id: String) -> bool:
 	for goal: Dictionary in GOALS.values():
@@ -38,7 +43,7 @@ static func met(chapter_id: String) -> bool:
 	var goal: Dictionary = GOALS.get(chapter_id, {})
 	if goal.is_empty():
 		return true
-	return errands_done() >= int(goal["errands"]) and GameState.reviews_passed >= int(goal["reviews"])
+	return errands_done() >= int(goal["errands"]) and reviews_met(goal)
 
 ## Set while check() runs: completing a quest sets its flag, and flag changes
 ## call check() again (Game.gd) before the quest counts as completed.
@@ -59,7 +64,7 @@ static func _check_all() -> void:
 			continue
 		if errands_done() >= int(goal["errands"]):
 			_complete(str(goal["errand_quest"]))
-		if GameState.reviews_passed >= int(goal["reviews"]):
+		if reviews_met(goal):
 			_complete(str(goal["review_quest"]))
 
 static func _complete(quest_id: String) -> void:

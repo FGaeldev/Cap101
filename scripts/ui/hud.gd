@@ -500,6 +500,8 @@ static func quest_requirements(quest_id: String) -> Array:
 		elif quest_id == goal["review_quest"]:
 			var reviews: int = int(goal["reviews"])
 			out.append(_count_line("Reviews passed", mini(GameState.reviews_passed, reviews), reviews))
+			if not GameState.missed_lessons.is_empty():
+				out.append({"text": "Lessons to retake with Rose: %d" % GameState.missed_lessons.size(), "state": "todo"})
 	return out
 
 static func _count_line(what: String, have: int, need: int) -> Dictionary:

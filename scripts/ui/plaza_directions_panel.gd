@@ -281,8 +281,9 @@ func _fit_map() -> void:
 	var view_h: float = maxf(get_viewport_rect().size.y - 24.0, 120.0)
 	var world_size := Vector2(_bounds.size * TILE)
 	var s: float = view_h / world_size.y
+	# The container stretches the viewport to this size itself (stretch = true);
+	# setting _viewport.size too only drew an engine warning.
 	_map_box.custom_minimum_size = Vector2(world_size.x * s, view_h)
-	_viewport.size = Vector2i(world_size * s)
 	_world.scale = Vector2(s, s)
 	_world.position = -Vector2(_bounds.position * TILE) * s
 

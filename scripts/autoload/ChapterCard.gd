@@ -70,6 +70,11 @@ func show_if_new(chapter_id: String) -> bool:
 	return false
 
 
+## Any short notice on the same banner card (lessons.gd: "Lesson missed").
+func show_notice(header: String, title: String, pill: String) -> void:
+	_banner.show_banner(header, title, pill)
+
+
 func _show_chapter_banner(chapter: Dictionary) -> void:
 	_banner.show_banner("Chapter %d" % int(chapter.get("number", 0)), str(chapter.get("title", "")), "Started")
 

@@ -1,0 +1,22 @@
+{
+	"about": "A 2D role-playing game for learning Standard Akeanon vocabulary. A capstone project of the College of Computer Studies, Aklan State University – Kalibo, 2026.",
+	"sections": [
+		{"title": "Development Team", "lines": [
+			"John Rey M. Bautista",
+			"Francis Gael R. Gerardo",
+			"Jaycob F. Gumban",
+			"John Loys I. Iquiña",
+			"Christian Glenn O. Jimenez"
+		]},
+		{"title": "Capstone Adviser", "lines": ["Dr. Julie Ann Salido"]},
+		{"title": "Language References", "lines": [
+			"de la Cruz & Zorc, A Study of the Aklanon Dialect (1968), Vol. 1 Grammar and Vol. 2 Dictionary"
+		]},
+		{"title": "Fonts", "lines": [
+			"Alegreya SC by Huerta Tipográfica (SIL Open Font License)",
+			"Kenney Pixel by Kenney (CC0)"
+		]},
+		{"title": "Engine", "lines": ["Made with Godot Engine (MIT License)"]},
+		{"title": "Thanks", "lines": ["Our respondents, families, and everyone who helped."]}
+	]
+}

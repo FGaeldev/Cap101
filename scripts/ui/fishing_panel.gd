@@ -15,7 +15,7 @@
 #
 # Each question asks either "What does <Akeanon> mean?" (fish carry English) or
 # "Which word means <English>?" (fish carry Akeanon), alternating. Right: the
-# fish is caught, points (x combo), +2 s, +1 mastery for the word. Wrong: -3 s,
+# fish is caught, points (x combo), +0.5 s, +1 mastery for the word. Wrong: -3 s,
 # the right fish lights up for a moment, then a NEW question (no retrying the
 # same one). No other penalty (GDD 7). When time runs out a results card shows
 # the score and the answers that were missed; Continue resolves.
@@ -41,7 +41,8 @@ const TIERS := {
 	3: {"seconds": 45, "fish": 4, "speed": 48.0, "freeze_on_touch": false, "similar": true},
 }
 const DEFAULT_PASS_COUNT := 5
-const RIGHT_BONUS_SECONDS := 2.0
+## Seconds a right catch adds back (v1.1.6: was 2.0, the clock now mostly just runs down).
+const RIGHT_BONUS_SECONDS := 0.5
 const WRONG_PENALTY_SECONDS := 3.0
 const POINTS := 10
 ## Every this many right answers in a row adds 1 to the multiplier (max 4).

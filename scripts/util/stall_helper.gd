@@ -34,15 +34,18 @@ static func done_today() -> bool:
 	return GameState.stall_helped_date == GameState.daily_date()
 
 ## Runs the whole visit. host = the vendor NPC (the dialogue nodes live under it).
-static func start(host: Node) -> void:
+## first_time (first_plays.gd): the first shift ever is not optional, so the
+## invite has only the yes answer.
+static func start(host: Node, first_time: bool = false) -> void:
 	if done_today():
 		await _say(host, [_line("stall_done_today")])
 		return
 	var invite: Dictionary = _line("stall_invite")
 	invite["choices"] = [
 		{"label": str(Economy.line("stall_invite_yes")["text"]), "next": 1, "id": "yes"},
-		{"label": str(Economy.line("stall_invite_no")["text"]), "next": 1, "id": "no"},
 	]
+	if not first_time:
+		invite["choices"].append({"label": str(Economy.line("stall_invite_no")["text"]), "next": 1, "id": "no"})
 	if await _say(host, [invite]) != "yes":
 		return
 	if not GameState.get_flag(LESSON_FLAG):

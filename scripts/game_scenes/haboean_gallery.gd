@@ -15,6 +15,7 @@ extends Node2D
 const ActorPath := preload("res://scripts/util/actor_path.gd")
 const MarkerUtil := preload("res://scripts/util/marker_util.gd")
 const SitAction := preload("res://scripts/cutscene_actions/sit_action.gd")
+const Objective := preload("res://scripts/util/objective.gd")
 
 const WITH_ROSE_FLAG: String = "chapter2_with_rose"
 const GOING_HABOEAN_FLAG: String = "chapter3_going_haboean"
@@ -85,6 +86,10 @@ func _refresh_roam() -> void:
 		var npc: Node = CutsceneManager.get_actor(actor_id)
 		npc.cutscene_id = LOOM_CUTSCENE_ID
 		npc.cutscene_seen_flag = LOOM_SEEN_FLAG
+	# Walk to the loom yourself (objective.gd): sitting down there starts the loom
+	# scene. Talking to Loleng or Rose still does too.
+	if not Objective.is_here(scene_file_path):
+		Objective.set_goal("Sit at Manang Loleng's loom", scene_file_path, "Seats/Loom1Stool", "", LOOM_CUTSCENE_ID)
 	TutorialManager.start("tour_roam")
 
 func _face(npc: Node, dir: Vector2) -> void:

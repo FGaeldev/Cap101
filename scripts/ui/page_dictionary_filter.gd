@@ -34,7 +34,7 @@ func _style_search_box() -> void:
 	search_box.add_theme_stylebox_override("focus", sb)
 	search_box.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
 	search_box.add_theme_color_override("font_placeholder_color", UIThemeApplier.TEXT_DISABLED)
-	search_box.placeholder_text = "Search..."
+	search_box.placeholder_text = "Search word or meaning..."
 
 func _populate_categories() -> void:
 	category_dropdown.clear()

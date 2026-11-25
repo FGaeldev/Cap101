@@ -66,6 +66,8 @@ const NO_TARGET_MESSAGE: String = "I don't need to go that way right now."
 enum Entry { AUTO, BUTTON, WALK }
 @export var entry: Entry = Entry.AUTO
 
+const OpeningHours := preload("res://scripts/util/opening_hours.gd")
+const Objective := preload("res://scripts/util/objective.gd")
 const InteractableScene := preload("res://scenes/components/interactable_component.tscn")
 ## Extra reach (px) around the door for the interact box, so standing on the
 ## door tile or just in front of it both work.
@@ -113,6 +115,10 @@ const BUTTON_REACH: float = 6.0
 const CURFEW_END_HOUR: float = 6.0
 ## Player remark shown when the curfew closes the warp.
 @export var curfew_message: String = "It's late. I should stay home."
+
+## A door into a shop or public building (opening_hours.gd) shuts at night.
+## True keeps this one open anyway (the "unless stated otherwise").
+@export var ignore_closing_time: bool = false
 
 ## Fire as soon as a cutscene walks the player onto this area (no input needed),
 ## e.g. Ch1 scene 4's exit conga carrying the player off the map edge. Still
@@ -240,11 +246,16 @@ func _fire(body: Node) -> void:
 	_fired = true
 	if TourGuide.intercept(self, body):
 		return
-	if not required_flag.is_empty() and not GameState.dev_mode and not GameState.get_flag(required_flag):
+	# The door a "go there yourself" goal leads to (objective.gd) is always open.
+	var is_goal: bool = Objective.is_target_warp(self)
+	if not is_goal and not required_flag.is_empty() and not GameState.dev_mode and not GameState.get_flag(required_flag):
 		_show_blocked_message(body)
 		return
 	if _curfew_closed():
 		_show_blocked_message(body, curfew_message)
+		return
+	if not is_goal and not ignore_closing_time and OpeningHours.is_establishment(target_scene) and OpeningHours.is_closed_now():
+		_show_blocked_message(body, OpeningHours.CLOSED_MESSAGE)
 		return
 	# Doors whose destination isn't built yet act as a wall with a remark
 	# instead of silently doing nothing.

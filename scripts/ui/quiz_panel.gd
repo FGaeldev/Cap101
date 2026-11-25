@@ -56,11 +56,13 @@ const FEEDBACK_HOLD: float = 1.0
 ## Question count when the line specifies neither "questions" nor "question_count".
 const DEFAULT_QUESTION_COUNT: int = 3
 ## Fraction of questions that must be correct to take the "success" branch.
-const DEFAULT_PASS_RATIO: float = 0.5
+const DEFAULT_PASS_RATIO: float = 0.7
+## Lowest pass ratio a line may set (v1.1.6 difficulty): older lines ask for 0.5.
+const MIN_PASS_RATIO: float = 0.7
 ## Option text source when the line sets no "choice_display".
 const DEFAULT_CHOICE_DISPLAY: String = "gloss"
 ## Shown when a word has no gloss yet (matches Dictionary tab fallback).
-const GLOSS_FALLBACK: String = "(meaning pending verification)"
+const GLOSS_FALLBACK: String = "—"
 ## Option grid columns.
 const CHOICE_COLUMNS: int = 2
 ## Option grid columns above MAX_OPTIONS, so all rows fit the panel height.
@@ -122,7 +124,7 @@ func open(line: Dictionary) -> void:
 	_session += 1
 	_index = 0
 	_correct_count = 0
-	_pass_ratio = float(line.get("pass_ratio", DEFAULT_PASS_RATIO))
+	_pass_ratio = maxf(float(line.get("pass_ratio", DEFAULT_PASS_RATIO)), MIN_PASS_RATIO)
 	_word_colors = line.get("word_colors", {})
 	_questions = _build_questions(line)
 

@@ -34,6 +34,8 @@ func _load_chapter(chapter_id: String) -> void:
 		_cache[chapter_id] = {}
 		return
 	_cache[chapter_id] = json.get_data()
+	# Story minigames become lessons the next chapter waits on (lessons.gd).
+	preload("res://scripts/util/lessons.gd").stamp_chapter(chapter_id, _cache[chapter_id])
 
 func unload_chapter(chapter_id: String) -> void:
 	_cache.erase(chapter_id)
