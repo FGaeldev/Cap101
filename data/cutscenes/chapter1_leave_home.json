@@ -14,6 +14,6 @@
 	},
 	{"type": "fade", "direction": "out", "duration": 0.6},
 	{"type": "advance_clock", "hours": 20.0},
-	{"type": "advance_clock", "to_hour": 8.75},
+	{"type": "advance_clock", "to_hour": 17.0},
 	{"type": "load_scene", "scene_path": "res://scenes/world/chapter1/airport_arival.tscn"}
 ]

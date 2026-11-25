@@ -1,9 +1,8 @@
 [
 	{"type": "game_speed", "scale": 1.0},
 	{"type": "dialogue", "chapter": "chapter2", "scene": "scene_4_souvenir_shop_invite"},
-	{"type": "set_flag", "flag": "chapter2_souvenir_invited", "value": true},
 	{"type": "game_speed", "scale": 2.0},
-	{"type": "conga", "join": "nearest_x", "leader": "Rose", "followers": [], "waypoints": [[712, 1160]], "gap": 2, "speed": 48, "despawn": false},
-	{"type": "game_speed", "scale": 1.0},
-	{"type": "objective", "label": "Go into the souvenir shop", "target": "Warps/WarpArea8", "until_level": "res://scenes/world/chapter2/souvenir_shop.tscn"}
+	{"type": "conga", "join": "nearest_x", "leader": "Rose", "followers": ["player"], "path_to": "Warps/WarpArea8", "gap": 2, "speed": 48, "despawn": true},
+	{"type": "fade", "direction": "out", "duration": 0.6},
+	{"type": "load_scene", "scene_path": "res://scenes/world/chapter2/souvenir_shop.tscn"}
 ]

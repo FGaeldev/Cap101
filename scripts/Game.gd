@@ -92,6 +92,9 @@ func _ready() -> void:
 	# later so a quest the flag just unlocked is already active.
 	GameState.flag_changed.connect(func(_flag: String, _value: bool): ChapterGoals.check.call_deferred())
 	DayNightManager.hour_changed.connect(_on_hour_for_closing)
+	# Never leave the player inside a wall or the water (cutscene walks don't check
+	# collisions; a save can resume mid-walk). v1.1.7: stood on the trail's water.
+	CutsceneManager.cutscene_finished.connect(func(_id: String): _unstick_player.call_deferred())
 	# Arrow to a "go there yourself" goal (objective.gd), over the world, under menus.
 	var arrow := ObjectiveArrow.new()
 	arrow.name = "ObjectiveArrow"
@@ -142,6 +145,32 @@ func _process(_delta: float) -> void:
 	if camera.zoom != _limits_zoom:
 		_update_camera_limits()
 
+
+## Moves the player to the nearest open tile if they stand on a blocked one
+## (wall, furniture, water). Skipped while a cutscene runs or they sit somewhere.
+func _unstick_player() -> void:
+	await ActorPath.settle(get_tree())
+	if not is_instance_valid(player) or not player.is_inside_tree() or player.has_meta("pew") \
+			or CutsceneManager.is_playing() or not player.visible:
+		return
+	var start: Vector2 = player.global_position
+	if not ActorPath._is_solid(player, start):
+		return
+	var tile: float = 16.0
+	for radius in range(1, 16):
+		var best: Vector2 = Vector2.INF
+		for dx in range(-radius, radius + 1):
+			for dy in range(-radius, radius + 1):
+				if maxi(absi(dx), absi(dy)) != radius:
+					continue
+				var spot: Vector2 = start + Vector2(dx, dy) * tile
+				if not ActorPath._is_solid(player, spot) and (best == Vector2.INF or spot.distance_to(start) < best.distance_to(start)):
+					best = spot
+		if best != Vector2.INF:
+			push_warning("Game: player stood on a blocked tile at %s in %s; moved to %s" % [start, GameState.current_level_path.get_file(), best])
+			player.global_position = best
+			CutsceneManager.snap_camera()
+			return
 
 ## At closing time, a player still inside a shop or public building is told to
 ## head home and sleep (opening_hours.gd). Once per night, only when free to talk.
@@ -202,6 +231,7 @@ func load_level(path: String, spawn_id: String = "DefaultSpawn") -> void:
 	player = player.get_parent().get_node("Player")
 	_place_player_at_spawn(level, spawn_id)
 	Objective.on_level_loaded(path)
+	_unstick_player.call_deferred()
 	_resume_exit_spot(path)
 	# Per-level night strength (metadata on the level root, see DayNightManager).
 	DayNightManager.set_level_strength(float(level.get_meta("day_night_strength", 1.0)))

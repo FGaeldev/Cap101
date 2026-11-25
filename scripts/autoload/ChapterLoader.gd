@@ -36,6 +36,23 @@ func _load_chapter(chapter_id: String) -> void:
 	_cache[chapter_id] = json.get_data()
 	# Story minigames become lessons the next chapter waits on (lessons.gd).
 	preload("res://scripts/util/lessons.gd").stamp_chapter(chapter_id, _cache[chapter_id])
+	_time_quizzes(chapter_id, _cache[chapter_id])
+
+## Chapters whose story quizzes are timed, and the seconds per question when a
+## line doesn't set "seconds_per_question" itself (v1.1.7 difficulty).
+const TIMED_QUIZ_CHAPTERS: Array[String] = ["chapter3", "chapter4"]
+const QUIZ_SECONDS_PER_QUESTION: float = 15.0
+
+func _time_quizzes(chapter_id: String, data: Variant) -> void:
+	if not TIMED_QUIZ_CHAPTERS.has(chapter_id) or not data is Dictionary:
+		return
+	for scene_key in data:
+		var lines: Variant = data[scene_key]
+		if not lines is Array:
+			continue
+		for line: Variant in lines:
+			if line is Dictionary and str(line.get("type", "")) == "quiz" and not line.has("seconds_per_question"):
+				line["seconds_per_question"] = QUIZ_SECONDS_PER_QUESTION
 
 func unload_chapter(chapter_id: String) -> void:
 	_cache.erase(chapter_id)

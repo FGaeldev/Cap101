@@ -478,6 +478,31 @@
 			"requires_flag": "side_qs012_accepted",
 			"completion_flag": "side_qs012_done",
 			"show_popup": true
+		},
+		{
+			"id": "q027",
+			"category": "main",
+			"title": "Go up to your room and get some sleep",
+			"description": "It was a long flight. Your room is the one with the bituon (star) by the door. Rose will show you the town tomorrow.",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "seen_chapter2_scene0",
+			"unless_flag": "chapter2_slept",
+			"completion_trigger": "slept",
+			"completion_flag": "quest_027_done",
+			"show_popup": true
+		},
+		{
+			"id": "q028",
+			"category": "main",
+			"title": "Go inside the cathedral and talk to the parish priest",
+			"description": "The family waits outside while you go in. The parish priest by the altar will tell you about the Santo Niño. Then go back to Rose.",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "chapter2_arrived_cathedral",
+			"unless_flag": "culture_parish_priest_heard",
+			"completion_flag": "quest_028_done",
+			"show_popup": true
 		}
 	]
 }

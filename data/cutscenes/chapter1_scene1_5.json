@@ -1,6 +1,6 @@
 [
 	{"type":"set_visible","actor":"player","value":false},
-	{"type":"wait","seconds":0.5},
+	{"type":"fade","direction":"in","duration":0.6},
 	{"type":"parallel","actions":[
 		{"type":"sequence","actions":[
 			{"type":"spawn_npc","actor":"Lola Jonabel","scene":"res://scenes/entities/npc_LolaJonabel.tscn","at_marker":"S1_5/Gate"},

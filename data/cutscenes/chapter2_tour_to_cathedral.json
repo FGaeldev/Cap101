@@ -7,8 +7,11 @@
 	{"type": "spawn_npc", "actor": "Lola Jonabel", "scene": "res://scenes/entities/npc_LolaJonabel.tscn", "at_marker": "S3/Jonabel"},
 	{"type": "move_npc", "actor": "Lola Susan", "direction": "right", "tiles": 0, "face": "right"},
 	{"type": "move_npc", "actor": "Lola Jonabel", "direction": "left", "tiles": 0, "face": "left"},
-	{"type": "set_flag", "flag": "chapter2_cathedral_walk_started", "value": true},
-	{"type": "parallel", "actions": [{"type": "fade", "direction": "in", "duration": 0.6}, {"type": "conga", "join": "nearest_x", "leader": "Rose", "followers": [], "path_to": "S3/Rose", "gap": 2, "speed": 48, "despawn": false}, {"type": "sequence", "actions": [{"type": "wait", "seconds": 0.5}, {"type": "set_visible", "actor": "player", "value": true}]}]},
+	{"type": "parallel", "actions": [{"type": "fade", "direction": "in", "duration": 0.6}, {"type": "conga", "join": "nearest_x", "leader": "Rose", "followers": ["player"], "path_to": "S3/Rose", "gap": 2, "speed": 48, "despawn": false}, {"type": "sequence", "actions": [{"type": "wait", "seconds": 0.5}, {"type": "set_visible", "actor": "player", "value": true}]}]},
 	{"type": "game_speed", "scale": 1.0},
-	{"type": "objective", "label": "Meet the family at the cathedral", "target": "S3/Rose", "then": "chapter2_cathedral_arrive"}
+	{"type": "parallel", "actions": [{"type": "camera", "mode": "focus", "to": [1080, -96], "duration": 1.2}, {"type": "camera", "mode": "zoom", "to": [1.2, 1.2], "duration": 1.2}]},
+	{"type": "wait", "seconds": 0.6},
+	{"type": "dialogue", "chapter": "chapter2", "scene": "scene_3_kalibo_cathedral_midday"},
+	{"type": "parallel", "actions": [{"type": "camera", "mode": "zoom", "to": [2, 2], "duration": 0.8}, {"type": "camera", "mode": "release", "duration": 0.8}]},
+	{"type": "set_flag", "flag": "chapter2_arrived_cathedral", "value": true}
 ]

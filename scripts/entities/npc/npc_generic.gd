@@ -38,6 +38,7 @@ const SideQuests := preload("res://scripts/util/side_quests.gd")
 const StallHelper := preload("res://scripts/util/stall_helper.gd")
 const PlazaGame := preload("res://scripts/util/plaza_game.gd")
 const Lessons := preload("res://scripts/util/lessons.gd")
+const ChapterGoals := preload("res://scripts/util/chapter_goals.gd")
 const FirstPlays := preload("res://scripts/util/first_plays.gd")
 
 @onready var interactable: InteractableComponent = $InteractableComponent
@@ -56,7 +57,7 @@ func _ready() -> void:
 func wants_marker() -> bool:
 	if not unlock_flag.is_empty() and not GameState.get_flag(unlock_flag):
 		return false
-	if npc_id == TourGuide.ROSE_ID and not GameState.missed_lessons.is_empty():
+	if npc_id == TourGuide.ROSE_ID and ChapterGoals.waiting_on_lessons():
 		return true
 	if not cutscene_id.is_empty() and not cutscene_seen_flag.is_empty() and not GameState.get_flag(cutscene_seen_flag):
 		return true
