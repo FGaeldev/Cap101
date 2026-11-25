@@ -248,7 +248,11 @@ func _fire(body: Node) -> void:
 		return
 	# The door a "go there yourself" goal leads to (objective.gd) is always open.
 	var is_goal: bool = Objective.is_target_warp(self)
-	if not is_goal and not required_flag.is_empty() and not GameState.dev_mode and not GameState.get_flag(required_flag):
+	# Dev mode opens flag-locked doors, except story exits (the ones a cutscene
+	# walks the family through): leaving the airport lot mid-Chapter 1 skipped the
+	# chapter even for testers (v1.1.7).
+	var dev_open: bool = GameState.dev_mode and not fire_during_cutscene
+	if not is_goal and not required_flag.is_empty() and not dev_open and not GameState.get_flag(required_flag):
 		_show_blocked_message(body)
 		return
 	if _curfew_closed():

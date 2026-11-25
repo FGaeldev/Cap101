@@ -628,7 +628,8 @@ func _read_save(path: String) -> Variant:
 ## Save layout version. Bump it when a change needs old saves converted, and add
 ## the conversion to _migrate_save() under "if from_format < N".
 ## 1 = v1.1.6, the first save to carry game_version/save_format (older = 0).
-const SAVE_FORMAT: int = 1
+## 2 = v1.1.7: Chapter 2's walk-to goals went back to cutscenes.
+const SAVE_FORMAT: int = 2
 
 ## This build's version, e.g. "1.1.6" (project.godot application/config/version).
 static func game_version() -> String:
@@ -641,6 +642,11 @@ var loaded_save_version: String = ""
 ## each step only touches saves older than the format that needed it.
 func _migrate_save(from_format: int) -> void:
 	_migrate_flags()
+	# v1.1.7 hotfix: walk-to goals start at Chapter 3, so a v1.1.6 save made
+	# mid-tour can carry a Pastrana goal (souvenir shop, cathedral, market exit)
+	# that nothing completes any more. The tour cutscenes replay instead.
+	if from_format < 2 and str(objective.get("level", "")) == "res://scenes/world/chapter2/pastrana_outdoors.tscn":
+		objective = {}
 	if from_format != SAVE_FORMAT or loaded_save_version != game_version():
 		print("GameState: save from %s (format %d) loaded in %s (format %d)" % [
 			loaded_save_version if not loaded_save_version.is_empty() else "before 1.1.6",

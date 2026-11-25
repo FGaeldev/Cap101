@@ -447,6 +447,14 @@ func _dev_warp(scene_path: String, flags_on: Array = [], flags_off: Array = [], 
 	if not GameState.get_flag("quest_002_done"):
 		QuestManager.complete_quest_silently("q002")
 
+	# v1.1.7: a save carries story-in-progress state the skip doesn't know about
+	# (a trip with Rose, a walk-to goal, lessons waiting for a retake). Clear it
+	# so the skipped-to scene starts the way the story would reach it.
+	for flag: String in MapManager.DEV_SKIP_CLEARED_FLAGS:
+		GameState.set_flag(flag, false)
+	GameState.objective = {}
+	GameState.missed_lessons = {}
+	GameState.set_flag("lessons_missed", false)
 	for flag in flags_on:
 		GameState.set_flag(flag, true)
 	for flag in flags_off:

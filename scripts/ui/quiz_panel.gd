@@ -93,6 +93,12 @@ var _pass_ratio: float = DEFAULT_PASS_RATIO
 var _locked: bool = true          # true while feedback shows / closed; ignores input
 var _session: int = 0             # bumped on open/close; stale feedback timers bail
 
+## Per-question time limit from the line's "seconds_per_question" (0 = none).
+## Chapter 3 and 4 story quizzes get one by default (ChapterLoader, v1.1.7).
+var _seconds_per_question: float = 0.0
+var _time_left: float = 0.0
+var _timer_bar: ProgressBar
+
 var _progress_label: Label
 var _prompt_label: Label
 var _prompt_swatch: PanelContainer
@@ -126,6 +132,8 @@ func open(line: Dictionary) -> void:
 	_correct_count = 0
 	_pass_ratio = maxf(float(line.get("pass_ratio", DEFAULT_PASS_RATIO)), MIN_PASS_RATIO)
 	_word_colors = line.get("word_colors", {})
+	_seconds_per_question = maxf(float(line.get("seconds_per_question", 0.0)), 0.0)
+	_timer_bar.visible = _seconds_per_question > 0.0
 	_questions = _build_questions(line)
 
 	if _questions.is_empty():
@@ -309,6 +317,21 @@ func _build_layout() -> void:
 	_progress_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DISABLED)
 	vbox.add_child(_progress_label)
 
+	# Time left on this question (timed quizzes only): drains left to right.
+	_timer_bar = ProgressBar.new()
+	_timer_bar.show_percentage = false
+	_timer_bar.custom_minimum_size = Vector2(0, 4)
+	_timer_bar.max_value = 1.0
+	_timer_bar.step = 0.0
+	_timer_bar.visible = false
+	var fill := StyleBoxFlat.new()
+	fill.bg_color = UIThemeApplier.TEXT_EMPHASIS
+	_timer_bar.add_theme_stylebox_override("fill", fill)
+	var back := StyleBoxFlat.new()
+	back.bg_color = Color(UIThemeApplier.TEXT_DISABLED, 0.35)
+	_timer_bar.add_theme_stylebox_override("background", back)
+	vbox.add_child(_timer_bar)
+
 	_prompt_label = Label.new()
 	_prompt_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_prompt_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_M)
@@ -347,6 +370,8 @@ func _build_layout() -> void:
 func _show_question() -> void:
 	var q: Dictionary = _questions[_index]
 	_locked = false
+	_time_left = _seconds_per_question
+	_timer_bar.value = 1.0
 	_progress_label.text = "%d / %d" % [_index + 1, _questions.size()]
 	_prompt_label.text = q["prompt"]
 	_feedback_label.text = ""
@@ -416,6 +441,16 @@ func _reveal_color_options(options: Array, answer: String) -> void:
 		if options[i]["id"] != answer:
 			btn.modulate.a = WRONG_SWATCH_ALPHA
 
+## Timed quizzes: the bar drains; at zero the question counts as missed.
+func _process(delta: float) -> void:
+	if not visible or _locked or _seconds_per_question <= 0.0:
+		return
+	_time_left = maxf(_time_left - delta, 0.0)
+	_timer_bar.value = _time_left / _seconds_per_question
+	if _time_left <= 0.0:
+		_on_option_pressed(-1, null)
+
+## option_idx -1 / btn null = the time ran out (timed quizzes): a miss.
 func _on_option_pressed(option_idx: int, btn: Button) -> void:
 	if _locked:
 		return
@@ -423,26 +458,28 @@ func _on_option_pressed(option_idx: int, btn: Button) -> void:
 
 	var q: Dictionary = _questions[_index]
 	var options: Array = q["options"]
-	var correct: bool = options[option_idx]["id"] == q["answer"]
+	var timed_out: bool = option_idx < 0
+	var correct: bool = not timed_out and options[option_idx]["id"] == q["answer"]
 	GameState.adjust_mastery(q["answer"], 1 if correct else -1)
 
-	var is_color_question: bool = not str(options[option_idx].get("color", "")).is_empty()
+	var is_color_question: bool = not timed_out and not str(options[option_idx].get("color", "")).is_empty()
 	if correct:
 		_correct_count += 1
 		_feedback_label.text = "Insakto"
 		_feedback_label.add_theme_color_override("font_color", Accessibility.success_color())
 	else:
-		_feedback_label.text = "Not quite"
+		_feedback_label.text = "Time's up" if timed_out else "Not quite"
 		_feedback_label.add_theme_color_override("font_color", Accessibility.error_color())
 	if is_color_question:
 		_reveal_color_options(options, q["answer"])
 	else:
-		_flash_btn(btn, Accessibility.success_color() if correct else Accessibility.error_color())
+		if btn != null:
+			_flash_btn(btn, Accessibility.success_color() if correct else Accessibility.error_color())
 		# Reveal the right answer so a miss still teaches (no punishment).
 		for i in range(options.size()):
 			if not correct and options[i]["id"] == q["answer"]:
 				_flash_btn(_choice_grid.get_child(i), Accessibility.success_color())
-		if Accessibility.color_blind:
+		if Accessibility.color_blind and btn != null:
 			_label_result(options, q["answer"], btn)
 	for b in _choice_grid.get_children():
 		b.disabled = true

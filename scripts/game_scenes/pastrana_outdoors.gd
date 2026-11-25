@@ -41,10 +41,6 @@ var _pedring: Node2D = null
 const NEEDS_ROSE: Array[String] = ["chapter2_walk_home_park", "chapter2_tour_to_market", "chapter2_tour_to_souvenir"]
 
 const MarkerUtil := preload("res://scripts/util/marker_util.gd")
-const Objective := preload("res://scripts/util/objective.gd")
-## Set when Rose sets off for the cathedral / the market exit (the tour cutscenes).
-const CATHEDRAL_WALK_FLAG: String = "chapter2_cathedral_walk_started"
-const MARKET_WALK_FLAG: String = "chapter2_market_walk_started"
 
 func _ready() -> void:
 	if not GameState.get_flag(WITH_ROSE_FLAG) or not GameState.get_flag(LEFT_HOME_FLAG):
@@ -89,19 +85,12 @@ func _next_cutscene() -> String:
 	if not GameState.get_flag("seen_chapter2_scene1"):
 		return "" if GameState.get_flag(ARRIVED_FLAG) else "chapter2_scene1"
 	if not GameState.get_flag("seen_chapter2_scene2"):
-		# The walk to the market exit is the player's own (objective.gd), once Rose sets off.
-		return "" if GameState.get_flag(MARKET_WALK_FLAG) else "chapter2_tour_to_market"
+		return "chapter2_tour_to_market"
 	if not GameState.get_flag("seen_chapter2_scene4"):
 		if not GameState.get_flag(ARRIVED_CATHEDRAL_FLAG):
-			# Rose walks ahead; the player follows on their own (objective.gd) and
-			# reaching her plays chapter2_cathedral_arrive.
-			return "" if GameState.get_flag(CATHEDRAL_WALK_FLAG) else "chapter2_tour_to_cathedral"
+			return "chapter2_tour_to_cathedral"
 		# After the cathedral talk Rose takes them into the souvenir shop for the
 		# practice round (souvenir_shop.gd); until then the player roams.
-		# The invite sets a "go there yourself" goal (objective.gd): once given,
-		# the player walks to the shop door on their own while Rose waits by it.
-		if GameState.get_flag("chapter2_souvenir_invited"):
-			return ""
 		return "chapter2_tour_to_souvenir" if GameState.get_flag("seen_chapter2_scene3") else ""
 	if not GameState.get_flag(TOUR_DONE_FLAG):
 		# Back out of the souvenir shop: straight home.
@@ -175,12 +164,5 @@ func _set_rose_resume() -> void:
 		else:
 			rose.cutscene_id = "chapter2_cathedral_talk"
 			rose.cutscene_seen_flag = "seen_chapter2_scene3"
-	elif GameState.get_flag(CATHEDRAL_WALK_FLAG) and not GameState.get_flag("seen_chapter2_scene4"):
-		# Back before reaching the family at the cathedral: they wait there.
-		_place_lolas()
-		rose.cutscene_id = "chapter2_cathedral_arrive"
-		rose.cutscene_seen_flag = ARRIVED_CATHEDRAL_FLAG
-		if not Objective.is_here(scene_file_path):
-			Objective.set_goal("Meet the family at the cathedral", scene_file_path, "S3/Rose", "", "chapter2_cathedral_arrive")
 	else:
 		rose.cutscene_id = ""

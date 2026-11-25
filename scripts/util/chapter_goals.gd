@@ -31,6 +31,18 @@ static func errands_done() -> int:
 static func reviews_met(goal: Dictionary) -> bool:
 	return GameState.reviews_passed >= int(goal["reviews"]) and GameState.missed_lessons.is_empty()
 
+## True while a chapter's opening is being held back by missed story lessons
+## (its goals are up and some lesson isn't retaken). Rose's marker shows only
+## then; earlier, a missed lesson just waits in her menu (v1.1.7: a marker on
+## her all through Chapter 1 looked like one that never cleared).
+static func waiting_on_lessons() -> bool:
+	if GameState.missed_lessons.is_empty():
+		return false
+	for goal: Dictionary in GOALS.values():
+		if GameState.get_flag(str(goal["after_flag"])) and str(goal["review_quest"]) in QuestManager.active_quests:
+			return true
+	return false
+
 ## True for the quests that show a chapter's goals (q023-q026).
 static func is_goal_quest(quest_id: String) -> bool:
 	for goal: Dictionary in GOALS.values():
@@ -40,6 +52,9 @@ static func is_goal_quest(quest_id: String) -> bool:
 
 ## True once everything the chapter needs is done (unknown chapters: true).
 static func met(chapter_id: String) -> bool:
+	# Dev mode (the dev menu's chapter skips) never waits on errands, reviews or lessons.
+	if GameState.dev_mode:
+		return true
 	var goal: Dictionary = GOALS.get(chapter_id, {})
 	if goal.is_empty():
 		return true
