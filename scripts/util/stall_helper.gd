@@ -26,9 +26,11 @@ class ChoiceDialogue extends DialogueComponent:
 		picked = str(choice.get("id", ""))
 		super.choose(choice)
 
-## Open from the Sunday after-mass market on, or once Chapter 2 is over.
+## Open once Rose's town tour is done (v1.1.9: "no mini-game in the market on
+## Thursday"; it used to wait for the Sunday after-mass market).
 static func is_available() -> bool:
-	return GameState.get_flag("chapter2_mass_went") or GameState.get_flag("chapter2_complete")
+	return GameState.get_flag("chapter2_tour_done") or GameState.get_flag("chapter2_mass_went") \
+			or GameState.get_flag("chapter2_complete")
 
 static func done_today() -> bool:
 	return GameState.stall_helped_date == GameState.daily_date()

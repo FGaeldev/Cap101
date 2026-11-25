@@ -32,6 +32,7 @@ const ACTION_SCRIPTS := [
 	"res://scripts/cutscene_actions/bubble_action.gd",
 	"res://scripts/cutscene_actions/hold_clock_action.gd",
 	"res://scripts/cutscene_actions/objective_action.gd",
+	"res://scripts/cutscene_actions/time_card_action.gd",
 ]
 
 var _actions: Dictionary = {}

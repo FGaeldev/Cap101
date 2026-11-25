@@ -346,6 +346,9 @@ func _apply_talk_cutscene(actor_id: String) -> void:
 	var hours: Array = talk["later_hours"] if GameState.get_flag(talk["first_flag"]) else talk["first_hours"]
 	var hour: float = DayNightManager.get_hour()
 	npc.cutscene_id = talk["ids"].get(_room, "") if hour >= hours[0] and hour < hours[1] else talk["not_now"]
+	# v1.1.9 ("exclamation point does not disappear"): only the first trip is news.
+	# Later trips and the "not now" line are her everyday menu, not a marker.
+	npc.set_meta("repeat_talk", GameState.get_flag(talk["first_flag"]) or npc.cutscene_id == talk["not_now"])
 
 func _remove(actor_id: String) -> void:
 	if not CutsceneManager.has_actor(actor_id):

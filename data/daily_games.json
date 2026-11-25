@@ -1,0 +1,62 @@
+{
+	"_about": "Daily word games people offer in their talk menu (scripts/util/daily_games.gd, v1.1.9). host = the NPC's npc_id; level = only in that map; requires_flag / unless_flag gate it on the story. Each game plays once per daily day and pays pay pesos on a win. minigame is a minigame line (DialogueUI.MINIGAME_SCRIPTS); pair_count -1 = the player's difficulty tier (GameState.get_minigame_word_count). word_pool word ids must be in data/word_bank.json.",
+	"games": {
+		"market_match": {
+			"host": "Nong Pedring",
+			"level": "res://scenes/world/market/market_indoors.tscn",
+			"label": "Play Pedring's market match",
+			"requires_flag": "chapter2_tour_done",
+			"intro": "Quiet hour, gha. Match my goods with their English, and I'll pay you a little.",
+			"win": "That's right! You know the market now.",
+			"lose": "Close! Come back tomorrow and try again.",
+			"pay": 4,
+			"minigame": {
+				"minigame_type": "memory_match",
+				"word_pool": ["w080", "w091", "w093", "w104", "w107", "w152", "w159", "w230", "w233", "w249"],
+				"pair_count": -1
+			}
+		},
+		"cafe_hangman": {
+			"host": "Barista",
+			"level": "res://scenes/world/haboean/haboean_cafe.tscn",
+			"label": "Guess the café word",
+			"requires_flag": "seen_chapter3_scene4",
+			"intro": "Slow afternoon. I'll think of a word, you guess it one letter at a time.",
+			"win": "You got it! Next coffee's on the house... almost.",
+			"lose": "Ah, not today. Same time tomorrow?",
+			"pay": 4,
+			"minigame": {
+				"minigame_type": "hangman",
+				"word_pool": ["w031", "w032", "w073", "w078", "w050", "w079", "w192", "w218", "w170", "w044", "w205", "w034"]
+			}
+		},
+		"cafe_match": {
+			"host": "Barista",
+			"level": "res://scenes/world/haboean/haboean_cafe.tscn",
+			"label": "Match the café words",
+			"requires_flag": "seen_chapter3_scene4",
+			"intro": "Here's one my regulars like: match each word to what it means.",
+			"win": "Fast hands! Like a real barista.",
+			"lose": "Almost. Try again tomorrow.",
+			"pay": 4,
+			"minigame": {
+				"minigame_type": "memory_match",
+				"word_pool": ["w031", "w032", "w035", "w073", "w078", "w050", "w079", "w192", "w218", "w170", "w161", "w044"],
+				"pair_count": -1
+			}
+		},
+		"weave_sort": {
+			"host": "Gallery Curator",
+			"level": "res://scenes/world/haboean/haboean_gallery.tscn",
+			"label": "Help hang the weaves",
+			"requires_flag": "quest_007_done",
+			"intro": "The new piña weaves came in. Hang each one on the display with its colour, and the right size rack.",
+			"win": "Beautiful! The gallery looks ready for visitors.",
+			"lose": "A few are on the wrong racks. We'll sort them again tomorrow.",
+			"pay": 5,
+			"minigame": {
+				"minigame_type": "weave_sort"
+			}
+		}
+	}
+}

@@ -12,7 +12,8 @@
 # Steering (decided 2026-11-22): Abante (go / keep going), Atras (turn back),
 # liko pa waea (turn left), liko pa tuo (turn right); left and right are from
 # the walker's own heading. The walker waits for the first word.
-# Misses cost: walking into a wall or out a wrong exit = that visitor is lost.
+# Misses: out a wrong exit = that visitor is lost. A wall just stops them
+# until the next word (v1.1.9; it used to lose them too).
 #
 # Ownership: renders and reports only. Bad data never softlocks: resolves as a pass.
 extends PanelContainer
@@ -23,18 +24,19 @@ const Directions := preload("res://scripts/util/directions.gd")
 const ActorPath := preload("res://scripts/util/actor_path.gd")
 
 const TILE: int = 16
-## Seconds per tile. Slow enough to read the map and turn in time.
-const STEP_TIME: float = 0.3
+## Seconds per tile. Slow enough to read the map and turn in time (0.3 until
+## v1.1.9: testers found it too hard).
+const STEP_TIME: float = 0.5
 const NEXT_HOLD: float = 1.6
 const END_HOLD: float = 2.0
 ## Map layers copied into the miniature (Roof is left out so streets show).
 const MAP_LAYERS: Array[String] = ["Floor", "FloorDecals", "Shadows", "Walls", "Objects", "Edge"]
 const CELLS_PER_FRAME: int = 1500
 const BUTTONS: Array = [
-	{"text": "Abante", "word_ids": ["w371"], "turn": "go"},
-	{"text": "Atras", "word_ids": ["w336"], "turn": "back"},
-	{"text": "liko pa waea", "word_ids": ["w273", "w275"], "turn": "left"},
-	{"text": "liko pa tuo", "word_ids": ["w273", "w274"], "turn": "right"},
+	{"text": "Abante", "hint": "go", "word_ids": ["w371"], "turn": "go"},
+	{"text": "Atras", "hint": "turn back", "word_ids": ["w336"], "turn": "back"},
+	{"text": "liko pa waea", "hint": "turn left", "word_ids": ["w273", "w275"], "turn": "left"},
+	{"text": "liko pa tuo", "hint": "turn right", "word_ids": ["w273", "w274"], "turn": "right"},
 ]
 
 ## Solid tiles per level path, built once (the map doesn't change).
@@ -206,8 +208,9 @@ func _build_layout() -> void:
 	side.add_child(_buttons)
 	for spec: Dictionary in BUTTONS:
 		var b := Button.new()
-		b.text = str(spec["text"])
-		b.custom_minimum_size = Vector2(0, 34)
+		# v1.1.9: the English under each word, so the game is about steering.
+		b.text = "%s\n(%s)" % [spec["text"], spec["hint"]]
+		b.custom_minimum_size = Vector2(0, 40)
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		UIThemeApplier.apply_button_theme(b, "secondary")
 		b.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
@@ -356,7 +359,13 @@ func _step() -> void:
 			_lose("That's not the place. The visitor wanders off, lost.")
 		return
 	if _solid.has(next) or not _bounds.has_point(next):
-		_lose("Bump! The visitor walked into a wall and gave up.")
+		# v1.1.9 (too hard): a wall stops them instead of losing them. They wait
+		# for the next word, like at the start.
+		_walking = false
+		set_process(false)
+		AudioManager.play_sfx("wrong")
+		_hint.text = "Bump! They stopped at a wall. Pick a new way to go."
+		_redraw()
 		return
 	_pos = next
 	_trail_to(next)

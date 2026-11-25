@@ -148,6 +148,10 @@ static func _offer_lines(qid: String, q: Dictionary) -> Array:
 		{"label": yes_text, "next": accept_at},
 		{"label": no_text, "next": later_at},
 	]
+	# "required": true (v1.1.9, packing for the flight): the story waits on it,
+	# so there's no "Not now".
+	if q.get("required", false):
+		lines[choice_at]["choices"].pop_back()
 	lines.append(_line(q, "remind", {"next": null, "on_enter": _accept.bind(qid)}))
 	lines.append(_line(q, "later", {"next": null, "on_enter": _decline.bind(qid)}))
 	return lines

@@ -228,7 +228,7 @@ func _ask(rose: Node2D) -> void:
 		elif answer > home_choice:
 			var place: Dictionary = places[answer - home_choice - 1]
 			if place.has("go"):
-				_go(place["go"])
+				_go_walk_or_ride(rose, place["go"])
 			else:
 				_walk_or_ride(rose, place["cutscene"]))
 	dialogue.start_dialogue()
@@ -250,7 +250,36 @@ func _go(go: Dictionary) -> void:
 	var extra: Dictionary = go.get("flags", {})
 	for flag: String in extra:
 		GameState.set_flag(flag, bool(extra[flag]))
-	MapManager.warp_to_scene(str(go["to"]), str(go.get("spawn", "DefaultSpawn")), GO_MINUTES)
+	MapManager.warp_to_scene(str(go["to"]), str(go.get("spawn", "DefaultSpawn")), float(go.get("minutes", GO_MINUTES)))
+
+## v1.1.9 ("no ride after Bakhawan"): a direct trip from a far stop (Bakhawan,
+## Haboean) asks walk or ride like the walks home do. The fare and ride time are
+## the stop's own region's (regions.json); walking takes its walk_minutes.
+func _go_walk_or_ride(rose: Node2D, go: Dictionary) -> void:
+	var region: Dictionary = MapManager.get_region(MapManager.area_for_scene(GameState.current_level_path))
+	var fare: int = int(region.get("fare", 0))
+	if fare <= 0:
+		_go(go)
+		return
+	var vehicle: String = str(region.get("vehicle", "Tricycle")).to_lower()
+	var dialogue := DialogueComponent.new()
+	dialogue.dialogue_lines = [
+		{"speaker": "Rose", "text": "Walk, or take a %s? It's ₱%d." % [vehicle, fare], "choices": [
+			{"label": "Let's walk.", "next": 1},
+			{"label": "Take a %s (₱%d)" % [vehicle, fare], "next": 2},
+		]},
+	]
+	rose.add_child(dialogue)
+	dialogue.start_dialogue()
+	await dialogue.dialogue_ended
+	var picked_ride: bool = dialogue._current_line == 2
+	dialogue.queue_free()
+	var trip: Dictionary = go.duplicate()
+	if picked_ride and await Economy.pay(fare, "fare_price"):
+		trip["minutes"] = float(region.get("ride_minutes", GO_MINUTES))
+	else:
+		trip["minutes"] = float(region.get("walk_minutes", GO_MINUTES))
+	_go(trip)
 
 # --- riding instead of walking (v1.1.3 playtest: "can't ride with someone") --
 #

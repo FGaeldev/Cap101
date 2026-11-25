@@ -28,8 +28,9 @@ const MINIGAME_SCRIPTS := {
 	"fishing": preload("res://scripts/ui/fishing_panel.gd"),
 	"stall": preload("res://scripts/ui/stall_panel.gd"),
 	"plaza_directions": preload("res://scripts/ui/plaza_directions_panel.gd"),
+	"weave_sort": preload("res://scripts/ui/weave_sort_panel.gd"),
 }
-const FULLSCREEN_MINIGAMES: Array[String] = ["crossword", "word_search", "habi_habi", "fishing", "plaza_directions"]
+const FULLSCREEN_MINIGAMES: Array[String] = ["crossword", "word_search", "habi_habi", "fishing", "plaza_directions", "weave_sort"]
 const NEWSPAPER_SCRIPT := preload("res://scripts/ui/newspaper_panel.gd")
 
 ## Relative chance of each activity when the player asks an NPC to review.
@@ -254,6 +255,10 @@ func show_review_quiz() -> void:
 		"choice_display": "gloss",
 		"pass_ratio": 0.7
 	}
+	# v1.1.9 ("Chapter 3 review must have a timer"): from Chapter 3 on, Review is
+	# timed like the story quizzes (ChapterLoader.QUIZ_SECONDS_PER_QUESTION).
+	if GameState.get_flag("chapter3_started"):
+		review_line["seconds_per_question"] = ChapterLoader.QUIZ_SECONDS_PER_QUESTION
 	show_standalone_quiz(review_line, _on_review_quiz_resolved)
 
 ## Opens a quiz line outside dialogue (NPC review, dev menu). on_resolved gets

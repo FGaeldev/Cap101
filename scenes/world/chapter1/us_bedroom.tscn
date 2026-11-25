@@ -76,8 +76,8 @@ position = Vector2(96, 32)
 
 [node name="BedroomBed" parent="Furniture" unique_id=467436607 instance=ExtResource("3_7q6f3")]
 position = Vector2(112, 104)
-required_flag = "quest_002_done"
-not_sleepy_text = "I should check my notebook first."
+required_flag = "side_qs004_done"
+not_sleepy_text = "Not yet. I have to check my notebook and pack with Lola Jonabel first."
 sleep_flag = "chapter1_slept"
 only_once = true
 awake_text = "I'm wide awake. Time to head to the airport."

@@ -488,6 +488,7 @@ func _meet_chapter_goals() -> void:
 		QuestManager.complete_quest_silently(quest_id)
 	GameState.reviews_done = maxi(GameState.reviews_done, 6)
 	GameState.reviews_passed = maxi(GameState.reviews_passed, 6)
+	GameState.activity_wins = maxi(GameState.activity_wins, 3)  # v1.1.9 "Daily games won"
 	ChapterGoals.check()
 
 ## Saves once the skipped-to level has loaded, so Continue comes back here with

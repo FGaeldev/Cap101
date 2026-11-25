@@ -251,7 +251,42 @@
 	"bakhawan_trip": {
 		"steps": [
 			{
-				"text": "Rose can now take you to Bakhawan.",
+				"text": "Ask Rose any time to go out again.",
+				"auto_advance": 4.5
+			},
+			{
+				"text": "Bakhawan opens in Chapter 4.",
+				"auto_advance": 4.5
+			}
+		]
+	},
+	"bakhawan_open": {
+		"steps": [
+			{
+				"text": "Bakhawan is open: ask Rose, or ride from the Map.",
+				"auto_advance": 5.0,
+				"highlight": "hud_map"
+			}
+		]
+	},
+	"ride_map": {
+		"above_book": true,
+		"steps": [
+			{
+				"text": "Going somewhere? Tap the Map.",
+				"event": "menus_map",
+				"highlight": "hud_map"
+			},
+			{
+				"text": "Tap a place, then Ride or Walk.",
+				"auto_advance": 5.0
+			}
+		]
+	},
+	"ride_map_book": {
+		"steps": [
+			{
+				"text": "Open the menu's Map tab to ride to places.",
 				"auto_advance": 5.0
 			}
 		]

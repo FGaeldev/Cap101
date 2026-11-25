@@ -242,6 +242,12 @@ func _on_quest_completed(quest_id: String) -> void:
 ## The map tutorial waits for the cutscene that hands the map over to end, so
 ## "Tap the Map button" never shows while the HUD is hidden.
 func _on_flag_changed(flag_name: String, value: bool) -> void:
+	if flag_name == "chapter4_complete" and value:
+		while CutsceneManager.is_playing():
+			await CutsceneManager.cutscene_finished
+		if is_inside_tree():
+			TutorialManager.start("bakhawan_open")
+		return
 	if flag_name != MAP_FLAG or not value or not BookUI.separate_menus:
 		return
 	while CutsceneManager.is_playing():
@@ -276,6 +282,19 @@ func load_level(path: String, spawn_id: String = "DefaultSpawn") -> void:
 	NpcSchedule.on_level_loaded(level, path)
 	CultureSpots.place(level, path)
 	ChapterCard.show_area_if_new(path)
+	_maybe_ride_tutorial(path)
+
+## v1.1.9 ("add a map prompt for the riding tutorial"): the first time the player
+## steps outside on their own with Rose's map, point at the Map and its rides.
+func _maybe_ride_tutorial(path: String) -> void:
+	if path != "res://scenes/world/chapter2/aklan_home_outdoors.tscn" or not GameState.get_flag(MAP_FLAG) \
+			or GameState.get_flag("chapter2_with_rose") or not GameState.get_flag("chapter2_tour_done"):
+		return
+	while MapManager.is_transitioning or CutsceneManager.is_playing():
+		await get_tree().process_frame
+	if is_inside_tree() and GameState.current_level_path == path:
+		# Book mode has no Map button (or its "menus_map" event): a timed tip instead.
+		TutorialManager.start("ride_map" if BookUI.separate_menus else "ride_map_book")
 
 ## Union of every visible TileMapLayer except "Edge" (the border ring around the
 ## map, which the camera shouldn't show), so a new map is covered without

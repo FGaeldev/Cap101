@@ -142,6 +142,10 @@ func travel_blocked_reason(region_id: String) -> String:
 	var region := get_region(region_id)
 	if str(region.get("scene_path", "")) == GameState.current_level_path:
 		return "You are here."
+	# v1.1.9: inside the house the Home ride was still offered. Same area = walk.
+	var here: String = area_for_scene(GameState.current_level_path)
+	if not here.is_empty() and here == area_for_scene(str(region.get("scene_path", ""))):
+		return "You're already home." if here == "aklan_home" else "It's a short walk from here."
 	if CutsceneManager.is_playing():
 		return "Not now."
 	for flag: String in DEV_SKIP_CLEARED_FLAGS:
@@ -203,7 +207,9 @@ func travel_to_region(region_id: String, mode: String = RIDE) -> void:
 
 	DayNightManager.advance_minutes(minutes)
 	GameState.current_level_path = scene_path
-	game.load_level(scene_path)  # sets GameState.current_area
+	# "spawn_id": where the ride drops the player (the cathedral and souvenir
+	# shop rides stop outside their doors on the plaza, v1.1.9).
+	game.load_level(scene_path, str(region.get("spawn_id", "DefaultSpawn")))  # sets GameState.current_area
 	GameState.save_game()
 
 	await FadeManager.fade_in()

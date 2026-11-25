@@ -1,6 +1,6 @@
 # first_plays.gd -- a world minigame starts by itself the first time it's
 # available (v1.1.6): the first time the player is near Nong Pedring once the
-# stall helper opens (after Sunday mass), and near the plaza visitor once the
+# stall helper opens (after the town tour), and near the plaza visitor once the
 # tour is done. After that they're offered from the NPC's menu as before.
 # npc_generic.gd calls maybe_start() when an NPC enters a level.
 extends RefCounted
