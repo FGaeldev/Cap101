@@ -731,8 +731,6 @@ func _build_separated_menu_controls() -> void:
 	toasts.move_child(_tier_toast, 0)
 
 func _map_unlocked() -> bool:
-	if GameState.dev_mode:
-		return true
 	for flag: String in MAP_UNLOCK_FLAGS:
 		if GameState.get_flag(flag):
 			return true

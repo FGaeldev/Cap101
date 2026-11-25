@@ -25,16 +25,15 @@ static func _load() -> Dictionary:
 
 ## Open warps under `level` that lead to a known place, one per place (the nearest
 ## to `from`), sorted by menu label: [{"place": Dictionary, "warp": Node2D}].
-## Locked, closed and draft places are left out; dev mode shows drafts.
+## Locked, closed and draft places are left out.
 static func places_here(level: Node, from: Vector2) -> Array:
 	var places: Dictionary = _load().get("places", {})
 	var nearest: Dictionary = {}
 	for warp in _warps(level):
 		var place: Dictionary = places.get(str(warp.target_scene), {})
-		if place.is_empty() or (place.get("draft", false) and not GameState.dev_mode):
+		if place.is_empty() or place.get("draft", false):
 			continue
-		if not str(warp.required_flag).is_empty() and not GameState.get_flag(str(warp.required_flag)) \
-				and not GameState.dev_mode:
+		if not str(warp.required_flag).is_empty() and not GameState.get_flag(str(warp.required_flag)):
 			continue
 		var key: String = str(warp.target_scene)
 		if not nearest.has(key) or from.distance_squared_to(warp_point(warp)) \
