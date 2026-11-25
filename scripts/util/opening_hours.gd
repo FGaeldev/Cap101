@@ -21,9 +21,7 @@ const CLOSING_MESSAGE: String = "They're closing up for the night. Time to head 
 static func is_establishment(scene_path: String) -> bool:
 	return ESTABLISHMENTS.has(scene_path)
 
-## True from CLOSE_HOUR until OPEN_HOUR. Dev mode keeps everything open.
+## True from CLOSE_HOUR until OPEN_HOUR.
 static func is_closed_now() -> bool:
-	if GameState.dev_mode:
-		return false
 	var hour: float = DayNightManager.get_hour()
 	return hour >= CLOSE_HOUR or hour < OPEN_HOUR

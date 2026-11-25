@@ -19,6 +19,12 @@ func _ready() -> void:
 	_apply_style()
 	_check_save()
 	_add_version_label()
+	# Android closed the game while it was in the background (GameState resume
+	# note): go straight back into that save, paused, instead of the title screen.
+	var resume_slot: int = GameState.take_resume()
+	if resume_slot > 0:
+		GameState.resume_into_pause = true
+		_load_slot.call_deferred(resume_slot)
 	start_btn.pressed.connect(_on_start)
 	continue_btn.pressed.connect(_on_continue)
 	instructions_btn.pressed.connect(func():

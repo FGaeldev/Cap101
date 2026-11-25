@@ -97,7 +97,8 @@ const BUTTON_REACH: float = 6.0
 
 ## Optional GameState flag that must be true before this warp works (e.g.
 ## "chapter1_slept" keeps the airport door shut until the night before the flight).
-## Empty = always open (default, most doors). Bypassed in GameState.dev_mode.
+## Empty = always open (default, most doors). Dev mode doesn't bypass it (v1.1.8:
+## dev mode is tools only; the dev menu's warps go anywhere).
 @export var required_flag: String = ""
 
 ## One-line player remark shown when the warp is blocked by required_flag.
@@ -110,7 +111,7 @@ const BUTTON_REACH: float = 6.0
 @export var closed_message: String = ""
 
 ## Hour from which this warp is closed until 6 AM (e.g. 20.0: no going out
-## alone at night). -1 = never closes (default). Dev mode ignores it.
+## alone at night). -1 = never closes (default).
 @export_range(-1.0, 23.75, 0.25) var curfew_hour: float = -1.0
 const CURFEW_END_HOUR: float = 6.0
 ## Player remark shown when the curfew closes the warp.
@@ -177,7 +178,7 @@ func _physics_process(delta: float) -> void:
 	if Engine.is_editor_hint() or _player == null or _fired:
 		return
 	if fire_during_cutscene and CutsceneManager.is_playing():
-		if required_flag.is_empty() or GameState.dev_mode or GameState.get_flag(required_flag):
+		if required_flag.is_empty() or GameState.get_flag(required_flag):
 			_fire(_player)
 		return
 	if uses_button():
@@ -248,11 +249,7 @@ func _fire(body: Node) -> void:
 		return
 	# The door a "go there yourself" goal leads to (objective.gd) is always open.
 	var is_goal: bool = Objective.is_target_warp(self)
-	# Dev mode opens flag-locked doors, except story exits (the ones a cutscene
-	# walks the family through): leaving the airport lot mid-Chapter 1 skipped the
-	# chapter even for testers (v1.1.7).
-	var dev_open: bool = GameState.dev_mode and not fire_during_cutscene
-	if not is_goal and not required_flag.is_empty() and not dev_open and not GameState.get_flag(required_flag):
+	if not is_goal and not required_flag.is_empty() and not GameState.get_flag(required_flag):
 		_show_blocked_message(body)
 		return
 	if _curfew_closed():
@@ -294,7 +291,7 @@ func _show_blocked_message(player, message: String = "") -> void:
 
 ## True while curfew_hour closes this warp (from curfew_hour until 6 AM).
 func _curfew_closed() -> bool:
-	if curfew_hour < 0.0 or GameState.dev_mode:
+	if curfew_hour < 0.0:
 		return false
 	var hour: float = DayNightManager.get_hour()
 	return hour >= curfew_hour or hour < CURFEW_END_HOUR

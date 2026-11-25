@@ -275,6 +275,8 @@ func _on_return_confirmed() -> void:
 	CutsceneManager.abort()
 	TutorialManager.abort()
 	GameState.save_game()
+	# Leaving on purpose: the next launch starts at the title screen.
+	GameState.clear_resume()
 	close()
 	# Whatever set these is ending with the level, and would never get to undo them.
 	MapManager.is_transitioning = false

@@ -277,11 +277,8 @@ func _condition(name: String) -> bool:
 	push_error("NpcSchedule: unknown condition '%s'" % name)
 	return false
 
-## A chapter's story only starts once data/chapters.json marks it available
-## (dev mode starts it anyway, for testing a chapter before release).
+## A chapter's story only starts once data/chapters.json marks it available.
 func _chapter_available(chapter_id: String) -> bool:
-	if GameState.dev_mode:
-		return true
 	for chapter: Dictionary in ChapterCard.get_chapters():
 		if chapter.get("id", "") == chapter_id:
 			return chapter.get("available", false)

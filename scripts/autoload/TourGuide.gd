@@ -2,7 +2,7 @@
 # (flag chapter2_with_rose). If the player tries a warp in a map where Rose is,
 # the warp doesn't fire: Rose walks over and asks where they want to go instead.
 # After dark she walks over and takes them home. Comp_Warp asks intercept()
-# before doing anything else. Dev mode skips the warp check.
+# before doing anything else.
 extends Node
 
 const WITH_ROSE_FLAG := "chapter2_with_rose"
@@ -61,7 +61,7 @@ func _ready() -> void:
 
 ## True if Rose took over this warp attempt.
 func intercept(warp: Node, player: Node2D) -> bool:
-	if GameState.dev_mode or _rose_nearby(player) == null:
+	if _rose_nearby(player) == null:
 		return false
 	# A "go there yourself" goal (objective.gd): its door is free, the others
 	# get Rose pointing the way.

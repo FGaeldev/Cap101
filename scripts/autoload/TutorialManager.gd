@@ -113,11 +113,12 @@ func _process(delta: float) -> void:
 
 ## Starts a tutorial, or queues it if another is running: it starts when that
 ## one ends, so chained tutorials can't silently drop. Idempotent: no-op if it's
-## done, running, already queued, or unknown. Skipped entirely in dev mode.
+## done, running, already queued, or unknown. Runs in dev mode too (v1.1.8): the
+## dev menu's warps mark the tutorials they skip as done.
 ## interrupt: the player just did the thing this tutorial is about (e.g. tapped
 ## the bedroom book), so the running one is marked done and this starts now.
 func start(tutorial_id: String, interrupt: bool = false) -> void:
-	if GameState.dev_mode or is_done(tutorial_id) or _active_id == tutorial_id:
+	if is_done(tutorial_id) or _active_id == tutorial_id:
 		return
 	if not _tutorials.has(tutorial_id):
 		push_warning("TutorialManager: unknown tutorial '%s'" % tutorial_id)
@@ -202,7 +203,7 @@ func abort(keep_queue: bool = false) -> void:
 func _start_next() -> void:
 	while _active_id == "" and not _queue.is_empty():
 		var next_id: String = _queue.pop_front()
-		if not is_done(next_id) and not GameState.dev_mode:
+		if not is_done(next_id):
 			_begin(next_id)
 
 

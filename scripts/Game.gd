@@ -46,11 +46,38 @@ const ActorPath := preload("res://scripts/util/actor_path.gd")
 ## Closing the window, or Android backgrounding the app (the last event a swiped
 ## away app gets). APPLICATION_PAUSED never fires on desktop.
 func _notification(what: int) -> void:
+	# Back from the background with the app still alive: it's already sitting on
+	# the pause menu (opened below), so no relaunch note is needed.
+	if what == NOTIFICATION_APPLICATION_RESUMED:
+		GameState.clear_resume()
+		return
 	if what != NOTIFICATION_WM_CLOSE_REQUEST and what != NOTIFICATION_APPLICATION_PAUSED:
 		return
 	if is_node_ready() and GameState.session_active:
 		remember_exit_spot()
 		GameState.save_game()
+		# Backgrounded (not closed): pause now, and leave a note so a relaunch
+		# comes back to this game paused instead of the title screen.
+		if what == NOTIFICATION_APPLICATION_PAUSED:
+			GameState.mark_resume()
+			pause_game()
+
+## Waits for the level to settle (its arrival fade and setup), then pauses.
+func _pause_after_load() -> void:
+	for i in 30:
+		if not MapManager.is_transitioning:
+			break
+		await get_tree().create_timer(0.1).timeout
+	await get_tree().create_timer(0.3).timeout
+	if is_inside_tree():
+		pause_game()
+
+## Opens the pause menu (the Book's settings page with the old layout), which
+## pauses the game. Used when the app goes to the background and on a relaunch.
+func pause_game() -> void:
+	if BookUI.visible or MapManager.is_transitioning:
+		return
+	BookUI.open("pause" if BookUI.separate_menus else "settings")
 
 
 ## Records the tile the player is on for the next Continue; the caller saves.
@@ -101,6 +128,11 @@ func _ready() -> void:
 	$UILayer.add_child(arrow)
 	$UILayer.move_child(arrow, 0)
 	ChapterGoals.check.call_deferred()
+	# Relaunched after Android closed the app in the background (main_menu.gd):
+	# come back paused, the way a backgrounded game that survived does.
+	if GameState.resume_into_pause:
+		GameState.resume_into_pause = false
+		_pause_after_load.call_deferred()
 	# After Chapter 4 (kalibo_goals.gd): counts change without a flag (a word
 	# learned, a heart), so check every couple of seconds; it's cheap.
 	var goal_timer := Timer.new()
@@ -177,7 +209,7 @@ func _unstick_player() -> void:
 func _on_hour_for_closing(hour: int) -> void:
 	if float(hour) != OpeningHours.CLOSE_HOUR or not OpeningHours.is_establishment(GameState.current_level_path):
 		return
-	if CutsceneManager.is_playing() or DialogueUI.is_active() or MapManager.is_transitioning or GameState.dev_mode:
+	if CutsceneManager.is_playing() or DialogueUI.is_active() or MapManager.is_transitioning:
 		return
 	var remark := DialogueComponent.new()
 	remark.dialogue_lines = [{"speaker": "Player", "text": OpeningHours.CLOSING_MESSAGE, "next": null}]

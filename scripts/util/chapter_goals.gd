@@ -52,9 +52,6 @@ static func is_goal_quest(quest_id: String) -> bool:
 
 ## True once everything the chapter needs is done (unknown chapters: true).
 static func met(chapter_id: String) -> bool:
-	# Dev mode (the dev menu's chapter skips) never waits on errands, reviews or lessons.
-	if GameState.dev_mode:
-		return true
 	var goal: Dictionary = GOALS.get(chapter_id, {})
 	if goal.is_empty():
 		return true

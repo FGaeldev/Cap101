@@ -393,6 +393,41 @@ func _init_save_slots() -> void:
 	if config.load(DEV_SETTINGS_PATH) == OK:
 		save_slot = clampi(int(config.get_value(SLOT_SETTINGS_SECTION, SLOT_SETTINGS_KEY, 1)), 1, SLOT_COUNT)
 
+## --- Resume after Android backgrounding (v1.1.8) -------------------------------
+## Android can kill a backgrounded app and start it fresh when the player comes
+## back. Game.gd leaves a note here when the app goes to the background; if the
+## next launch finds it, the main menu skips itself and loads that slot straight
+## into the pause menu, so coming back always feels like a pause.
+const RESUME_SECTION := "resume"
+## Set by the main menu for one load: Game.gd opens the pause menu on arrival.
+var resume_into_pause: bool = false
+
+## settings.cfg for the player; test runs (--save-dir) keep the note in their own folder.
+func _resume_cfg_path() -> String:
+	return DEV_SETTINGS_PATH if save_dir == "user://" else save_dir.path_join("resume.cfg")
+
+func mark_resume() -> void:
+	var config := ConfigFile.new()
+	config.load(_resume_cfg_path())
+	config.set_value(RESUME_SECTION, "slot", save_slot)
+	config.save(_resume_cfg_path())
+
+func clear_resume() -> void:
+	var config := ConfigFile.new()
+	if config.load(_resume_cfg_path()) != OK or not config.has_section(RESUME_SECTION):
+		return
+	config.erase_section(RESUME_SECTION)
+	config.save(_resume_cfg_path())
+
+## The slot a backgrounded session left off in (0 = none), and clears the note.
+func take_resume() -> int:
+	var config := ConfigFile.new()
+	if config.load(_resume_cfg_path()) != OK or not config.has_section(RESUME_SECTION):
+		return 0
+	var slot: int = int(config.get_value(RESUME_SECTION, "slot", 0))
+	clear_resume()
+	return slot if slot >= 1 and slot <= SLOT_COUNT and has_save(slot) else 0
+
 ## Makes slot the one save_game()/load_game() use, and remembers it for Continue.
 func use_slot(slot: int) -> void:
 	save_slot = clampi(slot, 1, SLOT_COUNT)

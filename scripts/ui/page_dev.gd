@@ -55,6 +55,8 @@ const CH4_START_FLAGS := CH3_START_FLAGS + [
 ## skip in _dev_warp().
 const CH1_QUESTS := ["q003", "q004"]
 
+const ChapterGoals := preload("res://scripts/util/chapter_goals.gd")
+
 ## Buttons per column page; more entries page with the book's arrow bars.
 const ITEMS_PER_PAGE := 5
 
@@ -459,6 +461,10 @@ func _dev_warp(scene_path: String, flags_on: Array = [], flags_off: Array = [], 
 		GameState.set_flag(flag, true)
 	for flag in flags_off:
 		GameState.set_flag(flag, false)
+	# Skipping past Chapter 2: meet the between-chapter goals (chapter_goals.gd),
+	# so the Chapter 3/4 briefs play. Dev mode no longer waives them (v1.1.8).
+	if "chapter2_complete" in flags_on:
+		_meet_chapter_goals()
 	# After flags: quest gates (requires_flag) read them. Reset first so a
 	# re-cleared quest only reappears when its gate is met.
 	for quest_id in quests_reset:
@@ -472,6 +478,17 @@ func _dev_warp(scene_path: String, flags_on: Array = [], flags_off: Array = [], 
 	game.load_level(scene_path, spawn_id)
 	_save_after_load(game)
 	return true
+
+## Two family errands and six passed Reviews: enough for both the Chapter 3 and
+## Chapter 4 goals. Same errands the playtest uses (Susan's list, Papa's pasalubong).
+func _meet_chapter_goals() -> void:
+	for quest_id: String in ["qs001", "qs003"]:
+		var quest: Dictionary = QuestManager.quests.get(quest_id, {})
+		GameState.set_flag(str(quest.get("requires_flag", "")))
+		QuestManager.complete_quest_silently(quest_id)
+	GameState.reviews_done = maxi(GameState.reviews_done, 6)
+	GameState.reviews_passed = maxi(GameState.reviews_passed, 6)
+	ChapterGoals.check()
 
 ## Saves once the skipped-to level has loaded, so Continue comes back here with
 ## the skip's flags and quests. Waits a frame first so the level's own _ready()
