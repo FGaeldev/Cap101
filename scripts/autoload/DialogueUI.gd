@@ -28,9 +28,8 @@ const MINIGAME_SCRIPTS := {
 	"fishing": preload("res://scripts/ui/fishing_panel.gd"),
 	"stall": preload("res://scripts/ui/stall_panel.gd"),
 	"plaza_directions": preload("res://scripts/ui/plaza_directions_panel.gd"),
-	"weave_sort": preload("res://scripts/ui/weave_sort_panel.gd"),
 }
-const FULLSCREEN_MINIGAMES: Array[String] = ["crossword", "word_search", "habi_habi", "fishing", "plaza_directions", "weave_sort"]
+const FULLSCREEN_MINIGAMES: Array[String] = ["crossword", "word_search", "habi_habi", "fishing", "plaza_directions"]
 const NEWSPAPER_SCRIPT := preload("res://scripts/ui/newspaper_panel.gd")
 
 ## Relative chance of each activity when the player asks an NPC to review.

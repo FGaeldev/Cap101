@@ -121,21 +121,6 @@
 			"One shift a day. Tap any Akeanon word you don't know yet in the Dictionary."
 		]
 	},
-	"weave_sort": {
-		"title": "Hang the Weaves",
-		"goal": "Hang each piña weave on the rack for its colour (and its size, once there are two rows).",
-		"steps": [
-			"Tap a weave in the basket to pick it up.",
-			"Tap the rack it belongs on. The top row names the colours in Akeanon.",
-			"With two rows, mabahoe is the row for big weaves and maisot for small ones.",
-			"Hang every weave to win."
-		],
-		"tips": [
-			"A wrong rack is a miss, and the weave goes back to the basket.",
-			"Too many misses and the curator sorts them again tomorrow.",
-			"The curator offers this once a day."
-		]
-	},
 	"plaza_directions": {
 		"title": "Help with Directions",
 		"goal": "Steer each visitor to the place they ask for, marked green on the map.",

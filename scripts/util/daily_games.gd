@@ -12,8 +12,12 @@ extends RefCounted
 
 const DATA_PATH: String = "res://data/daily_games.json"
 const MENU_PREFIX: String = "daily:"
+## "world" games: played walking around the map, not in a panel.
+const WORLD_GAMES: Dictionary = {"weave_hang": "res://scripts/entities/weave_hang.gd"}
 
 static var _games: Dictionary = {}
+## Games being played right now (a world round in progress): not offered again.
+static var _running: Array[String] = []
 
 static func _load() -> void:
 	if _games.is_empty():
@@ -47,7 +51,7 @@ static func done_today(game_id: String) -> bool:
 ## True while this NPC still has a game to play today (the marker).
 static func has_open(npc_id: String) -> bool:
 	for game_id: String in hosted_by(npc_id):
-		if not done_today(game_id):
+		if not done_today(game_id) and not _running.has(game_id):
 			return true
 	return false
 
@@ -55,7 +59,7 @@ static func has_open(npc_id: String) -> bool:
 static func menu_entries(npc_id: String) -> Array:
 	var out: Array = []
 	for game_id: String in hosted_by(npc_id):
-		if not done_today(game_id):
+		if not done_today(game_id) and not _running.has(game_id):
 			out.append({"id": MENU_PREFIX + game_id, "label": str(game(game_id).get("label", "Play"))})
 	return out
 
@@ -67,18 +71,30 @@ static func start(host: Node, game_id: String) -> void:
 	var speaker: String = str(host.get("npc_id"))
 	if not await _say(host, speaker, str(g.get("intro", ""))):
 		return
-	var line: Dictionary = (g.get("minigame", {}) as Dictionary).duplicate(true)
-	if int(line.get("pair_count", 0)) < 0:
-		line["pair_count"] = GameState.get_minigame_word_count()
 	var result := [false, false]  # [done, passed]
-	DialogueUI.show_standalone_minigame(line, func(passed: bool):
-		result[0] = true
-		result[1] = passed)
-	while not result[0]:
-		await host.get_tree().process_frame
-		if not is_instance_valid(host):
+	if g.has("world"):
+		# Played in the room itself ("weave_hang": weave_hang.gd). Leaving the room
+		# cancels it, and a cancelled round doesn't use up the day.
+		var round: Node = (load(WORLD_GAMES[str(g["world"])]) as Script).new()
+		_running.append(game_id)
+		host.get_parent().add_child(round)
+		var outcome: String = await round.finished
+		_running.erase(game_id)
+		if outcome == "cancelled" or not is_instance_valid(host):
 			return
-	DialogueUI.hide()
+		result = [true, outcome == "won"]
+	else:
+		var line: Dictionary = (g.get("minigame", {}) as Dictionary).duplicate(true)
+		if int(line.get("pair_count", 0)) < 0:
+			line["pair_count"] = GameState.get_minigame_word_count()
+		DialogueUI.show_standalone_minigame(line, func(passed: bool):
+			result[0] = true
+			result[1] = passed)
+		while not result[0]:
+			await host.get_tree().process_frame
+			if not is_instance_valid(host):
+				return
+		DialogueUI.hide()
 	GameState.activity_dates[game_id] = GameState.daily_date()
 	if result[1]:
 		GameState.activity_wins += 1

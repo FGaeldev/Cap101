@@ -363,7 +363,7 @@ func _step() -> void:
 		# for the next word, like at the start.
 		_walking = false
 		set_process(false)
-		AudioManager.play_sfx("wrong")
+		AudioManager.play_sfx("menu_click")
 		_hint.text = "Bump! They stopped at a wall. Pick a new way to go."
 		_redraw()
 		return
@@ -386,7 +386,7 @@ func _lose(message: String) -> void:
 	_stop_walking()
 	_overlay.lost = true
 	_redraw()
-	AudioManager.play_sfx("wrong")
+	AudioManager.play_sfx("menu_click")
 	_text.text = message
 	_hint.text = ""
 	_next_round()

@@ -1,5 +1,5 @@
 {
-	"_about": "Daily word games people offer in their talk menu (scripts/util/daily_games.gd, v1.1.9). host = the NPC's npc_id; level = only in that map; requires_flag / unless_flag gate it on the story. Each game plays once per daily day and pays pay pesos on a win. minigame is a minigame line (DialogueUI.MINIGAME_SCRIPTS); pair_count -1 = the player's difficulty tier (GameState.get_minigame_word_count). word_pool word ids must be in data/word_bank.json.",
+	"_about": "Daily word games people offer in their talk menu (scripts/util/daily_games.gd, v1.1.9). host = the NPC's npc_id; level = only in that map; requires_flag / unless_flag gate it on the story. Each game plays once per daily day and pays pay pesos on a win. minigame is a minigame line (DialogueUI.MINIGAME_SCRIPTS), or world names a game played walking around the map (daily_games.gd WORLD_GAMES); pair_count -1 = the player's difficulty tier (GameState.get_minigame_word_count). word_pool word ids must be in data/word_bank.json.",
 	"games": {
 		"market_match": {
 			"host": "Nong Pedring",
@@ -45,18 +45,16 @@
 				"pair_count": -1
 			}
 		},
-		"weave_sort": {
+		"weave_hang": {
 			"host": "Gallery Curator",
 			"level": "res://scenes/world/haboean/haboean_gallery.tscn",
 			"label": "Help hang the weaves",
 			"requires_flag": "quest_007_done",
-			"intro": "The new piña weaves came in. Hang each one on the display with its colour, and the right size rack.",
+			"intro": "The new piña weaves came in. They're folded on the floor by the door. Carry each one to the display case with its colour on the sign and hang it there.",
 			"win": "Beautiful! The gallery looks ready for visitors.",
-			"lose": "A few are on the wrong racks. We'll sort them again tomorrow.",
+			"lose": "A few went in the wrong cases. We'll take them down and try again tomorrow.",
 			"pay": 5,
-			"minigame": {
-				"minigame_type": "weave_sort"
-			}
+			"world": "weave_hang"
 		}
 	}
 }
