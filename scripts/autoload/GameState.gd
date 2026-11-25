@@ -202,6 +202,8 @@ var puzzle_progress: Dictionary = {}
 var missed_lessons: Dictionary = {}
 ## daily_date() of the last retake: the first retake each day is free.
 var lesson_retake_date: int = 0
+## "Go there yourself" goal (scripts/util/objective.gd): {label, level, target, until_level} or {}.
+var objective: Dictionary = {}
 
 ## One newspaper puzzle per in-game day.
 func is_puzzle_solved_today() -> bool:
@@ -514,6 +516,7 @@ func reset_game_state() -> void:
 	puzzle_progress = {}
 	missed_lessons = {}
 	lesson_retake_date = 0
+	objective = {}
 	# QuestManager is an autoload too; discard prior-run quest availability before rebuilding it.
 	QuestManager.active_quests.clear()
 	QuestManager.refresh_active_quests()
@@ -567,6 +570,7 @@ func save_game() -> bool:
 		"puzzle_progress": puzzle_progress,
 		"missed_lessons": missed_lessons,
 		"lesson_retake_date": lesson_retake_date,
+		"objective": objective,
 		# Which build wrote this save (project.godot version), for the slot
 		# picker and load-time migrations (_migrate_save).
 		"game_version": game_version(),
@@ -708,6 +712,7 @@ func load_game() -> bool:
 	puzzle_progress = data.get("puzzle_progress", {})  # additive field, old saves -> {}
 	missed_lessons = data.get("missed_lessons", {})  # additive field (v1.1.6), old saves -> {}
 	lesson_retake_date = int(data.get("lesson_retake_date", 0))  # additive field
+	objective = data.get("objective", {})  # additive field (v1.1.6)
 	loaded_save_version = str(data.get("game_version", ""))  # additive field, old saves -> ""
 	_migrate_save(int(data.get("save_format", 0)))
 	# QuestManager built its active list at boot, before flags/exposures were

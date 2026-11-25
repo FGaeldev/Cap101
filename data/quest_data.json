@@ -460,6 +460,24 @@
 			"requires_flag": "side_qs011_accepted",
 			"completion_flag": "side_qs011_done",
 			"show_popup": true
+		},
+		{
+			"id": "qs012",
+			"category": "side",
+			"title": "Clean the plaza",
+			"description": "Lola Ising asked you to pick up five pieces of litter around Pastrana Park: by the benches, the planters and the lawn.",
+			"giver": "Lola Ising",
+			"offer_flag": "chapter2_tour_done",
+			"start_pesos": 0,
+			"needs_items": {"plaza_litter": 5},
+			"reward_rapport": 1,
+			"reward_pesos": 15,
+			"lines": {"offer": ["plaza_litter_offer_1", "plaza_litter_offer_2"], "yes": "plaza_litter_offer_yes", "no": "plaza_litter_offer_no", "later": "plaza_litter_offer_later", "remind": "plaza_litter_remind", "thanks": "plaza_litter_thanks"},
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "side_qs012_accepted",
+			"completion_flag": "side_qs012_done",
+			"show_popup": true
 		}
 	]
 }

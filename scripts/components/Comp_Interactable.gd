@@ -59,9 +59,13 @@ func _ready() -> void:
 	TaskManager.task_started.connect(_on_task_signal)
 	TaskManager.task_step_advanced.connect(_on_task_signal)
 	TaskManager.task_completed.connect(_on_task_signal)
-	# Rose marks herself while a story lesson waits to be retaken (lessons.gd).
+	# wants_marker() reads flags, the bag and the clock: re-check when they change.
 	GameState.flag_changed.connect(_on_flag_changed)
+	GameState.inventory_changed.connect(refresh_quest_marker)
+	DayNightManager.hour_changed.connect(_on_hour_changed)
 	refresh_quest_marker()
+	# Again once the level has set up the parent (TourGuide gives Rose her stop's cutscene).
+	refresh_quest_marker.call_deferred()
 	# Expects sibling Area2D named InteractArea on parent
 	var area = $InteractArea
 	if area:
@@ -91,7 +95,9 @@ func refresh_quest_marker() -> void:
 	var show_until_flag: String = _parent_prop("show_until_flag", "")
 	var linked := quest_id != "" or task_id != "" or show_until_flag != ""
 	indicator.visible = _is_quest_imperative(quest_id, task_id, show_until_flag) if linked else is_active
-	if _parent_prop("npc_id", "") == "Rose" and GameState.get_flag("lessons_missed"):
+	# The parent can also ask for a marker itself: an NPC with something for the
+	# player (npc_generic.wants_marker: story or culture talk, an errand, a lesson).
+	if not indicator.visible and get_parent().has_method("wants_marker") and get_parent().wants_marker():
 		indicator.visible = true
 
 ## Reads an exported property from the parent object. Returns fallback when
@@ -113,9 +119,12 @@ func _is_quest_imperative(quest_id: String, task_id: String, show_until_flag: St
 	return false
 
 ## Signal handlers. Args unused, defaulted so both signal arities connect.
-func _on_flag_changed(flag: String, _value: bool) -> void:
-	if flag == "lessons_missed":
-		refresh_quest_marker()
+func _on_flag_changed(_flag: String, _value: bool) -> void:
+	refresh_quest_marker()
+
+
+func _on_hour_changed(_hour: int) -> void:
+	refresh_quest_marker()
 
 
 func _on_quest_signal(_quest_id: String) -> void:

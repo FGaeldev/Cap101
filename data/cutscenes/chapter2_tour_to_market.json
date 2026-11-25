@@ -1,7 +1,8 @@
 [
 	{"type": "game_speed", "scale": 2.0},
 	{"type": "set_flag", "flag": "chapter2_leaving_market", "value": false},
-	{"type": "conga", "join": "nearest_x", "leader": "Rose", "followers": ["player"], "path_to": "Warps/WarpArea3", "gap": 2, "speed": 48, "despawn": true},
-	{"type": "fade", "direction": "out", "duration": 0.6},
-	{"type": "load_scene", "scene_path": "res://scenes/world/market/market_outdoors.tscn"}
+	{"type": "set_flag", "flag": "chapter2_market_walk_started", "value": true},
+	{"type": "conga", "join": "nearest_x", "leader": "Rose", "followers": [], "waypoints": [[1232, 1288]], "gap": 2, "speed": 48, "despawn": false},
+	{"type": "game_speed", "scale": 1.0},
+	{"type": "objective", "label": "Head to the market", "target": "Warps/WarpArea3", "until_level": "res://scenes/world/market/market_outdoors.tscn"}
 ]

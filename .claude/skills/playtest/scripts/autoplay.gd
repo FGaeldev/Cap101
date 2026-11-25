@@ -788,6 +788,26 @@ func _act() -> void:
 		_hold_dir(Vector2i.DOWN)
 		_nav = {"kind": "stand", "phase": "tap", "ticks": 0}
 		return
+	# A "go there yourself" story goal (scripts/util/objective.gd): walk to it.
+	var objective: Dictionary = A.GameState.objective
+	if not objective.is_empty() and str(objective.get("level", "")) == lvl_path:
+		var goal_node: Node = level.get_node_or_null(NodePath(str(objective.get("target", ""))))
+		if goal_node == null:
+			goal_node = load("res://scripts/util/marker_util.gd").find(level, str(objective.get("target", "")))
+		if goal_node != null and goal_node.get("target_scene") != null and _tried.get("objective", 0) < 3:
+			_tried["objective"] = _tried.get("objective", 0) + 1
+			_nav_warp(goal_node, level, "objective: " + str(objective.get("label", "")))
+			return
+		# A spot (a seat's approach tile, or where Rose waits): its tile or a free one beside it.
+		if goal_node is Node2D and _tried.get("objective", 0) < 3:
+			_tried["objective"] = _tried.get("objective", 0) + 1
+			var spot: Vector2 = goal_node.approach_position() if goal_node.has_method("approach_position") else goal_node.global_position
+			var cell := _cell_of(spot)
+			var goals := {}
+			for d in [Vector2i.ZERO, Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP, Vector2i.DOWN]:
+				goals[cell + d] = true
+			if _nav_start({"kind": "goal", "goals": goals, "why": "objective: " + str(objective.get("label", "")), "name": "objective"}):
+				return
 	# A level asking the player to walk somewhere (haboean_cafe.gd's directions walk).
 	if level.has_method("walk_goal"):
 		var goal: Vector2i = level.walk_goal()

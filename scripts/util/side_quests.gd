@@ -48,6 +48,25 @@ static func lines_for(npc_id: String) -> Array:
 			return _offer_lines(qid, q)
 	return []
 
+## True if this giver has an errand to offer now, or one ready to hand in
+## (npc_generic.wants_marker). An accepted errand still being shopped for: false.
+static func has_something(npc_id: String) -> bool:
+	for qid: String in QuestManager.quests:
+		var q: Dictionary = QuestManager.quests[qid]
+		if q.get("category", "") != SIDE_CATEGORY or q.get("giver", "") != npc_id:
+			continue
+		if GameState.get_flag(str(q.get("completion_flag", ""))):
+			continue
+		var unless_flag: String = str(q.get("unless_flag", ""))
+		if not unless_flag.is_empty() and GameState.get_flag(unless_flag):
+			continue
+		if GameState.get_flag(str(q.get("requires_flag", ""))):
+			if has_all_items(q):
+				return true
+		elif _can_offer(qid, q):
+			return true
+	return false
+
 ## Hand-in lines if the player carries everything an accepted quest from this
 ## giver needs, else []. NPCs check this before a talk cutscene (Rose's "Can we
 ## go out again?"), so finished errands can be handed in wherever the giver is.

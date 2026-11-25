@@ -54,6 +54,7 @@ const STOPS: Dictionary = {
 }
 
 const ActorPath := preload("res://scripts/util/actor_path.gd")
+const Objective := preload("res://scripts/util/objective.gd")
 
 func _ready() -> void:
 	DayNightManager.hour_changed.connect(_on_hour_changed)
@@ -62,6 +63,13 @@ func _ready() -> void:
 func intercept(warp: Node, player: Node2D) -> bool:
 	if GameState.dev_mode or _rose_nearby(player) == null:
 		return false
+	# A "go there yourself" goal (objective.gd): its door is free, the others
+	# get Rose pointing the way.
+	if Objective.is_target_warp(warp):
+		return false
+	if Objective.is_here(GameState.current_level_path):
+		_redirect(_rose_nearby(player), player, warp)
+		return true
 	var stop: Dictionary = _stop_for(_rose_nearby(player))
 	if stop.get("free_warps", []).has(String(warp.name)):
 		return false
@@ -151,6 +159,18 @@ func _tell_to_stay(rose: Node2D, player: Node2D, warp: Node) -> void:
 	MapManager.is_transitioning = false
 	var dialogue := DialogueComponent.new()
 	dialogue.dialogue_lines = [{"speaker": "Rose", "text": "Not yet, balikbayan. Talk to me when you are ready to keep going.", "next": null}]
+	rose.add_child(dialogue)
+	dialogue.dialogue_ended.connect(dialogue.queue_free)
+	dialogue.start_dialogue()
+
+## Another door while a goal waits here: Rose points the way (the arrow shows it).
+func _redirect(rose: Node2D, player: Node2D, warp: Node) -> void:
+	MapManager.is_transitioning = true
+	warp._walk_player_back(player)
+	await get_tree().create_timer(player.step_time).timeout
+	MapManager.is_transitioning = false
+	var dialogue := DialogueComponent.new()
+	dialogue.dialogue_lines = [{"speaker": "Rose", "text": "Not that way, balikbayan. %s first. Follow the arrow." % Objective.label(), "next": null}]
 	rose.add_child(dialogue)
 	dialogue.dialogue_ended.connect(dialogue.queue_free)
 	dialogue.start_dialogue()

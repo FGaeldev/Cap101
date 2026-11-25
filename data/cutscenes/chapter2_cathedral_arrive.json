@@ -1,0 +1,9 @@
+[
+	{"type": "objective", "clear": true},
+	{"type": "game_speed", "scale": 1.0},
+	{"type": "parallel", "actions": [{"type": "camera", "mode": "focus", "to": [1080, -96], "duration": 1.2}, {"type": "camera", "mode": "zoom", "to": [1.2, 1.2], "duration": 1.2}]},
+	{"type": "wait", "seconds": 0.6},
+	{"type": "dialogue", "chapter": "chapter2", "scene": "scene_3_kalibo_cathedral_midday"},
+	{"type": "parallel", "actions": [{"type": "camera", "mode": "zoom", "to": [2, 2], "duration": 0.8}, {"type": "camera", "mode": "release", "duration": 0.8}]},
+	{"type": "set_flag", "flag": "chapter2_arrived_cathedral", "value": true}
+]

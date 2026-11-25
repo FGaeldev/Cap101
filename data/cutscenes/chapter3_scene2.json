@@ -1,4 +1,5 @@
 [
+	{"type": "objective", "clear": true},
 	{"type": "parallel", "actions": [
 		{"type": "sit", "actor": "player", "pew": "Loom1Stool", "walk": true, "speed": 48},
 		{"type": "move_npc", "actor": "Rose", "to": [16, 112], "avoid_actors": true, "speed": 48, "face": "right"},
