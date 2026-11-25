@@ -3,7 +3,7 @@
 # Driven by a line of minigame_type "hangman":
 #   { "type": "minigame_trigger", "minigame_type": "hangman",
 #     "word_pool": ["w090", "w054"],   # word_ids the word may come from (required)
-#     "max_misses": 6 }                # optional
+#     "max_misses": 4 }                # optional, at most 4
 #
 # The word is drawn weighted by WordBank.get_weighted_review_word (GDD 6.8). A
 # win is +1 mastery, a loss -1; no other effects (no-punishment rule, GDD 7).
@@ -15,7 +15,8 @@ extends PanelContainer
 ## Emitted once, after the end-of-game feedback hold.
 signal resolved(passed: bool)
 
-const DEFAULT_MAX_MISSES: int = 6
+## v1.1.6 difficulty: was 6. A line may allow fewer, not more.
+const DEFAULT_MAX_MISSES: int = 4
 ## Seconds the win/lose message shows before resolving. Longer than other panels
 ## so the player can read the revealed word after losing.
 const END_HOLD: float = 2.0
@@ -28,6 +29,9 @@ class Figure extends Control:
 		set(value):
 			misses = value
 			queue_redraw()
+	## Misses that end the game: the 6 body parts are spread over them, so the
+	## figure is always finished on the last allowed miss.
+	var max_misses: int = 6
 
 	func _draw() -> void:
 		var ink: Color = UIThemeApplier.TEXT_DEFAULT
@@ -41,17 +45,18 @@ class Figure extends Control:
 		draw_line(Vector2(w * 0.25, h * 0.96), Vector2(w * 0.25, h * 0.06), ink, 2.0)
 		draw_line(Vector2(w * 0.25, h * 0.06), Vector2(head.x, h * 0.06), ink, 2.0)
 		draw_line(Vector2(head.x, h * 0.06), head - Vector2(0, radius), ink, 1.0)
-		if misses >= 1:
+		var parts: int = ceili(float(misses) * 6.0 / float(maxi(max_misses, 1)))
+		if parts >= 1:
 			draw_arc(head, radius, 0.0, TAU, 16, ink, 1.5)
-		if misses >= 2:
+		if parts >= 2:
 			draw_line(neck, hips, ink, 1.5)
-		if misses >= 3:
+		if parts >= 3:
 			draw_line(neck + Vector2(0, 4), neck + Vector2(-11, 13), ink, 1.5)
-		if misses >= 4:
+		if parts >= 4:
 			draw_line(neck + Vector2(0, 4), neck + Vector2(11, 13), ink, 1.5)
-		if misses >= 5:
+		if parts >= 5:
 			draw_line(hips, hips + Vector2(-10, 14), ink, 1.5)
-		if misses >= 6:
+		if parts >= 6:
 			draw_line(hips, hips + Vector2(10, 14), ink, 1.5)
 
 var _word_id: String = ""
@@ -98,7 +103,8 @@ func open(line: Dictionary) -> void:
 
 	_guessed.clear()
 	_misses = 0
-	_max_misses = int(line.get("max_misses", DEFAULT_MAX_MISSES))
+	_max_misses = mini(int(line.get("max_misses", DEFAULT_MAX_MISSES)), DEFAULT_MAX_MISSES)
+	_figure.max_misses = _max_misses
 	_figure.misses = 0
 	_keyboard.reset()
 	_clue_label.text = "Clue: %s" % WordBank.get_word(_word_id).get("gloss", "")

@@ -260,7 +260,7 @@
 	},
 	{
 	  "speaker": "Rose",
-	  "text": "Close enough. You'll hear every one of them inside.",
+	  "text": "Not quite. You'll hear every one of them inside, and we'll go over them again later.",
 	  "next": null,
 	  "word_ids": [],
 	  "type": "dialogue"
@@ -820,7 +820,7 @@
 	},
 	{
 	  "speaker": "Rose",
-	  "text": "Not bad for a first try. Look at the shelves again on your way out.",
+	  "text": "Not yet. Look at the shelves again on your way out. We'll try these another day.",
 	  "next": 10,
 	  "word_ids": [],
 	  "type": "dialogue"

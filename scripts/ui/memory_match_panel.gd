@@ -89,7 +89,8 @@ func open(line: Dictionary) -> void:
 		return
 
 	_pair_total = pair_ids.size()
-	_max_mistakes = int(line.get("max_mistakes", _pair_total * 2))
+	# v1.1.6 difficulty: one miss per pair (was two). A line may allow fewer, not more.
+	_max_mistakes = mini(int(line.get("max_mistakes", _pair_total)), _pair_total)
 	_build_cards(pair_ids)
 	_refresh_status("Match each word with its meaning")
 	_locked = false

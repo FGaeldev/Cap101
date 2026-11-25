@@ -600,13 +600,19 @@ func _drive() -> void:
 		if _review_done < 2 and A.GameState.get_flag("seen_chapter1_scene4"):
 			pick = "Review"
 		if not _stall_tried:
-			for b in DUI._npc_menu.get_children():
+			for b in DUI._npc_menu.find_children("*", "Button", true, false):
 				if b is Button and b.text in ["Help at the stall", "Help with directions"] and b.visible:
 					pick = b.text
 					_stall_tried = true
+		# A failed story lesson holds the next chapter (scripts/util/lessons.gd):
+		# retake it with Rose when today's retake is free (the driver doesn't
+		# count coins in the pay panel; a paid one waits for the next day).
+		for b in DUI._npc_menu.find_children("*", "Button", true, false):
+			if b is Button and b.visible and b.text.begins_with("Retake a lesson") and b.text.contains("free today"):
+				pick = b.text
 		var who: String = DUI._npc_menu.get_node("NpcName").text if DUI._npc_menu.has_node("NpcName") else "?"
 		var btn: Button = null
-		for b in DUI._npc_menu.get_children():
+		for b in DUI._npc_menu.find_children("*", "Button", true, false):
 			if b is Button and b.text == pick:
 				btn = b
 		if btn == null:

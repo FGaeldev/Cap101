@@ -40,7 +40,9 @@ const DEFAULT_STAGES: Array = [
 ]
 ## Seconds Loleng's line between stages stays up before the next word.
 const STAGE_HOLD: float = 1.6
-const DEFAULT_PASS_RATIO: float = 0.6
+const DEFAULT_PASS_RATIO: float = 0.8
+## Lowest pass ratio a line may set (v1.1.6 difficulty): older lines ask for 0.6.
+const MIN_PASS_RATIO: float = 0.8
 const DEFAULT_GRID: int = 5
 const MIN_LETTERS: int = 3
 const CLEAN_CLOTH_FLAG: String = "habi_habi_clean_cloth"
@@ -151,7 +153,7 @@ func open(line: Dictionary) -> void:
 	if _stages.is_empty():
 		_stages = DEFAULT_STAGES
 	_between = line.get("between_stages", [])
-	_pass_ratio = clampf(float(line.get("pass_ratio", DEFAULT_PASS_RATIO)), 0.0, 1.0)
+	_pass_ratio = clampf(float(line.get("pass_ratio", DEFAULT_PASS_RATIO)), MIN_PASS_RATIO, 1.0)
 	_letter_bag = "".join(_letters_of.values())
 	_stage = 0
 	_word_in_stage = 0

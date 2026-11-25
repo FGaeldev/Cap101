@@ -252,7 +252,7 @@ func show_review_quiz() -> void:
 		],
 		"question_template_choice_displays": ["gloss", "word"],
 		"choice_display": "gloss",
-		"pass_ratio": 0.5
+		"pass_ratio": 0.7
 	}
 	show_standalone_quiz(review_line, _on_review_quiz_resolved)
 

@@ -37,6 +37,7 @@ extends CharacterBody2D
 const SideQuests := preload("res://scripts/util/side_quests.gd")
 const StallHelper := preload("res://scripts/util/stall_helper.gd")
 const PlazaGame := preload("res://scripts/util/plaza_game.gd")
+const Lessons := preload("res://scripts/util/lessons.gd")
 
 @onready var interactable: InteractableComponent = $InteractableComponent
 @onready var dialogue: DialogueComponent = $DialogueComponent
@@ -72,6 +73,9 @@ func _on_interacted(_interactor: Node) -> void:
 	if activity == "plaza_directions" and not PlazaGame.done_today():
 		extras.append({"id": "plaza_directions", "label": "Help with directions"})
 	# Out with Rose and nothing required here: she can take the player elsewhere.
+	# Story lessons failed earlier (lessons.gd): Rose goes over them again.
+	if npc_id == TourGuide.ROSE_ID and not GameState.missed_lessons.is_empty():
+		extras.append({"id": "retake", "label": Lessons.menu_label()})
 	if npc_id == TourGuide.ROSE_ID and TourGuide.can_offer_trip(self):
 		extras.append({"id": "go_somewhere", "label": "Let's go somewhere"})
 	DialogueUI.show_npc_interaction_menu(
@@ -94,6 +98,8 @@ func _on_interaction_menu_choice(choice: String) -> void:
 			StallHelper.start(self)
 		"plaza_directions":
 			PlazaGame.start(self)
+		"retake":
+			Lessons.retake(self)
 		"go_somewhere":
 			TourGuide.ask(self)
 		"goodbye":

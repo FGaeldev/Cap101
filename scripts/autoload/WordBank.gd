@@ -272,18 +272,23 @@ func puzzle_letters(word_id: String) -> String:
 func get_known_puzzle_words(min_length: int, max_length: int) -> Array:
 	var ids: Array = GameState.word_exposures.keys()
 	ids.shuffle()
+	# Mastery has no cap, so sort rather than loop over every score. Each word
+	# carries its shuffle position so ties keep the random order.
+	var order: Array = []
+	for i in ids.size():
+		order.append([GameState.get_mastery(str(ids[i])), i, str(ids[i])])
+	order.sort()
 	var result: Array = []
 	var seen: Dictionary = {}
-	for mastery in range(GameState.MASTERY_MAX + 1):
-		for raw_id in ids:
-			var id := str(raw_id)
-			if GameState.get_mastery(id) != mastery or not is_practice_word(id):
-				continue
-			var letters := puzzle_letters(id)
-			if letters.length() < min_length or letters.length() > max_length or seen.has(letters):
-				continue
-			seen[letters] = true
-			result.append(id)
+	for entry: Array in order:
+		var id: String = entry[2]
+		if not is_practice_word(id):
+			continue
+		var letters := puzzle_letters(id)
+		if letters.length() < min_length or letters.length() > max_length or seen.has(letters):
+			continue
+		seen[letters] = true
+		result.append(id)
 	return result
 
 ## This in-game day's word: a random word the player hasn't met, kept for the

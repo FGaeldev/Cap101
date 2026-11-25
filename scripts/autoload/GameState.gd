@@ -177,8 +177,10 @@ var completed_tasks: Dictionary = {} # task_id -> bool
 # puzzle; -1 per wrong answer. Hidden weighting signal only -- low mastery
 # raises a word's pick weight (WordBank.get_weighted_review_word). Never feeds
 # rewards, rapport or patience, so the no-punishment rule (GDD 7) holds.
+## No upper cap (v1.1.6): mastery keeps counting past this. It is only the point
+## where a word stops getting extra pick weight (WordBank.get_weighted_review_word).
 const MASTERY_MAX := 10
-var word_mastery: Dictionary = {}    # word_id -> int, clamped 0..MASTERY_MAX
+var word_mastery: Dictionary = {}    # word_id -> int, 0 or more
 
 # --- Word of the Day (newspaper, WordBank.get_word_of_the_day) ---
 var wotd_date: int = 0     # date_unix the word was picked on
@@ -195,6 +197,11 @@ var mass_invite_date: int = 0     # date_unix of the last Sunday mass invitation
 var event_reminder_date: int = 0  # date_unix of the last morning event-reminder check (HUD)
 # {date, ...panel state} of a quit daily puzzle; ignored once the date moves on.
 var puzzle_progress: Dictionary = {}
+## Story minigames the player failed (gate ids, lessons.gd) -> true. The next
+## chapter waits until each is retaken with Rose (chapter_goals.gd).
+var missed_lessons: Dictionary = {}
+## daily_date() of the last retake: the first retake each day is free.
+var lesson_retake_date: int = 0
 
 ## One newspaper puzzle per in-game day.
 func is_puzzle_solved_today() -> bool:
@@ -214,7 +221,7 @@ signal mastery_changed
 func adjust_mastery(word_id: String, delta: int) -> void:
 	if word_id.is_empty():
 		return
-	word_mastery[word_id] = clampi(word_mastery.get(word_id, 0) + delta, 0, MASTERY_MAX)
+	word_mastery[word_id] = maxi(int(word_mastery.get(word_id, 0)) + delta, 0)
 	mastery_changed.emit()
 
 func get_mastery(word_id: String) -> int:
@@ -505,6 +512,8 @@ func reset_game_state() -> void:
 	mass_invite_date = 0
 	event_reminder_date = 0
 	puzzle_progress = {}
+	missed_lessons = {}
+	lesson_retake_date = 0
 	# QuestManager is an autoload too; discard prior-run quest availability before rebuilding it.
 	QuestManager.active_quests.clear()
 	QuestManager.refresh_active_quests()
@@ -556,6 +565,8 @@ func save_game() -> bool:
 		"mass_invite_date": mass_invite_date,
 		"event_reminder_date": event_reminder_date,
 		"puzzle_progress": puzzle_progress,
+		"missed_lessons": missed_lessons,
+		"lesson_retake_date": lesson_retake_date,
 		# Which build wrote this save (project.godot version), for the slot
 		# picker and load-time migrations (_migrate_save).
 		"game_version": game_version(),
@@ -695,6 +706,8 @@ func load_game() -> bool:
 	mass_invite_date = data.get("mass_invite_date", 0)  # additive field, old saves -> 0
 	event_reminder_date = data.get("event_reminder_date", 0)  # additive field, old saves -> 0
 	puzzle_progress = data.get("puzzle_progress", {})  # additive field, old saves -> {}
+	missed_lessons = data.get("missed_lessons", {})  # additive field (v1.1.6), old saves -> {}
+	lesson_retake_date = int(data.get("lesson_retake_date", 0))  # additive field
 	loaded_save_version = str(data.get("game_version", ""))  # additive field, old saves -> ""
 	_migrate_save(int(data.get("save_format", 0)))
 	# QuestManager built its active list at boot, before flags/exposures were

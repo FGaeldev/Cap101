@@ -2,6 +2,8 @@
 class_name DialogueComponent
 extends Node
 
+const Lessons := preload("res://scripts/util/lessons.gd")
+
 const IdleTalk := preload("res://scripts/util/idle_talk.gd")
 
 @export var npc_id: String = ""
@@ -238,6 +240,7 @@ func _handle_phrase_builder(line: Dictionary) -> void:
 ## "success" / "failure" index, falling back to "next", else ends dialogue.
 func resolve_phrase_builder(passed: bool) -> void:
 	var line: Dictionary = dialogue_lines[_current_line]
+	Lessons.record(line, passed)
 	var nxt = line.get("success" if passed else "failure", line.get("next"))
 	if nxt == null or nxt >= dialogue_lines.size():
 		_end()
@@ -255,6 +258,7 @@ func _handle_quiz(line: Dictionary) -> void:
 ## "success" / "failure" index, falling back to "next", else ends dialogue.
 func resolve_quiz(passed: bool) -> void:
 	var line: Dictionary = dialogue_lines[_current_line]
+	Lessons.record(line, passed)
 	var nxt = line.get("success" if passed else "failure", line.get("next"))
 	if nxt == null or nxt >= dialogue_lines.size():
 		_end()
@@ -272,6 +276,7 @@ func _handle_minigame(line: Dictionary) -> void:
 ## "success" / "failure" index, falling back to "next", else ends dialogue.
 func resolve_minigame(passed: bool) -> void:
 	var line: Dictionary = dialogue_lines[_current_line]
+	Lessons.record(line, passed)
 	var nxt = line.get("success" if passed else "failure", line.get("next"))
 	if nxt == null or nxt >= dialogue_lines.size():
 		_end()
