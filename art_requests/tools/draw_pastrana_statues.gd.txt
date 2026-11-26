@@ -1,0 +1,420 @@
+extends SceneTree
+# Draws assets/pastrana/pastrana_statues.png: five 32x96 cells, bottom-aligned.
+#  0 Gabriel M. Reyes   1 Pastor Martelino   2 WWII obelisk   3 Gil Mijares   4 Del Castillo marker
+const CW := 32
+const CH := 96
+var img: Image
+var errors := 0
+
+const OUT := "#45283c"
+const P_BRONZE := {"o": "#45283c", "d": "#58401e", "m": "#8a6f30", "l": "#c9a55a", "h": "#e6cd8a"}
+const P_IRON := {"o": "#222034", "d": "#2f2d36", "m": "#3e3d40", "l": "#545256", "h": "#716f7b"}
+const P_MARBLE := {"o": "#45283c", "d": "#8d989e", "m": "#b2c0c7", "l": "#cad3d8", "h": "#e9dfee"}
+const P_CREAM := {"o": "#45283c", "d": "#a37666", "m": "#e0cbb6", "l": "#eec39a", "h": "#f4dcc0"}
+const P_GRANITE := {"o": "#222034", "d": "#222034", "m": "#3e3d40", "l": "#545256", "h": "#716f7b"}
+const P_TILE := {"o": "#45283c", "d": "#97715f", "m": "#c9a55a", "l": "#e0cbb6", "h": "#eec39a"}
+const P_CONCRETE := {"o": "#45283c", "d": "#716f7b", "m": "#8d989e", "l": "#adc1cc", "h": "#cad3d8"}
+
+# ---------- figures (16 wide) ----------
+const ARCHBISHOP := [
+	"......oooo......",
+	".....ohhllo.....",
+	".....olllmo.....",
+	".....olmmdo.....",
+	".....omlmdo.....",
+	"......oddo......",
+	"....oolllmoo....",
+	"...ohlllmmmdo...",
+	"..ohllmmmmmmdo..",
+	"..olllmmmmmmdo..",
+	"..ollmhhlmmmdo..",
+	"..olmhhhlmmddo..",
+	"..olmmllmmmddo..",
+	"..oolmmmmmmdoo..",
+	"...olmmmmmmdo...",
+	"...olmlmmmmdo...",
+	"...olmlmmmmdo...",
+	"...olmlmmmddo...",
+	"...olmlmmmddo...",
+	"..olmmlmmmmddo..",
+	"..olmmlmmmmddo..",
+	"..olmmlmmmmddo..",
+	"..olmmlmmmdddo..",
+	"..olmmlmmmdddo..",
+	".olmmmlmmmmdddo.",
+	".olmmmlmmmmdddo.",
+	".olmmmlmmmmdddo.",
+	".olllmmmmmmmddo.",
+	".oddddddddddddo.",
+	"..oooooooooooo..",
+]
+# Officer in peaked cap, at attention (Martelino).
+const OFFICER := [
+	".....oooooo.....",
+	"....ohllmmmo....",
+	"....ollmmmmo....",
+	"...oddddddddo...",
+	".....ohlmmo.....",
+	".....olmmdo.....",
+	"......omdo......",
+	"...oooolmdooo...",
+	"..ohllllmmmmdo..",
+	".ohlollmmmdodmo.",
+	".ohmolmmmmdomdo.",
+	".ohmolmmmmdomdo.",
+	".ohmolmmmmdomdo.",
+	".ohmoddddddomdo.",
+	".ohmolmmmmdomdo.",
+	".ollolmmmmdollo.",
+	".oooolmmmmdoooo.",
+	"....olmmmmdo....",
+	"....olmoomdo....",
+	"....olmoomdo....",
+	"....olmoomdo....",
+	"....olmoomdo....",
+	"....olmoomdo....",
+	"....olmoomdo....",
+	"....olmoomdo....",
+	"...oldmoomddo...",
+	"...odddooddddo..",
+	"...oooo..ooooo..",
+]
+# Soldier in garrison cap, right hand on chest (Mijares).
+const SOLDIER := [
+	"......ooooo.....",
+	".....ohllmmo....",
+	".....oddddddo...",
+	".....ohlmmdo....",
+	".....olmmmdo....",
+	"......omddo.....",
+	"...oooolmdooo...",
+	"..ohllllmmmmdo..",
+	".ohlollmmmmmmdo.",
+	".ohmolmmoollmdo.",
+	".ohmolmollllodo.",
+	".ohmolmmoooomdo.",
+	".ohmolmmmmmdmdo.",
+	".ohmolmmmmmdmdo.",
+	".ollolmmmmmdmdo.",
+	".ooooddddddddoo.",
+	"....olmmmmmdo...",
+	"....olmmoomdo...",
+	"....olmmoomdo...",
+	"....olmmoomdo...",
+	"....olmmoomdo...",
+	"....olmmoomdo...",
+	"....olmmoomdo...",
+	"....olmmoomdo...",
+	"...oldmmoomddo..",
+	"...oddddoddddo..",
+	"...ooooo.ooooo..",
+]
+
+# Rizal in an overcoat, hand at his chin (pensive).
+const RIZAL := [
+	"......oooo......",
+	".....ohllmo.....",
+	".....olllmo.....",
+	".....ohlmdo.....",
+	"....ohhmmdo.....",
+	"...ohl.oddo.....",
+	"...olloolmdoo...",
+	"...ohlllmmmdo...",
+	"..ohllllmmmmdo..",
+	"..ohllmmmmdomdo.",
+	"..ohllmmmmdomdo.",
+	"..ohllmmmmdomdo.",
+	"..ohllmmmmdomdo.",
+	"..ohllmmmmdomdo.",
+	"..ohllmmmmdomdo.",
+	"..ohllmmmmdollo.",
+	"..ohllmmmmddoo..",
+	"..olllmmmmmddo..",
+	"..ollmlmmmmddo..",
+	"...olmlmmmddo...",
+	"...oooolmdooo...",
+	"....olmoomdo....",
+	"....olmoomdo....",
+	"....olmoomdo....",
+	"....olmoomdo....",
+	"...oldmoomddo...",
+	"...odddooddddo..",
+	"...oooo..ooooo..",
+]
+# Bonifacio with a bolo raised high (valiant).
+const BONIFACIO := [
+	"..o.............",
+	".oho............",
+	".oho............",
+	".oho...oooo.....",
+	".oho..ohllmo....",
+	".oho..olllmo....",
+	".ooo..ohlmdo....",
+	".olo..olmmdo....",
+	".olo...oddo.....",
+	".ollooolmdooo...",
+	"..ohllllmmmmdo..",
+	"...ohllmmmmmmdo.",
+	"...olllmmmmmdmdo",
+	"...olllmmmmmdmdo",
+	"...olllmmmmmdmdo",
+	"...olllmmmmmdllo",
+	"...oddddddddoooo",
+	"....olmmmmmmdo..",
+	"....olmmoommdo..",
+	"....olmmo.omdo..",
+	"...olmmo..omdo..",
+	"...olmmo...omdo.",
+	"...olmo....omdo.",
+	"..oldmo....omddo",
+	"..odddo....odddo",
+	"..oooo.....ooooo",
+]
+
+func _initialize() -> void:
+	img = Image.create(CW * 7, CH, false, Image.FORMAT_RGBA8)
+	img.fill(Color(0, 0, 0, 0))
+	_reyes(0)
+	_martelino(1)
+	_obelisk(2)
+	_mijares(3)
+	_castillo(4)
+	_rizal(5)
+	_bonifacio(6)
+	if errors > 0:
+		print("ERRORS: ", errors)
+	var out := "res://assets/pastrana/pastrana_statues.png"
+	img.save_png(out)
+	# Big preview for review.
+	var big := img.duplicate()
+	big.resize(img.get_width() * 6, img.get_height() * 6, Image.INTERPOLATE_NEAREST)
+	var bg := Image.create(big.get_width(), big.get_height(), false, Image.FORMAT_RGBA8)
+	bg.fill(Color("#49cf98"))
+	bg.blend_rect(big, Rect2i(Vector2i.ZERO, big.get_size()), Vector2i.ZERO)
+	bg.save_png(OS.get_cmdline_user_args()[0] if OS.get_cmdline_user_args().size() > 0 and OS.get_cmdline_user_args()[0].ends_with(".png") else "user://statues_preview.png")
+	print("done")
+	quit()
+
+# ---------- primitives ----------
+func px(x: int, y: int, c: String) -> void:
+	if x < 0 or y < 0 or x >= img.get_width() or y >= img.get_height():
+		return
+	img.set_pixel(x, y, Color(c))
+
+func rect(x: int, y: int, w: int, h: int, c: String) -> void:
+	for yy in h:
+		for xx in w:
+			px(x + xx, y + yy, c)
+
+## Outlined, shaded box: light top row and left column, dark right column.
+func box(x: int, y: int, w: int, h: int, p: Dictionary) -> void:
+	rect(x, y, w, h, p["o"])
+	rect(x + 1, y + 1, w - 2, h - 2, p["m"])
+	rect(x + 1, y + 1, w - 2, 1, p["h"])
+	rect(x + 1, y + 2, 1, h - 3, p["l"])
+	rect(x + w - 2, y + 2, 1, h - 3, p["d"])
+
+## A box whose bottom row is in shadow (ledges, plinths).
+func ledge(x: int, y: int, w: int, h: int, p: Dictionary) -> void:
+	box(x, y, w, h, p)
+	if h > 3:
+		rect(x + 1, y + h - 2, w - 2, 1, p["d"])
+
+func grid(x: int, y: int, rows: Array, p: Dictionary, name: String) -> void:
+	for r in rows.size():
+		var row: String = rows[r]
+		if row.length() != 16:
+			print("%s row %d is %d wide: %s" % [name, r, row.length(), row])
+			errors += 1
+		for c in row.length():
+			var ch := row[c]
+			if ch != ".":
+				px(x + c, y + r, p[ch])
+
+## Plaque with a frame and text lines.
+func plaque(x: int, y: int, w: int, h: int, face: String, frame: String, text: String, title: String = "") -> void:
+	rect(x, y, w, h, frame)
+	rect(x + 1, y + 1, w - 2, h - 2, face)
+	var ty := y + 2
+	if title != "":
+		rect(x + 2, ty, w - 4, 1, title)
+		ty += 2
+	while ty < y + h - 2:
+		var lw := w - 4 - (1 if (ty / 2) % 3 == 2 else 0)
+		rect(x + 2, ty, lw, 1, text)
+		ty += 2
+
+# ---------- statues ----------
+func _reyes(cell: int) -> void:
+	var x0 := cell * CW
+	# tiled two-step base
+	ledge(x0 + 2, 89, 28, 7, P_TILE)
+	for i in range(4, 28, 4):
+		px(x0 + 2 + i, 91, P_TILE["d"])
+		px(x0 + 2 + i, 92, P_TILE["d"])
+	ledge(x0 + 5, 84, 22, 6, P_TILE)
+	# black granite pedestal with tan corner strips
+	box(x0 + 8, 48, 16, 37, P_GRANITE)
+	rect(x0 + 8, 48, 2, 37, P_TILE["o"]); rect(x0 + 9, 49, 1, 35, P_TILE["l"])
+	rect(x0 + 22, 48, 2, 37, P_TILE["o"]); rect(x0 + 22, 49, 1, 35, P_TILE["d"])
+	ledge(x0 + 7, 45, 18, 4, P_CONCRETE)
+	ledge(x0 + 7, 71, 18, 3, P_CONCRETE)
+	# NHCP cast-iron marker: seal and gold lines
+	plaque(x0 + 11, 52, 10, 16, "#2f2d36", "#c9a55a", "#8a6f30")
+	px(x0 + 15, 53, "#e6cd8a"); px(x0 + 16, 53, "#e6cd8a")
+	# bronze archbishop
+	grid(x0 + 8, 16, ARCHBISHOP, P_BRONZE, "archbishop")
+
+func _martelino(cell: int) -> void:
+	var x0 := cell * CW
+	ledge(x0 + 5, 88, 22, 8, P_CREAM)
+	box(x0 + 8, 56, 16, 33, P_CREAM)
+	ledge(x0 + 7, 52, 18, 5, P_CREAM)
+	plaque(x0 + 10, 60, 12, 24, "#e9dfee", "#8d989e", "#716f7b", "#45283c")
+	# dark mound the figure stands on
+	rect(x0 + 10, 50, 12, 2, P_IRON["o"]); rect(x0 + 11, 49, 10, 1, P_IRON["m"])
+	grid(x0 + 8, 22, OFFICER, P_IRON, "officer")
+
+func _mijares(cell: int) -> void:
+	var x0 := cell * CW
+	ledge(x0 + 5, 88, 22, 8, P_MARBLE)
+	box(x0 + 8, 56, 16, 33, P_MARBLE)
+	# marble veins
+	for v in [[10, 70], [11, 71], [19, 80], [20, 81], [13, 86]]:
+		px(x0 + v[0], v[1], P_MARBLE["d"])
+	ledge(x0 + 7, 52, 18, 5, P_MARBLE)
+	plaque(x0 + 10, 59, 12, 24, "#ffffff", "#8d989e", "#716f7b", "#be4b57")
+	rect(x0 + 10, 50, 12, 2, P_IRON["o"]); rect(x0 + 11, 49, 10, 1, P_IRON["m"])
+	grid(x0 + 8, 23, SOLDIER, P_IRON, "soldier")
+
+func _obelisk(cell: int) -> void:
+	var x0 := cell * CW
+	ledge(x0 + 3, 89, 26, 7, P_MARBLE)
+	ledge(x0 + 6, 84, 20, 6, P_MARBLE)
+	box(x0 + 8, 64, 16, 21, P_MARBLE)
+	ledge(x0 + 7, 61, 18, 4, P_MARBLE)
+	plaque(x0 + 11, 67, 10, 14, "#3e3d40", "#8d989e", "#adc1cc")
+	# tapered shaft: 12 wide at the bottom, 6 at the top
+	var top := 10
+	var bottom := 61
+	for y in range(top, bottom):
+		var t := float(y - top) / float(bottom - top)
+		var width := 2 * int(round(lerp(3.0, 6.0, t)))
+		var left := x0 + 16 - width / 2
+		var right := left + width - 1
+		for x in range(left, right + 1):
+			var c: String = P_MARBLE["m"]
+			if x == left or x == right:
+				c = OUT
+			elif x == left + 1:
+				c = P_MARBLE["h"]
+			elif x == left + 2:
+				c = P_MARBLE["l"]
+			elif x >= right - 2:
+				c = P_MARBLE["d"]
+			px(x, y, c)
+	# pyramidion
+	for i in 6:
+		var y := top - 6 + i
+		var half := i / 2 + 1
+		for x in range(x0 + 16 - half, x0 + 16 + half):
+			var c: String = P_MARBLE["l"] if x < x0 + 16 else P_MARBLE["d"]
+			if x == x0 + 16 - half or x == x0 + 16 + half - 1:
+				c = OUT
+			px(x, y, c)
+	px(x0 + 15, top - 6, OUT); px(x0 + 16, top - 6, OUT)
+	# a few veins
+	for v in [[14, 20], [15, 21], [15, 22], [17, 35], [18, 36], [13, 47], [14, 48], [18, 55]]:
+		px(x0 + v[0], v[1], P_MARBLE["d"])
+
+func _rizal(cell: int) -> void:
+	var x0 := cell * CW
+	# white stepped pedestal with a cornice and a plaque
+	ledge(x0 + 4, 90, 24, 6, P_MARBLE)
+	ledge(x0 + 6, 85, 20, 6, P_MARBLE)
+	box(x0 + 9, 58, 14, 28, P_MARBLE)
+	ledge(x0 + 8, 55, 16, 4, P_MARBLE)
+	ledge(x0 + 7, 51, 18, 5, P_MARBLE)
+	plaque(x0 + 11, 62, 10, 18, "#e9dfee", "#8d989e", "#716f7b", "#45283c")
+	rect(x0 + 10, 49, 12, 2, P_IRON["o"]); rect(x0 + 11, 48, 10, 1, P_IRON["m"])
+	grid(x0 + 8, 21, RIZAL, P_IRON, "rizal")
+
+## A boulder: outlined disc, lit top-left, shaded bottom-right.
+func boulder(cx: int, cy: int, rx: int, ry: int, p: Dictionary) -> void:
+	for y in range(cy - ry, cy + ry + 1):
+		for x in range(cx - rx, cx + rx + 1):
+			var nx := float(x - cx) / (rx + 0.5)
+			var ny := float(y - cy) / (ry + 0.5)
+			var d := nx * nx + ny * ny
+			if d > 1.0:
+				continue
+			var c: String = p["m"]
+			if d > 0.62:
+				c = p["o"]
+			elif nx + ny < -0.55:
+				c = p["h"]
+			elif nx + ny < -0.15:
+				c = p["l"]
+			elif nx + ny > 0.5:
+				c = p["d"]
+			px(x, y, c)
+
+func _bonifacio(cell: int) -> void:
+	var x0 := cell * CW
+	var rock := {"o": "#45283c", "d": "#3e3d40", "m": "#545256", "l": "#716f7b", "h": "#8d989e"}
+	# rock pile, back to front: uneven, wider than tall
+	boulder(x0 + 15, 59, 7, 4, rock)
+	boulder(x0 + 19, 64, 6, 4, rock)
+	boulder(x0 + 11, 66, 6, 5, rock)
+	boulder(x0 + 22, 71, 6, 5, rock)
+	boulder(x0 + 14, 73, 7, 5, rock)
+	boulder(x0 + 7, 78, 5, 5, rock)
+	boulder(x0 + 19, 80, 8, 5, rock)
+	boulder(x0 + 10, 85, 7, 5, rock)
+	boulder(x0 + 25, 86, 5, 5, rock)
+	boulder(x0 + 5, 90, 4, 4, rock)
+	boulder(x0 + 17, 90, 8, 4, rock)
+	boulder(x0 + 27, 92, 3, 3, rock)
+	# plaque set into the upper rock
+	plaque(x0 + 11, 68, 10, 8, "#adc1cc", "#45283c", "#545256")
+	# flat top the figure stands on
+	rect(x0 + 10, 53, 12, 2, P_IRON["o"]); rect(x0 + 11, 52, 10, 1, P_IRON["m"])
+	grid(x0 + 8, 27, BONIFACIO, P_IRON, "bonifacio")
+
+# Head-and-shoulders bust (Del Castillo).
+const BUST := [
+	"......oooo......",
+	".....ohllmo.....",
+	".....olllmo.....",
+	".....ohlmdo.....",
+	".....olmmdo.....",
+	"......omdo......",
+	"....oolmmdoo....",
+	"..oohllmmmmdoo..",
+	".ohllllmmmmmddo.",
+	".ohlllmmmmmmddo.",
+	".olllmmmmmmmddo.",
+	".oooooooooooooo.",
+]
+
+## Bust on a pedestal with the NHCP cast-iron marker on its front.
+func _castillo(cell: int) -> void:
+	var x0 := cell * CW
+	ledge(x0 + 5, 89, 22, 7, P_MARBLE)
+	box(x0 + 8, 56, 16, 34, P_MARBLE)
+	ledge(x0 + 7, 52, 18, 5, P_MARBLE)
+	# NHCP marker: dark iron, seal, gold title and lines
+	var px0 := x0 + 10
+	var py0 := 59
+	var w := 12
+	var h := 24
+	rect(px0, py0, w, h, "#222034")
+	rect(px0 + 1, py0 + 1, w - 2, h - 2, "#2f2d36")
+	rect(px0 + 1, py0 + 1, w - 2, 1, "#545256")
+	rect(px0 + 5, py0 + 2, 2, 2, "#c9a55a")
+	rect(px0 + 2, py0 + 6, w - 4, 1, "#e6cd8a")
+	var y := py0 + 9
+	while y < py0 + h - 2:
+		rect(px0 + 2, y, w - 4 - (1 if y % 6 == 0 else 0), 1, "#8a6f30")
+		y += 2
+	grid(x0 + 8, 41, BUST, P_IRON, "bust")

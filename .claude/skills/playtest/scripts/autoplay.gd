@@ -293,7 +293,7 @@ func _start() -> void:
 	DirAccess.make_dir_recursive_absolute(opts.out.path_join("shots"))
 	_log_file = FileAccess.open(opts.out.path_join("events.log"), FileAccess.WRITE)
 	for n in ["GameState", "DialogueUI", "CutsceneManager", "MapManager", "TutorialManager",
-			"ChapterCard", "BookUI", "DayNightManager", "QuestManager", "ChapterLoader", "NpcSchedule", "FadeManager", "ChapterLoader"]:
+			"ChapterCard", "BookUI", "DayNightManager", "QuestManager", "ChapterLoader", "NpcSchedule", "FadeManager", "Economy"]:
 		A[n] = root.get_node(n)
 	# Which chapters: chapters.json "available" ones that have a CHAPTERS entry.
 	var playable: Array = []
@@ -583,6 +583,9 @@ func _drive() -> void:
 		_p("BOOKUI close (Esc)")
 		_key(KEY_ESCAPE)
 		return
+	if A.Economy.is_open():
+		_market_panel_step()
+		return
 	var DUI = A.DialogueUI
 	for pair in [["phrase_builder", DUI._phrase_box], ["quiz", DUI._quiz_box], [str(DUI._minigame_type), DUI._minigame_box]]:
 		var box = pair[1]
@@ -613,8 +616,8 @@ func _drive() -> void:
 					pick = b.text
 					_stall_tried = true
 		# A failed story lesson holds the next chapter (scripts/util/lessons.gd):
-		# retake it with Rose when today's retake is free (the driver doesn't
-		# count coins in the pay panel; a paid one waits for the next day).
+		# retake it with Rose when today's retake is free (a paid one waits for
+		# the next day; _market_panel_step can pay if a choice opens the panel).
 		for b in DUI._npc_menu.find_children("*", "Button", true, false):
 			if b is Button and b.visible and b.text.begins_with("Retake a lesson") and b.text.contains("free today"):
 				pick = b.text
@@ -1488,6 +1491,57 @@ func _click_button(btn: Control, key: String) -> void:
 		e.global_position = win_pos
 		Input.parse_input_event(e)
 	_click = {"key": key, "t": Time.get_ticks_msec(), "btn": btn}
+
+## The coin panel (market_panel.gd, Economy.pay / open_shop). Paying: tap the
+## largest coin that still fits, then Pay; Cancel if it can't be afforded.
+## A shop with nothing to pay for: Goodbye.
+var _coin_tap := {}
+
+func _market_panel_step() -> void:
+	var mp = A.Economy._panel
+	# Coin buttons stay up after a click, so check the tray instead of _check_click_miss.
+	if not _coin_tap.is_empty():
+		if mp._tray != int(_coin_tap.tray):
+			_coin_tap = {}
+		elif Time.get_ticks_msec() - int(_coin_tap.t) > 1500:
+			_add_finding("click_miss", "clicked the middle of coin '%s' and the tray didn't change; pressed it directly" % _coin_tap.btn.text)
+			_coin_tap.btn.pressed.emit()
+			_coin_tap = {}
+		return
+	if _wait(300):
+		return
+	var by_text := {}
+	for b in mp._body.find_children("*", "Button", true, false):
+		if b is Button and b.is_visible_in_tree() and not b.is_queued_for_deletion():
+			by_text[b.text] = b
+	if not mp._paying:
+		if by_text.has("Goodbye"):
+			_p("SHOP -> click Goodbye")
+			_click_button(by_text["Goodbye"], "shop:goodbye")
+		return
+	var price: int = mp._price
+	if A.GameState.pesos < price and by_text.has("Cancel"):
+		_p("PAY ₱%d but only have ₱%d -> click Cancel" % [price, A.GameState.pesos])
+		_click_button(by_text["Cancel"], "pay:cancel")
+		return
+	if mp._tray == price:
+		_p("PAY ₱%d -> click Pay" % price)
+		_click_button(mp._pay_button, "pay:%d" % price)
+		return
+	if mp._tray > price:
+		_click_button(by_text["Take back"], "pay:takeback")
+		return
+	var need: int = price - mp._tray
+	var coins: Array = [1, 5, 10, 20, 50]  # market_panel.gd COINS, same order as _coin_buttons
+	for i in range(coins.size() - 1, -1, -1):
+		var coin: Button = mp._coin_buttons[i]
+		if coins[i] <= need and not coin.disabled:
+			_click_button(coin, "")
+			_click = {}
+			_coin_tap = {"tray": mp._tray, "t": Time.get_ticks_msec(), "btn": coin}
+			return
+	_p("PAY ₱%d: no coins fit -> click Cancel" % price)
+	_click_button(by_text["Cancel"], "pay:cancel")
 
 ## A clicked button still up 1.5 s later didn't take the click: report it, then
 ## press it directly so the run goes on.
