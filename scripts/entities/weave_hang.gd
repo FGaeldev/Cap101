@@ -9,16 +9,15 @@
 # awaits finished(result): "won", "lost" (more than MAX_MISSES misses) or
 # "cancelled" (the player left the room). The round tidies itself up either way.
 #
-# Placeholder art is drawn in code until the sprites from
-# art_requests/WEAVE_SORT_ART_REQUEST.md are in assets/ui/weaves/ (weave_<color>.png
-# for the hung cloth, weave_<color>_folded.png for the folded one on the floor).
+# Art: the indoors tileset (Indoors.png). The room's cases are the empty case
+# tile (41-42, 18-19); a hung weave draws that colour's filled case over it, and
+# a folded weave is its swatch tile in row 16. See COLORS.
 extends Node2D
 
 signal finished(result: String)
 
 const INTERACTABLE := preload("res://scenes/components/interactable_component.tscn")
-const LEVEL_PATH: String = "res://scenes/world/haboean/haboean_gallery.tscn"
-const ART_DIR: String = "res://assets/ui/weaves/"
+const SHEET := preload("res://assets/tilesets/Indoors.png")
 const TILE: float = 16.0
 const MAX_MISSES: int = 3
 ## Where the case's top tile sorts: its centre (8) plus its y_sort_origin in
@@ -26,17 +25,18 @@ const MAX_MISSES: int = 3
 ## just after the case (a tie goes to the tiles).
 const CASE_SORT_Y: float = 49.0
 
-## Colour -> word id, cloth colour.
+## Colour -> word id, its filled case (top-left tile, 2x2) and folded swatch tile
+## in Indoors.png.
 const COLORS: Array = [
-	{"id": "puea", "word": "w198", "color": Color("b83a2e")},
-	{"id": "asul", "word": "w021", "color": Color("2e5fa8")},
-	{"id": "berde", "word": "w038", "color": Color("3e8e41")},
-	{"id": "dueaw", "word": "w056", "color": Color("ddb233")},
-	{"id": "puti", "word": "w199", "color": Color("efe8d8")},
-	{"id": "itom", "word": "w094", "color": Color("2b2724")},
+	{"id": "puea", "word": "w198", "case": Vector2i(39, 14), "fold": Vector2i(33, 16)},
+	{"id": "berde", "word": "w038", "case": Vector2i(39, 16), "fold": Vector2i(34, 16)},
+	{"id": "asul", "word": "w021", "case": Vector2i(39, 18), "fold": Vector2i(35, 16)},
+	{"id": "puti", "word": "w199", "case": Vector2i(41, 14), "fold": Vector2i(36, 16)},
+	{"id": "itom", "word": "w094", "case": Vector2i(41, 16), "fold": Vector2i(37, 16)},
+	{"id": "dueaw", "word": "w056", "case": Vector2i(37, 18), "fold": Vector2i(38, 16)},
 ]
 ## The eight wide display cases (two tiles wide), by their top-left tile, read
-## from haboean_gallery.tscn's Objects layer. A hung weave covers the cream glass.
+## from haboean_gallery.tscn's Objects layer.
 const CASES: Array[Vector2i] = [
 	Vector2i(1, 10), Vector2i(5, 10), Vector2i(9, 10), Vector2i(13, 10),
 	Vector2i(1, 13), Vector2i(5, 13), Vector2i(9, 13), Vector2i(13, 13),
@@ -47,10 +47,10 @@ const FLOOR_TILES: Array[Vector2i] = [
 	Vector2i(6, 19), Vector2i(8, 19), Vector2i(10, 19), Vector2i(12, 19),
 ]
 
-## A folded weave on the floor.
+
+## A folded weave on the floor (position = bottom-left of its tile).
 class Fabric extends Node2D:
 	var info: Dictionary = {}
-	var texture: Texture2D = null
 	var _t: float = 0.0
 
 	func _process(delta: float) -> void:
@@ -58,45 +58,27 @@ class Fabric extends Node2D:
 		queue_redraw()
 
 	func _draw() -> void:
-		var r := Rect2(Vector2(2, -11), Vector2(12, 8))
-		if texture != null:
-			draw_texture_rect(texture, r, false)
-		else:
-			var c: Color = info["color"]
-			draw_rect(r.grow(1), Color(0.23, 0.16, 0.16, 0.9))
-			draw_rect(r, c)
-			draw_line(r.position + Vector2(0, 3), r.position + Vector2(12, 3), c.darkened(0.3), 1.0)
+		draw_texture_rect_region(SHEET, Rect2(0, -16, 16, 16), Rect2(Vector2(info["fold"]) * 16.0, Vector2(16, 16)))
 		# Same soft glint as side-quest pickups, so it reads as "take me".
 		var a: float = 0.5 + 0.5 * sin(_t * 3.0)
-		draw_circle(Vector2(13, -11), 1.0 + a, Color(1.0, 0.93, 0.62, 0.6 + 0.4 * a))
+		draw_circle(Vector2(13, -12), 1.0 + a, Color(1.0, 0.93, 0.62, 0.6 + 0.4 * a))
 
-## A display case taking part in the round: its sign and, once hung, the cloth.
+## A display case taking part in the round: its sign and, once hung, the filled
+## case drawn over the empty one. position = case top-left + (0, CASE_SORT_Y).
 class Case extends Node2D:
 	var info: Dictionary = {}
 	var hung: bool = false
-	var texture: Texture2D = null
+	var sort_y: float = 0.0
 
 	func _draw() -> void:
-		if not hung:
-			return
-		var r := Rect2(Vector2(2, 8 - 49), Vector2(28, 13))
-		if texture != null:
-			draw_texture_rect(texture, r, false)
-			return
-		var c: Color = info["color"]
-		draw_rect(r, c)
-		var thread: Color = c.darkened(0.25) if c.get_luminance() > 0.3 else c.lightened(0.25)
-		for x in range(3, 28, 4):
-			for y in range(2, 15, 4):
-				draw_rect(Rect2(r.position + Vector2(x, y), Vector2(1, 1)), thread)
+		if hung:
+			draw_texture_rect_region(SHEET, Rect2(0, -sort_y, 32, 32), Rect2(Vector2(info["case"]) * 16.0, Vector2(32, 32)))
 
 ## What the player is holding, drawn over their head.
 class Carried extends Node2D:
-	var color: Color = Color.WHITE
+	var fold: Vector2i = Vector2i.ZERO
 	func _draw() -> void:
-		var r := Rect2(Vector2(-5, -30), Vector2(10, 7))
-		draw_rect(r.grow(1), Color(0.23, 0.16, 0.16, 0.9))
-		draw_rect(r, color)
+		draw_texture_rect_region(SHEET, Rect2(-8, -38, 16, 16), Rect2(Vector2(fold) * 16.0, Vector2(16, 16)))
 
 var _cases: Array = []      # [Case]
 var _fabrics: Array = []    # [Fabric]
@@ -132,9 +114,9 @@ func _ready() -> void:
 func _add_case(info: Dictionary, tile: Vector2i) -> void:
 	var c := Case.new()
 	c.info = info
-	c.texture = _art("weave_%s.png" % info["id"])
+	c.sort_y = CASE_SORT_Y
 	# Sorted like the case's own top tile (indoors.tres y_sort_origin 40) and added
-	# after it, so the cloth and sign draw over the case and sort like it with people.
+	# after it, so the hung weave and sign draw over the case and sort like it with people.
 	c.position = Vector2(tile) * TILE + Vector2(0, CASE_SORT_Y)
 	add_child(c)
 	_cases.append(c)
@@ -160,7 +142,6 @@ func _add_case(info: Dictionary, tile: Vector2i) -> void:
 func _add_fabric(info: Dictionary, tile: Vector2i) -> void:
 	var f := Fabric.new()
 	f.info = info
-	f.texture = _art("weave_%s_folded.png" % info["id"])
 	f.position = Vector2(tile) * TILE + Vector2(0, TILE)
 	add_child(f)
 	_fabrics.append(f)
@@ -170,9 +151,6 @@ func _add_fabric(info: Dictionary, tile: Vector2i) -> void:
 	ic.position = Vector2(8, -8)
 	f.add_child(ic)
 	ic.interacted.connect(_on_fabric.bind(f))
-
-func _art(file: String) -> Texture2D:
-	return load(ART_DIR + file) as Texture2D if ResourceLoader.exists(ART_DIR + file) else null
 
 # --- play ----------------------------------------------------------------------
 
@@ -192,7 +170,7 @@ func _on_fabric(_who: Node, f: Fabric) -> void:
 	var player: Node2D = CutsceneManager.get_actor("player")
 	if player != null:
 		_carried = Carried.new()
-		_carried.color = _carrying["color"]
+		_carried.fold = _carrying["fold"]
 		player.add_child(_carried)
 	_refresh_status()
 
