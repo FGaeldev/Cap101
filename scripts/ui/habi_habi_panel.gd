@@ -38,6 +38,8 @@ const DEFAULT_STAGES: Array = [
 	{"name": "", "seconds": 10.0, "words": 3},
 	{"name": "paspas", "seconds": 8.0, "words": 3},
 ]
+## English shown after a stage's Akeanon name in the title.
+const STAGE_GLOSS: Dictionary = {"hinay": "slow", "paspas": "fast"}
 ## Seconds Loleng's line between stages stays up before the next word.
 const STAGE_HOLD: float = 1.6
 const DEFAULT_PASS_RATIO: float = 0.8
@@ -198,6 +200,8 @@ func _next_word() -> void:
 				return
 	var stage: Dictionary = _stages[_stage]
 	var stage_name: String = str(stage.get("name", ""))
+	if STAGE_GLOSS.has(stage_name):
+		stage_name += " (%s)" % STAGE_GLOSS[stage_name]
 	_title.text = "Habi-Habi  ·  stage %d of %d%s" % [_stage + 1, _stages.size(),
 			("  ·  " + stage_name) if not stage_name.is_empty() else ""]
 	_target = _pick_word()
@@ -552,6 +556,9 @@ func _build_layout() -> void:
 	_call_gloss = _label(UIThemeApplier.FONT_SIZE_S, UIThemeApplier.TEXT_EMPHASIS)
 	right.add_child(_call_gloss)
 
+	var time_caption := _label(UIThemeApplier.FONT_SIZE_XS, UIThemeApplier.TEXT_DISABLED)
+	time_caption.text = "Time: the shuttle crosses the loom"
+	right.add_child(time_caption)
 	_shuttle_track = Control.new()
 	_shuttle_track.custom_minimum_size = Vector2(200, 10)
 	right.add_child(_shuttle_track)
@@ -576,6 +583,9 @@ func _build_layout() -> void:
 	_feedback.custom_minimum_size = Vector2(200, 30)
 	right.add_child(_feedback)
 
+	var cloth_caption := _label(UIThemeApplier.FONT_SIZE_XS, UIThemeApplier.TEXT_DISABLED)
+	cloth_caption.text = "Your cloth"
+	right.add_child(cloth_caption)
 	var loom := PanelContainer.new()
 	var frame := StyleBoxFlat.new()
 	frame.bg_color = CLOTH_BG

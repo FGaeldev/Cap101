@@ -14,6 +14,8 @@ const InstructionsPanel := preload("res://scripts/ui/instructions_panel.gd")
 @onready var color_blind_label: Label = $Scroll/VBoxContainer/ColorBlindLabel
 @onready var color_blind_hint: Label = $Scroll/VBoxContainer/ColorBlindHint
 @onready var color_blind_toggle: CheckButton = $Scroll/VBoxContainer/ColorBlindToggle
+## The "Instructions" button (built in code, first row).
+var instructions_btn: Button
 @onready var dev_mode_label: Label = $Scroll/VBoxContainer/DevModeLabel
 @onready var dev_mode_toggle: CheckButton = $Scroll/VBoxContainer/DevModeToggle
 @onready var quit_btn: Button = $Scroll/VBoxContainer/QuitBtn
@@ -84,6 +86,7 @@ func _on_dev_mode_toggled(enabled: bool) -> void:
 func _build_instructions_button() -> void:
 	var btn := Button.new()
 	btn.text = "Instructions"
+	instructions_btn = btn
 	UIThemeApplier.apply_button_theme(btn, "primary")
 	btn.pressed.connect(func():
 		AudioManager.play_sfx("menu_click")

@@ -372,7 +372,7 @@ func _show_question() -> void:
 	_locked = false
 	_time_left = _seconds_per_question
 	_timer_bar.value = 1.0
-	_progress_label.text = "%d / %d" % [_index + 1, _questions.size()]
+	_progress_label.text = "Question %d of %d" % [_index + 1, _questions.size()]
 	_prompt_label.text = q["prompt"]
 	_feedback_label.text = ""
 	_show_prompt_swatch(q)
@@ -482,7 +482,9 @@ func _on_option_pressed(option_idx: int, btn: Button) -> void:
 		if Accessibility.color_blind and btn != null:
 			_label_result(options, q["answer"], btn)
 	for b in _choice_grid.get_children():
-		b.disabled = true
+		# Ignore taps rather than disable: a disabled button is drawn faded,
+		# which would hide the right/wrong colors during the hold.
+		(b as Control).mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 	var session := _session
 	await get_tree().create_timer(FEEDBACK_HOLD).timeout

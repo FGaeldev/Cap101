@@ -59,6 +59,8 @@ const SLICE_MARGIN := 3
 const TEXT_DEFAULT  := Color("4C2020")  # inky, default label color
 const TEXT_EMPHASIS := Color("39290F")  # book-cover red, pops against tan buttons
 const TEXT_DISABLED := Color("332B24")  # muted tan-gray, low contrast on purpose
+## Opacity of a disabled button's tile and text.
+const DISABLED_ALPHA: float = 0.45
 const COLOR_SUCCESS := Color("50ac61ff")  # correct-answer feedback, challenge/puzzle panels
 const COLOR_ERROR   := Color("ab3838ff")  # wrong-answer feedback, challenge/puzzle panels
 const COLOR_POINTER := Color("f2c14e")  # tutorial arrow, visible on both the world and the Book
@@ -122,14 +124,18 @@ func apply_button_theme(btn: Button, _variant: String) -> void:
 	btn.add_theme_stylebox_override("normal",   _make_style(row, COL_DEFAULT))
 	btn.add_theme_stylebox_override("hover",    _make_style(row, COL_HOVER))
 	btn.add_theme_stylebox_override("pressed",  _make_style(row, COL_PRESSED))
-	btn.add_theme_stylebox_override("disabled", _make_style(row, COL_DISABLED))
+	# Disabled = the normal tile faded out. The sheet's disabled cell is darker
+	# than normal, which read as "selected" (a ₱50 coin you can't afford).
+	var disabled_style := _make_style(row, COL_DEFAULT)
+	disabled_style.modulate_color = Color(1, 1, 1, DISABLED_ALPHA)
+	btn.add_theme_stylebox_override("disabled", disabled_style)
 	btn.add_theme_stylebox_override("focus",    _make_style(row, COL_FOCUSED))
 
-	# Text colors: default everywhere, gold on press (per spec), gray disabled
+	# Text colors: default everywhere, gold on press (per spec), faded disabled
 	btn.add_theme_color_override("font_color", TEXT_DEFAULT)
 	btn.add_theme_color_override("font_hover_color", TEXT_DEFAULT)
 	btn.add_theme_color_override("font_pressed_color", TEXT_DISABLED)
-	btn.add_theme_color_override("font_disabled_color", TEXT_DISABLED)
+	btn.add_theme_color_override("font_disabled_color", Color(TEXT_DEFAULT, DISABLED_ALPHA))
 	btn.add_theme_color_override("font_focus_color", TEXT_DEFAULT)
 	
 	if _variant == "danger":

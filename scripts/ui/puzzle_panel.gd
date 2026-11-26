@@ -214,7 +214,9 @@ func _show_correct_feedback(btn: Button) -> void:
 	_flash_btn(btn, UIThemeApplier.COLOR_SUCCESS)
 	_show_congrats_popup(CORRECT_TEXT)
 	for b in _choice_btns:
-		b.disabled = true
+		# Ignore taps rather than disable: a disabled button is drawn faded,
+		# which would hide the green flash.
+		b.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_showing_feedback = true
 	close_button.visible = true   # player closes manually now, no auto-hide timer
 
@@ -289,6 +291,7 @@ func _apply_removed_style(btn: Button) -> void:
 
 func _reset_btn(btn: Button) -> void:
 	btn.modulate = Color.WHITE  # clear flash/removed tint from _flash_btn / _apply_removed_style
+	btn.mouse_filter = Control.MOUSE_FILTER_STOP  # undo the feedback lock
 	UIThemeApplier.apply_button_theme(btn, "primary")
 
 func _apply_style() -> void:

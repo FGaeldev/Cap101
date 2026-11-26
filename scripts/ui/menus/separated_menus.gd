@@ -124,6 +124,9 @@ func _show(id: String) -> void:
 			# Only this panel's copy of the page: the book keeps its own look.
 			for btn in _settings_page.ui_scale_row.get_children():
 				MenuStyle.style_chip(btn)
+			# Its plain tile matches this panel's paper and read as a heading.
+			if _settings_page.instructions_btn:
+				MenuStyle.style_chip(_settings_page.instructions_btn)
 			if _settings_page._movement_row:
 				for btn in _settings_page._movement_row.get_children():
 					MenuStyle.style_chip(btn)
