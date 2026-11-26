@@ -1,7 +1,6 @@
 # dev_panel.gd — Dev: one scrollable, cascading list in place of the book's
 # two paged columns.
 #
-#   Menus: separate (tap to switch)
 #   + Skip to scene
 #       + Ch1   US Home - Bedroom, ...
 #       + Ch2   ...
@@ -48,7 +47,7 @@ func _init() -> void:
 	var money: Array = []
 	var cards: Array = []
 	for entry: Dictionary in PageDevScript.DEV_WARP_TARGETS:
-		if entry.has("toggle_menus") or entry.has("toggle_cards") or entry.has("toggle_movement"):
+		if entry.has("toggle_cards"):
 			continue
 		if entry.has("card"):
 			cards.append(entry)
@@ -63,13 +62,6 @@ func _init() -> void:
 		else:
 			warps.append(entry)
 
-	_list.add_child(_item_button(_menus_label(), 0,
-			func(): BookUI.set_separate_menus(not BookUI.separate_menus)))
-	var move_btn: Button = _item_button(_movement_label(), 0, Callable())
-	move_btn.pressed.connect(func():
-		Accessibility.set_movement_controls(Accessibility.MOVEMENT_JOYSTICK if Accessibility.uses_dpad() else Accessibility.MOVEMENT_DPAD)
-		move_btn.text = _movement_label())
-	_list.add_child(move_btn)
 	_add_group(_list, "Skip to scene", 0, _subgroups.bind(warps, _warps))
 	_add_group(_list, "Time", 0, _items.bind(times, _warps, 1))
 	_add_group(_list, "Date", 0, _items.bind(dates, _warps, 1))
@@ -82,9 +74,6 @@ func _init() -> void:
 	_add_group(_list, "Chapter cards", 0, _items.bind(cards, _warps, 1))
 	_add_group(_list, "Minigames & quizzes", 0, _items.bind(PageDevScript.DEV_MINIGAMES, _cutscenes, 1))
 	_add_group(_list, "Play cutscene", 0, _subgroups.bind(PageDevScript.DEV_CUTSCENES, _cutscenes))
-
-func _menus_label() -> String:
-	return "Menus: %s (tap to switch)" % ("separate" if BookUI.separate_menus else "book")
 
 ## Collapsed header; children are built into its body on the first expand.
 func _add_group(parent: VBoxContainer, title: String, depth: int, build: Callable) -> void:
@@ -167,6 +156,3 @@ func _make_hidden_column(column: String) -> Control:
 	add_child(col)
 	return col
 
-
-func _movement_label() -> String:
-	return "Movement: %s (tap to switch)" % Accessibility.MOVEMENT_OPTIONS[Accessibility.movement_controls]
