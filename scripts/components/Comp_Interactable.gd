@@ -63,6 +63,11 @@ func _ready() -> void:
 	GameState.flag_changed.connect(_on_flag_changed)
 	GameState.inventory_changed.connect(refresh_quest_marker)
 	DayNightManager.hour_changed.connect(_on_hour_changed)
+	# v1.1.9: markers hide while a cutscene plays, and re-check after every talk
+	# (declining an errand "for today" changes no flag, so the marker stayed up).
+	CutsceneManager.cutscene_started.connect(_on_cutscene_signal)
+	CutsceneManager.cutscene_finished.connect(_on_cutscene_signal, CONNECT_DEFERRED)
+	DialogueUI.dialogue_finished.connect(refresh_quest_marker, CONNECT_DEFERRED)
 	refresh_quest_marker()
 	# Again once the level has set up the parent (TourGuide gives Rose her stop's cutscene).
 	refresh_quest_marker.call_deferred()
@@ -90,6 +95,11 @@ func _apply_area() -> void:
 ## Shows/hides the existing indicator from the parent object's quest/task
 ## link. Falls back to is_active when the parent sets no link.
 func refresh_quest_marker() -> void:
+	if not is_instance_valid(indicator):
+		return
+	if CutsceneManager.is_playing():
+		indicator.visible = false
+		return
 	var quest_id: String = _parent_prop("quest_id", "")
 	var task_id: String = _parent_prop("task_id", "")
 	var show_until_flag: String = _parent_prop("show_until_flag", "")
@@ -124,6 +134,10 @@ func _on_flag_changed(_flag: String, _value: bool) -> void:
 
 
 func _on_hour_changed(_hour: int) -> void:
+	refresh_quest_marker()
+
+
+func _on_cutscene_signal(_cutscene_id: String) -> void:
 	refresh_quest_marker()
 
 

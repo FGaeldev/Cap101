@@ -338,6 +338,9 @@ func open(tab_id: String = "settings", force_book: bool = false) -> void:
 		return
 	visible = true
 	get_tree().paused = true
+	# The HUD's Map button pulses until the map is first looked at (hud.gd).
+	if tab_id == "map" and not GameState.get_flag("map_seen"):
+		GameState.set_flag("map_seen")
 	# separated menus
 	if separate_menus and not force_book:
 		root.visible = false

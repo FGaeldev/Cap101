@@ -159,6 +159,22 @@ func _icons() -> Dictionary:
 		"mm..mm..mm..mm..mm..m",
 		"..mm..mm..mm..mm..mm.",
 	],
+	# Souvenir shop: a shopping bag woven with the pina lattice (v1.1.9)
+	"souvenir": [
+		"kkkkk",
+		"k...k",
+		"k...k",
+		"k...k",
+		"k".repeat(13),
+		"k" + "c".repeat(11) + "k",
+		"k" + "#".repeat(11) + "k",
+		"k" + "#".repeat(11) + "k",
+		"k" + "#".repeat(11) + "k",
+		"k" + "#".repeat(11) + "k",
+		"k" + "#".repeat(11) + "k",
+		"k" + "#".repeat(11) + "k",
+		"k".repeat(13),
+	],
 	# Pineapple: Aklan's pina weaving
 	"haboean": [
 		"k",

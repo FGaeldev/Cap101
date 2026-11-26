@@ -20,6 +20,7 @@ const SFX_LIBRARY := {
 	"word_discovered": "res://assets/audio/sfx/word_discovered.wav",
 	"quest_complete":  "res://assets/audio/sfx/quest_complete.wav",
 	"menu_click":      "res://assets/audio/sfx/menu_click.wav",
+	"plane_flyby":     "res://assets/audio/sfx/plane_flyby.wav",
 }
 
 const BGM_LIBRARY := {

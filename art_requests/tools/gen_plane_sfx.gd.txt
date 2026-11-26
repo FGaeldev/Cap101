@@ -1,0 +1,60 @@
+extends SceneTree
+## Generates assets/audio/sfx/plane_flyby.wav: a soft jet airliner passing
+## overhead, for the "20 hours later" card between the US house and Kalibo
+## (chapter1_leave_home.json, v1.1.9). Synthesised here from noise and two
+## engine tones, so the sound is original to the project (no third-party
+## licence). Run (copy to a .gd first; kept as .gd.txt so Godot doesn't treat it
+## as project code):
+##   godot --headless --path . --script <copy>.gd
+
+const RATE := 22050
+const SECONDS := 5.5
+const OUT := "res://assets/audio/sfx/plane_flyby.wav"
+## Loudest sample, as a fraction of full scale (about -8 dB).
+const PEAK := 0.4
+
+func _initialize() -> void:
+	var n: int = int(RATE * SECONDS)
+	var data := PackedByteArray()
+	data.resize(n * 2)
+	var samples := PackedFloat32Array()
+	samples.resize(n)
+	var peak: float = 0.0
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 20261126
+	var lp1: float = 0.0
+	var lp2: float = 0.0
+	var brown: float = 0.0
+	var phase_a: float = 0.0
+	var phase_b: float = 0.0
+	for i in n:
+		var t: float = float(i) / RATE
+		var x: float = t / SECONDS  # 0..1 across the pass
+		# Loudest a little after the middle; slow swell in, longer tail out.
+		var env: float = pow(sin(PI * pow(x, 0.85)), 2.2)
+		# Engine roar: brown noise, then a low-pass that opens as the plane nears.
+		brown = brown * 0.995 + rng.randf_range(-1.0, 1.0) * 0.06
+		var cutoff: float = lerpf(0.04, 0.22, env)
+		lp1 += (brown - lp1) * cutoff
+		lp2 += (lp1 - lp2) * cutoff
+		# Turbine whine, falling in pitch as it passes (Doppler).
+		var whine_hz: float = lerpf(520.0, 380.0, smoothstep(0.35, 0.75, x))
+		phase_a += TAU * whine_hz / RATE
+		phase_b += TAU * whine_hz * 0.5 / RATE
+		var whine: float = sin(phase_a) * 0.05 + sin(phase_b) * 0.04
+		var s: float = (lp2 * 2.6 + whine * env) * env
+		# Fade the very ends so there is no click.
+		s *= clampf(t / 0.15, 0.0, 1.0) * clampf((SECONDS - t) / 0.3, 0.0, 1.0)
+		samples[i] = s
+		peak = maxf(peak, absf(s))
+	# Normalise to PEAK so it sits under the game's other sounds and never clips.
+	for i in n:
+		data.encode_s16(i * 2, int(samples[i] / maxf(peak, 0.0001) * PEAK * 32767.0))
+	var wav := AudioStreamWAV.new()
+	wav.format = AudioStreamWAV.FORMAT_16_BITS
+	wav.mix_rate = RATE
+	wav.stereo = false
+	wav.data = data
+	var err := wav.save_to_wav(OUT)
+	print("plane_flyby.wav saved: ", err == OK)
+	quit(0 if err == OK else 1)

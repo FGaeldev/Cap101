@@ -38,7 +38,9 @@ func _ready() -> void:  # -- J.Gumban --
 func open_for_region(new_region_id: String, new_region_name: String, region_unlocked: bool) -> void:  # -- J.Gumban -- (adapted: id + locked state)
 	region_id = new_region_id
 	region_name = new_region_name
-	label.text = region_name if region_unlocked else "%s (Coming Soon)" % region_name
+	# v1.1.9 ("lacks condition to go to Bakhawan"): a locked place says what opens it.
+	var hint: String = str(MapManager.get_region(region_id).get("locked_hint", ""))
+	label.text = region_name if region_unlocked else ("%s\n%s" % [region_name, hint] if not hint.is_empty() else "%s (Coming Soon)" % region_name)
 	go_button.disabled = not region_unlocked
 	go_button.text = "Mag-adto"
 	walk_button.visible = false

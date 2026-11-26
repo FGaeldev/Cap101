@@ -254,6 +254,10 @@ func show_review_quiz() -> void:
 		"choice_display": "gloss",
 		"pass_ratio": 0.7
 	}
+	# v1.1.9 ("Chapter 3 review must have a timer"): from Chapter 3 on, Review is
+	# timed like the story quizzes (ChapterLoader.QUIZ_SECONDS_PER_QUESTION).
+	if GameState.get_flag("chapter3_started"):
+		review_line["seconds_per_question"] = ChapterLoader.QUIZ_SECONDS_PER_QUESTION
 	show_standalone_quiz(review_line, _on_review_quiz_resolved)
 
 ## Opens a quiz line outside dialogue (NPC review, dev menu). on_resolved gets

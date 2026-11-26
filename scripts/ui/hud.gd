@@ -249,6 +249,7 @@ func _process(_delta: float) -> void:
 		_dictionary_button.visible = not GameState.word_exposures.is_empty() \
 				or QuestManager.has_active_trigger(DICTIONARY_QUEST_TRIGGER)
 		_map_button.visible = _map_unlocked()
+		_pulse_new_map()
 		_update_tier_toast()
 	var column_top: float = FULLSCREEN_COLUMN_TOP if fullscreen else DEFAULT_COLUMN_TOP
 	if right_column.offset_top != column_top:
@@ -468,8 +469,8 @@ func _watch_reviews() -> void:
 ## [{text, state}] for one quest. state: "todo", "done", "next" (the hand-in,
 ## once everything is held) or "short" (not enough pesos for what is left).
 static func quest_requirements(quest_id: String) -> Array:
-	if quest_id == KaliboGoals.QUEST:
-		return KaliboGoals.lines()
+	if KaliboGoals.is_goal_quest(quest_id):
+		return KaliboGoals.lines(quest_id)
 	var q: Dictionary = QuestManager.quests.get(quest_id, {})
 	var out: Array = []
 	if q.has("needs_items"):
@@ -493,19 +494,7 @@ static func quest_requirements(quest_id: String) -> Array:
 		if still_to_pay > GameState.pesos:
 			out.append({"text": "Need ₱%d more" % (still_to_pay - GameState.pesos), "state": "short"})
 		return out
-	for goal: Dictionary in ChapterGoals.GOALS.values():
-		if quest_id == goal["errand_quest"]:
-			var errands: int = int(goal["errands"])
-			out.append(_count_line("Errands done", mini(ChapterGoals.errands_done(), errands), errands))
-		elif quest_id == goal["review_quest"]:
-			var reviews: int = int(goal["reviews"])
-			out.append(_count_line("Reviews passed", mini(GameState.reviews_passed, reviews), reviews))
-			if not GameState.missed_lessons.is_empty():
-				out.append({"text": "Lessons to retake with Rose: %d" % GameState.missed_lessons.size(), "state": "todo"})
 	return out
-
-static func _count_line(what: String, have: int, need: int) -> Dictionary:
-	return {"text": "%s %d/%d" % [what, have, need], "state": "done" if have >= need else "todo"}
 
 static func _sold_in_a_shop(item_id: String) -> bool:
 	for shop: Dictionary in Economy.shops.values():
@@ -533,6 +522,7 @@ func _fill_requirements(list: VBoxContainer, reqs: Array) -> void:
 			"done": color = REQ_DONE_COLOR
 			"next": color = UIThemeApplier.TEXT_EMPHASIS
 			"short": color = UIThemeApplier.COLOR_ERROR
+			"level": color = UIThemeApplier.TEXT_EMPHASIS
 		label.add_theme_color_override("font_color", color)
 		list.add_child(label)
 
@@ -729,6 +719,21 @@ func _build_separated_menu_controls() -> void:
 	vbox.add_child(_tier_toast_bar)
 	toasts.add_child(_tier_toast)
 	toasts.move_child(_tier_toast, 0)
+
+## v1.1.9 ("highlight the map after Rose gives it"): the Map button glows until
+## the map is first opened (BookUI sets "map_seen"), on top of the one-time
+## tutorial, which a player can miss behind the rest of the tour.
+var _map_pulsing: bool = false
+func _pulse_new_map() -> void:
+	var want: bool = _map_button.visible and not GameState.get_flag("map_seen") \
+			and not TutorialManager.is_done("ch2_map") and not TutorialManager.is_running()
+	if want:
+		var t: float = (sin(Time.get_ticks_msec() / 1000.0 * PI) + 1.0) * 0.5
+		_map_button.modulate = Color.WHITE.lerp(TutorialManager.HIGHLIGHT_MODULATE, t)
+		_map_pulsing = true
+	elif _map_pulsing:
+		_map_button.modulate = Color.WHITE
+		_map_pulsing = false
 
 func _map_unlocked() -> bool:
 	for flag: String in MAP_UNLOCK_FLAGS:

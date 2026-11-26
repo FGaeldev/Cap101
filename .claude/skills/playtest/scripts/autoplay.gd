@@ -356,8 +356,15 @@ func _on_flag(flag: String, value: bool) -> void:
 		_mass_done = true  # the flag itself is cleared again once home
 	if flag == "chapter2_going_bakhawan" and value:
 		_bakhawan_went = true
+	# v1.1.9: packing for the flight is required before the Chapter 1 sleep. The
+	# driver doesn't run errands, so it's met the same way as the chapter goals.
+	if value and flag == "quest_002_done":
+		A.GameState.set_flag("side_qs004_accepted")
+		A.QuestManager.complete_quest_silently("qs004")
+		_p("SHORTCUT packing for Aklan (qs004) done")
 	# A chapter just ended: its between-chapter goals (chapter_goals.gd) appear.
-	if value and (flag == "chapter2_complete" or flag == "chapter3_complete"):
+	# v1.1.9: Level 1 of the Kalibo goals starts at the end of the town tour.
+	if value and (flag == "chapter2_tour_done" or flag == "chapter2_complete" or flag == "chapter3_complete"):
 		_meet_chapter_goals()
 
 func _progress() -> void:
@@ -485,7 +492,8 @@ func _meet_chapter_goals() -> void:
 		A.QuestManager.complete_quest_silently(q)
 	A.GameState.reviews_done = maxi(A.GameState.reviews_done, 6)
 	A.GameState.reviews_passed = maxi(A.GameState.reviews_passed, 6)
-	_p("SHORTCUT chapter goals met (2 errands, 6 Review tries)")
+	A.GameState.activity_wins = maxi(A.GameState.activity_wins, 3)  # v1.1.9 "Daily games won"
+	_p("SHORTCUT chapter goals met (2 errands, 6 Review tries, 3 daily games)")
 
 ## Marks a chapter available for this run only (its brief waits for chapters.json).
 func _make_available(chapter_id: String) -> void:

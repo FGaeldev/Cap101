@@ -190,6 +190,8 @@ var stall_helped_date: int = 0    # daily_date() of the last stall shift at Pedr
 var plaza_helped_date: int = 0    # daily_date() of the last plaza directions round (once a day)
 var stall_shifts: int = 0          # stall shifts with at least one customer served (Kalibo goals)
 var plaza_visitors_helped: int = 0 # visitors guided to their place, all time (Kalibo goals)
+var activity_dates: Dictionary = {}  # daily_games.gd id -> daily_date() last played (once a day each)
+var activity_wins: int = 0         # daily_games.gd rounds won, all time (chapter goals)
 var puzzles_solved: int = 0        # daily newspaper puzzles solved, all time (Kalibo goals)
 var word_taught_date: int = 0   # date_unix of the last extra word an NPC taught (IdleTalk)
 var idle_steps: Dictionary = {}   # npc_id -> {date, step}: how far today's idle talk got (IdleTalk)
@@ -543,6 +545,8 @@ func reset_game_state() -> void:
 	plaza_helped_date = 0
 	stall_shifts = 0
 	plaza_visitors_helped = 0
+	activity_dates = {}
+	activity_wins = 0
 	puzzles_solved = 0
 	word_taught_date = 0
 	idle_steps = {}
@@ -597,6 +601,8 @@ func save_game() -> bool:
 		"plaza_helped_date": plaza_helped_date,
 		"stall_shifts": stall_shifts,
 		"plaza_visitors_helped": plaza_visitors_helped,
+		"activity_dates": activity_dates,
+		"activity_wins": activity_wins,
 		"puzzles_solved": puzzles_solved,
 		"word_taught_date": word_taught_date,
 		"idle_steps": idle_steps,
@@ -745,6 +751,8 @@ func load_game() -> bool:
 	plaza_helped_date = int(data.get("plaza_helped_date", 0))  # additive field
 	stall_shifts = int(data.get("stall_shifts", 0))  # additive field
 	plaza_visitors_helped = int(data.get("plaza_visitors_helped", 0))  # additive field
+	activity_dates = data.get("activity_dates", {})  # additive field (v1.1.9)
+	activity_wins = int(data.get("activity_wins", 0))  # additive field (v1.1.9)
 	puzzles_solved = int(data.get("puzzles_solved", 0))  # additive field
 	word_taught_date = data.get("word_taught_date", 0)  # additive field, old saves -> 0
 	idle_steps = data.get("idle_steps", {})  # additive field, old saves -> {}

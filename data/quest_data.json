@@ -18,10 +18,22 @@
 			"title": "Get some sleep: you fly out tomorrow",
 			"required_exposures": 0,
 			"target_words": [],
-			"requires_flag": "quest_002_done",
+			"requires_flag": "side_qs004_done",
 			"unless_flag": "seen_chapter1_scene1_5",
 			"completion_trigger": "slept",
 			"completion_flag": "quest_010_done",
+			"show_popup": true
+		},
+		{
+			"id": "q029",
+			"category": "main",
+			"title": "Pack for Aklan: talk to Lola Jonabel",
+			"description": "You can't sleep until you're packed. Lola Jonabel has the list.",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "quest_002_done",
+			"unless_flag": "side_qs004_accepted",
+			"completion_flag": "quest_029_done",
 			"show_popup": true
 		},
 		{
@@ -94,34 +106,22 @@
 			"id": "q023",
 			"category": "main",
 			"title": "Before Chapter 3: run an errand for the family",
-			"description": "Help someone at home with an errand: Lola Susan's shopping list, Lola Jonabel's merienda, or Papa's pasalubong. Then the next chapter can begin.",
+			"description": "Retired in v1.1.9: errands are one of the Kalibo goals (q024) now.",
 			"required_exposures": 0,
 			"target_words": [],
-			"requires_flag": "chapter2_complete",
+			"requires_flag": "retired_v1_1_9",
 			"unless_flag": "seen_chapter3_scene0",
 			"completion_flag": "quest_023_done",
-			"show_popup": true
-		},
-		{
-			"id": "q024",
-			"category": "main",
-			"title": "Before Chapter 3: pass Review 3 times",
-			"description": "Talk to anyone and choose Review. Only passed rounds count, and you can try again as often as you like. Any story lesson you failed must also be retaken with Rose.",
-			"required_exposures": 0,
-			"target_words": [],
-			"requires_flag": "chapter2_complete",
-			"unless_flag": "seen_chapter3_scene0",
-			"completion_flag": "quest_024_done",
 			"show_popup": true
 		},
 		{
 			"id": "q025",
 			"category": "main",
 			"title": "Before Chapter 4: run two errands in all",
-			"description": "Finish two family errands in all (Lola Susan's list, Lola Jonabel's merienda, Papa's pasalubong). Then the next chapter can begin.",
+			"description": "Retired in v1.1.9: errands are one of the Kalibo goals (q026) now.",
 			"required_exposures": 0,
 			"target_words": [],
-			"requires_flag": "chapter3_complete",
+			"requires_flag": "retired_v1_1_9",
 			"unless_flag": "seen_chapter4_scene0",
 			"completion_flag": "quest_025_done",
 			"show_popup": true
@@ -129,8 +129,8 @@
 		{
 			"id": "q026",
 			"category": "main",
-			"title": "Before Chapter 4: pass Review 6 times in all",
-			"description": "Talk to anyone and choose Review. Only passed rounds count, and you can try again as often as you like. Any story lesson you failed must also be retaken with Rose.",
+			"title": "Kalibo goals before Chapter 4",
+			"description": "Level 2 of 5, Medium. Run family errands, pass Review (talk to anyone and choose Review) and win daily games: Pedring's stall and market match, the plaza visitors, the cafe and gallery games, the newspaper puzzle. Retake any missed lesson with Rose. Each goal pays when you reach it, and Chapter 4 starts the morning after they're all done.",
 			"required_exposures": 0,
 			"target_words": [],
 			"requires_flag": "chapter3_complete",
@@ -180,6 +180,18 @@
 			"requires_flag": "quest_014_done",
 			"unless_flag": "chapter3_started",
 			"completion_flag": "quest_015_done",
+			"show_popup": true
+		},
+		{
+			"id": "q024",
+			"category": "main",
+			"title": "Kalibo goals before Chapter 3",
+			"description": "Level 1 of 5, Easy. Run a family errand, pass Review 3 times (talk to anyone and choose Review) and win a daily game: help at Pedring's stall, play his market match, guide a plaza visitor or solve the newspaper puzzle. Retake any missed lesson with Rose. Each goal pays when you reach it, and Chapter 3 starts the morning after Sunday mass once they're all done.",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "chapter2_tour_done",
+			"unless_flag": "seen_chapter3_scene0",
+			"completion_flag": "quest_024_done",
 			"show_popup": true
 		},
 		{
@@ -250,7 +262,7 @@
 			"required_exposures": 0,
 			"target_words": [],
 			"requires_flag": "chapter3_complete",
-			"requires_flags": ["quest_025_done", "quest_026_done"],
+			"requires_flags": ["quest_026_done"],
 			"unless_flag": "chapter4_started",
 			"completion_flag": "quest_016_done",
 			"show_popup": false
@@ -259,13 +271,37 @@
 			"id": "q020",
 			"category": "main",
 			"title": "Kalibo goals",
-			"description": "You finished Part One! Kalibo is yours to explore. Help at Nong Pedring's stall, guide visitors in Pastrana Park, solve the daily puzzle, run errands, learn more words and make friends. Each goal pays when you reach it.",
+			"description": "Level 3 of 5, Hard. You finished Part One! Kalibo is yours to explore. Help at Nong Pedring's stall, guide visitors in Pastrana Park, solve the daily puzzle, run errands, learn more words and make friends. Each goal pays when you reach it, and two harder levels come after this one.",
 			"required_exposures": 0,
 			"target_words": [],
 			"requires_flag": "chapter4_complete",
 			"unless_flag": "chapter5_started",
 			"completion_flag": "quest_020_done",
 			"show_popup": false
+		},
+		{
+			"id": "q032",
+			"category": "main",
+			"title": "Kalibo goals: Expert",
+			"description": "Level 4 of 5, Expert. Bigger targets, bigger pay, and ₱100 more when the whole level is done.",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "quest_020_done",
+			"unless_flag": "chapter5_started",
+			"completion_flag": "quest_032_done",
+			"show_popup": true
+		},
+		{
+			"id": "q033",
+			"category": "main",
+			"title": "Kalibo goals: Master",
+			"description": "Level 5 of 5, Master. The last and hardest level: finish it to master Kalibo, with ₱200 more when it's done.",
+			"required_exposures": 0,
+			"target_words": [],
+			"requires_flag": "quest_032_done",
+			"unless_flag": "chapter5_started",
+			"completion_flag": "quest_033_done",
+			"show_popup": true
 		},
 		{
 			"id": "qs001",
@@ -325,6 +361,7 @@
 		{
 			"id": "qs004",
 			"category": "side",
+			"required": true,
 			"title": "Pack for Aklan",
 			"description": "Lola Jonabel wants you packed before bed: your passport and travel jacket (your room) and the pasalubong box for Lola Susan (the living room). Bring them to her.",
 			"giver": "Lola Jonabel",

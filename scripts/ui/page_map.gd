@@ -29,6 +29,7 @@ const FOG_SHADER := preload("res://assets/shaders/map_fog.gdshader")
 const ROADS := [
 	["pastrana", "W", 0.5, "aklan_home", "E"],
 	["pastrana", "N", 0.7, "cathedral", "S"],
+	["pastrana", "N", 0.2, "souvenir", "S"],
 	["pastrana", "E", 0.15, "bakhawan_ecopark", "W"],
 	["pastrana", "E", 0.75, "airport", "W"],
 	["pastrana", "S", 0.7, "market", "N"],

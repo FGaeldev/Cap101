@@ -38,6 +38,7 @@ const SideQuests := preload("res://scripts/util/side_quests.gd")
 const StallHelper := preload("res://scripts/util/stall_helper.gd")
 const PlazaGame := preload("res://scripts/util/plaza_game.gd")
 const Lessons := preload("res://scripts/util/lessons.gd")
+const DailyGames := preload("res://scripts/util/daily_games.gd")
 const ChapterGoals := preload("res://scripts/util/chapter_goals.gd")
 const FirstPlays := preload("res://scripts/util/first_plays.gd")
 
@@ -59,12 +60,15 @@ func wants_marker() -> bool:
 		return false
 	if npc_id == TourGuide.ROSE_ID and ChapterGoals.waiting_on_lessons():
 		return true
-	if not cutscene_id.is_empty() and not cutscene_seen_flag.is_empty() and not GameState.get_flag(cutscene_seen_flag):
+	if not cutscene_id.is_empty() and not cutscene_seen_flag.is_empty() and not GameState.get_flag(cutscene_seen_flag) \
+			and not get_meta("repeat_talk", false):
 		return true
 	if not story_done_flag.is_empty() and not GameState.get_flag(story_done_flag) \
 			and not ChapterLoader.get_scene_lines(dialogue_chapter, dialogue_scene_key).is_empty():
 		return true
 	if not npc_id.is_empty() and SideQuests.has_something(npc_id):
+		return true
+	if not npc_id.is_empty() and DailyGames.has_open(npc_id):
 		return true
 	return activity == "plaza_directions" and not PlazaGame.done_today()
 
@@ -83,6 +87,11 @@ func _on_interacted(_interactor: Node) -> void:
 		dialogue.start_dialogue()
 		return
 	if not cutscene_id.is_empty() and not GameState.get_flag(cutscene_seen_flag):
+		# v1.1.9 ("no lesson retake option in the house"): at home Rose's talk is
+		# her trip cutscene, which skipped the menu that has "Retake a lesson".
+		if npc_id == TourGuide.ROSE_ID and get_meta("repeat_talk", false) \
+				and not GameState.missed_lessons.is_empty() and await _retake_first():
+			return
 		CutsceneManager.play(cutscene_id)
 		return
 	var extras: Array = []
@@ -92,6 +101,8 @@ func _on_interacted(_interactor: Node) -> void:
 			extras.append({"id": "stall", "label": "Help at the stall"})
 	if activity == "plaza_directions" and not PlazaGame.done_today():
 		extras.append({"id": "plaza_directions", "label": "Help with directions"})
+	if not npc_id.is_empty():
+		extras.append_array(DailyGames.menu_entries(npc_id))
 	# Out with Rose and nothing required here: she can take the player elsewhere.
 	# Story lessons failed earlier (lessons.gd): Rose goes over them again.
 	if npc_id == TourGuide.ROSE_ID and not GameState.missed_lessons.is_empty():
@@ -124,6 +135,8 @@ func _on_interaction_menu_choice(choice: String) -> void:
 			TourGuide.ask(self)
 		"goodbye":
 			return
+		_ when choice.begins_with(DailyGames.MENU_PREFIX):
+			DailyGames.start(self, choice.trim_prefix(DailyGames.MENU_PREFIX))
 
 
 func _start_dialogue_or_idle() -> void:
@@ -142,6 +155,23 @@ func _start_dialogue_or_idle() -> void:
 		dialogue.start_dialogue()
 	else:
 		dialogue.start_idle_dialogue()
+
+## Rose at home with lessons to retake: asks first. True if a retake ran.
+func _retake_first() -> bool:
+	var ask := DialogueComponent.new()
+	ask.npc_id = npc_id
+	ask.dialogue_lines = [{"speaker": "Rose", "text": "Need something, balikbayan?", "choices": [
+		{"label": Lessons.menu_label(), "next": 1},
+		{"label": "Something else", "next": 2},
+	]}]  # like TourGuide's walk-or-ride: a pick past the end ends the talk
+	add_child(ask)
+	ask.start_dialogue()
+	await ask.dialogue_ended
+	var picked_retake: bool = ask._current_line == 1
+	ask.queue_free()
+	if picked_retake and is_inside_tree():
+		await Lessons.retake(self)
+	return picked_retake
 
 func _on_dialogue_ended() -> void:
 	if not story_done_flag.is_empty() and not GameState.get_flag(story_done_flag):
