@@ -55,6 +55,15 @@ func close() -> void:
 
 # --- content ---------------------------------------------------------------------
 
+## True while today's puzzle is unsolved and can be played (started earlier, or
+## enough known words to build one). newspaper.gd shows its marker only then.
+static func puzzle_open_today() -> bool:
+	if GameState.is_puzzle_solved_today():
+		return false
+	var started: bool = GameState.puzzle_progress.get("date", -1) == GameState.daily_date() \
+			and GameState.puzzle_progress.size() > 1
+	return started or WordBank.get_known_puzzle_words(MIN_WORD_LENGTH, MAX_WORD_LENGTH).size() >= MIN_PUZZLE_WORDS
+
 ## Even in-game days print a crossword, odd days a word search.
 static func puzzle_type_for(date_unix: int) -> String:
 	return "crossword" if (date_unix / DayNightManager.SECONDS_PER_DAY) % 2 == 0 else "word_search"

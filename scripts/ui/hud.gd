@@ -241,6 +241,10 @@ func _process(_delta: float) -> void:
 	_update_fast_forward(fullscreen)
 	_menu_row.visible = not fullscreen
 	quest_column.visible = not fullscreen
+	# HUD is its own CanvasLayer above the dialogue panels, so a tall side-quest
+	# row (Kalibo goals) covered quizzes and the phrase builder. The main quest
+	# line ends above any panel, so only the rows hide.
+	sub_quests.visible = not DialogueUI.is_active()
 	_watch_reviews()
 	tier_bar.visible = not fullscreen and not BookUI.separate_menus
 	if BookUI.separate_menus:
