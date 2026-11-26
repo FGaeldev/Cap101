@@ -3,6 +3,8 @@
 # The marker shows until today's puzzle is solved and comes back each new day.
 extends Sprite2D
 
+const NewspaperPanel := preload("res://scripts/ui/newspaper_panel.gd")
+
 @onready var interactable: InteractableComponent = $InteractableComponent
 
 func _ready() -> void:
@@ -17,5 +19,6 @@ func _on_interacted(_interactor: Node) -> void:
 		TutorialManager.start("newspaper")
 
 func _refresh_marker() -> void:
-	interactable.is_active = not GameState.is_puzzle_solved_today()
+	# Not while the paper says "Learn more words to play": nothing to do there.
+	interactable.is_active = NewspaperPanel.puzzle_open_today()
 	interactable.refresh_quest_marker()

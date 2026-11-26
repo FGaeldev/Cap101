@@ -38,7 +38,7 @@
 			"scene": "res://scenes/entities/npc_RandomGuy3.tscn",
 			"waypoints": [
 				[
-					944,
+					880,
 					944
 				]
 			],
@@ -59,7 +59,7 @@
 			"scene": "res://scenes/entities/npc_RandomGuy1.tscn",
 			"waypoints": [
 				[
-					976,
+					896,
 					944
 				]
 			],

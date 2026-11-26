@@ -28,12 +28,25 @@ static func pending_for(npc: Node) -> String:
 		return "stall"
 	return ""
 
+## Max distance (world px) between the player and the NPC for a first play.
+const NEAR_PX: float = 80.0
+
+## True while the NPC is shown and the player stands within NEAR_PX of it.
+static func _player_near(npc: Node2D) -> bool:
+	if not npc.is_visible_in_tree():
+		return false
+	var player := npc.get_tree().get_first_node_in_group("player") as Node2D
+	return player != null and player.global_position.distance_to(npc.global_position) <= NEAR_PX
+
 ## Waits for a quiet moment, then starts the NPC's first play if still owed.
 static func maybe_start(npc: Node2D) -> void:
 	if pending_for(npc).is_empty():
 		return
 	await npc.get_tree().create_timer(DELAY).timeout
-	while is_instance_valid(npc) and (CutsceneManager.is_playing() or DialogueUI.is_active() or MapManager.is_transitioning):
+	# Only once the player can see them: the plaza visitor used to call out from
+	# across Pastrana, an off-screen "Visitor" talking to nobody.
+	while is_instance_valid(npc) and npc.is_inside_tree() and (CutsceneManager.is_playing() \
+			or DialogueUI.is_active() or MapManager.is_transitioning or not _player_near(npc)):
 		await npc.get_tree().create_timer(0.5).timeout
 	if not is_instance_valid(npc) or not npc.is_inside_tree():
 		return

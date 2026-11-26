@@ -12,6 +12,10 @@
 #                   whether a spot's person is out right now.
 #   "examinables": {at, size [w, h], chapter, scene_key} -- examinable.gd areas
 #                   for objects already in the map (altar, exhibit cabinets).
+#   "props":       {texture, region [x, y, w, h], at, solid [w, h]} -- a solid
+#                   sprite standing on `at` (bottom centre), y-sorted with the
+#                   level, e.g. the Pastrana Park statues. Pair with an
+#                   examinable in front for its plaque.
 #   "pickups":     {id, item, at, requires_flag, unless_flag, text} -- pickup.gd
 #                   glints for side quests (shown only while the quest wants them).
 extends RefCounted
@@ -59,6 +63,8 @@ static func place(level: Node2D, path: String) -> void:
 		var anim: Node = npc.get_node_or_null("CutsceneAnimComponent")
 		if anim != null and FACES.has(str(entry.get("face", ""))):
 			anim.set_cutscene_anim_state("idle", FACES[str(entry["face"])])
+	for entry: Dictionary in spots.get("props", []):
+		level.add_child(_make_prop(level, entry))
 	for entry: Dictionary in spots.get("examinables", []):
 		var spot := Node2D.new()
 		spot.set_script(EXAMINABLE)
@@ -78,6 +84,29 @@ static func place(level: Node2D, path: String) -> void:
 		pickup.found_text = str(entry.get("text", ""))
 		pickup.position = _resolve(level, entry.get("at"))
 		level.add_child(pickup)
+
+static func _make_prop(level: Node2D, entry: Dictionary) -> Node2D:
+	var prop := Node2D.new()
+	prop.position = _resolve(level, entry.get("at"))
+	var region: Array = entry.get("region", [0, 0, 16, 16])
+	var sprite := Sprite2D.new()
+	sprite.texture = load(str(entry.get("texture", "")))
+	sprite.centered = false
+	sprite.region_enabled = true
+	sprite.region_rect = Rect2(region[0], region[1], region[2], region[3])
+	sprite.position = Vector2(-float(region[2]) / 2.0, -float(region[3]))
+	prop.add_child(sprite)
+	var solid: Array = entry.get("solid", [])
+	if solid.size() == 2:
+		var body := StaticBody2D.new()
+		var shape := CollisionShape2D.new()
+		var rect := RectangleShape2D.new()
+		rect.size = Vector2(solid[0], solid[1])
+		shape.shape = rect
+		shape.position = Vector2(0, -float(solid[1]) / 2.0)
+		body.add_child(shape)
+		prop.add_child(body)
+	return prop
 
 ## Present right now: inside its hours and its unless_flag not set.
 static func _is_out(entry: Dictionary) -> bool:

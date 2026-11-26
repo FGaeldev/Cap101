@@ -74,6 +74,47 @@
 	{"type": "dialogue", "speaker": "", "text": "An image of the Santo Niño, the Child Jesus, in a rich robe and crown. He holds a globe and a scepter.", "next": 1, "word_ids": []},
 	{"type": "dialogue", "speaker": "", "text": "Candles and fresh flowers have been left in front of him.", "next": null, "word_ids": []}
   ],
+  "examine_statue_reyes": [
+	{"type": "dialogue", "speaker": "", "text": "A bronze statue of an archbishop in his robes, on a black stone pedestal. The plaque reads:", "next": 1, "word_ids": []},
+	{"type": "dialogue", "speaker": "", "text": "GABRIEL M. REYES (1892-1952). The first Filipino Archbishop of Manila.", "next": 2, "word_ids": []},
+	{"type": "dialogue", "speaker": "", "text": "Born in Kalibo on March 24, 1892, to Eulogio Reyes Jr. and Manuela Martelino. Ordained a priest in 1915.", "next": 3, "word_ids": []},
+	{"type": "dialogue", "speaker": "", "text": "Bishop of Cebu in 1932, then Archbishop of Cebu from 1934. Named Archbishop of Manila on October 14, 1949.", "next": 4, "word_ids": []},
+	{"type": "dialogue", "speaker": "", "text": "He died on October 10, 1952. (National Historical Commission of the Philippines, 2022)", "next": null, "word_ids": []}
+  ],
+  "examine_statue_martelino": [
+	{"type": "dialogue", "speaker": "", "text": "A dark statue of an officer in a peaked cap, standing at attention. The plaque reads:", "next": 1, "word_ids": []},
+	{"type": "dialogue", "speaker": "", "text": "COL. PASTOR C. MARTELINO. Born in Kalibo on August 8, 1896, and a graduate of West Point.", "next": 2, "word_ids": []},
+	{"type": "dialogue", "speaker": "", "text": "In 1936 he became the first Filipino superintendent of the Philippine Military Academy.", "next": 3, "word_ids": []},
+	{"type": "dialogue", "speaker": "", "text": "He fought in Bataan, survived the Death March and escaped, then joined the guerrillas in Manila in 1942.", "next": 4, "word_ids": []},
+	{"type": "dialogue", "speaker": "", "text": "Caught and tortured by the Japanese at Fort Santiago, he was executed on January 8, 1945.", "next": null, "word_ids": []}
+  ],
+  "examine_statue_mijares": [
+	{"type": "dialogue", "speaker": "", "text": "A dark statue of a soldier with one hand on his chest. The plaque reads:", "next": 1, "word_ids": []},
+	{"type": "dialogue", "speaker": "", "text": "CAPT. GIL MEÑEZ MIJARES. Born in Kalibo on September 28, 1917. He was studying law at the Ateneo when the war came in 1941.", "next": 2, "word_ids": []},
+	{"type": "dialogue", "speaker": "", "text": "He served with the 6th Military District, the guerrillas who fought the Japanese on Panay.", "next": 3, "word_ids": []},
+	{"type": "dialogue", "speaker": "", "text": "Captured in Barbaza, Antique, on June 9, 1944, he was tortured but never gave the guerrillas away. He was executed that year.", "next": null, "word_ids": []}
+  ],
+  "examine_wwii_obelisk": [
+	{"type": "dialogue", "speaker": "", "text": "A tall white marble obelisk: the World War II Veterans Monument.", "next": 1, "word_ids": []},
+	{"type": "dialogue", "speaker": "", "text": "It honors the Aklanons who fought in the Second World War. Martelino and Mijares stand guard on either side.", "next": null, "word_ids": []}
+  ],
+  "examine_castillo_marker": [
+	{"type": "dialogue", "speaker": "", "text": "A bust on a white pedestal, with a dark iron historical marker. It reads: FRANCISCO DEL CASTILLO.", "next": 1, "word_ids": []},
+	{"type": "dialogue", "speaker": "", "text": "A leader of the revolution, from Bantayan, Cebu. He joined the Katipunan in 1895.", "next": 2, "word_ids": []},
+	{"type": "dialogue", "speaker": "", "text": "With Candido Iban he gave the printing press for the first issue of the Katipunan paper Kalayaan, January 18, 1896.", "next": 3, "word_ids": []},
+	{"type": "dialogue", "speaker": "", "text": "In 1897 the two of them organized and led the Katipunan in Aklan.", "next": 4, "word_ids": []},
+	{"type": "dialogue", "speaker": "", "text": "He died leading the battle of Kalibo on March 17, 1897. (National Historical Commission of the Philippines, 2019)", "next": null, "word_ids": []}
+  ],
+  "examine_statue_rizal": [
+	{"type": "dialogue", "speaker": "", "text": "A dark statue of José Rizal in a long coat, one hand at his chin, deep in thought.", "next": 1, "word_ids": []},
+	{"type": "dialogue", "speaker": "", "text": "Rizal, the national hero, wrote the novels Noli Me Tángere (1887) and El Filibusterismo (1891).", "next": 2, "word_ids": []},
+	{"type": "dialogue", "speaker": "", "text": "The Spanish shot him in Manila on December 30, 1896. A few months later, Aklan rose up.", "next": null, "word_ids": []}
+  ],
+  "examine_statue_bonifacio": [
+	{"type": "dialogue", "speaker": "", "text": "A dark statue of Andrés Bonifacio, bolo raised high, standing on a pile of rocks.", "next": 1, "word_ids": []},
+	{"type": "dialogue", "speaker": "", "text": "Bonifacio founded the Katipunan in 1892, the secret society that started the revolution against Spain.", "next": 2, "word_ids": []},
+	{"type": "dialogue", "speaker": "", "text": "Francisco del Castillo and Aklan's Katipuneros answered its call in 1897.", "next": null, "word_ids": []}
+  ],
   "culture_park_martyrs": [
 	{"type": "dialogue", "speaker": "Lola Ising", "text": "You're new here, \\apo? Come, sit a while. Do you know what happened in this park?", "next": 1, "word_ids": ["w019"]},
 	{"type": "dialogue", "speaker": "Lola Ising", "text": "In the revolution against Spain, Aklan's fighters were led by Francisco del Castillo. He died in March 1897, and his marker stands here in Pastrana.", "next": 2, "word_ids": []},
