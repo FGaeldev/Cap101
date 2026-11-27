@@ -43,6 +43,24 @@ const HANGMAN_MAX_LENGTH: int = 12
 
 var _newspaper_box = null   # lazily instantiated newspaper_panel
 
+## Lines shown since the save was loaded, oldest first, for the Conversation
+## log (pause menu). [{speaker, text}], authored text so tokens and Akeanon
+## markers resolve when shown. Not saved; GameState clears it on load/new game.
+const LOG_MAX: int = 200
+var conversation_log: Array = []
+
+## Adds a line to the log, skipping an exact repeat of the last one (a choice
+## line can be shown again as its own prompt).
+func log_line(speaker: String, text: String) -> void:
+	if text.strip_edges().is_empty():
+		return
+	var entry := {"speaker": speaker, "text": text}
+	if not conversation_log.is_empty() and conversation_log[-1] == entry:
+		return
+	conversation_log.append(entry)
+	if conversation_log.size() > LOG_MAX:
+		conversation_log.pop_front()
+
 func register_box(box: Control) -> void:
 	_dialogue_box = box
 
@@ -60,6 +78,7 @@ func show_line(
 	portrait_tex
 ) -> void:
 	_current_component = component
+	log_line(speaker, text)
 
 	# Restore controls hidden by the NPC menu before rendering the next line.
 	if _npc_menu and is_instance_valid(_npc_menu):
