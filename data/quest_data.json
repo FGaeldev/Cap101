@@ -223,6 +223,7 @@
 			"required_exposures": 0,
 			"target_words": [],
 			"requires_flag": "chapter3_started",
+			"unless_flag": "chapter4_started",
 			"completion_flag": "quest_006_done",
 			"show_popup": true
 		},
@@ -235,6 +236,7 @@
 			"required_exposures": 0,
 			"target_words": [],
 			"requires_flag": "quest_006_done",
+			"unless_flag": "chapter4_started",
 			"completion_flag": "quest_007_done",
 			"show_popup": true
 		},
@@ -247,6 +249,7 @@
 			"required_exposures": 0,
 			"target_words": [],
 			"requires_flag": "quest_007_done",
+			"unless_flag": "chapter4_started",
 			"completion_flag": "quest_008_done",
 			"show_popup": true
 		},

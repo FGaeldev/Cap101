@@ -54,6 +54,10 @@ const CH4_START_FLAGS := CH3_START_FLAGS + [
 ## Chapter 1 story quests, in story order. q002 is handled by the onboarding
 ## skip in _dev_warp().
 const CH1_QUESTS := ["q003", "q004"]
+## Starting a chapter: the goals before it are met (q024, q026) and the last
+## chapter's story quests are done, so only this chapter's quests show.
+const CH3_QUESTS := CH1_QUESTS + ["q024"]
+const CH4_QUESTS := CH3_QUESTS + ["q006", "q007", "q008", "q026"]
 
 const ChapterGoals := preload("res://scripts/util/chapter_goals.gd")
 
@@ -79,14 +83,14 @@ const DEV_WARP_TARGETS := [
 	{"label": "Ch2 — Market - Indoors", "scene_path": "res://scenes/world/market/market_indoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
 	{"label": "Ch2 — Cathedral - Indoors", "scene_path": "res://scenes/world/chapter2/cathedral_indoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
 	{"label": "Ch2 — Souvenir Shop", "scene_path": "res://scenes/world/chapter2/souvenir_shop.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
-	{"label": "Ch4 — Morning brief (Living Room)", "scene_path": "res://scenes/world/chapter2/aklan_living.tscn", "flags_on": CH4_START_FLAGS, "quests_done": CH1_QUESTS},
-	{"label": "Ch4 — Bakhawan", "scene_path": "res://scenes/world/bakhawan/bakhawan_outdoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
-	{"label": "Ch4 — Bakhawan visitor centre", "scene_path": "res://scenes/world/bakhawan/bakhawan_indoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
-	{"label": "Ch4 — Bakhawan trail", "scene_path": "res://scenes/world/bakhawan/bakhawan_trail.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
-	{"label": "Ch3 — Morning brief (Living Room)", "scene_path": "res://scenes/world/chapter2/aklan_living.tscn", "flags_on": CH3_START_FLAGS, "quests_done": CH1_QUESTS},
-	{"label": "Haboean — Outdoors", "scene_path": "res://scenes/world/haboean/habuean_outdoors.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
-	{"label": "Haboean — Café (L0)", "scene_path": "res://scenes/world/haboean/haboean_cafe.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
-	{"label": "Haboean — Gallery + Loft (L1)", "scene_path": "res://scenes/world/haboean/haboean_gallery.tscn", "flags_on": CH2_START_FLAGS, "quests_done": CH1_QUESTS},
+	{"label": "Ch3 — Morning brief (Living Room)", "scene_path": "res://scenes/world/chapter2/aklan_living.tscn", "flags_on": CH3_START_FLAGS, "quests_done": CH3_QUESTS},
+	{"label": "Ch3 — Haboean - Outdoors", "scene_path": "res://scenes/world/haboean/habuean_outdoors.tscn", "flags_on": CH3_START_FLAGS, "quests_done": CH3_QUESTS},
+	{"label": "Ch3 — Haboean - Café (L0)", "scene_path": "res://scenes/world/haboean/haboean_cafe.tscn", "flags_on": CH3_START_FLAGS, "quests_done": CH3_QUESTS},
+	{"label": "Ch3 — Haboean - Gallery + Loft (L1)", "scene_path": "res://scenes/world/haboean/haboean_gallery.tscn", "flags_on": CH3_START_FLAGS, "quests_done": CH3_QUESTS},
+	{"label": "Ch4 — Morning brief (Living Room)", "scene_path": "res://scenes/world/chapter2/aklan_living.tscn", "flags_on": CH4_START_FLAGS, "quests_done": CH4_QUESTS},
+	{"label": "Ch4 — Bakhawan", "scene_path": "res://scenes/world/bakhawan/bakhawan_outdoors.tscn", "flags_on": CH4_START_FLAGS, "quests_done": CH4_QUESTS},
+	{"label": "Ch4 — Bakhawan visitor centre", "scene_path": "res://scenes/world/bakhawan/bakhawan_indoors.tscn", "flags_on": CH4_START_FLAGS, "quests_done": CH4_QUESTS},
+	{"label": "Ch4 — Bakhawan trail", "scene_path": "res://scenes/world/bakhawan/bakhawan_trail.tscn", "flags_on": CH4_START_FLAGS, "quests_done": CH4_QUESTS},
 	# {label, time}: jumps the day/night clock instead of warping.
 	{"label": "Time — Morning (08:00)", "time": 8.0},
 	{"label": "Time — Dusk (18:00)", "time": 18.0},

@@ -75,6 +75,8 @@ func refresh() -> void:
 			btn.set_pressed_no_signal(btn.get_meta("kind") == Accessibility.movement_controls)
 	# separated menus: Exit to menu lives on the pause menu instead.
 	quit_btn.visible = not BookUI.is_main_menu_context() and not BookUI.separate_menus
+	# separated menus: Help is on the pause menu (and the main menu has its own).
+	instructions_btn.visible = not BookUI.separate_menus
 
 func _on_volume_changed(value: float) -> void:
 	AudioManager.set_master_volume(value / 100.0)
