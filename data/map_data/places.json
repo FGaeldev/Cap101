@@ -12,8 +12,8 @@
 	"places": {
 		"res://scenes/world/chapter2/aklan_home_outdoors.tscn": {
 			"label": "Lola Jonabel's house",
-			"plaza": {"text": "\\baeay \\ni Lola Jonabel", "translation": "Lola Jonabel's house", "word_ids": ["w027", "w338"]},
-			"ask": {"text": "\\Siin \\ro \\baeay \\ni Lola Jonabel?", "translation": "Where is Lola Jonabel's house?", "word_ids": ["w214", "w202", "w027", "w338"]}
+			"plaza": {"text": "\\baeay \\ni Lola Jonabel", "translation": "Lola Jonabel's house", "word_ids": ["w027", "w310"]},
+			"ask": {"text": "\\Siin \\ro \\baeay \\ni Lola Jonabel?", "translation": "Where is Lola Jonabel's house?", "word_ids": ["w214", "w202", "w027", "w310"]}
 		},
 		"res://scenes/world/chapter1/airport_ourdoors.tscn": {
 			"label": "The airport",

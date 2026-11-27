@@ -155,4 +155,3 @@ func _make_hidden_column(column: String) -> Control:
 	col.visible = false
 	add_child(col)
 	return col
-
