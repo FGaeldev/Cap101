@@ -16,6 +16,7 @@ extends Control
 
 const MAP_TEXTURE := preload("res://assets/ui/book/aklan_map.png")
 const RegionPopupScene := preload("res://scenes/map/region_popup.tscn")
+const MenuStyle := preload("res://scripts/ui/menus/menu_style.gd")
 const MAP_ICON_DIR := "res://assets/ui/map_icons/"
 const FOG_SHADER := preload("res://assets/shaders/map_fog.gdshader")
 
@@ -37,6 +38,11 @@ const ROADS := [
 ]
 const ROAD_COLOR := Color8(59, 36, 22, 170)
 const ROAD_COLOR_LOCKED := Color8(59, 36, 22, 60)
+## Outline behind place names, the map's paper color.
+const LABEL_OUTLINE := Color8(228, 182, 128)
+## Shorter names for the map labels where neighbours sit close; the travel
+## popup still shows the full display_name.
+const SHORT_LABELS := {"cathedral": "Cathedral", "souvenir": "Souvenirs", "bakhawan_ecopark": "Bakhawan"}
 
 @onready var map_bg: TextureRect = $MapBG
 @onready var markers_root: Control = $Markers
@@ -45,6 +51,8 @@ var _popup: CanvasLayer
 var _marker_buttons: Dictionary = {}  # region_id -> Button
 var _roads: Control
 var _icon_used: Dictionary = {}  # region_id -> Rect2 of the icon's opaque pixels (roads end there, not at the padded box)
+## region_id -> "You are here" label above the marker, shown for the current area.
+var _here_labels: Dictionary = {}
 
 ## The map is drawn ZOOM times the page size inside a clipped page, and the
 ## player drags to pan it. Marker positions in the .tscn are authored at 1x
@@ -70,7 +78,8 @@ func _ready() -> void:
 	_build_fog()
 	_build_roads()
 	_on_resized()
-	HelpButton.pin(self, "map")
+	# Framed: the plain tile is the map's own parchment color and vanished.
+	MenuStyle.style_chip(HelpButton.pin(self, "map"))
 
 ## Called by BookUI._show_page() right before the tab becomes visible —
 ## re-syncs unlock state, since unlocks can change after markers are built
@@ -175,8 +184,30 @@ func _wire_markers() -> void:
 		_marker_norm[region_id] = (Vector2(btn.offset_left, btn.offset_top) + half) / AUTHORED_SIZE
 		_apply_icon(btn, region_id)
 		btn.tooltip_text = region.get("display_name", region_id)
+		# Names on the map itself: tooltips need hover, which touch doesn't have.
+		_add_marker_label(btn, str(SHORT_LABELS.get(region_id, region.get("display_name", region_id))), false)
+		_here_labels[region_id] = _add_marker_label(btn, "You are here", true)
 		btn.pressed.connect(_on_marker_pressed.bind(region_id))
 		_marker_buttons[region_id] = btn
+
+## A small label centred under (or, for "You are here", over) a marker. Child of
+## the button so it pans with it; ignores the mouse so the tap still reaches it.
+func _add_marker_label(btn: Button, text: String, above: bool) -> Label:
+	var l := MenuStyle.label(text, UIThemeApplier.FONT_SIZE_XS,
+			UIThemeApplier.TEXT_EMPHASIS if above else UIThemeApplier.TEXT_DEFAULT)
+	l.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	l.add_theme_color_override("font_outline_color", LABEL_OUTLINE)
+	l.add_theme_constant_override("outline_size", 4)
+	l.anchor_left = 0.5
+	l.anchor_right = 0.5
+	l.anchor_top = 0.0 if above else 1.0
+	l.anchor_bottom = l.anchor_top
+	l.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	l.grow_vertical = Control.GROW_DIRECTION_BEGIN if above else Control.GROW_DIRECTION_END
+	l.visible = not above
+	btn.add_child(l)
+	return l
 
 ## Swaps the plain dot for a landmark icon from assets/ui/map_icons/<region_id>.png
 ## (drawn by art_requests/tools/build_map_icons.gd.txt). The button is regrown
@@ -308,6 +339,7 @@ func _refresh_unlocks() -> void:
 		# Always-visible + dimmed-when-locked — buttons are visible tap
 		# targets by default, and hover doesn't exist on touch anyway.
 		_marker_buttons[region_id].modulate = Color(1, 1, 1, 1.0 if unlocked else 0.4)
+		_here_labels[region_id].visible = region_id == GameState.current_area
 
 func _on_marker_pressed(region_id: String) -> void:
 	AudioManager.play_sfx("menu_click")

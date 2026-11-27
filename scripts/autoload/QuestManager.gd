@@ -98,6 +98,17 @@ func get_title(quest_id: String) -> String:
 		return str(q["title_separate_menus"])
 	return str(q.get("title", quest_id))
 
+## Short title for the HUD's quest box ("hud_title", and "hud_title_separate_menus"
+## like get_title), so a long title doesn't wrap over three lines. Falls back to
+## the full title; toasts and the Quests panel keep the full one.
+func get_hud_title(quest_id: String) -> String:
+	var q: Dictionary = quests.get(quest_id, {})
+	if BookUI.separate_menus and q.has("hud_title_separate_menus"):
+		return str(q["hud_title_separate_menus"])
+	if q.has("hud_title"):
+		return str(q["hud_title"])
+	return get_title(quest_id)
+
 ## True if an active quest waits on trigger_name (see complete_quests_with_trigger).
 ## Lets UI keep the control that fires it visible until it does.
 func has_active_trigger(trigger_name: String) -> bool:

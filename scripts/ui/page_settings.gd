@@ -14,6 +14,8 @@ const InstructionsPanel := preload("res://scripts/ui/instructions_panel.gd")
 @onready var color_blind_label: Label = $Scroll/VBoxContainer/ColorBlindLabel
 @onready var color_blind_hint: Label = $Scroll/VBoxContainer/ColorBlindHint
 @onready var color_blind_toggle: CheckButton = $Scroll/VBoxContainer/ColorBlindToggle
+## The "Help" button (built in code, first row): opens the instructions.
+var instructions_btn: Button
 @onready var dev_mode_label: Label = $Scroll/VBoxContainer/DevModeLabel
 @onready var dev_mode_toggle: CheckButton = $Scroll/VBoxContainer/DevModeToggle
 @onready var quit_btn: Button = $Scroll/VBoxContainer/QuitBtn
@@ -27,6 +29,13 @@ func _ready() -> void:
 	color_blind_hint.add_theme_color_override("font_color", UIThemeApplier.TEXT_DISABLED)
 	color_blind_hint.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XS)
 	color_blind_toggle.toggled.connect(Accessibility.set_color_blind)
+	# Subtitle under "UI Scale" (was a tutorial pop-up that covered this page).
+	var scale_hint := Label.new()
+	scale_hint.text = "Makes the screen bigger or smaller."
+	scale_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	scale_hint.add_theme_color_override("font_color", UIThemeApplier.TEXT_DISABLED)
+	scale_hint.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XS)
+	ui_scale_label.add_sibling(scale_hint)
 
 	# Start from the saved volumes (AudioManager loads them at boot).
 	volume_slider.set_value_no_signal(_bus_percent("Master"))
@@ -52,7 +61,6 @@ func _ready() -> void:
 ## when opened from MainMenu itself, same guard BookUI.open() used to apply
 ## to the tab-bar button (no active session there, nothing sane to return to).
 func refresh() -> void:
-	TutorialManager.start("ui_scale")
 	dev_mode_toggle.set_pressed_no_signal(GameState.dev_mode)
 	color_blind_toggle.set_pressed_no_signal(Accessibility.color_blind)
 	# Read the buses, not this page's last values: the book and the separated
@@ -83,7 +91,8 @@ func _on_dev_mode_toggled(enabled: bool) -> void:
 ## First row of Settings, so the how-to-play help is easy to find mid-game.
 func _build_instructions_button() -> void:
 	var btn := Button.new()
-	btn.text = "Instructions"
+	btn.text = "Help"
+	instructions_btn = btn
 	UIThemeApplier.apply_button_theme(btn, "primary")
 	btn.pressed.connect(func():
 		AudioManager.play_sfx("menu_click")

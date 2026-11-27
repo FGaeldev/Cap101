@@ -1,0 +1,171 @@
+extends SceneTree
+# Draws the 16x16 pickup sprites in assets/sprites/items/<item_id>.png, the
+# things pickup.gd shows on the floor (side-quest items from culture_spots.json).
+# Rename to .gd to run (kept as .txt so Godot doesn't compile it with the game):
+#   godot --headless --path . --script art_requests/tools/build_pickup_items.gd
+# then `godot --headless --path . --import` to make the .import files.
+
+const OUT := "res://assets/sprites/items/"
+
+## '#' outline, '.' transparent, other letters from PALETTE.
+const PALETTE := {
+	"#": "3b2a2a",
+	"B": "2f3f6b", "b": "243155", "Y": "d9b44a",                # passport
+	"C": "3f7a8c", "c": "2f5c6b", "Z": "d8d2b8",                # jacket
+	"T": "dcae6e", "K": "b98648", "k": "946a36", "R": "c0392b", # box + string
+	"P": "e58fa8", "p": "c96f8a", "W": "f4ecdc", "S": "8a8a8a", # notebook
+	"w": "e9e2d0", "g": "a89f8e", "O": "e07b39", "o": "4f9a5a", # wrapper
+	"A": "9fd0e8", "a": "79b3cf", "Q": "3a7bbf",                # bottle
+	"G": "5f9e5b", "s": "f2d06b",                               # brochure
+}
+
+const ITEMS := {
+	"passport": [
+		"................",
+		"................",
+		"...##########...",
+		"...#BBBBBBBBW#..",
+		"...#BBBBBBBBW#..",
+		"...#BBBYYBBBW#..",
+		"...#BBYbbYBBW#..",
+		"...#BBYbbYBBW#..",
+		"...#BBBYYBBBW#..",
+		"...#BBBBBBBBW#..",
+		"...#BBYYYYBBW#..",
+		"...#BBBBBBBBW#..",
+		"...#bbbbbbbbW#..",
+		"...###########..",
+		"................",
+		"................",
+	],
+	"jacket": [
+		"................",
+		"................",
+		"................",
+		"...###....###...",
+		"..#CCC#..#CCC#..",
+		"..#CCCC##CCCC#..",
+		"..#CCCCZZCCCC#..",
+		"..#CCCCZZCCCC#..",
+		"..#CCcCZZCcCC#..",
+		"..#CCCCZZCCCC#..",
+		"..#CCCCZZCCCC#..",
+		"..#CCcCZZCcCC#..",
+		"..#ccccZZcccc#..",
+		"..############..",
+		"................",
+		"................",
+	],
+	"pasalubong_box": [
+		"................",
+		"................",
+		"................",
+		"..############..",
+		"..#TTTTRRTTTT#..",
+		"..#TTTTRRTTTT#..",
+		"..############..",
+		"..#KKKKRRKKKK#..",
+		"..#RRRRRRRRRR#..",
+		"..#KKKKRRKKKK#..",
+		"..#KKKKRRKKKK#..",
+		"..#KKKKRRKKKK#..",
+		"..#kkkkRRkkkk#..",
+		"..############..",
+		"................",
+		"................",
+	],
+	"rose_notebook": [
+		"................",
+		"................",
+		"...##########...",
+		"..S#PPPPPPPP#...",
+		"...#PPPPPPPP#...",
+		"..S#PPWWWWPP#...",
+		"...#PPWggWPP#...",
+		"..S#PPWWWWPP#...",
+		"...#PPPPPPPP#...",
+		"..S#PPPPPPPP#...",
+		"...#PPPPPPPP#...",
+		"..S#PPPPPPPP#...",
+		"...#pppppppp#...",
+		"...##########...",
+		"................",
+		"................",
+	],
+	"plaza_litter": [
+		"................",
+		"................",
+		"................",
+		"................",
+		"................",
+		"................",
+		"......####......",
+		"....##OOwO##....",
+		"...#OwOOOOOO#...",
+		"...#OOOwwOoO#...",
+		"...#oOOOOOwO#...",
+		"....#OOwOOO#....",
+		".....######.....",
+		"................",
+		"................",
+		"................",
+	],
+	"litter": [
+		"................",
+		"................",
+		"................",
+		"................",
+		"................",
+		"................",
+		"................",
+		"...#########....",
+		"..#AAAAAAAAA##..",
+		"..#AaaaaaaaaQQ#.",
+		"..#AAAAAAAAA##..",
+		"...#########....",
+		"................",
+		"................",
+		"................",
+		"................",
+	],
+	"brochure": [
+		"................",
+		"................",
+		"................",
+		"..############..",
+		"..#www#GGGGGG#..",
+		"..#wgw#GGsGGG#..",
+		"..#www#GGGGGG#..",
+		"..#wgw#GoooGG#..",
+		"..#www#oooooo#..",
+		"..#wgw#wwwwww#..",
+		"..#www#wggggw#..",
+		"..#wgw#wwwwww#..",
+		"..############..",
+		"................",
+		"................",
+		"................",
+	],
+}
+
+var _done := false
+
+func _process(_d: float) -> bool:
+	if _done:
+		return false
+	_done = true
+	DirAccess.make_dir_recursive_absolute(OUT)
+	for id: String in ITEMS:
+		var rows: Array = ITEMS[id]
+		var img := Image.create(16, 16, false, Image.FORMAT_RGBA8)
+		img.fill(Color(0, 0, 0, 0))
+		for y in rows.size():
+			var row: String = rows[y]
+			for x in mini(row.length(), 16):
+				var ch := row[x]
+				if PALETTE.has(ch):
+					img.set_pixel(x, y, Color(PALETTE[ch]))
+		img.save_png(OUT + id + ".png")
+		print("wrote ", OUT + id + ".png")
+	quit(0)
+	return false

@@ -63,6 +63,23 @@ class Overlay extends Node2D:
 		var side: Vector2 = Vector2(-heading.y, heading.x) * 16.0
 		draw_colored_polygon(PackedVector2Array([tip, walker + Vector2(heading) * 22.0 + side,
 				walker + Vector2(heading) * 22.0 - side]), c)
+		if not lost:
+			_draw_side_hints()
+
+	## "L" and "R" beside the walker, on its own left and right (the way liko pa
+	## waea / liko pa tuo turn it), so turning doesn't depend on screen sides.
+	func _draw_side_hints() -> void:
+		var left := Vector2(heading.y, -heading.x)   # same turn as _on_word's "left"
+		var font: Font = ThemeDB.fallback_font
+		for pair: Array in [[left, "L"], [-left, "R"]]:
+			var dir: Vector2 = pair[0]
+			var at: Vector2 = walker + dir * 54.0
+			var perp: Vector2 = Vector2(-dir.y, dir.x) * 16.0
+			draw_colored_polygon(PackedVector2Array([at + dir * 26.0, at + perp, at - perp]),
+					Color(UIThemeApplier.TEXT_EMPHASIS, 0.55))
+			var text_at: Vector2 = walker + dir * 118.0 + Vector2(-22.0, 26.0)
+			draw_string_outline(font, text_at, pair[1], HORIZONTAL_ALIGNMENT_LEFT, -1, 72, 18, Color.WHITE)
+			draw_string(font, text_at, pair[1], HORIZONTAL_ALIGNMENT_LEFT, -1, 72, UIThemeApplier.TEXT_EMPHASIS)
 
 var _line: Dictionary = {}
 var _level: Node2D

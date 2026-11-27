@@ -124,6 +124,9 @@ func _show(id: String) -> void:
 			# Only this panel's copy of the page: the book keeps its own look.
 			for btn in _settings_page.ui_scale_row.get_children():
 				MenuStyle.style_chip(btn)
+			# Its plain tile matches this panel's paper and read as a heading.
+			if _settings_page.instructions_btn:
+				MenuStyle.style_chip(_settings_page.instructions_btn)
 			if _settings_page._movement_row:
 				for btn in _settings_page._movement_row.get_children():
 					MenuStyle.style_chip(btn)
@@ -199,15 +202,17 @@ func _refresh_pause() -> void:
 	var tier: int = GameState.get_difficulty_tier()
 	var total: int = GameState.get_total_mastery()
 	var thresholds: Array = GameState.DIFFICULTY_TIER_MASTERY
-	_tier_label.text = "Tier %d" % tier
+	# Word points = total mastery (right answers add, wrong ones take away). The
+	# tier sets how big games are, so the hint says that, not just a number.
+	_tier_label.text = "Word tier %d" % tier
 	_tier_bar.value = GameState.get_tier_progress()
 	if tier > thresholds.size():
-		_tier_count.text = str(total)
-		_tier_hint.text = "Max tier"
+		_tier_count.text = "%d word points" % total
+		_tier_hint.text = "Top tier: games use the most words."
 	else:
 		var goal: int = thresholds[tier - 1]
-		_tier_count.text = "%d / %d" % [total, goal]
-		_tier_hint.text = "%d more to Tier %d" % [goal - total, tier + 1]
+		_tier_count.text = "%d / %d word points" % [total, goal]
+		_tier_hint.text = "%d more for Tier %d, where games use more words." % [goal - total, tier + 1]
 
 # --- Panels -------------------------------------------------------------------
 

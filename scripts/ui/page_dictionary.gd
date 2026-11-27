@@ -141,7 +141,7 @@ func _add_entry(word_id: String, word_data: Dictionary) -> void:
 	top_row.add_child(cat_label)
 
 	var enc := Label.new()
-	enc.text = "x%d" % GameState.get_exposure(word_id)
+	enc.text = "seen %d×" % GameState.get_exposure(word_id)
 	enc.add_theme_color_override("font_color", UIThemeApplier.TEXT_DISABLED)
 	enc.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XS)
 	top_row.add_child(enc)

@@ -221,15 +221,29 @@ func _saved_text(unix: int) -> String:
 const CREDITS_PATH := "res://data/credits.json"
 var _credits_overlay: Control = null
 
-## "Credits" sits above Exit, styled like its neighbours.
+## "Help" (the instructions) and "About" (the credits) share one row just above
+## Exit: Start / Continue / Settings / Help · About / Exit. The row's gap matches
+## the column's, so the spacing stays even across and down.
 func _add_credits_button() -> void:
 	var btn := Button.new()
 	btn.name = "CreditsBtn"
-	btn.text = "Credits"
-	btn.custom_minimum_size = settings_btn.custom_minimum_size
+	btn.text = "About"
 	_style_btn(btn, "secondary")
-	quit_btn.get_parent().add_child(btn)
-	quit_btn.get_parent().move_child(btn, quit_btn.get_index())
+	_pad_menu_btn(btn)
+	instructions_btn.text = "Help"
+	var column: VBoxContainer = instructions_btn.get_parent()
+	var row := HBoxContainer.new()
+	row.name = "HelpAboutRow"
+	row.add_theme_constant_override("separation", column.get_theme_constant("separation"))
+	column.add_child(row)
+	column.move_child(row, quit_btn.get_index())
+	instructions_btn.reparent(row)
+	row.add_child(btn)
+	# Same width for both: each would otherwise size to its own label.
+	var half: float = maxf(instructions_btn.get_combined_minimum_size().x, btn.get_combined_minimum_size().x)
+	for b: Button in [instructions_btn, btn]:
+		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		b.custom_minimum_size.x = half
 	btn.pressed.connect(func():
 		AudioManager.play_sfx("menu_click")
 		_open_credits())
@@ -335,6 +349,23 @@ func _apply_style() -> void:
 	_style_btn(instructions_btn, "secondary")
 	_style_btn(settings_btn, "secondary")
 	_style_btn(quit_btn, "danger")
+	for b: Button in [start_btn, continue_btn, instructions_btn, settings_btn, quit_btn]:
+		_pad_menu_btn(b)
 
 func _style_btn(btn: Button, variant: String) -> void:
 	UIThemeApplier.apply_button_theme(btn, variant)
+
+## Room around a title-menu button's label, so text doesn't touch the edges
+## (Help and About sat tight). apply_button_theme makes fresh styleboxes per
+## button, so changing them here touches only this button.
+const MENU_BTN_PAD := Vector2(20, 6)
+
+func _pad_menu_btn(btn: Button) -> void:
+	for state in ["normal", "hover", "pressed", "disabled", "focus"]:
+		var sb: StyleBox = btn.get_theme_stylebox(state)
+		if sb == null:
+			continue
+		sb.content_margin_left = MENU_BTN_PAD.x
+		sb.content_margin_right = MENU_BTN_PAD.x
+		sb.content_margin_top = MENU_BTN_PAD.y
+		sb.content_margin_bottom = MENU_BTN_PAD.y

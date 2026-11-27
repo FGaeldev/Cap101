@@ -68,6 +68,7 @@ var _locked: bool = true          # true while the end message shows / closed
 var _session: int = 0             # bumped on open/close; stale timers bail
 
 var _clue_label: Label
+var _guesses_label: Label
 var _word_label: Label
 var _figure: Figure
 var _keyboard: LetterKeyboard
@@ -150,6 +151,11 @@ func _build_layout() -> void:
 	_clue_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_S)
 	vbox.add_child(_clue_label)
 
+	_guesses_label = Label.new()
+	_guesses_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XS)
+	_guesses_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DISABLED)
+	vbox.add_child(_guesses_label)
+
 	_word_label = Label.new()
 	_word_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_word_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -208,6 +214,7 @@ func _emit_resolved(passed: bool) -> void:
 	resolved.emit(passed)
 
 func _refresh_word() -> void:
+	_guesses_label.text = "Wrong guesses left: %d" % maxi(_max_misses - _misses, 0)
 	var shown: PackedStringArray = []
 	for letter in _letters:
 		shown.append(letter if _guessed.has(letter) else BLANK)

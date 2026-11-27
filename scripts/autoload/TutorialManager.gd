@@ -36,6 +36,10 @@ const PANEL_TOP: float = 34.0
 const PANEL_TOP_ABOVE_BOOK: float = 8.0
 ## Seconds per half-cycle (dim -> bright). Full flash = 2x. Raise to slow down.
 const PULSE_TIME: float = 1.0
+## Explanation steps (auto_advance, no event) wait this many times their
+## "auto_advance" seconds, and a tap on the panel moves on sooner. 4 s alone
+## was too fast for young or second-language readers.
+const AUTO_ADVANCE_SCALE: float = 2.0
 ## Brightening pulse. Deliberately NOT a new palette color (UI Style Guide §2:
 ## no new colors without updating the constant list) — just a modulate lift.
 const HIGHLIGHT_MODULATE: Color = Color(1.6, 1.5, 1.0)
@@ -74,6 +78,8 @@ var _step_serial: int = 0
 
 var _panel: PanelContainer
 var _label: Label
+## "Tap to continue" under explanation steps.
+var _tap_hint: Label
 var _pulse_tween: Tween
 var _highlighted: CanvasItem
 ## Original scale/pivot of the highlighted node, restored on clear so the
@@ -233,9 +239,13 @@ func _go_to_step(index: int) -> void:
 	# Optional "auto_advance": seconds. Explanation-only steps (no "event")
 	# move on by themselves after that long.
 	_step_serial += 1
+	# No "event" = nothing to do but read: the panel takes a tap to move on.
+	var tap_to_continue: bool = not step.has("event") and float(step.get("auto_advance", 0.0)) > 0.0
+	_tap_hint.visible = tap_to_continue
+	_panel.mouse_filter = Control.MOUSE_FILTER_STOP if tap_to_continue else Control.MOUSE_FILTER_IGNORE
 	var auto_seconds: float = float(step.get("auto_advance", 0.0))
 	if auto_seconds > 0.0:
-		_auto_advance(auto_seconds, _step_serial)
+		_auto_advance(auto_seconds * (AUTO_ADVANCE_SCALE if tap_to_continue else 1.0), _step_serial)
 
 
 func _auto_advance(seconds: float, serial: int) -> void:
@@ -378,7 +388,20 @@ func _build_overlay() -> void:
 	_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_label.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_M)
 	_label.add_theme_color_override("font_color", UIThemeApplier.TEXT_DEFAULT)
-	_panel.add_child(_label)
+	var box := VBoxContainer.new()
+	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	box.add_theme_constant_override("separation", 0)
+	_panel.add_child(box)
+	box.add_child(_label)
+	_tap_hint = Label.new()
+	_tap_hint.text = "Tap to continue"
+	_tap_hint.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_tap_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_tap_hint.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XS)
+	_tap_hint.add_theme_color_override("font_color", UIThemeApplier.TEXT_DISABLED)
+	_tap_hint.hide()
+	box.add_child(_tap_hint)
+	_panel.gui_input.connect(_on_panel_input)
 	add_child(_panel)
 
 	_arrow = Node2D.new()
@@ -394,3 +417,13 @@ func _build_overlay() -> void:
 	_arrow.add_child(outline)
 	_arrow.hide()
 	add_child(_arrow)
+
+
+## A tap on an explanation step's panel moves to the next step.
+func _on_panel_input(event: InputEvent) -> void:
+	var tapped: bool = (event is InputEventMouseButton and event.pressed \
+			and event.button_index == MOUSE_BUTTON_LEFT) \
+			or (event is InputEventScreenTouch and event.pressed)
+	if tapped and _active_id != "" and _tap_hint.visible:
+		_panel.accept_event()
+		_go_to_step(_step_index + 1)

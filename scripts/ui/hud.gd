@@ -379,7 +379,7 @@ func _rebuild_quest_rows() -> void:
 		if main_id.is_empty() and q.get("category", "") == MAIN_CATEGORY:
 			main_id = qid
 		else:
-			subs.append({"title": QuestManager.get_title(qid), "reqs": quest_requirements(qid),
+			subs.append({"title": QuestManager.get_hud_title(qid), "reqs": quest_requirements(qid),
 					"errand": q.has("needs_items")})
 	# Stable: errands with items first (what to buy matters most), then other
 	# rows with a to-do list, then plain ones; order kept within each group.
@@ -396,7 +396,7 @@ func _rebuild_quest_rows() -> void:
 		subs.append({"title": "%s (%d/%d)" % [TaskManager.get_task_title(tid), completed_steps, total_steps], "reqs": [], "errand": false})
 
 	main_quest.visible = not main_id.is_empty()
-	main_quest_title.text = QuestManager.get_title(main_id) if not main_id.is_empty() else ""
+	main_quest_title.text = QuestManager.get_hud_title(main_id) if not main_id.is_empty() else ""
 	_fill_requirements(_main_reqs, quest_requirements(main_id) if not main_id.is_empty() else [])
 
 	# separated menus: the full list is one tap away on the Quests panel.
@@ -636,7 +636,7 @@ func _on_mastery_changed() -> void:
 
 func _refresh_tier() -> void:
 	var tier: int = GameState.get_difficulty_tier()
-	tier_label.text = "Tier %d" % tier
+	tier_label.text = "Word tier %d" % tier
 	tier_fill.value = GameState.get_tier_progress()
 	var tier_up: bool = _shown_tier > 0 and tier > _shown_tier
 	var announce: bool = _shown_tier > 0  # not on the first fill in _ready()
@@ -781,7 +781,7 @@ func _on_tap(event: InputEvent, action: Callable) -> void:
 
 func _show_tier_toast(tier: int, tier_up: bool) -> void:
 	_tier_toast_kind.text = "New tier" if tier_up else "Progress"
-	_tier_toast_label.text = ("Tier %d reached" if tier_up else "Tier %d") % tier
+	_tier_toast_label.text = ("Word tier %d reached" if tier_up else "Word tier %d") % tier
 	_tier_toast_bar.value = GameState.get_tier_progress()
 	_tier_toast.visible = true
 	_tier_toast.modulate.a = 1.0
