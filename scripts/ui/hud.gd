@@ -657,8 +657,7 @@ func _build_separated_menu_controls() -> void:
 	_menu_row = HBoxContainer.new()
 	_menu_row.name = "MenuRow"
 	_menu_row.size_flags_horizontal = Control.SIZE_SHRINK_END
-	# Room for the captions under the buttons (_add_button_caption).
-	_menu_row.add_theme_constant_override("separation", 10)
+	_menu_row.add_theme_constant_override("separation", 4)
 	_menu_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var index: int = menu_button.get_index()
 	right_column.remove_child(menu_button)
@@ -681,8 +680,6 @@ func _build_separated_menu_controls() -> void:
 	_pause_button.name = "PauseButton"
 	_pause_button.pressed.connect(_on_menu_button_pressed)
 	_menu_row.add_child(_pause_button)
-	for pair: Array in [[_map_button, "Map"], [_dictionary_button, "Words"], [_pause_button, "Menu"]]:
-		_add_button_caption(pair[0], pair[1])
 
 	# Clock row: time then sun/moon. Tapping the clock opens the calendar.
 	var clock_row := HBoxContainer.new()
@@ -726,26 +723,6 @@ func _build_separated_menu_controls() -> void:
 	vbox.add_child(_tier_toast_bar)
 	toasts.add_child(_tier_toast)
 	toasts.move_child(_tier_toast, 0)
-
-## Parchment, the HUD panels' own color.
-const CAPTION_OUTLINE := Color("ffd9a8")
-## A small name under a HUD icon button, drawn outside it so the row keeps its
-## size. The icons alone were hard to tell apart (the Dictionary read as a window).
-func _add_button_caption(btn: Button, text: String) -> void:
-	var caption := MenuStyle.label(text, UIThemeApplier.FONT_SIZE_XS, UIThemeApplier.TEXT_DEFAULT)
-	caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	# Light outline: readable over dark floors and bright grass alike.
-	caption.add_theme_color_override("font_outline_color", CAPTION_OUTLINE)
-	caption.add_theme_constant_override("outline_size", 4)
-	caption.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
-	caption.anchor_top = 1.0
-	caption.anchor_bottom = 1.0
-	caption.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	caption.grow_vertical = Control.GROW_DIRECTION_END
-	caption.offset_top = 0.0
-	caption.offset_bottom = 0.0
-	btn.add_child(caption)
 
 ## v1.1.9 ("highlight the map after Rose gives it"): the Map button glows until
 ## the map is first opened (BookUI sets "map_seen"), on top of the one-time
