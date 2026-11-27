@@ -19,7 +19,9 @@ const MenuPanel := preload("res://scripts/ui/menus/menu_panel.gd")
 const QuestsPanel := preload("res://scripts/ui/menus/quests_panel.gd")
 const AchievementsPanel := preload("res://scripts/ui/menus/achievements_panel.gd")
 const DevPanel := preload("res://scripts/ui/menus/dev_panel.gd")
+const LogPanel := preload("res://scripts/ui/menus/log_panel.gd")
 const ConfirmPopupScene := preload("res://scenes/ui/confirm_popup.tscn")
+const InstructionsPanel := preload("res://scripts/ui/instructions_panel.gd")
 
 const PageSettingsScene := preload("res://scenes/ui/page_settings.tscn")
 const PageDictionaryListScene := preload("res://scenes/ui/page_dictionary.tscn")
@@ -124,9 +126,6 @@ func _show(id: String) -> void:
 			# Only this panel's copy of the page: the book keeps its own look.
 			for btn in _settings_page.ui_scale_row.get_children():
 				MenuStyle.style_chip(btn)
-			# Its plain tile matches this panel's paper and read as a heading.
-			if _settings_page.instructions_btn:
-				MenuStyle.style_chip(_settings_page.instructions_btn)
 			if _settings_page._movement_row:
 				for btn in _settings_page._movement_row.get_children():
 					MenuStyle.style_chip(btn)
@@ -163,12 +162,20 @@ func _build_pause() -> void:
 	continue_btn.pressed.connect(BookUI.close)
 	TutorialManager.register_target("pause_continue", continue_btn)
 	vbox.add_child(continue_btn)
+	var log_btn := MenuStyle.text_button("Conversation log", MenuStyle.ICON_DICTIONARY)
+	log_btn.pressed.connect(_open_from_pause.bind("log"))
+	vbox.add_child(log_btn)
 	var achievements_btn := MenuStyle.text_button("Achievements", MenuStyle.ICON_ACHIEVEMENTS)
 	achievements_btn.pressed.connect(_open_from_pause.bind("achievements"))
 	vbox.add_child(achievements_btn)
 	var settings_btn := MenuStyle.text_button("Settings", MenuStyle.ICON_SETTINGS)
 	settings_btn.pressed.connect(_open_from_pause.bind("settings"))
 	vbox.add_child(settings_btn)
+	var help_btn := MenuStyle.text_button("Help", MenuStyle.ICON_SEARCH)
+	help_btn.pressed.connect(func():
+		AudioManager.play_sfx("menu_click")
+		InstructionsPanel.open(get_tree()))
+	vbox.add_child(help_btn)
 	_dev_btn = MenuStyle.text_button("Dev menu", MenuStyle.ICON_DEV)
 	_dev_btn.pressed.connect(_open_from_pause.bind("dev"))
 	vbox.add_child(_dev_btn)
@@ -219,6 +226,7 @@ func _refresh_pause() -> void:
 func _build_panels() -> void:
 	_add_panel("quests", QuestsPanel.new())
 	_add_panel("achievements", AchievementsPanel.new())
+	_add_panel("log", LogPanel.new())
 
 	var settings := MenuPanel.new("Settings")
 	_settings_page = PageSettingsScene.instantiate()

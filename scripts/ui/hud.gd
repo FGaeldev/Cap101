@@ -233,7 +233,7 @@ func _process(_delta: float) -> void:
 	var fullscreen: bool = DialogueUI.is_fullscreen_active()
 	toasts.visible = not DialogueUI.hides_toasts()  # queued toasts show once it closes
 	clock_panel.visible = not fullscreen
-	_wallet_panel.visible = not fullscreen and _wallet_shown()
+	_wallet_panel.visible = not fullscreen and (GameState.dev_mode or _wallet_shown())
 	# First time the wallet is up with nothing else on screen: explain money.
 	if _wallet_panel.visible and not overlay and not CutsceneManager.is_playing() \
 			and not TutorialManager.is_done("money"):
@@ -250,9 +250,10 @@ func _process(_delta: float) -> void:
 	if BookUI.separate_menus:
 		# Dictionary stays hidden until there's a first word, like the book's tab lock.
 		# (Also shown while a quest waits on opening it: q002 in Chapter 1.)
-		_dictionary_button.visible = not GameState.word_exposures.is_empty() \
+		# Dev mode shows every button regardless.
+		_dictionary_button.visible = GameState.dev_mode or not GameState.word_exposures.is_empty() \
 				or QuestManager.has_active_trigger(DICTIONARY_QUEST_TRIGGER)
-		_map_button.visible = _map_unlocked()
+		_map_button.visible = GameState.dev_mode or _map_unlocked()
 		_pulse_new_map()
 		_update_tier_toast()
 	var column_top: float = FULLSCREEN_COLUMN_TOP if fullscreen else DEFAULT_COLUMN_TOP
@@ -747,7 +748,7 @@ func _map_unlocked() -> bool:
 
 ## Shows/hides everything that differs between book mode and separated menus.
 func _apply_menu_mode(enabled: bool) -> void:
-	_map_button.visible = enabled and _map_unlocked()
+	_map_button.visible = enabled and (GameState.dev_mode or _map_unlocked())
 	_dictionary_button.visible = enabled
 	_clock_period.visible = enabled
 	clock_label.text = ""  # next _process rewrites it with or without AM/PM

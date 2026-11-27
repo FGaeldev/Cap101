@@ -8,6 +8,11 @@
 # call. Cols 0-4 = states.
 extends Node
 
+const TouchScroll := preload("res://scripts/util/touch_scroll.gd")
+
+func _ready() -> void:
+	TouchScroll.watch(get_tree())
+
 const SHEET := preload("res://assets/ui/buttons_sheet.png")
 const ICON_SHEET := preload("res://assets/ui/icon_buttons_sheet.png")
 const DIALOGUE_BOX := preload("res://assets/ui/dialogue_box.png")

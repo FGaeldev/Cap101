@@ -34,6 +34,7 @@ func show_choices(choices: Array, component: DialogueComponent) -> void:
 		_style_choice_btn(btn)
 		btn.pressed.connect(func():
 			hide_choices()
+			DialogueUI.log_line(TextUtil.PLAYER_SPEAKER_ID, str(c.get("label", "")))
 			component.choose(c)
 		)
 		choice_list.add_child(btn)

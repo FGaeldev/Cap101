@@ -505,6 +505,7 @@ func is_in_dictionary(word_id: String) -> bool:
 ## Reset every persisted field before starting a fresh run in the same process.
 ## Autoloads survive scene changes, so deleting save.dat alone leaves stale state in memory.
 func reset_game_state() -> void:
+	DialogueUI.conversation_log.clear()
 	flags.clear()
 	word_exposures.clear()
 	current_area = "village"
@@ -711,6 +712,7 @@ func load_game() -> bool:
 			push_error("GameState.load_game: no readable save found")
 			return false
 		push_warning("GameState.load_game: main save unreadable, using the backup")
+	DialogueUI.conversation_log.clear()
 	flags = data.get("flags", {})
 	word_exposures = data.get("word_exposures", {})
 	current_area = data.get("current_area", "village")
