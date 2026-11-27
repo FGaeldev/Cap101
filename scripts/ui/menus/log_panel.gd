@@ -1,11 +1,12 @@
 # log_panel.gd — Conversation log: every line shown since the save was loaded
 # (DialogueUI.conversation_log), oldest at the top, opened scrolled to the
-# newest. Akeanon words keep their color and can be tapped for their meaning,
+# newest. Each interaction starts with the in-game day, time and place. Akeanon words keep their color and can be tapped for their meaning,
 # like in the dialogue box.
 extends "res://scripts/ui/menus/menu_panel.gd"
 
 const WordPopup := preload("res://scripts/ui/word_popup.gd")
 const ENTRY_GAP := 6
+const HEADER_GAP := 8
 
 var _scroll: ScrollContainer
 var _list: VBoxContainer
@@ -36,10 +37,21 @@ func _on_show() -> void:
 		_list.add_child(MenuStyle.label("Nobody has said anything yet.", UIThemeApplier.FONT_SIZE_S, UIThemeApplier.TEXT_DISABLED))
 		return
 	for i in entries.size():
+		if i == 0 or entries[i]["interaction"] != entries[i - 1]["interaction"]:
+			_list.add_child(_make_header(entries[i]))
 		_list.add_child(_make_entry(i, entries[i]))
 	# Newest at the bottom; the bar only knows its length after a layout pass.
 	await get_tree().process_frame
 	_scroll.scroll_vertical = int(_scroll.get_v_scroll_bar().max_value)
+
+## Start of an interaction: "Mon 14 March · 8:10 AM · Pastrana Park", with a
+## gap above it so conversations read apart.
+func _make_header(entry: Dictionary) -> Label:
+	var label := MenuStyle.label("%s · %s" % [entry["when"], entry["place"]],
+			UIThemeApplier.FONT_SIZE_S, UIThemeApplier.TEXT_DISABLED)
+	label.custom_minimum_size.y = HEADER_GAP + label.get_minimum_size().y
+	label.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
+	return label
 
 ## "Speaker: line" in one label; narration (no speaker) is the line alone.
 func _make_entry(index: int, entry: Dictionary) -> RichTextLabel:

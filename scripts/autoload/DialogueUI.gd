@@ -44,20 +44,40 @@ const HANGMAN_MAX_LENGTH: int = 12
 var _newspaper_box = null   # lazily instantiated newspaper_panel
 
 ## Lines shown since the save was loaded, oldest first, for the Conversation
-## log (pause menu). [{speaker, text}], authored text so tokens and Akeanon
-## markers resolve when shown. Not saved; GameState clears it on load/new game.
+## log (pause menu). [{speaker, text, interaction, when, place}]: text as
+## authored so tokens and Akeanon markers resolve when shown; interaction
+## numbers each conversation, and when/place are the in-game day, time and
+## place it started. Not saved; GameState clears it on load/new game.
 const LOG_MAX: int = 200
 var conversation_log: Array = []
+var _log_interaction: int = 0
+## The next line starts a new interaction (set when a conversation ends).
+var _log_new: bool = true
+var _log_in_cutscene: bool = false
 
 ## Adds a line to the log, skipping an exact repeat of the last one (a choice
-## line can be shown again as its own prompt).
+## line can be shown again as its own prompt). A cutscene is one interaction,
+## though each of its dialogue steps ends with hide().
 func log_line(speaker: String, text: String) -> void:
 	if text.strip_edges().is_empty():
 		return
-	var entry := {"speaker": speaker, "text": text}
-	if not conversation_log.is_empty() and conversation_log[-1] == entry:
+	var in_cutscene: bool = CutsceneManager.is_playing()
+	if (_log_new and not in_cutscene) or in_cutscene != _log_in_cutscene or conversation_log.is_empty():
+		_log_new = false
+		_log_in_cutscene = in_cutscene
+		_log_interaction += 1
+	elif conversation_log[-1]["speaker"] == speaker and conversation_log[-1]["text"] == text:
 		return
-	conversation_log.append(entry)
+	var date: Dictionary = DayNightManager.get_date()
+	conversation_log.append({
+		"speaker": speaker,
+		"text": text,
+		"interaction": _log_interaction,
+		# "Mon 14 March · 8:10 AM"
+		"when": "%s %d %s · %s" % [DayNightManager.WEEKDAY_SHORT[date["weekday"]], date["day"],
+				DayNightManager.MONTH_NAMES[date["month"] - 1], DayNightManager.format_clock().split(" ", true, 1)[1]],
+		"place": ChapterCard.place_name(GameState.current_level_path),
+	})
 	if conversation_log.size() > LOG_MAX:
 		conversation_log.pop_front()
 
@@ -317,6 +337,7 @@ func hide() -> void:
 	if _newspaper_box and is_instance_valid(_newspaper_box):
 		_newspaper_box.close()
 	_current_component = null
+	_log_new = true
 	if _choice_box:
 		_choice_box.hide_choices()
 	if _root:

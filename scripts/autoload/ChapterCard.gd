@@ -83,9 +83,7 @@ func _show_chapter_banner(chapter: Dictionary) -> void:
 ## scene path): its name on the same banner with "Discovered". Once per place
 ## per save; maps of one place share its "key". Game.load_level() calls this.
 func show_area_if_new(scene_path: String) -> void:
-	if _areas.is_empty():
-		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(AREA_DATA_PATH))
-		_areas = parsed if parsed is Dictionary else {"_bad": {}}
+	_load_areas()
 	var area: Dictionary = _areas.get(scene_path, {})
 	if area.is_empty() or GameState.skips_cards():
 		return
@@ -94,6 +92,27 @@ func show_area_if_new(scene_path: String) -> void:
 		return
 	GameState.set_flag(flag)
 	_banner.show_banner(str(area.get("header", "")), str(area.get("title", "")), "Discovered")
+
+
+func _load_areas() -> void:
+	if _areas.is_empty():
+		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(AREA_DATA_PATH))
+		_areas = parsed if parsed is Dictionary else {"_bad": {}}
+
+
+## Display name of the place a level is in (Conversation log). The banner
+## title where there is one; maps without a banner are named here.
+func place_name(scene_path: String) -> String:
+	_load_areas()
+	var area: Variant = _areas.get(scene_path, {})
+	if area is Dictionary and area.has("title"):
+		return str(area["title"])
+	var file: String = scene_path.get_file().get_basename()
+	if file.begins_with("us_"):
+		return "Home in the US"
+	if file.begins_with("aklan_"):
+		return "The Family Home"
+	return file.get_slice("_", 0).capitalize()
 
 
 ## One-off notes on the same card, shown once per save ("note_<id>_seen").
