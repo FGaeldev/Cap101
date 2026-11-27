@@ -19,8 +19,17 @@ var found_text: String = ""
 
 var _ic: Node2D
 var _t: float = 0.0
+## assets/sprites/items/<item_id>.png (art_requests/tools/build_pickup_items.gd.txt);
+## null = no art yet, so only the twinkle shows.
+var _art: Texture2D
+
+const ITEM_ART_DIR := "res://assets/sprites/items/"
 
 func _ready() -> void:
+	var art_path := ITEM_ART_DIR + item_id + ".png"
+	if ResourceLoader.exists(art_path):
+		_art = load(art_path)
+	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	_ic = INTERACTABLE.instantiate()
 	_ic.interact_label = "Pick up"
 	_ic.area_size = Vector2(16, 16)
@@ -52,11 +61,17 @@ func _process(delta: float) -> void:
 	_t += delta
 	queue_redraw()
 
-## A four-point twinkle that grows and fades, centred on the tile.
+## The item on the floor, with a four-point twinkle that grows and fades on its
+## top-right corner (centred on the tile, and bigger, when there's no art).
 func _draw() -> void:
 	var c := Vector2(8, -8)
 	var pulse: float = 0.5 + 0.5 * sin(_t * 3.0)
 	var size: float = 5.0 + 3.0 * pulse
+	if _art != null:
+		draw_texture(_art, Vector2(0, -16))
+		c = Vector2(13, -13)
+		size = 2.0 + 2.0 * pulse
+		pulse *= 0.4
 	var col := GLINT
 	col.a = 0.75 + 0.25 * pulse
 	# Dark outline first so it reads on light floors and in dim rooms alike.

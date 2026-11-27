@@ -221,15 +221,25 @@ func _saved_text(unix: int) -> String:
 const CREDITS_PATH := "res://data/credits.json"
 var _credits_overlay: Control = null
 
-## "Credits" sits above Exit, styled like its neighbours.
+## "Help" (the instructions) and "About" (the credits) share one row where
+## Instructions was, so the menu reads Start / Continue / Help · About /
+## Settings / Exit instead of six full-width buttons.
 func _add_credits_button() -> void:
 	var btn := Button.new()
 	btn.name = "CreditsBtn"
-	btn.text = "Credits"
-	btn.custom_minimum_size = settings_btn.custom_minimum_size
+	btn.text = "About"
 	_style_btn(btn, "secondary")
-	quit_btn.get_parent().add_child(btn)
-	quit_btn.get_parent().move_child(btn, quit_btn.get_index())
+	instructions_btn.text = "Help"
+	var column: Node = instructions_btn.get_parent()
+	var row := HBoxContainer.new()
+	row.name = "HelpAboutRow"
+	row.add_theme_constant_override("separation", 6)
+	column.add_child(row)
+	column.move_child(row, instructions_btn.get_index())
+	instructions_btn.reparent(row)
+	row.add_child(btn)
+	for b: Button in [instructions_btn, btn]:
+		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	btn.pressed.connect(func():
 		AudioManager.play_sfx("menu_click")
 		_open_credits())

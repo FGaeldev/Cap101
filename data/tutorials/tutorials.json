@@ -164,15 +164,6 @@
 			}
 		]
 	},
-	"ui_scale": {
-		"above_book": true,
-		"steps": [
-			{
-				"text": "UI Scale makes the screen bigger or smaller.",
-				"auto_advance": 4.5
-			}
-		]
-	},
 	"tier_bar": {
 		"steps": [
 			{

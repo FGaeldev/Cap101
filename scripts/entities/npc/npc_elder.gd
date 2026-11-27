@@ -54,6 +54,12 @@ func _ready() -> void:
 	if not actor_id.is_empty():
 		CutsceneManager.register_actor(actor_id, self)
 		
+## Marker when she has an errand to offer or to take back (Pack for Aklan: "Bring
+## it all to Lola Jonabel" showed no marker). Comp_Interactable asks this when
+## the quest/flag link above doesn't already show one.
+func wants_marker() -> bool:
+	return not npc_id.is_empty() and GameState.get_flag(seen_flag) and SideQuests.has_something(npc_id)
+
 func _set_spawn_direction() -> void:
 	match spawn_direction:
 		FacingDirection.DOWN:

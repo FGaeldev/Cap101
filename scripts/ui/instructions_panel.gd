@@ -99,7 +99,7 @@ func _build_topic_ui() -> void:
 
 func _build_ui() -> void:
 	var column := _build_frame()
-	var header := _build_header(column, "Instructions")
+	var header := _build_header(column, "Help")
 
 	_how_to_play_page = _make_page(column)
 	_chapters_page = _make_page(column)

@@ -35,7 +35,7 @@
 				"id": "plaza_visitor",
 				"scene": "res://scenes/entities/npc_Visitor.tscn",
 				"at": [
-					880,
+					864,
 					752
 				],
 				"face": "down",
@@ -97,18 +97,18 @@
 		],
 		"props": [
 			{"texture": "res://assets/pastrana/pastrana_statues.png", "region": [0, 0, 32, 96], "at": [448, 512], "solid": [28, 10]},
-			{"texture": "res://assets/pastrana/pastrana_statues.png", "region": [32, 0, 32, 96], "at": [576, 816], "solid": [22, 10]},
-			{"texture": "res://assets/pastrana/pastrana_statues.png", "region": [64, 0, 32, 96], "at": [640, 808], "solid": [26, 10]},
-			{"texture": "res://assets/pastrana/pastrana_statues.png", "region": [96, 0, 32, 96], "at": [704, 816], "solid": [22, 10]},
+			{"texture": "res://assets/pastrana/pastrana_statues.png", "region": [32, 0, 32, 96], "at": [656, 736], "solid": [22, 10]},
+			{"texture": "res://assets/pastrana/pastrana_statues.png", "region": [64, 0, 32, 96], "at": [640, 784], "solid": [26, 10]},
+			{"texture": "res://assets/pastrana/pastrana_statues.png", "region": [96, 0, 32, 96], "at": [656, 832], "solid": [22, 10]},
 			{"texture": "res://assets/pastrana/pastrana_statues.png", "region": [128, 0, 32, 96], "at": [1488, 432], "solid": [22, 10]},
 			{"texture": "res://assets/pastrana/pastrana_statues.png", "region": [160, 0, 32, 96], "at": [952, 952], "solid": [24, 10]},
 			{"texture": "res://assets/pastrana/pastrana_statues.png", "region": [192, 0, 32, 96], "at": [952, 584], "solid": [26, 12]}
 		],
 		"examinables": [
 			{"at": [448, 507], "size": [60, 42], "chapter": "chapter2", "scene_key": "examine_statue_reyes"},
-			{"at": [576, 811], "size": [54, 42], "chapter": "chapter2", "scene_key": "examine_statue_martelino"},
-			{"at": [640, 803], "size": [58, 42], "chapter": "chapter2", "scene_key": "examine_wwii_obelisk"},
-			{"at": [704, 811], "size": [54, 42], "chapter": "chapter2", "scene_key": "examine_statue_mijares"},
+			{"at": [656, 731], "size": [54, 42], "chapter": "chapter2", "scene_key": "examine_statue_martelino"},
+			{"at": [640, 779], "size": [58, 42], "chapter": "chapter2", "scene_key": "examine_wwii_obelisk"},
+			{"at": [656, 827], "size": [54, 42], "chapter": "chapter2", "scene_key": "examine_statue_mijares"},
 			{"at": [1488, 427], "size": [54, 42], "chapter": "chapter2", "scene_key": "examine_castillo_marker"},
 			{"at": [952, 947], "size": [56, 42], "chapter": "chapter2", "scene_key": "examine_statue_rizal"},
 			{"at": [952, 578], "size": [58, 44], "chapter": "chapter2", "scene_key": "examine_statue_bonifacio"}
