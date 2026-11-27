@@ -181,7 +181,12 @@
 				"highlight": "tier_bar"
 			},
 			{
-				"text": "Practice words to fill it up.",
+				"text": "Right answers fill it up.",
+				"auto_advance": 4.0,
+				"highlight": "tier_bar"
+			},
+			{
+				"text": "A higher tier makes games bigger.",
 				"auto_advance": 4.0,
 				"highlight": "tier_bar"
 			}
