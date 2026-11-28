@@ -89,6 +89,28 @@ func set_dev_show_cards(enabled: bool) -> void:
 	config.set_value(DEV_SETTINGS_SECTION, DEV_SHOW_CARDS_KEY, enabled)
 	config.save(DEV_SETTINGS_PATH)
 
+## Dev cheat switches shown in the menus while dev mode is on:
+## "unlock_all_locations", "fair_price_zero" (map fares free), "show_all_quests".
+## Device settings in user://settings.cfg [dev], never in a save.
+var _dev_toggles: Dictionary = {}
+
+## True only while dev mode is on AND that switch is on.
+func dev_toggle(key: String) -> bool:
+	if not dev_mode:
+		return false
+	if not _dev_toggles.has(key):
+		var config := ConfigFile.new()
+		config.load(DEV_SETTINGS_PATH)
+		_dev_toggles[key] = bool(config.get_value(DEV_SETTINGS_SECTION, key, false))
+	return _dev_toggles[key]
+
+func set_dev_toggle(key: String, enabled: bool) -> void:
+	_dev_toggles[key] = enabled
+	var config := ConfigFile.new()
+	config.load(DEV_SETTINGS_PATH)
+	config.set_value(DEV_SETTINGS_SECTION, key, enabled)
+	config.save(DEV_SETTINGS_PATH)
+
 ## True when chapter cards and notes should be skipped: dev mode, unless the
 ## Dev menu's "Chapter cards" switch is on.
 func skips_cards() -> bool:

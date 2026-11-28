@@ -1,0 +1,74 @@
+extends SceneTree
+# Draws assets/cathedral/santo_nino.png: the Santo Niño image (16x32) on a
+# small gilded pedestal, standing behind the cathedral altar (culture_spots.json
+# prop, examined through "examine_santo_nino"). Same outline and gold palette
+# as draw_pastrana_statues.gd.txt. Run from a scratchpad copy:
+#   godot --path <project> --script draw_santo_nino.gd
+# then let the editor (or --import) import the PNG.
+
+const OUT_PATH := "res://assets/cathedral/santo_nino.png"
+const COLORS := {
+	"o": "#45283c", "e": "#45283c",                  # outline, eyes
+	"H": "#e6cd8a", "G": "#c9a55a", "g": "#8a6f30",  # gold: light, mid, dark
+	"s": "#eec39a", "S": "#a37666",                  # skin, skin shade
+	"W": "#f4dcc0",                                  # lace collar
+	"R": "#b13e53", "P": "#e05a6a", "r": "#6e2234",  # red robe: mid, light, dark
+	"b": "#7a4a33", "d": "#58401e",                  # pedestal wood
+}
+# Crown, face, red robe with a gold trim down the front, scepter in his right
+# hand (viewer's left), globe in his left, then the pedestal.
+const SPRITE := [
+	".......oo.......",
+	"......oHGo......",
+	".....oGHGgo.....",
+	"....oGHGGGgo....",
+	"....oHGHGHgo....",
+	"....oggggggo....",
+	".....ossssSo....",
+	".....oseseSo....",
+	".....ossssSo....",
+	"......oSSo......",
+	"..H..oWWWWWWo...",
+	".oHo.oRPRRRRro..",
+	"..g.oRRPRRRRrro.",
+	"..g.oRRPRRRRro..",
+	"..g.oRRPRRRRoHGo",
+	"..gsRRRPRRRsGGgo",
+	"..gooRRPRRRRoggo",
+	"..g.oRRPRRRRRo..",
+	"..g.oRRPRRRRRro.",
+	"..goRRRGRRRRRro.",
+	"..oRRRRGRRRRRro.",
+	".oRRRRRGRRRRRrro",
+	".oRPRRRGRRRRRrro",
+	".oRRRRRGRRRRrrro",
+	".oGGGGGGGGGGGggo",
+	"..oooooooooooo..",
+	".oHHGGGGGGGGGgo.",
+	".obbbbbbbbbbbdo.",
+	".obGbbbbbbbbbdo.",
+	".obbbbbbbbbbbdo.",
+	"oHHGGGGGGGGGGGgo",
+	"oooooooooooooooo",
+]
+
+func _initialize() -> void:
+	var w: int = SPRITE[0].length()
+	var img := Image.create(w, SPRITE.size(), false, Image.FORMAT_RGBA8)
+	img.fill(Color(0, 0, 0, 0))
+	var bad := 0
+	for y in SPRITE.size():
+		var row: String = SPRITE[y]
+		if row.length() != w:
+			push_error("row %d is %d wide, expected %d" % [y, row.length(), w])
+			bad += 1
+			continue
+		for x in w:
+			var ch := row[x]
+			if ch != ".":
+				img.set_pixel(x, y, Color(COLORS[ch]))
+	if bad == 0:
+		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUT_PATH.get_base_dir()))
+		img.save_png(ProjectSettings.globalize_path(OUT_PATH))
+		print("saved ", OUT_PATH)
+	quit(bad)

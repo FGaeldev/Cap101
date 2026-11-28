@@ -242,7 +242,10 @@ func _build_panels() -> void:
 	_add_panel("dictionary", dictionary)
 
 	var map := MenuPanel.new("Map")
-	map.add_page(PageMapScene.instantiate(), MAP_SIZE)
+	var map_page := PageMapScene.instantiate()
+	map.add_page(map_page, MAP_SIZE)
+	map.add_dev_toggle("unlock_all_locations", "Unlock all", map_page.refresh)
+	map.add_dev_toggle("fair_price_zero", "Free fares", map_page.refresh)
 	_add_panel("map", map)
 
 	# One piece: month grid (arrows beside the month name) on top, that
