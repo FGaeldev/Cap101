@@ -6,8 +6,8 @@
 [ext_resource type="TileSet" uid="uid://dd261lq2dwfm8" path="res://assets/tilesets/edges.tres" id="4_bumho"]
 [ext_resource type="Texture2D" uid="uid://dbgvcxk2teler" path="res://assets/tilesets/bakhawan_eco.png" id="5_t2joj"]
 [ext_resource type="PackedScene" uid="uid://de6nkx7tf7u8d" path="res://scenes/entities/furniture/warp_area.tscn" id="6_46fhn"]
+[ext_resource type="Script" uid="uid://opg6o3j3iwwi" path="res://scripts/entities/examinable.gd" id="examinable_gd"]
 [ext_resource type="Shader" uid="uid://yboluetnyn5m" path="res://assets/shaders/water_gradient.gdshader" id="sea_shader"]
-[ext_resource type="Script" path="res://scripts/entities/examinable.gd" id="examinable_gd"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sea"]
 shader = ExtResource("sea_shader")
@@ -54,7 +54,7 @@ tile_set = ExtResource("2_id73y")
 
 [node name="Walls" type="TileMapLayer" parent="." unique_id=1583867109]
 y_sort_enabled = true
-tile_map_data = PackedByteArray("AAAaADoAAAAHACkAAAAbADoAAAAHACkAAAAcADoAAAAIACkAAAAZADoAAAAGACkAAAAZADkAAAAGACgAAAAaADkAAAAHACgAAAAbADkAAAAHACgAAAAcADkAAAAIACgAAAAdADkAAAAHACgAAAAdADoAAAAHACkAAAAeADkAAAAJACgAAAAeADoAAAAJACkAAAAfADkAAAAKACgAAAAfADoAAAAKACkAAAADAAkAAAAGACoAAAAEAAkAAAAKACoAAAAHAAkAAAAGACoAAAAIAAkAAAAKACoAAAADAAcAAAAGACsAAAAIAAcAAAAKACsAAAADAAMAAAAGAC0AAAAIAAMAAAAKAC0AAAADAAIAAAAGACsAAAAIAAIAAAAKACsAAAADAAgAAAAGAC0AAAAIAAgAAAAKAC0AAAAEAAgAAAAKAC0AAAAHAAgAAAAGAC0AAAAEAAcAAAAKACsAAAAHAAcAAAAGACsAAAAEAAMAAAAKAC0AAAAFAAMAAAAHAC0AAAAGAAMAAAAHAC0AAAAHAAMAAAAGAC0AAAAEAAIAAAAKACsAAAAHAAIAAAAGACsAAAADAAQAAAAGACwAAAADAAUAAAAGACwAAAADAAYAAAAGACwAAAAIAAQAAAAKACwAAAAIAAUAAAAKACwAAAAIAAYAAAAKACwAAAA=")
+tile_map_data = PackedByteArray("AAAaADoAAAAHACkAAAAbADoAAAAHACkAAAAcADoAAAAIACkAAAAZADoAAAAGACkAAAAZADkAAAAGACgAAAAaADkAAAAHACgAAAAbADkAAAAHACgAAAAcADkAAAAIACgAAAAdADkAAAAHACgAAAAdADoAAAAHACkAAAAeADkAAAAJACgAAAAeADoAAAAJACkAAAAfADkAAAAKACgAAAAfADoAAAAKACkAAAADAAkAAAAGACoAAAAEAAkAAAAKACoAAAAHAAkAAAAGACoAAAAIAAkAAAAKACoAAAADAAcAAAAGACsAAAAIAAcAAAAKACsAAAADAAMAAAAGAC0AAAAIAAMAAAAKAC0AAAADAAIAAAAGACsAAAAIAAIAAAAKACsAAAADAAgAAAAGAC0AAAAIAAgAAAAKAC0AAAAEAAgAAAAKAC0AAAAHAAgAAAAGAC0AAAAEAAcAAAAKACsAAAAHAAcAAAAGACsAAAAEAAMAAAAKAC0AAAAFAAMAAAAHAC0AAAAGAAMAAAAHAC0AAAAHAAMAAAAGAC0AAAAEAAIAAAAKACsAAAAHAAIAAAAGACsAAAADAAQAAAAGACwAAAADAAUAAAAGACwAAAADAAYAAAAGACwAAAAIAAQAAAAKACwAAAAIAAUAAAAKACwAAAAIAAYAAAAKACwAAAARAD8AAAADAA0AAAAQAD8AAAACAA0AAAAPAD8AAAACAA0AAAAOAD8AAAACAA0AAAANAD8AAAACAA0AAAAMAD8AAAACAA0AAAALAD8AAAACAA0AAAAKAD8AAAACAA0AAAAJAD8AAAACAA0AAAAIAD8AAAACAA0AAAAHAD8AAAACAA0AAAAGAD8AAAACAA0AAAAFAD8AAAACAA0AAAAEAD8AAAACAA0AAAADAD8AAAACAA0AAAACAD8AAAACAA0AAAABAD8AAAACAA0AAAAAAD8AAAACAA0AAAAUAD8AAAAAAA0AAAAVAD8AAAABAA0AAAAWAD8AAAABAA0AAAAXAD8AAAABAA0AAAAYAD8AAAABAA0AAAAZAD8AAAABAA0AAAAaAD8AAAABAA0AAAAbAD8AAAABAA0AAAAcAD8AAAABAA0AAAAdAD8AAAABAA0AAAAeAD8AAAABAA0AAAAfAD8AAAABAA0AAAAgAD8AAAABAA0AAAAhAD8AAAABAA0AAAAiAD8AAAABAA0AAAAjAD8AAAABAA0AAAAkAD8AAAABAA0AAAAlAD8AAAABAA0AAAAmAD8AAAABAA0AAAAnAD8AAAABAA0AAAA=")
 tile_set = ExtResource("2_id73y")
 
 [node name="Objects" type="TileMapLayer" parent="." unique_id=1954527479]
@@ -412,22 +412,21 @@ position = Vector2(144, 80)
 [node name="S5_Player" type="Marker2D" parent="SceneMarkers/Ch4" unique_id=1152851057]
 position = Vector2(160, 64)
 
-[node name="Examinables" type="Node2D" parent="."]
+[node name="Examinables" type="Node2D" parent="." unique_id=1451115373]
 y_sort_enabled = true
 
-[node name="KasamaPlaque" type="Node2D" parent="Examinables"]
+[node name="KasamaPlaque" type="Node2D" parent="Examinables" unique_id=247990818]
 position = Vector2(368, 936)
 script = ExtResource("examinable_gd")
 scene_key = "examine_kasama_plaque"
 area_size = Vector2(32, 16)
 
-[node name="TrailSign" type="Node2D" parent="Examinables"]
+[node name="TrailSign" type="Node2D" parent="Examinables" unique_id=1504035522]
 position = Vector2(248, 936)
 script = ExtResource("examinable_gd")
 scene_key = "examine_trail_sign"
-area_size = Vector2(16, 16)
 
-[node name="Watchtower" type="Node2D" parent="Examinables"]
+[node name="Watchtower" type="Node2D" parent="Examinables" unique_id=1193292345]
 position = Vector2(464, 408)
 script = ExtResource("examinable_gd")
 scene_key = "examine_watchtower"

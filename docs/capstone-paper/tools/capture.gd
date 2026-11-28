@@ -168,6 +168,23 @@ func _run() -> void:
 	await _wait(3.0)
 	await _cleanup()
 
+	# Stage the talk in the park: player at the monument spot, Rose beside them.
+	var p2: Node2D = get_first_node_in_group("player")
+	if p2 != null:
+		p2.global_position = PASTRANA_SHOT_POS
+		var rose: Node = _find_named(current_scene, "Rose")
+		if rose == null:
+			rose = load("res://scenes/entities/npc_Rose.tscn").instantiate()
+			p2.get_parent().add_child(rose)
+		rose.process_mode = Node.PROCESS_MODE_DISABLED
+		rose.visible = true
+		rose.global_position = PASTRANA_SHOT_POS + Vector2(28, 0)
+		var cam2: Camera2D = p2.get_node_or_null("Camera2D")
+		if cam2 != null:
+			cam2.offset = PASTRANA_CAM_OFFSET + Vector2(0, 45)
+			cam2.reset_smoothing()
+		await _wait(1.5)
+
 	# Dialogue line with a tapped word
 	var dl := _find_line(2, func(v): return v.get("speaker", "") == "Rose" and str(v.get("text", "")).begins_with("\\Raya do Pastrana"))
 	if dl.is_empty():
@@ -248,3 +265,14 @@ func _run() -> void:
 	f.store_string("\n".join(log_lines))
 	f.close()
 	quit(0)
+
+
+func _find_named(n: Node, part: String) -> Node:
+	if n is Node2D and part.to_lower() in String(n.name).to_lower() and n.has_method("get") and not (n is Camera2D):
+		if n.get_child_count() > 0:
+			return n
+	for c in n.get_children():
+		var r := _find_named(c, part)
+		if r != null:
+			return r
+	return null
