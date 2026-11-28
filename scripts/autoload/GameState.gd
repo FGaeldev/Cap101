@@ -89,6 +89,28 @@ func set_dev_show_cards(enabled: bool) -> void:
 	config.set_value(DEV_SETTINGS_SECTION, DEV_SHOW_CARDS_KEY, enabled)
 	config.save(DEV_SETTINGS_PATH)
 
+## Dev cheat switches shown in the menus while dev mode is on:
+## "unlock_all_locations", "fair_price_zero" (map fares free), "show_all_quests".
+## Device settings in user://settings.cfg [dev], never in a save.
+var _dev_toggles: Dictionary = {}
+
+## True only while dev mode is on AND that switch is on.
+func dev_toggle(key: String) -> bool:
+	if not dev_mode:
+		return false
+	if not _dev_toggles.has(key):
+		var config := ConfigFile.new()
+		config.load(DEV_SETTINGS_PATH)
+		_dev_toggles[key] = bool(config.get_value(DEV_SETTINGS_SECTION, key, false))
+	return _dev_toggles[key]
+
+func set_dev_toggle(key: String, enabled: bool) -> void:
+	_dev_toggles[key] = enabled
+	var config := ConfigFile.new()
+	config.load(DEV_SETTINGS_PATH)
+	config.set_value(DEV_SETTINGS_SECTION, key, enabled)
+	config.save(DEV_SETTINGS_PATH)
+
 ## True when chapter cards and notes should be skipped: dev mode, unless the
 ## Dev menu's "Chapter cards" switch is on.
 func skips_cards() -> bool:
@@ -671,7 +693,14 @@ func _read_save(path: String) -> Variant:
 ## the conversion to _migrate_save() under "if from_format < N".
 ## 1 = v1.1.6, the first save to carry game_version/save_format (older = 0).
 ## 2 = v1.1.7: Chapter 2's walk-to goals went back to cutscenes.
-const SAVE_FORMAT: int = 2
+## 3 = duplicate word bank entries merged (MERGED_WORD_IDS).
+const SAVE_FORMAT: int = 3
+
+## Word ids removed when exact duplicates in the word bank were merged -> the id kept.
+const MERGED_WORD_IDS: Dictionary = {
+	"w040": "w039", "w041": "w039", "w058": "w057", "w077": "w076", "w167": "w166",
+	"w175": "w174", "w204": "w203", "w241": "w240", "w338": "w310",
+}
 
 ## This build's version, e.g. "1.1.6" (project.godot application/config/version).
 static func game_version() -> String:
@@ -689,6 +718,18 @@ func _migrate_save(from_format: int) -> void:
 	# that nothing completes any more. The tour cutscenes replay instead.
 	if from_format < 2 and str(objective.get("level", "")) == "res://scenes/world/chapter2/pastrana_outdoors.tscn":
 		objective = {}
+	# Merged duplicate words: move exposures and mastery onto the kept id.
+	if from_format < 3:
+		for old_id: String in MERGED_WORD_IDS:
+			var new_id: String = MERGED_WORD_IDS[old_id]
+			if word_exposures.has(old_id):
+				word_exposures[new_id] = int(word_exposures.get(new_id, 0)) + int(word_exposures[old_id])
+				word_exposures.erase(old_id)
+			if word_mastery.has(old_id):
+				word_mastery[new_id] = maxi(int(word_mastery.get(new_id, 0)), int(word_mastery[old_id]))
+				word_mastery.erase(old_id)
+		if MERGED_WORD_IDS.has(wotd_id):
+			wotd_id = MERGED_WORD_IDS[wotd_id]
 	if from_format != SAVE_FORMAT or loaded_save_version != game_version():
 		print("GameState: save from %s (format %d) loaded in %s (format %d)" % [
 			loaded_save_version if not loaded_save_version.is_empty() else "before 1.1.6",

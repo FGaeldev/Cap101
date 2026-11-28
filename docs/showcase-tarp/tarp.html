@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AkeanQuest — Showcase Tarp (24 × 36 in)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya+SC:wght@700;800&family=Alegreya+Sans:wght@400;500;700&family=Alegreya+Sans+SC:wght@700&display=block" rel="stylesheet">
+<style>
+  /* Local fallback: the game's own heading font */
+  @font-face { font-family: "Alegreya SC Local"; src: url("assets/AlegreyaSC-Bold.ttf"); font-weight: 700; }
+
+  /* ===== Theme (from the game's book UI) ===== */
+  :root {
+    --red: #8A3A45;        /* book cover */
+    --parchment: #FFD8A8;  /* book pages */
+    --gold: #FFC46B;       /* book corners */
+    --paper: #FFF4E3;      /* showcase background */
+    --panel: #FBE6CA;      /* info boxes */
+    --tan: #F3DDBD;        /* chips, rules */
+    --cream: #FFFBF4;      /* tech strip */
+    --brown: #5C4632;      /* body text */
+    --ink: #3A2A14;        /* headings on light */
+    --device: #1F1A17;     /* phone bezel */
+
+    --margin: 115px;       /* 1.2 in safe margin (96 px = 1 in) */
+    --head: "Alegreya SC", "Alegreya SC Local", Georgia, serif;
+    --sc: "Alegreya Sans SC", "Alegreya Sans", sans-serif;
+    --body: "Alegreya Sans", "Segoe UI", sans-serif;
+  }
+
+  /* ===== Page: exactly 24 × 36 in ===== */
+  @page { size: 24in 36in; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 24in; height: 36in; }
+  body {
+    font-family: var(--body); color: var(--brown); background: var(--paper);
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .tarp { width: 2304px; height: 3456px; display: flex; flex-direction: column; overflow: hidden; }
+
+  /* ===== A. Header ===== */
+  .header {
+    background: var(--red); color: var(--cream); text-align: center;
+    padding: 110px var(--margin) 56px; display: flex; flex-direction: column; align-items: center; gap: 22px;
+  }
+  .eyebrow { font-family: var(--sc); font-weight: 700; font-size: 30px; letter-spacing: .1em; color: var(--gold); }
+  .title { font-family: var(--head); font-weight: 800; font-size: 196px; line-height: .95; color: #fff; }
+  .tagline { font-size: 52px; color: var(--parchment); max-width: 1900px; line-height: 1.2; }
+  .pill {
+    margin-top: 14px; background: var(--gold); color: var(--ink); border-radius: 999px;
+    padding: 14px 40px; font-size: 36px; font-weight: 700; display: inline-flex; gap: 16px; align-items: baseline;
+  }
+  .pill small { font-family: var(--sc); font-size: 28px; letter-spacing: .1em; }
+  .pill-note { font-weight: 500; font-size: 30px; }
+  .box p b { color: var(--ink); }
+
+  /* ===== B. Showcase (zig-zag) ===== */
+  .showcase { flex: 1; position: relative; padding: 56px var(--margin) 44px; display: flex; flex-direction: column; justify-content: center; gap: 44px; }
+  .slab { position: absolute; background: var(--parchment); opacity: .6; height: 640px; width: 1560px; }
+  .slab.left  { left: 0; top: 150px; border-radius: 0 320px 320px 0; }
+  .slab.right { right: 0; bottom: 140px; border-radius: 320px 0 0 320px; }
+  .row { position: relative; display: flex; align-items: center; gap: 64px; }
+
+  .shot { width: 1160px; flex: none; }
+  .phone {
+    position: relative; background: var(--device); border-radius: 72px; padding: 32px 44px;
+    border: 4px solid #3A322C;
+  }
+  .phone::before { /* camera */
+    content: ""; position: absolute; left: 17px; top: 50%; width: 14px; height: 14px; margin-top: -7px;
+    background: #3A322C; border-radius: 50%;
+  }
+  .phone img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 20px; }
+  .badge {
+    position: absolute; top: -30px; left: -30px; width: 84px; height: 84px; border-radius: 50%;
+    background: var(--gold); color: var(--ink); border: 6px solid var(--paper);
+    font-family: var(--head); font-weight: 800; font-size: 50px; display: grid; place-items: center;
+  }
+  .caption { margin-top: 18px; text-align: center; font-size: 30px; font-weight: 500; color: var(--brown); }
+  .caption b { font-family: var(--head); color: var(--ink); font-size: 34px; margin-right: 10px; }
+
+  .boxes { flex: 1; display: flex; flex-direction: column; gap: 34px; }
+  .box { background: var(--panel); border-left: 10px solid var(--gold); border-radius: 18px; padding: 30px 40px 32px; }
+  .box h2 {
+    font-family: var(--head); font-weight: 700; font-size: 52px; color: var(--ink); line-height: 1;
+    display: flex; align-items: center; gap: 22px; margin-bottom: 18px;
+  }
+  .icon { width: 74px; height: 74px; border-radius: 50%; background: var(--gold); display: grid; place-items: center; flex: none; }
+  .icon svg { width: 40px; height: 40px; }
+  .box p, .box li { font-size: 34px; line-height: 1.38; }
+  .box ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .box li { padding-left: 34px; position: relative; }
+  .box li::before { content: ""; position: absolute; left: 4px; top: 17px; width: 14px; height: 14px; background: var(--red); transform: rotate(45deg); }
+  .box li b { color: var(--ink); }
+  .chips { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 18px; }
+  .chip { background: var(--cream); color: var(--ink); border-radius: 999px; padding: 10px 26px; font-size: 32px; font-weight: 700; }
+
+  /* ===== C. Built with ===== */
+  .tech {
+    background: var(--cream); border-top: 5px solid var(--tan);
+    padding: 36px var(--margin) 40px; display: flex; flex-direction: column; align-items: center; gap: 26px;
+  }
+  .tech .label { font-family: var(--sc); font-weight: 700; font-size: 30px; letter-spacing: .1em; color: var(--brown); white-space: nowrap; }
+  .logos { width: 100%; display: flex; justify-content: space-around; }
+  .logo { display: flex; flex-direction: column; align-items: center; gap: 14px; font-size: 34px; font-weight: 700; color: var(--ink); }
+  .logo img { width: 92px; height: 92px; object-fit: contain; }
+  .logo img.px { image-rendering: pixelated; }
+
+  /* ===== D. Team ===== */
+  .team { background: var(--red); color: var(--cream); padding: 40px 80px 90px; display: flex; flex-direction: column; align-items: center; }
+  .team h2 { font-family: var(--head); font-weight: 700; font-size: 64px; color: #fff; margin-bottom: 30px; }
+  .members { display: flex; justify-content: space-between; gap: 28px; width: 100%; }
+  .member { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .member .name { font-size: 52px; text-wrap: balance; min-height: 2.2em; display: flex; align-items: center; justify-content: center; }
+  .member .role { font-size: 42px; }
+  .photo {
+    position: relative; width: 140px; height: 140px; border-radius: 50%; background: var(--parchment);
+    overflow: hidden; margin-bottom: 14px; flex: none;
+  }
+  .photo svg { position: absolute; inset: 22px 0 0 0; width: 100%; height: 100%; }
+  .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .photo span { position: absolute; top: 14px; left: 0; right: 0; text-align: center; font-size: 15px; font-weight: 500; color: var(--ink); }
+  .name { font-family: var(--head); font-weight: 700; font-size: 42px; color: #fff; line-height: 1.1; }
+  .role { font-size: 32px; color: var(--parchment); margin-top: 6px; }
+  .divider { width: 640px; height: 3px; background: var(--gold); opacity: .5; margin: 34px 0 28px; }
+  .adviser { display: flex; align-items: center; gap: 40px; text-align: center; }
+  .adviser .photo { width: 140px; height: 140px; margin: 0; box-shadow: inset 0 0 0 8px var(--gold); }
+  .adviser .photo svg { inset: 20px 0 0 0; }
+  .adviser .desig { font-family: var(--sc); font-weight: 700; font-size: 30px; letter-spacing: .1em; color: var(--gold); font-size: 42px; }
+  .adviser .name { font-size: 52px; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="person" viewBox="0 0 100 100"><circle cx="50" cy="39" r="17" fill="#5C4632" fill-opacity=".35"/><path d="M13 96c3-21 18-33 37-33s34 12 37 33z" fill="#5C4632" fill-opacity=".35"/></symbol>
+</svg>
+
+<main class="tarp">
+
+  <!-- A. Header -->
+  <header class="header">
+    <h1 class="title">AkeanQuest</h1>
+    <p class="tagline">An Android-Based 2D Role-Playing Game for Learning Standard Akeanon Vocabulary</p>
+  </header>
+
+  <!-- B. Showcase: zig-zag of two screenshots and four boxes -->
+  <section class="showcase">
+    <div class="slab left"></div>
+    <div class="slab right"></div>
+
+    <div class="row">
+      <figure class="shot">
+        <div class="phone"><span class="badge">1</span><img src="assets/new_title_screen.png" alt="AkeanQuest title screen"></div>
+        <figcaption class="caption"><b>Title Screen</b> the game’s storybook main menu</figcaption>
+      </figure>
+      <div class="boxes">
+        <article class="box">
+          <h2><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#3A2A14" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 7.5v5.5M12 16.5v.01" stroke-width="2.4"/></svg></span>The Problem</h2>
+          <p><b>Republic Act No. 12027</b> discontinued the use of mother tongue as the primary medium of instruction from Kindergarten to Grade 3, reverting to Filipino and English while retaining regional languages as auxiliary media. This may limit opportunities for young Aklanons to develop their Akeanon vocabulary through formal education.</p>
+        </article>
+        <article class="box">
+          <h2><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#3A2A14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5M9 18h6M10 22h4"/></svg></span>Our Solution</h2>
+          <p>An interactive RPG set in Kalibo that teaches <b>Standard Akeanon</b> through <b>NPC conversations</b>, <b>contextual vocabulary discovery</b>, <b>quests</b>, an <b>in-game dictionary</b>, and <b>educational mini-games</b>.</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="boxes">
+        <article class="box">
+          <h2><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#3A2A14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z"/></svg></span>Key Features</h2>
+          <ul>
+            <li><b>Tap Akeanon words</b> in dialogue to see their meanings</li>
+            <li><b>4 chapters, 41 quests</b> across Kalibo landmarks</li>
+            <li><b>In-game dictionary</b> of discovered words</li>
+            <li><b>13 vocabulary</b> mini-games and quizzes</li>
+          </ul>
+        </article>
+        <article class="box">
+          <h2><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#3A2A14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/><circle cx="9" cy="7" r="4"/></svg></span>Target Users</h2>
+          <ul>
+            <li><b>Akeanon Learners</b> – Students and individuals interested in learning Standard Akeanon vocabulary.</li>
+            <li><b>Educators</b> – Teachers looking for supplementary language-learning materials.</li>
+            <li><b>Local Community</b> – Akeanons interested in preserving and promoting their language.</li>
+          </ul>
+        </article>
+      </div>
+      <figure class="shot">
+        <div class="phone"><span class="badge">2</span><img src="assets/new_gameplay_dialogue.png" alt="Gameplay: tapping an Akeanon word in dialogue"></div>
+        <figcaption class="caption"><b>Gameplay</b> Rose at Pastrana Park; tapping “tawo” shows “person”</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- C. Built with -->
+  <section class="tech">
+    <div class="label">Built With</div>
+    <div class="logos">
+      <div class="logo"><img src="assets/godot.svg" alt="">Godot Engine</div>
+      <div class="logo"><img src="assets/gdscript.svg" alt="">GDScript</div>
+      <div class="logo"><img class="px" src="assets/aseprite.png" alt="">Aseprite</div>
+      <div class="logo"><img src="assets/git.svg" alt="">Git</div>
+      <div class="logo"><img src="assets/github.svg" alt="">GitHub</div>
+      <div class="logo"><img src="assets/android.svg" alt="">Android</div>
+    </div>
+  </section>
+
+  <!-- D. Team -->
+  <section class="team">
+    <h2>Project Team</h2>
+    <div class="members">
+      <div class="member"><div class="photo"><img src="assets/photo_jimenez.png" alt="Christian Glenn O. Jimenez"></div><div class="name">Christian Glenn O. Jimenez</div><div class="role">Game Developer</div></div>
+      <div class="member"><div class="photo"><img src="assets/photo_gerardo.png" alt="Francis Gael R. Gerardo"></div><div class="name">Francis Gael R. Gerardo</div><div class="role">Lead Developer</div></div>
+      <div class="member"><div class="photo"><img src="assets/photo_gumban.png" alt="Jaycob F. Gumban"></div><div class="name">Jaycob F. Gumban</div><div class="role">QA Analyst</div></div>
+      <div class="member"><div class="photo"><img src="assets/photo_iquina.png" alt="John Loys I. Iquiña"></div><div class="name">John Loys I. Iquiña</div><div class="role">Documentation Lead</div></div>
+      <div class="member"><div class="photo"><img src="assets/photo_bautista.png" alt="John Rey M. Bautista"></div><div class="name">John Rey M. Bautista</div><div class="role">Research Lead</div></div>
+    </div>
+    <div class="divider"></div>
+    <div class="adviser">
+      <div><div class="desig">Project Adviser</div><div class="name">Dr. Julie Ann A. Salido</div></div>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

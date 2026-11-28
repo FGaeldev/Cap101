@@ -352,24 +352,6 @@
       "source": ""
     },
     {
-      "id": "w040",
-      "akeanon": "bisan",
-      "category": "conj.",
-      "area": "chapter4",
-      "gloss": "although, no matter, even if",
-      "verified": false,
-      "source": ""
-    },
-    {
-      "id": "w041",
-      "akeanon": "bisan",
-      "category": "conj.",
-      "area": "chapter5",
-      "gloss": "although, no matter, even if",
-      "verified": false,
-      "source": ""
-    },
-    {
       "id": "w042",
       "akeanon": "bisita",
       "category": "",
@@ -509,15 +491,6 @@
       "akeanon": "eambong",
       "category": "",
       "area": "chapter3",
-      "gloss": "Clothes / shirt / clothing",
-      "verified": false,
-      "source": ""
-    },
-    {
-      "id": "w058",
-      "akeanon": "eambong",
-      "category": "",
-      "area": "chapter6",
       "gloss": "Clothes / shirt / clothing",
       "verified": false,
       "source": ""
@@ -681,15 +654,6 @@
       "akeanon": "hay",
       "category": "",
       "area": "chapter4",
-      "gloss": "is / because",
-      "verified": false,
-      "source": ""
-    },
-    {
-      "id": "w077",
-      "akeanon": "hay",
-      "category": "",
-      "area": "chapter5",
       "gloss": "is / because",
       "verified": false,
       "source": ""
@@ -1496,15 +1460,6 @@
       "source": ""
     },
     {
-      "id": "w167",
-      "akeanon": "mga",
-      "category": "",
-      "area": "chapter3",
-      "gloss": "these / Those",
-      "verified": false,
-      "source": ""
-    },
-    {
       "id": "w168",
       "akeanon": "mo",
       "category": "",
@@ -1563,15 +1518,6 @@
       "akeanon": "namon",
       "category": "",
       "area": "chapter2",
-      "gloss": "our / We",
-      "verified": false,
-      "source": ""
-    },
-    {
-      "id": "w175",
-      "akeanon": "namon",
-      "category": "",
-      "area": "chapter3",
       "gloss": "our / We",
       "verified": false,
       "source": ""
@@ -1825,15 +1771,6 @@
       "akeanon": "sa",
       "category": "",
       "area": "chapter2",
-      "gloss": "In",
-      "verified": false,
-      "source": ""
-    },
-    {
-      "id": "w204",
-      "akeanon": "sa",
-      "category": "",
-      "area": "chapter3",
       "gloss": "In",
       "verified": false,
       "source": ""
@@ -2154,15 +2091,6 @@
       "source": ""
     },
     {
-      "id": "w241",
-      "akeanon": "una",
-      "category": "",
-      "area": "chapter3",
-      "gloss": "that (near listener) / First",
-      "verified": false,
-      "source": ""
-    },
-    {
       "id": "w242",
       "akeanon": "unga",
       "category": "",
@@ -2378,7 +2306,6 @@
     {"id": "w335", "akeanon": "piso", "category": "Noun (n)", "area": "chapter2", "gloss": "peso (money)", "verified": true, "source": "Economy line review 2026-11-18; user: one peso is just piso; other prices number + -ng/nga + piso (Limang piso), above 10 digits + pisos"},
     {"id": "w336", "akeanon": "atras", "category": "Verb (v)", "area": "all", "gloss": "step back, go back", "verified": true, "source": "Directions review 2026-11-18; user: atras can mean step back (used instead of balik for 'go back that way')"},
     {"id": "w337", "akeanon": "tapos", "category": "", "area": "all", "gloss": "then, after that", "verified": true, "source": "Grammar notes, Giving directions (confirmed); directions review 2026-11-18"},
-    {"id": "w338", "akeanon": "ni", "category": "", "area": "all", "gloss": "of (before a person's name)", "verified": true, "source": "Directions review 2026-11-18; user confirmed \"Siin ro baeay ni Lola Jonabel?\""},
     {"id": "w339", "akeanon": "bakhawan", "category": "Noun (n)", "area": "chapter4", "gloss": "mangrove", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
     {"id": "w340", "akeanon": "ma-amat", "category": "Verb (v)", "area": "chapter4", "gloss": "to get going, set off", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},
     {"id": "w341", "akeanon": "bangod", "category": "", "area": "chapter4", "gloss": "because", "verified": false, "source": "Ch4 storyboard review 2026-11-18; line confirmed by user, gloss from the line's translation"},

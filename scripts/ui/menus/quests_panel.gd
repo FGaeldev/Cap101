@@ -29,6 +29,7 @@ func _init() -> void:
 	_detail = VBoxContainer.new()
 	_detail.add_theme_constant_override("separation", 4)
 	right.add_child(_detail)
+	add_dev_toggle("show_all_quests", "Show all", _on_show)
 
 func _on_show() -> void:
 	_entries = _collect_entries()
@@ -43,11 +44,13 @@ func _on_show() -> void:
 func _collect_entries() -> Array:
 	var active: Array = []
 	var done: Array = []
+	var unstarted: Array = []  # dev "Show all" switch only
+	var show_all: bool = GameState.dev_toggle("show_all_quests")
 	for qid in QuestManager.quests:
 		var q: Dictionary = QuestManager.quests[qid]
 		var completed: bool = GameState.get_flag(q.get("completion_flag", ""))
 		var is_active: bool = qid in QuestManager.active_quests
-		if not completed and not is_active:
+		if not completed and not is_active and not show_all:
 			continue
 		var entry := {
 			"key": "quest:" + qid,
@@ -59,14 +62,26 @@ func _collect_entries() -> Array:
 			"done": completed,
 			"description": q.get("description", ""),
 		}
-		(done if completed else active).append(entry)
-	for tid in TaskManager.get_active_task_ids():
+		if not completed and not is_active:
+			entry["unstarted"] = true
+			unstarted.append(entry)
+		else:
+			(done if completed else active).append(entry)
+	var active_tasks: Array = TaskManager.get_active_task_ids()
+	for tid in active_tasks:
 		active.append(_task_entry(tid, false))
 	for tid in GameState.completed_tasks:
 		done.append(_task_entry(tid, true))
+	if show_all:
+		for tid in TaskManager.task_defs:
+			if TaskManager.task_defs[tid] is Dictionary \
+					and not tid in active_tasks and not tid in GameState.completed_tasks:
+				var entry := _task_entry(tid, false)
+				entry["unstarted"] = true
+				unstarted.append(entry)
 	# Main quests on top, side quests last (see _rank).
 	active.sort_custom(func(a, b): return _rank(a) < _rank(b))
-	return active + done
+	return active + done + unstarted
 
 func _task_entry(tid: String, done: bool) -> Dictionary:
 	var def: Dictionary = TaskManager.task_defs.get(tid, {})
@@ -90,8 +105,9 @@ func _rebuild_list() -> void:
 		return
 	var section := ""
 	for entry in _entries:
-		var entry_section: String = "Completed" if entry["done"] \
-				else ("Side quests" if entry.get("side", false) else "Active")
+		var entry_section: String = "Not started" if entry.get("unstarted", false) \
+				else ("Completed" if entry["done"] \
+				else ("Side quests" if entry.get("side", false) else "Active"))
 		if entry_section != section:
 			section = entry_section
 			_list.add_child(MenuStyle.label(section, UIThemeApplier.FONT_SIZE_S, UIThemeApplier.TEXT_EMPHASIS))
@@ -127,7 +143,9 @@ func _show_detail() -> void:
 	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_detail.add_child(title)
 	var kind: String = "Main quest" if entry["main"] else ("Task" if entry["key"].begins_with("task:") else "Side quest")
-	_detail.add_child(MenuStyle.label("%s · %s" % [kind, "Completed" if entry["done"] else "Active"],
+	var status: String = "Not started" if entry.get("unstarted", false) \
+			else ("Completed" if entry["done"] else "Active")
+	_detail.add_child(MenuStyle.label("%s · %s" % [kind, status],
 			UIThemeApplier.FONT_SIZE_XS, UIThemeApplier.TEXT_DISABLED))
 	if not str(entry.get("giver", "")).is_empty():
 		_detail.add_child(MenuStyle.label("From " + entry["giver"], UIThemeApplier.FONT_SIZE_S))

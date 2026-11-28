@@ -4,6 +4,13 @@ extends SceneTree
 # Windowed only. Saves go to --save-dir, never the player's slots.
 
 var out := ""
+## --only-pastrana: retake 02_world_pastrana alone, then quit.
+var only_pastrana := false
+## 02_world_pastrana: the player stands on the path just south of the WWII obelisk
+## and the camera is nudged up, so the obelisk with Martelino and Mijares is fully
+## in frame, right of the quest panel.
+const PASTRANA_SHOT_POS := Vector2(632, 864)
+const PASTRANA_CAM_OFFSET := Vector2(-16, -62)
 var A := {}
 var started := false
 var log_lines: Array[String] = []
@@ -13,6 +20,8 @@ func _initialize() -> void:
 	for a in OS.get_cmdline_user_args():
 		if a.begins_with("--out="):
 			out = a.substr(6)
+		elif a == "--only-pastrana":
+			only_pastrana = true
 
 func _process(_d: float) -> bool:
 	if not started:
@@ -22,6 +31,11 @@ func _process(_d: float) -> bool:
 	var tm = root.get_node_or_null("TutorialManager")
 	if tm and "visible" in tm:
 		tm.visible = false
+	# Side-quest rows (Kalibo goals) would cover half of every shot. The HUD sets
+	# .visible every frame, so fade them out instead.
+	var sq = root.get_node_or_null("Game/UILayer/HUD/QuestColumn/SubQuests")
+	if sq:
+		sq.modulate.a = 0.0
 	return false
 
 func _p(s: String) -> void:
@@ -84,6 +98,11 @@ func _run() -> void:
 	# 1. Main menu
 	change_scene_to_file("res://scenes/ui/MainMenu.tscn")
 	await _wait(2.0)
+	# The paper never names a build: hide the version label in the corner.
+	var ver := "v" + str(ProjectSettings.get_setting("application/config/version", ""))
+	for l in current_scene.find_children("*", "Label", true, false):
+		if l.text == ver:
+			l.visible = false
 	await _shot("01_main_menu")
 
 	# Game state: Chapters 1-3 done, Chapter 4 under way, words of Chapters 1-4 seen.
@@ -91,10 +110,15 @@ func _run() -> void:
 	GS.player_name = "Tester"
 	for f in ["chapter_card_chapter1_seen", "chapter_card_chapter2_seen", "chapter_card_chapter3_seen", "chapter_card_chapter4_seen",
 			"tutorial_ch1_basics_done", "tutorial_ch1_quest_hud_done", "tutorial_ch1_quests_done", "tutorial_ch1_dictionary_done",
-			"tutorial_ch1_morning_done", "tutorial_npc_menu_done", "tutorial_ch2_map_done", "chapter1_complete", "chapter2_tour_done",
+			"tutorial_ch1_morning_done", "tutorial_npc_menu_done", "tutorial_money_done", "tutorial_ch2_map_done", "chapter1_complete", "chapter2_tour_done",
 			"chapter2_complete", "chapter3_complete", "got_kalibo_map", "map_open_market", "map_open_habuean", "went_fishing",
 			"note_story_so_far_seen", "chapter4_started", "chapter4_complete", "note_part_one_end_seen", "seen_chapter2_scene0", "seen_chapter3_scene0", "seen_chapter4_scene0"]:
 		GS.set_flag(f)
+	# Every tutorial counts as seen, so no tip (e.g. "UI Scale makes...") covers a shot.
+	var tuts: Variant = _json("res://data/tutorials/tutorials.json")
+	if tuts is Dictionary:
+		for id: String in tuts:
+			GS.set_flag("tutorial_%s_done" % id)
 	# Skip the "Discovered" place banners (v1.1.0): they'd cover the world shots.
 	var areas: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/map_data/area_banners.json"))
 	if areas is Dictionary:
@@ -113,7 +137,20 @@ func _run() -> void:
 	change_scene_to_file("res://scenes/Game.tscn")
 	await _wait(7.0)
 	await _cleanup()
+	var player: Node2D = get_first_node_in_group("player")
+	if player != null:
+		player.global_position = PASTRANA_SHOT_POS
+		var cam: Camera2D = player.get_node_or_null("Camera2D")
+		if cam != null:
+			cam.offset = PASTRANA_CAM_OFFSET
+			cam.reset_smoothing()
+		await _wait(1.5)
 	await _shot("02_world_pastrana")
+	if player != null and player.get_node_or_null("Camera2D") != null:
+		player.get_node("Camera2D").offset = Vector2.ZERO
+	if only_pastrana:
+		quit(0)
+		return
 
 	var game = current_scene
 	for lv in [["03_world_cathedral", "res://scenes/world/chapter2/cathedral_indoors.tscn"],
@@ -130,6 +167,23 @@ func _run() -> void:
 	game.load_level("res://scenes/world/chapter2/pastrana_outdoors.tscn")
 	await _wait(3.0)
 	await _cleanup()
+
+	# Stage the talk in the park: player at the monument spot, Rose beside them.
+	var p2: Node2D = get_first_node_in_group("player")
+	if p2 != null:
+		p2.global_position = PASTRANA_SHOT_POS
+		var rose: Node = _find_named(current_scene, "Rose")
+		if rose == null:
+			rose = load("res://scenes/entities/npc_Rose.tscn").instantiate()
+			p2.get_parent().add_child(rose)
+		rose.process_mode = Node.PROCESS_MODE_DISABLED
+		rose.visible = true
+		rose.global_position = PASTRANA_SHOT_POS + Vector2(28, 0)
+		var cam2: Camera2D = p2.get_node_or_null("Camera2D")
+		if cam2 != null:
+			cam2.offset = PASTRANA_CAM_OFFSET + Vector2(0, 45)
+			cam2.reset_smoothing()
+		await _wait(1.5)
 
 	# Dialogue line with a tapped word
 	var dl := _find_line(2, func(v): return v.get("speaker", "") == "Rose" and str(v.get("text", "")).begins_with("\\Raya do Pastrana"))
@@ -167,7 +221,11 @@ func _run() -> void:
 	# Phrase builder (Chapter 1)
 	var pb := _find_line(1, func(v): return v.get("type", "") == "phrase_builder")
 	if not pb.is_empty():
-		A.DialogueUI.show_phrase_builder(pb, Node.new())
+		# Fill [DayPart] / [good day] the way Comp_Dialogue does before showing it.
+		# load() at run time: naming TextUtil here compiles it before the
+		# autoloads exist and breaks it for the whole run.
+		var text_util: GDScript = load("res://scripts/util/text_util.gd")
+		A.DialogueUI.show_phrase_builder(text_util.resolve_builder_line(pb), Node.new())
 		await _wait(1.5)
 		await _shot("11_phrase_builder")
 		await _cleanup()
@@ -199,7 +257,7 @@ func _run() -> void:
 		GS.date_unix += 86400
 
 	# Market payment
-	A.Economy.pay(7)
+	A.Economy.pay(7, "shop_price")  # a market vendor's price, not a ride fare
 	await _wait(2.0)
 	await _shot("17_market_pay")
 
@@ -207,3 +265,14 @@ func _run() -> void:
 	f.store_string("\n".join(log_lines))
 	f.close()
 	quit(0)
+
+
+func _find_named(n: Node, part: String) -> Node:
+	if n is Node2D and part.to_lower() in String(n.name).to_lower() and n.has_method("get") and not (n is Camera2D):
+		if n.get_child_count() > 0:
+			return n
+	for c in n.get_children():
+		var r := _find_named(c, part)
+		if r != null:
+			return r
+	return null

@@ -1,0 +1,4953 @@
+[
+ {
+  "id": "w001",
+  "akeanon": "abo",
+  "gloss": "many",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2,
+   3
+  ],
+  "text_chapters": [
+   2,
+   3
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w002",
+  "akeanon": "abot",
+  "gloss": "reach, arrive",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w003",
+  "akeanon": "adlaw",
+  "gloss": "day, the sun",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   2,
+   4
+  ],
+  "text_chapters": [
+   2,
+   4
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w004",
+  "akeanon": "adto/agto",
+  "gloss": "to go, to visit",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w005",
+  "akeanon": "ag",
+  "gloss": "and",
+  "area": "chapter3",
+  "verified": true,
+  "tagged_chapters": [
+   3,
+   4
+  ],
+  "text_chapters": [
+   1,
+   3,
+   4
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w006",
+  "akeanon": "agahon",
+  "gloss": "morning",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w007",
+  "akeanon": "agtunan",
+  "gloss": "to visit, to go to",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w008",
+  "akeanon": "Akeanon",
+  "gloss": "the language spoken by the people of Aklan",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   1
+  ],
+  "text_chapters": [
+   1,
+   4
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w009",
+  "akeanon": "akeanon",
+  "gloss": "things or people from Aklan",
+  "area": "chapter1",
+  "verified": true,
+  "tagged_chapters": [
+   1
+  ],
+  "text_chapters": [
+   1,
+   4
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w010",
+  "akeanon": "Aklan",
+  "gloss": "a province in the Philippines",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [
+   1
+  ],
+  "text_chapters": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w011",
+  "akeanon": "ako",
+  "gloss": "I or me",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [
+   1,
+   2,
+   4
+  ],
+  "text_chapters": [
+   1,
+   2,
+   4
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w012",
+  "akeanon": "alin",
+  "gloss": "what",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   1
+  ],
+  "text_chapters": [
+   1
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w013",
+  "akeanon": "ama",
+  "gloss": "father",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w014",
+  "akeanon": "amiga",
+  "gloss": "friend (female)",
+  "area": "chapter6",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w015",
+  "akeanon": "amigo",
+  "gloss": "friend (male)",
+  "area": "chapter6",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w016",
+  "akeanon": "amon",
+  "gloss": "our",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w017",
+  "akeanon": "An-om",
+  "gloss": "six",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w018",
+  "akeanon": "Ap-at",
+  "gloss": "four",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [
+   1,
+   2
+  ],
+  "text_chapters": [
+   1,
+   2
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w019",
+  "akeanon": "apo",
+  "gloss": "grandchild",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "text_chapters": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w020",
+  "akeanon": "asukar",
+  "gloss": "sugar",
+  "area": "chapter6",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w021",
+  "akeanon": "asul",
+  "gloss": "blue",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2,
+   3
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w022",
+  "akeanon": "aton",
+  "gloss": "our",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w023",
+  "akeanon": "ayaw",
+  "gloss": "do not",
+  "area": "chapter6",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w024",
+  "akeanon": "baboy",
+  "gloss": "pig",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w025",
+  "akeanon": "baea",
+  "gloss": "By the way",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w026",
+  "akeanon": "baeas",
+  "gloss": "Sand",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w027",
+  "akeanon": "baeay",
+  "gloss": "house",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w028",
+  "akeanon": "bag-o",
+  "gloss": "new",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w029",
+  "akeanon": "bago",
+  "gloss": "Before",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w030",
+  "akeanon": "bagyo",
+  "gloss": "Storm",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w031",
+  "akeanon": "bakae",
+  "gloss": "Buy",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   2,
+   3,
+   6
+  ],
+  "text_chapters": [
+   2,
+   3
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w032",
+  "akeanon": "baligya",
+  "gloss": "Sell",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w033",
+  "akeanon": "balikbayan",
+  "gloss": "A person or people that went to another country and came home to their native land",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [
+   1,
+   5
+  ],
+  "text_chapters": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w034",
+  "akeanon": "bangon",
+  "gloss": "Rise",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w035",
+  "akeanon": "batuna",
+  "gloss": "Accept/ Receive",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w036",
+  "akeanon": "batyag",
+  "gloss": "feel",
+  "area": "chapter5",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w037",
+  "akeanon": "baybay",
+  "gloss": "Shore / shore",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   3,
+   4,
+   6
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w038",
+  "akeanon": "berde",
+  "gloss": "green",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2,
+   3
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w039",
+  "akeanon": "bisan",
+  "gloss": "although, no matter, even if",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [
+   2,
+   4
+  ],
+  "actual": "untagged_ch2"
+ },
+ {
+  "id": "w040",
+  "akeanon": "bisan",
+  "gloss": "although, no matter, even if",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [
+   2,
+   4
+  ],
+  "actual": "untagged_ch2"
+ },
+ {
+  "id": "w041",
+  "akeanon": "bisan",
+  "gloss": "although, no matter, even if",
+  "area": "chapter5",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   2,
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w042",
+  "akeanon": "bisita",
+  "gloss": "Visitor",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3,
+   4,
+   5,
+   6
+  ],
+  "text_chapters": [
+   3,
+   4
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w043",
+  "akeanon": "bituon",
+  "gloss": "star",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w044",
+  "akeanon": "bug-at",
+  "gloss": "Heavy",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w045",
+  "akeanon": "bukon",
+  "gloss": "Not",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   2,
+   3,
+   4
+  ],
+  "text_chapters": [
+   2,
+   3,
+   4
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w046",
+  "akeanon": "bukon eamang",
+  "gloss": "Not just",
+  "area": "chapter5",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w047",
+  "akeanon": "daan",
+  "gloss": "old, ancient, former",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w048",
+  "akeanon": "daeagan",
+  "gloss": "to run",
+  "area": "chapter5",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w049",
+  "akeanon": "dahan",
+  "gloss": "Be careful / Take care",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w050",
+  "akeanon": "dasig",
+  "gloss": "Fast",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w051",
+  "akeanon": "dato",
+  "gloss": "that / it",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w052",
+  "akeanon": "daya",
+  "gloss": "this",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w053",
+  "akeanon": "dayon",
+  "gloss": "Then/ Continue",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w054",
+  "akeanon": "daywa",
+  "gloss": "two",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [
+   1,
+   2
+  ],
+  "text_chapters": [
+   1,
+   2
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w055",
+  "akeanon": "do",
+  "gloss": "is",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w056",
+  "akeanon": "dueaw",
+  "gloss": "yellow",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2,
+   3
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w057",
+  "akeanon": "eambong",
+  "gloss": "Clothes / shirt / clothing",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w058",
+  "akeanon": "eambong",
+  "gloss": "Clothes / shirt / clothing",
+  "area": "chapter6",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [
+   3
+  ],
+  "actual": "untagged_ch3"
+ },
+ {
+  "id": "w059",
+  "akeanon": "eang",
+  "gloss": "Just",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   1,
+   3,
+   4
+  ],
+  "text_chapters": [
+   3,
+   4
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w060",
+  "akeanon": "eangoy",
+  "gloss": "swim",
+  "area": "chapter6",
+  "verified": false,
+  "tagged_chapters": [
+   6
+  ],
+  "text_chapters": [],
+  "actual": "unreleased"
+ },
+ {
+  "id": "w061",
+  "akeanon": "eskuylahan",
+  "gloss": "school",
+  "area": "chapter6",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w062",
+  "akeanon": "eugta",
+  "gloss": "Soil",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w063",
+  "akeanon": "gakapyot",
+  "gloss": "Hold/ Cling",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w064",
+  "akeanon": "gali",
+  "gloss": "oh",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w065",
+  "akeanon": "gapasaeamat",
+  "gloss": "thanksgiving",
+  "area": "chapter5",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w066",
+  "akeanon": "gid",
+  "gloss": "Really/ Truly",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   2,
+   3
+  ],
+  "text_chapters": [
+   1,
+   2,
+   3
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w067",
+  "akeanon": "ginhabi (?)",
+  "gloss": "Weave/ Weaving",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w068",
+  "akeanon": "gusto",
+  "gloss": "want",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2,
+   3,
+   4
+  ],
+  "text_chapters": [
+   2,
+   3,
+   4
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w069",
+  "akeanon": "gutom",
+  "gloss": "hunger",
+  "area": "chapter5",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w070",
+  "akeanon": "gwapa",
+  "gloss": "beautiful (of a woman)",
+  "area": "chapter6",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w071",
+  "akeanon": "gwapo",
+  "gloss": "handsome (of a man)",
+  "area": "chapter6",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w072",
+  "akeanon": "halin",
+  "gloss": "From (variant)",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2,
+   3
+  ],
+  "text_chapters": [
+   2,
+   3
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w073",
+  "akeanon": "hambae",
+  "gloss": "Speak",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   1,
+   3
+  ],
+  "text_chapters": [
+   1,
+   3
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w074",
+  "akeanon": "hambaeunon",
+  "gloss": "Words/Sayings",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w075",
+  "akeanon": "hara",
+  "gloss": "this / here",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2,
+   3,
+   4
+  ],
+  "text_chapters": [
+   2,
+   3,
+   4
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w076",
+  "akeanon": "hay",
+  "gloss": "is / because",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [
+   2
+  ],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w077",
+  "akeanon": "hay",
+  "gloss": "is / because",
+  "area": "chapter5",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [
+   2
+  ],
+  "actual": "untagged_ch2"
+ },
+ {
+  "id": "w078",
+  "akeanon": "himo",
+  "gloss": "Create/ Do",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w079",
+  "akeanon": "hinay",
+  "gloss": "Slow/ Weak",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w080",
+  "akeanon": "humay",
+  "gloss": "cooked rice",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w081",
+  "akeanon": "huo",
+  "gloss": "yes",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w082",
+  "akeanon": "igto",
+  "gloss": "there",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2,
+   3
+  ],
+  "text_chapters": [
+   2,
+   3
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w083",
+  "akeanon": "ka",
+  "gloss": "you (sing.)",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [
+   2,
+   3
+  ],
+  "text_chapters": [
+   2,
+   3
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w084",
+  "akeanon": "imaw",
+  "gloss": "he / she / it",
+  "area": "chapter1",
+  "verified": true,
+  "tagged_chapters": [
+   1,
+   2
+  ],
+  "text_chapters": [
+   1,
+   2
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w085",
+  "akeanon": "ina",
+  "gloss": "mother",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w086",
+  "akeanon": "indi",
+  "gloss": "no / no",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [
+   3,
+   4
+  ],
+  "text_chapters": [
+   3,
+   4
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w087",
+  "akeanon": "ing",
+  "gloss": "your",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [
+   2
+  ],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w088",
+  "akeanon": "inom",
+  "gloss": "to drink",
+  "area": "chapter5",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w089",
+  "akeanon": "inyo",
+  "gloss": "Your",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w090",
+  "akeanon": "isaea",
+  "gloss": "one",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [
+   1,
+   2
+  ],
+  "text_chapters": [
+   1,
+   2
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w091",
+  "akeanon": "isda",
+  "gloss": "fish",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2,
+   4
+  ],
+  "text_chapters": [
+   2,
+   4
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w092",
+  "akeanon": "it",
+  "gloss": "of",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2,
+   4
+  ],
+  "text_chapters": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w093",
+  "akeanon": "itlog",
+  "gloss": "egg",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w094",
+  "akeanon": "itom",
+  "gloss": "black",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2,
+   3
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w095",
+  "akeanon": "iya",
+  "gloss": "here",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2,
+   3,
+   4
+  ],
+  "text_chapters": [
+   2,
+   3,
+   4
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w096",
+  "akeanon": "kaabo",
+  "gloss": "many",
+  "area": "chapter6",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w097",
+  "akeanon": "kabuhi",
+  "gloss": "life",
+  "area": "chapter6",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w098",
+  "akeanon": "kaeainan",
+  "gloss": "Danger",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w099",
+  "akeanon": "kakon",
+  "gloss": "Me",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3,
+   4
+  ],
+  "text_chapters": [
+   3,
+   4
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w100",
+  "akeanon": "kalipay",
+  "gloss": "happiness",
+  "area": "chapter5",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w101",
+  "akeanon": "kami",
+  "gloss": "we (excl.)",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [
+   1,
+   2,
+   3
+  ],
+  "text_chapters": [
+   1,
+   2,
+   3
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w102",
+  "akeanon": "kamo",
+  "gloss": "you (pl.)",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "text_chapters": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w103",
+  "akeanon": "kamusta",
+  "gloss": "how are you",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w104",
+  "akeanon": "kan-on",
+  "gloss": "rice",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w105",
+  "akeanon": "kaon",
+  "gloss": "to eat",
+  "area": "chapter5",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w106",
+  "akeanon": "kape",
+  "gloss": "coffee",
+  "area": "chapter6",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w107",
+  "akeanon": "karne",
+  "gloss": "meat",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w108",
+  "akeanon": "kasadyahan",
+  "gloss": "joy",
+  "area": "chapter5",
+  "verified": false,
+  "tagged_chapters": [
+   5
+  ],
+  "text_chapters": [],
+  "actual": "unreleased"
+ },
+ {
+  "id": "w109",
+  "akeanon": "kasubo",
+  "gloss": "sadness",
+  "area": "chapter5",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w110",
+  "akeanon": "katamnan/taeamnan",
+  "gloss": "Farm/ Plantation",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w111",
+  "akeanon": "kaya",
+  "gloss": "So/ Capable",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w112",
+  "akeanon": "kilaea",
+  "gloss": "famous",
+  "area": "chapter5",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w113",
+  "akeanon": "kita",
+  "gloss": "us or we (incl.)",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   1,
+   2,
+   4
+  ],
+  "text_chapters": [
+   1,
+   2,
+   4
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w114",
+  "akeanon": "kon",
+  "gloss": "if, when, whenever",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   2,
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w115",
+  "akeanon": "ku",
+  "gloss": "of, by, with",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w116",
+  "akeanon": "kueba",
+  "gloss": "fear",
+  "area": "chapter5",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w117",
+  "akeanon": "kultura",
+  "gloss": "Culture",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w118",
+  "akeanon": "kundi",
+  "gloss": "but (rather), instead",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w119",
+  "akeanon": "kung",
+  "gloss": "if, when, whenever",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w120",
+  "akeanon": "kuntra",
+  "gloss": "Against",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w121",
+  "akeanon": "kwarto",
+  "gloss": "room",
+  "area": "chapter6",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w122",
+  "akeanon": "lamisa",
+  "gloss": "table",
+  "area": "chapter6",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w123",
+  "akeanon": "lima",
+  "gloss": "five",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [
+   1,
+   2
+  ],
+  "text_chapters": [
+   1,
+   2
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w124",
+  "akeanon": "lingkuran",
+  "gloss": "chair",
+  "area": "chapter6",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w125",
+  "akeanon": "lipati",
+  "gloss": "forget",
+  "area": "chapter6",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w126",
+  "akeanon": "lola",
+  "gloss": "grandma",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w127",
+  "akeanon": "lugar",
+  "gloss": "place",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w128",
+  "akeanon": "mabahoe",
+  "gloss": "big",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w129",
+  "akeanon": "mabakae",
+  "gloss": "but",
+  "area": "chapter6",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w130",
+  "akeanon": "mabuot",
+  "gloss": "kind / good-natured",
+  "area": "chapter6",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w131",
+  "akeanon": "madali",
+  "gloss": "easy",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w132",
+  "akeanon": "maeain",
+  "gloss": "Bad",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w133",
+  "akeanon": "maeapit",
+  "gloss": "near",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w134",
+  "akeanon": "maeayo",
+  "gloss": "far",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w135",
+  "akeanon": "maeuya",
+  "gloss": "Weak",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w136",
+  "akeanon": "magatao",
+  "gloss": "Give/ Provide/ Cause",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w137",
+  "akeanon": "magbalik",
+  "gloss": "to return",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w138",
+  "akeanon": "magkantigo",
+  "gloss": "to be able to learn",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w139",
+  "akeanon": "magpamunit",
+  "gloss": "Fishing",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w140",
+  "akeanon": "magpanahi",
+  "gloss": "To sew or weave",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w141",
+  "akeanon": "magphuway",
+  "gloss": "rest",
+  "area": "chapter6",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w142",
+  "akeanon": "magtuon",
+  "gloss": "To learn",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w143",
+  "akeanon": "mahigko",
+  "gloss": "Dirty",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w144",
+  "akeanon": "maisog",
+  "gloss": "Brave",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w145",
+  "akeanon": "maisot",
+  "gloss": "small",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2,
+   4
+  ],
+  "text_chapters": [
+   2,
+   4
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w146",
+  "akeanon": "makaagto",
+  "gloss": "To arrive",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w147",
+  "akeanon": "makauli",
+  "gloss": "To go home",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [
+   1
+  ],
+  "text_chapters": [
+   1
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w148",
+  "akeanon": "makita",
+  "gloss": "To see",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w149",
+  "akeanon": "malimpyo",
+  "gloss": "Clean",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w150",
+  "akeanon": "maliya",
+  "gloss": "Come here",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3,
+   4
+  ],
+  "text_chapters": [
+   3,
+   4
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w151",
+  "akeanon": "man",
+  "gloss": "Also",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   1,
+   2,
+   4
+  ],
+  "text_chapters": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w152",
+  "akeanon": "manok",
+  "gloss": "chicken",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w153",
+  "akeanon": "manong",
+  "gloss": "older brother",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [
+   4
+  ],
+  "actual": "untagged_ch4"
+ },
+ {
+  "id": "w154",
+  "akeanon": "mapa",
+  "gloss": "map",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w155",
+  "akeanon": "mas",
+  "gloss": "More likely",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   3,
+   4
+  ],
+  "text_chapters": [
+   2,
+   3,
+   4
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w156",
+  "akeanon": "masamad",
+  "gloss": "Damage",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w157",
+  "akeanon": "masimba",
+  "gloss": "To worship",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w158",
+  "akeanon": "masunod",
+  "gloss": "next",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w159",
+  "akeanon": "matam-is",
+  "gloss": "sweet",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w160",
+  "akeanon": "matuod",
+  "gloss": "True/real",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w161",
+  "akeanon": "maugan",
+  "gloss": "Light",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w162",
+  "akeanon": "may",
+  "gloss": "Have",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3,
+   4
+  ],
+  "text_chapters": [
+   3,
+   4
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w163",
+  "akeanon": "mayad",
+  "gloss": "good (variant) / good",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "text_chapters": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w164",
+  "akeanon": "mayad-ayad",
+  "gloss": "Good (morning,evening)",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w165",
+  "akeanon": "medyo",
+  "gloss": "A little bit",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w166",
+  "akeanon": "mga",
+  "gloss": "these / Those",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [
+   2,
+   3,
+   4
+  ],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w167",
+  "akeanon": "mga",
+  "gloss": "these / Those",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   2,
+   3,
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w168",
+  "akeanon": "mo",
+  "gloss": "You",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "text_chapters": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w169",
+  "akeanon": "naabi-abi",
+  "gloss": "(?)",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w170",
+  "akeanon": "naba",
+  "gloss": "Short",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w171",
+  "akeanon": "naghalin",
+  "gloss": "From/to leave",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w172",
+  "akeanon": "naghimo",
+  "gloss": "Made it",
+  "area": "chapter6",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w173",
+  "akeanon": "nahidlaw",
+  "gloss": "to miss / feel homesick",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [
+   1
+  ],
+  "text_chapters": [
+   1
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w174",
+  "akeanon": "namon",
+  "gloss": "our / We",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [
+   2,
+   4
+  ],
+  "actual": "untagged_ch2"
+ },
+ {
+  "id": "w175",
+  "akeanon": "namon",
+  "gloss": "our / We",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   2,
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w176",
+  "akeanon": "nanay",
+  "gloss": "mother",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w177",
+  "akeanon": "nangangawa",
+  "gloss": "Surprise/ Wonder",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w178",
+  "akeanon": "napueo",
+  "gloss": "ten",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w179",
+  "akeanon": "natun-an",
+  "gloss": "Learned",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w180",
+  "akeanon": "nga",
+  "gloss": "that / of",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   1,
+   4
+  ],
+  "text_chapters": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w181",
+  "akeanon": "ngara",
+  "gloss": "this",
+  "area": "chapter6",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w182",
+  "akeanon": "o",
+  "gloss": "or",
+  "area": "chapter5",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w183",
+  "akeanon": "pag-higugma",
+  "gloss": "love",
+  "area": "chapter5",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w184",
+  "akeanon": "pagbiyahe",
+  "gloss": "Trip/ Journey",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w185",
+  "akeanon": "pagkaon",
+  "gloss": "food",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w186",
+  "akeanon": "pagtuo",
+  "gloss": "faith / faith",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w187",
+  "akeanon": "pamati",
+  "gloss": "Listen / to listen / feel",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w188",
+  "akeanon": "panakayon",
+  "gloss": "ride",
+  "area": "chapter6",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w189",
+  "akeanon": "pangabay",
+  "gloss": "To ask for something nicely",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w190",
+  "akeanon": "pangaean",
+  "gloss": "name",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w191",
+  "akeanon": "para",
+  "gloss": "For",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3,
+   4
+  ],
+  "text_chapters": [
+   3,
+   4
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w192",
+  "akeanon": "paspas",
+  "gloss": "Fast",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w193",
+  "akeanon": "pati",
+  "gloss": "As well",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w194",
+  "akeanon": "piña",
+  "gloss": "pineapple",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w195",
+  "akeanon": "pinakamasunuron",
+  "gloss": "The most devoted to attending, or most obedient",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w196",
+  "akeanon": "pito",
+  "gloss": "seven",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w197",
+  "akeanon": "protektahan",
+  "gloss": "Protect/ to protect",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w198",
+  "akeanon": "puea",
+  "gloss": "red",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2,
+   3
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w199",
+  "akeanon": "puti",
+  "gloss": "white",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2,
+   3
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w200",
+  "akeanon": "pyesta",
+  "gloss": "festival / festival",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   5
+  ],
+  "text_chapters": [],
+  "actual": "unreleased"
+ },
+ {
+  "id": "w201",
+  "akeanon": "raya",
+  "gloss": "this",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w202",
+  "akeanon": "ro",
+  "gloss": "the",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   3,
+   4
+  ],
+  "text_chapters": [
+   2,
+   3,
+   4
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w203",
+  "akeanon": "sa",
+  "gloss": "In",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w204",
+  "akeanon": "sa",
+  "gloss": "In",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w205",
+  "akeanon": "sabat",
+  "gloss": "Answer",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w206",
+  "akeanon": "saeamat",
+  "gloss": "thank you",
+  "area": "chapter1",
+  "verified": true,
+  "tagged_chapters": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "text_chapters": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w207",
+  "akeanon": "saewae",
+  "gloss": "pants",
+  "area": "chapter6",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w208",
+  "akeanon": "samad",
+  "gloss": "to break, damage, ruin, destroy",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w209",
+  "akeanon": "samad",
+  "gloss": "broken, damaged, destroyed, ruined",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w210",
+  "akeanon": "sanda",
+  "gloss": "they or them",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [
+   1,
+   3
+  ],
+  "text_chapters": [
+   1,
+   3
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w211",
+  "akeanon": "saot",
+  "gloss": "dance",
+  "area": "chapter5",
+  "verified": false,
+  "tagged_chapters": [
+   5
+  ],
+  "text_chapters": [],
+  "actual": "unreleased"
+ },
+ {
+  "id": "w212",
+  "akeanon": "sapatos",
+  "gloss": "shoes",
+  "area": "chapter6",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w213",
+  "akeanon": "sige",
+  "gloss": "okay / go ahead",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w214",
+  "akeanon": "siin",
+  "gloss": "where / where",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [
+   1,
+   2
+  ],
+  "text_chapters": [
+   1,
+   2
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w215",
+  "akeanon": "siyam",
+  "gloss": "nine",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w216",
+  "akeanon": "suki",
+  "gloss": "Regular customer",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2,
+   3
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w217",
+  "akeanon": "sunod",
+  "gloss": "follow",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [
+   2,
+   3,
+   4
+  ],
+  "text_chapters": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w218",
+  "akeanon": "taas",
+  "gloss": "Tall",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w219",
+  "akeanon": "taeamnan",
+  "gloss": "field, farm, plantation",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w220",
+  "akeanon": "tamboe",
+  "gloss": "drum",
+  "area": "chapter5",
+  "verified": false,
+  "tagged_chapters": [
+   5
+  ],
+  "text_chapters": [],
+  "actual": "unreleased"
+ },
+ {
+  "id": "w221",
+  "akeanon": "tanan",
+  "gloss": "all / everyone",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2,
+   4
+  ],
+  "text_chapters": [
+   2,
+   4
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w223",
+  "akeanon": "tan-awa",
+  "gloss": "look",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   3,
+   4
+  ],
+  "text_chapters": [
+   2,
+   3,
+   4
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w224",
+  "akeanon": "tanda",
+  "gloss": "Mark/ Token",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w225",
+  "akeanon": "tanom",
+  "gloss": "Plant",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w226",
+  "akeanon": "tatay",
+  "gloss": "father",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w227",
+  "akeanon": "tatlo",
+  "gloss": "three",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [
+   1,
+   2
+  ],
+  "text_chapters": [
+   1,
+   2
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w228",
+  "akeanon": "tawo",
+  "gloss": "person",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2,
+   4,
+   5
+  ],
+  "text_chapters": [
+   2,
+   4
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w229",
+  "akeanon": "tikang",
+  "gloss": "Step/ Walk",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   2,
+   4
+  ],
+  "text_chapters": [
+   2,
+   4
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w230",
+  "akeanon": "tinapay",
+  "gloss": "bread",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w231",
+  "akeanon": "trabaho",
+  "gloss": "work / job",
+  "area": "chapter6",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w232",
+  "akeanon": "tsaa",
+  "gloss": "tea",
+  "area": "chapter6",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w233",
+  "akeanon": "tubi",
+  "gloss": "water",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2,
+   4
+  ],
+  "text_chapters": [
+   2,
+   4
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w234",
+  "akeanon": "tueog",
+  "gloss": "to sleep",
+  "area": "chapter5",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w235",
+  "akeanon": "tyempo",
+  "gloss": "Weather/ Timing",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w236",
+  "akeanon": "ubra",
+  "gloss": "work",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w237",
+  "akeanon": "ugaling",
+  "gloss": "but",
+  "area": "chapter5",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w238",
+  "akeanon": "ugat",
+  "gloss": "Root",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w239",
+  "akeanon": "uhaw",
+  "gloss": "thirst",
+  "area": "chapter5",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w240",
+  "akeanon": "una",
+  "gloss": "that (near listener) / First",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w241",
+  "akeanon": "una",
+  "gloss": "that (near listener) / First",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [
+   3
+  ],
+  "actual": "untagged_ch3"
+ },
+ {
+  "id": "w242",
+  "akeanon": "unga",
+  "gloss": "child / child",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w243",
+  "akeanon": "uwa",
+  "gloss": "None",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "unused"
+ },
+ {
+  "id": "w244",
+  "akeanon": "waeo",
+  "gloss": "eight",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w245",
+  "akeanon": "warang",
+  "gloss": "travel",
+  "area": "chapter6",
+  "verified": false,
+  "tagged_chapters": [
+   6
+  ],
+  "text_chapters": [],
+  "actual": "unreleased"
+ },
+ {
+  "id": "w246",
+  "akeanon": "ikaw",
+  "gloss": "you",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [
+   1
+  ],
+  "text_chapters": [
+   1
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w247",
+  "akeanon": "siguro",
+  "gloss": "maybe",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [
+   1
+  ],
+  "text_chapters": [
+   1
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w248",
+  "akeanon": "si",
+  "gloss": "used to mark the topic of a sentence if it's the name of a person or pet, denoting the singular",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [
+   1,
+   2
+  ],
+  "text_chapters": [
+   1,
+   2
+  ],
+  "actual": "chapter1"
+ },
+ {
+  "id": "w249",
+  "akeanon": "uga",
+  "gloss": "dried fish",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w250",
+  "akeanon": "buean",
+  "gloss": "moon",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w253",
+  "akeanon": "hapon",
+  "gloss": "afternoon",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w252",
+  "akeanon": "gabie",
+  "gloss": "night, evening",
+  "area": "chapter1",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w251",
+  "akeanon": "kampod",
+  "gloss": "cousin",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w254",
+  "akeanon": "bisaea",
+  "gloss": "word",
+  "area": "all",
+  "verified": true,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w255",
+  "akeanon": "bueot-hambaeon",
+  "gloss": "meaning",
+  "area": "all",
+  "verified": true,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w256",
+  "akeanon": "haron",
+  "gloss": "that, near us both (pointing)",
+  "area": "chapter2",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [
+   4
+  ],
+  "actual": "untagged_ch4"
+ },
+ {
+  "id": "w257",
+  "akeanon": "ginhaboe",
+  "gloss": "woven work, weaving",
+  "area": "chapter3",
+  "verified": true,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w258",
+  "akeanon": "uwat kaso",
+  "gloss": "no problem (lit. there's no case)",
+  "area": "chapter3",
+  "verified": true,
+  "tagged_chapters": [
+   3,
+   4
+  ],
+  "text_chapters": [
+   3,
+   4
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w259",
+  "akeanon": "tanum",
+  "gloss": "plant",
+  "area": "chapter3",
+  "verified": true,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w260",
+  "akeanon": "abo-abo",
+  "gloss": "a lot, plenty",
+  "area": "chapter3",
+  "verified": true,
+  "tagged_chapters": [
+   3,
+   4
+  ],
+  "text_chapters": [
+   3,
+   4
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w261",
+  "akeanon": "pa",
+  "gloss": "still, more",
+  "area": "chapter3",
+  "verified": true,
+  "tagged_chapters": [
+   3,
+   4
+  ],
+  "text_chapters": [
+   2,
+   3,
+   4
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w262",
+  "akeanon": "kinahangean",
+  "gloss": "need, needed",
+  "area": "chapter3",
+  "verified": true,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w263",
+  "akeanon": "ubrahon",
+  "gloss": "to be worked on, to make",
+  "area": "chapter3",
+  "verified": true,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w264",
+  "akeanon": "maging",
+  "gloss": "to become",
+  "area": "chapter3",
+  "verified": true,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w265",
+  "akeanon": "ra",
+  "gloss": "it, this",
+  "area": "chapter3",
+  "verified": true,
+  "tagged_chapters": [
+   3,
+   4
+  ],
+  "text_chapters": [
+   3,
+   4
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w266",
+  "akeanon": "samitan",
+  "gloss": "to try, to taste (root samit)",
+  "area": "chapter3",
+  "verified": true,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w267",
+  "akeanon": "hinayi",
+  "gloss": "go slower, slow down",
+  "area": "chapter3",
+  "verified": true,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w268",
+  "akeanon": "padasigan",
+  "gloss": "a race, a contest of speed (root dasig)",
+  "area": "chapter3",
+  "verified": true,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w269",
+  "akeanon": "sing",
+  "gloss": "your (short for sa imo nga)",
+  "area": "chapter3",
+  "verified": true,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w270",
+  "akeanon": "tan-aw",
+  "gloss": "to look, to see",
+  "area": "chapter3",
+  "verified": true,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w271",
+  "akeanon": "panaw",
+  "gloss": "to walk",
+  "area": "chapter3",
+  "verified": true,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w272",
+  "akeanon": "diretso",
+  "gloss": "straight ahead",
+  "area": "chapter3",
+  "verified": true,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w273",
+  "akeanon": "liko",
+  "gloss": "to turn",
+  "area": "chapter3",
+  "verified": true,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w274",
+  "akeanon": "tuo",
+  "gloss": "right (direction)",
+  "area": "chapter3",
+  "verified": true,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w275",
+  "akeanon": "waea",
+  "gloss": "left (direction)",
+  "area": "chapter3",
+  "verified": true,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w276",
+  "akeanon": "pwede",
+  "gloss": "can, may, possible; acceptable, qualified",
+  "area": "chapter3",
+  "verified": true,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w277",
+  "akeanon": "eon",
+  "gloss": "already, now",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w278",
+  "akeanon": "abah",
+  "gloss": "oh! (surprise or praise)",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w279",
+  "akeanon": "sayod",
+  "gloss": "to know",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w280",
+  "akeanon": "bulok",
+  "gloss": "no good, worthless, of very poor quality, lousy",
+  "area": "chapter3",
+  "verified": true,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w281",
+  "akeanon": "karon",
+  "gloss": "that; over there",
+  "area": "chapter3",
+  "verified": true,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w282",
+  "akeanon": "komunidad",
+  "gloss": "community",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w283",
+  "akeanon": "libro",
+  "gloss": "book",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w284",
+  "akeanon": "agod",
+  "gloss": "so that",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w285",
+  "akeanon": "malipatan",
+  "gloss": "to be forgotten (root lipat, to forget)",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w286",
+  "akeanon": "biyahe",
+  "gloss": "travel, trip",
+  "area": "chapter3",
+  "verified": true,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w287",
+  "akeanon": "balik",
+  "gloss": "to return, come back",
+  "area": "chapter3",
+  "verified": true,
+  "tagged_chapters": [
+   3,
+   4
+  ],
+  "text_chapters": [
+   3,
+   4
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w288",
+  "akeanon": "oras",
+  "gloss": "time, hour",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w289",
+  "akeanon": "hinay-hinay",
+  "gloss": "little by little, slowly",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w290",
+  "akeanon": "sangkiri",
+  "gloss": "a little, a bit (root kiri)",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w291",
+  "akeanon": "bugas",
+  "gloss": "uncooked rice",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w292",
+  "akeanon": "ano",
+  "gloss": "what",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w293",
+  "akeanon": "ruyon",
+  "gloss": "that, near us both",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w294",
+  "akeanon": "duyon",
+  "gloss": "that, near us both",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w295",
+  "akeanon": "tindahan",
+  "gloss": "market, store",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w296",
+  "akeanon": "manirbyus",
+  "gloss": "to get nervous (ma- + nirbyus, a loan word)",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w297",
+  "akeanon": "abaw",
+  "gloss": "wow",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2,
+   4
+  ],
+  "text_chapters": [
+   2,
+   4
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w298",
+  "akeanon": "batian",
+  "gloss": "to hear, to listen to",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w299",
+  "akeanon": "ho",
+  "gloss": "respect word, said to someone older",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w300",
+  "akeanon": "nong",
+  "gloss": "title for an older man (short for manong)",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w301",
+  "akeanon": "hay",
+  "gloss": "hey (calling someone)",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w302",
+  "akeanon": "eab-as",
+  "gloss": "fresh (produce)",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w303",
+  "akeanon": "kato",
+  "gloss": "back then",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2,
+   4
+  ],
+  "text_chapters": [
+   2,
+   4
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w304",
+  "akeanon": "pirme",
+  "gloss": "always",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w305",
+  "akeanon": "pinaka",
+  "gloss": "most (the most ___)",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w306",
+  "akeanon": "masueundun",
+  "gloss": "devout",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w307",
+  "akeanon": "simba",
+  "gloss": "mass, church service",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w308",
+  "akeanon": "magsimba",
+  "gloss": "to go to mass",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w309",
+  "akeanon": "ninyo",
+  "gloss": "your (more than one)",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2,
+   4
+  ],
+  "text_chapters": [
+   2,
+   4
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w310",
+  "akeanon": "ni",
+  "gloss": "of (before a name)",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w311",
+  "akeanon": "ga",
+  "gloss": "is doing, does (an ongoing or regular action)",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w312",
+  "akeanon": "Lunes",
+  "gloss": "Monday",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w313",
+  "akeanon": "Martes",
+  "gloss": "Tuesday",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w314",
+  "akeanon": "Miyerkoles",
+  "gloss": "Wednesday",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w315",
+  "akeanon": "Hwebes",
+  "gloss": "Thursday",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w316",
+  "akeanon": "Biyernes",
+  "gloss": "Friday",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w317",
+  "akeanon": "Sabado",
+  "gloss": "Saturday",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w318",
+  "akeanon": "Domingo",
+  "gloss": "Sunday",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w319",
+  "akeanon": "idto",
+  "gloss": "there (also igto)",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w320",
+  "akeanon": "magdahan",
+  "gloss": "to be careful (mag- + dahan)",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2,
+   3,
+   4
+  ],
+  "text_chapters": [
+   2,
+   3,
+   4
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w321",
+  "akeanon": "inyong",
+  "gloss": "your (more than one; inyo nga)",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [
+   2
+  ],
+  "text_chapters": [
+   2
+  ],
+  "actual": "chapter2"
+ },
+ {
+  "id": "w322",
+  "akeanon": "pahuway",
+  "gloss": "to rest, take a break",
+  "area": "all",
+  "verified": true,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w323",
+  "akeanon": "anay",
+  "gloss": "first, for a while",
+  "area": "all",
+  "verified": true,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w324",
+  "akeanon": "makaron",
+  "gloss": "today, now",
+  "area": "all",
+  "verified": true,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w325",
+  "akeanon": "mosyon",
+  "gloss": "let's go, come on (root mos)",
+  "area": "all",
+  "verified": true,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w326",
+  "akeanon": "maliyon",
+  "gloss": "let's go (root mali)",
+  "area": "all",
+  "verified": true,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w327",
+  "akeanon": "anong",
+  "gloss": "what (ano nga)",
+  "area": "all",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w328",
+  "akeanon": "pagkatueog",
+  "gloss": "to fall asleep, sleep (pagka- + tueog)",
+  "area": "all",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w329",
+  "akeanon": "insakto",
+  "gloss": "just right, exact, perfect",
+  "area": "all",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w330",
+  "akeanon": "noh",
+  "gloss": "right?, isn't it? (asking agreement)",
+  "area": "all",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w331",
+  "akeanon": "magtikang-tikang",
+  "gloss": "to take a stroll, walk around (mag- + tikang, repeated)",
+  "area": "all",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w332",
+  "akeanon": "mauli",
+  "gloss": "to go home (ma- + uli)",
+  "area": "all",
+  "verified": true,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w333",
+  "akeanon": "ginahaboe",
+  "gloss": "being woven (gina- + haboe)",
+  "area": "all",
+  "verified": true,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w334",
+  "akeanon": "maghaboe",
+  "gloss": "to weave (mag- + haboe)",
+  "area": "all",
+  "verified": false,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w335",
+  "akeanon": "piso",
+  "gloss": "peso (money)",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w336",
+  "akeanon": "atras",
+  "gloss": "step back, go back",
+  "area": "all",
+  "verified": true,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w337",
+  "akeanon": "tapos",
+  "gloss": "then, after that",
+  "area": "all",
+  "verified": true,
+  "tagged_chapters": [],
+  "text_chapters": [
+   3
+  ],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w338",
+  "akeanon": "ni",
+  "gloss": "of (before a person's name)",
+  "area": "all",
+  "verified": true,
+  "tagged_chapters": [],
+  "text_chapters": [
+   2
+  ],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w339",
+  "akeanon": "bakhawan",
+  "gloss": "mangrove",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   2,
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w340",
+  "akeanon": "ma-amat",
+  "gloss": "to get going, set off",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w341",
+  "akeanon": "bangod",
+  "gloss": "because",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w342",
+  "akeanon": "gintanom",
+  "gloss": "planted (gin- + tanom)",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w343",
+  "akeanon": "tagsa-tagsa",
+  "gloss": "one by one",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w344",
+  "akeanon": "naila",
+  "gloss": "wanted, liked to",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w345",
+  "akeanon": "magbulig",
+  "gloss": "to help",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w346",
+  "akeanon": "magkantiguhan",
+  "gloss": "to try (something out)",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w347",
+  "akeanon": "pagtuon",
+  "gloss": "learning",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w348",
+  "akeanon": "haron ahh",
+  "gloss": "there we go!",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w349",
+  "akeanon": "bunit",
+  "gloss": "fish hook",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w350",
+  "akeanon": "paon",
+  "gloss": "bait",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w351",
+  "akeanon": "ha",
+  "gloss": "okay? (softening particle)",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   2,
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w352",
+  "akeanon": "ibalik",
+  "gloss": "to put back, return",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w353",
+  "akeanon": "naton",
+  "gloss": "us, our (incl.)",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w354",
+  "akeanon": "sigeha",
+  "gloss": "keep at it, go on",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w355",
+  "akeanon": "alimango",
+  "gloss": "mud crab",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w356",
+  "akeanon": "pamunit",
+  "gloss": "to fish (with hook and line)",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w357",
+  "akeanon": "itanom",
+  "gloss": "plant (it)",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w358",
+  "akeanon": "di magbuhay",
+  "gloss": "before long",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w359",
+  "akeanon": "mataas",
+  "gloss": "tall, high",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w360",
+  "akeanon": "kimo",
+  "gloss": "you (after sa, mas …)",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w361",
+  "akeanon": "magtatap",
+  "gloss": "to take care of, look after",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w362",
+  "akeanon": "pagbisita",
+  "gloss": "visit, visiting",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w363",
+  "akeanon": "makarang",
+  "gloss": "this (time), today with adlaw",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w364",
+  "akeanon": "haeambaeun",
+  "gloss": "words, language",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w365",
+  "akeanon": "nay",
+  "gloss": "mom (short for nanay)",
+  "area": "chapter4",
+  "verified": false,
+  "tagged_chapters": [
+   4
+  ],
+  "text_chapters": [
+   4
+  ],
+  "actual": "chapter4"
+ },
+ {
+  "id": "w366",
+  "akeanon": "bastos",
+  "gloss": "coarse piña fiber, scraped off the leaf first",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w367",
+  "akeanon": "liniwan",
+  "gloss": "fine piña fiber, drawn out with a coconut shell",
+  "area": "chapter3",
+  "verified": false,
+  "tagged_chapters": [
+   3
+  ],
+  "text_chapters": [
+   3
+  ],
+  "actual": "chapter3"
+ },
+ {
+  "id": "w368",
+  "akeanon": "tig pila",
+  "gloss": "how much each? (asking the price per piece)",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w369",
+  "akeanon": "bato",
+  "gloss": "piece (counting things: tatlong bato = three pieces)",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w370",
+  "akeanon": "pilang bato",
+  "gloss": "how many pieces?",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w371",
+  "akeanon": "abante",
+  "gloss": "forward, go forward",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ },
+ {
+  "id": "w372",
+  "akeanon": "simbahan",
+  "gloss": "church",
+  "area": "chapter2",
+  "verified": true,
+  "tagged_chapters": [],
+  "text_chapters": [],
+  "actual": "outside_story"
+ }
+]

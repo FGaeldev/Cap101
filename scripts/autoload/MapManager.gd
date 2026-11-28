@@ -111,6 +111,9 @@ func is_node_unlocked(region_id: String) -> bool:
 	var region: Dictionary = regions.get(region_id, {})
 	if region.is_empty():
 		return false
+	# Dev switch: every place that has a scene opens.
+	if GameState.dev_toggle("unlock_all_locations"):
+		return not str(region.get("scene_path", "")).is_empty()
 	# "unless_flag": locked once that story flag is set (the US house after the
 	# flight: going back there stranded the player behind the airport door).
 	var unless_flag: String = region.get("unless_flag", "")
@@ -134,6 +137,8 @@ const WALK := "walk"
 
 ## Fare for a map trip there (0 = free).
 func fare_for(region_id: String) -> int:
+	if GameState.dev_toggle("fair_price_zero"):
+		return 0
 	return int(get_region(region_id).get("fare", 0))
 
 ## Why the map can't take the player there right now, or "" if it can: already

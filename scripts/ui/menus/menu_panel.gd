@@ -103,8 +103,29 @@ func _add_body(col: VBoxContainer) -> VBoxContainer:
 	col.add_child(body)
 	return body
 
+## Dev-mode switches in the header (see GameState.dev_toggle), hidden otherwise.
+var _dev_toggle_buttons: Dictionary = {}  # key -> CheckButton
+
+## Adds a dev switch to the header; on_change runs after it flips.
+func add_dev_toggle(key: String, text: String, on_change: Callable) -> void:
+	var btn := CheckButton.new()
+	btn.text = text
+	btn.focus_mode = Control.FOCUS_NONE
+	btn.add_theme_font_size_override("font_size", UIThemeApplier.FONT_SIZE_XS)
+	MenuStyle.style_toggle(btn)
+	btn.toggled.connect(func(on: bool):
+		AudioManager.play_sfx("menu_click")
+		GameState.set_dev_toggle(key, on)
+		on_change.call())
+	header_extra.add_child(btn)
+	_dev_toggle_buttons[key] = btn
+
 ## Called by separated_menus.gd each time the panel is shown.
 func show_panel() -> void:
+	for key in _dev_toggle_buttons:
+		var btn: CheckButton = _dev_toggle_buttons[key]
+		btn.visible = GameState.dev_mode
+		btn.set_pressed_no_signal(GameState.dev_toggle(key))
 	MenuStyle.style_scrollbars(self)
 	for side in _sides:
 		if side["page"].has_method("refresh"):

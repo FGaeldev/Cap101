@@ -1,0 +1,108 @@
+extends SceneTree
+# Rebuilds the Pastrana Park children's playground (tiles x 10-45, y 22-39 inside a
+# fence at x 9/46, y 21/40) to match the satellite view: covered shed (top-left),
+# play mats, round brick plaza with a planter for the Gabriel Reyes statue, brick
+# paths to three gates. Rewrites only the Floor, Walls and Roof tile_map_data lines.
+const SCENE := "res://scenes/world/chapter2/pastrana_outdoors.tscn"
+const SRC := 0
+const GRASS := Vector2i(0, 1)
+const BRICK := Vector2i(3, 1)
+const CONCRETE := Vector2i(1, 1)
+const MAT := Vector2i(42, 1)
+const MAT_YELLOW := 2
+const MAT_BLUE := 3
+
+func _initialize() -> void:
+	var inst: Node2D = (load(SCENE) as PackedScene).instantiate()
+	var floor: TileMapLayer = inst.get_node("Floor")
+	var walls: TileMapLayer = inst.get_node("Walls")
+	var roof: TileMapLayer = inst.get_node("Roof")
+	var fl := func(x: int, y: int, atlas: Vector2i, alt: int = 0): floor.set_cell(Vector2i(x, y), SRC, atlas, alt)
+
+	# 1. grass everywhere inside
+	for y in range(22, 40):
+		for x in range(10, 46):
+			fl.call(x, y, GRASS)
+	# 2. shed floor + play mats (west side)
+	for y in range(22, 29):
+		for x in range(10, 20):
+			fl.call(x, y, CONCRETE)
+	for y in range(29, 39):
+		for x in range(10, 20):
+			var top := y < 34
+			var left := x < 15
+			fl.call(x, y, MAT, MAT_YELLOW if top == left else MAT_BLUE)
+	# 3. paths (2 wide)
+	for x in range(20, 24):            # west, circle -> mats
+		for y in [31, 32]: fl.call(x, y, BRICK)
+	for y in range(21, 28):            # north-east to the north gate
+		var xs := [30, 31] if y < 26 else [29, 30]
+		for x in xs: fl.call(x, y, BRICK)
+	for x in range(32, 36):            # east from the circle
+		for y in [31, 32]: fl.call(x, y, BRICK)
+	for t in range(0, 5):              # arc down to the south-east
+		for dx in [0, 1]:
+			for dy in [0, 1]:
+				fl.call(35 + t + dx, 32 + t + dy, BRICK)
+	for x in range(40, 47):            # east to the east gate
+		for y in [36, 37]: fl.call(x, y, BRICK)
+	for y in range(33, 41):            # south branch to the south gate
+		for x in [34, 35]: fl.call(x, y, BRICK)
+	# 4. round plaza, planter in the middle (statue base centre at px (448, 507))
+	var c := Vector2(28.0, 31.5)
+	for y in range(26, 38):
+		for x in range(22, 35):
+			var d := Vector2(x + 0.5, y + 0.5).distance_to(c)
+			if (x >= 26 and x <= 29 and y >= 31 and y <= 32) or (x >= 27 and x <= 28 and y == 30):
+				fl.call(x, y, GRASS)
+			elif d <= 4.5:
+				fl.call(x, y, BRICK)
+	# 5. gates: open the fence
+	for x in [30, 31]: walls.erase_cell(Vector2i(x, 21))
+	for x in [34, 35]: walls.erase_cell(Vector2i(x, 40))
+	for y in [36, 37]: walls.erase_cell(Vector2i(46, y))
+	# 6. shed roof (same 9-part pattern as the teal roofs elsewhere in this map)
+	var rows := [
+		[Vector2i(6, 9), Vector2i(7, 9), Vector2i(8, 9), Vector2i(9, 9), Vector2i(10, 9)],
+		[Vector2i(6, 10), Vector2i(7, 10), Vector2i(8, 10), Vector2i(9, 10), Vector2i(10, 10)],
+		[Vector2i(6, 10), Vector2i(7, 10), Vector2i(8, 10), Vector2i(9, 10), Vector2i(10, 11)],
+		[Vector2i(6, 11), Vector2i(7, 11), Vector2i(8, 11), Vector2i(9, 11), Vector2i(10, 12)],
+		[Vector2i(6, 12), Vector2i(7, 12), Vector2i(8, 12), Vector2i(9, 12), Vector2i(10, 12)],
+		[Vector2i(6, 12), Vector2i(7, 12), Vector2i(8, 12), Vector2i(9, 12), Vector2i(10, 12)],
+		[Vector2i(6, 12), Vector2i(7, 13), Vector2i(8, 13), Vector2i(9, 13), Vector2i(10, 13)],
+	]
+	for r in rows.size():
+		var y := 22 + r
+		for x in range(10, 20):
+			var part: Vector2i = rows[r][2]
+			if x == 10: part = rows[r][0]
+			elif x == 11: part = rows[r][1]
+			elif x == 18: part = rows[r][3]
+			elif x == 19: part = rows[r][4]
+			roof.set_cell(Vector2i(x, y), SRC, part, 0)
+
+	# write back: replace only these layers' tile_map_data lines
+	var path := ProjectSettings.globalize_path(SCENE)
+	var text := FileAccess.get_file_as_string(path)
+	var lines := text.split("\n")
+	var replaced := 0
+	for ln in ["Floor", "Walls", "Roof"]:
+		var layer: TileMapLayer = inst.get_node(ln)
+		var header := '[node name="%s" type="TileMapLayer"' % ln
+		var i := 0
+		while i < lines.size() and not lines[i].begins_with(header):
+			i += 1
+		var j := i + 1
+		while j < lines.size() and not lines[j].begins_with("[") and not lines[j].begins_with("tile_map_data = "):
+			j += 1
+		if i >= lines.size() or j >= lines.size() or not lines[j].begins_with("tile_map_data = "):
+			print("ERROR: no tile_map_data for ", ln)
+			quit(1)
+			return
+		lines[j] = 'tile_map_data = PackedByteArray("%s")' % Marshalls.raw_to_base64(layer.tile_map_data)
+		replaced += 1
+	var f := FileAccess.open(path, FileAccess.WRITE)
+	f.store_string("\n".join(lines))
+	f.close()
+	print("rewrote ", replaced, " layers")
+	quit()

@@ -14,15 +14,18 @@
 				"scene_key": "culture_parish_priest"
 			}
 		],
+		"props": [
+			{"texture": "res://assets/cathedral/santo_nino.png", "region": [0, 0, 16, 32], "at": [140, 88], "solid": [16, 6]}
+		],
 		"examinables": [
 			{
 				"at": [
-					128,
-					136
+					140,
+					84
 				],
 				"size": [
 					48,
-					16
+					24
 				],
 				"chapter": "chapter2",
 				"scene_key": "examine_santo_nino"
